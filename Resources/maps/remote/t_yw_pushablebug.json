@@ -1,0 +1,77 @@
+{
+  "author": "yanxingwang",
+  "time": "Sun Oct 19 06:20:35 2014",
+  "backgroundColor": "#1EB5C7",
+  "heroColor": "#000000",
+  "normalBlockColor": "#FFFFFF",
+  "deathBlockColor": "#000000",
+  "deathCircleColor": "#000000",
+  "buttonColor": "#FEE132",
+  "pushableBlockColor": "#DC96A8",
+  "spawnPosition": "122.043,93.3867",
+  "blocks": [ 
+    { 
+      "id": 1,
+      "size": "960,20",
+      "position": "480,10",
+      "pickable": false,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 2,
+      "size": "960,20",
+      "position": "480,529.993",
+      "pickable": false,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 3,
+      "size": "20,539.993",
+      "position": "10,269.997",
+      "pickable": false,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 4,
+      "size": "20,539.993",
+      "position": "950,269.997",
+      "pickable": false,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 5,
+      "size": "100,15",
+      "position": "296.648,58.1992",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 8,
+      "size": "60,20",
+      "position": "291.09,211.414",
+      "pickable": true,
+      "kind": "PUSHABLE"
+    },
+    { 
+      "id": 9,
+      "size": "100,15",
+      "position": "121.75,60.4375",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 10,
+      "size": "100,15",
+      "position": "409.844,150.199",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 11,
+      "size": "100,15",
+      "position": "282.965,193.914",
+      "pickable": true,
+      "kind": "BLOCK"
+    }
+  ]
+}

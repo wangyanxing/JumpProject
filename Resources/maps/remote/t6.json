@@ -1,0 +1,105 @@
+{
+  "author": "redkaras",
+  "time": "Sun Oct 19 06:22:35 2014",
+  "backgroundColor": "#1EB5C7",
+  "heroColor": "#000000",
+  "normalBlockColor": "#FFFFFF",
+  "deathBlockColor": "#000000",
+  "deathCircleColor": "#000000",
+  "buttonColor": "#FEE132",
+  "pushableBlockColor": "#DC96A8",
+  "spawnPosition": "50,100",
+  "blocks": [ 
+    { 
+      "id": 1,
+      "size": "960,20",
+      "position": "480,10",
+      "pickable": false,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 2,
+      "size": "960,20",
+      "position": "480,529.993",
+      "pickable": false,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 3,
+      "size": "20,539.993",
+      "position": "10,269.997",
+      "pickable": false,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 4,
+      "size": "20,539.993",
+      "position": "950,269.997",
+      "pickable": false,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 5,
+      "size": "100,15",
+      "position": "389,253",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 6,
+      "size": "100,15",
+      "position": "269,253",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 7,
+      "size": "100,15",
+      "position": "381,99",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 8,
+      "size": "100,15",
+      "position": "267,99",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 9,
+      "size": "15,100",
+      "position": "209,166",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 10,
+      "size": "15,100",
+      "position": "443,170",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 11,
+      "size": "15,100",
+      "position": "217,360",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 12,
+      "size": "100,15",
+      "position": "287,401",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 13,
+      "size": "100,15",
+      "position": "396,396",
+      "pickable": true,
+      "kind": "BLOCK"
+    }
+  ]
+}
