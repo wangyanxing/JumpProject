@@ -418,7 +418,6 @@ void MapSerial::loadMap(const char* filename) {
                 
                 if(var["pushedEvent"].IsString()){
                     block->mButton->mPushedEvent = var["pushedEvent"].GetString();
-                    std::cout<<block->mID<<" "<<block->mButton->mPushedEvent<<"\n";
                 }
                 if(var["restoredEvent"].IsString()){
                     block->mButton->mRestoredEvent = var["restoredEvent"].GetString();

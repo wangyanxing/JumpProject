@@ -748,7 +748,7 @@ bool GameScene::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSolv
     if( otherBlock->mKind == KIND_DEATH ||
        otherBlock->mKind == KIND_DEATH_CIRCLE) {
         // process dead logic
-        die();
+        GameScene::Scene->mDeadFlag = true;
         return false;
     } else if( otherBlock->mKind == KIND_BLOCK ) {
         if(normal.y > 0.9) {
@@ -1231,6 +1231,9 @@ void GameScene::enableGame(bool val) {
     if( mGameMode == val ) return;
     mGameMode = val;
     
+    mMoveLeft = false;
+    mMoveRight = false;
+    
     mSpawnPoint->setVisible(!mGameMode);
     mHero->setVisible(mGameMode);
     mHero->setPosition(mSpawnPoint->getPosition());
@@ -1256,7 +1259,10 @@ void GameScene::enableGame(bool val) {
 }
 
 void GameScene::updateGame(float dt){
-    mHero->getSprite()->getPhysicsBody();
+    if(mDeadFlag) {
+        die();
+        return;
+    }
     
     float speed = mHero->mPushing ? 80 : 200;
     if(mMoveLeft){
@@ -1317,6 +1323,7 @@ void GameScene::die() {
     mHero->getSprite()->getPhysicsBody()->resetForces();
     mHero->getSprite()->getPhysicsBody()->setVelocity(Vec2(0,0));
     mHero->setPosition(p);
+    mDeadFlag = false;
 }
 
 void GameScene::postUpdate(float dt) {

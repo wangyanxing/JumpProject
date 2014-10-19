@@ -577,6 +577,8 @@ public:
     std::string mCurFileName;
     
     PostUpdater mPostUpdater;
+    
+    bool mDeadFlag{ false };
 };
 
 #endif
