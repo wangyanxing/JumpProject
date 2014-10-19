@@ -209,7 +209,6 @@ void MapSerial::saveMap(const char* file) {
     
     INDENT_1 ss << "\"blocks\": [ \n";
     
-//    for(size_t bi = 0; bi < GameScene::Scene->mBlocks.size(); ++bi) {
     for(auto it = GameScene::Scene->mBlocks.begin(); it != GameScene::Scene->mBlocks.end(); ++it) {
         auto b = it->second;
         
@@ -401,6 +400,7 @@ void MapSerial::loadMap(const char* filename) {
             block->setKind(kind);
             block->mCanPickup = pickable;
             block->mID = id;
+            block->updateIDLabel();
             
             GameScene::Scene->mBlockTable[block->getSprite()] = block;
             GameScene::Scene->mBlocks[block->mID] = block;
@@ -418,6 +418,7 @@ void MapSerial::loadMap(const char* filename) {
                 
                 if(var["pushedEvent"].IsString()){
                     block->mButton->mPushedEvent = var["pushedEvent"].GetString();
+                    std::cout<<block->mID<<" "<<block->mButton->mPushedEvent<<"\n";
                 }
                 if(var["restoredEvent"].IsString()){
                     block->mButton->mRestoredEvent = var["restoredEvent"].GetString();
@@ -471,7 +472,6 @@ void MapSerial::loadMap(const char* filename) {
 
 void MapSerial::loadMap(bool local) {
     
-#if 1
     std::string fullpath = getMapDir();
     std::vector<std::string> out;
     auto filter = "JSON file(json)|*.json|All files (*.*)|*.*";
@@ -482,9 +482,6 @@ void MapSerial::loadMap(bool local) {
     }
     
     auto filename = out[0];
-#else
-    std::string filename = "/Users/yanxingwang/Projects/JumpEdt/Resources/maps/local/t1.json";
-#endif
     
     loadMap(filename.c_str());
 }

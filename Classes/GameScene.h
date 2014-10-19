@@ -430,6 +430,7 @@ public:
 #ifdef EDITOR_MODE
     bool mShowIDLabel{ false };
     void initIDLabel();
+    void updateIDLabel();
     cocos2d::LabelAtlas* mIDLabel{ nullptr };
 #endif
     

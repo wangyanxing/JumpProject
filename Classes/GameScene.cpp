@@ -365,6 +365,11 @@ void BlockBase::initIDLabel() {
     mShowIDLabel = GameScene::Scene->mShowGrid;
     mIDLabel->setVisible(mShowIDLabel);
 }
+void BlockBase::updateIDLabel() {
+    char buffer[10];
+    sprintf(buffer, "%d", mID);
+    mIDLabel->setString(buffer);
+}
 #endif
 
 void BlockBase::initPhysics() {

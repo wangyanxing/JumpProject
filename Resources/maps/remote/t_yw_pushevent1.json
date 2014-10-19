@@ -1,6 +1,6 @@
 {
-  "author": "yanxingwang",
-  "time": "Sun Oct 19 06:21:22 2014",
+  "author": "redkaras",
+  "time": "Sun Oct 19 07:05:33 2014",
   "backgroundColor": "#1EB5C7",
   "heroColor": "#000000",
   "normalBlockColor": "#FFFFFF",
@@ -40,8 +40,8 @@
     },
     { 
       "id": 5,
-      "size": "100,15",
-      "position": "241.977,25.2812",
+      "size": "100,2.2188",
+      "position": "241.977,18.8906",
       "pickable": true,
       "direction": "DOWN",
       "canRestore": true,
@@ -52,8 +52,8 @@
     },
     { 
       "id": 6,
-      "size": "15,100",
-      "position": "378.785,70.1484",
+      "size": "15,1",
+      "position": "378.785,119.648",
       "pickable": true,
       "kind": "BLOCK"
     },
@@ -67,7 +67,7 @@
     { 
       "id": 8,
       "size": "45,30",
-      "position": "170.506,121.055",
+      "position": "252.849,35",
       "pickable": true,
       "kind": "PUSHABLE"
     },

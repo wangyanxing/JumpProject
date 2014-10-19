@@ -1,6 +1,6 @@
 {
-  "author": "redkaras",
-  "time": "Sun Oct 19 07:00:09 2014",
+  "author": "yanxingwang",
+  "time": "Sun Oct 19 07:33:52 2014",
   "backgroundColor": "#1EB5C7",
   "heroColor": "#000000",
   "normalBlockColor": "#FFFFFF",
@@ -124,14 +124,14 @@
     { 
       "id": 14,
       "size": "30,0",
-      "position": "35,-3.70724e 009",
+      "position": "35,-3451.12",
       "pickable": true,
       "kind": "PUSHABLE"
     },
     { 
       "id": 15,
       "size": "30,0",
-      "position": "457.5,-3.70724e 009",
+      "position": "457.5,-3451.12",
       "pickable": true,
       "kind": "PUSHABLE"
     },
@@ -145,7 +145,7 @@
     { 
       "id": 17,
       "size": "30,0",
-      "position": "873.51,-3.70724e 009",
+      "position": "873.51,-3451.12",
       "pickable": true,
       "kind": "PUSHABLE"
     },
@@ -190,47 +190,21 @@
       "kind": "BLOCK"
     },
     { 
-      "id": 23,
-      "size": "50,15",
-      "position": "544,215.005",
-      "pickable": true,
-      "direction": "UP",
-      "canRestore": true,
-      "pushedEvent": "",
-      "restoredEvent": "",
-      "pushingEvent": "",
-      "kind": "BUTTON"
-    },
-    { 
       "id": 24,
       "size": "15,45",
-      "position": "936,57.2602",
+      "position": "932,57.2602",
       "pickable": true,
       "direction": "RIGHT",
       "canRestore": true,
-      "pushedEvent": "",
-      "restoredEvent": "",
+      "pushedEvent": "open_door 22 350",
+      "restoredEvent": "close_door 22 350",
       "pushingEvent": "",
       "kind": "BUTTON"
-    },
-    { 
-      "id": 25,
-      "size": "30,0",
-      "position": "502.5,-3.70724e 009",
-      "pickable": true,
-      "kind": "PUSHABLE"
-    },
-    { 
-      "id": 26,
-      "size": "30,0",
-      "position": "457.5,-3.70724e 009",
-      "pickable": true,
-      "kind": "PUSHABLE"
     },
     { 
       "id": 27,
       "size": "30,0",
-      "position": "502.5,-3.70724e 009",
+      "position": "502.5,-3451.12",
       "pickable": true,
       "kind": "PUSHABLE"
     },
