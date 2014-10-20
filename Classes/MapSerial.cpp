@@ -231,6 +231,19 @@ void MapSerial::saveMap(const char* file) {
             INDENT_3 ss << "\"restoredEvent\": " << "\""<< b->mButton->mRestoredEvent << "\""; RT_LINE
             INDENT_3 ss << "\"pushingEvent\": " << "\""<< b->mButton->mPushingEvent << "\""; RT_LINE
         }
+        
+        // group
+        auto ig = GameScene::Scene->mGroups.find(b);
+        if(ig != GameScene::Scene->mGroups.end() && !ig->second.empty()) {
+            INDENT_3 ss << "\"groupMembers\": [";
+            for (size_t i = 0; i < ig->second.size(); ++i) {
+                ss << ig->second[i]->mID;
+                if(i != ig->second.size()-1) ss << ", ";
+            }
+            ss << "],\n";
+        }
+        
+        // path
         if(!b->mPath.empty()) {
             INDENT_3 ss << "\"pathSpeed\": " << b->mPath.mSpeed; RT_LINE
             INDENT_3 ss << "\"pingpong\": " << bool2Str(b->mPath.mPingPong); RT_LINE
@@ -328,6 +341,8 @@ void MapSerial::loadMap(const char* filename) {
     
     Document d;
     d.Parse<kParseDefaultFlags>(buffer);
+    
+    std::map<BlockBase*, std::vector<int>> pregroups;
     
     GameScene::Scene->clean(false);//
     
@@ -468,8 +483,28 @@ void MapSerial::loadMap(const char* filename) {
                     block->mPath.push(pos, waittime);
                 }
             }
+            
+            if(var["groupMembers"].IsArray()) {
+                auto memberSize = var["groupMembers"].Size();
+                for(auto j = 0; j < memberSize; ++j) {
+                    if(var["groupMembers"][j].IsNumber()) {
+                        auto id = var["groupMembers"][j].GetInt();
+                        pregroups[block].push_back(id);
+                    }SHOW_WARNING
+                }
+            }
         }
     }SHOW_WARNING
+    
+    CC_ASSERT(GameScene::Scene->mGroups.empty());
+    // process groups
+    for(auto gi : pregroups) {
+        for(auto idi : gi.second) {
+            auto m = GameScene::Scene->findBlock(idi);
+            CC_ASSERT(m);
+            GameScene::Scene->mGroups[gi.first].push_back(m);
+        }
+    }
     
     delete[] buffer;
     BlockBase::mIDCounter = maxID + 1;

@@ -328,13 +328,22 @@ void BlockBase::update(float dt) {
         mPath.update(dt, pos);
         mMovementThisFrame = pos - mSprite->getPosition();
         mSprite->setPosition(pos);
+        
+        auto it = GameScene::Scene->mGroups.find(this);
+        if(it != GameScene::Scene->mGroups.end()) {
+            for(auto& c : it->second) {
+                auto p = c->getPosition();
+                p += mMovementThisFrame;
+                c->getSprite()->setPosition(p);
+            }
+        }
+        
     } else {
         mMovementThisFrame.set(0, 0);
     }
     
     if(mButton) {
         mButton->update(dt);
-        //printf("%g\n",mRestorePosition.y);
     } else {
         updateOpenClose(dt);
     }
@@ -674,7 +683,7 @@ bool GameScene::init() {
     mHero = new Hero();
     //mHero->create(VisibleRect::center());
     mHero->create(Vec2(32,100));
-    mHero->setSize(Size(30,30));
+    mHero->setSize(Size(25,25));
     mHero->setVisible(false);
     mHero->setKind(KIND_HERO);
     mHeroShape = mHero->getSprite()->getPhysicsBody()->getShapes().front();
@@ -1132,13 +1141,9 @@ void GameScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Eve
         mPressingM = true;
     }
     
-    ////
     if (keyCode == EventKeyboard::KeyCode::KEY_J) {
-        for(int i = 0; i < 100; i++) {
-            MapSerial::loadMap(std::string(mCurFileName).c_str());
-        }
+        group();
     }
-    ////
     
     if (keyCode == EventKeyboard::KeyCode::KEY_DELETE ||
         keyCode == EventKeyboard::KeyCode::KEY_BACKSPACE) {
@@ -1466,6 +1471,29 @@ void GameScene::alignDown() {
     }
 }
 
+void GameScene::group() {
+    if(mSelections.empty() || !mSelectionHead) {
+        return;
+    }
+    
+    auto it = mGroups.find(mSelectionHead);
+    if(it != mGroups.end()) {
+        for(auto s : it->second) {
+            s->reset();
+        }
+        mGroups.erase(it);
+        UILayer::Layer->addMessage("Ungroup");
+    } else  {
+        mGroups[mSelectionHead].clear();
+        for(auto s : mSelections) {
+            if(s == mSelectionHead) continue;
+            mGroups[mSelectionHead].push_back(s);
+        }
+        
+        UILayer::Layer->addMessage("Group");
+    }
+}
+
 void GameScene::clean(bool save) {
 
     if(save && !mCurFileName.empty())
@@ -1473,6 +1501,8 @@ void GameScene::clean(bool save) {
     
     mSelectionHead = nullptr;
     mSelections.clear();
+    
+    mGroups.clear();
     
     for (auto b : mBlocks) {
         delete b.second;

@@ -533,6 +533,8 @@ public:
     
     void clean(bool save);
     
+    void group();
+    
     void setBackgroundColor(const cocos2d::Color3B& color);
     
     bool mPressingShift{ false };
@@ -548,6 +550,8 @@ public:
     bool mMoveLeft{ false };
     
     bool mMoveRight{ false };
+    
+    std::map<BlockBase*,std::vector<BlockBase*>> mGroups;
     
     BlockBase* mMovingBlock{ nullptr };
     
