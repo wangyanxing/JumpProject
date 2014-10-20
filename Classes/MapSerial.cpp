@@ -221,6 +221,7 @@ void MapSerial::saveMap(const char* file) {
         INDENT_3 ss << "\"size\": " << size2Str(b->getSize()); RT_LINE
         INDENT_3 ss << "\"position\": " << vec2Str(b->getPosition()); RT_LINE
         INDENT_3 ss << "\"pickable\": " << bool2Str(b->mCanPickup); RT_LINE
+        INDENT_3 ss << "\"rotatespeed\": " << b->mRotationSpeed; RT_LINE
         
         if(b->mKind == KIND_BUTTON) {
             INDENT_3 ss << "\"direction\": " << direction2Str(b->mButton->mDir); RT_LINE
@@ -372,6 +373,7 @@ void MapSerial::loadMap(const char* filename) {
             Size size;
             Vec2 pos;
             bool pickable = true;
+            int rotSpeed = 0;
             BlockKind kind = KIND_BLOCK;
             
             if(var["id"].IsInt()){
@@ -393,6 +395,10 @@ void MapSerial::loadMap(const char* filename) {
                 pickable = var["pickable"].GetBool();
             }SHOW_WARNING
             
+            if(var["rotatespeed"].IsNumber()){
+                rotSpeed = var["rotatespeed"].GetInt();
+            }SHOW_WARNING
+            
             if(var["kind"].IsString()){
                 kind = str2Kind(var["kind"].GetString());
             }SHOW_WARNING
@@ -403,7 +409,9 @@ void MapSerial::loadMap(const char* filename) {
             block->setKind(kind);
             block->mCanPickup = pickable;
             block->mID = id;
+            block->mRotationSpeed = rotSpeed;
             block->updateIDLabel();
+            block->reset();
             
             GameScene::Scene->mBlockTable[block->getSprite()] = block;
             GameScene::Scene->mBlocks[block->mID] = block;

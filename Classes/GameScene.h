@@ -384,7 +384,7 @@ public:
     
     virtual void closeDoor(float speed = 250, bool downDirDoor = true);
     
-    virtual void resetOpenClose();
+    virtual void reset();
     
     void updateOpenClose(float dt);
     
@@ -421,6 +421,8 @@ public:
     cocos2d::Vec2 mRestorePosition;
     
     float mOpenCloseSpeed{ 100 };
+    
+    int mRotationSpeed{ 0 };
     
     bool mDownDirDoor{ true };
     

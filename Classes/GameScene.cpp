@@ -250,15 +250,19 @@ void BlockBase::closeDoor(float speed, bool downDirDoor) {
     mStatus = CLOSING;
 }
 
-void BlockBase::resetOpenClose() {
+void BlockBase::reset() {
     mStatus = IDLE;
     
-    setSize(mRestoreSize);
+    if(mKind != KIND_DEATH_CIRCLE)
+        setSize(mRestoreSize);
+    
     setPosition(mRestorePosition);
     
     if(mButton) {
         mButton->reset();
     }
+    
+    mSprite->setRotation(0);
 }
 
 void BlockBase::updateOpenClose(float dt) {
@@ -333,6 +337,13 @@ void BlockBase::update(float dt) {
         //printf("%g\n",mRestorePosition.y);
     } else {
         updateOpenClose(dt);
+    }
+    
+    if(mRotationSpeed > 0) {
+        auto r = mSprite->getRotation();
+        r += mRotationSpeed * dt;
+        if(r > 360) r-=360;
+        mSprite->setRotation(r);
     }
     
 #ifdef EDITOR_MODE
@@ -432,6 +443,7 @@ void BlockBase::setKind(BlockKind kind) {
     if(kind == KIND_DEATH_CIRCLE) {
         auto s = getBoundingBox().size;
         auto size = std::max(s.width, s.height);
+        mRotationSpeed = 50;
         
         // update image
         mImageSize = 10;
@@ -443,6 +455,7 @@ void BlockBase::setKind(BlockKind kind) {
         setHeight(size);
     } else {
         mImageSize = 10;
+        mRotationSpeed = 0;
 
         mSprite->setTexture("images/rect.png");
         
@@ -565,7 +578,6 @@ float BlockBase::getThickness() {
 
 void BlockBase::setSize(Size size) {
     mSprite->setScale(size.width / mImageSize, size.height / mImageSize);
-    
     mRestoreSize = getBoundingBox().size;
 }
 
@@ -678,7 +690,6 @@ bool GameScene::init() {
     createBackground();
     
     enableGame(false);
-    
     
     MapSerial::loadLastEdit();
     
@@ -1262,7 +1273,7 @@ void GameScene::enableGame(bool val, bool force) {
             b->mButton->showHelper(!val);
         }
         
-        b->resetOpenClose();
+        b->reset();
     }
     
     die();

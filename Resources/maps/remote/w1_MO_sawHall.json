@@ -1,6 +1,6 @@
 {
-  "author": "yanxingwang",
-  "time": "Mon Oct 20 07:31:22 2014",
+  "author": "redkaras",
+  "time": "Mon Oct 20 13:52:42 2014",
   "backgroundColor": "#1EB5C7",
   "heroColor": "#000000",
   "normalBlockColor": "#FFFFFF",
@@ -8,7 +8,7 @@
   "deathCircleColor": "#000000",
   "buttonColor": "#FEE132",
   "pushableBlockColor": "#DC96A8",
-  "spawnPosition": "810.125,43.0977",
+  "spawnPosition": "119,31",
   "blocks": [ 
     { 
       "id": 0,
@@ -95,32 +95,11 @@
       "kind": "BLOCK"
     },
     { 
-      "id": 14,
-      "size": "30,0",
-      "position": "35,-97324.2",
-      "pickable": true,
-      "kind": "PUSHABLE"
-    },
-    { 
-      "id": 15,
-      "size": "30,0",
-      "position": "457.5,-97324.2",
-      "pickable": true,
-      "kind": "PUSHABLE"
-    },
-    { 
       "id": 16,
       "size": "400,15",
       "position": "740,338",
       "pickable": true,
       "kind": "BLOCK"
-    },
-    { 
-      "id": 17,
-      "size": "30,0",
-      "position": "873.51,-97324.2",
-      "pickable": true,
-      "kind": "PUSHABLE"
     },
     { 
       "id": 18,
@@ -143,7 +122,7 @@
       "pickable": true,
       "direction": "UP",
       "canRestore": true,
-      "pushedEvent": "",
+      "pushedEvent": "open_door 42 300",
       "restoredEvent": "",
       "pushingEvent": "",
       "kind": "BUTTON"
@@ -157,34 +136,27 @@
     },
     { 
       "id": 22,
-      "size": "15,1",
-      "position": "84,519",
+      "size": "15,85",
+      "position": "84,478",
       "pickable": true,
       "kind": "BLOCK"
     },
     { 
       "id": 24,
       "size": "15,45",
-      "position": "933,136.26",
+      "position": "936,56.26",
       "pickable": true,
       "direction": "RIGHT",
-      "canRestore": true,
-      "pushedEvent": "open_door 22 300",
+      "canRestore": false,
+      "pushedEvent": "open_door 41 300",
       "restoredEvent": "",
       "pushingEvent": "",
       "kind": "BUTTON"
     },
     { 
-      "id": 27,
-      "size": "30,0",
-      "position": "502.5,-97324.2",
-      "pickable": true,
-      "kind": "PUSHABLE"
-    },
-    { 
       "id": 28,
-      "size": "60,60",
-      "position": "313.003,22",
+      "size": "45,45",
+      "position": "383,22",
       "pickable": true,
       "pathSpeed": 100,
       "pingpong": true,
@@ -203,20 +175,20 @@
     },
     { 
       "id": 29,
-      "size": "40,20",
-      "position": "364.583,105.332",
+      "size": "40,15",
+      "position": "364.583,107.332",
       "pickable": true,
       "direction": "UP",
       "canRestore": true,
-      "pushedEvent": "",
-      "restoredEvent": "",
+      "pushedEvent": "open_door 22 1000",
+      "restoredEvent": "close_door 22 6.5",
       "pushingEvent": "",
       "kind": "BUTTON"
     },
     { 
       "id": 30,
       "size": "50,50",
-      "position": "244.003,338",
+      "position": "314,338",
       "pickable": true,
       "pathSpeed": 100,
       "pingpong": true,
@@ -236,7 +208,7 @@
     { 
       "id": 31,
       "size": "60,60",
-      "position": "382.997,228",
+      "position": "313,228",
       "pickable": true,
       "pathSpeed": 100,
       "pingpong": true,
@@ -255,31 +227,31 @@
     },
     { 
       "id": 32,
-      "size": "55,15",
-      "position": "291,427.312",
+      "size": "55,12",
+      "position": "291,428.323",
       "pickable": true,
       "direction": "UP",
-      "canRestore": true,
-      "pushedEvent": "",
+      "canRestore": false,
+      "pushedEvent": "open_door 43 300",
       "restoredEvent": "",
       "pushingEvent": "",
       "kind": "BUTTON"
     },
     { 
       "id": 34,
-      "size": "60,60",
-      "position": "690.997,121",
+      "size": "55,55",
+      "position": "681,121",
       "pickable": true,
       "pathSpeed": 100,
       "pingpong": true,
       "pause": false,
       "pathes": [ 
         { 
-          "position": "621,121",
+          "position": "681,121",
           "waittime": 1
         },
         { 
-          "position": "691,121",
+          "position": "751,121",
           "waittime": 1
         }
       ],
@@ -287,19 +259,19 @@
     },
     { 
       "id": 35,
-      "size": "65,65",
-      "position": "550.003,226",
+      "size": "50,50",
+      "position": "680,228",
       "pickable": true,
       "pathSpeed": 100,
       "pingpong": true,
       "pause": false,
       "pathes": [ 
         { 
-          "position": "620,226",
+          "position": "680,228",
           "waittime": 1
         },
         { 
-          "position": "550,226",
+          "position": "610,228",
           "waittime": 1
         }
       ],
@@ -307,19 +279,19 @@
     },
     { 
       "id": 36,
-      "size": "60,60",
-      "position": "687.997,338",
+      "size": "50,50",
+      "position": "678,338",
       "pickable": true,
       "pathSpeed": 100,
       "pingpong": true,
       "pause": false,
       "pathes": [ 
         { 
-          "position": "618,338",
+          "position": "678,338",
           "waittime": 1
         },
         { 
-          "position": "688,338",
+          "position": "748,338",
           "waittime": 1
         }
       ],
@@ -327,19 +299,19 @@
     },
     { 
       "id": 37,
-      "size": "50,50",
-      "position": "623.997,22",
+      "size": "40,40",
+      "position": "614,22",
       "pickable": true,
       "pathSpeed": 100,
       "pingpong": true,
       "pause": false,
       "pathes": [ 
         { 
-          "position": "554,22",
+          "position": "614,22",
           "waittime": 1
         },
         { 
-          "position": "624,22",
+          "position": "684,22",
           "waittime": 1
         }
       ],
@@ -348,7 +320,7 @@
     { 
       "id": 38,
       "size": "60,60",
-      "position": "245.003,119",
+      "position": "315,119",
       "pickable": true,
       "pathSpeed": 100,
       "pingpong": true,
@@ -368,11 +340,11 @@
     { 
       "id": 39,
       "size": "30,15",
-      "position": "116,438",
+      "position": "116,515",
       "pickable": true,
-      "direction": "DOWN",
-      "canRestore": true,
-      "pushedEvent": "",
+      "direction": "UP",
+      "canRestore": false,
+      "pushedEvent": "open_door 21 300",
       "restoredEvent": "",
       "pushingEvent": "",
       "kind": "BUTTON"
@@ -394,14 +366,14 @@
     { 
       "id": 43,
       "size": "15,70",
-      "position": "480,485",
+      "position": "480,484.5",
       "pickable": true,
       "kind": "BLOCK"
     },
     { 
-      "id": 44,
-      "size": "15,100",
-      "position": "787.535,68.8672",
+      "id": 45,
+      "size": "400,15",
+      "position": "740,120",
       "pickable": true,
       "kind": "BLOCK"
     }
