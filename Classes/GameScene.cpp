@@ -788,9 +788,6 @@ bool GameScene::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSolv
         }
     }
     
-    if(normal.y<0.8)
-    printf("normaly %g,%g\n",normal.x,normal.y);
-    
     if(normal.x > 0.9 || normal.x < -0.9) {
         
         auto h = pushedObject->getSprite()->getBoundingBox().size.width/2 +
