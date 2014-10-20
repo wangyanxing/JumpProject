@@ -1,0 +1,28 @@
+{
+  "author": "yanxingwang",
+  "time": "Mon Oct 20 07:40:22 2014",
+  "backgroundColor": "#1EB5C7",
+  "heroColor": "#000000",
+  "normalBlockColor": "#FFFFFF",
+  "deathBlockColor": "#000000",
+  "deathCircleColor": "#000000",
+  "buttonColor": "#FEE132",
+  "pushableBlockColor": "#DC96A8",
+  "spawnPosition": "465.035,73.8359",
+  "blocks": [ 
+    { 
+      "id": 5,
+      "size": "100,15",
+      "position": "447.285,49.6758",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 6,
+      "size": "15,100",
+      "position": "440.77,111.891",
+      "pickable": true,
+      "kind": "BLOCK"
+    }
+  ]
+}

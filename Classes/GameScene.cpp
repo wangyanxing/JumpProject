@@ -155,8 +155,10 @@ BlockBase::~BlockBase() {
     mIDLabel->removeFromParent();
 #endif
     
-    delete mButton;
-    mButton = nullptr;
+    if(mButton) {
+        delete mButton;
+        mButton = nullptr;
+    }
 }
 
 void BlockBase::create(const cocos2d::Point& pt) {
@@ -174,6 +176,7 @@ void BlockBase::create(const cocos2d::Point& pt) {
 #endif
     
     mRestoreSize = getBoundingBox().size;
+    mLastPos = getPosition();
     mRestorePosition = getPosition();
     
     initPhysics();
@@ -187,6 +190,7 @@ void BlockBase::create(const cocos2d::Rect& rect) {
 #endif
     mRestoreSize = getBoundingBox().size;
     mRestorePosition = getPosition();
+    mLastPos = getPosition();
     
     initPhysics();
 }
@@ -206,6 +210,7 @@ void BlockBase::create(const cocos2d::Point& pt, const cocos2d::Size& size) {
     
     mRestoreSize = getBoundingBox().size;
     mRestorePosition = getPosition();
+    mLastPos = getPosition();
     
     initPhysics();
 }
@@ -310,22 +315,22 @@ void BlockBase::updateOpenClose(float dt) {
 }
 
 void BlockBase::postUpdate(float dt) {
-    if(mKind == KIND_PUSHABLE){
+    if(mKind == KIND_PUSHABLE || mKind == KIND_HERO){
         getSprite()->getPhysicsBody()->setVelocityLimit(1000);
     }
+    mLastPos = getPosition();
 }
 
 void BlockBase::update(float dt) {
-    auto pos = mSprite->getPosition();
-    mPath.update(dt, pos);
     
     if(!mPath.empty()) {
+        auto pos = mSprite->getPosition();
+        mPath.update(dt, pos);
         mMovementThisFrame = pos - mSprite->getPosition();
+        mSprite->setPosition(pos);
     } else {
         mMovementThisFrame.set(0, 0);
     }
-    
-    mSprite->setPosition(pos);
     
     if(mButton) {
         mButton->update(dt);
@@ -635,7 +640,7 @@ bool GameScene::init() {
     
     getScheduler()->scheduleUpdate(this, -2, false);
     
-    getScheduler()->scheduleUpdate(&mPostUpdater, -1, false);
+    getScheduler()->scheduleUpdate(&mPostUpdater, 100, false);
     
     auto keyboardListener = EventListenerKeyboard::create();
     keyboardListener->onKeyPressed = CC_CALLBACK_2(GameScene::keyPressed, this);
@@ -802,8 +807,16 @@ bool GameScene::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSolv
     
     if(normal.y > 0.9 || normal.y < -0.9) {
         
-        if(pushObject == mHero)
+        if(pushObject == mHero) {
+            if(!mHero->mCanJump) {
+                static int sid = 0;
+                printf("ground %d\n",++sid);
+                printf("normaly %g\n",normal.y);
+            }
             mHero->mCanJump = true;
+        }
+        
+        auto movement = pushObject->getSprite()->getPhysicsBody()->getPosition() - pushObject->mLastPos;
         
         auto h = pushedObject->getBoundingBox().size.height/2 + pushObject->getBoundingBox().size.height/2;
 
@@ -811,24 +824,24 @@ bool GameScene::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSolv
             h -= 1;
         }
         
-        if (pushObject->getPosition().y < pushedObject->getSprite()->getPositionY()){
+        if(movement.y > 0){
             if(onButton) h -= 1;
             else h += 1;
             pushObject->setPositionY(pushedObject->getSprite()->getPositionY() - h);
         }else{
             pushObject->setPositionY(pushedObject->getSprite()->getPositionY() + h);
             
-            if(pushObject->mKind == KIND_PUSHABLE) {
-                //printf("PRESOLVE: %g\n",pushObject->getPosition().y);
+            if(pushObject->mKind == KIND_PUSHABLE || pushObject->mKind == KIND_HERO) {
+                pushObject->getSprite()->getPhysicsBody()->resetForces();
                 pushObject->getSprite()->getPhysicsBody()->setVelocityLimit(0);
-//                pushObject->getSprite()->getPhysicsBody()->resetForces();
-//                pushObject->getSprite()->getPhysicsBody()->setGravityEnable(false);
             }
         }
         
         auto v = pushObject->getSprite()->getPhysicsBody()->getVelocity();
         pushObject->getSprite()->getPhysicsBody()->setVelocity(Vec2(v.x, 0));
     }
+    
+    pushObject->getSprite()->getPhysicsBody()->getFirstShape()->_forceUpdateShape();
     
     return false;
 }
@@ -1118,6 +1131,14 @@ void GameScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Eve
         mPressingM = true;
     }
     
+    ////
+    if (keyCode == EventKeyboard::KeyCode::KEY_J) {
+        for(int i = 0; i < 100; i++) {
+            MapSerial::loadMap(std::string(mCurFileName).c_str());
+        }
+    }
+    ////
+    
     if (keyCode == EventKeyboard::KeyCode::KEY_DELETE ||
         keyCode == EventKeyboard::KeyCode::KEY_BACKSPACE) {
         if(mPathMode && mSelectionHead) {
@@ -1227,8 +1248,8 @@ void GameScene::createBackground() {
     }
 }
 
-void GameScene::enableGame(bool val) {
-    if( mGameMode == val ) return;
+void GameScene::enableGame(bool val, bool force) {
+    if( mGameMode == val && !force) return;
     mGameMode = val;
     
     mMoveLeft = false;
@@ -1236,7 +1257,9 @@ void GameScene::enableGame(bool val) {
     
     mSpawnPoint->setVisible(!mGameMode);
     mHero->setVisible(mGameMode);
+    mHero->mCanJump = false;
     mHero->setPosition(mSpawnPoint->getPosition());
+    mHero->getSprite()->getPhysicsBody()->setVelocityLimit(1000);
     
     for(auto bc : mBlocks) {
         auto b = bc.second;
@@ -1252,9 +1275,7 @@ void GameScene::enableGame(bool val) {
         b->resetOpenClose();
     }
     
-    if(!val) {
-        die();
-    }
+    die();
     mHero->getSprite()->getPhysicsBody()->setGravityEnable(val);
 }
 
@@ -1330,20 +1351,22 @@ void GameScene::postUpdate(float dt) {
     for(auto b : mBlocks) {
         b.second->postUpdate(dt);
     }
+    mHero->postUpdate(dt);
+    
+    auto nb = mBlocks;
+    nb[mHero->mID] = mHero;
+    mShadows->update(nb);
 }
 
 void GameScene::update(float dt){
-    if(mGameMode) {
-        updateGame(dt);
-    }
     
     for(auto b : mBlocks) {
         b.second->update(dt);
     }
     
-    auto b = mBlocks;
-    b[mHero->mID] = mHero;
-    mShadows->update(b);
+    if(mGameMode) {
+        updateGame(dt);
+    }
 }
 
 void GameScene::setKind(int kind) {
@@ -1443,7 +1466,7 @@ void GameScene::alignDown() {
 }
 
 void GameScene::clean(bool save) {
-    
+
     if(save && !mCurFileName.empty())
         MapSerial::saveMap(mCurFileName.c_str());
     

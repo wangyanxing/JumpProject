@@ -50,7 +50,9 @@ void UILayer::addMessage(const char* message) {
     
     label->runAction(Spawn::create(FadeOut::create(0.8),
                                    Sequence::create(MoveBy::create(1, Vec2(0,50)),
-                                   CallFuncN::create([&](Node* n){n->removeFromParent();})
+                                   CallFuncN::create([&](Node* n){
+                                       n->removeFromParent();
+                                   })
                                    , NULL), NULL));
 }
 

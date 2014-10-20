@@ -323,6 +323,7 @@ void MapSerial::loadMap(const char* filename) {
     rewind(fp);
     char* buffer = new char[fsize];
     fread(buffer, 1, fsize, fp);
+    fclose(fp);
     
     Document d;
     d.Parse<kParseDefaultFlags>(buffer);
@@ -466,7 +467,9 @@ void MapSerial::loadMap(const char* filename) {
     
     // update file
     UILayer::Layer->setFileName(filename);
-    UILayer::Layer->addMessage("File loaded");
+    //UILayer::Layer->addMessage("File loaded");
+    
+    GameScene::Scene->enableGame(false,true);
 }
 
 void MapSerial::loadMap(bool local) {

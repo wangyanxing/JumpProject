@@ -104,6 +104,8 @@ public:
     const PhysicsMaterial& getMaterial() const { return _material; }
     void setMaterial(const PhysicsMaterial& material);
     
+    void _forceUpdateShape();
+    
     /** Calculate the default moment value */
     virtual float calculateDefaultMoment() { return 0.0f; }
     /** Get offset */

@@ -115,6 +115,15 @@ void PhysicsShape::setMaterial(const PhysicsMaterial& material)
     setFriction(material.friction);
 }
 
+void PhysicsShape::_forceUpdateShape() {
+
+    auto bodyinfo = bodyInfo();
+    auto body = bodyinfo->getBody();
+    for (cpShape* shape : _info->getShapes()) {
+        cpShapeUpdate(shape, body->p, body->rot);
+    }
+}
+
 PhysicsBodyInfo* PhysicsShape::bodyInfo() const
 {
     if (_body != nullptr)

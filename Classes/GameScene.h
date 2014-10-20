@@ -105,6 +105,7 @@ public:
     
     virtual ~Path() {
         clear();
+        mSegmentNode->removeFromParent();
         mHelperNode->removeFromParent();
     }
     
@@ -419,6 +420,8 @@ public:
     
     cocos2d::Vec2 mRestorePosition;
     
+    cocos2d::Vec2 mLastPos;
+    
     float mOpenCloseSpeed{ 100 };
     
     bool mDownDirDoor{ true };
@@ -516,7 +519,7 @@ public:
     
     void updateGame(float dt);
     
-    void enableGame(bool val);
+    void enableGame(bool val, bool force = false);
     
     void setKind(int kind);
     
