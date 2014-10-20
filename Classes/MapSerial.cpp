@@ -381,6 +381,8 @@ void MapSerial::loadMap(const char* filename) {
             
             if(var["size"].IsString()){
                 size = str2Size(var["size"].GetString());
+                size.width = std::max(size.width, 0.5f);
+                size.height = std::max(size.height, 0.5f);
             }SHOW_WARNING
             
             if(var["position"].IsString()){

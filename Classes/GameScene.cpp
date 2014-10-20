@@ -176,7 +176,6 @@ void BlockBase::create(const cocos2d::Point& pt) {
 #endif
     
     mRestoreSize = getBoundingBox().size;
-    mLastPos = getPosition();
     mRestorePosition = getPosition();
     
     initPhysics();
@@ -190,7 +189,6 @@ void BlockBase::create(const cocos2d::Rect& rect) {
 #endif
     mRestoreSize = getBoundingBox().size;
     mRestorePosition = getPosition();
-    mLastPos = getPosition();
     
     initPhysics();
 }
@@ -210,7 +208,6 @@ void BlockBase::create(const cocos2d::Point& pt, const cocos2d::Size& size) {
     
     mRestoreSize = getBoundingBox().size;
     mRestorePosition = getPosition();
-    mLastPos = getPosition();
     
     initPhysics();
 }
@@ -318,7 +315,6 @@ void BlockBase::postUpdate(float dt) {
     if(mKind == KIND_PUSHABLE || mKind == KIND_HERO){
         getSprite()->getPhysicsBody()->setVelocityLimit(1000);
     }
-    mLastPos = getPosition();
 }
 
 void BlockBase::update(float dt) {
@@ -792,6 +788,9 @@ bool GameScene::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSolv
         }
     }
     
+    if(normal.y<0.8)
+    printf("normaly %g,%g\n",normal.x,normal.y);
+    
     if(normal.x > 0.9 || normal.x < -0.9) {
         
         auto h = pushedObject->getSprite()->getBoundingBox().size.width/2 +
@@ -809,22 +808,16 @@ bool GameScene::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSolv
         
         if(pushObject == mHero) {
             if(!mHero->mCanJump) {
-                static int sid = 0;
-                printf("ground %d\n",++sid);
-                printf("normaly %g\n",normal.y);
             }
             mHero->mCanJump = true;
         }
         
-        auto movement = pushObject->getSprite()->getPhysicsBody()->getPosition() - pushObject->mLastPos;
-        
         auto h = pushedObject->getBoundingBox().size.height/2 + pushObject->getBoundingBox().size.height/2;
-
         if(onMovingPlatform && pushObject == mHero) {
             h -= 1;
         }
         
-        if(movement.y > 0){
+        if(normal.y < -0.9){
             if(onButton) h -= 1;
             else h += 1;
             pushObject->setPositionY(pushedObject->getSprite()->getPositionY() - h);

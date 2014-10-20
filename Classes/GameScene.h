@@ -420,8 +420,6 @@ public:
     
     cocos2d::Vec2 mRestorePosition;
     
-    cocos2d::Vec2 mLastPos;
-    
     float mOpenCloseSpeed{ 100 };
     
     bool mDownDirDoor{ true };
