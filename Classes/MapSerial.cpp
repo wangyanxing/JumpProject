@@ -397,7 +397,7 @@ void MapSerial::loadMap(const char* filename) {
             
             if(var["rotatespeed"].IsNumber()){
                 rotSpeed = var["rotatespeed"].GetInt();
-            }SHOW_WARNING
+            }
             
             if(var["kind"].IsString()){
                 kind = str2Kind(var["kind"].GetString());
