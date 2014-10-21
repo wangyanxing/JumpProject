@@ -20,6 +20,11 @@ enum BlockKind {
     KIND_MAX
 };
 
+enum FollowMode {
+    F_CENTER,
+    F_UP, F_DOWN, F_LEFT, F_RIGHT
+};
+
 class ShadowManager {
 public:
     
@@ -161,7 +166,7 @@ public:
         return mPoints[i];
     }
     
-    void update(float dt, cocos2d::Vec2& out) {
+    void update(float dt, cocos2d::Vec2& out, cocos2d::Vec2& outsize) {
         if(mPoints.empty()) return;
         if(mPause) dt = 0;
         
@@ -204,6 +209,10 @@ public:
                     dir.x /= dist;
                     dir.y /= dist;
                     out = pt.pt + dir * mCurDist;
+                    
+                    float ratio = mCurDist / dist;
+                    outsize.x = pt.width * (1-ratio) + ptNext.width * ratio;
+                    outsize.y = pt.height * (1-ratio) + ptNext.height * ratio;
                     
                 } else {
                     mWaitingTimer += dt;
@@ -433,6 +442,13 @@ public:
     Button* mButton{ nullptr };
     
     cocos2d::Vec2 mMovementThisFrame{ 0, 0 };
+    
+    cocos2d::Vec2 mUpSideMovement{ 0, 0 };
+    cocos2d::Vec2 mDownSideMovement{ 0, 0 };
+    cocos2d::Vec2 mLeftSideMovement{ 0, 0 };
+    cocos2d::Vec2 mRightSideMovement{ 0, 0 };
+    
+    FollowMode mFollowMode{ F_CENTER };
     
     bool mCanPush{ true };
     

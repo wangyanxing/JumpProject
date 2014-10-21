@@ -119,6 +119,33 @@ bool str2Bool(const string& v) {
 }
 #endif
 
+std::string followMode2Str(FollowMode v) {
+    static std::string names[] = {
+        "\"CENTER\"",
+        "\"UP\"",
+        "\"DOWN\"",
+        "\"LEFT\"",
+        "\"RIGHT\""
+    };
+    return names[v];
+}
+
+FollowMode str2FollowMode(const string& v) {
+    static std::map<std::string, FollowMode> modes = {
+        {"CENTER",F_CENTER},
+        {"UP",F_UP},
+        {"DOWN",F_DOWN},
+        {"LEFT",F_LEFT},
+        {"RIGHT",F_RIGHT}
+    };
+    
+    if(!modes.count(v)) {
+        CCLOG("Invalid kind: %s", v.c_str());
+        return F_CENTER;
+    }
+    return modes[v];
+}
+
 std::string kind2Str(BlockKind v) {
     static std::string names[] = {
         "\"HERO\"",
@@ -235,6 +262,7 @@ void MapSerial::saveMap(const char* file) {
         // group
         auto ig = GameScene::Scene->mGroups.find(b);
         if(ig != GameScene::Scene->mGroups.end() && !ig->second.empty()) {
+            INDENT_3 ss << "\"groupFollowMode\": " << followMode2Str(b->mFollowMode); RT_LINE
             INDENT_3 ss << "\"groupMembers\": [";
             for (size_t i = 0; i < ig->second.size(); ++i) {
                 ss << ig->second[i]->mID;
@@ -255,6 +283,8 @@ void MapSerial::saveMap(const char* file) {
                 INDENT_4 ss << "{ \n";
                 const auto& p = b->mPath.getPoint(i);
                 INDENT_5 ss << "\"position\": " << vec2Str(p.pt); RT_LINE
+                INDENT_5 ss << "\"width\": " << p.width;RT_LINE
+                INDENT_5 ss << "\"height\": " << p.height;RT_LINE
                 INDENT_5 ss << "\"waittime\": " << p.waitTime << "\n";
                 INDENT_4 ss << "}";
                 if(i != b->mPath.getNumPoints()-1) RT_LINE
@@ -476,6 +506,7 @@ void MapSerial::loadMap(const char* filename) {
                     auto& pa = var["pathes"][j];
                     Vec2 pos = Vec2::ZERO;
                     float waittime = -1;
+                    float width = 1, height = 1;
                     
                     if(pa["position"].IsString()) {
                         pos = str2Vec(pa["position"].GetString());
@@ -485,11 +516,23 @@ void MapSerial::loadMap(const char* filename) {
                         waittime = pa["waittime"].GetDouble();
                     }SHOW_WARNING
                     
-                    block->mPath.push(pos, waittime);
+                    if(pa["width"].IsNumber()) {
+                        width = pa["width"].GetDouble();
+                    }
+                    
+                    if(pa["height"].IsNumber()) {
+                        height = pa["height"].GetDouble();
+                    }
+                    
+                    block->mPath.push(pos, waittime, width, height);
                 }
             }
             
             if(var["groupMembers"].IsArray()) {
+                if(var["groupFollowMode"].IsString()) {
+                    block->mFollowMode = str2FollowMode(var["groupFollowMode"].GetString());
+                }SHOW_WARNING
+                
                 auto memberSize = var["groupMembers"].Size();
                 for(auto j = 0; j < memberSize; ++j) {
                     if(var["groupMembers"][j].IsNumber()) {

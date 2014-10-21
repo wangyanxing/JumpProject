@@ -1,6 +1,6 @@
 {
   "author": "yanxingwang",
-  "time": "Tue Oct 21 00:20:39 2014",
+  "time": "Tue Oct 21 03:00:52 2014",
   "backgroundColor": "#1EB5C7",
   "heroColor": "#000000",
   "normalBlockColor": "#FFFFFF",
@@ -56,10 +56,14 @@
       "pathes": [ 
         { 
           "position": "309.078,82.4258",
+          "width": 1,
+          "height": 1,
           "waittime": -1
         },
         { 
           "position": "309.078,132.426",
+          "width": 1,
+          "height": 1,
           "waittime": -1
         }
       ],
@@ -68,7 +72,7 @@
     { 
       "id": 6,
       "size": "25,15",
-      "position": "309.078,25.5429",
+      "position": "309.078,25.5426",
       "pickable": true,
       "rotatespeed": 0,
       "kind": "DEATH"
@@ -95,10 +99,14 @@
       "pathes": [ 
         { 
           "position": "384.574,83.4687",
+          "width": 1,
+          "height": 1,
           "waittime": -1
         },
         { 
           "position": "384.574,133.469",
+          "width": 1,
+          "height": 1,
           "waittime": -1
         }
       ],
@@ -118,10 +126,14 @@
       "pathes": [ 
         { 
           "position": "465.465,82.0781",
+          "width": 1,
+          "height": 1,
           "waittime": -1
         },
         { 
           "position": "465.465,132.078",
+          "width": 1,
+          "height": 1,
           "waittime": -1
         }
       ],
@@ -157,10 +169,14 @@
       "pathes": [ 
         { 
           "position": "540.465,82.7734",
+          "width": 1,
+          "height": 1,
           "waittime": -1
         },
         { 
           "position": "540.465,132.773",
+          "width": 1,
+          "height": 1,
           "waittime": -1
         }
       ],
@@ -169,7 +185,7 @@
     { 
       "id": 14,
       "size": "25,15",
-      "position": "540.465,25.8906",
+      "position": "540.465,25.8907",
       "pickable": true,
       "rotatespeed": 0,
       "kind": "DEATH"
@@ -188,10 +204,14 @@
       "pathes": [ 
         { 
           "position": "616.465,82.7734",
+          "width": 1,
+          "height": 1,
           "waittime": -1
         },
         { 
           "position": "616.465,132.773",
+          "width": 1,
+          "height": 1,
           "waittime": -1
         }
       ],
@@ -200,7 +220,7 @@
     { 
       "id": 16,
       "size": "25,15",
-      "position": "616.465,25.8906",
+      "position": "616.465,25.8909",
       "pickable": true,
       "rotatespeed": 0,
       "kind": "DEATH"
@@ -220,6 +240,57 @@
       "pickable": true,
       "rotatespeed": 50,
       "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 19,
+      "size": "100,15",
+      "position": "159.332,78.8594",
+      "pickable": true,
+      "rotatespeed": 0,
+      "groupMembers": [27, 25],
+      "pathSpeed": 50,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "159.332,78.8594",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        },
+        { 
+          "position": "159.332,248.859",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 25,
+      "size": "24,24",
+      "position": "94.625,76.4294",
+      "pickable": true,
+      "rotatespeed": 50,
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 27,
+      "size": "25.8302,25.8302",
+      "position": "224.328,76.8594",
+      "pickable": true,
+      "rotatespeed": 50,
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 28,
+      "size": "55,100",
+      "position": "18.4336,21.0703",
+      "pickable": true,
+      "rotatespeed": 0,
+      "kind": "BLOCK"
     }
   ]
 }

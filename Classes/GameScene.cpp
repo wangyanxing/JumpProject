@@ -325,15 +325,46 @@ void BlockBase::update(float dt) {
     
     if(!mPath.empty()) {
         auto pos = mSprite->getPosition();
-        mPath.update(dt, pos);
-        mMovementThisFrame = pos - mSprite->getPosition();
-        mSprite->setPosition(pos);
+        auto newPos = pos;
+        auto size = getSize();
+        
+        Vec2 outsize(1,1);
+        mPath.update(dt, newPos, outsize);
+        
+        mSprite->setPosition(newPos);
+        mSprite->setScale(outsize.x * mRestoreSize.width / mImageSize,
+                          outsize.y * mRestoreSize.height / mImageSize);
+        
+        auto newSize = getSize();
+        
+        mMovementThisFrame = newPos - pos;
+        mUpSideMovement    = (newPos + Vec2(0, newSize.height/2)) - (pos + Vec2(0, size.height/2));
+        mDownSideMovement  = (newPos + Vec2(0,-newSize.height/2)) - (pos + Vec2(0,-size.height/2));
+        mRightSideMovement  = (newPos + Vec2( newSize.width/2,0)) - (pos + Vec2( size.width/2,0));
+        mLeftSideMovement = (newPos + Vec2(-newSize.width/2,0)) - (pos + Vec2(-size.width/2,0));
         
         auto it = GameScene::Scene->mGroups.find(this);
         if(it != GameScene::Scene->mGroups.end()) {
             for(auto& c : it->second) {
                 auto p = c->getPosition();
-                p += mMovementThisFrame;
+                switch(mFollowMode) {
+                    case F_CENTER:
+                        p += mMovementThisFrame;
+                        break;
+                    case F_LEFT:
+                        p += mLeftSideMovement;
+                        break;
+                    case F_RIGHT:
+                        p += mRightSideMovement;
+                        break;
+                    case F_DOWN:
+                        p += mDownSideMovement;
+                        break;
+                    case F_UP:
+                        p += mUpSideMovement;
+                        break;
+                }
+                
                 c->getSprite()->setPosition(p);
             }
         }
@@ -449,6 +480,8 @@ void BlockBase::setKind(BlockKind kind) {
     
     initPhysics();
     
+    mSprite->setRotation(0);
+    
     if(kind == KIND_DEATH_CIRCLE) {
         auto s = getBoundingBox().size;
         auto size = std::max(s.width, s.height);
@@ -462,6 +495,7 @@ void BlockBase::setKind(BlockKind kind) {
         
         setWidth(size);
         setHeight(size);
+        mRestoreSize = Size(size,size);
     } else {
         mImageSize = 10;
         mRotationSpeed = 0;
