@@ -1277,7 +1277,7 @@ void Node::visit(Renderer* renderer, const Mat4 &parentTransform, uint32_t paren
 Mat4 Node::transform(const Mat4& parentTransform)
 {
     Mat4 ret = this->getNodeToParentTransform();
-    ret  = parentTransform * ret;
+    ret = parentTransform * ret;
     return ret;
 }
 

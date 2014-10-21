@@ -4,6 +4,9 @@
 #include "MapSerial.h"
 #include "UILayer.h"
 #include "Events.h"
+#include "fx/ens2DSoftShadowNode.h"
+
+using namespace ens;
 
 #include <iostream>
 
@@ -708,6 +711,27 @@ bool GameScene::init() {
     auto contactListener = EventListenerPhysicsContact::create();
     contactListener->onContactPreSolve = CC_CALLBACK_2(GameScene::onContactPreSolve, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
+    
+    mShadowRoot = new C2DSoftShadowRoot();
+    //mShadowRoot->autorelease();
+    mShadowRoot->init();
+    mShadowRoot->setIsDrawDebug(true);
+    addChild(mShadowRoot,1000);
+    
+    mLight=new ClightNode();
+    //mLight->autorelease();
+    mLight->setIsDrawDebug(true);
+    mLight->init(48);
+    mShadowRoot->setLight(mLight);
+    mLight->setPosition(700,400);
+    
+    auto m_shadowObj=new C2DSoftShadowObj();
+    //m_shadowObj->autorelease();
+    m_shadowObj->init(makeRectPolygon(50,80));
+    m_shadowObj->setLight(mLight);
+    m_shadowObj->setIsDrawDebug(true);
+    mShadowRoot->addObj(m_shadowObj);
+    m_shadowObj->setPosition(150,200);
     
     mSpawnPoint = Sprite::create("images/cross.png");
     addChild(mSpawnPoint, 100);

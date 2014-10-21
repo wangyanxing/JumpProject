@@ -4,18 +4,28 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            scope = "0"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../Classes/GameScene.cpp"
-            timestampString = "435543129.483956"
+            filePath = "../Classes/fx/ens2DSoftShadowNode.cpp"
+            timestampString = "435568288.275461"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "254"
-            endingLineNumber = "254"
-            landmarkName = "BlockBase::reset()"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "C2DSoftShadowObj::update(float dt)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +35,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../Classes/GameScene.cpp"
-            timestampString = "435555795.13616"
+            filePath = "../Classes/fx/ens2DSoftShadowNode.cpp"
+            timestampString = "435568300.701929"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1195"
-            endingLineNumber = "1195"
-            landmarkName = "GameScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event)"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "C2DSoftShadowObj::update(float dt)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +51,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../Classes/GameScene.cpp"
-            timestampString = "435555795.13616"
+            filePath = "../Classes/fx/ens2DSoftShadowNode.cpp"
+            timestampString = "435572635.718472"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1197"
-            endingLineNumber = "1197"
-            landmarkName = "GameScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event)"
+            startingLineNumber = "1144"
+            endingLineNumber = "1144"
+            landmarkName = "C2DSoftShadowRoot::visit(Renderer *renderer, const Mat4&amp; parentTransform, uint32_t parentFlags)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,44 +67,14 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../Classes/GameScene.h"
-            timestampString = "435555105.362646"
+            filePath = "../Classes/fx/ens2DSoftShadowNode.cpp"
+            timestampString = "435572635.718472"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
-            landmarkName = "update(float dt, cocos2d::Vec2&amp; out, cocos2d::Vec2&amp; outsize)"
+            startingLineNumber = "1133"
+            endingLineNumber = "1133"
+            landmarkName = "C2DSoftShadowRoot::visit(Renderer *renderer, const Mat4&amp; parentTransform, uint32_t parentFlags)"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Path::update(float, cocos2d::Vec2&amp;, cocos2d::Vec2&amp;)"
-                  moduleName = "JumpEdt Mac"
-                  urlString = "file:///Users/yanxingwang/jumpproj/Classes/GameScene.h"
-                  timestampString = "435553182.238356"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "212"
-                  endingLineNumber = "212"
-                  offsetFromSymbolStart = "1460">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Path::update(float, cocos2d::Vec2&amp;, cocos2d::Vec2&amp;)"
-                  moduleName = "JumpEdt Mac"
-                  urlString = "file:///Users/yanxingwang/jumpproj/Classes/GameScene.h"
-                  timestampString = "435553182.238547"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "212"
-                  endingLineNumber = "212"
-                  offsetFromSymbolStart = "1472">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -103,13 +83,61 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../Classes/GameScene.h"
-            timestampString = "435555105.362646"
+            filePath = "../Classes/fx/ens2DSoftShadowNode.cpp"
+            timestampString = "435572635.718472"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "215"
-            endingLineNumber = "215"
-            landmarkName = "update(float dt, cocos2d::Vec2&amp; out, cocos2d::Vec2&amp; outsize)"
+            startingLineNumber = "330"
+            endingLineNumber = "330"
+            landmarkName = "C2DSoftShadowObj::onDraw(const Mat4 &amp;transform, uint32_t flags)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/fx/ens2DSoftShadowNode.cpp"
+            timestampString = "435572635.718472"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "322"
+            endingLineNumber = "322"
+            landmarkName = "C2DSoftShadowObj::onDraw(const Mat4 &amp;transform, uint32_t flags)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/fx/ens2DSoftShadowNode.cpp"
+            timestampString = "435572366.989062"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "C2DSoftShadowObj::update(float dt)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/fx/ens2DSoftShadowNode.cpp"
+            timestampString = "435572408.457017"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
+            landmarkName = "C2DSoftShadowObj::updateShadow()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
