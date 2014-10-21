@@ -248,6 +248,7 @@ void MapSerial::saveMap(const char* file) {
             INDENT_3 ss << "\"pathSpeed\": " << b->mPath.mSpeed; RT_LINE
             INDENT_3 ss << "\"pingpong\": " << bool2Str(b->mPath.mPingPong); RT_LINE
             INDENT_3 ss << "\"pause\": " << bool2Str(b->mPath.mPause); RT_LINE
+            INDENT_3 ss << "\"pathWaitTime\": " << b->mPath.mPathWaitTime; RT_LINE
             INDENT_3 ss << "\"pathes\": [ \n";
             
             for (size_t i = 0; i < b->mPath.getNumPoints(); ++i) {
@@ -463,6 +464,10 @@ void MapSerial::loadMap(const char* filename) {
             
             if(var["pause"].IsBool()) {
                 block->mPath.mPause = var["pause"].GetBool();
+            }
+            
+            if(var["pathWaitTime"].IsNumber()) {
+                block->mPath.mPathWaitTime = var["pathWaitTime"].GetDouble();
             }
             
             if(var["pathes"].IsArray()) {

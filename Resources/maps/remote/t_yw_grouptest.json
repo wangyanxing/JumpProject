@@ -1,6 +1,6 @@
 {
   "author": "yanxingwang",
-  "time": "Mon Oct 20 23:30:47 2014",
+  "time": "Tue Oct 21 00:20:39 2014",
   "backgroundColor": "#1EB5C7",
   "heroColor": "#000000",
   "normalBlockColor": "#FFFFFF",
@@ -45,20 +45,21 @@
     { 
       "id": 5,
       "size": "30,100",
-      "position": "334.078,105.957",
+      "position": "309.078,82.4258",
       "pickable": true,
       "rotatespeed": 0,
-      "groupMembers": [7, 6],
+      "groupMembers": [6],
       "pathSpeed": 50,
       "pingpong": true,
       "pause": false,
+      "pathWaitTime": -1,
       "pathes": [ 
         { 
-          "position": "334.078,105.957",
+          "position": "309.078,82.4258",
           "waittime": -1
         },
         { 
-          "position": "334.078,155.957",
+          "position": "309.078,132.426",
           "waittime": -1
         }
       ],
@@ -66,19 +67,159 @@
     },
     { 
       "id": 6,
-      "size": "30,15",
-      "position": "334.078,45.0742",
+      "size": "25,15",
+      "position": "309.078,25.5429",
       "pickable": true,
       "rotatespeed": 0,
       "kind": "DEATH"
     },
     { 
-      "id": 7,
-      "size": "100,15",
-      "position": "405.621,51.043",
+      "id": 8,
+      "size": "25,15",
+      "position": "384.574,26.5859",
       "pickable": true,
       "rotatespeed": 0,
+      "kind": "DEATH"
+    },
+    { 
+      "id": 9,
+      "size": "30,100",
+      "position": "384.574,83.4687",
+      "pickable": true,
+      "rotatespeed": 0,
+      "groupMembers": [8, 12],
+      "pathSpeed": 50,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": 0.5,
+      "pathes": [ 
+        { 
+          "position": "384.574,83.4687",
+          "waittime": -1
+        },
+        { 
+          "position": "384.574,133.469",
+          "waittime": -1
+        }
+      ],
       "kind": "BLOCK"
+    },
+    { 
+      "id": 10,
+      "size": "30,100",
+      "position": "465.465,82.0781",
+      "pickable": true,
+      "rotatespeed": 0,
+      "groupMembers": [11],
+      "pathSpeed": 50,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": 1,
+      "pathes": [ 
+        { 
+          "position": "465.465,82.0781",
+          "waittime": -1
+        },
+        { 
+          "position": "465.465,132.078",
+          "waittime": -1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 11,
+      "size": "25,15",
+      "position": "465.465,25.1953",
+      "pickable": true,
+      "rotatespeed": 0,
+      "kind": "DEATH"
+    },
+    { 
+      "id": 12,
+      "size": "25,25",
+      "position": "384.918,138.363",
+      "pickable": true,
+      "rotatespeed": 50,
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 13,
+      "size": "30,100",
+      "position": "540.465,82.7734",
+      "pickable": true,
+      "rotatespeed": 0,
+      "groupMembers": [14, 17],
+      "pathSpeed": 50,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": 1.5,
+      "pathes": [ 
+        { 
+          "position": "540.465,82.7734",
+          "waittime": -1
+        },
+        { 
+          "position": "540.465,132.773",
+          "waittime": -1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 14,
+      "size": "25,15",
+      "position": "540.465,25.8906",
+      "pickable": true,
+      "rotatespeed": 0,
+      "kind": "DEATH"
+    },
+    { 
+      "id": 15,
+      "size": "30,100",
+      "position": "616.465,82.7734",
+      "pickable": true,
+      "rotatespeed": 0,
+      "groupMembers": [16],
+      "pathSpeed": 50,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": 2,
+      "pathes": [ 
+        { 
+          "position": "616.465,82.7734",
+          "waittime": -1
+        },
+        { 
+          "position": "616.465,132.773",
+          "waittime": -1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 16,
+      "size": "25,15",
+      "position": "616.465,25.8906",
+      "pickable": true,
+      "rotatespeed": 0,
+      "kind": "DEATH"
+    },
+    { 
+      "id": 17,
+      "size": "25,25",
+      "position": "540.465,137.891",
+      "pickable": true,
+      "rotatespeed": 50,
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 18,
+      "size": "60,60",
+      "position": "465.012,253.719",
+      "pickable": true,
+      "rotatespeed": 50,
+      "kind": "DEATH_CIRCLE"
     }
   ]
 }

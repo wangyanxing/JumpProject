@@ -487,20 +487,21 @@ void BlockBase::moveX(float val) {
     if(mPath.empty()) {
         auto p = mSprite->getPosition();
         setPosition(p.x + val, p.y);
-        mRestorePosition = getPosition();
+        
     } else {
         mPath.translatePoints(Vec2(val, 0));
     }
+    mRestorePosition = getPosition();
 }
 
 void BlockBase::moveY(float val) {
     if(mPath.empty()) {
         auto p = mSprite->getPosition();
         setPosition(p.x, p.y + val);
-        mRestorePosition = getPosition();
     } else {
         mPath.translatePoints(Vec2(0, val));
     }
+    mRestorePosition = getPosition();
 }
 
 void BlockBase::addThickness(int val) {
@@ -1154,7 +1155,20 @@ void GameScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Eve
             }
         } else {
             for(auto sel : mSelections) {
-
+                
+                // find it in groups
+                for(auto& i : mGroups) {
+                    auto ii = std::find(i.second.begin(), i.second.end(), sel);
+                    if(ii != i.second.end()) {
+                        i.second.erase(ii);
+                    }
+                }
+                
+                auto itg = mGroups.find(sel);
+                if(itg != mGroups.end()) {
+                    mGroups.erase(itg);
+                }
+                
                 auto it = mBlocks.begin();
                 for (; it != mBlocks.end(); ++it )
                     if (it->second == sel)
@@ -1305,11 +1319,9 @@ void GameScene::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) 
     Layer::draw(renderer, transform, flags);
     
     static CustomCommand _customCommand;
-    if(mShowGrid) {
-        _customCommand.init(400);
-        _customCommand.func = CC_CALLBACK_0(GameScene::onDrawPrimitive, this, transform, flags);
-        renderer->addCommand(&_customCommand);
-    }
+    _customCommand.init(400);
+    _customCommand.func = CC_CALLBACK_0(GameScene::onDrawPrimitive, this, transform, flags);
+    renderer->addCommand(&_customCommand);
 }
 
 void GameScene::onDrawPrimitive(const Mat4 &transform, uint32_t flags) {
@@ -1317,22 +1329,36 @@ void GameScene::onDrawPrimitive(const Mat4 &transform, uint32_t flags) {
     director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, transform);
     
-    auto size = mHero->getBoundingBox().size;
-    
-    DrawPrimitives::setDrawColor4B(200,200,200,255);
-    
-    float y = 0;
-    while(y < VisibleRect::top().y) {
+    if(mShowGrid) {
+        auto size = mHero->getBoundingBox().size;
         
-        DrawPrimitives::drawLine( Vec2(0, y), Vec2(VisibleRect::right().x, y) );
-        y += size.height;
+        DrawPrimitives::setDrawColor4B(200,200,200,255);
+        
+        float y = 0;
+        while(y < VisibleRect::top().y) {
+            
+            DrawPrimitives::drawLine( Vec2(0, y), Vec2(VisibleRect::right().x, y) );
+            y += size.height;
+        }
+        
+        float x = 0;
+        while(x < VisibleRect::right().x+50) {
+            
+            DrawPrimitives::drawLine( Vec2(x, 0), Vec2(x, VisibleRect::top().y) );
+            x += size.width;
+        }
     }
     
-    float x = 0;
-    while(x < VisibleRect::right().x+50) {
-        
-        DrawPrimitives::drawLine( Vec2(x, 0), Vec2(x, VisibleRect::top().y) );
-        x += size.width;
+    if(!mGameMode) {
+        DrawPrimitives::setDrawColor4B(17,47,245,255);
+        for(auto g : mGroups){
+            auto head = g.first;
+            
+            for(auto m : g.second) {
+                DrawPrimitives::drawSolidCircle(m->getPosition(), 3, 0, 20, 1, 1);
+                DrawPrimitives::drawLine(head->getPosition(), m->getPosition());
+            }
+        }
     }
     
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
@@ -1387,15 +1413,21 @@ void GameScene::setKind(int kind) {
 void GameScene::duplicate() {
     std::set<BlockBase*> duplicated;
     
+    Vec2 bias(20,20);
+    
     for(auto sel : mSelections) {
+        
         BlockBase* block = new BlockBase();
-        auto pos = sel->getPosition();
-        pos.x += 30;
-        pos.y += 30;
+        auto pos = sel->getPosition() + bias;
         auto size = sel->getBoundingBox().size;
         block->create(pos, size);
         block->addToScene(this);
         block->setKind(sel->mKind);
+        block->mPath.cloneFrom(sel->mPath,bias);
+        
+        block->mRestoreSize = block->getBoundingBox().size;
+        block->mRestorePosition = block->getPosition();
+        
         mBlockTable[block->getSprite()] = block;
         mBlocks[block->mID] = block;
         

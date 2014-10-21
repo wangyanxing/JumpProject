@@ -138,6 +138,19 @@ public:
         mCurPt = 0;
         mCurDist = 0;
         mWaitingTimer = 0;
+        mPathWaitingTimer = 0;
+    }
+    
+    void cloneFrom(const Path& rsh, const cocos2d::Vec2& posBias) {
+        reset();
+        for(size_t i = 0; i < rsh.mPoints.size(); ++i) {
+            const auto& p = rsh.mPoints[i];
+            push(p.pt + posBias, p.waitTime, p.width, p.height);
+        }
+        mSpeed = rsh.mSpeed;
+        mPingPong = rsh.mPingPong;
+        mPause = rsh.mPause;
+        mPathWaitTime = rsh.mPathWaitTime;
     }
     
     size_t getNumPoints() {
@@ -151,44 +164,53 @@ public:
     void update(float dt, cocos2d::Vec2& out) {
         if(mPoints.empty()) return;
         if(mPause) dt = 0;
+        
         if(mDisable) {
             out = mPoints[0].pt;
+            
         } else {
             
-            int nextPt = nextPoint();
-            
-            if(mWaitingTimer > mPoints[mCurPt].waitTime) {
-                auto pt = mPoints[mCurPt];
-                auto ptNext = mPoints[nextPt];
-                float dist = pt.pt.distance(ptNext.pt);
-                mCurDist += mSpeed * dt;
-                if(mCurDist >= dist) {
-                    // move to next point
-                    mCurDist -= dist;
-                    mWaitingTimer = 0;
-                    
-                    if(mDirection) {
-                        if(nextPt == mPoints.size() - 1 && mPingPong) {
-                            mDirection = !mDirection;
+            // process path timer
+            if(mPathWaitingTimer > mPathWaitTime) {
+                int nextPt = nextPoint();
+                
+                if(mWaitingTimer > mPoints[mCurPt].waitTime) {
+                    auto pt = mPoints[mCurPt];
+                    auto ptNext = mPoints[nextPt];
+                    float dist = pt.pt.distance(ptNext.pt);
+
+                    mCurDist += mSpeed * dt;
+                    if(mCurDist >= dist) {
+                        // move to next point
+                        mCurDist -= dist;
+                        mWaitingTimer = 0;
+                        
+                        if(mDirection) {
+                            if(nextPt == mPoints.size() - 1 && mPingPong) {
+                                mDirection = !mDirection;
+                            }
+                        } else {
+                            if(nextPt == 0 && mPingPong) {
+                                mDirection = !mDirection;
+                            }
                         }
-                    } else {
-                        if(nextPt == 0 && mPingPong) {
-                            mDirection = !mDirection;
-                        }
+                        mCurPt = nextPt;
+                        nextPt = nextPoint();
+                        
+                        pt = mPoints[mCurPt];
+                        ptNext = mPoints[nextPt];
                     }
-                    mCurPt = nextPt;
-                    nextPt = nextPoint();
+                    auto dir = ptNext.pt - pt.pt;
+                    dir.x /= dist;
+                    dir.y /= dist;
+                    out = pt.pt + dir * mCurDist;
                     
-                    pt = mPoints[mCurPt];
-                    ptNext = mPoints[nextPt];
+                } else {
+                    mWaitingTimer += dt;
                 }
-                auto dir = ptNext.pt - pt.pt;
-                dir.x /= dist;
-                dir.y /= dist;
-                out = pt.pt + dir * mCurDist;
                 
             } else {
-                mWaitingTimer += dt;
+                mPathWaitingTimer += dt;
             }
         }
         
@@ -264,10 +286,12 @@ public:
     
     bool mPingPong{ true };
     float mSpeed{ 50 };
+    float mPathWaitTime{ -1 };
     bool mDirection{ true };
     int mCurPt{ 0 };
     float mCurDist{ 0 };
     float mWaitingTimer{ 0 };
+    float mPathWaitingTimer{ 0 };
     bool mDisable{ true };
     bool mPause{ false };
     
