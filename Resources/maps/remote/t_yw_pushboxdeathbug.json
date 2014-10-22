@@ -1,6 +1,6 @@
 {
   "author": "yanxingwang",
-  "time": "Tue Oct 21 09:00:59 2014",
+  "time": "Wed Oct 22 08:09:14 2014",
   "backgroundColor": "#1EB5C7",
   "heroColor": "#000000",
   "normalBlockColor": "#FFFFFF",
@@ -8,7 +8,7 @@
   "deathCircleColor": "#000000",
   "buttonColor": "#FEE132",
   "pushableBlockColor": "#DC96A8",
-  "spawnPosition": "149.988,34.5781",
+  "spawnPosition": "250.914,132.902",
   "blocks": [ 
     { 
       "id": 1,
@@ -44,11 +44,27 @@
     },
     { 
       "id": 5,
-      "size": "45,45",
-      "position": "350.762,200.562",
+      "size": "100,15",
+      "position": "279.004,84.6719",
       "pickable": true,
       "rotatespeed": 0,
       "kind": "BLOCK"
+    },
+    { 
+      "id": 6,
+      "size": "30,30",
+      "position": "309.09,107.172",
+      "pickable": true,
+      "rotatespeed": 0,
+      "kind": "PUSHABLE"
+    },
+    { 
+      "id": 7,
+      "size": "100,15",
+      "position": "354.977,25.582",
+      "pickable": true,
+      "rotatespeed": 0,
+      "kind": "DEATH"
     }
   ]
 }

@@ -9,11 +9,6 @@
 class BlockBase;
 class Hero;
 
-namespace ens {
-    class C2DSoftShadowRoot;
-    class ClightNode;
-}
-
 enum BlockKind {
     KIND_HERO = 0,
     KIND_BLOCK,
@@ -632,8 +627,6 @@ public:
     
     bool mDeadFlag{ false };
     
-    ens::C2DSoftShadowRoot* mShadowRoot{ nullptr };
-    ens::ClightNode* mLight{ nullptr };
 };
 
 #endif

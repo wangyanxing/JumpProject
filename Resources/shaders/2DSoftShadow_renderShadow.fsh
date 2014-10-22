@@ -15,7 +15,7 @@ void main()
 
     float alpha=1.0-grey;
     alpha=min(1.0,alpha*float(u_objCount));
-    const float brightFactor=0.5;
+
     alpha*=u_shadowDarkness;
     gl_FragColor=vec4(vec3(0,0,0),alpha)  ;
 }

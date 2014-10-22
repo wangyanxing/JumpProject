@@ -52,11 +52,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/fx/ens2DSoftShadowNode.cpp"
-            timestampString = "435572635.718472"
+            timestampString = "435574593.054124"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1144"
-            endingLineNumber = "1144"
+            startingLineNumber = "1147"
+            endingLineNumber = "1147"
             landmarkName = "C2DSoftShadowRoot::visit(Renderer *renderer, const Mat4&amp; parentTransform, uint32_t parentFlags)"
             landmarkType = "5">
          </BreakpointContent>
@@ -68,11 +68,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/fx/ens2DSoftShadowNode.cpp"
-            timestampString = "435572635.718472"
+            timestampString = "435574593.054124"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1133"
-            endingLineNumber = "1133"
+            startingLineNumber = "1134"
+            endingLineNumber = "1134"
             landmarkName = "C2DSoftShadowRoot::visit(Renderer *renderer, const Mat4&amp; parentTransform, uint32_t parentFlags)"
             landmarkType = "5">
          </BreakpointContent>

@@ -1131,6 +1131,8 @@ void C2DSoftShadowRoot::visit(Renderer *renderer, const Mat4& parentTransform, u
         
         //visit shadowRT
         m_shadowRT->visit(renderer,parentTransform,parentFlags);
+        
+#if 0
         //draw objs' debug
         for(int i=0;i<nObj;i++) {
             C2DSoftShadowObj*obj=m_objList[i];
@@ -1139,6 +1141,7 @@ void C2DSoftShadowRoot::visit(Renderer *renderer, const Mat4& parentTransform, u
             obj->visit(renderer,parentTransform,parentFlags);
             obj->setIsDrawNonDebug(isDrawNonDebugOld);
         }
+#endif
          
         //draw light' debug
         m_light->visit(renderer,parentTransform,parentFlags);

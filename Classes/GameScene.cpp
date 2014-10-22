@@ -712,26 +712,40 @@ bool GameScene::init() {
     contactListener->onContactPreSolve = CC_CALLBACK_2(GameScene::onContactPreSolve, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
     
-    mShadowRoot = new C2DSoftShadowRoot();
+#if 0
+    auto mShadowRoot = new C2DSoftShadowRoot();
     //mShadowRoot->autorelease();
     mShadowRoot->init();
-    mShadowRoot->setIsDrawDebug(true);
-    addChild(mShadowRoot,1000);
+    mShadowRoot->setIsDrawDebug(false);
+    mShadowRoot->setShadowDarkness(0.15);
+    addChild(mShadowRoot, 3);
     
-    mLight=new ClightNode();
-    //mLight->autorelease();
-    mLight->setIsDrawDebug(true);
-    mLight->init(48);
+    auto mLight=new ClightNode();
+    mLight->autorelease();
+    //mLight->setIsDrawDebug(true);
+    mLight->init(10);
     mShadowRoot->setLight(mLight);
-    mLight->setPosition(700,400);
+    mLight->setPosition(800,400);
     
-    auto m_shadowObj=new C2DSoftShadowObj();
-    //m_shadowObj->autorelease();
-    m_shadowObj->init(makeRectPolygon(50,80));
-    m_shadowObj->setLight(mLight);
-    m_shadowObj->setIsDrawDebug(true);
-    mShadowRoot->addObj(m_shadowObj);
-    m_shadowObj->setPosition(150,200);
+    {
+        auto m_shadowObj=new C2DSoftShadowObj();
+        m_shadowObj->autorelease();
+        m_shadowObj->init(makeRectPolygon(20,20));
+        m_shadowObj->setLight(mLight);
+        //m_shadowObj->setIsDrawDebug(true);
+        mShadowRoot->addObj(m_shadowObj);
+        m_shadowObj->setPosition(350,200);
+    }
+    {
+        auto m_shadowObj=new C2DSoftShadowObj();
+        m_shadowObj->autorelease();
+        m_shadowObj->init(makeRectPolygon(20,20));
+        m_shadowObj->setLight(mLight);
+        //m_shadowObj->setIsDrawDebug(true);
+        mShadowRoot->addObj(m_shadowObj);
+        m_shadowObj->setPosition(420,200);
+    }
+#endif
     
     mSpawnPoint = Sprite::create("images/cross.png");
     addChild(mSpawnPoint, 100);
@@ -828,7 +842,8 @@ bool GameScene::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSolv
     if( otherBlock->mKind == KIND_DEATH ||
        otherBlock->mKind == KIND_DEATH_CIRCLE) {
         // process dead logic
-        GameScene::Scene->mDeadFlag = true;
+        if(thisBlock == mHero)
+            GameScene::Scene->mDeadFlag = true;
         return false;
     } else if( otherBlock->mKind == KIND_BLOCK ) {
         if(normal.y > 0.9) {
