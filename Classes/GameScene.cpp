@@ -7,12 +7,9 @@
 #include "Shadows.h"
 #include "cocos-ext.h"
 #include "LogicManager.h"
+
 //#include "extensions/GUI/CCControlColourPicker.h"
 
-#if 0
-#include "fx/ens2DSoftShadowNode.h"
-using namespace ens;
-#endif
 
 #include <iostream>
 
@@ -20,6 +17,11 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 
 ////////////////////////
+
+GameScene::~GameScene() {
+    delete mGame;
+    mGame = nullptr;
+}
 
 GameScene* GameScene::Scene = nullptr;
 
@@ -50,41 +52,6 @@ bool GameScene::init() {
     auto contactListener = EventListenerPhysicsContact::create();
     contactListener->onContactPreSolve = CC_CALLBACK_2(GameScene::onContactPreSolve, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
-    
-#if 0
-    auto mShadowRoot = new C2DSoftShadowRoot();
-    //mShadowRoot->autorelease();
-    mShadowRoot->init();
-    mShadowRoot->setIsDrawDebug(false);
-    mShadowRoot->setShadowDarkness(0.15);
-    addChild(mShadowRoot, 3);
-    
-    auto mLight=new ClightNode();
-    mLight->autorelease();
-    //mLight->setIsDrawDebug(true);
-    mLight->init(10);
-    mShadowRoot->setLight(mLight);
-    mLight->setPosition(800,400);
-    
-    {
-        auto m_shadowObj=new C2DSoftShadowObj();
-        m_shadowObj->autorelease();
-        m_shadowObj->init(makeRectPolygon(20,20));
-        m_shadowObj->setLight(mLight);
-        //m_shadowObj->setIsDrawDebug(true);
-        mShadowRoot->addObj(m_shadowObj);
-        m_shadowObj->setPosition(350,200);
-    }
-    {
-        auto m_shadowObj=new C2DSoftShadowObj();
-        m_shadowObj->autorelease();
-        m_shadowObj->init(makeRectPolygon(20,20));
-        m_shadowObj->setLight(mLight);
-        //m_shadowObj->setIsDrawDebug(true);
-        mShadowRoot->addObj(m_shadowObj);
-        m_shadowObj->setPosition(420,200);
-    }
-#endif
     
     mGame = new GameLogic(this);
     

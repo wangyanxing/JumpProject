@@ -18,6 +18,10 @@ class GameScene : public cocos2d::Layer
 {
 public:
     
+    GameScene(){}
+    
+    virtual ~GameScene();
+    
     struct PostUpdater {
         void update(float dt) {
             GameLogic::Game->postUpdate(dt);

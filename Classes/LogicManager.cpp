@@ -53,7 +53,13 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
 }
 
 GameLogic::~GameLogic() {
+    clean();
     
+    delete mHero;
+    mHero = nullptr;
+    
+    delete mShadows;
+    mShadows = nullptr;
 }
 
 bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::PhysicsContactPreSolve& solve) {
