@@ -236,20 +236,25 @@ void MapSerial::saveMap(const char* file) {
     
     INDENT_1 ss << "\"blocks\": [ \n";
     
-    for(auto it = GameLogic::Game->mBlocks.begin(); it != GameLogic::Game->mBlocks.end(); ++it) {
-        auto b = it->second;
-        
-        if(it != GameLogic::Game->mBlocks.begin()) {
-            INDENT_2 ss << "},\n";
-        }
-        
-        INDENT_2 ss << "{ \n";
-        INDENT_3 ss << "\"id\": " << b->mID; RT_LINE
-        INDENT_3 ss << "\"size\": " << size2Str(b->getSize()); RT_LINE
-        INDENT_3 ss << "\"position\": " << vec2Str(b->getPosition()); RT_LINE
-        INDENT_3 ss << "\"pickable\": " << bool2Str(b->mCanPickup); RT_LINE
-        INDENT_3 ss << "\"rotatespeed\": " << b->mRotationSpeed; RT_LINE
-        
+	for (auto it = GameLogic::Game->mBlocks.begin(); it != GameLogic::Game->mBlocks.end(); ++it) {
+		auto b = it->second;
+
+		if (it != GameLogic::Game->mBlocks.begin()) {
+			INDENT_2 ss << "},\n";
+		}
+
+		INDENT_2 ss << "{ \n";
+		INDENT_3 ss << "\"id\": " << b->mID; RT_LINE
+			INDENT_3 ss << "\"size\": " << size2Str(b->getSize()); RT_LINE
+			INDENT_3 ss << "\"position\": " << vec2Str(b->getPosition()); RT_LINE
+			INDENT_3 ss << "\"pickable\": " << bool2Str(b->mCanPickup); RT_LINE
+			INDENT_3 ss << "\"rotatespeed\": " << b->mRotationSpeed; RT_LINE
+
+		if (b->mKind == KIND_DEATH_CIRCLE)
+		{
+			INDENT_3 ss << "\"textureName\": \"" << b->textureName << "\""; RT_LINE
+		}
+
         if(b->mKind == KIND_BUTTON) {
             INDENT_3 ss << "\"direction\": " << direction2Str(b->mButton->mDir); RT_LINE
             INDENT_3 ss << "\"canRestore\": " << bool2Str(b->mButton->mCanRestore); RT_LINE
@@ -421,6 +426,7 @@ void MapSerial::loadMap(const char* filename) {
             bool pickable = true;
             int rotSpeed = 0;
             BlockKind kind = KIND_BLOCK;
+			std::string textureName = "";
             
             if(var["id"].IsInt()){
                 id = var["id"].GetInt();
@@ -448,10 +454,16 @@ void MapSerial::loadMap(const char* filename) {
             if(var["kind"].IsString()){
                 kind = str2Kind(var["kind"].GetString());
             }SHOW_WARNING
+
+			if (kind == KIND_DEATH_CIRCLE&&var["textureName"].IsString())
+			{
+				textureName = var["textureName"].GetString();
+			}
             
             BlockBase* block = new BlockBase();
             block->create(pos,size);
             block->addToScene(GameScene::Scene);
+			block->textureName = textureName;
             block->setKind(kind);
             block->mCanPickup = pickable;
             block->mID = id;

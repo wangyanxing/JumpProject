@@ -170,6 +170,8 @@ public:
     
     static int mIDCounter;
     
+	std::string textureName = "images/saw2.png";
+
 #if EDITOR_MODE
     bool mShowIDLabel{ false };
     void initIDLabel();
