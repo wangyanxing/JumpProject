@@ -2,6 +2,12 @@
 #include "GameScene.h"
 #include "UILayer.h"
 
+#if 1
+#include "VisibleRect.h"
+#include "cocos-ext.h"
+USING_NS_CC_EXT;
+#endif
+
 USING_NS_CC;
 
 HelloWorld::~HelloWorld() {
@@ -26,6 +32,15 @@ Scene* HelloWorld::createScene()
     auto gameScene = GameScene::create();
     
     layer->addChild(gameScene);
+    
+#if 0
+    auto c = ControlColourPicker::create();
+    c->setColor(Color3B(37, 46, 252));
+    c->setPosition(VisibleRect::center().x, 50);
+    c->setEnabled(true);
+//    c->setScale(0.8);
+    layer->addChild(c);
+#endif
 
     // return the scene
     return scene;

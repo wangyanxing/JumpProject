@@ -68,6 +68,18 @@
 		B5829B2819E3BE330001A066 /* VisibleRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5829B2519E3BE330001A066 /* VisibleRect.cpp */; };
 		B5829B2A19E3BFE00001A066 /* images in Resources */ = {isa = PBXBuildFile; fileRef = B5829B2919E3BFE00001A066 /* images */; };
 		B5829B2B19E3BFE00001A066 /* images in Resources */ = {isa = PBXBuildFile; fileRef = B5829B2919E3BFE00001A066 /* images */; };
+		B587F1F719F8A81C00AC4174 /* extensions in Resources */ = {isa = PBXBuildFile; fileRef = B587F1F619F8A81C00AC4174 /* extensions */; };
+		B587F1F819F8A81C00AC4174 /* extensions in Resources */ = {isa = PBXBuildFile; fileRef = B587F1F619F8A81C00AC4174 /* extensions */; };
+		B587F1FD19F8C95200AC4174 /* Path.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F1FB19F8C95200AC4174 /* Path.cpp */; };
+		B587F1FE19F8C95200AC4174 /* Path.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F1FB19F8C95200AC4174 /* Path.cpp */; };
+		B587F20219F8CA6D00AC4174 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F20019F8CA6D00AC4174 /* Button.cpp */; };
+		B587F20319F8CA6D00AC4174 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F20019F8CA6D00AC4174 /* Button.cpp */; };
+		B587F20619F8CB1800AC4174 /* Shadows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F20419F8CB1800AC4174 /* Shadows.cpp */; };
+		B587F20719F8CB1800AC4174 /* Shadows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F20419F8CB1800AC4174 /* Shadows.cpp */; };
+		B587F20A19F8CBB300AC4174 /* Blocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F20819F8CBB300AC4174 /* Blocks.cpp */; };
+		B587F20B19F8CBB300AC4174 /* Blocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F20819F8CBB300AC4174 /* Blocks.cpp */; };
+		B587F20E19F8CCC100AC4174 /* LogicManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F20C19F8CCC100AC4174 /* LogicManager.cpp */; };
+		B587F20F19F8CCC100AC4174 /* LogicManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F20C19F8CCC100AC4174 /* LogicManager.cpp */; };
 		B5A45F2519EA3A37009349EF /* DrawNodeEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A45F2319EA3A37009349EF /* DrawNodeEx.cpp */; };
 		B5A45F2619EA3A37009349EF /* DrawNodeEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A45F2319EA3A37009349EF /* DrawNodeEx.cpp */; };
 		B5A45F3019F06FD6009349EF /* HttpHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A45F2E19F06FD6009349EF /* HttpHelper.cpp */; };
@@ -319,6 +331,18 @@
 		B5829B2519E3BE330001A066 /* VisibleRect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VisibleRect.cpp; path = ../Classes/VisibleRect.cpp; sourceTree = "<group>"; };
 		B5829B2619E3BE330001A066 /* VisibleRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VisibleRect.h; path = ../Classes/VisibleRect.h; sourceTree = "<group>"; };
 		B5829B2919E3BFE00001A066 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
+		B587F1F619F8A81C00AC4174 /* extensions */ = {isa = PBXFileReference; lastKnownFileType = folder; path = extensions; sourceTree = "<group>"; };
+		B587F1FB19F8C95200AC4174 /* Path.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Path.cpp; path = ../Classes/Path.cpp; sourceTree = "<group>"; };
+		B587F1FC19F8C95200AC4174 /* Path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Path.h; path = ../Classes/Path.h; sourceTree = "<group>"; };
+		B587F1FF19F8C97400AC4174 /* Defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Defines.h; path = ../Classes/Defines.h; sourceTree = "<group>"; };
+		B587F20019F8CA6D00AC4174 /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Button.cpp; path = ../Classes/Button.cpp; sourceTree = "<group>"; };
+		B587F20119F8CA6D00AC4174 /* Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Button.h; path = ../Classes/Button.h; sourceTree = "<group>"; };
+		B587F20419F8CB1800AC4174 /* Shadows.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Shadows.cpp; path = ../Classes/Shadows.cpp; sourceTree = "<group>"; };
+		B587F20519F8CB1800AC4174 /* Shadows.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shadows.h; path = ../Classes/Shadows.h; sourceTree = "<group>"; };
+		B587F20819F8CBB300AC4174 /* Blocks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Blocks.cpp; path = ../Classes/Blocks.cpp; sourceTree = "<group>"; };
+		B587F20919F8CBB300AC4174 /* Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Blocks.h; path = ../Classes/Blocks.h; sourceTree = "<group>"; };
+		B587F20C19F8CCC100AC4174 /* LogicManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LogicManager.cpp; path = ../Classes/LogicManager.cpp; sourceTree = "<group>"; };
+		B587F20D19F8CCC100AC4174 /* LogicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogicManager.h; path = ../Classes/LogicManager.h; sourceTree = "<group>"; };
 		B5A45F2319EA3A37009349EF /* DrawNodeEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DrawNodeEx.cpp; path = ../Classes/DrawNodeEx.cpp; sourceTree = "<group>"; };
 		B5A45F2419EA3A37009349EF /* DrawNodeEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DrawNodeEx.h; path = ../Classes/DrawNodeEx.h; sourceTree = "<group>"; };
 		B5A45F2E19F06FD6009349EF /* HttpHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HttpHelper.cpp; path = ../Classes/HttpHelper.cpp; sourceTree = "<group>"; };
@@ -435,6 +459,7 @@
 				1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */,
 				B5A45F2319EA3A37009349EF /* DrawNodeEx.cpp */,
 				B5A45F2419EA3A37009349EF /* DrawNodeEx.h */,
+				B587F1FF19F8C97400AC4174 /* Defines.h */,
 				1AFAF8B516D35DE700DB1158 /* HelloWorldScene.cpp */,
 				1AFAF8B616D35DE700DB1158 /* HelloWorldScene.h */,
 				B5829B1B19E3BCEF0001A066 /* GameScene.cpp */,
@@ -454,6 +479,16 @@
 				B5CA04D919F1C87000A94996 /* UILayer.h */,
 				B5CA04E319F3350700A94996 /* Events.cpp */,
 				B5CA04E419F3350700A94996 /* Events.h */,
+				B587F1FB19F8C95200AC4174 /* Path.cpp */,
+				B587F1FC19F8C95200AC4174 /* Path.h */,
+				B587F20019F8CA6D00AC4174 /* Button.cpp */,
+				B587F20119F8CA6D00AC4174 /* Button.h */,
+				B587F20419F8CB1800AC4174 /* Shadows.cpp */,
+				B587F20519F8CB1800AC4174 /* Shadows.h */,
+				B587F20819F8CBB300AC4174 /* Blocks.cpp */,
+				B587F20919F8CBB300AC4174 /* Blocks.h */,
+				B587F20C19F8CCC100AC4174 /* LogicManager.cpp */,
+				B587F20D19F8CCC100AC4174 /* LogicManager.h */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -569,6 +604,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B587F1F619F8A81C00AC4174 /* extensions */,
 				B5E7CA8919F6202F009198C6 /* shaders */,
 				B5CA04DF19F1E52600A94996 /* fonts */,
 				B5A45F3619F09612009349EF /* maps */,
@@ -804,6 +840,7 @@
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
+				B587F1F719F8A81C00AC4174 /* extensions in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
 				50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */,
@@ -825,6 +862,7 @@
 			files = (
 				B5829B2B19E3BFE00001A066 /* images in Resources */,
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
+				B587F1F819F8A81C00AC4174 /* extensions in Resources */,
 				B5A45F3819F09612009349EF /* maps in Resources */,
 				B5E7CA8B19F6202F009198C6 /* shaders in Resources */,
 				B5CA04E119F1E52600A94996 /* fonts in Resources */,
@@ -840,8 +878,11 @@
 			files = (
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				B5E7CA5119F61BC5009198C6 /* ensIndexVBO.cpp in Sources */,
+				B587F20E19F8CCC100AC4174 /* LogicManager.cpp in Sources */,
+				B587F1FD19F8C95200AC4174 /* Path.cpp in Sources */,
 				B5E7CA5319F61BC5009198C6 /* ensMath.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				B587F20219F8CA6D00AC4174 /* Button.cpp in Sources */,
 				B5A45F3419F093E0009349EF /* MapSerial.cpp in Sources */,
 				B5CA04E519F3350700A94996 /* Events.cpp in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
@@ -857,10 +898,12 @@
 				B5E7CA4F19F61BC5009198C6 /* ensGLProgramWithUnifos.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				B5E7CA4B19F61BC5009198C6 /* ensDefine.cpp in Sources */,
+				B587F20619F8CB1800AC4174 /* Shadows.cpp in Sources */,
 				B5E7CA4919F61BC5009198C6 /* ens2DSoftShadowNode.cpp in Sources */,
 				B5E7CA4D19F61BC5009198C6 /* ensFunc.cpp in Sources */,
 				B5A45F3019F06FD6009349EF /* HttpHelper.cpp in Sources */,
 				B5829B1D19E3BCEF0001A066 /* GameScene.cpp in Sources */,
+				B587F20A19F8CBB300AC4174 /* Blocks.cpp in Sources */,
 				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,
 				B5E7CA5519F61BC5009198C6 /* ensMesh.cpp in Sources */,
 			);
@@ -870,17 +913,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B587F20319F8CA6D00AC4174 /* Button.cpp in Sources */,
 				B5E7CA5019F61BC5009198C6 /* ensGLProgramWithUnifos.cpp in Sources */,
 				B5CA04E619F3350700A94996 /* Events.cpp in Sources */,
 				5087E75717EB910900C73F5D /* AppDelegate.cpp in Sources */,
 				B563267119F0CD3C004E78B6 /* PathLibOSX.mm in Sources */,
 				5087E75817EB910900C73F5D /* HelloWorldScene.cpp in Sources */,
 				B5829B2819E3BE330001A066 /* VisibleRect.cpp in Sources */,
+				B587F1FE19F8C95200AC4174 /* Path.cpp in Sources */,
 				B5829B2419E3BE010001A066 /* GameUtils.cpp in Sources */,
 				B5E7CA5619F61BC5009198C6 /* ensMesh.cpp in Sources */,
 				B5E7CA4A19F61BC5009198C6 /* ens2DSoftShadowNode.cpp in Sources */,
 				B563266F19F0CD3C004E78B6 /* PathLib.cpp in Sources */,
 				B5829B1E19E3BCEF0001A066 /* GameScene.cpp in Sources */,
+				B587F20719F8CB1800AC4174 /* Shadows.cpp in Sources */,
+				B587F20F19F8CCC100AC4174 /* LogicManager.cpp in Sources */,
 				B5E7CA5819F61BC5009198C6 /* ensRippleNode.cpp in Sources */,
 				B5A45F3519F093E0009349EF /* MapSerial.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
@@ -890,6 +937,7 @@
 				B5A45F3119F06FD6009349EF /* HttpHelper.cpp in Sources */,
 				B5E7CA5419F61BC5009198C6 /* ensMath.cpp in Sources */,
 				B5E7CA5C19F61BC5009198C6 /* ensSimpleClasses.cpp in Sources */,
+				B587F20B19F8CBB300AC4174 /* Blocks.cpp in Sources */,
 				B5CA04DB19F1C87000A94996 /* UILayer.cpp in Sources */,
 				B5E7CA4E19F61BC5009198C6 /* ensFunc.cpp in Sources */,
 				B5E7CA4C19F61BC5009198C6 /* ensDefine.cpp in Sources */,
