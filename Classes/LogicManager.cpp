@@ -48,6 +48,8 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
     mParentLayer->addChild(back, 0);
     
     createFixedBlocks();
+    
+    enableGame(false);
 }
 
 GameLogic::~GameLogic() {
@@ -306,6 +308,36 @@ void GameLogic::update(float dt){
     }
 }
 
+void GameLogic::deleteBlock(BlockBase* sel) {
+    // find it in groups
+    for(auto& i : mGroups) {
+        auto ii = std::find(i.second.begin(), i.second.end(), sel);
+        if(ii != i.second.end()) {
+            i.second.erase(ii);
+        }
+    }
+    
+    auto itg = mGroups.find(sel);
+    if(itg != mGroups.end()) {
+        mGroups.erase(itg);
+    }
+    
+    auto it = mBlocks.begin();
+    for (; it != mBlocks.end(); ++it )
+        if (it->second == sel)
+            break;
+    
+    if (it != mBlocks.end()) {
+        auto tableit = mBlockTable.find(sel->getSprite());
+        mBlockTable.erase(tableit);
+        if(sel == mSelectionHead)
+            mSelectionHead = nullptr;
+        delete sel;
+        mBlocks.erase(it);
+    }
+    
+}
+
 void GameLogic::enableGame(bool val, bool force) {
     if( mGameMode == val && !force) return;
     mGameMode = val;
@@ -337,6 +369,21 @@ void GameLogic::enableGame(bool val, bool force) {
     mHero->getSprite()->getPhysicsBody()->setGravityEnable(val);
 }
 
+void GameLogic::setBackgroundColor(const cocos2d::Color3B& color) {
+    mBackgroundColor = color;
+    mParentLayer->getChildByTag(1000)->setColor(mBackgroundColor);
+}
+
+BlockBase* GameLogic::createBlock(const cocos2d::Vec2& pos, BlockKind kind) {
+    BlockBase* block = new BlockBase();
+    block->create(pos);
+    block->setKind(kind);
+    block->addToScene(mParentLayer);
+    mBlockTable[block->getSprite()] = block;
+    mBlocks[block->mID] = block;
+    return block;
+}
+
 void GameLogic::clean() {
     
     mGroups.clear();
@@ -348,4 +395,10 @@ void GameLogic::clean() {
     
     enableGame(false);
     BlockBase::mIDCounter = 1;
+}
+
+void GameLogic::blockTraversal(const std::function<void(BlockBase*)>& func) {
+    for (auto b : mBlocks) {
+        func(b.second);
+    }
 }

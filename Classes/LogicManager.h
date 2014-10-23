@@ -25,7 +25,13 @@ public:
     
     ~GameLogic();
     
+    BlockBase* createBlock(const cocos2d::Vec2& pos, BlockKind kind);
+    
+    void blockTraversal(const std::function<void(BlockBase*)>& func);
+    
     void createFixedBlocks();
+    
+    void deleteBlock(BlockBase* b);
     
     bool onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::PhysicsContactPreSolve& solve);
     
@@ -38,6 +44,8 @@ public:
     void postUpdate(float dt);
     
     void updateGame(float dt);
+    
+    void setBackgroundColor(const cocos2d::Color3B& color);
     
     BlockBase* findBlock(int id);
     

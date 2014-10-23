@@ -8,6 +8,7 @@
 
 #include "Events.h"
 #include "GameScene.h"
+#include "LogicManager.h"
 #include "PathLib.h"
 
 #include <string>
@@ -66,7 +67,7 @@ void initEvents() {
             {"true", true}, // DIR
         };
         e.func = [&](const std::vector<Arg>& args){
-            auto block = GameScene::Scene->findBlock(args[0].getInt());
+            auto block = GameLogic::Game->findBlock(args[0].getInt());
             if(!block) {
                 CCLOG("Bad ID: %d", args[0].getInt());
                 return;
@@ -84,7 +85,7 @@ void initEvents() {
             {"true", true}, // DIR
         };
         e.func = [&](const std::vector<Arg>& args){
-            auto block = GameScene::Scene->findBlock(args[0].getInt());
+            auto block = GameLogic::Game->findBlock(args[0].getInt());
             if(!block) {
                 CCLOG("Bad ID: %d", args[0].getInt());
                 return;
@@ -100,7 +101,7 @@ void initEvents() {
             {"", false},    // ID
         };
         e.func = [&](const std::vector<Arg>& args){
-            auto block = GameScene::Scene->findBlock(args[0].getInt());
+            auto block = GameLogic::Game->findBlock(args[0].getInt());
             if(!block) {
                 CCLOG("Bad ID: %d", args[0].getInt());
                 return;
@@ -120,7 +121,7 @@ void initEvents() {
             {"", false},    // ID
         };
         e.func = [&](const std::vector<Arg>& args){
-            auto block = GameScene::Scene->findBlock(args[0].getInt());
+            auto block = GameLogic::Game->findBlock(args[0].getInt());
             if(!block) {
                 CCLOG("Bad ID: %d", args[0].getInt());
                 return;

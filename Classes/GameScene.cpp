@@ -6,6 +6,7 @@
 #include "Events.h"
 #include "Shadows.h"
 #include "cocos-ext.h"
+#include "LogicManager.h"
 //#include "extensions/GUI/CCControlColourPicker.h"
 
 #if 0
@@ -29,15 +30,6 @@ bool GameScene::init() {
     if ( !Layer::init() ) {
         return false;
     }
-    
-    // default colors
-    mBlockColors[KIND_HERO] = Color3B::BLACK;
-    mBlockColors[KIND_BLOCK] = Color3B::WHITE;
-    mBlockColors[KIND_DEATH] = Color3B::BLACK;
-    mBlockColors[KIND_DEATH_CIRCLE] = Color3B::BLACK;
-    mBlockColors[KIND_BUTTON] = Color3B(254, 225, 50);
-    mBlockColors[KIND_PUSHABLE] = Color3B(220, 150, 168);
-    mBackgroundColor = Color3B(30, 181, 199);
     
     MapSerial::saveRemoteMaps();
     
@@ -94,31 +86,14 @@ bool GameScene::init() {
     }
 #endif
     
+    mGame = new GameLogic(this);
+    
     mSpawnPoint = Sprite::create("images/cross.png");
     addChild(mSpawnPoint, 100);
     //mSpawnPoint->setPosition(VisibleRect::center());
     mSpawnPoint->setPosition(50,100);
+    mGame->mSpawnPos = mSpawnPoint->getPosition();
     mSpawnPoint->setScale(0.3);
-    
-    mHero = new Hero();
-    //mHero->create(VisibleRect::center());
-    mHero->create(Vec2(32,100));
-    mHero->setSize(Size(25,25));
-    mHero->setVisible(false);
-    mHero->setKind(KIND_HERO);
-    mHeroShape = mHero->getSprite()->getPhysicsBody()->getShapes().front();
-    mHero->addToScene(this);
-    mBlockTable[mHero->getSprite()] = mHero;
-    
-    mShadows = new ShadowManager(this);
-    
-    auto back = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(30, 181, 199));
-    back->setTag(1000);
-    addChild(back, 0);
-    
-    createBackground();
-    
-    enableGame(false);
     
     MapSerial::loadLastEdit();
     
@@ -126,155 +101,7 @@ bool GameScene::init() {
 }
 
 bool GameScene::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSolve& solve) {
-    
-    auto iA = mBlockTable.find(contact.getShapeA()->getBody()->getNode());
-    auto iB = mBlockTable.find(contact.getShapeB()->getBody()->getNode());
-    if(iA == mBlockTable.end() || iB == mBlockTable.end()) {
-        return true;
-    }
-    
-    BlockBase* blockA = iA->second;
-    BlockBase* blockB = iB->second;
-    
-    PhysicsShape* pusherShape = mHeroShape;
-    if(blockA != mHero && blockB != mHero) {
-        pusherShape = blockA->pushable() ? contact.getShapeA() : contact.getShapeB();
-    }
-    
-    auto data = contact.getContactData();
-    auto normal = data->normal;
-    auto otherShape = pusherShape == contact.getShapeA() ? contact.getShapeB() : contact.getShapeA();
-    
-    bool onMovingPlatform = false;
-    bool onButton = false;
-    
-    if(pusherShape == contact.getShapeA()) normal *= -1;
-    
-    auto otherNode = otherShape->getBody()->getNode();
-    
-    BlockBase* otherBlock = nullptr;
-    BlockBase* thisBlock = nullptr;
-    auto i = mBlockTable.find(otherNode);
-    if(i != mBlockTable.end()) {
-        otherBlock = i->second;
-    } else {
-        return false;
-    }
-    
-    if(pusherShape == mHeroShape) {
-        thisBlock = mHero;
-    } else {
-        auto it = mBlockTable.find(pusherShape->getBody()->getNode());
-        thisBlock = it->second;
-    }
-    
-    BlockBase* pushedObject = nullptr;
-    BlockBase* pushObject = nullptr;
-    
-    if(!otherBlock || !otherBlock->pushable() ||
-       (normal.y > 0.9 || normal.y < -0.9 ||
-        (otherBlock->pushable() && !otherBlock->mCanPush))) {
-        otherBlock->mCanPush = true;
-        pushObject = thisBlock;
-        pushedObject = otherBlock;
-    } else {
-        // pushing
-        pushObject = otherBlock;
-        pushedObject = thisBlock;
-        if(pushedObject == mHero) {
-            mHero->mPushing = true;
-        }
-    }
-
-    if( otherBlock->mKind == KIND_DEATH ||
-       otherBlock->mKind == KIND_DEATH_CIRCLE) {
-        // process dead logic
-        if(thisBlock == mHero)
-            GameScene::Scene->mDeadFlag = true;
-        return false;
-    } else if( otherBlock->mKind == KIND_BLOCK ) {
-        if(normal.y > 0.9) {
-            auto p = pushObject->getPosition();
-            if(!otherBlock->mPath.empty()) {
-                p += otherBlock->mMovementThisFrame;
-                onMovingPlatform = true;
-            }
-            pushObject->setPosition(p);
-        }
-    } else if( otherBlock->mKind == KIND_BUTTON ) {
-        
-        if(otherBlock->mButton->push(normal, pushObject)) {
-            return false;
-        }
-        if(otherBlock->mButton->mDir == Button::DIR_UP)
-            onButton = true;
-        
-        if(!blockA->canPush() && !blockB->canPush())
-            return false;
-    }
-    
-    if(!blockA->canPush() && !blockB->canPush()) {
-        if(normal.x > 0.9 || normal.x < -0.9) {
-            if(blockA->pushable()) {
-                blockA->mCanPush = false;
-            } else if(blockB->pushable()) {
-                blockB->mCanPush = false;
-            } else {
-                return true;
-            }
-        } else if(normal.y > 0.9 || normal.y < -0.9) {
-            if(!blockA->pushable() && !blockB->pushable()) {
-                return true;
-            }
-        }
-    }
-    
-    if(normal.x > 0.9 || normal.x < -0.9) {
-        
-        auto h = pushedObject->getSprite()->getBoundingBox().size.width/2 +
-                 pushObject->getBoundingBox().size.width/2;
-        if(onMovingPlatform)
-            h += 1;
-        auto phyPos = pushObject->getSprite()->getPhysicsBody()->getPosition();
-        if (pushObject->getPosition().x < pushedObject->getSprite()->getPositionX())
-            pushObject->setPosition(pushedObject->getSprite()->getPositionX() - h, phyPos.y);
-        else
-            pushObject->setPosition(pushedObject->getSprite()->getPositionX() + h, phyPos.y);
-    }
-    
-    if(normal.y > 0.9 || normal.y < -0.9) {
-        
-        if(pushObject == mHero) {
-            if(!mHero->mCanJump) {
-            }
-            mHero->mCanJump = true;
-        }
-        
-        auto h = pushedObject->getBoundingBox().size.height/2 + pushObject->getBoundingBox().size.height/2;
-        if(onMovingPlatform && pushObject == mHero) {
-            h -= 1;
-        }
-        
-        if(normal.y < -0.9){
-            if(onButton) h -= 1;
-            else h += 1;
-            pushObject->setPositionY(pushedObject->getSprite()->getPositionY() - h);
-        }else{
-            pushObject->setPositionY(pushedObject->getSprite()->getPositionY() + h);
-            
-            if(pushObject->mKind == KIND_PUSHABLE || pushObject->mKind == KIND_HERO) {
-                pushObject->getSprite()->getPhysicsBody()->resetForces();
-                pushObject->getSprite()->getPhysicsBody()->setVelocityLimit(0);
-            }
-        }
-        
-        auto v = pushObject->getSprite()->getPhysicsBody()->getVelocity();
-        pushObject->getSprite()->getPhysicsBody()->setVelocity(Vec2(v.x, 0));
-    }
-    
-    pushObject->getSprite()->getPhysicsBody()->getFirstShape()->_forceUpdateShape();
-    
-    return false;
+    return mGame->onContactPreSolve(contact, solve);
 }
 
 void GameScene::mouseDown(cocos2d::Event* event) {
@@ -284,16 +111,12 @@ void GameScene::mouseDown(cocos2d::Event* event) {
     
     if (mPressingM) {
         mSpawnPoint->setPosition(pt);
+        mGame->mSpawnPos = mSpawnPoint->getPosition();
         return;
     }
     
     if (mPressingShift) {
-        BlockBase* block = new BlockBase();
-        block->create(pt);
-        block->setKind(KIND_BLOCK);
-        block->addToScene(this);
-        mBlockTable[block->getSprite()] = block;
-        mBlocks[block->mID] = block;
+        mGame->createBlock(pt, KIND_BLOCK);
 
         mMovingBlock = nullptr;
     } else {
@@ -304,8 +127,7 @@ void GameScene::mouseDown(cocos2d::Event* event) {
             mSelectionHead = nullptr;
         }
         
-        for(auto it = mBlocks.begin(); it != mBlocks.end(); ++it) {
-            auto bl = it->second;
+        mGame->blockTraversal([&](BlockBase* bl){
             bl->switchToNormalImage();
             auto box = bl->getBoundingBox();
             if(box.containsPoint(pt) && bl->mCanPickup) {
@@ -313,7 +135,7 @@ void GameScene::mouseDown(cocos2d::Event* event) {
                 mMovingBlock = bl;
                 mSelectionHead = bl;
             }
-        }
+        });
         
         mLastPoint = pt;
         
@@ -481,7 +303,7 @@ void GameScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Eve
     if (keyCode == EventKeyboard::KeyCode::KEY_N) {
         if(mPressingCtrl) {
             clean(true);
-            createBackground();
+            mGame->createFixedBlocks();
         }
     }
     
@@ -520,14 +342,14 @@ void GameScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Eve
         mShowGrid = !mShowGrid;
         
         // also show or hide ID labels
-        for(auto b : mBlocks) {
-            b.second->mIDLabel->setVisible(mShowGrid);
-            b.second->mShowIDLabel = mShowGrid;
-        }
+        mGame->blockTraversal([&](BlockBase* b){
+            b->mIDLabel->setVisible(mShowGrid);
+            b->mShowIDLabel = mShowGrid;
+        });
     }
     
     // path mode
-    if (keyCode == EventKeyboard::KeyCode::KEY_F && mSelectionHead && !mGameMode) {
+    if (keyCode == EventKeyboard::KeyCode::KEY_F && mSelectionHead && !mGame->mGameMode) {
         // only work for one selection
         mPathMode = true;
         
@@ -549,13 +371,14 @@ void GameScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Eve
     }
     
     if (keyCode == EventKeyboard::KeyCode::KEY_SPACE) {
-        jump();
+        if(mGame->mGameMode)
+            mGame->jump();
     }
     
     if (keyCode == EventKeyboard::KeyCode::KEY_RETURN ||
         keyCode == EventKeyboard::KeyCode::KEY_ENTER ||
         keyCode == EventKeyboard::KeyCode::KEY_L) {
-        enableGame(!mGameMode);
+        enableGame(!mGame->mGameMode);
     }
     
     if (keyCode == EventKeyboard::KeyCode::KEY_M) {
@@ -575,43 +398,17 @@ void GameScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Eve
             }
         } else {
             for(auto sel : mSelections) {
-                
-                // find it in groups
-                for(auto& i : mGroups) {
-                    auto ii = std::find(i.second.begin(), i.second.end(), sel);
-                    if(ii != i.second.end()) {
-                        i.second.erase(ii);
-                    }
-                }
-                
-                auto itg = mGroups.find(sel);
-                if(itg != mGroups.end()) {
-                    mGroups.erase(itg);
-                }
-                
-                auto it = mBlocks.begin();
-                for (; it != mBlocks.end(); ++it )
-                    if (it->second == sel)
-                        break;
-                
-                if (it != mBlocks.end()) {
-                    auto tableit = mBlockTable.find(sel->getSprite());
-                    mBlockTable.erase(tableit);
-                    if(sel == mSelectionHead)
-                        mSelectionHead = nullptr;
-                    delete sel;
-                    mBlocks.erase(it);
-                }
+                mGame->deleteBlock(sel);
             }
         }
         mSelections.clear();
     }
     
-    if (mGameMode) {
+    if (mGame->mGameMode) {
         if (keyCode == EventKeyboard::KeyCode::KEY_A)
-            mMoveLeft = true;
+            mGame->mMoveLeft = true;
         if (keyCode == EventKeyboard::KeyCode::KEY_D)
-            mMoveRight = true;
+            mGame->mMoveRight = true;
     }
 }
 
@@ -632,107 +429,18 @@ void GameScene::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Ev
         mPressingM = false;
     }
     
-    if (mGameMode) {
+    if (mGame->mGameMode) {
         if (keyCode == EventKeyboard::KeyCode::KEY_A)
-            mMoveLeft = false;
+            mGame->mMoveLeft = false;
         if (keyCode == EventKeyboard::KeyCode::KEY_D)
-            mMoveRight = false;
-    }
-}
-
-BlockBase* GameScene::findBlock(int id) {
-    auto it = mBlocks.find(id);
-    if(it != mBlocks.end()) {
-        return it->second;
-    } else {
-        return nullptr;
-    }
-}
-
-void GameScene::createBackground() {
-    
-    auto width = VisibleRect::right().x;
-    auto height = VisibleRect::top().y;
-    int frameSize = 20;
-    {
-        BlockBase* block = new BlockBase();
-        block->mCanPickup = false;
-        block->create(Rect(0,0,width,frameSize));
-        block->addToScene(this);
-        mBlockTable[block->getSprite()] = block;
-        mBlocks[block->mID] = block;
-    }
-    {
-        BlockBase* block = new BlockBase();
-        block->mCanPickup = false;
-        block->create(Rect(0,height-frameSize,width,frameSize));
-        block->addToScene(this);
-        mBlockTable[block->getSprite()] = block;
-        mBlocks[block->mID] = block;
-    }
-    {
-        BlockBase* block = new BlockBase();
-        block->mCanPickup = false;
-        block->create(Rect(0,0,frameSize,height));
-        block->addToScene(this);
-        mBlockTable[block->getSprite()] = block;
-        mBlocks[block->mID] = block;
-    }
-    {
-        BlockBase* block = new BlockBase();
-        block->mCanPickup = false;
-        block->create(Rect(width-frameSize,0,frameSize,height));
-        block->addToScene(this);
-        mBlockTable[block->getSprite()] = block;
-        mBlocks[block->mID] = block;
+            mGame->mMoveRight = false;
     }
 }
 
 void GameScene::enableGame(bool val, bool force) {
-    if( mGameMode == val && !force) return;
-    mGameMode = val;
     
-    mMoveLeft = false;
-    mMoveRight = false;
-    
-    mSpawnPoint->setVisible(!mGameMode);
-    mHero->setVisible(mGameMode);
-    mHero->mCanJump = false;
-    mHero->setPosition(mSpawnPoint->getPosition());
-    mHero->getSprite()->getPhysicsBody()->setVelocityLimit(1000);
-    
-    for(auto bc : mBlocks) {
-        auto b = bc.second;
-        if(val) {
-            b->mPath.reset();
-        }
-        b->mPath.mDisable = !val;
-        b->mPath.mHelperNode->setVisible(!val);
-        if(b->mButton) {
-            b->mButton->showHelper(!val);
-        }
-        
-        b->reset();
-    }
-    
-    die();
-    mHero->getSprite()->getPhysicsBody()->setGravityEnable(val);
-}
-
-void GameScene::updateGame(float dt){
-    if(mDeadFlag) {
-        die();
-        return;
-    }
-    
-    float speed = mHero->mPushing ? 80 : 200;
-    if(mMoveLeft){
-        mHero->moveX(dt * -speed);
-    } else if(mMoveRight){
-        mHero->moveX(dt * speed);
-    }
-    
-    mHero->mPushing = false;
+    mGame->enableGame(val,force);
+    mSpawnPoint->setVisible(!val);
 }
 
 void GameScene::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) {
@@ -750,7 +458,7 @@ void GameScene::onDrawPrimitive(const Mat4 &transform, uint32_t flags) {
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, transform);
     
     if(mShowGrid) {
-        auto size = mHero->getBoundingBox().size;
+        auto size = mGame->mHero->getBoundingBox().size;
         
         DrawPrimitives::setDrawColor4B(200,200,200,255);
         
@@ -769,9 +477,9 @@ void GameScene::onDrawPrimitive(const Mat4 &transform, uint32_t flags) {
         }
     }
     
-    if(!mGameMode) {
+    if(!mGame->mGameMode) {
         DrawPrimitives::setDrawColor4B(17,47,245,255);
-        for(auto g : mGroups){
+        for(auto g : mGame->mGroups){
             auto head = g.first;
             
             for(auto m : g.second) {
@@ -783,42 +491,9 @@ void GameScene::onDrawPrimitive(const Mat4 &transform, uint32_t flags) {
     
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 }
-
-void GameScene::jump(){
-    if(mHero->mCanJump) {
-        mHero->getSprite()->getPhysicsBody()->applyImpulse(Vec2(0,400));
-        mHero->mCanJump = false;
-    }
-}
-
-void GameScene::die() {
-    auto p = mSpawnPoint->getPosition();
-    mHero->getSprite()->getPhysicsBody()->resetForces();
-    mHero->getSprite()->getPhysicsBody()->setVelocity(Vec2(0,0));
-    mHero->setPosition(p);
-    mDeadFlag = false;
-}
-
-void GameScene::postUpdate(float dt) {
-    for(auto b : mBlocks) {
-        b.second->postUpdate(dt);
-    }
-    mHero->postUpdate(dt);
-    
-    auto nb = mBlocks;
-    nb[mHero->mID] = mHero;
-    mShadows->update(nb);
-}
-
 void GameScene::update(float dt){
     
-    for(auto b : mBlocks) {
-        b.second->update(dt);
-    }
-    
-    if(mGameMode) {
-        updateGame(dt);
-    }
+    mGame->update(dt);
 }
 
 void GameScene::setKind(int kind) {
@@ -848,8 +523,8 @@ void GameScene::duplicate() {
         block->mRestoreSize = block->getBoundingBox().size;
         block->mRestorePosition = block->getPosition();
         
-        mBlockTable[block->getSprite()] = block;
-        mBlocks[block->mID] = block;
+        mGame->mBlockTable[block->getSprite()] = block;
+        mGame->mBlocks[block->mID] = block;
         
         duplicated.insert(block);
     }
@@ -864,11 +539,6 @@ void GameScene::duplicate() {
     for(auto sel : mSelections) {
         sel->switchToSelectionImage();
     }
-}
-
-void GameScene::setBackgroundColor(const cocos2d::Color3B& color) {
-    mBackgroundColor = color;
-    getChildByTag(1000)->setColor(mBackgroundColor);
 }
 
 void GameScene::alignLeft() {
@@ -928,18 +598,18 @@ void GameScene::group() {
         return;
     }
     
-    auto it = mGroups.find(mSelectionHead);
-    if(it != mGroups.end()) {
+    auto it = mGame->mGroups.find(mSelectionHead);
+    if(it != mGame->mGroups.end()) {
         for(auto s : it->second) {
             s->reset();
         }
-        mGroups.erase(it);
+        mGame->mGroups.erase(it);
         UILayer::Layer->addMessage("Ungroup");
     } else  {
-        mGroups[mSelectionHead].clear();
+        mGame->mGroups[mSelectionHead].clear();
         for(auto s : mSelections) {
             if(s == mSelectionHead) continue;
-            mGroups[mSelectionHead].push_back(s);
+            mGame->mGroups[mSelectionHead].push_back(s);
         }
         
         UILayer::Layer->addMessage("Group");
@@ -954,19 +624,8 @@ void GameScene::clean(bool save) {
     mSelectionHead = nullptr;
     mSelections.clear();
     
-    mGroups.clear();
-    
-    for (auto b : mBlocks) {
-        delete b.second;
-    }
-    mBlocks.clear();
-    
-    enableGame(false);
-    BlockBase::mIDCounter = 1;
+    mGame->clean();
     
     mCurFileName = "";
     UILayer::Layer->setFileName("untitled");
 }
-
-///////////////
-

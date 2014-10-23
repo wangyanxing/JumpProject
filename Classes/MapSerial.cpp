@@ -225,21 +225,21 @@ void MapSerial::saveMap(const char* file) {
     
     INDENT_1 ss << "\"author\": " << "\"" << author << "\""; RT_LINE
     INDENT_1 ss << "\"time\": " << "\"" << timestr << "\""; RT_LINE
-    INDENT_1 ss << "\"backgroundColor\": " << colorStr(GameScene::Scene->mBackgroundColor); RT_LINE
-    INDENT_1 ss << "\"heroColor\": " << colorStr(GameScene::Scene->mBlockColors[0]); RT_LINE
-    INDENT_1 ss << "\"normalBlockColor\": " << colorStr(GameScene::Scene->mBlockColors[1]); RT_LINE
-    INDENT_1 ss << "\"deathBlockColor\": " << colorStr(GameScene::Scene->mBlockColors[2]); RT_LINE
-    INDENT_1 ss << "\"deathCircleColor\": " << colorStr(GameScene::Scene->mBlockColors[3]); RT_LINE
-    INDENT_1 ss << "\"buttonColor\": " << colorStr(GameScene::Scene->mBlockColors[4]); RT_LINE
-    INDENT_1 ss << "\"pushableBlockColor\": " << colorStr(GameScene::Scene->mBlockColors[5]); RT_LINE
-    INDENT_1 ss << "\"spawnPosition\": " << vec2Str(GameScene::Scene->mSpawnPoint->getPosition()); RT_LINE
+    INDENT_1 ss << "\"backgroundColor\": " << colorStr(GameLogic::Game->mBackgroundColor); RT_LINE
+    INDENT_1 ss << "\"heroColor\": " << colorStr(GameLogic::Game->mBlockColors[0]); RT_LINE
+    INDENT_1 ss << "\"normalBlockColor\": " << colorStr(GameLogic::Game->mBlockColors[1]); RT_LINE
+    INDENT_1 ss << "\"deathBlockColor\": " << colorStr(GameLogic::Game->mBlockColors[2]); RT_LINE
+    INDENT_1 ss << "\"deathCircleColor\": " << colorStr(GameLogic::Game->mBlockColors[3]); RT_LINE
+    INDENT_1 ss << "\"buttonColor\": " << colorStr(GameLogic::Game->mBlockColors[4]); RT_LINE
+    INDENT_1 ss << "\"pushableBlockColor\": " << colorStr(GameLogic::Game->mBlockColors[5]); RT_LINE
+    INDENT_1 ss << "\"spawnPosition\": " << vec2Str(GameLogic::Game->mSpawnPos); RT_LINE
     
     INDENT_1 ss << "\"blocks\": [ \n";
     
-    for(auto it = GameScene::Scene->mBlocks.begin(); it != GameScene::Scene->mBlocks.end(); ++it) {
+    for(auto it = GameLogic::Game->mBlocks.begin(); it != GameLogic::Game->mBlocks.end(); ++it) {
         auto b = it->second;
         
-        if(it != GameScene::Scene->mBlocks.begin()) {
+        if(it != GameLogic::Game->mBlocks.begin()) {
             INDENT_2 ss << "},\n";
         }
         
@@ -260,8 +260,8 @@ void MapSerial::saveMap(const char* file) {
         }
         
         // group
-        auto ig = GameScene::Scene->mGroups.find(b);
-        if(ig != GameScene::Scene->mGroups.end() && !ig->second.empty()) {
+        auto ig = GameLogic::Game->mGroups.find(b);
+        if(ig != GameLogic::Game->mGroups.end() && !ig->second.empty()) {
             INDENT_3 ss << "\"groupFollowMode\": " << followMode2Str(b->mFollowMode); RT_LINE
             INDENT_3 ss << "\"groupMembers\": [";
             for (size_t i = 0; i < ig->second.size(); ++i) {
@@ -295,7 +295,7 @@ void MapSerial::saveMap(const char* file) {
         }
         INDENT_3 ss << "\"kind\": " << kind2Str(b->mKind) << "\n";
     }
-    if(!GameScene::Scene->mBlocks.empty()) {
+    if(!GameLogic::Game->mBlocks.empty()) {
         INDENT_2 ss << "}\n";
     }
     
@@ -378,35 +378,35 @@ void MapSerial::loadMap(const char* filename) {
     GameScene::Scene->clean(false);//
     
     if(d["backgroundColor"].IsString()) {
-        GameScene::Scene->setBackgroundColor(str2Color(d["backgroundColor"].GetString()));
+        GameLogic::Game->setBackgroundColor(str2Color(d["backgroundColor"].GetString()));
     }SHOW_WARNING
     
     if(d["heroColor"].IsString()) {
-        GameScene::Scene->mBlockColors[0] = str2Color(d["heroColor"].GetString());
+        GameLogic::Game->mBlockColors[0] = str2Color(d["heroColor"].GetString());
     }SHOW_WARNING
     
     if(d["normalBlockColor"].IsString()) {
-        GameScene::Scene->mBlockColors[1] = str2Color(d["normalBlockColor"].GetString());
+        GameLogic::Game->mBlockColors[1] = str2Color(d["normalBlockColor"].GetString());
     }SHOW_WARNING
     
     if(d["deathBlockColor"].IsString()) {
-        GameScene::Scene->mBlockColors[2] = str2Color(d["deathBlockColor"].GetString());
+        GameLogic::Game->mBlockColors[2] = str2Color(d["deathBlockColor"].GetString());
     }SHOW_WARNING
     
     if(d["deathCircleColor"].IsString()) {
-        GameScene::Scene->mBlockColors[3] = str2Color(d["deathCircleColor"].GetString());
+        GameLogic::Game->mBlockColors[3] = str2Color(d["deathCircleColor"].GetString());
     }SHOW_WARNING
     
     if(d["buttonColor"].IsString()) {
-        GameScene::Scene->mBlockColors[4] = str2Color(d["buttonColor"].GetString());
+        GameLogic::Game->mBlockColors[4] = str2Color(d["buttonColor"].GetString());
     }SHOW_WARNING
     
     if(d["pushableBlockColor"].IsString()) {
-        GameScene::Scene->mBlockColors[5] = str2Color(d["pushableBlockColor"].GetString());
+        GameLogic::Game->mBlockColors[5] = str2Color(d["pushableBlockColor"].GetString());
     }SHOW_WARNING
     
     if(d["spawnPosition"].IsString()) {
-        GameScene::Scene->mSpawnPoint->setPosition(str2Vec(d["spawnPosition"].GetString()));
+        GameLogic::Game->mSpawnPos = str2Vec(d["spawnPosition"].GetString());
     }SHOW_WARNING
     
     if(d["blocks"].IsArray()) {
@@ -459,8 +459,8 @@ void MapSerial::loadMap(const char* filename) {
             block->updateIDLabel();
             block->reset();
             
-            GameScene::Scene->mBlockTable[block->getSprite()] = block;
-            GameScene::Scene->mBlocks[block->mID] = block;
+            GameLogic::Game->mBlockTable[block->getSprite()] = block;
+            GameLogic::Game->mBlocks[block->mID] = block;
             
             if(kind == KIND_BUTTON) {
                 if(var["direction"].IsString()){
@@ -544,19 +544,20 @@ void MapSerial::loadMap(const char* filename) {
         }
     }SHOW_WARNING
     
-    CC_ASSERT(GameScene::Scene->mGroups.empty());
+    CC_ASSERT(GameLogic::Game->mGroups.empty());
     // process groups
     for(auto gi : pregroups) {
         for(auto idi : gi.second) {
-            auto m = GameScene::Scene->findBlock(idi);
+            auto m = GameLogic::Game->findBlock(idi);
             CC_ASSERT(m);
-            GameScene::Scene->mGroups[gi.first].push_back(m);
+            GameLogic::Game->mGroups[gi.first].push_back(m);
         }
     }
     
     delete[] buffer;
     BlockBase::mIDCounter = maxID + 1;
     GameScene::Scene->mCurFileName = filename;
+    GameScene::Scene->mSpawnPoint->setPosition(GameLogic::Game->mSpawnPos);
     
     // update file
     UILayer::Layer->setFileName(filename);

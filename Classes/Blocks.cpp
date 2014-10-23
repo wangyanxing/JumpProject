@@ -9,6 +9,7 @@
 #include "Blocks.h"
 #include "GameUtils.h"
 #include "Button.h"
+#include "LogicManager.h"
 #include "GameScene.h"
 #include "VisibleRect.h"
 
@@ -216,8 +217,8 @@ void BlockBase::update(float dt) {
         mRightSideMovement  = (newPos + Vec2( newSize.width/2,0)) - (pos + Vec2( size.width/2,0));
         mLeftSideMovement = (newPos + Vec2(-newSize.width/2,0)) - (pos + Vec2(-size.width/2,0));
         
-        auto it = GameScene::Scene->mGroups.find(this);
-        if(it != GameScene::Scene->mGroups.end()) {
+        auto it = GameLogic::Game->mGroups.find(this);
+        if(it != GameLogic::Game->mGroups.end()) {
             for(auto& c : it->second) {
                 auto p = c->getPosition();
                 switch(mFollowMode) {
@@ -337,7 +338,7 @@ void BlockBase::setKind(BlockKind kind) {
         true
     };
     
-    mColor = GameScene::Scene->mBlockColors[kind];
+    mColor = GameLogic::Game->mBlockColors[kind];
     mKind = kind;
     mCastShadow = castShadow[kind];
     
