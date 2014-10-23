@@ -364,7 +364,7 @@ void BlockBase::setKind(BlockKind kind) {
         // update image
         mImageSize = 10;
         
-        Texture2D *texture = Director::getInstance()->getTextureCache()->addImage("images/saw2.png");
+		Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(textureName);
         mSprite->setTexture(texture);
         
         setWidth(size);
