@@ -255,6 +255,18 @@ void MapSerial::saveMap(const char* file) {
 			INDENT_3 ss << "\"textureName\": \"" << b->textureName << "\""; RT_LINE
 		}
 
+		if (b->mKind == KIND_DEATH_CIRCLE || b->mKind == KIND_DEATH)
+		{
+			INDENT_3 ss << "\"triggerEvents\": [";
+			for (size_t i = 0; i < b->mTriggerEvents.size(); i++)
+			{
+				ss << "\"" + b->mTriggerEvents[i] + "\"";
+				if (i != b->mTriggerEvents.size() - 1) ss << ", ";
+			}
+
+			ss << "],\n";
+		}
+
         if(b->mKind == KIND_BUTTON) {
             INDENT_3 ss << "\"direction\": " << direction2Str(b->mButton->mDir); RT_LINE
             INDENT_3 ss << "\"canRestore\": " << bool2Str(b->mButton->mCanRestore); RT_LINE
@@ -427,7 +439,7 @@ void MapSerial::loadMap(const char* filename) {
             int rotSpeed = 0;
             BlockKind kind = KIND_BLOCK;
 			std::string textureName = "images/saw3.png";
-            
+			std::string triggerEvent = "";
             if(var["id"].IsInt()){
                 id = var["id"].GetInt();
                 maxID = std::max(id, maxID);
@@ -464,6 +476,20 @@ void MapSerial::loadMap(const char* filename) {
             block->create(pos,size);
             block->addToScene(GameScene::Scene);
 			block->textureName = textureName;
+			if (kind == KIND_DEATH_CIRCLE || kind == KIND_DEATH)
+			{
+				if (var["triggerEvents"].IsArray())
+				{
+					auto triggerEventSize = var["triggerEvents"].Size();
+
+					for (auto i = 0; i < triggerEventSize; i++)
+					{
+						std::string triggerEvent = var["triggerEvents"][i].GetString();
+						block->mTriggerEvents.push_back(triggerEvent);
+					}
+				}
+			}
+
             block->setKind(kind);
             block->mCanPickup = pickable;
             block->mID = id;
