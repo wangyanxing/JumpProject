@@ -94,15 +94,15 @@ void initEvents() {
         };
         EventLists[e.command] = e;
     }
-	{
-		Event e;
-		e.command = "die";
+    {
+        Event e;
+        e.command = "die";
 
-		e.func = [&](const std::vector<Arg>& args){
-			GameLogic::Game->mDeadFlag = true;
-		};
-		EventLists[e.command] = e;
-	}
+        e.func = [&](const std::vector<Arg>& args){
+            GameLogic::Game->mDeadFlag = true;
+    };
+EventLists[e.command] = e;
+}
     {
         Event e;
         e.command = "pause_path";

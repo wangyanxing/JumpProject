@@ -236,36 +236,36 @@ void MapSerial::saveMap(const char* file) {
     
     INDENT_1 ss << "\"blocks\": [ \n";
     
-	for (auto it = GameLogic::Game->mBlocks.begin(); it != GameLogic::Game->mBlocks.end(); ++it) {
-		auto b = it->second;
+    for (auto it = GameLogic::Game->mBlocks.begin(); it != GameLogic::Game->mBlocks.end(); ++it) {
+    auto b = it->second;
 
-		if (it != GameLogic::Game->mBlocks.begin()) {
-			INDENT_2 ss << "},\n";
-		}
+    if (it != GameLogic::Game->mBlocks.begin()) {
+        INDENT_2 ss << "},\n";
+    }
 
-		INDENT_2 ss << "{ \n";
-		INDENT_3 ss << "\"id\": " << b->mID; RT_LINE
-			INDENT_3 ss << "\"size\": " << size2Str(b->getSize()); RT_LINE
-			INDENT_3 ss << "\"position\": " << vec2Str(b->mRestorePosition); RT_LINE
-			INDENT_3 ss << "\"pickable\": " << bool2Str(b->mCanPickup); RT_LINE
-			INDENT_3 ss << "\"rotatespeed\": " << b->mRotationSpeed; RT_LINE
+    INDENT_2 ss << "{ \n";
+        INDENT_3 ss << "\"id\": " << b->mID; RT_LINE
+        INDENT_3 ss << "\"size\": " << size2Str(b->getSize()); RT_LINE
+        INDENT_3 ss << "\"position\": " << vec2Str(b->mRestorePosition); RT_LINE
+        INDENT_3 ss << "\"pickable\": " << bool2Str(b->mCanPickup); RT_LINE
+        INDENT_3 ss << "\"rotatespeed\": " << b->mRotationSpeed; RT_LINE
 
-		if (b->mKind == KIND_DEATH_CIRCLE)
-		{
-			INDENT_3 ss << "\"textureName\": \"" << b->textureName << "\""; RT_LINE
-		}
+        if (b->mKind == KIND_DEATH_CIRCLE)
+        {
+               INDENT_3 ss << "\"textureName\": \"" << b->textureName << "\""; RT_LINE
+        }
 
-		if (b->mKind == KIND_DEATH_CIRCLE || b->mKind == KIND_DEATH)
-		{
-			INDENT_3 ss << "\"triggerEvents\": [";
-			for (size_t i = 0; i < b->mTriggerEvents.size(); i++)
-			{
-				ss << "\"" + b->mTriggerEvents[i] + "\"";
-				if (i != b->mTriggerEvents.size() - 1) ss << ", ";
-			}
+        if (b->mKind == KIND_DEATH_CIRCLE || b->mKind == KIND_DEATH)
+        {
+        INDENT_3 ss << "\"triggerEvents\": [";
+        for (size_t i = 0; i < b->mTriggerEvents.size(); i++)
+        {
+            ss << "\"" + b->mTriggerEvents[i] + "\"";
+            if (i != b->mTriggerEvents.size() - 1) ss << ", ";
+        }
 
-			ss << "],\n";
-		}
+        ss << "],\n";
+        }
 
         if(b->mKind == KIND_BUTTON) {
             INDENT_3 ss << "\"direction\": " << direction2Str(b->mButton->mDir); RT_LINE
@@ -438,8 +438,8 @@ void MapSerial::loadMap(const char* filename) {
             bool pickable = true;
             int rotSpeed = 0;
             BlockKind kind = KIND_BLOCK;
-			std::string textureName = "images/saw3.png";
-			std::string triggerEvent = "";
+            std::string textureName = "images/saw3.png";
+            std::string triggerEvent = "";
             if(var["id"].IsInt()){
                 id = var["id"].GetInt();
                 maxID = std::max(id, maxID);
@@ -467,28 +467,28 @@ void MapSerial::loadMap(const char* filename) {
                 kind = str2Kind(var["kind"].GetString());
             }SHOW_WARNING
 
-			if (kind == KIND_DEATH_CIRCLE&&var["textureName"].IsString())
-			{
-				textureName = var["textureName"].GetString();
-			}
+            if (kind == KIND_DEATH_CIRCLE&&var["textureName"].IsString())
+            {
+                textureName = var["textureName"].GetString();
+            }
             
             BlockBase* block = new BlockBase();
             block->create(pos,size);
             block->addToScene(GameScene::Scene);
-			block->textureName = textureName;
-			if (kind == KIND_DEATH_CIRCLE || kind == KIND_DEATH)
-			{
-				if (var["triggerEvents"].IsArray())
-				{
-					auto triggerEventSize = var["triggerEvents"].Size();
+            block->textureName = textureName;
+            if (kind == KIND_DEATH_CIRCLE || kind == KIND_DEATH)
+            {
+                if (var["triggerEvents"].IsArray())
+                {
+                    auto triggerEventSize = var["triggerEvents"].Size();
 
-					for (auto i = 0; i < triggerEventSize; i++)
-					{
-						std::string triggerEvent = var["triggerEvents"][i].GetString();
-						block->mTriggerEvents.push_back(triggerEvent);
-					}
-				}
-			}
+                    for (auto i = 0; i < triggerEventSize; i++)
+                    {
+                        std::string triggerEvent = var["triggerEvents"][i].GetString();
+                        block->mTriggerEvents.push_back(triggerEvent);
+                    }
+                }
+            }
 
             block->setKind(kind);
             block->mCanPickup = pickable;
