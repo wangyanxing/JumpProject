@@ -125,8 +125,12 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
     if( otherBlock->mKind == KIND_DEATH ||
        otherBlock->mKind == KIND_DEATH_CIRCLE) {
         // process dead logic
-        if(thisBlock == mHero)
-            mDeadFlag = true;
+		if (thisBlock == mHero)
+		{
+			//mDeadFlag = true;
+			otherBlock->callTriggerEvent();
+		}
+            
         return false;
     } else if( otherBlock->mKind == KIND_BLOCK ) {
         if(normal.y > 0.9) {

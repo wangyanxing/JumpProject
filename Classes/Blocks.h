@@ -169,12 +169,16 @@ public:
     int mRotationSpeed{ 0 };
     
     bool mDownDirDoor{ true };
+
+	void callTriggerEvent();
     
     Status mStatus{ IDLE };
     
     static int mIDCounter;
     
     std::string textureName{ "images/saw3.png" };
+
+	std::vector<std::string> mTriggerEvents;
 
 #if EDITOR_MODE
     bool mShowIDLabel{ false };

@@ -12,6 +12,7 @@
 #include "LogicManager.h"
 #include "GameScene.h"
 #include "VisibleRect.h"
+#include "Events.h"
 
 USING_NS_CC;
 
@@ -539,6 +540,16 @@ void BlockBase::getPointsForShadow(const cocos2d::Vec2& source,
     out[1] = p + Vec2(-b.size.width/2, -b.size.height/2);
     out[2] = p + Vec2( b.size.width/2,  b.size.height/2);
     out[3] = p + Vec2( b.size.width/2, -b.size.height/2);
+}
+
+void BlockBase::callTriggerEvent()
+{
+	if (mTriggerEvents.empty()) return;
+
+	for (size_t i = 0; i < mTriggerEvents.size(); ++i)
+	{
+		Events::callEvent(mTriggerEvents[i].c_str());
+	}
 }
 
 void Hero::initPhysics() {
