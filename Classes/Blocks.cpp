@@ -369,6 +369,14 @@ void BlockBase::setKind(BlockKind kind) {
     
     mSprite->setRotation(0);
     
+	if (kind == KIND_DEATH || kind == KIND_DEATH_CIRCLE)
+	{
+		if (mTriggerEvents.empty())
+		{
+			mTriggerEvents.push_back("die");
+		}
+	}
+
     if(kind == KIND_DEATH_CIRCLE) {
         auto s = getBoundingBox().size;
         auto size = std::max(s.width, s.height);
