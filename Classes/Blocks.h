@@ -146,7 +146,6 @@ public:
     
     Button* mButton{ nullptr };
     
-    cocos2d::Vec2 mPrePosMovement{ 0, 0 }; // only for button usually
     cocos2d::Vec2 mMovementThisFrame{ 0, 0 };
     
     cocos2d::Vec2 mMovementToRestore{ 0, 0 };

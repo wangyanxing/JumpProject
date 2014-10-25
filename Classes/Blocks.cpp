@@ -199,10 +199,9 @@ void BlockBase::postUpdate(float dt) {
 void BlockBase::updatePathMove() {
 
     auto lastpos = mSprite->getPosition();
-    mSprite->setPosition(mRestorePosition + mMovementToRestore + mPrePosMovement);
+    mSprite->setPosition(mRestorePosition + mMovementToRestore);
     
     mMovementThisFrame = mSprite->getPosition() - lastpos;
-    mPrePosMovement = Vec2::ZERO;
 }
 
 void BlockBase::preUpdate() {

@@ -330,9 +330,11 @@ void GameScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Eve
         }
     }
     
-    if (keyCode == EventKeyboard::KeyCode::KEY_D && mSelectionHead && !mGame->mGameMode) {
-        mSelectionHead->mRotator.push(0);
-        mSelectionHead->mRotator.push(90);
+    if (keyCode == EventKeyboard::KeyCode::KEY_H /*&& mSelectionHead && !mGame->mGameMode*/) {
+        //mSelectionHead->mRotator.push(0);
+        //mSelectionHead->mRotator.push(90);
+        auto g = mGame->mHero->getSprite()->getPhysicsBody()->isGravityEnabled();
+        mGame->mHero->getSprite()->getPhysicsBody()->setGravityEnable(!g);
     }
     
     if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) {

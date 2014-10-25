@@ -111,13 +111,14 @@ bool Button::push(const cocos2d::Vec2& normal, BlockBase* hero) {
             length = (posHero.x + sizeHero.width/2) - (pos.x - size.width/2);
         }
         
-        if(length < 0) {
+        // git it a threshold
+        if(length < -2) {
             mPushing = false;
             return mDir == DIR_UP ? true : false;
         }
         
         // will do push later
-        mPushLength = length;
+        mPushLength = std::max(length, 1.0f); //at least push one pixel
         
         return true;
     } else {
@@ -205,6 +206,7 @@ void Button::update(float dt) {
         bool callrestore = false;
         if( mDir == DIR_LEFT || mDir == DIR_RIGHT ){
             callrestore = newLength >= mParent->mRestoreSize.width / 2;
+            
         } else if( mDir == DIR_UP || mDir == DIR_DOWN ) {
             callrestore = newLength >= mParent->mRestoreSize.height / 2;
         }

@@ -133,7 +133,7 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
         return false;
     } else if( otherBlock->mKind == KIND_BLOCK ) {
         if(normal.y > 0.9) {
-            auto p = pushObject->getPosition();
+            auto p = pushObject->getSprite()->getPhysicsBody()->getPosition();
             if(otherBlock->mMovementThisFrame != Vec2::ZERO) {
                 p += otherBlock->mMovementThisFrame;
                 onMovingPlatform = true;
@@ -142,9 +142,9 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
         }
     } else if( otherBlock->mKind == KIND_BUTTON ) {
         
-        if(otherBlock->mButton->push(normal, pushObject)) {
+        if(otherBlock->mButton->push(normal, pushObject))
             return false;
-        }
+        
         if(otherBlock->mButton->mDir == Button::DIR_UP)
             onButton = true;
         
@@ -152,7 +152,7 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
             return false;
         
         if(normal.y > 0.9) {
-            auto p = pushObject->getPosition();
+            auto p = pushObject->getSprite()->getPhysicsBody()->getPosition();
             if(otherBlock->mMovementThisFrame != Vec2::ZERO) {
                 p += otherBlock->mMovementThisFrame;
                 onMovingPlatform = true;
@@ -179,8 +179,7 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
     
     if(normal.x > 0.9 || normal.x < -0.9) {
         
-        auto h = pushedObject->getSprite()->getBoundingBox().size.width/2 +
-        pushObject->getSize().width/2;
+        auto h = pushedObject->getSize().width/2 + pushObject->getSize().width/2;
         if(onMovingPlatform)
             h += 1;
         auto phyPos = pushObject->getSprite()->getPhysicsBody()->getPosition();
@@ -204,9 +203,9 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
         if(normal.y < -0.9){
             if(onButton) h -= 1;
             else h += 1;
-            pushObject->setPositionY(pushedObject->getSprite()->getPositionY() - h);
+            pushObject->setPositionY(pushedObject->getSprite()->getPhysicsBody()->getPosition().y - h);
         }else{
-            pushObject->setPositionY(pushedObject->getSprite()->getPositionY() + h);
+            pushObject->setPositionY(pushedObject->getSprite()->getPhysicsBody()->getPosition().y + h);
             
             if(pushObject->mKind == KIND_PUSHABLE || pushObject->mKind == KIND_HERO) {
                 pushObject->getSprite()->getPhysicsBody()->resetForces();
