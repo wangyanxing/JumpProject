@@ -136,20 +136,20 @@ void Button::callPushEvent() {
     mPushedEventCalled = true;
     if(mPushedEvent.empty()) return;
     
-    Events::callEvent(mPushedEvent.c_str());
+    Events::callEvent(mPushedEvent.c_str(), (BlockBase*)this);
 }
 
 void Button::callRestoreEvent() {
     mRestoredEventCalled = true;
     if(mRestoredEvent.empty()) return;
     
-    Events::callEvent(mRestoredEvent.c_str());
+    Events::callEvent(mRestoredEvent.c_str(), (BlockBase*)this);
 }
 
 void Button::callPushingEvent() {
     if(mPushingEvent.empty()) return;
     
-    Events::callEvent(mPushingEvent.c_str());
+    Events::callEvent(mPushingEvent.c_str(), (BlockBase*)this);
 }
 
 void Button::update(float dt) {

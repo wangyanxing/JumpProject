@@ -283,7 +283,22 @@ void BlockBase::update(float dt) {
         if(r > 360) r-=360;
         mSprite->setRotation(r);
     }
-    
+
+    /**
+    * event continue time
+    */
+    if (mTriggerEventsCalled){
+        mTriggerEventContinueTime += dt;
+        mTriggerEventsCalled = false;
+    }
+    else{
+        mTriggerEventContinueTime = 0.0f;
+        if (mHeroOpacityChanged){
+            GameLogic::Game->mHero->getSprite()->setOpacity(255);
+            mHeroOpacityChanged = false;
+        }
+    }
+
 #if EDITOR_MODE
     if(mIDLabel) {
         if(mShowIDLabel) {
@@ -381,13 +396,11 @@ void BlockBase::setKind(BlockKind kind) {
     
     mSprite->setRotation(0);
     
-	if (kind == KIND_DEATH || kind == KIND_DEATH_CIRCLE)
-	{
-		if (mTriggerEvents.empty())
-		{
-			mTriggerEvents.push_back("die");
-		}
-	}
+    if (kind == KIND_DEATH || kind == KIND_DEATH_CIRCLE){
+        if (mTriggerEvents.empty()){
+            mTriggerEvents.push_back("die");
+        }
+    }
 
     if(kind == KIND_DEATH_CIRCLE) {
         auto s = Size(mSprite->getScaleX() * mImageSize,
@@ -564,14 +577,15 @@ void BlockBase::getPointsForShadow(const cocos2d::Vec2& source,
     out[3] = p + Vec2( b.size.width/2, -b.size.height/2);
 }
 
-void BlockBase::callTriggerEvent()
-{
-	if (mTriggerEvents.empty()) return;
+void BlockBase::callTriggerEvent(){
+    if (mTriggerEvents.empty()) return;
 
-	for (size_t i = 0; i < mTriggerEvents.size(); ++i)
-	{
-		Events::callEvent(mTriggerEvents[i].c_str());
-	}
+    mTriggerEventsCalled = true;
+
+    for (size_t i = 0; i < mTriggerEvents.size(); ++i)
+    {
+        Events::callEvent(mTriggerEvents[i].c_str(), this);
+    }
 }
 
 void Hero::initPhysics() {

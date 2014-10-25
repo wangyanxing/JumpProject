@@ -184,6 +184,9 @@ public:
     std::string textureName{ "images/saw3.png" };
 
 	std::vector<std::string> mTriggerEvents;
+    bool mTriggerEventsCalled{ false };
+    bool mHeroOpacityChanged{ false };
+    float mTriggerEventContinueTime{ 0.0 };
 
 #if EDITOR_MODE
     bool mShowIDLabel{ false };
