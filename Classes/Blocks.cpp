@@ -285,8 +285,16 @@ void BlockBase::update(float dt) {
     /**
     * event continue time
     */
-    if (mTriggerEventsCalled)
-    {
+    if (mTriggerEventsCalled){
+        mTriggerEventContinueTime += dt;
+        mTriggerEventsCalled = false;
+    }
+    else{
+        mTriggerEventContinueTime = 0.0f;
+        if (mHeroOpacityChanged){
+            GameLogic::Game->mHero->getSprite()->setOpacity(255);
+            mHeroOpacityChanged = false;
+        }
     }
 
 #if EDITOR_MODE
@@ -578,7 +586,7 @@ void BlockBase::callTriggerEvent(){
 
     for (size_t i = 0; i < mTriggerEvents.size(); ++i)
     {
-        Events::callEvent(mTriggerEvents[i].c_str());
+        Events::callEvent(mTriggerEvents[i].c_str(), this);
     }
 }
 

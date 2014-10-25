@@ -276,6 +276,7 @@ void GameLogic::die() {
     mHero->getSprite()->getPhysicsBody()->resetForces();
     mHero->getSprite()->getPhysicsBody()->setVelocity(Vec2(0,0));
     mHero->setPosition(mSpawnPos);
+    mHero->getSprite()->setOpacity(255);
     mDeadFlag = false;
 }
 
