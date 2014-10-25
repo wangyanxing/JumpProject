@@ -168,7 +168,7 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
     if(normal.x > 0.9 || normal.x < -0.9) {
         
         auto h = pushedObject->getSprite()->getBoundingBox().size.width/2 +
-        pushObject->getBoundingBox().size.width/2;
+        pushObject->getSize().width/2;
         if(onMovingPlatform)
             h += 1;
         auto phyPos = pushObject->getSprite()->getPhysicsBody()->getPosition();
@@ -186,7 +186,7 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
             mHero->mCanJump = true;
         }
         
-        auto h = pushedObject->getBoundingBox().size.height/2 + pushObject->getBoundingBox().size.height/2;
+        auto h = pushedObject->getSize().height/2 + pushObject->getSize().height/2;
         if(onMovingPlatform && pushObject == mHero) {
             h -= 1;
         }
@@ -369,7 +369,9 @@ void GameLogic::enableGame(bool val, bool force) {
         auto b = bc.second;
         if(val) {
             b->mPath.reset();
+            b->mRotator.reset();
         }
+        b->mRotator.mDisable = !val;
         b->mPath.mDisable = !val;
         b->mPath.mHelperNode->setVisible(!val);
         if(b->mButton) {

@@ -12,6 +12,7 @@
 #include "cocos2d.h"
 #include "Defines.h"
 #include "Path.h"
+#include "Rotator.h"
 
 class Button;
 
@@ -98,8 +99,6 @@ public:
     
     bool isVisible() { return mSprite->isVisible(); };
     
-    cocos2d::Rect getBoundingBox() { return mSprite->getBoundingBox(); }
-    
     virtual void setKind(BlockKind kind);
     
     virtual cocos2d::Color3B getColor(){ return mColor; }
@@ -141,6 +140,8 @@ public:
     
     Path mPath;
     
+    Rotator mRotator;
+    
     float mImageSize{ 10 };
     
     Button* mButton{ nullptr };
@@ -163,6 +164,8 @@ public:
     cocos2d::Size mRestoreSize;
     
     cocos2d::Vec2 mRestorePosition;
+    
+    float mRestoreRotation{ 0 };
     
     float mOpenCloseSpeed{ 100 };
     

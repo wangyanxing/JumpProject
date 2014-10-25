@@ -49,7 +49,7 @@ void BlockBase::create(const cocos2d::Point& pt) {
     initIDLabel();
 #endif
     
-    mRestoreSize = getBoundingBox().size;
+    mRestoreSize = r.size;
     mRestorePosition = getPosition();
     
     initPhysics();
@@ -61,7 +61,7 @@ void BlockBase::create(const cocos2d::Rect& rect) {
 #if EDITOR_MODE
     initIDLabel();
 #endif
-    mRestoreSize = getBoundingBox().size;
+    mRestoreSize = rect.size;
     mRestorePosition = getPosition();
     
     initPhysics();
@@ -80,7 +80,7 @@ void BlockBase::create(const cocos2d::Point& pt, const cocos2d::Size& size) {
     initIDLabel();
 #endif
     
-    mRestoreSize = getBoundingBox().size;
+    mRestoreSize = size;
     mRestorePosition = getPosition();
     
     initPhysics();
@@ -99,7 +99,7 @@ void BlockBase::rotate() {
     setWidth(h);
     setHeight(w);
     
-    mRestoreSize = getBoundingBox().size;
+    mRestoreSize = Size(h,w);
     mRestorePosition = getPosition();
 }
 
@@ -212,6 +212,15 @@ void BlockBase::preUpdate() {
 
 void BlockBase::update(float dt) {
     
+    if(!mRotator.empty()) {
+        auto rot = mRestoreRotation;
+        auto size = mRestoreSize;
+        float newRot = rot;
+        Vec2 outsize(1,1);
+        mRotator.update(dt, newRot, outsize);
+        mSprite->setRotation(newRot);
+    }
+    
     if(!mPath.empty()) {
         auto pos = mRestorePosition;//mSprite->getPosition();
         auto newPos = pos;
@@ -312,7 +321,8 @@ void BlockBase::updateIDLabel() {
 
 void BlockBase::initPhysics() {
     
-    auto size = getBoundingBox().size;
+    auto size = Size(mSprite->getScaleX() * mImageSize,
+                     mSprite->getScaleY() * mImageSize);
     PhysicsBody* pbody = nullptr;
     if(mKind != KIND_DEATH_CIRCLE)
         pbody = PhysicsBody::createBox(size);
@@ -369,7 +379,8 @@ void BlockBase::setKind(BlockKind kind) {
     mSprite->setRotation(0);
     
     if(kind == KIND_DEATH_CIRCLE) {
-        auto s = getBoundingBox().size;
+        auto s = Size(mSprite->getScaleX() * mImageSize,
+                      mSprite->getScaleY() * mImageSize);
         auto size = std::max(s.width, s.height);
         mRotationSpeed = 50;
         
@@ -388,7 +399,8 @@ void BlockBase::setKind(BlockKind kind) {
         
         mSprite->setTexture("images/rect.png");
         
-        setSize(getBoundingBox().size);
+        setSize(Size(mSprite->getScaleX() * mImageSize,
+                     mSprite->getScaleY() * mImageSize));
     }
     
     if(kind != KIND_HERO) {
@@ -434,7 +446,8 @@ void BlockBase::addThickness(int val) {
     else
         mSprite->setScale(mSprite->getScaleX(), t / mImageSize);
     
-    mRestoreSize = getBoundingBox().size;
+    mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
+                        mSprite->getScaleY() * mImageSize);
     mRestorePosition = getPosition();
 }
 
@@ -448,7 +461,8 @@ void BlockBase::subThickness(int val) {
     else
         mSprite->setScale(mSprite->getScaleX(), t / mImageSize);
     
-    mRestoreSize = getBoundingBox().size;
+    mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
+                        mSprite->getScaleY() * mImageSize);
     mRestorePosition = getPosition();
 }
 
@@ -462,7 +476,8 @@ void BlockBase::addWidth(int val) {
     else
         mSprite->setScale(w / mImageSize, mSprite->getScaleY());
     
-    mRestoreSize = getBoundingBox().size;
+    mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
+                        mSprite->getScaleY() * mImageSize);
     mRestorePosition = getPosition();
 }
 
@@ -476,7 +491,8 @@ void BlockBase::subWidth(int val) {
     else
         mSprite->setScale(w / mImageSize, mSprite->getScaleY());
     
-    mRestoreSize = getBoundingBox().size;
+    mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
+                        mSprite->getScaleY() * mImageSize);
     mRestorePosition = getPosition();
 }
 
@@ -508,7 +524,7 @@ float BlockBase::getThickness() {
 
 void BlockBase::setSize(Size size) {
     mSprite->setScale(size.width / mImageSize, size.height / mImageSize);
-    mRestoreSize = getBoundingBox().size;
+    mRestoreSize = size;
 }
 
 cocos2d::Size BlockBase::getSize() {
@@ -542,9 +558,8 @@ void BlockBase::getPointsForShadow(const cocos2d::Vec2& source,
 }
 
 void Hero::initPhysics() {
-    auto size = getBoundingBox().size;
     PhysicsBody* pbody = nullptr;
-    pbody = PhysicsBody::createBox(size);
+    pbody = PhysicsBody::createBox(getSize());
     pbody->setDynamic(true);
     pbody->setRotationEnable(false);
     pbody->setMoment(0);
