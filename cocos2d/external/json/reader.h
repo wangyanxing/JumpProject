@@ -245,9 +245,10 @@ public:
 				default: RAPIDJSON_PARSE_ERROR("Expect either an object or array at root", stream.Tell());
 			}
 			SkipWhitespace(stream);
-
+#if 0
 			if (stream.Peek() != '\0')
 				RAPIDJSON_PARSE_ERROR("Nothing should follow the root object or array.", stream.Tell());
+#endif
 		}
 
 		return true;
