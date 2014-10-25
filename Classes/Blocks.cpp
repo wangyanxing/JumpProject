@@ -195,56 +195,68 @@ void BlockBase::postUpdate(float dt) {
     }
 }
 
+void BlockBase::updatePathMove() {
+    auto lastpos = mSprite->getPosition();
+    mSprite->setPosition(mRestorePosition + mMovementThisFrame);
+    
+    mMovementThisFrame = mSprite->getPosition() - lastpos;
+}
+
+void BlockBase::preUpdate() {
+    mMovementThisFrame = Vec2(0,0);
+    mUpSideMovement    = Vec2(0,0);
+    mDownSideMovement  = Vec2(0,0);
+    mRightSideMovement = Vec2(0,0);
+    mLeftSideMovement  = Vec2(0,0);
+}
+
 void BlockBase::update(float dt) {
     
     if(!mPath.empty()) {
-        auto pos = mSprite->getPosition();
+        auto pos = mRestorePosition;//mSprite->getPosition();
         auto newPos = pos;
-        auto size = getSize();
+        auto size = mRestoreSize;
         
         Vec2 outsize(1,1);
         mPath.update(dt, newPos, outsize);
         
-        mSprite->setPosition(newPos);
+        //mSprite->setPosition(newPos);
         mSprite->setScale(outsize.x * mRestoreSize.width / mImageSize,
                           outsize.y * mRestoreSize.height / mImageSize);
         
         auto newSize = getSize();
         
-        mMovementThisFrame = newPos - pos;
+        mMovementThisFrame += newPos - pos;
         mUpSideMovement    = (newPos + Vec2(0, newSize.height/2)) - (pos + Vec2(0, size.height/2));
         mDownSideMovement  = (newPos + Vec2(0,-newSize.height/2)) - (pos + Vec2(0,-size.height/2));
-        mRightSideMovement  = (newPos + Vec2( newSize.width/2,0)) - (pos + Vec2( size.width/2,0));
-        mLeftSideMovement = (newPos + Vec2(-newSize.width/2,0)) - (pos + Vec2(-size.width/2,0));
+        mRightSideMovement = (newPos + Vec2( newSize.width/2, 0)) - (pos + Vec2( size.width/2, 0));
+        mLeftSideMovement  = (newPos + Vec2(-newSize.width/2, 0)) - (pos + Vec2(-size.width/2, 0));
         
         auto it = GameLogic::Game->mGroups.find(this);
         if(it != GameLogic::Game->mGroups.end()) {
             for(auto& c : it->second) {
-                auto p = c->getPosition();
+
                 switch(mFollowMode) {
                     case F_CENTER:
-                        p += mMovementThisFrame;
+                        c->mMovementThisFrame += mMovementThisFrame;
                         break;
                     case F_LEFT:
-                        p += mLeftSideMovement;
+                        c->mMovementThisFrame += mLeftSideMovement;
                         break;
                     case F_RIGHT:
-                        p += mRightSideMovement;
+                        c->mMovementThisFrame += mRightSideMovement;
                         break;
                     case F_DOWN:
-                        p += mDownSideMovement;
+                        c->mMovementThisFrame += mDownSideMovement;
                         break;
                     case F_UP:
-                        p += mUpSideMovement;
+                        c->mMovementThisFrame += mUpSideMovement;
                         break;
                 }
                 
-                c->getSprite()->setPosition(p);
+                //c->getSprite()->setPosition(p);
             }
-        }
-        
-    } else {
-        mMovementThisFrame.set(0, 0);
+        }        
     }
     
     if(mButton) {
@@ -364,7 +376,7 @@ void BlockBase::setKind(BlockKind kind) {
         // update image
         mImageSize = 10;
         
-        Texture2D *texture = Director::getInstance()->getTextureCache()->addImage("images/saw2.png");
+        Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(textureName);
         mSprite->setTexture(texture);
         
         setWidth(size);

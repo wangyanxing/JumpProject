@@ -1,6 +1,6 @@
 {
-  "author": "redkaras",
-  "time": "Sun Oct 19 06:22:35 2014",
+  "author": "karas",
+  "time": "Fri Oct 24 08:21:15 2014",
   "backgroundColor": "#1EB5C7",
   "heroColor": "#000000",
   "normalBlockColor": "#FFFFFF",
@@ -15,6 +15,7 @@
       "size": "960,20",
       "position": "480,10",
       "pickable": false,
+      "rotatespeed": 0,
       "kind": "BLOCK"
     },
     { 
@@ -22,6 +23,7 @@
       "size": "960,20",
       "position": "480,529.993",
       "pickable": false,
+      "rotatespeed": 0,
       "kind": "BLOCK"
     },
     { 
@@ -29,6 +31,7 @@
       "size": "20,539.993",
       "position": "10,269.997",
       "pickable": false,
+      "rotatespeed": 0,
       "kind": "BLOCK"
     },
     { 
@@ -36,6 +39,7 @@
       "size": "20,539.993",
       "position": "950,269.997",
       "pickable": false,
+      "rotatespeed": 0,
       "kind": "BLOCK"
     },
     { 
@@ -43,6 +47,7 @@
       "size": "100,15",
       "position": "389,253",
       "pickable": true,
+      "rotatespeed": 0,
       "kind": "BLOCK"
     },
     { 
@@ -50,6 +55,7 @@
       "size": "100,15",
       "position": "269,253",
       "pickable": true,
+      "rotatespeed": 0,
       "kind": "BLOCK"
     },
     { 
@@ -57,6 +63,7 @@
       "size": "100,15",
       "position": "381,99",
       "pickable": true,
+      "rotatespeed": 0,
       "kind": "BLOCK"
     },
     { 
@@ -64,6 +71,7 @@
       "size": "100,15",
       "position": "267,99",
       "pickable": true,
+      "rotatespeed": 0,
       "kind": "BLOCK"
     },
     { 
@@ -71,6 +79,7 @@
       "size": "15,100",
       "position": "209,166",
       "pickable": true,
+      "rotatespeed": 0,
       "kind": "BLOCK"
     },
     { 
@@ -78,6 +87,7 @@
       "size": "15,100",
       "position": "443,170",
       "pickable": true,
+      "rotatespeed": 0,
       "kind": "BLOCK"
     },
     { 
@@ -85,6 +95,7 @@
       "size": "15,100",
       "position": "217,360",
       "pickable": true,
+      "rotatespeed": 0,
       "kind": "BLOCK"
     },
     { 
@@ -92,6 +103,7 @@
       "size": "100,15",
       "position": "287,401",
       "pickable": true,
+      "rotatespeed": 0,
       "kind": "BLOCK"
     },
     { 
@@ -99,7 +111,26 @@
       "size": "100,15",
       "position": "396,396",
       "pickable": true,
+      "rotatespeed": 0,
       "kind": "BLOCK"
+    },
+    { 
+      "id": 14,
+      "size": "100,100",
+      "position": "750,420",
+      "pickable": true,
+      "rotatespeed": 50,
+      "textureName": "images/saw2.png",
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 15,
+      "size": "100,100",
+      "position": "621,270",
+      "pickable": true,
+      "rotatespeed": 50,
+      "textureName": "images/saw2.png",
+      "kind": "DEATH_CIRCLE"
     }
   ]
 }

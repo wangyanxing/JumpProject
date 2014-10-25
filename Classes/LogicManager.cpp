@@ -306,7 +306,15 @@ void GameLogic::updateGame(float dt){
 void GameLogic::update(float dt){
     
     for(auto b : mBlocks) {
+        b.second->preUpdate();
+    }
+    
+    for(auto b : mBlocks) {
         b.second->update(dt);
+    }
+    
+    for(auto b : mBlocks) {
+        b.second->updatePathMove();
     }
     
     if(mGameMode) {

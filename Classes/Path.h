@@ -38,6 +38,7 @@ public:
             height = h;
         }
         cocos2d::Vec2 pt;
+
         float waitTime{ -1 };
         float width{ 1 };
         float height{ 1 };

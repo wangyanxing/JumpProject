@@ -111,6 +111,10 @@ public:
     
     virtual void update(float dt);
     
+    virtual void preUpdate();
+    
+    virtual void updatePathMove();
+    
     virtual void postUpdate(float dt);
     
     virtual void openDoor(float speed = 250, bool downDirDoor = true);
@@ -170,7 +174,7 @@ public:
     
     static int mIDCounter;
     
-	std::string textureName = "images/saw2.png";
+    std::string textureName{ "images/saw3.png" };
 
 #if EDITOR_MODE
     bool mShowIDLabel{ false };
