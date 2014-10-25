@@ -24,6 +24,61 @@ void Button::reset() {
 #endif
 }
 
+void Button::doPush() {
+    mPushing = false;
+    float newLength = 0;
+    
+    Vec2 newPos(0,0);
+    if(mDir == DIR_LEFT) {
+        newLength = std::min(mParent->getWidth() - mPushLength, mParent->mRestoreSize.width);
+        setParentWidth(newLength);
+        float leftBound = mParent->mRestorePosition.x - mParent->mRestoreSize.width/2;
+        newPos.x = leftBound + newLength / 2 - mParent->mRestorePosition.x;
+        
+    } else if(mDir == DIR_RIGHT) {
+        newLength = std::min(mParent->getWidth() - mPushLength, mParent->mRestoreSize.width);
+        setParentWidth(newLength);
+        float rightBound = mParent->mRestorePosition.x + mParent->mRestoreSize.width/2;
+        newPos.x = rightBound - newLength / 2 - mParent->mRestorePosition.x;
+        
+    } else if(mDir == DIR_UP) {
+        newLength = std::min(mParent->getThickness() - mPushLength, mParent->mRestoreSize.height);
+        setParentHeight(newLength);
+        float upBound = mParent->mRestorePosition.y + mParent->mRestoreSize.height/2;
+        newPos.y = upBound - newLength / 2 - mParent->mRestorePosition.y;
+        
+    } else if(mDir == DIR_DOWN) {
+        newLength = std::min(mParent->getThickness() - mPushLength, mParent->mRestoreSize.height);
+        setParentHeight(newLength);
+        float downBound = mParent->mRestorePosition.y - mParent->mRestoreSize.height/2;
+        newPos.y = downBound + newLength / 2 - mParent->mRestorePosition.y;
+    }
+    
+    mParent->mMovementToRestore += newPos;
+    
+    bool callpushing = false;
+    if( mDir == DIR_LEFT || mDir == DIR_RIGHT ){
+        callpushing = newLength < mParent->mRestoreSize.width / 2;
+    } else if( mDir == DIR_UP || mDir == DIR_DOWN ) {
+        callpushing = newLength < mParent->mRestoreSize.height / 2;
+    }
+    
+    if( callpushing ) {
+        callPushingEvent();
+        
+        mRestoredEventCalled = false;
+        if(!mPushedEventCalled) {
+            callPushEvent();
+        }
+    }
+    
+    mPushLength = 0;
+    
+    if( newLength < 1 ) {
+        mEnable = false;
+    }
+}
+
 bool Button::push(const cocos2d::Vec2& normal, BlockBase* hero) {
     if(!mEnable) return true;
     
@@ -61,49 +116,9 @@ bool Button::push(const cocos2d::Vec2& normal, BlockBase* hero) {
             return mDir == DIR_UP ? true : false;
         }
         
-        float newLength = 0;
+        // will do push later
+        mPushLength = length;
         
-        if(mDir == DIR_LEFT) {
-            newLength = std::max(mParent->getWidth() - length, 1.0f);
-            setParentWidth(newLength);
-            float leftBound = mParent->mRestorePosition.x - mParent->mRestoreSize.width/2;
-            mParent->setPositionX(leftBound + newLength / 2);
-        } else if(mDir == DIR_RIGHT) {
-            newLength = std::max(mParent->getWidth() - length, 1.0f);
-            setParentWidth(newLength);
-            float rightBound = mParent->mRestorePosition.x + mParent->mRestoreSize.width/2;
-            mParent->setPositionX(rightBound - newLength / 2);
-        } else if(mDir == DIR_UP) {
-            newLength = std::max(mParent->getThickness() - length, 1.0f);
-            setParentHeight(newLength);
-            float upBound = mParent->mRestorePosition.y + mParent->mRestoreSize.height/2;
-            mParent->setPositionY(upBound - newLength / 2);
-        } else if(mDir == DIR_DOWN) {
-            newLength = std::max(mParent->getThickness() - length, 1.0f);
-            setParentHeight(newLength);
-            float downBound = mParent->mRestorePosition.y - mParent->mRestoreSize.height/2;
-            mParent->setPositionY(downBound + newLength / 2);
-        }
-        
-        bool callpushing = false;
-        if( mDir == DIR_LEFT || mDir == DIR_RIGHT ){
-            callpushing = newLength < mParent->mRestoreSize.width / 2;
-        } else if( mDir == DIR_UP || mDir == DIR_DOWN ) {
-            callpushing = newLength < mParent->mRestoreSize.height / 2;
-        }
-        
-        if( callpushing ) {
-            callPushingEvent();
-            
-            mRestoredEventCalled = false;
-            if(!mPushedEventCalled) {
-                callPushEvent();
-            }
-        }
-        
-        if( newLength < 1 ) {
-            mEnable = false;
-        }
         return true;
     } else {
         return mDir == DIR_UP ? true : false;
@@ -138,6 +153,10 @@ void Button::callPushingEvent() {
 }
 
 void Button::update(float dt) {
+    if (mPushing) {
+        doPush();
+        return;
+    }
     if(!mPushing && mCanRestore) {
         // restore
         auto size = mParent->getSize();
@@ -153,29 +172,35 @@ void Button::update(float dt) {
         
         mParent->getSprite()->getPhysicsBody()->setEnable(true);
         
+        Vec2 newPos(0,0);
         float length = dt * 100;
         float newLength = 0;
         if(mDir == DIR_LEFT) {
             newLength = std::min(mParent->getWidth() + length, mParent->mRestoreSize.width);
             setParentWidth(newLength);
             float leftBound = mParent->mRestorePosition.x - mParent->mRestoreSize.width/2;
-            mParent->setPositionX(leftBound + newLength / 2);
+            newPos.x = leftBound + newLength / 2 - mParent->mRestorePosition.x;
+
         } else if(mDir == DIR_RIGHT) {
             newLength = std::min(mParent->getWidth() + length, mParent->mRestoreSize.width);
             setParentWidth(newLength);
             float rightBound = mParent->mRestorePosition.x + mParent->mRestoreSize.width/2;
-            mParent->setPositionX(rightBound - newLength / 2);
+            newPos.x = rightBound - newLength / 2 - mParent->mRestorePosition.x;
+
         } else if(mDir == DIR_UP) {
             newLength = std::min(mParent->getThickness() + length, mParent->mRestoreSize.height);
             setParentHeight(newLength);
             float upBound = mParent->mRestorePosition.y + mParent->mRestoreSize.height/2;
-            mParent->setPositionY(upBound - newLength / 2);
+            newPos.y = upBound - newLength / 2 - mParent->mRestorePosition.y;
+
         } else if(mDir == DIR_DOWN) {
             newLength = std::min(mParent->getThickness() + length, mParent->mRestoreSize.height);
             setParentHeight(newLength);
             float downBound = mParent->mRestorePosition.y - mParent->mRestoreSize.height/2;
-            mParent->setPositionY(downBound + newLength / 2);
+            newPos.y = downBound + newLength / 2 - mParent->mRestorePosition.y;
         }
+        
+        mParent->mMovementToRestore += newPos;
         
         bool callrestore = false;
         if( mDir == DIR_LEFT || mDir == DIR_RIGHT ){

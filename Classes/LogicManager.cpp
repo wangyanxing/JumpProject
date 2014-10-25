@@ -135,11 +135,11 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
     } else if( otherBlock->mKind == KIND_BLOCK ) {
         if(normal.y > 0.9) {
             auto p = pushObject->getPosition();
-            if(!otherBlock->mPath.empty()) {
+            if(otherBlock->mMovementThisFrame != Vec2::ZERO) {
                 p += otherBlock->mMovementThisFrame;
                 onMovingPlatform = true;
+                pushObject->setPosition(p);
             }
-            pushObject->setPosition(p);
         }
     } else if( otherBlock->mKind == KIND_BUTTON ) {
         
@@ -151,6 +151,15 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
         
         if(!blockA->canPush() && !blockB->canPush())
             return false;
+        
+        if(normal.y > 0.9) {
+            auto p = pushObject->getPosition();
+            if(otherBlock->mMovementThisFrame != Vec2::ZERO) {
+                p += otherBlock->mMovementThisFrame;
+                onMovingPlatform = true;
+                pushObject->setPosition(p);
+            }
+        }
     }
     
     if(!blockA->canPush() && !blockB->canPush()) {
@@ -185,8 +194,6 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
     if(normal.y > 0.9 || normal.y < -0.9) {
         
         if(pushObject == mHero) {
-            if(!mHero->mCanJump) {
-            }
             mHero->mCanJump = true;
         }
         

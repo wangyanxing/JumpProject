@@ -245,7 +245,7 @@ void MapSerial::saveMap(const char* file) {
 
 		INDENT_2 ss << "{ \n";
 		INDENT_3 ss << "\"id\": " << b->mID; RT_LINE
-			INDENT_3 ss << "\"size\": " << size2Str(b->getSize()); RT_LINE
+			INDENT_3 ss << "\"size\": " << size2Str(b->mRestoreSize); RT_LINE
 			INDENT_3 ss << "\"position\": " << vec2Str(b->mRestorePosition); RT_LINE
 			INDENT_3 ss << "\"pickable\": " << bool2Str(b->mCanPickup); RT_LINE
 			INDENT_3 ss << "\"rotatespeed\": " << b->mRotationSpeed; RT_LINE

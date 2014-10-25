@@ -197,14 +197,16 @@ void BlockBase::postUpdate(float dt) {
 }
 
 void BlockBase::updatePathMove() {
+
     auto lastpos = mSprite->getPosition();
-    mSprite->setPosition(mRestorePosition + mMovementThisFrame);
+    mSprite->setPosition(mRestorePosition + mMovementToRestore + mPrePosMovement);
     
     mMovementThisFrame = mSprite->getPosition() - lastpos;
+    mPrePosMovement = Vec2::ZERO;
 }
 
 void BlockBase::preUpdate() {
-    mMovementThisFrame = Vec2(0,0);
+    mMovementToRestore = Vec2(0,0);
     mUpSideMovement    = Vec2(0,0);
     mDownSideMovement  = Vec2(0,0);
     mRightSideMovement = Vec2(0,0);
@@ -236,7 +238,7 @@ void BlockBase::update(float dt) {
         
         auto newSize = getSize();
         
-        mMovementThisFrame += newPos - pos;
+        mMovementToRestore += newPos - pos;
         mUpSideMovement    = (newPos + Vec2(0, newSize.height/2)) - (pos + Vec2(0, size.height/2));
         mDownSideMovement  = (newPos + Vec2(0,-newSize.height/2)) - (pos + Vec2(0,-size.height/2));
         mRightSideMovement = (newPos + Vec2( newSize.width/2, 0)) - (pos + Vec2( size.width/2, 0));
@@ -248,19 +250,19 @@ void BlockBase::update(float dt) {
 
                 switch(mFollowMode) {
                     case F_CENTER:
-                        c->mMovementThisFrame += mMovementThisFrame;
+                        c->mMovementToRestore += mMovementToRestore;
                         break;
                     case F_LEFT:
-                        c->mMovementThisFrame += mLeftSideMovement;
+                        c->mMovementToRestore += mLeftSideMovement;
                         break;
                     case F_RIGHT:
-                        c->mMovementThisFrame += mRightSideMovement;
+                        c->mMovementToRestore += mRightSideMovement;
                         break;
                     case F_DOWN:
-                        c->mMovementThisFrame += mDownSideMovement;
+                        c->mMovementToRestore += mDownSideMovement;
                         break;
                     case F_UP:
-                        c->mMovementThisFrame += mUpSideMovement;
+                        c->mMovementToRestore += mUpSideMovement;
                         break;
                 }
                 
@@ -432,7 +434,7 @@ void BlockBase::moveX(float val) {
     } else {
         mPath.translatePoints(Vec2(val, 0));
     }
-    mRestorePosition = getPosition();
+    mRestorePosition.x += val;
 }
 
 void BlockBase::moveY(float val) {
@@ -442,7 +444,7 @@ void BlockBase::moveY(float val) {
     } else {
         mPath.translatePoints(Vec2(0, val));
     }
-    mRestorePosition = getPosition();
+    mRestorePosition.y += val;
 }
 
 void BlockBase::addThickness(int val) {
@@ -457,7 +459,6 @@ void BlockBase::addThickness(int val) {
     
     mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
                         mSprite->getScaleY() * mImageSize);
-    mRestorePosition = getPosition();
 }
 
 void BlockBase::subThickness(int val) {
@@ -472,7 +473,6 @@ void BlockBase::subThickness(int val) {
     
     mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
                         mSprite->getScaleY() * mImageSize);
-    mRestorePosition = getPosition();
 }
 
 void BlockBase::addWidth(int val) {
@@ -487,7 +487,6 @@ void BlockBase::addWidth(int val) {
     
     mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
                         mSprite->getScaleY() * mImageSize);
-    mRestorePosition = getPosition();
 }
 
 void BlockBase::subWidth(int val) {
@@ -502,7 +501,6 @@ void BlockBase::subWidth(int val) {
     
     mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
                         mSprite->getScaleY() * mImageSize);
-    mRestorePosition = getPosition();
 }
 
 void BlockBase::setWidth(float val) {

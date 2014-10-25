@@ -32,6 +32,8 @@ public:
     // call in case collsion detected
     bool push(const cocos2d::Vec2& normal, BlockBase* hero);
     
+    void doPush();
+    
     void update(float dt);
     
     void rotateDir();
@@ -65,6 +67,8 @@ public:
     bool mPushedEventCalled{ false };
     
     bool mRestoredEventCalled{ false };
+    
+    float mPushLength{ 0 };
     
 #if EDITOR_MODE
     void updateHelper();

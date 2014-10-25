@@ -146,8 +146,10 @@ public:
     
     Button* mButton{ nullptr };
     
+    cocos2d::Vec2 mPrePosMovement{ 0, 0 }; // only for button usually
     cocos2d::Vec2 mMovementThisFrame{ 0, 0 };
     
+    cocos2d::Vec2 mMovementToRestore{ 0, 0 };
     cocos2d::Vec2 mUpSideMovement{ 0, 0 };
     cocos2d::Vec2 mDownSideMovement{ 0, 0 };
     cocos2d::Vec2 mLeftSideMovement{ 0, 0 };
