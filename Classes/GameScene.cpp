@@ -96,7 +96,7 @@ void GameScene::mouseDown(cocos2d::Event* event) {
         
         mGame->blockTraversal([&](BlockBase* bl){
             bl->switchToNormalImage();
-            auto box = bl->getBoundingBox();
+            auto box = bl->getSprite()->getBoundingBox();
             if(box.containsPoint(pt) && bl->mCanPickup) {
                 mSelections.insert(bl);
                 mMovingBlock = bl;
@@ -330,6 +330,11 @@ void GameScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Eve
         }
     }
     
+    if (keyCode == EventKeyboard::KeyCode::KEY_D && mSelectionHead && !mGame->mGameMode) {
+        mSelectionHead->mRotator.push(0);
+        mSelectionHead->mRotator.push(90);
+    }
+    
     if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) {
         // only work for one selection
         if(mPathMode) {
@@ -425,7 +430,7 @@ void GameScene::onDrawPrimitive(const Mat4 &transform, uint32_t flags) {
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, transform);
     
     if(mShowGrid) {
-        auto size = mGame->mHero->getBoundingBox().size;
+        auto size = mGame->mHero->getSize();
         
         DrawPrimitives::setDrawColor4B(200,200,200,255);
         
@@ -481,13 +486,12 @@ void GameScene::duplicate() {
         
         BlockBase* block = new BlockBase();
         auto pos = sel->getPosition() + bias;
-        auto size = sel->getBoundingBox().size;
-        block->create(pos, size);
+        block->create(pos, sel->getSize());
         block->addToScene(this);
         block->setKind(sel->mKind);
         block->mPath.cloneFrom(sel->mPath,bias);
         
-        block->mRestoreSize = block->getBoundingBox().size;
+        block->mRestoreSize = block->getSize();
         block->mRestorePosition = block->getPosition();
         
         mGame->mBlockTable[block->getSprite()] = block;
@@ -510,12 +514,12 @@ void GameScene::duplicate() {
 
 void GameScene::alignLeft() {
     auto p = mSelectionHead->getPosition();
-    auto w = mSelectionHead->getBoundingBox().size.width;
+    auto w = mSelectionHead->getSize().width;
     float mostLeft = p.x - w/2;
     
     for(auto sel : mSelections) {
         if(sel != mSelectionHead) {
-            auto selWid = sel->getBoundingBox().size.width;
+            auto selWid = sel->getSize().width;
             sel->setPositionX(mostLeft + selWid/2);
         }
     }
@@ -523,12 +527,12 @@ void GameScene::alignLeft() {
 
 void GameScene::alignRight() {
     auto p = mSelectionHead->getPosition();
-    auto w = mSelectionHead->getBoundingBox().size.width;
+    auto w = mSelectionHead->getSize().width;
     float mostRight = p.x + w/2;
     
     for(auto sel : mSelections) {
         if(sel != mSelectionHead) {
-            auto selWid = sel->getBoundingBox().size.width;
+            auto selWid = sel->getSize().width;
             sel->setPositionX(mostRight - selWid/2);
         }
     }
@@ -536,12 +540,12 @@ void GameScene::alignRight() {
 
 void GameScene::alignUp() {
     auto p = mSelectionHead->getPosition();
-    auto h = mSelectionHead->getBoundingBox().size.height;
+    auto h = mSelectionHead->getSize().height;
     float mostUp = p.y + h/2;
     
     for(auto sel : mSelections) {
         if(sel != mSelectionHead) {
-            auto selHei = sel->getBoundingBox().size.height;
+            auto selHei = sel->getSize().height;
             sel->setPositionY(mostUp - selHei/2);
         }
     }
@@ -549,12 +553,12 @@ void GameScene::alignUp() {
 
 void GameScene::alignDown() {
     auto p = mSelectionHead->getPosition();
-    auto h = mSelectionHead->getBoundingBox().size.height;
+    auto h = mSelectionHead->getSize().height;
     float mostDown = p.y - h/2;
     
     for(auto sel : mSelections) {
         if(sel != mSelectionHead) {
-            auto selHei = sel->getBoundingBox().size.height;
+            auto selHei = sel->getSize().height;
             sel->setPositionY(mostDown + selHei/2);
         }
     }

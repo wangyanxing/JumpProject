@@ -39,10 +39,10 @@ bool Button::push(const cocos2d::Vec2& normal, BlockBase* hero) {
     
     if(mPushing) {
         auto pos = mParent->getPosition();
-        auto size = mParent->getBoundingBox().size;
+        auto size = mParent->getSize();
         
         auto posHero = hero->getPosition();
-        auto sizeHero = hero->getBoundingBox().size;
+        auto sizeHero = hero->getSize();
         
         float length = 0;
         
@@ -140,7 +140,7 @@ void Button::callPushingEvent() {
 void Button::update(float dt) {
     if(!mPushing && mCanRestore) {
         // restore
-        auto size = mParent->getBoundingBox().size;
+        auto size = mParent->getSize();
         if(mDir == DIR_LEFT || mDir == DIR_RIGHT) {
             if(size.width >= mParent->mRestoreSize.width) {
                 return;
@@ -240,29 +240,29 @@ Button::~Button() {
 void Button::updateHelper() {
     Color4F color(123/255.,221/255.,45/255.,1.0);
     auto p = mParent->getPosition();
-    auto b = mParent->getBoundingBox();
+    auto size = mParent->getSize();
     float arrawH = 20;
     float arrawW = 5;
     mHelperNode->clear();
     if(mDir == DIR_UP) {
-        mHelperNode->drawTriangle(Vec2(0, -b.size.height/2),
-                                  Vec2(-arrawW, -b.size.height/2 - arrawH),
-                                  Vec2( arrawW, -b.size.height/2 - arrawH),
+        mHelperNode->drawTriangle(Vec2(0, -size.height/2),
+                                  Vec2(-arrawW, -size.height/2 - arrawH),
+                                  Vec2( arrawW, -size.height/2 - arrawH),
                                   color);
     } else if(mDir == DIR_DOWN) {
-        mHelperNode->drawTriangle(Vec2(0, b.size.height/2),
-                                  Vec2(-arrawW, b.size.height/2 + arrawH),
-                                  Vec2( arrawW, b.size.height/2 + arrawH),
+        mHelperNode->drawTriangle(Vec2(0, size.height/2),
+                                  Vec2(-arrawW, size.height/2 + arrawH),
+                                  Vec2( arrawW, size.height/2 + arrawH),
                                   color);
     } else if(mDir == DIR_RIGHT) {
-        mHelperNode->drawTriangle(Vec2(-b.size.width/2, 0),
-                                  Vec2(-b.size.width/2 - arrawH, -arrawW),
-                                  Vec2(-b.size.width/2 - arrawH,  arrawW),
+        mHelperNode->drawTriangle(Vec2(-size.width/2, 0),
+                                  Vec2(-size.width/2 - arrawH, -arrawW),
+                                  Vec2(-size.width/2 - arrawH,  arrawW),
                                   color);
     } else if(mDir == DIR_LEFT) {
-        mHelperNode->drawTriangle(Vec2(b.size.width/2, 0),
-                                  Vec2(b.size.width/2 + arrawH, -arrawW),
-                                  Vec2(b.size.width/2 + arrawH,  arrawW),
+        mHelperNode->drawTriangle(Vec2(size.width/2, 0),
+                                  Vec2(size.width/2 + arrawH, -arrawW),
+                                  Vec2(size.width/2 + arrawH,  arrawW),
                                   color);
     }
     mHelperNode->setPosition(p);

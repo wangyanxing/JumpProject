@@ -25,6 +25,7 @@ cocos2d::Sprite* GameUtils::createRect(cocos2d::Rect rect, cocos2d::Color3B col)
     sprite->setScale(rect.size.width / ORG_RECT_SIZE, rect.size.height / ORG_RECT_SIZE);
     sprite->setPosition(rect.origin.x + rect.size.width / 2, rect.origin.y + rect.size.height / 2);
     sprite->setColor(col);
+    sprite->setContentSize(Size(ORG_RECT_SIZE,ORG_RECT_SIZE));
     return sprite;
 }
 
@@ -35,6 +36,7 @@ cocos2d::Sprite* GameUtils::createRect(cocos2d::Size size, cocos2d::Vec2 pos, co
     sprite->setScale(size.width / ORG_RECT_SIZE, size.height / ORG_RECT_SIZE);
     sprite->setPosition(pos);
     sprite->setColor(col);
+    sprite->setContentSize(Size(ORG_RECT_SIZE,ORG_RECT_SIZE));
     
     return sprite;
 }

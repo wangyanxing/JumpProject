@@ -80,6 +80,8 @@
 		B587F20B19F8CBB300AC4174 /* Blocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F20819F8CBB300AC4174 /* Blocks.cpp */; };
 		B587F20E19F8CCC100AC4174 /* LogicManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F20C19F8CCC100AC4174 /* LogicManager.cpp */; };
 		B587F20F19F8CCC100AC4174 /* LogicManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F20C19F8CCC100AC4174 /* LogicManager.cpp */; };
+		B587F22519FB2AD500AC4174 /* Rotator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F22319FB2AD500AC4174 /* Rotator.cpp */; };
+		B587F22619FB2AD500AC4174 /* Rotator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F22319FB2AD500AC4174 /* Rotator.cpp */; };
 		B5A45F2519EA3A37009349EF /* DrawNodeEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A45F2319EA3A37009349EF /* DrawNodeEx.cpp */; };
 		B5A45F2619EA3A37009349EF /* DrawNodeEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A45F2319EA3A37009349EF /* DrawNodeEx.cpp */; };
 		B5A45F3019F06FD6009349EF /* HttpHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A45F2E19F06FD6009349EF /* HttpHelper.cpp */; };
@@ -323,6 +325,8 @@
 		B587F20919F8CBB300AC4174 /* Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Blocks.h; path = ../Classes/Blocks.h; sourceTree = "<group>"; };
 		B587F20C19F8CCC100AC4174 /* LogicManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LogicManager.cpp; path = ../Classes/LogicManager.cpp; sourceTree = "<group>"; };
 		B587F20D19F8CCC100AC4174 /* LogicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogicManager.h; path = ../Classes/LogicManager.h; sourceTree = "<group>"; };
+		B587F22319FB2AD500AC4174 /* Rotator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Rotator.cpp; path = ../Classes/Rotator.cpp; sourceTree = "<group>"; };
+		B587F22419FB2AD500AC4174 /* Rotator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rotator.h; path = ../Classes/Rotator.h; sourceTree = "<group>"; };
 		B5A45F2319EA3A37009349EF /* DrawNodeEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DrawNodeEx.cpp; path = ../Classes/DrawNodeEx.cpp; sourceTree = "<group>"; };
 		B5A45F2419EA3A37009349EF /* DrawNodeEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DrawNodeEx.h; path = ../Classes/DrawNodeEx.h; sourceTree = "<group>"; };
 		B5A45F2E19F06FD6009349EF /* HttpHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HttpHelper.cpp; path = ../Classes/HttpHelper.cpp; sourceTree = "<group>"; };
@@ -445,6 +449,8 @@
 				B587F20519F8CB1800AC4174 /* Shadows.h */,
 				B587F20819F8CBB300AC4174 /* Blocks.cpp */,
 				B587F20919F8CBB300AC4174 /* Blocks.h */,
+				B587F22319FB2AD500AC4174 /* Rotator.cpp */,
+				B587F22419FB2AD500AC4174 /* Rotator.h */,
 				B587F20C19F8CCC100AC4174 /* LogicManager.cpp */,
 				B587F20D19F8CCC100AC4174 /* LogicManager.h */,
 			);
@@ -825,6 +831,7 @@
 				B5829B1D19E3BCEF0001A066 /* GameScene.cpp in Sources */,
 				B587F20A19F8CBB300AC4174 /* Blocks.cpp in Sources */,
 				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,
+				B587F22519FB2AD500AC4174 /* Rotator.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -837,6 +844,7 @@
 				5087E75717EB910900C73F5D /* AppDelegate.cpp in Sources */,
 				B563267119F0CD3C004E78B6 /* PathLibOSX.mm in Sources */,
 				5087E75817EB910900C73F5D /* HelloWorldScene.cpp in Sources */,
+				B587F22619FB2AD500AC4174 /* Rotator.cpp in Sources */,
 				B5829B2819E3BE330001A066 /* VisibleRect.cpp in Sources */,
 				B587F1FE19F8C95200AC4174 /* Path.cpp in Sources */,
 				B5829B2419E3BE010001A066 /* GameUtils.cpp in Sources */,
