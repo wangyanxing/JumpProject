@@ -9,6 +9,8 @@
 #include "UILayer.h"
 #include "VisibleRect.h"
 
+#include "UIColorEditor.h"
+
 #include <regex>
 #include <iostream>
 
@@ -37,6 +39,9 @@ void UILayer::init(cocos2d::Node* parent) {
     mFileNameLabel->setPosition(0,30);
     mLayer->addChild(mFileNameLabel);
     
+    auto uiLayer = new UIColorEditor();
+    uiLayer->init(mLayer);
+
     setFileName("untitled");
 }
 
