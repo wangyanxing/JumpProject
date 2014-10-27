@@ -90,6 +90,8 @@
 		B5A45F3519F093E0009349EF /* MapSerial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A45F3219F093E0009349EF /* MapSerial.cpp */; };
 		B5A45F3719F09612009349EF /* maps in Resources */ = {isa = PBXBuildFile; fileRef = B5A45F3619F09612009349EF /* maps */; };
 		B5A45F3819F09612009349EF /* maps in Resources */ = {isa = PBXBuildFile; fileRef = B5A45F3619F09612009349EF /* maps */; };
+		B5B2D73C19FE25FA00F68044 /* UIColorEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D73A19FE25FA00F68044 /* UIColorEditor.cpp */; };
+		B5B2D73D19FE25FA00F68044 /* UIColorEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D73A19FE25FA00F68044 /* UIColorEditor.cpp */; };
 		B5CA04DA19F1C87000A94996 /* UILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5CA04D819F1C87000A94996 /* UILayer.cpp */; };
 		B5CA04DB19F1C87000A94996 /* UILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5CA04D819F1C87000A94996 /* UILayer.cpp */; };
 		B5CA04E019F1E52600A94996 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B5CA04DF19F1E52600A94996 /* fonts */; };
@@ -334,6 +336,8 @@
 		B5A45F3219F093E0009349EF /* MapSerial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapSerial.cpp; path = ../Classes/MapSerial.cpp; sourceTree = "<group>"; };
 		B5A45F3319F093E0009349EF /* MapSerial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapSerial.h; path = ../Classes/MapSerial.h; sourceTree = "<group>"; };
 		B5A45F3619F09612009349EF /* maps */ = {isa = PBXFileReference; lastKnownFileType = folder; path = maps; sourceTree = "<group>"; };
+		B5B2D73A19FE25FA00F68044 /* UIColorEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UIColorEditor.cpp; path = ../Classes/UIColorEditor.cpp; sourceTree = "<group>"; };
+		B5B2D73B19FE25FA00F68044 /* UIColorEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIColorEditor.h; path = ../Classes/UIColorEditor.h; sourceTree = "<group>"; };
 		B5CA04D819F1C87000A94996 /* UILayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UILayer.cpp; path = ../Classes/UILayer.cpp; sourceTree = "<group>"; };
 		B5CA04D919F1C87000A94996 /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UILayer.h; path = ../Classes/UILayer.h; sourceTree = "<group>"; };
 		B5CA04DF19F1E52600A94996 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
@@ -451,6 +455,8 @@
 				B587F20919F8CBB300AC4174 /* Blocks.h */,
 				B587F22319FB2AD500AC4174 /* Rotator.cpp */,
 				B587F22419FB2AD500AC4174 /* Rotator.h */,
+				B5B2D73A19FE25FA00F68044 /* UIColorEditor.cpp */,
+				B5B2D73B19FE25FA00F68044 /* UIColorEditor.h */,
 				B587F20C19F8CCC100AC4174 /* LogicManager.cpp */,
 				B587F20D19F8CCC100AC4174 /* LogicManager.h */,
 			);
@@ -817,6 +823,7 @@
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				B587F20219F8CA6D00AC4174 /* Button.cpp in Sources */,
 				B5A45F3419F093E0009349EF /* MapSerial.cpp in Sources */,
+				B5B2D73C19FE25FA00F68044 /* UIColorEditor.cpp in Sources */,
 				B5CA04E519F3350700A94996 /* Events.cpp in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
 				B563266E19F0CD3C004E78B6 /* PathLib.cpp in Sources */,
@@ -849,6 +856,7 @@
 				B587F1FE19F8C95200AC4174 /* Path.cpp in Sources */,
 				B5829B2419E3BE010001A066 /* GameUtils.cpp in Sources */,
 				B563266F19F0CD3C004E78B6 /* PathLib.cpp in Sources */,
+				B5B2D73D19FE25FA00F68044 /* UIColorEditor.cpp in Sources */,
 				B5829B1E19E3BCEF0001A066 /* GameScene.cpp in Sources */,
 				B587F20719F8CB1800AC4174 /* Shadows.cpp in Sources */,
 				B587F20F19F8CCC100AC4174 /* LogicManager.cpp in Sources */,

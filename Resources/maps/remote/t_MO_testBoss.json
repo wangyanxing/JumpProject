@@ -1,6 +1,6 @@
 {
-  "author": "karas",
-  "time": "Wed Oct 22 01:41:20 2014",
+  "author": "redkaras",
+  "time": "Sat Oct 25 09:46:48 2014",
   "backgroundColor": "#1EB5C7",
   "heroColor": "#000000",
   "normalBlockColor": "#FFFFFF",
@@ -8,7 +8,7 @@
   "deathCircleColor": "#000000",
   "buttonColor": "#FEE132",
   "pushableBlockColor": "#DC96A8",
-  "spawnPosition": "219,476",
+  "spawnPosition": "550,340",
   "blocks": [ 
     { 
       "id": 1,
@@ -56,6 +56,8 @@
       "position": "304,43",
       "pickable": true,
       "rotatespeed": 500,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
       "kind": "DEATH_CIRCLE"
     },
     { 
@@ -64,6 +66,8 @@
       "position": "361,43",
       "pickable": true,
       "rotatespeed": 500,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
       "kind": "DEATH_CIRCLE"
     },
     { 
@@ -72,6 +76,8 @@
       "position": "421,42",
       "pickable": true,
       "rotatespeed": 500,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
       "kind": "DEATH_CIRCLE"
     },
     { 
@@ -80,6 +86,8 @@
       "position": "481,42",
       "pickable": true,
       "rotatespeed": 500,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
       "kind": "DEATH_CIRCLE"
     },
     { 
@@ -112,6 +120,8 @@
       "position": "561,62",
       "pickable": true,
       "rotatespeed": 50,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
       "kind": "DEATH_CIRCLE"
     },
     { 
@@ -120,6 +130,8 @@
       "position": "563,236",
       "pickable": true,
       "rotatespeed": 50,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
       "kind": "DEATH_CIRCLE"
     },
     { 
@@ -172,6 +184,8 @@
       "position": "234,238",
       "pickable": true,
       "rotatespeed": 50,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
       "kind": "DEATH_CIRCLE"
     },
     { 
@@ -180,6 +194,8 @@
       "position": "234,58",
       "pickable": true,
       "rotatespeed": 50,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
       "kind": "DEATH_CIRCLE"
     },
     { 
@@ -217,6 +233,7 @@
       "position": "480,21",
       "pickable": true,
       "rotatespeed": 0,
+      "triggerEvents": ["die"],
       "kind": "DEATH"
     },
     { 
@@ -306,7 +323,7 @@
     { 
       "id": 36,
       "size": "25,25",
-      "position": "363,337",
+      "position": "268,256",
       "pickable": true,
       "rotatespeed": 0,
       "kind": "PUSHABLE"
@@ -314,7 +331,7 @@
     { 
       "id": 37,
       "size": "25,25",
-      "position": "563,337",
+      "position": "570,335",
       "pickable": true,
       "rotatespeed": 0,
       "kind": "PUSHABLE"
