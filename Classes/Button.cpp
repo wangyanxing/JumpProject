@@ -25,7 +25,7 @@ void Button::reset() {
 }
 
 void Button::doPush() {
-    mPushing = false;
+    //mPushing = false;
     float newLength = 0;
     
     Vec2 newPos(0,0);
@@ -80,7 +80,10 @@ void Button::doPush() {
 }
 
 bool Button::push(const cocos2d::Vec2& normal, BlockBase* hero) {
-    if(!mEnable) return true;
+    mPushing =  true;
+    if(!mEnable) {
+        return true;
+    }
     
     if(normal.y > 0.9 && mDir == DIR_DOWN) {
         mPushing = true;
@@ -221,9 +224,8 @@ void Button::update(float dt) {
         if(newLength > 0.05) {
             mEnable = true;
         }
-    } else {
-        mPushing = false;
     }
+    mPushing =  false;
 }
 
 void Button::setParentWidth(float v) {
