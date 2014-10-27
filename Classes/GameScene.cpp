@@ -68,7 +68,8 @@ bool GameScene::init() {
     
     UIColorEditor::colorEditor->onSetColorFunc = [&](int index, cocos2d::Color3B color){
         for (auto sel : mSelections) {
-            sel->mColor = color;
+            //sel->mColor = color;
+			sel->setColor(index);
         }
     };
 

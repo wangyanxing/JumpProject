@@ -46,6 +46,8 @@ public:
     void updateGame(float dt);
     
     void setBackgroundColor(const cocos2d::Color3B& color);
+
+	cocos2d::Color3B getColorFromPalette(int index){ return mPalette[index]; }
     
     BlockBase* findBlock(int id);
     
@@ -78,6 +80,7 @@ public:
     ShadowManager* mShadows{ nullptr };
     
     cocos2d::Color3B mBlockColors[KIND_MAX];
+	std::map<int, cocos2d::Color3B> mPalette;
     
     cocos2d::Color3B mBackgroundColor;
     
