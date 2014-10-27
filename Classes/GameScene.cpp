@@ -18,6 +18,7 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
+#define UI_LAYER_HIGHT 100
 ////////////////////////
 
 GameScene::~GameScene() {
@@ -82,8 +83,18 @@ bool GameScene::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSolv
 
 void GameScene::mouseDown(cocos2d::Event* event) {
     auto mouse = (EventMouse*)event;
-    Point pt(mouse->getCursorX(), mouse->getCursorY());
-    convertMouse(pt);
+
+	auto target = static_cast<Sprite*>(mouse->getCurrentTarget());
+
+	Point pt(mouse->getCursorX(), mouse->getCursorY());
+	convertMouse(pt);
+
+	Size size = target->getContentSize();
+	Rect rect = Rect(0, 0, size.width, size.height - UI_LAYER_HIGHT);
+
+	if (!rect.containsPoint(pt)){
+		return ;
+	}
     
     if (mPressingM) {
         mSpawnPoint->setPosition(pt);
@@ -124,16 +135,40 @@ void GameScene::mouseDown(cocos2d::Event* event) {
 }
 
 void GameScene::mouseUp(cocos2d::Event* event) {
+	auto mouse = (EventMouse*)event;
+
+	auto target = static_cast<Sprite*>(mouse->getCurrentTarget());
+
+	Point pt(mouse->getCursorX(), mouse->getCursorY());
+	convertMouse(pt);
+
+	Size size = target->getContentSize();
+	Rect rect = Rect(0, 0, size.width, size.height - UI_LAYER_HIGHT);
+
+	if (!rect.containsPoint(pt)){
+		return;
+	}
+
     mMovingBlock = nullptr;
 }
 
 void GameScene::mouseMove(cocos2d::Event* event) {
+	auto mouse = (EventMouse*)event;
+
+	auto target = static_cast<Sprite*>(mouse->getCurrentTarget());
+
+	Point pt(mouse->getCursorX(), mouse->getCursorY());
+	convertMouse(pt);
+
+	Size size = target->getContentSize();
+	Rect rect = Rect(0, 0, size.width, size.height - UI_LAYER_HIGHT);
+
+	if (!rect.containsPoint(pt)){
+		return;
+	}
+
     if(!mMovingBlock)
         return;
-    
-    auto mouse = (EventMouse*)event;
-    Point pt(mouse->getCursorX(), mouse->getCursorY());
-    convertMouse(pt);
     
     Point dt = pt - mLastPoint;
     mLastPoint = pt;
