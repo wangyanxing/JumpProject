@@ -11,6 +11,7 @@
 #include "HttpHelper.h"
 #include "PathLib.h"
 #include "UILayer.h"
+#include "UIColorEditor.h"
 
 #include "rapidjson/document.h"
 #include "rapidjson/rapidjson.h"
@@ -223,17 +224,30 @@ void MapSerial::saveMap(const char* file) {
     stringstream ss;
     ss << "{\n";
     
-    INDENT_1 ss << "\"author\": " << "\"" << author << "\""; RT_LINE
-    INDENT_1 ss << "\"time\": " << "\"" << timestr << "\""; RT_LINE
-    INDENT_1 ss << "\"backgroundColor\": " << colorStr(GameLogic::Game->mBackgroundColor); RT_LINE
-    INDENT_1 ss << "\"heroColor\": " << colorStr(GameLogic::Game->mBlockColors[0]); RT_LINE
-    INDENT_1 ss << "\"normalBlockColor\": " << colorStr(GameLogic::Game->mBlockColors[1]); RT_LINE
-    INDENT_1 ss << "\"deathBlockColor\": " << colorStr(GameLogic::Game->mBlockColors[2]); RT_LINE
-    INDENT_1 ss << "\"deathCircleColor\": " << colorStr(GameLogic::Game->mBlockColors[3]); RT_LINE
-    INDENT_1 ss << "\"buttonColor\": " << colorStr(GameLogic::Game->mBlockColors[4]); RT_LINE
-    INDENT_1 ss << "\"pushableBlockColor\": " << colorStr(GameLogic::Game->mBlockColors[5]); RT_LINE
-    INDENT_1 ss << "\"spawnPosition\": " << vec2Str(GameLogic::Game->mSpawnPos); RT_LINE
-    
+	INDENT_1 ss << "\"author\": " << "\"" << author << "\""; RT_LINE
+	INDENT_1 ss << "\"time\": " << "\"" << timestr << "\""; RT_LINE
+	INDENT_1 ss << "\"backgroundColor\": " << colorStr(GameLogic::Game->mBackgroundColor); RT_LINE
+	INDENT_1 ss << "\"heroColor\": " << colorStr(GameLogic::Game->mBlockColors[0]); RT_LINE
+	INDENT_1 ss << "\"normalBlockColor\": " << colorStr(GameLogic::Game->mBlockColors[1]); RT_LINE
+	INDENT_1 ss << "\"deathBlockColor\": " << colorStr(GameLogic::Game->mBlockColors[2]); RT_LINE
+	INDENT_1 ss << "\"deathCircleColor\": " << colorStr(GameLogic::Game->mBlockColors[3]); RT_LINE
+	INDENT_1 ss << "\"buttonColor\": " << colorStr(GameLogic::Game->mBlockColors[4]); RT_LINE
+	INDENT_1 ss << "\"pushableBlockColor\": " << colorStr(GameLogic::Game->mBlockColors[5]); RT_LINE
+	INDENT_1 ss << "\"spawnPosition\": " << vec2Str(GameLogic::Game->mSpawnPos); RT_LINE
+
+	INDENT_1 ss << "\"palette\": [ \n";
+	for (auto it = GameLogic::Game->mPalette.begin(); it != GameLogic::Game->mPalette.end(); ++it){
+		if (it != GameLogic::Game->mPalette.begin()){
+			ss << ", \n";
+		}
+		INDENT_2 ss << "{\n";
+		int key = it->first;
+			INDENT_3 ss << "\"index\": " << it->first << ", \n";
+			INDENT_3 ss << "\"color\": " << colorStr(it->second) << " \n";
+		INDENT_2 ss << "}";
+	}
+	INDENT_1 ss << "], \n";
+
     INDENT_1 ss << "\"blocks\": [ \n";
     
     for (auto it = GameLogic::Game->mBlocks.begin(); it != GameLogic::Game->mBlocks.end(); ++it) {
@@ -244,11 +258,13 @@ void MapSerial::saveMap(const char* file) {
     }
 
     INDENT_2 ss << "{ \n";
-        INDENT_3 ss << "\"id\": " << b->mID; RT_LINE
-			INDENT_3 ss << "\"size\": " << size2Str(b->mRestoreSize); RT_LINE
-        INDENT_3 ss << "\"position\": " << vec2Str(b->mRestorePosition); RT_LINE
-        INDENT_3 ss << "\"pickable\": " << bool2Str(b->mCanPickup); RT_LINE
-        INDENT_3 ss << "\"rotatespeed\": " << b->mRotationSpeed; RT_LINE
+	INDENT_3 ss << "\"id\": " << b->mID; RT_LINE
+		INDENT_3 ss << "\"size\": " << size2Str(b->mRestoreSize); RT_LINE
+		INDENT_3 ss << "\"position\": " << vec2Str(b->mRestorePosition); RT_LINE
+		INDENT_3 ss << "\"pickable\": " << bool2Str(b->mCanPickup); RT_LINE
+		INDENT_3 ss << "\"rotatespeed\": " << b->mRotationSpeed; RT_LINE
+
+		INDENT_3 ss << "\"paletteIndex\": " << b->mPaletteIndex; RT_LINE
 
         if (b->mKind == KIND_DEATH_CIRCLE)
         {
@@ -426,6 +442,25 @@ void MapSerial::loadMap(const char* filename) {
         GameLogic::Game->mSpawnPos = str2Vec(d["spawnPosition"].GetString());
     }SHOW_WARNING
     
+	if (d["palette"].IsArray()){
+		auto size = d["palette"].Size();
+		if (size > 0){
+			GameLogic::Game->mPalette.clear();
+			UIColorEditor::colorEditor->cleanColors();
+		}
+
+		for (auto i = 0; i < size; i++){
+			auto& palette = d["palette"][i];
+			if (palette["index"].IsInt() && palette["color"].IsString()){
+				GameLogic::Game->mPalette.insert( std::pair<int, Color3B>(palette["index"].GetInt(), str2Color(palette["color"].GetString())));
+				UIColorEditor::colorEditor->addColor(palette["index"].GetInt(), str2Color(palette["color"].GetString()));
+			}
+
+		}
+
+		UIColorEditor::colorEditor->updateColorButtonDisplay();
+	}
+
     if(d["blocks"].IsArray()) {
         auto size = d["blocks"].Size();
         
@@ -439,6 +474,7 @@ void MapSerial::loadMap(const char* filename) {
             int rotSpeed = 0;
             BlockKind kind = KIND_BLOCK;
             std::string textureName = "images/saw3.png";
+			int paletteIndex = -1;
             std::string triggerEvent = "";
             if(var["id"].IsInt()){
                 id = var["id"].GetInt();
@@ -467,15 +503,22 @@ void MapSerial::loadMap(const char* filename) {
                 kind = str2Kind(var["kind"].GetString());
             }SHOW_WARNING
 
-            if (kind == KIND_DEATH_CIRCLE&&var["textureName"].IsString())
-            {
+            if (kind == KIND_DEATH_CIRCLE&&var["textureName"].IsString()){
                 textureName = var["textureName"].GetString();
             }
+
+			if (var["paletteIndex"].IsInt()){
+				paletteIndex = var["paletteIndex"].GetInt();
+			}
+			
             
             BlockBase* block = new BlockBase();
             block->create(pos,size);
             block->addToScene(GameScene::Scene);
             block->textureName = textureName;
+			if (paletteIndex!=-1)
+				block->setColor(paletteIndex);
+
             if (kind == KIND_DEATH_CIRCLE || kind == KIND_DEATH)
             {
                 if (var["triggerEvents"].IsArray())
