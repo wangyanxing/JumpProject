@@ -108,6 +108,8 @@ public:
     
     cocos2d::Sprite* getSprite() { return mSprite; }
     
+	void setColor(int index);
+
     virtual void update(float dt);
     
     virtual void preUpdate();
@@ -135,9 +137,10 @@ public:
     BlockKind mKind{ KIND_BLOCK };
     
     int mZOrder{ 20 };
-    
-    cocos2d::Color3B mColor{ cocos2d::Color3B::WHITE };
-    
+
+	int mPaletteIndex{ -1 };
+	cocos2d::Color3B mColor{ cocos2d::Color3B::WHITE };
+
     Path mPath;
     
     Rotator mRotator;

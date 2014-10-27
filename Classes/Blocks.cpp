@@ -377,7 +377,11 @@ void BlockBase::setKind(BlockKind kind) {
         true
     };
     
-    mColor = GameLogic::Game->mBlockColors[kind];
+	if (mPaletteIndex == -1)
+		mColor = GameLogic::Game->mBlockColors[kind];
+	else
+		setColor(mPaletteIndex);
+
     mKind = kind;
     mCastShadow = castShadow[kind];
     
@@ -436,6 +440,13 @@ void BlockBase::setKind(BlockKind kind) {
             mSprite->getPhysicsBody()->setDynamic(false);
         }
     }
+}
+
+void BlockBase::setColor(int index){
+	mPaletteIndex = index;
+	Color3B color = GameLogic::Game->getColorFromPalette(index);
+	mColor = color;
+	getSprite()->setColor(color);
 }
 
 void BlockBase::moveX(float val) {
