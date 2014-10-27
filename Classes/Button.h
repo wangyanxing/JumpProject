@@ -70,6 +70,8 @@ public:
     
     float mPushLength{ 0 };
     
+    BlockBase* mPusher{ nullptr };
+    
 #if EDITOR_MODE
     void updateHelper();
     void showHelper(bool val) {mHelperNode->setVisible(val);}
