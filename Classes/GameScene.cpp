@@ -8,6 +8,8 @@
 #include "cocos-ext.h"
 #include "LogicManager.h"
 
+#include "UIColorEditor.h"
+
 //#include "extensions/GUI/CCControlColourPicker.h"
 
 
@@ -64,6 +66,12 @@ bool GameScene::init() {
     
     MapSerial::loadLastEdit();
     
+    UIColorEditor::colorEditor->onSetColorFunc = [&](int index, cocos2d::Color3B color){
+        for (auto sel : mSelections) {
+            sel->mColor = color;
+        }
+    };
+
     return true;
 }
 
