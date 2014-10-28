@@ -409,10 +409,12 @@ void GameLogic::enableGame(bool val, bool force) {
         }
         b->mRotator.mDisable = !val;
         b->mPath.mDisable = !val;
+#if EDITOR_MODE
         b->mPath.mHelperNode->setVisible(!val);
         if(b->mButton) {
             b->mButton->showHelper(!val);
         }
+#endif
         
         b->reset();
     }

@@ -9,18 +9,20 @@
 #include "Blocks.h"
 #include "LogicManager.h"
 
+#if EDITOR_MODE
+
 class BlockBase;
 class ShadowManager;
 class Hero;
 class GameLogic;
 
-class GameScene : public cocos2d::Layer
+class EditorScene : public cocos2d::Layer
 {
 public:
     
-    GameScene(){}
+    EditorScene(){}
     
-    virtual ~GameScene();
+    virtual ~EditorScene();
     
     struct PostUpdater {
         void update(float dt) {
@@ -28,7 +30,7 @@ public:
         }
     };
     
-    static GameScene* Scene;
+    static EditorScene* Scene;
 
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();
@@ -48,7 +50,7 @@ public:
     bool onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::PhysicsContactPreSolve& solve);
     
     // implement the "static create()" method manually
-    CREATE_FUNC(GameScene);
+    CREATE_FUNC(EditorScene);
     
 public:
     
@@ -105,4 +107,5 @@ public:
     GameLogic* mGame{ nullptr };
 };
 
+#endif
 #endif

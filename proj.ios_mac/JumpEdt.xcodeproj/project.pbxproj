@@ -60,8 +60,8 @@
 		B563266F19F0CD3C004E78B6 /* PathLib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B563266B19F0CD3C004E78B6 /* PathLib.cpp */; };
 		B563267019F0CD3C004E78B6 /* PathLibOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = B563266D19F0CD3C004E78B6 /* PathLibOSX.mm */; };
 		B563267119F0CD3C004E78B6 /* PathLibOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = B563266D19F0CD3C004E78B6 /* PathLibOSX.mm */; };
-		B5829B1D19E3BCEF0001A066 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5829B1B19E3BCEF0001A066 /* GameScene.cpp */; };
-		B5829B1E19E3BCEF0001A066 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5829B1B19E3BCEF0001A066 /* GameScene.cpp */; };
+		B5829B1D19E3BCEF0001A066 /* EditorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5829B1B19E3BCEF0001A066 /* EditorScene.cpp */; };
+		B5829B1E19E3BCEF0001A066 /* EditorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5829B1B19E3BCEF0001A066 /* EditorScene.cpp */; };
 		B5829B2319E3BE010001A066 /* GameUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5829B2119E3BE010001A066 /* GameUtils.cpp */; };
 		B5829B2419E3BE010001A066 /* GameUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5829B2119E3BE010001A066 /* GameUtils.cpp */; };
 		B5829B2719E3BE330001A066 /* VisibleRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5829B2519E3BE330001A066 /* VisibleRect.cpp */; };
@@ -308,8 +308,8 @@
 		B563268919F0FB51004E78B6 /* reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = reader.h; sourceTree = "<group>"; };
 		B563268A19F0FB51004E78B6 /* stringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stringbuffer.h; sourceTree = "<group>"; };
 		B563268B19F0FB51004E78B6 /* writer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = writer.h; sourceTree = "<group>"; };
-		B5829B1B19E3BCEF0001A066 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameScene.cpp; path = ../Classes/GameScene.cpp; sourceTree = "<group>"; };
-		B5829B1C19E3BCEF0001A066 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameScene.h; path = ../Classes/GameScene.h; sourceTree = "<group>"; };
+		B5829B1B19E3BCEF0001A066 /* EditorScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EditorScene.cpp; path = ../Classes/EditorScene.cpp; sourceTree = "<group>"; };
+		B5829B1C19E3BCEF0001A066 /* EditorScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditorScene.h; path = ../Classes/EditorScene.h; sourceTree = "<group>"; };
 		B5829B2119E3BE010001A066 /* GameUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameUtils.cpp; path = ../Classes/GameUtils.cpp; sourceTree = "<group>"; };
 		B5829B2219E3BE010001A066 /* GameUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameUtils.h; path = ../Classes/GameUtils.h; sourceTree = "<group>"; };
 		B5829B2519E3BE330001A066 /* VisibleRect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VisibleRect.cpp; path = ../Classes/VisibleRect.cpp; sourceTree = "<group>"; };
@@ -428,8 +428,8 @@
 				B587F1FF19F8C97400AC4174 /* Defines.h */,
 				1AFAF8B516D35DE700DB1158 /* HelloWorldScene.cpp */,
 				1AFAF8B616D35DE700DB1158 /* HelloWorldScene.h */,
-				B5829B1B19E3BCEF0001A066 /* GameScene.cpp */,
-				B5829B1C19E3BCEF0001A066 /* GameScene.h */,
+				B5829B1B19E3BCEF0001A066 /* EditorScene.cpp */,
+				B5829B1C19E3BCEF0001A066 /* EditorScene.h */,
 				B5829B2119E3BE010001A066 /* GameUtils.cpp */,
 				B5829B2219E3BE010001A066 /* GameUtils.h */,
 				B5829B2519E3BE330001A066 /* VisibleRect.cpp */,
@@ -835,7 +835,7 @@
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				B587F20619F8CB1800AC4174 /* Shadows.cpp in Sources */,
 				B5A45F3019F06FD6009349EF /* HttpHelper.cpp in Sources */,
-				B5829B1D19E3BCEF0001A066 /* GameScene.cpp in Sources */,
+				B5829B1D19E3BCEF0001A066 /* EditorScene.cpp in Sources */,
 				B587F20A19F8CBB300AC4174 /* Blocks.cpp in Sources */,
 				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,
 				B587F22519FB2AD500AC4174 /* Rotator.cpp in Sources */,
@@ -857,7 +857,7 @@
 				B5829B2419E3BE010001A066 /* GameUtils.cpp in Sources */,
 				B563266F19F0CD3C004E78B6 /* PathLib.cpp in Sources */,
 				B5B2D73D19FE25FA00F68044 /* UIColorEditor.cpp in Sources */,
-				B5829B1E19E3BCEF0001A066 /* GameScene.cpp in Sources */,
+				B5829B1E19E3BCEF0001A066 /* EditorScene.cpp in Sources */,
 				B587F20719F8CB1800AC4174 /* Shadows.cpp in Sources */,
 				B587F20F19F8CCC100AC4174 /* LogicManager.cpp in Sources */,
 				B5A45F3519F093E0009349EF /* MapSerial.cpp in Sources */,

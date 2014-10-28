@@ -26,8 +26,10 @@ public:
     
     virtual ~Path() {
         clear();
+#if EDITOR_MODE
         mSegmentNode->removeFromParent();
         mHelperNode->removeFromParent();
+#endif
     }
     
     struct PathPoint {
@@ -83,15 +85,20 @@ public:
     
     void setBackPos(const cocos2d::Vec2& pos) {
         mPoints.back().pt = pos;
+#if EDITOR_MODE
         auto node = mHelperNode->getChildByTag(mPoints.size()-1);
         node->setPosition(pos);
+#endif
     }
     
     void translatePoints(const cocos2d::Vec2& d) {
         for(size_t i = 0; i < mPoints.size(); ++i) {
             mPoints[i].pt += d;
+            
+#if EDITOR_MODE
             auto node = mHelperNode->getChildByTag(i);
             node->setPosition(mPoints[i].pt);
+#endif
         }
     }
     

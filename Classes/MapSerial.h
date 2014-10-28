@@ -9,15 +9,20 @@
 #ifndef __JumpEdt__MapSerial__
 #define __JumpEdt__MapSerial__
 
+#include "Defines.h"
 
 class MapSerial {
 public:
-    
+
+#if EDITOR_MODE
     static void saveMap();
+#endif
     
     static void saveMap(const char* file);
     
+#if EDITOR_MODE
     static void loadMap(bool local = true);
+#endif
     
     static void loadMap(const char* file);
     

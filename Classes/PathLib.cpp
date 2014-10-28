@@ -296,24 +296,6 @@ std::string GetFileExtension(const std::string& strin)
 #define _SLASH "/"
     
 #endif
-
-    const std::string& DiPathLib::GetApplicationFileName()
-    {
-        if (msAppFile.empty())
-            msAppFile = _GetAppFileName();
-        return msAppFile;
-    }
-
-    const std::string& DiPathLib::GetApplicationPath()
-    {
-        static std::string path;
-
-        const std::string& appFile = GetApplicationFileName();
-        size_t pos = appFile.rfind(_SLASH);
-        path = appFile.substr(0, pos) + _SLASH;
-        return path;
-    }
-
     bool DiPathLib::FileExisted(const std::string& file)
     {
         return (access(file.c_str(), 0) != -1);

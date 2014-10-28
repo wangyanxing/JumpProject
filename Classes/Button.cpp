@@ -7,7 +7,7 @@
 //
 
 #include "Button.h"
-#include "GameScene.h"
+#include "EditorScene.h"
 #include "Events.h"
 
 USING_NS_CC;
@@ -145,7 +145,10 @@ void Button::rotateDir() {
     static PushDir dirs[] = {DIR_UP, DIR_DOWN, DIR_LEFT, DIR_RIGHT};
     auto id = (int)mDir;
     mDir = dirs[++id % 4];
+    
+#if EDITOR_MODE
     updateHelper();
+#endif
 }
 
 void Button::callPushEvent() {

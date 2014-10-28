@@ -1,8 +1,8 @@
 #include "HelloWorldScene.h"
-#include "GameScene.h"
+#include "EditorScene.h"
 #include "UILayer.h"
 
-#if 1
+#if 0
 #include "VisibleRect.h"
 #include "cocos-ext.h"
 USING_NS_CC_EXT;
@@ -29,9 +29,11 @@ Scene* HelloWorld::createScene()
     auto uiLayer = new UILayer();
     uiLayer->init(scene);
     
-    auto gameScene = GameScene::create();
+#if EDITOR_MODE
+    auto EditorScene = EditorScene::create();
+    layer->addChild(EditorScene);
+#endif
     
-    layer->addChild(gameScene);
     
 #if 0
     auto c = ControlColourPicker::create();
