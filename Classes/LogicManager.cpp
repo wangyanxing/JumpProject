@@ -13,7 +13,7 @@
 #include "Button.h"
 #include "VisibleRect.h"
 
-#define GRADIENT 0
+#define GRADIENT 1
 
 USING_NS_CC;
 
@@ -73,7 +73,12 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
     // background
 #if GRADIENT
     mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(255,255,255));
+    
+    #if EDITOR_MODE
+    auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/back_editor.fsh");
+    #else
     auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/back.fsh");
+    #endif
     // init shader
     GLchar * fragSource = (GLchar*)String::createWithContentsOfFile(shaderfile.c_str())->getCString();
     auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource);
@@ -84,8 +89,10 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
     
     mBack->setGLProgramState(glProgramState);
     glProgramState->setUniformVec4("data", Vec4(screenWidth, screenHeight, 0, 0));
-    glProgramState->setUniformVec4("color", Vec4(251.0/255.0, 3.0/255.0,137.0/255.0, 0.4));
-    glProgramState->setUniformVec4("colorDest", Vec4(173.0/255.0, 3.0/255.0, 58.0/255.0, 0));
+    //glProgramState->setUniformVec4("color", Vec4(251.0/255.0, 3.0/255.0,137.0/255.0, 0.4));
+    //glProgramState->setUniformVec4("colorDest", Vec4(173.0/255.0, 3.0/255.0, 58.0/255.0, 0));
+    glProgramState->setUniformVec4("color", Vec4(50.0/255.0, 201.0/255.0,219.0/255.0, 0.4));
+    glProgramState->setUniformVec4("colorDest", Vec4(30.0/255.0, 181.0/255.0,199.0/255.0, 0.4));
 #else
     mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(30,181,199));
 #endif

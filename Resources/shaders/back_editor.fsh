@@ -14,11 +14,9 @@ uniform vec4 colorDest;
 
 void main(void)
 {
-#ifdef GL_ES
-    vec2 p = (2.0*gl_FragCoord.xy-data.xy)/min(data.y,data.x);
-#else
-    vec2 p = (gl_FragCoord.xy-data.xy)/min(data.y,data.x);
-#endif
+    vec2 fragCoord = gl_FragCoord.xy;
+    fragCoord.y *= 640.0/540.0;
+    vec2 p = (fragCoord.xy-data.xy)/min(data.y,data.x);
     
     p.x += data.z;
     p.y += data.w;
