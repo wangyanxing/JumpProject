@@ -1,4 +1,5 @@
 #include "EditorScene.h"
+#include "GameScene.h"
 #include "VisibleRect.h"
 #include "GameUtils.h"
 #include "MapSerial.h"
@@ -19,6 +20,7 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
+#define UI_LAYER_HIGHT 100
 ////////////////////////
 
 EditorScene::~EditorScene() {
@@ -83,8 +85,18 @@ bool EditorScene::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSo
 
 void EditorScene::mouseDown(cocos2d::Event* event) {
     auto mouse = (EventMouse*)event;
-    Point pt(mouse->getCursorX(), mouse->getCursorY());
-    convertMouse(pt);
+
+	auto target = static_cast<Sprite*>(mouse->getCurrentTarget());
+
+	Point pt(mouse->getCursorX(), mouse->getCursorY());
+	convertMouse(pt);
+
+	Size size = target->getContentSize();
+	Rect rect = Rect(0, 0, size.width, size.height - UI_LAYER_HIGHT);
+
+	if (!rect.containsPoint(pt)){
+		return ;
+	}
     
     if (mPressingM) {
         mSpawnPoint->setPosition(pt);
@@ -125,16 +137,40 @@ void EditorScene::mouseDown(cocos2d::Event* event) {
 }
 
 void EditorScene::mouseUp(cocos2d::Event* event) {
+	auto mouse = (EventMouse*)event;
+
+	auto target = static_cast<Sprite*>(mouse->getCurrentTarget());
+
+	Point pt(mouse->getCursorX(), mouse->getCursorY());
+	convertMouse(pt);
+
+	Size size = target->getContentSize();
+	Rect rect = Rect(0, 0, size.width, size.height - UI_LAYER_HIGHT);
+
+	if (!rect.containsPoint(pt)){
+		return;
+	}
+
     mMovingBlock = nullptr;
 }
 
 void EditorScene::mouseMove(cocos2d::Event* event) {
+	auto mouse = (EventMouse*)event;
+
+	auto target = static_cast<Sprite*>(mouse->getCurrentTarget());
+
+	Point pt(mouse->getCursorX(), mouse->getCursorY());
+	convertMouse(pt);
+
+	Size size = target->getContentSize();
+	Rect rect = Rect(0, 0, size.width, size.height - UI_LAYER_HIGHT);
+
+	if (!rect.containsPoint(pt)){
+		return;
+	}
+
     if(!mMovingBlock)
         return;
-    
-    auto mouse = (EventMouse*)event;
-    Point pt(mouse->getCursorX(), mouse->getCursorY());
-    convertMouse(pt);
     
     Point dt = pt - mLastPoint;
     mLastPoint = pt;
