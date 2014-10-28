@@ -463,6 +463,9 @@ void EditorScene::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
     if (keyCode == EventKeyboard::KeyCode::KEY_M) {
         mPressingM = false;
     }
+    if (keyCode == EventKeyboard::KeyCode::KEY_N) {
+        mPressingN = false;
+    }
     
     if (mGame->mGameMode) {
         if (keyCode == EventKeyboard::KeyCode::KEY_A)

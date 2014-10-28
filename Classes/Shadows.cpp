@@ -29,6 +29,8 @@ ShadowManager::ShadowManager(cocos2d::Node* parentNode) {
     mLightPos = VisibleRect::center();
     mLightPos.x = 300;
     mLightPos.y = VisibleRect::top().y - 10;
+    
+    mOriginLightPos = mLightPos;
 }
 
 ShadowManager::~ShadowManager() {
