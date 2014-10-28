@@ -111,6 +111,7 @@ void EditorScene::mouseDown(cocos2d::Event* event) {
     if (mPressingN && !mGame->mGameMode) {
         mLightPoint->setPosition(pt);
         mGame->mShadows->mLightPos = mLightPoint->getPosition();
+        mGame->mShadows->mOriginLightPos = mLightPoint->getPosition();
         return;
     }
     

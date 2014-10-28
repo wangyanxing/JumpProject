@@ -578,13 +578,13 @@ void BlockBase::addToScene(cocos2d::Node* parent) {
 
 void BlockBase::getPointsForShadow(const cocos2d::Vec2& source,
                                    std::vector<cocos2d::Vec2>& out) {
-    auto b = mSprite->getBoundingBox();
+    auto size = getSize();
     auto p = mSprite->getPosition();
     out.resize(4);
-    out[0] = p + Vec2(-b.size.width/2,  b.size.height/2);
-    out[1] = p + Vec2(-b.size.width/2, -b.size.height/2);
-    out[2] = p + Vec2( b.size.width/2,  b.size.height/2);
-    out[3] = p + Vec2( b.size.width/2, -b.size.height/2);
+    out[0] = p + Vec2(-size.width/2,  size.height/2);
+    out[1] = p + Vec2(-size.width/2, -size.height/2);
+    out[2] = p + Vec2( size.width/2,  size.height/2);
+    out[3] = p + Vec2( size.width/2, -size.height/2);
 }
 
 void BlockBase::callTriggerEvent(){

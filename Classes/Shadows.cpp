@@ -40,7 +40,7 @@ void ShadowManager::updateBlock(BlockBase* block, std::vector<cocos2d::V2F_C4B_T
     Color4B colorBase = Color4B::BLACK;
     colorBase.a = 25;
     
-    if(!block->mCastShadow || !block->isVisible())
+    if(!block->mCastShadow || !block->isVisible() || !block->mCanPickup)
         return;
     
     std::vector<Vec2> pts;
@@ -85,7 +85,7 @@ void ShadowManager::updateBlock(BlockBase* block, std::vector<cocos2d::V2F_C4B_T
     maxPtFar.y /= lengthMax;
     
     auto dir0 = minPtFar;
-    auto dir1 = minPtFar;
+    auto dir1 = maxPtFar;
     auto curPt0 = minPt;
     auto curPt1 = maxPt;
     auto len0 = maxLen - lengthMin;
@@ -151,7 +151,7 @@ void ShadowManager::update(float dt) {
     if(!triangles.empty())
         mRenderer->drawTriangles(triangles);
     
-    if(!mShadowMovingEnable)
+    if(!mShadowMovingEnable || !GameLogic::Game->mGameMode)
         return;
     
     mLightMoveTimer += dt;
@@ -161,7 +161,7 @@ void ShadowManager::update(float dt) {
     
     float dis = abs(mOriginLightPos.x - VisibleRect::center().x);
     
-    if(lightLeft == heroLeft && mLightMoveTimer > 3.5) {
+    if(lightLeft == heroLeft && mLightMoveTimer > 10) {
         mLightMoveTimer = 0;
         
         mMoveTarget = heroLeft ? VisibleRect::center().x + dis : VisibleRect::center().x - dis;
@@ -187,7 +187,7 @@ void ShadowManager::update(float dt) {
 }
 
 void ShadowManager::reset() {
-    mLightMoveTimer = 3.5;
+    mLightMoveTimer = 10;
     mLightPos = mOriginLightPos;
     mMoving = false;
     mMoveTarget = 0;
