@@ -298,7 +298,7 @@ BlockBase* GameLogic::findBlock(int id) {
 
 void GameLogic::jump(){
     if(mHero->mCanJump) {
-        mHero->getSprite()->getPhysicsBody()->applyImpulse(Vec2(0,400));
+        mHero->getSprite()->getPhysicsBody()->applyImpulse(Vec2(0,300));
         mHero->mCanJump = false;
     }
 }
