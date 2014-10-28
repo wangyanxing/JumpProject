@@ -86,6 +86,7 @@ public:
     
     bool mPressingM{ false };
     bool mPressingN{ false };
+    bool mPressingB{ false };
     
     BlockBase* mMovingBlock{ nullptr };
     
@@ -94,6 +95,8 @@ public:
     cocos2d::Sprite* mSpawnPoint{ nullptr };
     
     cocos2d::Sprite* mLightPoint{ nullptr };
+    
+    cocos2d::Sprite* mGradientCenterPoint{ nullptr };
     
     std::set<BlockBase*> mSelections;
     

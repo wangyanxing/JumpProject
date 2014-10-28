@@ -57,6 +57,9 @@ public:
     
     void setBackGradientCenter(const cocos2d::Vec2& p);
     
+    void setBackGradientColor(const cocos2d::Color3B& colorSrc,
+                              const cocos2d::Color3B& colorDst);
+    
 public:
     
     cocos2d::Layer* mParentLayer{ nullptr };
@@ -93,6 +96,10 @@ public:
     bool mGameMode{ false };
     
     cocos2d::Vec2 mSpawnPos;
+    
+    cocos2d::Vec2 mGradientCenter{0,0};
+    cocos2d::Color3B mGradientColorSrc;
+    cocos2d::Color3B mGradientColorDst;
 };
 
 #endif /* defined(__JumpEdt__LogicManager__) */

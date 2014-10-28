@@ -238,6 +238,9 @@ void MapSerial::saveMap(const char* file) {
 	INDENT_1 ss << "\"spawnPosition\": " << vec2Str(GameLogic::Game->mSpawnPos); RT_LINE
 	INDENT_1 ss << "\"lightPosition\": " << vec2Str(GameLogic::Game->mShadows->mOriginLightPos); RT_LINE
     INDENT_1 ss << "\"lightMoving\": " << bool2Str(GameLogic::Game->mShadows->mShadowMovingEnable); RT_LINE
+    INDENT_1 ss << "\"gradientCenter\": " << vec2Str(GameLogic::Game->mGradientCenter); RT_LINE
+    INDENT_1 ss << "\"gradientColorSrc\": " << colorStr(GameLogic::Game->mGradientColorSrc); RT_LINE
+    INDENT_1 ss << "\"gradientColorDst\": " << colorStr(GameLogic::Game->mGradientColorDst); RT_LINE
 
 	INDENT_1 ss << "\"palette\": [ \n";
 	for (auto it = GameLogic::Game->mPalette.begin(); it != GameLogic::Game->mPalette.end(); ++it){
@@ -462,6 +465,22 @@ void MapSerial::loadMap(const char* filename) {
         GameLogic::Game->mShadows->mShadowMovingEnable = d["lightMoving"].GetBool();
     }
     
+    Vec2 gradientCenter(0,0);
+    Color3B colorSrc(50,201,219);
+    Color3B colorDst(30,181,199);
+    if(d["gradientCenter"].IsString()) {
+        gradientCenter = str2Vec(d["gradientCenter"].GetString());
+    }
+    if(d["gradientColorSrc"].IsString()) {
+        colorSrc = str2Color(d["gradientColorSrc"].GetString());
+    }
+    if(d["gradientColorDst"].IsString()) {
+        colorDst = str2Color(d["gradientColorDst"].GetString());
+    }
+    
+    GameLogic::Game->setBackGradientCenter(gradientCenter);
+    GameLogic::Game->setBackGradientColor(colorSrc,colorDst);
+    
 	if (d["palette"].IsArray()){
 		auto size = d["palette"].Size();
 		if (size > 0){
@@ -677,6 +696,8 @@ void MapSerial::loadMap(const char* filename) {
     EditorScene::Scene->mCurFileName = filename;
     EditorScene::Scene->mSpawnPoint->setPosition(GameLogic::Game->mSpawnPos);
     EditorScene::Scene->mLightPoint->setPosition(GameLogic::Game->mShadows->mOriginLightPos);
+    EditorScene::Scene->mGradientCenterPoint->setPosition(GameLogic::Game->mGradientCenter);
+    
     UILayer::Layer->setFileName(filename);
     UILayer::Layer->addMessage("File loaded");
 #endif

@@ -87,6 +87,9 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
     float screenWidth = VisibleRect::getFrameSize().width;
     float screenHeight = VisibleRect::getFrameSize().height;
     
+    mGradientColorSrc = Color3B(50,201,219);
+    mGradientColorDst = Color3B(30,181,199);
+    
     mBack->setGLProgramState(glProgramState);
     glProgramState->setUniformVec4("data", Vec4(screenWidth, screenHeight, 0, 0));
     //glProgramState->setUniformVec4("color", Vec4(251.0/255.0, 3.0/255.0,137.0/255.0, 0.4));
@@ -273,6 +276,20 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
     return false;
 }
 
+void GameLogic::setBackGradientColor(const cocos2d::Color3B& colorSrc,
+                                     const cocos2d::Color3B& colorDst) {
+    mGradientColorDst = colorDst;
+    mGradientColorSrc = colorSrc;
+    
+    auto glProgramState = mBack->getGLProgramState();
+    glProgramState->setUniformVec4("color", Vec4(mGradientColorSrc.r/255.0,
+                                                 mGradientColorSrc.g/255.0,
+                                                 mGradientColorSrc.b/255.0, 0.4));
+    glProgramState->setUniformVec4("colorDest", Vec4(mGradientColorDst.r/255.0,
+                                                 mGradientColorDst.g/255.0,
+                                                 mGradientColorDst.b/255.0, 0.4));
+}
+
 void GameLogic::setBackGradientCenter(const cocos2d::Vec2& pos) {
     Vec2 p = pos;
     p.x -= VisibleRect::center().x;
@@ -283,9 +300,11 @@ void GameLogic::setBackGradientCenter(const cocos2d::Vec2& pos) {
     p.y *= -1;
     p.y /= VisibleRect::center().x;
     
+    float screenWidth = VisibleRect::getFrameSize().width;
+    float screenHeight = VisibleRect::getFrameSize().height;
+    
     mBack->getGLProgramState()->setUniformVec4("data",
-                                               Vec4(VisibleRect::right().x, VisibleRect::top().y,
-                                                    p.x, p.y));
+                                               Vec4(screenWidth, screenHeight, p.x, p.y));
 }
 
 void GameLogic::createFixedBlocks() {

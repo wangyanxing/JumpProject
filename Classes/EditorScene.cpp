@@ -65,6 +65,12 @@ bool EditorScene::init() {
     mGame->mShadows->mLightPos = mLightPoint->getPosition();
     mGame->mShadows->mOriginLightPos = mGame->mShadows->mLightPos;
     
+    mGradientCenterPoint = Sprite::create("images/daisy.png");
+    addChild(mGradientCenterPoint, 100);
+    mGradientCenterPoint->setPosition(100,50);
+    mGradientCenterPoint->setScale(0.3);
+    mGame->setBackGradientCenter(mGradientCenterPoint->getPosition());
+    
     mSpawnPoint = Sprite::create("images/cross.png");
     addChild(mSpawnPoint, 100);
     //mSpawnPoint->setPosition(VisibleRect::center());
@@ -112,6 +118,11 @@ void EditorScene::mouseDown(cocos2d::Event* event) {
         mLightPoint->setPosition(pt);
         mGame->mShadows->mLightPos = mLightPoint->getPosition();
         mGame->mShadows->mOriginLightPos = mLightPoint->getPosition();
+        return;
+    }
+    if (mPressingB && !mGame->mGameMode) {
+        mGradientCenterPoint->setPosition(pt);
+        mGame->setBackGradientCenter(mGradientCenterPoint->getPosition());
         return;
     }
     
@@ -420,6 +431,9 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
     if (keyCode == EventKeyboard::KeyCode::KEY_N) {
         mPressingN = true;
     }
+    if (keyCode == EventKeyboard::KeyCode::KEY_B) {
+        mPressingB = true;
+    }
     
     if (keyCode == EventKeyboard::KeyCode::KEY_J) {
         group();
@@ -467,6 +481,9 @@ void EditorScene::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
     if (keyCode == EventKeyboard::KeyCode::KEY_N) {
         mPressingN = false;
     }
+    if (keyCode == EventKeyboard::KeyCode::KEY_B) {
+        mPressingB = false;
+    }
     
     if (mGame->mGameMode) {
         if (keyCode == EventKeyboard::KeyCode::KEY_A)
@@ -481,8 +498,9 @@ void EditorScene::enableGame(bool val, bool force) {
     mGame->enableGame(val,force);
     mSpawnPoint->setVisible(!val);
     mLightPoint->setVisible(!val);
+    mGradientCenterPoint->setVisible(!val);
     if(val) {
-        mPressingN = mPressingM = false;
+        mPressingB = mPressingN = mPressingM = false;
     }
 }
 
