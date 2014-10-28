@@ -205,7 +205,9 @@ class Hero : public BlockBase {
 public:
     
     Hero() {
+#if EDITOR_MODE
         mShowIDLabel = false;
+#endif
     }
     
     virtual void initPhysics();

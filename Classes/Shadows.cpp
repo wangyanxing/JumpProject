@@ -9,7 +9,7 @@
 #include "Shadows.h"
 #include "DrawNodeEx.h"
 #include "VisibleRect.h"
-#include "GameScene.h"
+#include "EditorScene.h"
 
 USING_NS_CC;
 

@@ -7,7 +7,7 @@
 //
 
 #include "Events.h"
-#include "GameScene.h"
+#include "EditorScene.h"
 #include "LogicManager.h"
 #include "PathLib.h"
 #include "Blocks.h"

@@ -11,14 +11,6 @@ public:
     
     
     static std::vector<std::string> StringSplit(const std::string &source, const char *delimiter = " ", bool keepEmpty = false);
-    
-    /** For example "C:\Demi\Bin\Debug\Sample_demi.exe"
-     */
-    static const std::string& GetApplicationFileName();
-
-    /** For example "C:\Demi\Bin\Debug\"
-     */
-    static const std::string& GetApplicationPath();
 
     /** we need a absolute path
     */

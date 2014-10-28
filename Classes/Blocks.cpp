@@ -10,7 +10,7 @@
 #include "GameUtils.h"
 #include "Button.h"
 #include "LogicManager.h"
-#include "GameScene.h"
+#include "EditorScene.h"
 #include "VisibleRect.h"
 #include "Events.h"
 
@@ -324,9 +324,9 @@ void BlockBase::initIDLabel() {
     mIDLabel = LabelAtlas::create(buffer, "images/numbers.png", 37, 60, '0');
     mIDLabel->setScale(0.3);
     auto size = mIDLabel->getBoundingBox().size;
-    GameScene::Scene->addChild(mIDLabel, 800);
+    EditorScene::Scene->addChild(mIDLabel, 800);
     mIDLabel->setPosition(mSprite->getPosition() - Vec2(size.width/2, size.height/2));
-    mShowIDLabel = GameScene::Scene->mShowGrid;
+    mShowIDLabel = EditorScene::Scene->mShowGrid;
     mIDLabel->setVisible(mShowIDLabel);
 }
 void BlockBase::updateIDLabel() {

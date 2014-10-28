@@ -1,4 +1,4 @@
-#include "GameScene.h"
+#include "EditorScene.h"
 #include "VisibleRect.h"
 #include "GameUtils.h"
 #include "MapSerial.h"
@@ -12,6 +12,7 @@
 
 //#include "extensions/GUI/CCControlColourPicker.h"
 
+#if EDITOR_MODE
 
 #include <iostream>
 
@@ -21,15 +22,15 @@ USING_NS_CC_EXT;
 #define UI_LAYER_HIGHT 100
 ////////////////////////
 
-GameScene::~GameScene() {
+EditorScene::~EditorScene() {
     delete mGame;
     mGame = nullptr;
 }
 
-GameScene* GameScene::Scene = nullptr;
+EditorScene* EditorScene::Scene = nullptr;
 
 // on "init" you need to initialize your instance
-bool GameScene::init() {
+bool EditorScene::init() {
     Scene = this;
     
     if ( !Layer::init() ) {
@@ -42,18 +43,18 @@ bool GameScene::init() {
     getScheduler()->scheduleUpdate(&mPostUpdater, 100, false);
     
     auto keyboardListener = EventListenerKeyboard::create();
-    keyboardListener->onKeyPressed = CC_CALLBACK_2(GameScene::keyPressed, this);
-    keyboardListener->onKeyReleased = CC_CALLBACK_2(GameScene::keyReleased, this);
+    keyboardListener->onKeyPressed = CC_CALLBACK_2(EditorScene::keyPressed, this);
+    keyboardListener->onKeyReleased = CC_CALLBACK_2(EditorScene::keyReleased, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
     
     auto mouseListener = EventListenerMouse::create();
-    mouseListener->onMouseDown = CC_CALLBACK_1(GameScene::mouseDown, this);
-    mouseListener->onMouseUp = CC_CALLBACK_1(GameScene::mouseUp, this);
-    mouseListener->onMouseMove = CC_CALLBACK_1(GameScene::mouseMove, this);
+    mouseListener->onMouseDown = CC_CALLBACK_1(EditorScene::mouseDown, this);
+    mouseListener->onMouseUp = CC_CALLBACK_1(EditorScene::mouseUp, this);
+    mouseListener->onMouseMove = CC_CALLBACK_1(EditorScene::mouseMove, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
     
     auto contactListener = EventListenerPhysicsContact::create();
-    contactListener->onContactPreSolve = CC_CALLBACK_2(GameScene::onContactPreSolve, this);
+    contactListener->onContactPreSolve = CC_CALLBACK_2(EditorScene::onContactPreSolve, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
     
     mGame = new GameLogic(this);
@@ -77,11 +78,11 @@ bool GameScene::init() {
     return true;
 }
 
-bool GameScene::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSolve& solve) {
+bool EditorScene::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSolve& solve) {
     return mGame->onContactPreSolve(contact, solve);
 }
 
-void GameScene::mouseDown(cocos2d::Event* event) {
+void EditorScene::mouseDown(cocos2d::Event* event) {
     auto mouse = (EventMouse*)event;
 
 	auto target = static_cast<Sprite*>(mouse->getCurrentTarget());
@@ -134,7 +135,7 @@ void GameScene::mouseDown(cocos2d::Event* event) {
     }
 }
 
-void GameScene::mouseUp(cocos2d::Event* event) {
+void EditorScene::mouseUp(cocos2d::Event* event) {
 	auto mouse = (EventMouse*)event;
 
 	auto target = static_cast<Sprite*>(mouse->getCurrentTarget());
@@ -152,7 +153,7 @@ void GameScene::mouseUp(cocos2d::Event* event) {
     mMovingBlock = nullptr;
 }
 
-void GameScene::mouseMove(cocos2d::Event* event) {
+void EditorScene::mouseMove(cocos2d::Event* event) {
 	auto mouse = (EventMouse*)event;
 
 	auto target = static_cast<Sprite*>(mouse->getCurrentTarget());
@@ -179,7 +180,7 @@ void GameScene::mouseMove(cocos2d::Event* event) {
     }
 }
 
-void GameScene::convertMouse(cocos2d::Point& pt) {
+void EditorScene::convertMouse(cocos2d::Point& pt) {
     auto visRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
     auto height = visRect.origin.y + visRect.size.height;
     
@@ -187,7 +188,7 @@ void GameScene::convertMouse(cocos2d::Point& pt) {
     pt = convertToNodeSpace(pt);
 }
 
-void GameScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event) {
+void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event) {
     if (keyCode == EventKeyboard::KeyCode::KEY_SHIFT) {
         mPressingShift = true;
     }
@@ -352,11 +353,13 @@ void GameScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Eve
     if (keyCode == EventKeyboard::KeyCode::KEY_G) {
         mShowGrid = !mShowGrid;
         
+#if EDITOR_MODE
         // also show or hide ID labels
         mGame->blockTraversal([&](BlockBase* b){
             b->mIDLabel->setVisible(mShowGrid);
             b->mShowIDLabel = mShowGrid;
         });
+#endif
     }
     
     // path mode
@@ -430,7 +433,7 @@ void GameScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Eve
     }
 }
 
-void GameScene::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event) {
+void EditorScene::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event) {
     if (keyCode == EventKeyboard::KeyCode::KEY_SHIFT) {
         mPressingShift = false;
     }
@@ -455,22 +458,22 @@ void GameScene::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Ev
     }
 }
 
-void GameScene::enableGame(bool val, bool force) {
+void EditorScene::enableGame(bool val, bool force) {
     
     mGame->enableGame(val,force);
     mSpawnPoint->setVisible(!val);
 }
 
-void GameScene::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) {
+void EditorScene::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) {
     Layer::draw(renderer, transform, flags);
     
     static CustomCommand _customCommand;
     _customCommand.init(400);
-    _customCommand.func = CC_CALLBACK_0(GameScene::onDrawPrimitive, this, transform, flags);
+    _customCommand.func = CC_CALLBACK_0(EditorScene::onDrawPrimitive, this, transform, flags);
     renderer->addCommand(&_customCommand);
 }
 
-void GameScene::onDrawPrimitive(const Mat4 &transform, uint32_t flags) {
+void EditorScene::onDrawPrimitive(const Mat4 &transform, uint32_t flags) {
     Director* director = Director::getInstance();
     director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, transform);
@@ -509,12 +512,12 @@ void GameScene::onDrawPrimitive(const Mat4 &transform, uint32_t flags) {
     
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 }
-void GameScene::update(float dt){
+void EditorScene::update(float dt){
     
     mGame->update(dt);
 }
 
-void GameScene::setKind(int kind) {
+void EditorScene::setKind(int kind) {
     if(kind >= KIND_MAX) return;
     
     for(auto sel : mSelections) {
@@ -523,7 +526,7 @@ void GameScene::setKind(int kind) {
     }
 }
 
-void GameScene::duplicate() {
+void EditorScene::duplicate() {
     std::set<BlockBase*> duplicated;
     
     Vec2 bias(20,20);
@@ -558,7 +561,7 @@ void GameScene::duplicate() {
     }
 }
 
-void GameScene::alignLeft() {
+void EditorScene::alignLeft() {
     auto p = mSelectionHead->getPosition();
     auto w = mSelectionHead->getSize().width;
     float mostLeft = p.x - w/2;
@@ -571,7 +574,7 @@ void GameScene::alignLeft() {
     }
 }
 
-void GameScene::alignRight() {
+void EditorScene::alignRight() {
     auto p = mSelectionHead->getPosition();
     auto w = mSelectionHead->getSize().width;
     float mostRight = p.x + w/2;
@@ -584,7 +587,7 @@ void GameScene::alignRight() {
     }
 }
 
-void GameScene::alignUp() {
+void EditorScene::alignUp() {
     auto p = mSelectionHead->getPosition();
     auto h = mSelectionHead->getSize().height;
     float mostUp = p.y + h/2;
@@ -597,7 +600,7 @@ void GameScene::alignUp() {
     }
 }
 
-void GameScene::alignDown() {
+void EditorScene::alignDown() {
     auto p = mSelectionHead->getPosition();
     auto h = mSelectionHead->getSize().height;
     float mostDown = p.y - h/2;
@@ -610,7 +613,7 @@ void GameScene::alignDown() {
     }
 }
 
-void GameScene::group() {
+void EditorScene::group() {
     if(mSelections.empty() || !mSelectionHead) {
         return;
     }
@@ -633,7 +636,7 @@ void GameScene::group() {
     }
 }
 
-void GameScene::clean(bool save) {
+void EditorScene::clean(bool save) {
 
     if(save && !mCurFileName.empty())
         MapSerial::saveMap(mCurFileName.c_str());
@@ -646,3 +649,5 @@ void GameScene::clean(bool save) {
     mCurFileName = "";
     UILayer::Layer->setFileName("untitled");
 }
+
+#endif

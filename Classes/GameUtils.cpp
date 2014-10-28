@@ -2,7 +2,7 @@
 #include "GameUtils.h"
 #include "VisibleRect.h"
 #include "chipmunk.h"
-#include "GameScene.h"
+#include "EditorScene.h"
 
 #define ORG_RECT_SIZE 10
 

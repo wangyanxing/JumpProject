@@ -1,5 +1,7 @@
 
 #include "PathLib.h"
+#include "cocos2d.h"
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
 #include <unistd.h>
 #include <CoreFoundation/CoreFoundation.h>
@@ -319,3 +321,4 @@
         [pool drain];
         return bSuccess;
     }
+#endif

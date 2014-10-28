@@ -11,7 +11,6 @@
 
 #define EDITOR_MODE 1
 
-
 enum BlockKind {
     KIND_HERO = 0,
     KIND_BLOCK,

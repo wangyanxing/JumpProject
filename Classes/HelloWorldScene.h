@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 
-class GameScene;
+class EditorScene;
 class UILayer;
 
 class HelloWorld : public cocos2d::Layer

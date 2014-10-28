@@ -7,7 +7,7 @@
 //
 
 #include "MapSerial.h"
-#include "GameScene.h"
+#include "EditorScene.h"
 #include "HttpHelper.h"
 #include "PathLib.h"
 #include "UILayer.h"
@@ -345,7 +345,9 @@ void MapSerial::saveMap(const char* file) {
     fclose(fp);
     
     // update file
-    GameScene::Scene->mCurFileName = file;
+#if EDITOR_MODE
+    EditorScene::Scene->mCurFileName = file;
+#endif
     UILayer::Layer->setFileName(file);
     UILayer::Layer->addMessage("File saved");
     
@@ -370,6 +372,7 @@ void MapSerial::loadLastEdit() {
     loadMap(file.c_str());
 }
 
+#if EDITOR_MODE
 void MapSerial::saveMap() {
     
     std::string fullpath = getMapDir();
@@ -386,6 +389,7 @@ void MapSerial::saveMap() {
     
     saveMap(filename.c_str());
 }
+#endif
 
 void MapSerial::loadMap(const char* filename) {
     int maxID = 0;
@@ -408,7 +412,11 @@ void MapSerial::loadMap(const char* filename) {
     
     std::map<BlockBase*, std::vector<int>> pregroups;
     
-    GameScene::Scene->clean(false);//
+#if EDITOR_MODE
+    EditorScene::Scene->clean(false);//
+#else
+    GameLogic::Game->clean();
+#endif
     
     if(d["backgroundColor"].IsString()) {
         GameLogic::Game->setBackgroundColor(str2Color(d["backgroundColor"].GetString()));
@@ -514,7 +522,9 @@ void MapSerial::loadMap(const char* filename) {
             
             BlockBase* block = new BlockBase();
             block->create(pos,size);
-            block->addToScene(GameScene::Scene);
+#if EDITOR_MODE
+            block->addToScene(EditorScene::Scene);
+#endif
             block->textureName = textureName;
 			if (paletteIndex!=-1)
 				block->setColor(paletteIndex);
@@ -537,7 +547,10 @@ void MapSerial::loadMap(const char* filename) {
             block->mCanPickup = pickable;
             block->mID = id;
             block->mRotationSpeed = rotSpeed;
+            
+#if EDITOR_MODE
             block->updateIDLabel();
+#endif
             block->reset();
             
             GameLogic::Game->mBlockTable[block->getSprite()] = block;
@@ -546,12 +559,16 @@ void MapSerial::loadMap(const char* filename) {
             if(kind == KIND_BUTTON) {
                 if(var["direction"].IsString()){
                     block->mButton->mDir = str2Direction(var["direction"].GetString());
+#if EDITOR_MODE
                     block->mButton->updateHelper();
+#endif
                 }SHOW_WARNING
                 
                 if(var["canRestore"].IsBool()){
                     block->mButton->mCanRestore = var["canRestore"].GetBool();
+#if EDITOR_MODE
                     block->mButton->updateHelper();
+#endif
                 }SHOW_WARNING
                 
                 if(var["pushedEvent"].IsString()){
@@ -637,16 +654,20 @@ void MapSerial::loadMap(const char* filename) {
     
     delete[] buffer;
     BlockBase::mIDCounter = maxID + 1;
-    GameScene::Scene->mCurFileName = filename;
-    GameScene::Scene->mSpawnPoint->setPosition(GameLogic::Game->mSpawnPos);
-    
+#if EDITOR_MODE
+    EditorScene::Scene->mCurFileName = filename;
+    EditorScene::Scene->mSpawnPoint->setPosition(GameLogic::Game->mSpawnPos);
+#endif
     // update file
     UILayer::Layer->setFileName(filename);
     //UILayer::Layer->addMessage("File loaded");
     
-    GameScene::Scene->enableGame(false,true);
+#if EDITOR_MODE
+    EditorScene::Scene->enableGame(false,true);
+#endif
 }
 
+#if EDITOR_MODE
 void MapSerial::loadMap(bool local) {
     
     std::string fullpath = getMapDir();
@@ -662,6 +683,7 @@ void MapSerial::loadMap(bool local) {
     
     loadMap(filename.c_str());
 }
+#endif
 
 void MapSerial::saveRemoteMaps() {
     HttpHelper::getAllMaps();
