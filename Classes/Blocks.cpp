@@ -314,7 +314,7 @@ void BlockBase::update(float dt) {
 
 void BlockBase::setVisible(bool val) {
     mSprite->setVisible(val);
-    mSprite->getPhysicsBody()->setResting(val);
+    //mSprite->getPhysicsBody()->setResting(val);
 }
 
 #if EDITOR_MODE
@@ -592,8 +592,7 @@ void BlockBase::callTriggerEvent(){
 
     mTriggerEventsCalled = true;
 
-    for (size_t i = 0; i < mTriggerEvents.size(); ++i)
-    {
+    for (size_t i = 0; i < mTriggerEvents.size(); ++i) {
         Events::callEvent(mTriggerEvents[i].c_str(), this);
     }
 }

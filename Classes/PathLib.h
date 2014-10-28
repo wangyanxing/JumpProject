@@ -2,13 +2,14 @@
 #ifndef PathLib_h__
 #define PathLib_h__
 
+#include "Defines.h"
+
 #include <string>
 #include <vector>
 
 class DiPathLib
 {
 public:
-    
     
     static std::vector<std::string> StringSplit(const std::string &source, const char *delimiter = " ", bool keepEmpty = false);
 
@@ -25,6 +26,8 @@ public:
     */
     static void ResetCurrentDir();
 
+#if EDITOR_MODE
+    
     static bool OpenDirectoryDialog(const void* wndHandle, const std::string& title, const std::string& defaultPath, std::string& outFolderName);
 
     static bool OpenFileDialog(const void* wndHandle, const std::string& title, const std::string& defaultPath, const std::string& defaultFile,
@@ -34,6 +37,8 @@ public:
         const std::string& defaultFile, const std::string& fileTypes, unsigned int flags, std::vector<std::string>& outFilenames);
 
     static std::string msAppFile;
+    
+#endif
 };
 
 #endif // PathLib_h__

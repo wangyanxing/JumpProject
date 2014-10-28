@@ -8,6 +8,7 @@
 
 #include "MapSerial.h"
 #include "EditorScene.h"
+#include "GameScene.h"
 #include "HttpHelper.h"
 #include "PathLib.h"
 #include "UILayer.h"
@@ -64,7 +65,7 @@ Color3B str2Color(std::string hex) {
         hex.erase(0,1);
     }
     
-    int size = hex.size();
+    int size = (int)hex.size();
     for (int i = 0; i < 3; i++) {
         // Determine 3 or 6 character format.
         if (size == 3) { str = string(2, hex[i]); }
@@ -454,19 +455,25 @@ void MapSerial::loadMap(const char* filename) {
 		auto size = d["palette"].Size();
 		if (size > 0){
 			GameLogic::Game->mPalette.clear();
+#if EDITOR_MODE
 			UIColorEditor::colorEditor->cleanColors();
+#endif
 		}
 
 		for (auto i = 0; i < size; i++){
 			auto& palette = d["palette"][i];
 			if (palette["index"].IsInt() && palette["color"].IsString()){
 				GameLogic::Game->mPalette.insert( std::pair<int, Color3B>(palette["index"].GetInt(), str2Color(palette["color"].GetString())));
+#if EDITOR_MODE
 				UIColorEditor::colorEditor->addColor(palette["index"].GetInt(), str2Color(palette["color"].GetString()));
+#endif
 			}
 
 		}
 
+#if EDITOR_MODE
 		UIColorEditor::colorEditor->updateColorButtonDisplay();
+#endif
 	}
 
     if(d["blocks"].IsArray()) {
@@ -519,11 +526,12 @@ void MapSerial::loadMap(const char* filename) {
 				paletteIndex = var["paletteIndex"].GetInt();
 			}
 			
-            
             BlockBase* block = new BlockBase();
             block->create(pos,size);
 #if EDITOR_MODE
             block->addToScene(EditorScene::Scene);
+#else
+            block->addToScene(GameScene::Scene);
 #endif
             block->textureName = textureName;
 			if (paletteIndex!=-1)
@@ -657,10 +665,9 @@ void MapSerial::loadMap(const char* filename) {
 #if EDITOR_MODE
     EditorScene::Scene->mCurFileName = filename;
     EditorScene::Scene->mSpawnPoint->setPosition(GameLogic::Game->mSpawnPos);
-#endif
-    // update file
     UILayer::Layer->setFileName(filename);
-    //UILayer::Layer->addMessage("File loaded");
+    UILayer::Layer->addMessage("File loaded");
+#endif
     
 #if EDITOR_MODE
     EditorScene::Scene->enableGame(false,true);

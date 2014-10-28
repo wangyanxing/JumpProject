@@ -92,6 +92,8 @@
 		B5A45F3819F09612009349EF /* maps in Resources */ = {isa = PBXBuildFile; fileRef = B5A45F3619F09612009349EF /* maps */; };
 		B5B2D73C19FE25FA00F68044 /* UIColorEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D73A19FE25FA00F68044 /* UIColorEditor.cpp */; };
 		B5B2D73D19FE25FA00F68044 /* UIColorEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D73A19FE25FA00F68044 /* UIColorEditor.cpp */; };
+		B5B2D74219FF1D2500F68044 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D74019FF1D2500F68044 /* GameScene.cpp */; };
+		B5B2D74319FF1D2500F68044 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D74019FF1D2500F68044 /* GameScene.cpp */; };
 		B5CA04DA19F1C87000A94996 /* UILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5CA04D819F1C87000A94996 /* UILayer.cpp */; };
 		B5CA04DB19F1C87000A94996 /* UILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5CA04D819F1C87000A94996 /* UILayer.cpp */; };
 		B5CA04E019F1E52600A94996 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B5CA04DF19F1E52600A94996 /* fonts */; };
@@ -338,6 +340,8 @@
 		B5A45F3619F09612009349EF /* maps */ = {isa = PBXFileReference; lastKnownFileType = folder; path = maps; sourceTree = "<group>"; };
 		B5B2D73A19FE25FA00F68044 /* UIColorEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UIColorEditor.cpp; path = ../Classes/UIColorEditor.cpp; sourceTree = "<group>"; };
 		B5B2D73B19FE25FA00F68044 /* UIColorEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIColorEditor.h; path = ../Classes/UIColorEditor.h; sourceTree = "<group>"; };
+		B5B2D74019FF1D2500F68044 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameScene.cpp; path = ../Classes/GameScene.cpp; sourceTree = "<group>"; };
+		B5B2D74119FF1D2500F68044 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameScene.h; path = ../Classes/GameScene.h; sourceTree = "<group>"; };
 		B5CA04D819F1C87000A94996 /* UILayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UILayer.cpp; path = ../Classes/UILayer.cpp; sourceTree = "<group>"; };
 		B5CA04D919F1C87000A94996 /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UILayer.h; path = ../Classes/UILayer.h; sourceTree = "<group>"; };
 		B5CA04DF19F1E52600A94996 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
@@ -459,6 +463,8 @@
 				B5B2D73B19FE25FA00F68044 /* UIColorEditor.h */,
 				B587F20C19F8CCC100AC4174 /* LogicManager.cpp */,
 				B587F20D19F8CCC100AC4174 /* LogicManager.h */,
+				B5B2D74019FF1D2500F68044 /* GameScene.cpp */,
+				B5B2D74119FF1D2500F68044 /* GameScene.h */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -665,7 +671,7 @@
 				LastUpgradeCheck = 0500;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = MDDB52YB8L;
+						DevelopmentTeam = B64KM2U49M;
 					};
 				};
 			};
@@ -821,6 +827,7 @@
 				B587F20E19F8CCC100AC4174 /* LogicManager.cpp in Sources */,
 				B587F1FD19F8C95200AC4174 /* Path.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				B5B2D74219FF1D2500F68044 /* GameScene.cpp in Sources */,
 				B587F20219F8CA6D00AC4174 /* Button.cpp in Sources */,
 				B5A45F3419F093E0009349EF /* MapSerial.cpp in Sources */,
 				B5B2D73C19FE25FA00F68044 /* UIColorEditor.cpp in Sources */,
@@ -850,6 +857,7 @@
 				B5CA04E619F3350700A94996 /* Events.cpp in Sources */,
 				5087E75717EB910900C73F5D /* AppDelegate.cpp in Sources */,
 				B563267119F0CD3C004E78B6 /* PathLibOSX.mm in Sources */,
+				B5B2D74319FF1D2500F68044 /* GameScene.cpp in Sources */,
 				5087E75817EB910900C73F5D /* HelloWorldScene.cpp in Sources */,
 				B587F22619FB2AD500AC4174 /* Rotator.cpp in Sources */,
 				B5829B2819E3BE330001A066 /* VisibleRect.cpp in Sources */,

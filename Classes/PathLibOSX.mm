@@ -269,7 +269,8 @@
         [pool drain];
         return bSuccess;
     }
-    
+
+#if EDITOR_MODE
     bool DiPathLib::OpenFileDialog(const void* wndHandle, const std::string& title,
                                    const std::string& defaultPath, const std::string& defaultFile,
                                    const std::string& fileTypes, uint flags, std::vector<std::string>& outFiles)
@@ -321,4 +322,5 @@
         [pool drain];
         return bSuccess;
     }
+#endif
 #endif

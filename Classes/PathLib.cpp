@@ -10,7 +10,9 @@
 #   include <unistd.h>
 #endif
 
+#if EDITOR_MODE
 std::string DiPathLib::msAppFile;
+#endif
 
 std::vector<std::string> DiPathLib::StringSplit(const std::string &source, const char *delimiter, bool keepEmpty)
 {
@@ -48,7 +50,6 @@ std::string GetFileExtension(const std::string& strin)
     return std::string("");
 }
 
-
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 
     const std::string& _GetAppFileName()
@@ -69,9 +70,7 @@ std::string GetFileExtension(const std::string& strin)
     {
         std::string defFile = defaultFile;
         std::string defPath = defaultPath;
-//        defFile.Replace("/", "\\");
-//        defPath.Replace("/", "\\");
-
+        
         const int MAX_FILENAME_STR = 65536;
         const int MAX_FILETYPES_STR = 4096;
 
@@ -219,7 +218,6 @@ std::string GetFileExtension(const std::string& strin)
         ZeroMemory(FolderName, sizeof(char)* MAX_PATH);
 
         std::string PathToSelect = defaultPath;
-//        PathToSelect.Replace("/", "\\");
 
         bi.hwndOwner = (HWND)wndHandle;
         bi.pszDisplayName = FolderName;

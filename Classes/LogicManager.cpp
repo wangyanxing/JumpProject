@@ -54,11 +54,11 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
 	mPalette.insert(std::pair<int, Color3B>(18, Color3B(0x33, 0x00, 0x00)));
 	mPalette.insert(std::pair<int, Color3B>(19, Color3B(0x00, 0x33, 0x00)));
 	mPalette.insert(std::pair<int, Color3B>(20, Color3B(0x00, 0x00, 0x33)));
-
     
+    mSpawnPos = VisibleRect::center();
+
     mHero = new Hero();
-    //mHero->create(VisibleRect::center());
-    mHero->create(Vec2(32,100));
+    mHero->create(VisibleRect::center());
     mHero->setSize(Size(25,25));
     mHero->setVisible(false);
     mHero->setKind(KIND_HERO);
@@ -304,7 +304,6 @@ void GameLogic::jump(){
 }
 
 void GameLogic::die() {
-
     mHero->getSprite()->getPhysicsBody()->resetForces();
     mHero->getSprite()->getPhysicsBody()->setVelocity(Vec2(0,0));
     mHero->setPosition(mSpawnPos);
@@ -395,10 +394,9 @@ void GameLogic::enableGame(bool val, bool force) {
     mMoveLeft = false;
     mMoveRight = false;
     
-//  mSpawnPoint->setVisible(!mGameMode);
+    mHero->setPosition(mSpawnPos);
     mHero->setVisible(mGameMode);
     mHero->mCanJump = false;
-    mHero->setPosition(mSpawnPos);
     mHero->getSprite()->getPhysicsBody()->setVelocityLimit(1000);
     
     for(auto bc : mBlocks) {
@@ -415,7 +413,6 @@ void GameLogic::enableGame(bool val, bool force) {
             b->mButton->showHelper(!val);
         }
 #endif
-        
         b->reset();
     }
     
