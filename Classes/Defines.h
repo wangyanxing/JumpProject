@@ -9,7 +9,13 @@
 #ifndef __JumpEdt__Defines__
 #define __JumpEdt__Defines__
 
-#define EDITOR_MODE 1
+#include "cocos2d.h"
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+#   define EDITOR_MODE 1
+#else
+#   define EDITOR_MODE 0
+#endif
 
 enum BlockKind {
     KIND_HERO = 0,

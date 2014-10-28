@@ -21,6 +21,10 @@ HelloWorld::~HelloWorld() {
 
 Scene* HelloWorld::createScene()
 {
+#if EDITOR_MODE == 0
+    Director::getInstance()->getOpenGLView()->setDesignResolutionSize(960, 960/1.7778f, ResolutionPolicy::EXACT_FIT);
+#endif
+    
     auto scene = Scene::createWithPhysics();
     
     scene->getPhysicsWorld()->setGravity(Vec2(0,-1000));

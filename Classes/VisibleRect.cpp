@@ -23,6 +23,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "VisibleRect.h"
+#include "Defines.h"
 
 USING_NS_CC;
 
@@ -30,12 +31,19 @@ Rect VisibleRect::s_visibleRect;
 
 void VisibleRect::lazyInit()
 {
-    //s_visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
+#if EDITOR_MODE
     s_visibleRect.origin = Vec2(0,0);
-    
     float ratio = 1.7778f;
     float fixedWidth = 960;
     s_visibleRect.size = Size(fixedWidth, fixedWidth / ratio);
+#else
+    s_visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
+#endif
+}
+
+Size VisibleRect::getFrameSize()
+{
+    return Director::getInstance()->getOpenGLView()->getFrameSize();
 }
 
 Rect VisibleRect::getVisibleRect()

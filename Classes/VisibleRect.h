@@ -7,6 +7,7 @@ class VisibleRect
 {
 public:
     static cocos2d::Rect getVisibleRect();
+    static cocos2d::Size getFrameSize();
 
     static cocos2d::Vec2 left();
     static cocos2d::Vec2 right();

@@ -40,9 +40,18 @@ public:
     
 private:
     
+    void onTouch(const cocos2d::Vec2& pos);
+    void onEndTouch(const cocos2d::Vec2& pos);
+    
+private:
+    
     GameLogic* mGame{ nullptr };
     
     PostUpdater mPostUpdater;
+    
+    cocos2d::Sprite* mLeftButton{ nullptr };
+    cocos2d::Sprite* mRightButton{ nullptr };
+    cocos2d::Sprite* mJumpButton{ nullptr };
 };
 
 #endif /* defined(__JumpEdt__GameScene__) */

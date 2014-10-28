@@ -59,7 +59,7 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
 
     mHero = new Hero();
     mHero->create(VisibleRect::center());
-    mHero->setSize(Size(25,25));
+    mHero->setSize(Size(30,30));
     mHero->setVisible(false);
     mHero->setKind(KIND_HERO);
     mHeroShape = mHero->getSprite()->getPhysicsBody()->getShapes().front();
@@ -251,7 +251,7 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
 void GameLogic::createFixedBlocks() {
     auto width = VisibleRect::right().x;
     auto height = VisibleRect::top().y;
-    int frameSize = 20;
+    int frameSize = 10;
     {
         BlockBase* block = new BlockBase();
         block->mCanPickup = false;
@@ -295,10 +295,9 @@ BlockBase* GameLogic::findBlock(int id) {
     }
 }
 
-
 void GameLogic::jump(){
     if(mHero->mCanJump) {
-        mHero->getSprite()->getPhysicsBody()->applyImpulse(Vec2(0,300));
+        mHero->getSprite()->getPhysicsBody()->applyImpulse(Vec2(0,325));
         mHero->mCanJump = false;
     }
 }

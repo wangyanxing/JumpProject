@@ -74,8 +74,6 @@ bool EditorScene::init() {
 			sel->setColor(index);
         }
     };
-    
-    enableGame(true);
 
     return true;
 }
