@@ -1,5 +1,5 @@
-#ifndef _UI_COLOR_EDITOR_
-#define _UI_CLOR_EDITOR_
+#ifndef __JumpEdt__UIColorEditor__
+#define __JumpEdt__UIColorEditor__
 
 #include "cocos2d.h"
 
