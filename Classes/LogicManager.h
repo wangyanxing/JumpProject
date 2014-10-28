@@ -55,6 +55,8 @@ public:
     
     void die();
     
+    void setBackGradientCenter(const cocos2d::Vec2& p);
+    
 public:
     
     cocos2d::Layer* mParentLayer{ nullptr };
@@ -83,6 +85,8 @@ public:
 	std::map<int, cocos2d::Color3B> mPalette;
     
     cocos2d::Color3B mBackgroundColor;
+    
+    cocos2d::Sprite* mBack{ nullptr };
     
     bool mDeadFlag{ false };
     

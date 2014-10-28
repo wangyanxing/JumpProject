@@ -13,6 +13,8 @@
 #include "Button.h"
 #include "VisibleRect.h"
 
+#define GRADIENT 0
+
 USING_NS_CC;
 
 GameLogic* GameLogic::Game = nullptr;
@@ -69,9 +71,25 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
     mShadows = new ShadowManager(mParentLayer);
     
     // background
-    auto back = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(30, 181, 199));
-    back->setTag(1000);
-    mParentLayer->addChild(back, 0);
+#if GRADIENT
+    mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(255,255,255));
+    auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/back.fsh");
+    // init shader
+    GLchar * fragSource = (GLchar*)String::createWithContentsOfFile(shaderfile.c_str())->getCString();
+    auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource);
+    auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
+    
+    float screenWidth = VisibleRect::getFrameSize().width;
+    float screenHeight = VisibleRect::getFrameSize().height;
+    
+    mBack->setGLProgramState(glProgramState);
+    glProgramState->setUniformVec4("data", Vec4(screenWidth, screenHeight, 0, 0));
+    glProgramState->setUniformVec4("color", Vec4(251.0/255.0, 3.0/255.0,137.0/255.0, 0.4));
+    glProgramState->setUniformVec4("colorDest", Vec4(173.0/255.0, 3.0/255.0, 58.0/255.0, 0));
+#else
+    mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(30,181,199));
+#endif
+    mParentLayer->addChild(mBack, 0);
     
     createFixedBlocks();
     
@@ -248,6 +266,21 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
     return false;
 }
 
+void GameLogic::setBackGradientCenter(const cocos2d::Vec2& pos) {
+    Vec2 p = pos;
+    p.x -= VisibleRect::center().x;
+    p.x *= -1;
+    p.x /= VisibleRect::center().x;
+    
+    p.y -= VisibleRect::center().y;
+    p.y *= -1;
+    p.y /= VisibleRect::center().x;
+    
+    mBack->getGLProgramState()->setUniformVec4("data",
+                                               Vec4(VisibleRect::right().x, VisibleRect::top().y,
+                                                    p.x, p.y));
+}
+
 void GameLogic::createFixedBlocks() {
     auto width = VisibleRect::right().x;
     auto height = VisibleRect::top().y;
@@ -316,9 +349,7 @@ void GameLogic::postUpdate(float dt) {
     }
     mHero->postUpdate(dt);
     
-    auto nb = mBlocks;
-    nb[mHero->mID] = mHero;
-    mShadows->update(nb);
+    mShadows->update(dt);
 }
 
 void GameLogic::updateGame(float dt){
@@ -393,6 +424,8 @@ void GameLogic::enableGame(bool val, bool force) {
     mMoveLeft = false;
     mMoveRight = false;
     
+    mShadows->reset();
+    
     mHero->setPosition(mSpawnPos);
     mHero->setVisible(mGameMode);
     mHero->mCanJump = false;
@@ -421,7 +454,9 @@ void GameLogic::enableGame(bool val, bool force) {
 
 void GameLogic::setBackgroundColor(const cocos2d::Color3B& color) {
     mBackgroundColor = color;
-    mParentLayer->getChildByTag(1000)->setColor(mBackgroundColor);
+#if GRADIENT == 0
+    mBack->setColor(mBackgroundColor);
+#endif
 }
 
 BlockBase* GameLogic::createBlock(const cocos2d::Vec2& pos, BlockKind kind) {

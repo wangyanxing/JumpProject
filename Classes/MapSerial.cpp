@@ -10,6 +10,7 @@
 #include "EditorScene.h"
 #include "GameScene.h"
 #include "HttpHelper.h"
+#include "Shadows.h"
 #include "PathLib.h"
 #include "UILayer.h"
 #include "UIColorEditor.h"
@@ -235,6 +236,8 @@ void MapSerial::saveMap(const char* file) {
 	INDENT_1 ss << "\"buttonColor\": " << colorStr(GameLogic::Game->mBlockColors[4]); RT_LINE
 	INDENT_1 ss << "\"pushableBlockColor\": " << colorStr(GameLogic::Game->mBlockColors[5]); RT_LINE
 	INDENT_1 ss << "\"spawnPosition\": " << vec2Str(GameLogic::Game->mSpawnPos); RT_LINE
+	INDENT_1 ss << "\"lightPosition\": " << vec2Str(GameLogic::Game->mShadows->mOriginLightPos); RT_LINE
+    INDENT_1 ss << "\"lightMoving\": " << bool2Str(GameLogic::Game->mShadows->mShadowMovingEnable); RT_LINE
 
 	INDENT_1 ss << "\"palette\": [ \n";
 	for (auto it = GameLogic::Game->mPalette.begin(); it != GameLogic::Game->mPalette.end(); ++it){
@@ -242,7 +245,6 @@ void MapSerial::saveMap(const char* file) {
 			ss << ", \n";
 		}
 		INDENT_2 ss << "{\n";
-		int key = it->first;
 			INDENT_3 ss << "\"index\": " << it->first << ", \n";
 			INDENT_3 ss << "\"color\": " << colorStr(it->second) << " \n";
 		INDENT_2 ss << "}";
@@ -451,6 +453,15 @@ void MapSerial::loadMap(const char* filename) {
         GameLogic::Game->mSpawnPos = str2Vec(d["spawnPosition"].GetString());
     }SHOW_WARNING
     
+    if(d["lightPosition"].IsString()) {
+        GameLogic::Game->mShadows->mLightPos = str2Vec(d["lightPosition"].GetString());
+        GameLogic::Game->mShadows->mOriginLightPos = GameLogic::Game->mShadows->mLightPos;
+    }
+    
+    if(d["lightMoving"].IsBool()) {
+        GameLogic::Game->mShadows->mShadowMovingEnable = d["lightMoving"].GetBool();
+    }
+    
 	if (d["palette"].IsArray()){
 		auto size = d["palette"].Size();
 		if (size > 0){
@@ -577,7 +588,7 @@ void MapSerial::loadMap(const char* filename) {
 #if EDITOR_MODE
                     block->mButton->updateHelper();
 #endif
-                }SHOW_WARNING
+                }
                 
                 if(var["pushedEvent"].IsString()){
                     block->mButton->mPushedEvent = var["pushedEvent"].GetString();
@@ -665,6 +676,7 @@ void MapSerial::loadMap(const char* filename) {
 #if EDITOR_MODE
     EditorScene::Scene->mCurFileName = filename;
     EditorScene::Scene->mSpawnPoint->setPosition(GameLogic::Game->mSpawnPos);
+    EditorScene::Scene->mLightPoint->setPosition(GameLogic::Game->mShadows->mOriginLightPos);
     UILayer::Layer->setFileName(filename);
     UILayer::Layer->addMessage("File loaded");
 #endif

@@ -59,6 +59,12 @@ bool EditorScene::init() {
     
     mGame = new GameLogic(this);
     
+    mLightPoint = Sprite::create("images/sun.png");
+    addChild(mLightPoint, 100);
+    mLightPoint->setPosition(300,520);
+    mGame->mShadows->mLightPos = mLightPoint->getPosition();
+    mGame->mShadows->mOriginLightPos = mGame->mShadows->mLightPos;
+    
     mSpawnPoint = Sprite::create("images/cross.png");
     addChild(mSpawnPoint, 100);
     //mSpawnPoint->setPosition(VisibleRect::center());
@@ -97,9 +103,14 @@ void EditorScene::mouseDown(cocos2d::Event* event) {
 		return ;
 	}
     
-    if (mPressingM) {
+    if (mPressingM && !mGame->mGameMode) {
         mSpawnPoint->setPosition(pt);
         mGame->mSpawnPos = mSpawnPoint->getPosition();
+        return;
+    }
+    if (mPressingN && !mGame->mGameMode) {
+        mLightPoint->setPosition(pt);
+        mGame->mShadows->mLightPos = mLightPoint->getPosition();
         return;
     }
     
@@ -405,6 +416,9 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
     if (keyCode == EventKeyboard::KeyCode::KEY_M) {
         mPressingM = true;
     }
+    if (keyCode == EventKeyboard::KeyCode::KEY_N) {
+        mPressingN = true;
+    }
     
     if (keyCode == EventKeyboard::KeyCode::KEY_J) {
         group();
@@ -462,6 +476,10 @@ void EditorScene::enableGame(bool val, bool force) {
     
     mGame->enableGame(val,force);
     mSpawnPoint->setVisible(!val);
+    mLightPoint->setVisible(!val);
+    if(val) {
+        mPressingN = mPressingM = false;
+    }
 }
 
 void EditorScene::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) {

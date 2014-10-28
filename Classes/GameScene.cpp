@@ -10,7 +10,7 @@
 #include "MapSerial.h"
 #include "VisibleRect.h"
 
-#define TRANSPARENT_BUTTON 120
+#define TRANSPARENT_BUTTON 80
 
 USING_NS_CC;
 
@@ -58,7 +58,7 @@ bool GameScene::init() {
     
     mGame = new GameLogic(this);
     
-    auto str = FileUtils::getInstance()->fullPathForFilename("maps/remote/w1_MO_sawDancing.json");
+    auto str = FileUtils::getInstance()->fullPathForFilename("maps/local/w1_MO_sawDancing.json");
     MapSerial::loadMap(str.c_str());
     
     mGame->enableGame(true);

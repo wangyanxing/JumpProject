@@ -22,10 +22,22 @@ public:
     ShadowManager(cocos2d::Node* parentNode);
     ~ShadowManager();
     
-    void update(const std::map<int,BlockBase*>& blocks);
+    void reset();
+    
+    void update(float dt);
+    
+    void updateBlock(BlockBase* block, std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles);
     
     cocos2d::Vec2 mLightPos;
+    cocos2d::Vec2 mOriginLightPos;
     cocos2d::DrawNodeEx* mRenderer{ nullptr };
+    
+    float mLightMoveTimer{ 0 };
+    bool mMoving{ false };
+    float mMoveTarget{ 0 };
+    float mMovingSpeed{ 0 };
+    
+    bool mShadowMovingEnable{ true };
 };
 
 
