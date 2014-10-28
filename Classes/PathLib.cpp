@@ -250,8 +250,8 @@ std::string GetFileExtension(const std::string& strin)
 
     void DiPathLib::ResetCurrentDir()
     {
-        std::string path = DiPathLib::GetApplicationPath();
-        ::SetCurrentDirectoryA(path.c_str());
+        //std::string path = DiPathLib::GetApplicationPath();
+        //::SetCurrentDirectoryA(path.c_str());
     }
     
     bool DiPathLib::OpenFileDialog(const void* wndHandle, const std::string& title,
