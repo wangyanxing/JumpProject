@@ -1,5 +1,4 @@
 #include "EditorScene.h"
-#include "GameScene.h"
 #include "VisibleRect.h"
 #include "GameUtils.h"
 #include "MapSerial.h"
