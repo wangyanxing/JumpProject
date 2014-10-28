@@ -135,8 +135,8 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Blocks.cpp" />
     <ClCompile Include="..\Classes\Button.cpp" />
     <ClCompile Include="..\Classes\DrawNodeEx.cpp" />
+    <ClCompile Include="..\Classes\EditorScene.cpp" />
     <ClCompile Include="..\Classes\Events.cpp" />
-    <ClCompile Include="..\Classes\GameScene.cpp" />
     <ClCompile Include="..\Classes\GameUtils.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\HttpHelper.cpp" />
@@ -157,8 +157,8 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Button.h" />
     <ClInclude Include="..\Classes\Defines.h" />
     <ClInclude Include="..\Classes\DrawNodeEx.h" />
+    <ClInclude Include="..\Classes\EditorScene.h" />
     <ClInclude Include="..\Classes\Events.h" />
-    <ClInclude Include="..\Classes\GameScene.h" />
     <ClInclude Include="..\Classes\GameUtils.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\HttpHelper.h" />
@@ -192,6 +192,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ResourceCompile Include="game.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Classes\HelloWorldScene.h.rej" />
     <None Include="..\Classes\PathLibOSX.mm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
