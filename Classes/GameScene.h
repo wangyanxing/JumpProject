@@ -43,6 +43,8 @@ private:
     void onTouch(const cocos2d::Vec2& pos);
     void onEndTouch(const cocos2d::Vec2& pos);
     
+    void createControlPad();
+    
 private:
     
     GameLogic* mGame{ nullptr };

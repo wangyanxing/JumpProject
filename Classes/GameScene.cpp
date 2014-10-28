@@ -10,6 +10,8 @@
 #include "MapSerial.h"
 #include "VisibleRect.h"
 
+#define TRANSPARENT_BUTTON 120
+
 USING_NS_CC;
 
 GameScene* GameScene::Scene = nullptr;
@@ -61,26 +63,7 @@ bool GameScene::init() {
     
     mGame->enableGame(true);
     
-    mLeftButton = Sprite::create("images/left_arrow.png");
-    mRightButton = Sprite::create("images/right_arrow.png");
-    mJumpButton = Sprite::create("images/jump_arrow_sel.png");
-    
-    
-    mLeftButton->setPosition(Vec2(84,60));
-    mRightButton->setPosition(Vec2(280,60));
-    mJumpButton->setPosition(Vec2(820,60));
-    
-    mLeftButton->setScale(0.3);
-    mRightButton->setScale(0.3);
-    mJumpButton->setScale(0.3);
-    
-    mLeftButton->setOpacity(180);
-    mRightButton->setOpacity(180);
-    mJumpButton->setOpacity(180);
-    
-    addChild(mLeftButton, 1000);
-    addChild(mRightButton, 1000);
-    addChild(mJumpButton, 1000);
+    createControlPad();
     
     return true;
 }
@@ -118,11 +101,33 @@ void GameScene::onTouch(const cocos2d::Vec2& pos) {
 void GameScene::onEndTouch(const cocos2d::Vec2& pos) {
     
     if(pos.x < VisibleRect::center().x) {
-        mLeftButton->setOpacity(180);
-        mRightButton->setOpacity(180);
+        mLeftButton->setOpacity(TRANSPARENT_BUTTON);
+        mRightButton->setOpacity(TRANSPARENT_BUTTON);
         mGame->mMoveLeft = false;
         mGame->mMoveRight = false;
     } else {
-        mJumpButton->setOpacity(180);
+        mJumpButton->setOpacity(TRANSPARENT_BUTTON);
     }
+}
+
+void GameScene::createControlPad() {
+    mLeftButton = Sprite::create("images/left_arrow.png");
+    mRightButton = Sprite::create("images/right_arrow.png");
+    mJumpButton = Sprite::create("images/jump_arrow_sel.png");
+    
+    mLeftButton->setPosition(Vec2(74,60));
+    mRightButton->setPosition(Vec2(280,60));
+    mJumpButton->setPosition(Vec2(820,60));
+    
+    mLeftButton->setScale(0.3);
+    mRightButton->setScale(0.3);
+    mJumpButton->setScale(0.3);
+    
+    mLeftButton->setOpacity(TRANSPARENT_BUTTON);
+    mRightButton->setOpacity(TRANSPARENT_BUTTON);
+    mJumpButton->setOpacity(TRANSPARENT_BUTTON);
+    
+    addChild(mLeftButton, 1000);
+    addChild(mRightButton, 1000);
+    addChild(mJumpButton, 1000);
 }
