@@ -303,6 +303,7 @@ void GameLogic::setBackGradientCenter(const cocos2d::Vec2& pos) {
     float screenWidth = VisibleRect::getFrameSize().width;
     float screenHeight = VisibleRect::getFrameSize().height;
     
+    mGradientCenter = pos;
     mBack->getGLProgramState()->setUniformVec4("data",
                                                Vec4(screenWidth, screenHeight, p.x, p.y));
 }
