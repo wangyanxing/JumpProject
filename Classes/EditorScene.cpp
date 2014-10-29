@@ -10,7 +10,6 @@
 
 #include "UIColorEditor.h"
 
-
 #if EDITOR_MODE
 
 #include <iostream>
@@ -609,6 +608,7 @@ void EditorScene::alignLeft() {
         if(sel != mSelectionHead) {
             auto selWid = sel->getSize().width;
             sel->setPositionX(mostLeft + selWid/2);
+            sel->mRestorePosition = sel->getPosition();
         }
     }
 }
@@ -622,6 +622,7 @@ void EditorScene::alignRight() {
         if(sel != mSelectionHead) {
             auto selWid = sel->getSize().width;
             sel->setPositionX(mostRight - selWid/2);
+            sel->mRestorePosition = sel->getPosition();
         }
     }
 }
@@ -635,6 +636,7 @@ void EditorScene::alignUp() {
         if(sel != mSelectionHead) {
             auto selHei = sel->getSize().height;
             sel->setPositionY(mostUp - selHei/2);
+            sel->mRestorePosition = sel->getPosition();
         }
     }
 }
@@ -648,6 +650,7 @@ void EditorScene::alignDown() {
         if(sel != mSelectionHead) {
             auto selHei = sel->getSize().height;
             sel->setPositionY(mostDown + selHei/2);
+            sel->mRestorePosition = sel->getPosition();
         }
     }
 }
