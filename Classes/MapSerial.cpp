@@ -238,6 +238,7 @@ void MapSerial::saveMap(const char* file) {
 	INDENT_1 ss << "\"spawnPosition\": " << vec2Str(GameLogic::Game->mSpawnPos); RT_LINE
 	INDENT_1 ss << "\"lightPosition\": " << vec2Str(GameLogic::Game->mShadows->mOriginLightPos); RT_LINE
     INDENT_1 ss << "\"lightMoving\": " << bool2Str(GameLogic::Game->mShadows->mShadowMovingEnable); RT_LINE
+    INDENT_1 ss << "\"shadowDarkness\": " << GameLogic::Game->mShadows->mShadowDarkness; RT_LINE
     INDENT_1 ss << "\"gradientCenter\": " << vec2Str(GameLogic::Game->mGradientCenter); RT_LINE
     INDENT_1 ss << "\"gradientColorSrc\": " << colorStr(GameLogic::Game->mGradientColorSrc); RT_LINE
     INDENT_1 ss << "\"gradientColorDst\": " << colorStr(GameLogic::Game->mGradientColorDst); RT_LINE
@@ -269,13 +270,10 @@ void MapSerial::saveMap(const char* file) {
 		INDENT_3 ss << "\"position\": " << vec2Str(b->mRestorePosition); RT_LINE
 		INDENT_3 ss << "\"pickable\": " << bool2Str(b->mCanPickup); RT_LINE
 		INDENT_3 ss << "\"rotatespeed\": " << b->mRotationSpeed; RT_LINE
-
+        INDENT_3 ss << "\"shadowLength\": " << b->mShadowLength; RT_LINE
+        INDENT_3 ss << "\"shadowEnable\": " << bool2Str(b->mCastShadow); RT_LINE
 		INDENT_3 ss << "\"paletteIndex\": " << b->mPaletteIndex; RT_LINE
-
-        if (b->mKind == KIND_DEATH_CIRCLE)
-        {
-               INDENT_3 ss << "\"textureName\": \"" << b->textureName << "\""; RT_LINE
-        }
+        INDENT_3 ss << "\"textureName\": \"" << b->textureName << "\""; RT_LINE
 
         if (b->mKind == KIND_DEATH_CIRCLE || b->mKind == KIND_DEATH)
         {
@@ -465,6 +463,10 @@ void MapSerial::loadMap(const char* filename) {
         GameLogic::Game->mShadows->mShadowMovingEnable = d["lightMoving"].GetBool();
     }
     
+    if(d["shadowDarkness"].IsNumber()) {
+        GameLogic::Game->mShadows->mShadowDarkness = d["shadowDarkness"].GetDouble();
+    }
+    
     Vec2 gradientCenter(0,0);
     Color3B colorSrc(50,201,219);
     Color3B colorDst(30,181,199);
@@ -521,6 +523,9 @@ void MapSerial::loadMap(const char* filename) {
             std::string textureName = "images/saw3.png";
 			int paletteIndex = -1;
             std::string triggerEvent = "";
+            float shadowLeng = 100;
+            bool shadowEnable = true;
+            
             if(var["id"].IsInt()){
                 id = var["id"].GetInt();
                 maxID = std::max(id, maxID);
@@ -548,13 +553,21 @@ void MapSerial::loadMap(const char* filename) {
                 kind = str2Kind(var["kind"].GetString());
             }SHOW_WARNING
 
-            if (kind == KIND_DEATH_CIRCLE&&var["textureName"].IsString()){
+            if (var["textureName"].IsString()){
                 textureName = var["textureName"].GetString();
             }
 
-			if (var["paletteIndex"].IsInt()){
+			if (var["paletteIndex"].IsNumber()){
 				paletteIndex = var["paletteIndex"].GetInt();
 			}
+            
+            if (var["shadowLength"].IsNumber()) {
+                shadowLeng = var["shadowLength"].GetDouble();
+            }
+            
+            if (var["shadowEnable"].IsBool()) {
+                shadowEnable = var["shadowEnable"].GetBool();
+            }
 			
             BlockBase* block = new BlockBase();
             block->create(pos,size);
@@ -585,6 +598,8 @@ void MapSerial::loadMap(const char* filename) {
             block->mCanPickup = pickable;
             block->mID = id;
             block->mRotationSpeed = rotSpeed;
+            block->mShadowLength = shadowLeng;
+            block->mCastShadow = shadowEnable;
             
 #if EDITOR_MODE
             block->updateIDLabel();

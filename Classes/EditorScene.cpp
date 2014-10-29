@@ -10,7 +10,6 @@
 
 #include "UIColorEditor.h"
 
-//#include "extensions/GUI/CCControlColourPicker.h"
 
 #if EDITOR_MODE
 
@@ -86,7 +85,7 @@ bool EditorScene::init() {
 			sel->setColor(index);
         }
     };
-
+    
     return true;
 }
 

@@ -38,7 +38,7 @@ ShadowManager::~ShadowManager() {
 
 void ShadowManager::updateBlock(BlockBase* block, std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles) {
     Color4B colorBase = Color4B::BLACK;
-    colorBase.a = 25;
+    colorBase.a = 255 * mShadowDarkness;
     
     if(!block->mCastShadow || !block->isVisible() || !block->mCanPickup)
         return;

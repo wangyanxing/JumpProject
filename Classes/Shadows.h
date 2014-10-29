@@ -38,6 +38,8 @@ public:
     float mMovingSpeed{ 0 };
     
     bool mShadowMovingEnable{ true };
+    
+    float mShadowDarkness{ 0.098f };
 };
 
 
