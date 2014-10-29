@@ -197,7 +197,7 @@ void BlockBase::postUpdate(float dt) {
 }
 
 void BlockBase::updatePathMove() {
-
+    if(mKind == KIND_PUSHABLE) return;
     auto lastpos = mSprite->getPosition();
     mSprite->setPosition(mRestorePosition + mMovementToRestore);
     
@@ -346,7 +346,7 @@ void BlockBase::initPhysics() {
     else
         pbody = PhysicsBody::createCircle(std::max(size.height/2, size.width/2));
     
-    pbody->setDynamic(false);
+    pbody->setDynamic((mKind == KIND_PUSHABLE || mKind == KIND_HERO) ? true : false);
     pbody->setContactTestBitmask(1);
     
     mSprite->setPhysicsBody(pbody);
@@ -432,12 +432,9 @@ void BlockBase::setKind(BlockKind kind) {
     
     if(kind != KIND_HERO) {
         if(kind == KIND_PUSHABLE) {
-            mSprite->getPhysicsBody()->setDynamic(true);
             mSprite->getPhysicsBody()->setRotationEnable(false);
             mSprite->getPhysicsBody()->setMass(40);
             //mSprite->getPhysicsBody()->setGravityEnable(false);
-        } else {
-            mSprite->getPhysicsBody()->setDynamic(false);
         }
     }
 }
