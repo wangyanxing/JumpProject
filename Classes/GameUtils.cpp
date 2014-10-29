@@ -3,8 +3,9 @@
 #include "VisibleRect.h"
 #include "chipmunk.h"
 #include "EditorScene.h"
+#include "SpriteUV.h"
 
-#define ORG_RECT_SIZE 10
+#define ORG_RECT_SIZE 8
 
 using namespace cocos2d;
 using namespace cocos2d::extension;
@@ -18,8 +19,8 @@ void GameUtils::setPixelStyleTexture(Sprite* sp) {
     sp->getTexture()->setTexParameters(param);
 }
 
-cocos2d::Sprite* GameUtils::createRect(cocos2d::Rect rect, cocos2d::Color3B col) {
-    cocos2d::Sprite* sprite = Sprite::create("images/rect.png");
+SpriteUV* GameUtils::createRect(cocos2d::Rect rect, cocos2d::Color3B col) {
+    SpriteUV* sprite = SpriteUV::create("images/rect.png");
     setPixelStyleTexture(sprite);
     
     sprite->setScale(rect.size.width / ORG_RECT_SIZE, rect.size.height / ORG_RECT_SIZE);
@@ -29,8 +30,8 @@ cocos2d::Sprite* GameUtils::createRect(cocos2d::Rect rect, cocos2d::Color3B col)
     return sprite;
 }
 
-cocos2d::Sprite* GameUtils::createRect(cocos2d::Size size, cocos2d::Vec2 pos, cocos2d::Color3B col) {
-    cocos2d::Sprite* sprite = Sprite::create("images/rect.png");
+SpriteUV* GameUtils::createRect(cocos2d::Size size, cocos2d::Vec2 pos, cocos2d::Color3B col) {
+    SpriteUV* sprite = SpriteUV::create("images/rect.png");
     setPixelStyleTexture(sprite);
     
     sprite->setScale(size.width / ORG_RECT_SIZE, size.height / ORG_RECT_SIZE);

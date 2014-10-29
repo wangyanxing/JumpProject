@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 
+class SpriteUV;
 class UIColorEditor{
 public:
     void init(cocos2d::Node* parent);
@@ -20,7 +21,7 @@ public:
     static UIColorEditor* colorEditor;
     std::function<void(int, cocos2d::Color3B)> onSetColorFunc{nullptr};
 private:
-    cocos2d::Sprite* mShowhideColorButton;
+    SpriteUV* mShowhideColorButton;
 
     std::vector<cocos2d::Sprite*> mColorButtons;
     //std::vector<cocos2d::EventListenerTouchOneByOne*> mEventListners;

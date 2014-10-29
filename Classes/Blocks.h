@@ -13,6 +13,7 @@
 #include "Defines.h"
 #include "Path.h"
 #include "Rotator.h"
+#include "SpriteUV.h"
 
 class Button;
 
@@ -145,7 +146,7 @@ public:
     
     Rotator mRotator;
     
-    float mImageSize{ 10 };
+    float mImageSize{ 8 };
     
     Button* mButton{ nullptr };
     
@@ -198,7 +199,7 @@ public:
 #endif
     
 private:
-    cocos2d::Sprite* mSprite{ nullptr };
+    SpriteUV* mSprite{ nullptr };
 };
 
 class Hero : public BlockBase {
