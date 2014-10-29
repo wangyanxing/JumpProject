@@ -94,6 +94,27 @@ void BlockBase::setPosition(const cocos2d::Point& pt) {
     }
 }
 
+void BlockBase::normalizeUV() {
+    //change uv
+    auto w = getWidth();
+    auto h = getThickness();
+    mSprite->resetUV();
+    if(w >= h) {
+        float l = w / h;
+        mSprite->setUVWidth(l);
+        if(mUVFlipped) {
+            mSprite->flipUVY();
+        }
+    } else {
+        float l = h / w;
+        mSprite->setUVWidth(l);
+        mSprite->rotateUV();
+        if(mUVFlipped) {
+            mSprite->flipUVX();
+        }
+    }
+}
+
 void BlockBase::rotate() {
     auto w = getWidth();
     auto h = getThickness();
@@ -103,18 +124,7 @@ void BlockBase::rotate() {
     mRestoreSize = Size(h,w);
     mRestorePosition = getPosition();
     
-    //change uv
-    auto neww = h;
-    auto newh = w;
-    mSprite->resetUV();
-    if(neww >= newh) {
-        float l = neww / newh;
-        mSprite->setUVWidth(l);
-    } else {
-        float l = newh / neww;
-        mSprite->setUVWidth(l);
-        mSprite->rotateUV();
-    }
+    normalizeUV();
 }
 
 bool BlockBase::canPush() {
@@ -500,9 +510,7 @@ void BlockBase::addThickness(int val) {
     mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
                         mSprite->getScaleY() * mImageSize);
     
-    auto size = getSize();
-    mSprite->setUVWidth(size.width / size.height);
-    mSprite->setUVHeight(1);
+    normalizeUV();
 }
 
 void BlockBase::subThickness(int val) {
@@ -518,9 +526,7 @@ void BlockBase::subThickness(int val) {
     mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
                         mSprite->getScaleY() * mImageSize);
     
-    auto size = getSize();
-    mSprite->setUVWidth(size.width / size.height);
-    mSprite->setUVHeight(1);
+    normalizeUV();
 }
 
 void BlockBase::addWidth(int val) {
@@ -536,9 +542,7 @@ void BlockBase::addWidth(int val) {
     mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
                         mSprite->getScaleY() * mImageSize);
     
-    auto size = getSize();
-    mSprite->setUVWidth(size.width / size.height);
-    mSprite->setUVHeight(1);
+    normalizeUV();
 }
 
 void BlockBase::subWidth(int val) {
@@ -554,9 +558,7 @@ void BlockBase::subWidth(int val) {
     mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
                         mSprite->getScaleY() * mImageSize);
     
-    auto size = getSize();
-    mSprite->setUVWidth(size.width / size.height);
-    mSprite->setUVHeight(1);
+    normalizeUV();
 }
 
 void BlockBase::setWidth(float val) {
@@ -566,9 +568,7 @@ void BlockBase::setWidth(float val) {
     else
         mSprite->setScale(val / mImageSize, mSprite->getScaleY());
     
-    auto size = getSize();
-    mSprite->setUVWidth(size.width / size.height);
-    mSprite->setUVHeight(1);
+    normalizeUV();
 }
 
 void BlockBase::setHeight(float val) {
@@ -578,9 +578,7 @@ void BlockBase::setHeight(float val) {
     else
         mSprite->setScale(mSprite->getScaleX(), val / mImageSize);
     
-    auto size = getSize();
-    mSprite->setUVWidth(size.width / size.height);
-    mSprite->setUVHeight(1);
+    normalizeUV();
 }
 
 float BlockBase::getWidth() {
@@ -597,8 +595,7 @@ void BlockBase::setSize(Size size) {
     mSprite->setScale(size.width / mImageSize, size.height / mImageSize);
     mRestoreSize = size;
 
-    mSprite->setUVWidth(size.width / size.height);
-    mSprite->setUVHeight(1);
+    normalizeUV();
 }
 
 cocos2d::Size BlockBase::getSize() {

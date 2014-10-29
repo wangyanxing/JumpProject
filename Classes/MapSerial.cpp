@@ -317,6 +317,7 @@ void MapSerial::saveMap(const char* file) {
         INDENT_3 ss << "\"shadowLength\": " << b->mShadowLength; RT_LINE
         INDENT_3 ss << "\"shadowEnable\": " << bool2Str(b->mCastShadow); RT_LINE
 		INDENT_3 ss << "\"paletteIndex\": " << b->mPaletteIndex; RT_LINE
+        INDENT_3 ss << "\"flipUV\": " << bool2Str(b->mUVFlipped); RT_LINE
         INDENT_3 ss << "\"textureName\": \"" << b->mTextureName << "\""; RT_LINE
 
         if (b->mKind == KIND_DEATH_CIRCLE || b->mKind == KIND_DEATH)
@@ -473,11 +474,11 @@ void MapSerial::loadMap(const char* filename) {
 #if 0
 	if (d["heroColor"].IsString()) {
 		GameLogic::Game->mBlockColors[0] = str2Color(d["heroColor"].GetString());
-	}SHOW_WARNING
+	}
 #endif
     if (d["heroColorIndex"].IsInt()) {
         GameLogic::Game->mHero->setColor(d["heroColorIndex"].GetInt());
-    }SHOW_WARNING
+    }
 
 	if (d["normalBlockColor"].IsString()) {
 		GameLogic::Game->mBlockColors[1] = str2Color(d["normalBlockColor"].GetString());
@@ -595,6 +596,7 @@ void MapSerial::loadMap(const char* filename) {
             BlockKind kind = KIND_BLOCK;
             std::string textureName = "images/saw3.png";
 			int paletteIndex = -1;
+            bool flipuv = false;
             std::string triggerEvent = "";
             float shadowLeng = 100;
             bool shadowEnable = true;
@@ -625,6 +627,10 @@ void MapSerial::loadMap(const char* filename) {
             if(var["kind"].IsString()){
                 kind = str2Kind(var["kind"].GetString());
             }SHOW_WARNING
+            
+            if (var["flipUV"].IsBool()){
+                flipuv = var["flipUV"].GetBool();
+            }
 
             if (var["textureName"].IsString()){
                 textureName = var["textureName"].GetString();
@@ -673,6 +679,7 @@ void MapSerial::loadMap(const char* filename) {
             block->mRotationSpeed = rotSpeed;
             block->mShadowLength = shadowLeng;
             block->mCastShadow = shadowEnable;
+            block->mUVFlipped = flipuv;
             
 #if EDITOR_MODE
             block->updateIDLabel();

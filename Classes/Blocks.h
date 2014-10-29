@@ -46,6 +46,8 @@ public:
     
     void rotate();
     
+    void normalizeUV();
+    
     cocos2d::Point getPosition() { return mSprite->getPosition(); }
     
     virtual void create(const cocos2d::Point& pt);
@@ -181,6 +183,8 @@ public:
 	void callTriggerEvent();
     
     Status mStatus{ IDLE };
+    
+    bool mUVFlipped{ false };
     
     static int mIDCounter;
     
