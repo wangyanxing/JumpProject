@@ -412,7 +412,7 @@ void BlockBase::setKind(BlockKind kind) {
         mRotationSpeed = 50;
         
         // update image
-        mImageSize = 10;
+        mImageSize = 8;
         
         Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(textureName);
         mSprite->setTexture(texture);
@@ -421,7 +421,7 @@ void BlockBase::setKind(BlockKind kind) {
         setHeight(size);
         mRestoreSize = Size(size,size);
     } else {
-        mImageSize = 10;
+        mImageSize = 8;
         mRotationSpeed = 0;
         
         mSprite->setTexture("images/rect.png");

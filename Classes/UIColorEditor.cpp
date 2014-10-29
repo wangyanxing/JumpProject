@@ -1,5 +1,6 @@
 #include "UIColorEditor.h"
 #include "LogicManager.h"
+#include "SpriteUV.h"
 
 #include "GameUtils.h"
 #include "VisibleRect.h"
