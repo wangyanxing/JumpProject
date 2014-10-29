@@ -65,6 +65,42 @@ void SpriteUV::setUVWidth(float length) {
     _quad.br.texCoords.u = length;
 }
 
+void SpriteUV::setUVSize(float val) {
+    
+}
+
+void SpriteUV::rotateUV() {
+    auto quad = _quad;
+    _quad.tl.texCoords = quad.tr.texCoords;
+    _quad.tr.texCoords = quad.br.texCoords;
+    _quad.bl.texCoords = quad.tl.texCoords;
+    _quad.br.texCoords = quad.bl.texCoords;
+}
+
+void SpriteUV::flipUVX() {
+    std::swap(_quad.tl.texCoords, _quad.tr.texCoords);
+    std::swap(_quad.bl.texCoords, _quad.br.texCoords);
+}
+
+void SpriteUV::flipUVY() {
+    std::swap(_quad.tl.texCoords, _quad.bl.texCoords);
+    std::swap(_quad.tr.texCoords, _quad.br.texCoords);
+}
+
+void SpriteUV::resetUV() {
+    _quad.tl.texCoords.u = 0;
+    _quad.tl.texCoords.v = 0;
+    
+    _quad.bl.texCoords.u = 0;
+    _quad.bl.texCoords.v = 1;
+    
+    _quad.tr.texCoords.u = 1;
+    _quad.tr.texCoords.v = 0;
+    
+    _quad.br.texCoords.u = 1;
+    _quad.br.texCoords.v = 1;
+}
+
 void SpriteUV::setUVOffset(cocos2d::Point offset){
 
     V3F_C4B_T2F_Quad quad = this->getQuad();

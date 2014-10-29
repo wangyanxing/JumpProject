@@ -26,8 +26,13 @@ public:
     
     void setUVOffset(cocos2d::Point offset);
     
+    void setUVSize(float val);
     void setUVHeight(float val);
     void setUVWidth(float val);
+    void resetUV();
+    void flipUVX();
+    void flipUVY();
+    void rotateUV();
         
     // implement the "static node()" method manually
     CREATE_FUNC(SpriteUV);

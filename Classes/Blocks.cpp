@@ -102,6 +102,19 @@ void BlockBase::rotate() {
     
     mRestoreSize = Size(h,w);
     mRestorePosition = getPosition();
+    
+    //change uv
+    auto neww = h;
+    auto newh = w;
+    mSprite->resetUV();
+    if(neww >= newh) {
+        float l = neww / newh;
+        mSprite->setUVWidth(l);
+    } else {
+        float l = newh / neww;
+        mSprite->setUVWidth(l);
+        mSprite->rotateUV();
+    }
 }
 
 bool BlockBase::canPush() {
@@ -421,10 +434,12 @@ void BlockBase::setKind(BlockKind kind) {
         setHeight(size);
         mRestoreSize = Size(size,size);
     } if(kind == KIND_DEATH) {
+        /*
         mTextureName = "images/saw.png";
         Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
         mSprite->setTexture(texture);
         mSprite->setupTexParameters();
+         */
     } else {
         mImageSize = 8;
         mRotationSpeed = 0;

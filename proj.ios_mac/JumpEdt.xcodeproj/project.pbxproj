@@ -96,6 +96,8 @@
 		B5B2D74319FF1D2500F68044 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D74019FF1D2500F68044 /* GameScene.cpp */; };
 		B5B2D7791A00C4FA00F68044 /* SpriteUV.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7771A00C4FA00F68044 /* SpriteUV.cpp */; };
 		B5B2D77A1A00C4FA00F68044 /* SpriteUV.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7771A00C4FA00F68044 /* SpriteUV.cpp */; };
+		B5B2D77C1A00D63D00F68044 /* palette in Resources */ = {isa = PBXBuildFile; fileRef = B5B2D77B1A00D63D00F68044 /* palette */; };
+		B5B2D77D1A00D63D00F68044 /* palette in Resources */ = {isa = PBXBuildFile; fileRef = B5B2D77B1A00D63D00F68044 /* palette */; };
 		B5CA04DA19F1C87000A94996 /* UILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5CA04D819F1C87000A94996 /* UILayer.cpp */; };
 		B5CA04DB19F1C87000A94996 /* UILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5CA04D819F1C87000A94996 /* UILayer.cpp */; };
 		B5CA04E019F1E52600A94996 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B5CA04DF19F1E52600A94996 /* fonts */; };
@@ -346,6 +348,7 @@
 		B5B2D74119FF1D2500F68044 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameScene.h; path = ../Classes/GameScene.h; sourceTree = "<group>"; };
 		B5B2D7771A00C4FA00F68044 /* SpriteUV.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpriteUV.cpp; path = ../Classes/SpriteUV.cpp; sourceTree = "<group>"; };
 		B5B2D7781A00C4FA00F68044 /* SpriteUV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpriteUV.h; path = ../Classes/SpriteUV.h; sourceTree = "<group>"; };
+		B5B2D77B1A00D63D00F68044 /* palette */ = {isa = PBXFileReference; lastKnownFileType = folder; path = palette; sourceTree = "<group>"; };
 		B5CA04D819F1C87000A94996 /* UILayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UILayer.cpp; path = ../Classes/UILayer.cpp; sourceTree = "<group>"; };
 		B5CA04D919F1C87000A94996 /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UILayer.h; path = ../Classes/UILayer.h; sourceTree = "<group>"; };
 		B5CA04DF19F1E52600A94996 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
@@ -586,6 +589,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B5B2D77B1A00D63D00F68044 /* palette */,
 				B587F1F619F8A81C00AC4174 /* extensions */,
 				B5E7CA8919F6202F009198C6 /* shaders */,
 				B5CA04DF19F1E52600A94996 /* fonts */,
@@ -785,6 +789,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5B2D77C1A00D63D00F68044 /* palette in Resources */,
 				B5829B2A19E3BFE00001A066 /* images in Resources */,
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
@@ -818,6 +823,7 @@
 				B587F1F819F8A81C00AC4174 /* extensions in Resources */,
 				B5A45F3819F09612009349EF /* maps in Resources */,
 				B5E7CA8B19F6202F009198C6 /* shaders in Resources */,
+				B5B2D77D1A00D63D00F68044 /* palette in Resources */,
 				B5CA04E119F1E52600A94996 /* fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

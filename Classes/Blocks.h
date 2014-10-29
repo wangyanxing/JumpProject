@@ -107,7 +107,7 @@ public:
     virtual void getPointsForShadow(const cocos2d::Vec2& source,
                                     std::vector<cocos2d::Vec2>& out);
     
-    cocos2d::Sprite* getSprite() { return mSprite; }
+    SpriteUV* getSprite() { return mSprite; }
     
 	void setColor(int index);
 
