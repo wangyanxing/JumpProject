@@ -203,6 +203,56 @@ Button::PushDir str2Direction(const string& v) {
     return kinds[v];
 }
 
+void MapSerial::savePalette(const char* file){
+	time_t rawtime;
+	struct tm * ptm;
+	time(&rawtime);
+	ptm = gmtime(&rawtime);
+	std::string timestr = asctime(ptm);
+	timestr.resize(timestr.size() - 1);
+
+	std::string author = "unknown";
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+	TCHAR username[UNLEN + 1];
+	DWORD size = UNLEN + 1;
+	GetUserName((TCHAR*)username, &size);
+	author = username;
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+	author = getlogin();
+#endif
+
+	stringstream ss;
+	ss << "{\n";
+
+	INDENT_1 ss << "\"author\": " << "\"" << author << "\""; RT_LINE
+	INDENT_1 ss << "\"time\": " << "\"" << timestr << "\""; RT_LINE
+
+	INDENT_1 ss << "\"palette\": [ \n";
+
+	for (auto it = GameLogic::Game->mPalette.begin(); it != GameLogic::Game->mPalette.end(); ++it){
+		if (it != GameLogic::Game->mPalette.begin()){
+			ss << ", \n";
+		}
+		INDENT_2 ss << "{\n";
+		INDENT_3 ss << "\"index\": " << it->first << ", \n";
+		INDENT_3 ss << "\"color\": " << colorStr(it->second) << " \n";
+		INDENT_2 ss << "}";
+	}
+
+	INDENT_1 ss << "] \n";
+
+	ss << "}";
+
+	auto fp = fopen(file, "w+");
+	if (!fp) {
+		CCLOG("Warning: cannot access the map file : %s", file);
+		return;
+	}
+	fprintf(fp, "%s", ss.str().c_str());
+	fclose(fp);
+}
+
 void MapSerial::saveMap(const char* file) {
     
     time_t rawtime;
@@ -237,23 +287,14 @@ void MapSerial::saveMap(const char* file) {
 	INDENT_1 ss << "\"pushableBlockColor\": " << colorStr(GameLogic::Game->mBlockColors[5]); RT_LINE
 	INDENT_1 ss << "\"spawnPosition\": " << vec2Str(GameLogic::Game->mSpawnPos); RT_LINE
 	INDENT_1 ss << "\"lightPosition\": " << vec2Str(GameLogic::Game->mShadows->mOriginLightPos); RT_LINE
-    INDENT_1 ss << "\"lightMoving\": " << bool2Str(GameLogic::Game->mShadows->mShadowMovingEnable); RT_LINE
-    INDENT_1 ss << "\"shadowDarkness\": " << GameLogic::Game->mShadows->mShadowDarkness; RT_LINE
-    INDENT_1 ss << "\"gradientCenter\": " << vec2Str(GameLogic::Game->mGradientCenter); RT_LINE
-    INDENT_1 ss << "\"gradientColorSrc\": " << colorStr(GameLogic::Game->mGradientColorSrc); RT_LINE
-    INDENT_1 ss << "\"gradientColorDst\": " << colorStr(GameLogic::Game->mGradientColorDst); RT_LINE
+	INDENT_1 ss << "\"lightMoving\": " << bool2Str(GameLogic::Game->mShadows->mShadowMovingEnable); RT_LINE
+	INDENT_1 ss << "\"shadowDarkness\": " << GameLogic::Game->mShadows->mShadowDarkness; RT_LINE
+	INDENT_1 ss << "\"gradientCenter\": " << vec2Str(GameLogic::Game->mGradientCenter); RT_LINE
+	INDENT_1 ss << "\"gradientColorSrc\": " << colorStr(GameLogic::Game->mGradientColorSrc); RT_LINE
+	INDENT_1 ss << "\"gradientColorDst\": " << colorStr(GameLogic::Game->mGradientColorDst); RT_LINE
 
-	INDENT_1 ss << "\"palette\": [ \n";
-	for (auto it = GameLogic::Game->mPalette.begin(); it != GameLogic::Game->mPalette.end(); ++it){
-		if (it != GameLogic::Game->mPalette.begin()){
-			ss << ", \n";
-		}
-		INDENT_2 ss << "{\n";
-			INDENT_3 ss << "\"index\": " << it->first << ", \n";
-			INDENT_3 ss << "\"color\": " << colorStr(it->second) << " \n";
-		INDENT_2 ss << "}";
-	}
-	INDENT_1 ss << "], \n";
+	INDENT_1 ss << "\"paletteFile\": \"" << GameLogic::Game->mPaletteFileName << "\""; RT_LINE
+	savePalette(GameLogic::Game->mPaletteFileName.c_str());
 
     INDENT_1 ss << "\"blocks\": [ \n";
     
@@ -426,87 +467,111 @@ void MapSerial::loadMap(const char* filename) {
         GameLogic::Game->setBackgroundColor(str2Color(d["backgroundColor"].GetString()));
     }SHOW_WARNING
     
-    if(d["heroColor"].IsString()) {
-        GameLogic::Game->mBlockColors[0] = str2Color(d["heroColor"].GetString());
-    }SHOW_WARNING
-    
-    if(d["normalBlockColor"].IsString()) {
-        GameLogic::Game->mBlockColors[1] = str2Color(d["normalBlockColor"].GetString());
-    }SHOW_WARNING
-    
-    if(d["deathBlockColor"].IsString()) {
-        GameLogic::Game->mBlockColors[2] = str2Color(d["deathBlockColor"].GetString());
-    }SHOW_WARNING
-    
-    if(d["deathCircleColor"].IsString()) {
-        GameLogic::Game->mBlockColors[3] = str2Color(d["deathCircleColor"].GetString());
-    }SHOW_WARNING
-    
-    if(d["buttonColor"].IsString()) {
-        GameLogic::Game->mBlockColors[4] = str2Color(d["buttonColor"].GetString());
-    }SHOW_WARNING
-    
-    if(d["pushableBlockColor"].IsString()) {
-        GameLogic::Game->mBlockColors[5] = str2Color(d["pushableBlockColor"].GetString());
-    }SHOW_WARNING
-    
-    if(d["spawnPosition"].IsString()) {
-        GameLogic::Game->mSpawnPos = str2Vec(d["spawnPosition"].GetString());
-    }SHOW_WARNING
-    
-    if(d["lightPosition"].IsString()) {
-        GameLogic::Game->mShadows->mLightPos = str2Vec(d["lightPosition"].GetString());
-        GameLogic::Game->mShadows->mOriginLightPos = GameLogic::Game->mShadows->mLightPos;
-    }
-    
-    if(d["lightMoving"].IsBool()) {
-        GameLogic::Game->mShadows->mShadowMovingEnable = d["lightMoving"].GetBool();
-    }
-    
-    if(d["shadowDarkness"].IsNumber()) {
-        GameLogic::Game->mShadows->mShadowDarkness = d["shadowDarkness"].GetDouble();
-    }
-    
-    Vec2 gradientCenter(0,0);
-    Color3B colorSrc(50,201,219);
-    Color3B colorDst(30,181,199);
-    if(d["gradientCenter"].IsString()) {
-        gradientCenter = str2Vec(d["gradientCenter"].GetString());
-    }
-    if(d["gradientColorSrc"].IsString()) {
-        colorSrc = str2Color(d["gradientColorSrc"].GetString());
-    }
-    if(d["gradientColorDst"].IsString()) {
-        colorDst = str2Color(d["gradientColorDst"].GetString());
-    }
-    
-    GameLogic::Game->setBackGradientCenter(gradientCenter);
-    GameLogic::Game->setBackGradientColor(colorSrc,colorDst);
-    
-	if (d["palette"].IsArray()){
-		auto size = d["palette"].Size();
-		if (size > 0){
-			GameLogic::Game->mPalette.clear();
-#if EDITOR_MODE
-			UIColorEditor::colorEditor->cleanColors();
-#endif
-		}
+	if (d["heroColor"].IsString()) {
+		GameLogic::Game->mBlockColors[0] = str2Color(d["heroColor"].GetString());
+	}SHOW_WARNING
 
-		for (auto i = 0; i < size; i++){
-			auto& palette = d["palette"][i];
-			if (palette["index"].IsInt() && palette["color"].IsString()){
-				GameLogic::Game->mPalette.insert( std::pair<int, Color3B>(palette["index"].GetInt(), str2Color(palette["color"].GetString())));
-#if EDITOR_MODE
-				UIColorEditor::colorEditor->addColor(palette["index"].GetInt(), str2Color(palette["color"].GetString()));
-#endif
+	if (d["normalBlockColor"].IsString()) {
+		GameLogic::Game->mBlockColors[1] = str2Color(d["normalBlockColor"].GetString());
+	}SHOW_WARNING
+
+	if (d["deathBlockColor"].IsString()) {
+		GameLogic::Game->mBlockColors[2] = str2Color(d["deathBlockColor"].GetString());
+	}SHOW_WARNING
+
+	if (d["deathCircleColor"].IsString()) {
+		GameLogic::Game->mBlockColors[3] = str2Color(d["deathCircleColor"].GetString());
+	}SHOW_WARNING
+
+	if (d["buttonColor"].IsString()) {
+		GameLogic::Game->mBlockColors[4] = str2Color(d["buttonColor"].GetString());
+	}SHOW_WARNING
+
+	if (d["pushableBlockColor"].IsString()) {
+		GameLogic::Game->mBlockColors[5] = str2Color(d["pushableBlockColor"].GetString());
+	}SHOW_WARNING
+
+	if (d["spawnPosition"].IsString()) {
+		GameLogic::Game->mSpawnPos = str2Vec(d["spawnPosition"].GetString());
+	}SHOW_WARNING
+
+	if (d["lightPosition"].IsString()) {
+		GameLogic::Game->mShadows->mLightPos = str2Vec(d["lightPosition"].GetString());
+		GameLogic::Game->mShadows->mOriginLightPos = GameLogic::Game->mShadows->mLightPos;
+	}
+
+	if (d["lightMoving"].IsBool()) {
+		GameLogic::Game->mShadows->mShadowMovingEnable = d["lightMoving"].GetBool();
+	}
+
+	if (d["shadowDarkness"].IsNumber()) {
+		GameLogic::Game->mShadows->mShadowDarkness = d["shadowDarkness"].GetDouble();
+	}
+
+	Vec2 gradientCenter(0, 0);
+	Color3B colorSrc(50, 201, 219);
+	Color3B colorDst(30, 181, 199);
+	if (d["gradientCenter"].IsString()) {
+		gradientCenter = str2Vec(d["gradientCenter"].GetString());
+	}
+	if (d["gradientColorSrc"].IsString()) {
+		colorSrc = str2Color(d["gradientColorSrc"].GetString());
+	}
+	if (d["gradientColorDst"].IsString()) {
+		colorDst = str2Color(d["gradientColorDst"].GetString());
+	}
+
+	GameLogic::Game->setBackGradientCenter(gradientCenter);
+	GameLogic::Game->setBackGradientColor(colorSrc, colorDst);
+
+	std::string palletteFileName = GameLogic::Game->mPaletteFileName;
+	if (d["paletteFile"].IsString()){
+		palletteFileName = d["paletteFile"].GetString();
+	}
+
+	palletteFileName = FileUtils::getInstance()->fullPathForFilename(palletteFileName.c_str());
+	auto fpPallette = fopen(palletteFileName.c_str(), "r");
+
+	if (!fpPallette) {
+		CCLOG("Warning: cannot access the palette file : %s\nUsing default value", filename);
+	}
+	else {
+		fseek(fpPallette, 0, SEEK_END);
+		auto pFsize = ftell(fpPallette);
+		rewind(fpPallette);
+		char* fpBuffer = new char[pFsize];
+		fread(fpBuffer, 1, pFsize, fpPallette);
+		fclose(fpPallette);
+
+		Document dPalette;
+		dPalette.Parse<kParseDefaultFlags>(fpBuffer);
+
+		if (dPalette["palette"].IsArray()){
+			auto size = dPalette["palette"].Size();
+			if (size > 0){
+				GameLogic::Game->mPalette.clear();
+	#if EDITOR_MODE
+				UIColorEditor::colorEditor->cleanColors();
+	#endif
 			}
 
-		}
+			for (auto i = 0; i < size; i++){
+				auto& palette = dPalette["palette"][i];
+				if (palette["index"].IsInt() && palette["color"].IsString()){
+					GameLogic::Game->mPalette.insert(std::pair<int, Color3B>(palette["index"].GetInt(), str2Color(palette["color"].GetString())));
+	#if EDITOR_MODE
+					UIColorEditor::colorEditor->addColor(palette["index"].GetInt(), str2Color(palette["color"].GetString()));
+	#endif
+				}
 
-#if EDITOR_MODE
-		UIColorEditor::colorEditor->updateColorButtonDisplay();
-#endif
+			}
+
+	#if EDITOR_MODE
+			UIColorEditor::colorEditor->updateColorButtonDisplay();
+	#endif
+		}
 	}
+
 
     if(d["blocks"].IsArray()) {
         auto size = d["blocks"].Size();

@@ -19,7 +19,8 @@ public:
 #endif
     
     static void saveMap(const char* file);
-    
+	static void savePalette(const char* file);
+
 #if EDITOR_MODE
     static void loadMap(bool local = true);
 #endif
