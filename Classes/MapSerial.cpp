@@ -279,7 +279,10 @@ void MapSerial::saveMap(const char* file) {
 	INDENT_1 ss << "\"author\": " << "\"" << author << "\""; RT_LINE
 	INDENT_1 ss << "\"time\": " << "\"" << timestr << "\""; RT_LINE
 	INDENT_1 ss << "\"backgroundColor\": " << colorStr(GameLogic::Game->mBackgroundColor); RT_LINE
-	INDENT_1 ss << "\"heroColor\": " << colorStr(GameLogic::Game->mBlockColors[0]); RT_LINE
+#if 0
+    INDENT_1 ss << "\"heroColor\": " << colorStr(GameLogic::Game->mBlockColors[0]); RT_LINE
+#endif
+    INDENT_1 ss << "\"heroColorIndex\": " << GameLogic::Game->mHero->mPaletteIndex; RT_LINE
 	INDENT_1 ss << "\"normalBlockColor\": " << colorStr(GameLogic::Game->mBlockColors[1]); RT_LINE
 	INDENT_1 ss << "\"deathBlockColor\": " << colorStr(GameLogic::Game->mBlockColors[2]); RT_LINE
 	INDENT_1 ss << "\"deathCircleColor\": " << colorStr(GameLogic::Game->mBlockColors[3]); RT_LINE
@@ -467,9 +470,14 @@ void MapSerial::loadMap(const char* filename) {
         GameLogic::Game->setBackgroundColor(str2Color(d["backgroundColor"].GetString()));
     }SHOW_WARNING
     
+#if 0
 	if (d["heroColor"].IsString()) {
 		GameLogic::Game->mBlockColors[0] = str2Color(d["heroColor"].GetString());
 	}SHOW_WARNING
+#endif
+    if (d["heroColorIndex"].IsInt()) {
+        GameLogic::Game->mHero->setColor(d["heroColorIndex"].GetInt());
+    }SHOW_WARNING
 
 	if (d["normalBlockColor"].IsString()) {
 		GameLogic::Game->mBlockColors[1] = str2Color(d["normalBlockColor"].GetString());
