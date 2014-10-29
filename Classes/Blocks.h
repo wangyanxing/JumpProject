@@ -184,7 +184,7 @@ public:
     
     static int mIDCounter;
     
-    std::string textureName{ "images/saw3.png" };
+    std::string mTextureName{ "images/saw3.png" };
 
 	std::vector<std::string> mTriggerEvents;
     bool mTriggerEventsCalled{ false };

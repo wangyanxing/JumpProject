@@ -273,7 +273,7 @@ void MapSerial::saveMap(const char* file) {
         INDENT_3 ss << "\"shadowLength\": " << b->mShadowLength; RT_LINE
         INDENT_3 ss << "\"shadowEnable\": " << bool2Str(b->mCastShadow); RT_LINE
 		INDENT_3 ss << "\"paletteIndex\": " << b->mPaletteIndex; RT_LINE
-        INDENT_3 ss << "\"textureName\": \"" << b->textureName << "\""; RT_LINE
+        INDENT_3 ss << "\"textureName\": \"" << b->mTextureName << "\""; RT_LINE
 
         if (b->mKind == KIND_DEATH_CIRCLE || b->mKind == KIND_DEATH)
         {
@@ -576,7 +576,7 @@ void MapSerial::loadMap(const char* filename) {
 #else
             block->addToScene(GameScene::Scene);
 #endif
-            block->textureName = textureName;
+            block->mTextureName = textureName;
 			if (paletteIndex!=-1)
 				block->setColor(paletteIndex);
 

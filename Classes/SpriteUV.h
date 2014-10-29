@@ -10,6 +10,7 @@
 
 class SpriteUV :  public cocos2d::Sprite
 {
+public:
     void setupTexParameters();
    
 public:
@@ -25,7 +26,8 @@ public:
     
     void setUVOffset(cocos2d::Point offset);
     
-    void setUVLength(float length);
+    void setUVHeight(float val);
+    void setUVWidth(float val);
         
     // implement the "static node()" method manually
     CREATE_FUNC(SpriteUV);

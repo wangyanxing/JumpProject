@@ -55,7 +55,12 @@ bool SpriteUV::initWithSpriteFrameName(const char *pszFilename)
     return false;
 }
 
-void SpriteUV::setUVLength(float length) {
+void SpriteUV::setUVHeight(float length) {
+    _quad.bl.texCoords.v = length;
+    _quad.br.texCoords.v = length;
+}
+
+void SpriteUV::setUVWidth(float length) {
     _quad.tr.texCoords.u = length;
     _quad.br.texCoords.u = length;
 }

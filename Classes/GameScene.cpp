@@ -58,7 +58,8 @@ bool GameScene::init() {
     
     mGame = new GameLogic(this);
     
-    auto str = FileUtils::getInstance()->fullPathForFilename("maps/local/w1_MO_sawDancing.json");
+    //auto str = FileUtils::getInstance()->fullPathForFilename("maps/local/w1_MO_sawDancing.json");
+    auto str = FileUtils::getInstance()->fullPathForFilename("maps/local/t_yw_shadowbug.json");
     MapSerial::loadMap(str.c_str());
     
     mGame->enableGame(true);

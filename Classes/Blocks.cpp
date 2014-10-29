@@ -414,16 +414,22 @@ void BlockBase::setKind(BlockKind kind) {
         // update image
         mImageSize = 8;
         
-        Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(textureName);
+        Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
         mSprite->setTexture(texture);
         
         setWidth(size);
         setHeight(size);
         mRestoreSize = Size(size,size);
+    } if(kind == KIND_DEATH) {
+        mTextureName = "images/saw.png";
+        Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
+        mSprite->setTexture(texture);
+        mSprite->setupTexParameters();
     } else {
         mImageSize = 8;
         mRotationSpeed = 0;
         
+        mTextureName = "images/rect.png";
         mSprite->setTexture("images/rect.png");
         
         setSize(Size(mSprite->getScaleX() * mImageSize,
@@ -434,7 +440,6 @@ void BlockBase::setKind(BlockKind kind) {
         if(kind == KIND_PUSHABLE) {
             mSprite->getPhysicsBody()->setRotationEnable(false);
             mSprite->getPhysicsBody()->setMass(40);
-            //mSprite->getPhysicsBody()->setGravityEnable(false);
         }
     }
 }
@@ -479,6 +484,10 @@ void BlockBase::addThickness(int val) {
     
     mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
                         mSprite->getScaleY() * mImageSize);
+    
+    auto size = getSize();
+    mSprite->setUVWidth(size.width / size.height);
+    mSprite->setUVHeight(1);
 }
 
 void BlockBase::subThickness(int val) {
@@ -493,6 +502,10 @@ void BlockBase::subThickness(int val) {
     
     mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
                         mSprite->getScaleY() * mImageSize);
+    
+    auto size = getSize();
+    mSprite->setUVWidth(size.width / size.height);
+    mSprite->setUVHeight(1);
 }
 
 void BlockBase::addWidth(int val) {
@@ -507,6 +520,10 @@ void BlockBase::addWidth(int val) {
     
     mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
                         mSprite->getScaleY() * mImageSize);
+    
+    auto size = getSize();
+    mSprite->setUVWidth(size.width / size.height);
+    mSprite->setUVHeight(1);
 }
 
 void BlockBase::subWidth(int val) {
@@ -521,6 +538,10 @@ void BlockBase::subWidth(int val) {
     
     mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
                         mSprite->getScaleY() * mImageSize);
+    
+    auto size = getSize();
+    mSprite->setUVWidth(size.width / size.height);
+    mSprite->setUVHeight(1);
 }
 
 void BlockBase::setWidth(float val) {
@@ -529,6 +550,10 @@ void BlockBase::setWidth(float val) {
         mSprite->setScale(val / mImageSize);
     else
         mSprite->setScale(val / mImageSize, mSprite->getScaleY());
+    
+    auto size = getSize();
+    mSprite->setUVWidth(size.width / size.height);
+    mSprite->setUVHeight(1);
 }
 
 void BlockBase::setHeight(float val) {
@@ -537,6 +562,10 @@ void BlockBase::setHeight(float val) {
         mSprite->setScale(val / mImageSize);
     else
         mSprite->setScale(mSprite->getScaleX(), val / mImageSize);
+    
+    auto size = getSize();
+    mSprite->setUVWidth(size.width / size.height);
+    mSprite->setUVHeight(1);
 }
 
 float BlockBase::getWidth() {
@@ -552,6 +581,9 @@ float BlockBase::getThickness() {
 void BlockBase::setSize(Size size) {
     mSprite->setScale(size.width / mImageSize, size.height / mImageSize);
     mRestoreSize = size;
+
+    mSprite->setUVWidth(size.width / size.height);
+    mSprite->setUVHeight(1);
 }
 
 cocos2d::Size BlockBase::getSize() {

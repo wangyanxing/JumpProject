@@ -14,8 +14,8 @@ void GameUtils::setPixelStyleTexture(Sprite* sp) {
     static Texture2D::TexParams param;
     param.minFilter = GL_NEAREST;
     param.magFilter = GL_NEAREST;
-    param.wrapS = GL_CLAMP_TO_EDGE;
-    param.wrapT = GL_CLAMP_TO_EDGE;
+    param.wrapS = GL_REPEAT;
+    param.wrapT = GL_REPEAT;
     sp->getTexture()->setTexParameters(param);
 }
 
