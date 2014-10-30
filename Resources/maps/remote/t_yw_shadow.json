@@ -1,14 +1,21 @@
 {
   "author": "yanxingwang",
-  "time": "Tue Oct 21 09:00:59 2014",
+  "time": "Thu Oct 30 02:30:24 2014",
   "backgroundColor": "#1EB5C7",
-  "heroColor": "#000000",
+  "heroColorIndex": -1,
   "normalBlockColor": "#FFFFFF",
   "deathBlockColor": "#000000",
   "deathCircleColor": "#000000",
   "buttonColor": "#FEE132",
   "pushableBlockColor": "#DC96A8",
   "spawnPosition": "149.988,34.5781",
+  "lightPosition": "344.051,273.863",
+  "lightMoving": true,
+  "shadowDarkness": 0.098,
+  "gradientCenter": "0,0",
+  "gradientColorSrc": "#32C9DB",
+  "gradientColorDst": "#1EB5C7",
+  "paletteFile": "palette/color01.json",
   "blocks": [ 
     { 
       "id": 1,
@@ -16,6 +23,11 @@
       "position": "480,10",
       "pickable": false,
       "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
       "kind": "BLOCK"
     },
     { 
@@ -24,6 +36,11 @@
       "position": "480,529.993",
       "pickable": false,
       "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
       "kind": "BLOCK"
     },
     { 
@@ -32,6 +49,11 @@
       "position": "10,269.997",
       "pickable": false,
       "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
       "kind": "BLOCK"
     },
     { 
@@ -40,14 +62,24 @@
       "position": "950,269.997",
       "pickable": false,
       "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
       "kind": "BLOCK"
     },
     { 
       "id": 5,
       "size": "45,45",
-      "position": "350.762,200.562",
+      "position": "406.063,275.57",
       "pickable": true,
       "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
       "kind": "BLOCK"
     }
   ]

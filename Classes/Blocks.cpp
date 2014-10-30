@@ -434,12 +434,13 @@ void BlockBase::setKind(BlockKind kind) {
         setHeight(size);
         mRestoreSize = Size(size,size);
     }else if(kind == KIND_DEATH) {
-        if (mTriggerEvents.size() == 0 && mTriggerEvents.at(0) == "die")
+        if (mTriggerEvents.size() == 1 && mTriggerEvents.at(0) == "die")
             mTextureName = "images/saw.png";
 
         Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
         mSprite->setTexture(texture);
-        mSprite->setupTexParameters();
+        if (mTextureName == "images/saw.png")
+            mSprite->setupTexParameters();
     } else {
         mImageSize = 8;
         mRotationSpeed = 0;
