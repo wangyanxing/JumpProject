@@ -23,8 +23,30 @@ void colorMix(const Color4B& src, const Color4B& dst, float r, Color4B& out) {
 
 ShadowManager::ShadowManager(cocos2d::Node* parentNode) {
     
-    mRenderer = DrawNodeEx::create("images/rect.png");
-    parentNode->addChild(mRenderer, 2);
+    mRendererSoft = DrawNodeEx::create("images/rect.png");
+    parentNode->addChild(mRendererSoft, 2);
+    
+    mRendererNormal = DrawNodeEx::create("images/rect.png");
+    parentNode->addChild(mRendererNormal, 2);
+    mRendererNormal->setBlendFunc(BlendFunc::DISABLE);
+    
+#if EDITOR_MODE
+    auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/normal_shadow_editor.fsh");
+#else
+    auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/normal_shadow.fsh");
+#endif
+    // init shader
+    GLchar * fragSource = (GLchar*)String::createWithContentsOfFile(shaderfile.c_str())->getCString();
+    auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource);
+    auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
+    
+    float screenWidth = VisibleRect::getFrameSize().width;
+    float screenHeight = VisibleRect::getFrameSize().height;
+    
+    mRendererNormal->setGLProgramState(glProgramState);
+    glProgramState->setUniformVec4("data", Vec4(screenWidth, screenHeight, 0, 0));
+    glProgramState->setUniformVec4("colorSrc", Vec4(50.0/255.0, 201.0/255.0,219.0/255.0, 0.4));
+    glProgramState->setUniformVec4("colorDest", Vec4(30.0/255.0, 181.0/255.0,199.0/255.0, 0.4));
     
     mLightPos = VisibleRect::center();
     mLightPos.x = 300;
@@ -34,21 +56,11 @@ ShadowManager::ShadowManager(cocos2d::Node* parentNode) {
 }
 
 ShadowManager::~ShadowManager() {
+    mRendererSoft->removeFromParent();
+    mRendererNormal->removeFromParent();
 }
 
-void ShadowManager::updateBlock(BlockBase* block, std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles) {
-    Color4B colorBase = Color4B::BLACK;
-    colorBase.a = 255 * mShadowDarkness;
-    
-    if(!block->mCastShadow || !block->isVisible() || !block->mCanPickup)
-        return;
-    
-    if(block->getSprite()->getBoundingBox().containsPoint(mLightPos))
-        return;
-    
-    std::vector<Vec2> pts;
-    block->getPointsForShadow(mLightPos, pts);
-    
+std::pair<Vec2, Vec2> ShadowManager::getShadowEntry(BlockBase* block, const std::vector<Vec2>& pts) {
     Vec2 minPt, maxPt;
     
     CC_ASSERT(pts.size() == 4);
@@ -83,6 +95,98 @@ void ShadowManager::updateBlock(BlockBase* block, std::vector<cocos2d::V2F_C4B_T
             maxPt = pts[3];
         }
     }
+
+    return std::make_pair(minPt,maxPt);
+}
+
+void ShadowManager::updateShaderParam() {
+    Vec2 p = GameLogic::Game->mGradientCenter;
+    p.x -= VisibleRect::center().x;
+    p.x *= -1;
+    p.x /= VisibleRect::center().x;
+    
+    p.y -= VisibleRect::center().y;
+    p.y *= -1;
+    p.y /= VisibleRect::center().x;
+    
+    float screenWidth = VisibleRect::getFrameSize().width;
+    float screenHeight = VisibleRect::getFrameSize().height;
+    
+    mRendererNormal->getGLProgramState()->setUniformVec4("data",
+                                               Vec4(screenWidth, screenHeight, p.x, p.y));
+    
+    mRendererNormal->getGLProgramState()->setUniformVec4("colorSrc", Vec4(GameLogic::Game->mGradientColorSrc.r/255.0,
+                                                 GameLogic::Game->mGradientColorSrc.g/255.0,
+                                                 GameLogic::Game->mGradientColorSrc.b/255.0, 0.4));
+    mRendererNormal->getGLProgramState()->setUniformVec4("colorDest", Vec4(GameLogic::Game->mGradientColorDst.r/255.0,
+                                                     GameLogic::Game->mGradientColorDst.g/255.0,
+                                                     GameLogic::Game->mGradientColorDst.b/255.0, 0.4));
+}
+
+void ShadowManager::updateBlockNormal(BlockBase* block, std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles) {
+    if(!block->mCastShadow || !block->isVisible() || !block->mCanPickup)
+        return;
+    
+    if(block->getSprite()->getBoundingBox().containsPoint(mLightPos))
+        return;
+    
+    std::vector<Vec2> pts;
+    block->getPointsForShadow(mLightPos, pts);
+
+    auto entries = getShadowEntry(block,pts);
+    
+    Color4B colorBase = Color4B::BLACK;
+    colorBase.r = 255 * (1-mShadowDarkness);
+    colorBase.g = 255 * (1-mShadowDarkness);
+    colorBase.b = 255 * (1-mShadowDarkness);
+    
+    const float LENGTH = 1500;
+    
+    Vec2 dir0 = entries.first - mLightPos;
+    dir0.normalize();
+    Vec2 dir1 = entries.second - mLightPos;
+    dir1.normalize();
+    Vec2 f0 = entries.first + dir0 * LENGTH;
+    Vec2 f1 = entries.second + dir1 * LENGTH;
+    
+    V2F_C4B_T2F_Triangle t;
+    t.a.vertices = entries.first;
+    t.a.colors = colorBase;
+    
+    t.b.vertices = f1;
+    t.b.colors = colorBase;
+    
+    t.c.vertices = f0;
+    t.c.colors = colorBase;
+    
+    triangles.push_back(t);
+    
+    t.a.vertices = entries.first;
+    t.a.colors = colorBase;
+    
+    t.b.vertices = entries.second;
+    t.b.colors = colorBase;
+    
+    t.c.vertices = f1;
+    t.c.colors = colorBase;
+    
+    triangles.push_back(t);
+}
+
+void ShadowManager::updateBlockSoft(BlockBase* block, std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles) {
+    Color4B colorBase = Color4B::BLACK;
+    colorBase.a = 255 * mShadowDarkness;
+    
+    if(!block->mCastShadow || !block->isVisible() || !block->mCanPickup)
+        return;
+    
+    if(block->getSprite()->getBoundingBox().containsPoint(mLightPos))
+        return;
+    
+    std::vector<Vec2> pts;
+    block->getPointsForShadow(mLightPos, pts);
+    
+    auto entries = getShadowEntry(block,pts);
     
     Vec2 pa0 = pts[0].getMidpoint(pts[2]);
     Vec2 pa1 = pts[1].getMidpoint(pts[3]);
@@ -90,8 +194,8 @@ void ShadowManager::updateBlock(BlockBase* block, std::vector<cocos2d::V2F_C4B_T
     Vec2 pb0 = pts[0].getMidpoint(pts[1]);
     Vec2 pb1 = pts[2].getMidpoint(pts[3]);
     
-    Vec2 OA = minPt - mLightPos;
-    Vec2 OB = maxPt - mLightPos;
+    Vec2 OA = entries.first - mLightPos;
+    Vec2 OB = entries.second - mLightPos;
     
     Vec2 midLine = OA + OB;
     midLine.normalize();
@@ -137,8 +241,8 @@ void ShadowManager::updateBlock(BlockBase* block, std::vector<cocos2d::V2F_C4B_T
     
     auto dir0 = OA/lenOA;
     auto dir1 = OB/lenOB;
-    auto curPt0 = minPt;
-    auto curPt1 = maxPt;
+    auto curPt0 = entries.first;
+    auto curPt1 = entries.second;
     auto len0 = lengthA;
     auto len1 = lengthB;
     
@@ -190,17 +294,40 @@ void ShadowManager::updateBlock(BlockBase* block, std::vector<cocos2d::V2F_C4B_T
 }
 
 void ShadowManager::update(float dt) {
-    mRenderer->clear();
+    
+    mRendererSoft->clear();
+    mRendererNormal->clear();
+    
     std::vector<V2F_C4B_T2F_Triangle> triangles;
     
-    for(auto b : GameLogic::Game->mBlocks) {
-        auto block = b.second;
-        updateBlock(block, triangles);
+    if(mUseSoftShadow) {
+        
+        mRendererNormal->setVisible(false);
+        mRendererSoft->setVisible(true);
+        
+        for(auto b : GameLogic::Game->mBlocks) {
+            auto block = b.second;
+            updateBlockSoft(block, triangles);
+        }
+        updateBlockSoft(GameLogic::Game->mHero, triangles);
+        
+        if(!triangles.empty())
+            mRendererSoft->drawTriangles(triangles);
+        
+    } else {
+        
+        mRendererNormal->setVisible(true);
+        mRendererSoft->setVisible(false);
+        
+        for(auto b : GameLogic::Game->mBlocks) {
+            auto block = b.second;
+            updateBlockNormal(block, triangles);
+        }
+        updateBlockNormal(GameLogic::Game->mHero, triangles);
+        
+        if(!triangles.empty())
+            mRendererNormal->drawTriangles(triangles);
     }
-    updateBlock(GameLogic::Game->mHero, triangles);
-    
-    if(!triangles.empty())
-        mRenderer->drawTriangles(triangles);
     
     if(!mShadowMovingEnable || !GameLogic::Game->mGameMode)
         return;

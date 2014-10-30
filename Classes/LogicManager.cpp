@@ -289,6 +289,8 @@ void GameLogic::setBackGradientColor(const cocos2d::Color3B& colorSrc,
     glProgramState->setUniformVec4("colorDest", Vec4(mGradientColorDst.r/255.0,
                                                  mGradientColorDst.g/255.0,
                                                  mGradientColorDst.b/255.0, 0.4));
+    
+    mShadows->updateShaderParam();
 }
 
 void GameLogic::setBackGradientCenter(const cocos2d::Vec2& pos) {
@@ -307,6 +309,8 @@ void GameLogic::setBackGradientCenter(const cocos2d::Vec2& pos) {
     mGradientCenter = pos;
     mBack->getGLProgramState()->setUniformVec4("data",
                                                Vec4(screenWidth, screenHeight, p.x, p.y));
+    
+    mShadows->updateShaderParam();
 }
 
 void GameLogic::createFixedBlocks() {

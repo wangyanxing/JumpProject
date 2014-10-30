@@ -26,11 +26,17 @@ public:
     
     void update(float dt);
     
-    void updateBlock(BlockBase* block, std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles);
+    void updateShaderParam();
+    
+    void updateBlockSoft(BlockBase* block, std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles);
+    void updateBlockNormal(BlockBase* block, std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles);
+    
+    std::pair<cocos2d::Vec2, cocos2d::Vec2> getShadowEntry(BlockBase* block,const std::vector<cocos2d::Vec2>& pts);
     
     cocos2d::Vec2 mLightPos;
     cocos2d::Vec2 mOriginLightPos;
-    cocos2d::DrawNodeEx* mRenderer{ nullptr };
+    cocos2d::DrawNodeEx* mRendererSoft{ nullptr };
+    cocos2d::DrawNodeEx* mRendererNormal{ nullptr };
     
     float mLightMoveTimer{ 0 };
     bool mMoving{ false };
@@ -40,6 +46,7 @@ public:
     bool mShadowMovingEnable{ true };
     
     float mShadowDarkness{ 0.098f };
+    bool mUseSoftShadow{ false }; // using fake soft shadow or not
 };
 
 

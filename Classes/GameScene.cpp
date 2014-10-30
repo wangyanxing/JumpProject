@@ -62,8 +62,13 @@ bool GameScene::init() {
     
     createControlPad();
     
+#if 1
     loadChooseLevel("maps/remote/w1_chooselevel.json");
-    
+#else
+    auto str = FileUtils::getInstance()->fullPathForFilename("maps/local/t_yw_shadow.json");
+    MapSerial::loadMap(str.c_str());
+    enableGame(true);
+#endif
     return true;
 }
 
@@ -207,6 +212,10 @@ void GameScene::createControlPad() {
     mLeftButton->setPosition(Vec2(74,60));
     mRightButton->setPosition(Vec2(280,60));
     mJumpButton->setPosition(Vec2(820,60));
+    
+    mLeftButton->setColor(Color3B(200,200,200));
+    mRightButton->setColor(Color3B(200,200,200));
+    mJumpButton->setColor(Color3B(200,200,200));
     
     mLeftButton->setScale(0.3);
     mRightButton->setScale(0.3);
