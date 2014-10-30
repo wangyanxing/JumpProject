@@ -342,12 +342,8 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
     
     if (keyCode == EventKeyboard::KeyCode::KEY_I) {
         for(auto sel : mSelections) {
-            auto s = sel->getSize();
-            if(s.width >= s.height) {
-                sel->getSprite()->flipUVY();
-            } else {
-                sel->getSprite()->flipUVX();
-            }
+            sel->mUVFlipped = !sel->mUVFlipped;
+            sel->normalizeUV();
         }
     }
     

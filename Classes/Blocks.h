@@ -23,7 +23,9 @@ public:
     enum Status {
         IDLE,
         OPENING,
-        CLOSING
+        CLOSING,
+        OPENED,
+        CLOSED
     };
     
     BlockBase();
@@ -45,6 +47,8 @@ public:
     }
     
     void rotate();
+    
+    void normalizeUV();
     
     cocos2d::Point getPosition() { return mSprite->getPosition(); }
     
@@ -181,6 +185,8 @@ public:
 	void callTriggerEvent();
     
     Status mStatus{ IDLE };
+    
+    bool mUVFlipped{ false };
     
     static int mIDCounter;
     
