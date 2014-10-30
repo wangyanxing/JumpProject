@@ -105,6 +105,7 @@ void BlockBase::normalizeUV() {
         if(mUVFlipped) {
             mSprite->flipUVY();
         }
+        
     } else {
         float l = h / w;
         mSprite->setUVWidth(l);
