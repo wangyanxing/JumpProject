@@ -246,7 +246,7 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
     
     if(normal.y > 0.9 || normal.y < -0.9) {
         
-        if(pushObject == mHero) {
+        if(pushObject == mHero && normal.y > 0.9) {
             mHero->mCanJump = true;
         }
         
@@ -390,6 +390,8 @@ void GameLogic::updateGame(float dt){
         return;
     }
     
+    mGameTimer += dt;
+    
     float speed = mHero->mPushing ? 80 : 200;
     if(mMoveLeft){
         mHero->moveX(dt * -speed);
@@ -482,6 +484,8 @@ void GameLogic::enableGame(bool val, bool force) {
     
     die();
     mHero->getSprite()->getPhysicsBody()->setGravityEnable(val);
+    
+    mGameTimer = 0;
 }
 
 void GameLogic::setBackgroundColor(const cocos2d::Color3B& color) {

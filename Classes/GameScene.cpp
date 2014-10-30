@@ -61,6 +61,7 @@ bool GameScene::init() {
     mGame = new GameLogic(this);
     
     createControlPad();
+    createMenuButtons();
     
 #if 1
     loadChooseLevel("maps/remote/w1_chooselevel.json");
@@ -125,6 +126,12 @@ void GameScene::updateChoosingLevel(float dt) {
 void GameScene::update(float dt) {
     if(mChoosingLevel)
         updateChoosingLevel(dt);
+    else {
+        // update timer
+        char time[10];
+        sprintf(time, "%.1f",mGame->mGameTimer);
+        mTimerLabel->setString(time);
+    }
     
     mGame->update(dt);
 }
@@ -172,6 +179,28 @@ void GameScene::onTouch(const cocos2d::Vec2& pos) {
     }
 }
 
+void GameScene::showHideMenu(bool force) {
+    if(force || mTimerLabel->getNumberOfRunningActions() == 0) {
+        auto down = Vec2(VisibleRect::center().x, VisibleRect::top().y - 50);
+        auto up = Vec2(VisibleRect::center().x, VisibleRect::top().y + 50);
+        bool out = mTimerLabel->getPositionY() > VisibleRect::top().y;
+        
+        mTimerLabel->runAction(MoveTo::create(0.3, out ? down : up));
+    }
+    if(force || mBackMenu->getNumberOfRunningActions() == 0) {
+        auto down = Vec2(50, VisibleRect::top().y - 50);
+        auto up = Vec2(50, VisibleRect::top().y + 50);
+        bool out = mBackMenu->getPositionY() > VisibleRect::top().y;
+        mBackMenu->runAction(MoveTo::create(0.3, out ? down : up));
+    }
+    if(force || mRestartMenu->getNumberOfRunningActions() == 0) {
+        auto down = Vec2(VisibleRect::right().x - 50, VisibleRect::top().y - 50);
+        auto up = Vec2(VisibleRect::right().x - 50, VisibleRect::top().y + 50);
+        bool out = mRestartMenu->getPositionY() > VisibleRect::top().y;
+        mRestartMenu->runAction(MoveTo::create(0.3, out ? down : up));
+    }
+}
+
 void GameScene::onEndTouch(const cocos2d::Vec2& pos) {
     
     if(mChoosingLevel){
@@ -186,13 +215,18 @@ void GameScene::onEndTouch(const cocos2d::Vec2& pos) {
             }
         }
     } else {
-        if(pos.x < VisibleRect::center().x) {
-            mLeftButton->setOpacity(TRANSPARENT_BUTTON);
-            mRightButton->setOpacity(TRANSPARENT_BUTTON);
-            mGame->mMoveLeft = false;
-            mGame->mMoveRight = false;
+        
+        if(pos.y > VisibleRect::top().y * 0.4 && pos.y < VisibleRect::top().y - 100) {
+            showHideMenu();
         } else {
-            mJumpButton->setOpacity(TRANSPARENT_BUTTON);
+            if(pos.x < VisibleRect::center().x) {
+                mLeftButton->setOpacity(TRANSPARENT_BUTTON);
+                mRightButton->setOpacity(TRANSPARENT_BUTTON);
+                mGame->mMoveLeft = false;
+                mGame->mMoveRight = false;
+            } else {
+                mJumpButton->setOpacity(TRANSPARENT_BUTTON);
+            }
         }
     }
 }
@@ -202,6 +236,48 @@ void GameScene::enableGame(bool v) {
     mLeftButton->setVisible(v);
     mRightButton->setVisible(v);
     mJumpButton->setVisible(v);
+}
+
+void GameScene::toMainMenu() {
+    loadChooseLevel("maps/remote/w1_chooselevel.json");
+}
+
+void GameScene::createMenuButtons() {
+
+    mTimerLabel = Label::createWithSystemFont("23.1", "Heiti TC", 50,
+                                              Size::ZERO, TextHAlignment::CENTER,TextVAlignment::CENTER);
+    addChild(mTimerLabel,1000);
+    mTimerLabel->setPosition(VisibleRect::center().x, VisibleRect::top().y + 50);
+    
+    mBackMenu = MenuItemImage::create("images/menu_icon.png", "images/menu_icon.png", [&](Ref*) {
+        mBackMenu->runAction(Sequence::create(ScaleTo::create(0.1, 0.5),ScaleTo::create(0.1, 0.4), NULL));
+        
+        showHideMenu(true);
+        this->runAction(Sequence::create(DelayTime::create(0.3), CallFunc::create([this]{
+            toMainMenu();
+        }), NULL));
+    });
+
+    mRestartMenu = MenuItemImage::create("images/restart_icon.png", "images/restart_icon.png", [&](Ref*) {
+        mRestartMenu->runAction(Sequence::create(ScaleTo::create(0.1, 0.6),ScaleTo::create(0.1, 0.5), NULL));
+        
+        mGame->enableGame(false);
+        mGame->enableGame(true);
+    });
+    
+    mBackMenu->setColor(Color3B(200,200,200));
+    mRestartMenu->setColor(Color3B(200,200,200));
+    mTimerLabel->setColor(Color3B(200,200,200));
+    
+    mBackMenu->setPosition(50, VisibleRect::top().y + 50);
+    mRestartMenu->setPosition(VisibleRect::right().x - 50, VisibleRect::top().y + 50);
+    
+    mBackMenu->setScale(0.4);
+    mRestartMenu->setScale(0.5);
+
+    auto menu = Menu::create(mBackMenu,mRestartMenu, NULL);
+    menu->setPosition(Vec2::ZERO);
+    addChild(menu,1000);
 }
 
 void GameScene::createControlPad() {

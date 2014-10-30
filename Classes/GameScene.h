@@ -49,8 +49,14 @@ private:
     void onEndTouch(const cocos2d::Vec2& pos);
     
     void createControlPad();
+    void createMenuButtons();
+    
     void updateChoosingLevel(float dt);
     void enterGame(const std::string& name);
+    
+    void toMainMenu();
+    
+    void showHideMenu(bool force = false);
     
 private:
     
@@ -61,6 +67,10 @@ private:
     cocos2d::Sprite* mLeftButton{ nullptr };
     cocos2d::Sprite* mRightButton{ nullptr };
     cocos2d::Sprite* mJumpButton{ nullptr };
+    
+    cocos2d::Label* mTimerLabel{ nullptr };
+    cocos2d::MenuItemImage* mBackMenu{ nullptr };
+    cocos2d::MenuItemImage* mRestartMenu{ nullptr };
     
     bool mChoosingLevel{ false };
     BlockBase* mLightPath{ nullptr };

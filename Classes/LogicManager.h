@@ -101,6 +101,8 @@ public:
     cocos2d::Vec2 mGradientCenter{0,0};
     cocos2d::Color3B mGradientColorSrc;
     cocos2d::Color3B mGradientColorDst;
+    
+    float mGameTimer{ 0 };
 };
 
 #endif /* defined(__JumpEdt__LogicManager__) */
