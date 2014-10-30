@@ -26,7 +26,7 @@ SpriteUV::~SpriteUV()
 void SpriteUV::setupTexParameters(){
 
     auto b = getBoundingBox();
-    if(b.size.width >= b.size.height) {
+    if(b.size.width < b.size.height) {
         Texture2D::TexParams params = { GL_LINEAR, GL_LINEAR, GL_CLAMP_TO_EDGE, GL_REPEAT };
         this->getTexture()->setTexParameters(params);
     } else {

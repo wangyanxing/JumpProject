@@ -100,11 +100,11 @@ void initEvents() {
         e.command = "exit";
 
         e.func = [&](const std::vector<Arg>& args, BlockBase* block){
-            if (block->mTriggerEventContinueTime > 2.9f){
+            if (block->mTriggerEventContinueTime > 0.9f){
                 GameLogic::Game->mDeadFlag = true;
                 block->mTriggerEventContinueTime = 0.0f;
             } else{
-                GameLogic::Game->mHero->getSprite()->setOpacity(255.0f*(3.0f - block->mTriggerEventContinueTime)/3.0f);
+                GameLogic::Game->mHero->getSprite()->setOpacity(255.0f*(1.0f - block->mTriggerEventContinueTime)/1.0f);
                 block->mHeroOpacityChanged = true;
             }
         };
