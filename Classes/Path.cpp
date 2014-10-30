@@ -43,6 +43,10 @@ void Path::update(float dt, cocos2d::Vec2& out, cocos2d::Vec2& outsize) {
                     }
                     mCurPt = nextPt;
                     nextPt = nextPoint();
+                    if(mCurPt == 1){
+                        int x = 0;
+                        x++;
+                    }
                     
                     pt = mPoints[mCurPt];
                     ptNext = mPoints[nextPt];
@@ -57,6 +61,7 @@ void Path::update(float dt, cocos2d::Vec2& out, cocos2d::Vec2& outsize) {
                 outsize.y = pt.height * (1-ratio) + ptNext.height * ratio;
                 
             } else {
+                out = mPoints[mCurPt].pt;
                 mWaitingTimer += dt;
             }
             
