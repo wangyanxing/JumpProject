@@ -164,6 +164,7 @@ void BlockBase::reset() {
 }
 
 void BlockBase::updateOpenClose(float dt) {
+    float minLength = 1;
     if(mStatus == CLOSING) {
         if(mDownDirDoor) {
             float upperbound = mRestorePosition.y + mRestoreSize.height / 2;
@@ -171,44 +172,51 @@ void BlockBase::updateOpenClose(float dt) {
             curHeight += dt * mOpenCloseSpeed;
             if(curHeight >= mRestoreSize.height) {
                 curHeight = mRestoreSize.height;
-                mStatus = IDLE;
+                mStatus = CLOSED;
             }
             setHeight(curHeight);
-            setPositionY(upperbound - curHeight / 2);
+            mMovementToRestore.y += upperbound - curHeight / 2 - mRestorePosition.y;
         } else {
             float lowerbound = mRestorePosition.y - mRestoreSize.height / 2;
             float curHeight = getThickness();
             curHeight += dt * mOpenCloseSpeed;
             if(curHeight >= mRestoreSize.height) {
                 curHeight = mRestoreSize.height;
-                mStatus = IDLE;
+                mStatus = CLOSED;
             }
             setHeight(curHeight);
-            setPositionY(lowerbound + curHeight / 2);
-            
+            mMovementToRestore.y += lowerbound + curHeight / 2 - mRestorePosition.y;
         }
     } else if(mStatus == OPENING) {
         if(mDownDirDoor) {
             float upperbound = mRestorePosition.y + mRestoreSize.height / 2;
             float curHeight = getThickness();
             curHeight -= dt * mOpenCloseSpeed;
-            if(curHeight <= 1) {
-                curHeight = 1;
-                mStatus = IDLE;
+            if(curHeight <= minLength) {
+                curHeight = minLength;
+                mStatus = OPENED;
             }
             setHeight(curHeight);
-            setPositionY(upperbound - curHeight / 2);
+            mMovementToRestore.y += upperbound - curHeight / 2 - mRestorePosition.y;
         } else {
             float lowerbound = mRestorePosition.y - mRestoreSize.height / 2;
             float curHeight = getThickness();
             curHeight -= dt * mOpenCloseSpeed;
-            if(curHeight <= 1) {
-                curHeight = 1;
-                mStatus = IDLE;
+            if(curHeight <= minLength) {
+                curHeight = minLength;
+                mStatus = OPENED;
             }
             setHeight(curHeight);
-            setPositionY(lowerbound + curHeight / 2);
-            
+            mMovementToRestore.y += lowerbound + curHeight / 2 - mRestorePosition.y;
+        }
+    } else if(mStatus == OPENED) {
+        setHeight(minLength);
+        float upperbound = mRestorePosition.y + mRestoreSize.height / 2;
+        float lowerbound = mRestorePosition.y - mRestoreSize.height / 2;
+        if(mDownDirDoor) {
+            mMovementToRestore.y += upperbound - minLength / 2 - mRestorePosition.y;
+        } else {
+            mMovementToRestore.y += lowerbound + minLength / 2 - mRestorePosition.y;
         }
     }
 }

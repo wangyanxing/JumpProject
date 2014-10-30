@@ -111,7 +111,6 @@ Size str2Size(const std::string& str) {
     return Size(atof(v[0].c_str()), atof(v[1].c_str()));
 }
 
-
 std::string bool2Str(bool v) {
     return v ? "true" : "false";
 }
