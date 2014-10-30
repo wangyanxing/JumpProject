@@ -216,7 +216,7 @@ void GameScene::onEndTouch(const cocos2d::Vec2& pos) {
         }
     } else {
         
-        if(pos.y > VisibleRect::top().y * 0.4 && pos.y < VisibleRect::top().y - 100) {
+        if(pos.y > VisibleRect::top().y * 0.3 && pos.y < VisibleRect::top().y - 100) {
             showHideMenu();
         } else {
             if(pos.x < VisibleRect::center().x) {
@@ -253,7 +253,7 @@ void GameScene::createMenuButtons() {
         mBackMenu->runAction(Sequence::create(ScaleTo::create(0.1, 0.5),ScaleTo::create(0.1, 0.4), NULL));
         
         showHideMenu(true);
-        this->runAction(Sequence::create(DelayTime::create(0.3), CallFunc::create([this]{
+        this->runAction(Sequence::create(DelayTime::create(0.2), CallFunc::create([this]{
             toMainMenu();
         }), NULL));
     });
@@ -261,8 +261,11 @@ void GameScene::createMenuButtons() {
     mRestartMenu = MenuItemImage::create("images/restart_icon.png", "images/restart_icon.png", [&](Ref*) {
         mRestartMenu->runAction(Sequence::create(ScaleTo::create(0.1, 0.6),ScaleTo::create(0.1, 0.5), NULL));
         
-        mGame->enableGame(false);
-        mGame->enableGame(true);
+        showHideMenu(true);
+        this->runAction(Sequence::create(DelayTime::create(0.2), CallFunc::create([this]{
+            mGame->enableGame(false);
+            mGame->enableGame(true);
+        }), NULL));
     });
     
     mBackMenu->setColor(Color3B(200,200,200));

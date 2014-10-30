@@ -95,11 +95,26 @@ void BlockBase::setPosition(const cocos2d::Point& pt) {
 }
 
 void BlockBase::normalizeUV() {
+    
+    if (mTextureName != "images/saw.png" && mTextureName != "images/saw_r.png") {
+        mSprite->resetUV();
+        return;
+    }
+    
     //change uv
     auto w = getWidth();
     auto h = getThickness();
     mSprite->resetUV();
     if(w >= h) {
+        if (mTextureName != "images/saw.png") {
+            mTextureName = "images/saw.png";
+            Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
+            mSprite->setTexture(texture);
+        }
+        
+        Texture2D::TexParams params = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_CLAMP_TO_EDGE };
+        mSprite->getTexture()->setTexParameters(params);
+        
         float l = w / h;
         mSprite->setUVWidth(l);
         if(mUVFlipped) {
@@ -107,9 +122,18 @@ void BlockBase::normalizeUV() {
         }
         
     } else {
+        if (mTextureName != "images/saw_r.png") {
+            mTextureName = "images/saw_r.png";
+            Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
+            mSprite->setTexture(texture);
+        }
+        
+        Texture2D::TexParams params = { GL_LINEAR, GL_LINEAR, GL_CLAMP_TO_EDGE, GL_REPEAT };
+        mSprite->getTexture()->setTexParameters(params);
+        
         float l = h / w;
-        mSprite->setUVWidth(l);
-        mSprite->rotateUV();
+        mSprite->setUVHeight(l);
+
         if(mUVFlipped) {
             mSprite->flipUVX();
         }
@@ -458,8 +482,9 @@ void BlockBase::setKind(BlockKind kind) {
 
         Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
         mSprite->setTexture(texture);
-        if (mTextureName == "images/saw.png")
-            mSprite->setupTexParameters();
+        
+        normalizeUV();
+        
     } else {
         mImageSize = 8;
         mRotationSpeed = 0;

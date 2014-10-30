@@ -25,14 +25,8 @@ SpriteUV::~SpriteUV()
 
 void SpriteUV::setupTexParameters(){
 
-    auto b = getBoundingBox();
-    if(b.size.width < b.size.height) {
-        Texture2D::TexParams params = { GL_LINEAR, GL_LINEAR, GL_CLAMP_TO_EDGE, GL_REPEAT };
-        this->getTexture()->setTexParameters(params);
-    } else {
-        Texture2D::TexParams params = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_CLAMP_TO_EDGE };
-        this->getTexture()->setTexParameters(params);
-    }
+    Texture2D::TexParams params = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT };
+    this->getTexture()->setTexParameters(params);
 }
 
 bool SpriteUV::initWithFile(const char *pszFilename)
