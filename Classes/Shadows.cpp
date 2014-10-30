@@ -43,53 +43,104 @@ void ShadowManager::updateBlock(BlockBase* block, std::vector<cocos2d::V2F_C4B_T
     if(!block->mCastShadow || !block->isVisible() || !block->mCanPickup)
         return;
     
+    if(block->getSprite()->getBoundingBox().containsPoint(mLightPos))
+        return;
+    
     std::vector<Vec2> pts;
     block->getPointsForShadow(mLightPos, pts);
     
-    float minRet = 1000;
-    float maxRet = -1000;
     Vec2 minPt, maxPt;
     
-    for(const auto& p : pts) {
-        float x = abs(p.x - mLightPos.x);
-        float y = abs(p.y - mLightPos.y);
-        float ret = atan2(y, x);
-        if(p.y - mLightPos.y < 0) {
-            ret = 180-ret;
+    CC_ASSERT(pts.size() == 4);
+    if(mLightPos.x >= pts[0].x && mLightPos.x <= pts[1].x) {
+        if(mLightPos.y >= pts[0].y) {
+            minPt = pts[0];
+            maxPt = pts[1];
+        } else if(mLightPos.y <= pts[2].y) {
+            minPt = pts[2];
+            maxPt = pts[3];
         }
-        if(p.x - mLightPos.x < 0) {
-            ret = -ret;
+    } else if(mLightPos.x < pts[0].x) {
+        if(mLightPos.y >= pts[0].y) {
+            minPt = pts[2];
+            maxPt = pts[1];
+        } else if(mLightPos.y <= pts[2].y) {
+            minPt = pts[0];
+            maxPt = pts[3];
+        } else {
+            minPt = pts[0];
+            maxPt = pts[2];
         }
-        if(ret < minRet) {
-            minRet = ret;
-            minPt = p;
-        }
-        if(ret > maxRet) {
-            maxRet = ret;
-            maxPt = p;
+    } else if(mLightPos.x > pts[1].x) {
+        if(mLightPos.y >= pts[1].y) {
+            minPt = pts[0];
+            maxPt = pts[3];
+        } else if(mLightPos.y <= pts[3].y) {
+            minPt = pts[1];
+            maxPt = pts[2];
+        } else {
+            minPt = pts[1];
+            maxPt = pts[3];
         }
     }
     
-    Vec2 minPtFar = minPt - mLightPos;
-    float lengthMin = minPtFar.length();
+    Vec2 pa0 = pts[0].getMidpoint(pts[2]);
+    Vec2 pa1 = pts[1].getMidpoint(pts[3]);
     
-    Vec2 maxPtFar = maxPt - mLightPos;
-    float lengthMax = maxPtFar.length();
+    Vec2 pb0 = pts[0].getMidpoint(pts[1]);
+    Vec2 pb1 = pts[2].getMidpoint(pts[3]);
     
-    float maxLen = std::max(lengthMax, lengthMin) + block->mShadowLength;
+    Vec2 OA = minPt - mLightPos;
+    Vec2 OB = maxPt - mLightPos;
     
-    minPtFar.x /= lengthMin;
-    minPtFar.y /= lengthMin;
+    Vec2 midLine = OA + OB;
+    midLine.normalize();
+    Vec2 far = mLightPos + midLine * 2000; // make it long enough
     
-    maxPtFar.x /= lengthMax;
-    maxPtFar.y /= lengthMax;
+    bool intersetA = false;
+    bool intersetB = false;
+    Vec2 interA, interB;
+    Vec2 intersection;
     
-    auto dir0 = minPtFar;
-    auto dir1 = maxPtFar;
+    if(Vec2::isSegmentIntersect(pa0, pa1, mLightPos, far)) {
+        intersetA = true;
+        interA = Vec2::getIntersectPoint(pa0, pa1, mLightPos, far);
+    }
+    if(Vec2::isSegmentIntersect(pb0, pb1, mLightPos, far)) {
+        intersetB = true;
+        interB = Vec2::getIntersectPoint(pb0, pb1, mLightPos, far);
+    }
+    if(intersetA && intersetB) {
+        intersection = interA.getMidpoint(interB);
+    } else if(!intersetA && !intersetB) {
+        return;
+    } else {
+        intersection = intersetA ? interA : interB;
+    }
+    
+    float OX = intersection.distance(mLightPos);
+
+    const float PI = 3.14159265;
+    float lenOA = OA.length();
+    float lenOB = OB.length();
+    
+    float ag = midLine.getAngle(OA);
+    if(ag < 0) {
+        ag += PI;
+    }
+    if(ag > PI / 2) {
+        ag = PI - ag;
+    }
+    float cosTheta = cos(ag);
+    float lengthA = (OX + block->mShadowLength) / cosTheta - lenOA;
+    float lengthB = (OX + block->mShadowLength) / cosTheta - lenOB;
+    
+    auto dir0 = OA/lenOA;
+    auto dir1 = OB/lenOB;
     auto curPt0 = minPt;
     auto curPt1 = maxPt;
-    auto len0 = maxLen - lengthMin;
-    auto len1 = maxLen - lengthMax;
+    auto len0 = lengthA;
+    auto len1 = lengthB;
     
     for (int i = 0; i < block->mShadowFadeSegments + 1; i++) {
         

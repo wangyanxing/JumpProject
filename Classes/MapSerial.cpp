@@ -318,6 +318,9 @@ void MapSerial::saveMap(const char* file) {
 		INDENT_3 ss << "\"paletteIndex\": " << b->mPaletteIndex; RT_LINE
         INDENT_3 ss << "\"flipUV\": " << bool2Str(b->mUVFlipped); RT_LINE
         INDENT_3 ss << "\"textureName\": \"" << b->mTextureName << "\""; RT_LINE
+        if (!b->mUserData.empty()) {
+            INDENT_3 ss << "\"userData\": \"" << b->mUserData << "\""; RT_LINE
+        }
 
         if (b->mKind == KIND_DEATH_CIRCLE || b->mKind == KIND_DEATH)
         {
@@ -594,6 +597,7 @@ void MapSerial::loadMap(const char* filename) {
             int rotSpeed = 0;
             BlockKind kind = KIND_BLOCK;
             std::string textureName = "images/saw3.png";
+            std::string userData;
 			int paletteIndex = -1;
             bool flipuv = false;
             std::string triggerEvent = "";
@@ -633,6 +637,10 @@ void MapSerial::loadMap(const char* filename) {
 
             if (var["textureName"].IsString()){
                 textureName = var["textureName"].GetString();
+            }
+            
+            if (var["userData"].IsString()){
+                userData = var["userData"].GetString();
             }
 
 			if (var["paletteIndex"].IsNumber()){
@@ -679,6 +687,7 @@ void MapSerial::loadMap(const char* filename) {
             block->mShadowLength = shadowLeng;
             block->mCastShadow = shadowEnable;
             block->mUVFlipped = flipuv;
+            block->mUserData = userData;
             
 #if EDITOR_MODE
             block->updateIDLabel();

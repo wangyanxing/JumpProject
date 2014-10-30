@@ -96,6 +96,7 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
     //glProgramState->setUniformVec4("colorDest", Vec4(173.0/255.0, 3.0/255.0, 58.0/255.0, 0));
     glProgramState->setUniformVec4("color", Vec4(50.0/255.0, 201.0/255.0,219.0/255.0, 0.4));
     glProgramState->setUniformVec4("colorDest", Vec4(30.0/255.0, 181.0/255.0,199.0/255.0, 0.4));
+    
 #else
     mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(30,181,199));
 #endif

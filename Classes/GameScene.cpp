@@ -9,6 +9,8 @@
 #include "GameScene.h"
 #include "MapSerial.h"
 #include "VisibleRect.h"
+#include "Blocks.h"
+#include "Shadows.h"
 
 #define TRANSPARENT_BUTTON 80
 
@@ -58,19 +60,82 @@ bool GameScene::init() {
     
     mGame = new GameLogic(this);
     
-    //auto str = FileUtils::getInstance()->fullPathForFilename("maps/local/w1_MO_sawDancing.json");
-    auto str = FileUtils::getInstance()->fullPathForFilename("maps/local/t_yw_shadowbug.json");
-    MapSerial::loadMap(str.c_str());
-    
-    mGame->enableGame(true);
-    
     createControlPad();
+    
+    loadChooseLevel("maps/remote/w1_chooselevel.json");
     
     return true;
 }
 
+void GameScene::loadChooseLevel(const std::string& name) {
+
+    auto str = FileUtils::getInstance()->fullPathForFilename("maps/remote/w1_chooselevel.json");
+    MapSerial::loadMap(str.c_str());
+    
+    for(auto l : mLevelLabels) {
+        l->removeFromParent();
+    }
+    mLevelLabels.clear();
+    mCurrentLevels.clear();
+    
+    mChoosingLevel = true;
+    
+    enableGame(true);
+    mGame->mHero->getSprite()->setVisible(false);
+    mLeftButton->setVisible(false);
+    mRightButton->setVisible(false);
+    mJumpButton->setVisible(false);
+    
+    for(auto b : mGame->mBlocks) {
+        auto block = b.second;
+        if(block->mUserData == "lightPath") {
+            mLightPath = block;
+            block->getSprite()->setVisible(false);
+        }
+        else if(!block->mUserData.empty()) {
+            int id = atoi(block->mUserData.c_str());
+            mCurrentLevels[id] = block;
+        }
+    }
+    
+    size_t size = mCurrentLevels.size();
+    mLevelLabels.resize(size);
+    for(size_t i = 0; i < size; ++i){
+        TTFConfig config("fonts/Montserra.ttf", 30);
+        char t[5];
+        sprintf(t, "%d", (int)i+1);
+        mLevelLabels[i] = Label::createWithTTF(config,t,TextHAlignment::CENTER);
+        addChild(mLevelLabels[i],1000);
+        mLevelLabels[i]->setPosition(mCurrentLevels[(int)i+1]->getPosition());
+        mLevelLabels[i]->setColor(Color3B(100,100,100));
+    }
+}
+
+void GameScene::updateChoosingLevel(float dt) {
+    if(mLightPath) {
+        mGame->mShadows->mLightPos = mLightPath->getPosition();
+    }
+}
+
 void GameScene::update(float dt) {
+    if(mChoosingLevel)
+        updateChoosingLevel(dt);
+    
     mGame->update(dt);
+}
+
+void GameScene::enterGame(const std::string& name) {
+    for(auto l : mLevelLabels) {
+        l->removeFromParent();
+    }
+    mLevelLabels.clear();
+    mCurrentLevels.clear();
+    mChoosingLevel = false;
+
+    auto str = FileUtils::getInstance()->fullPathForFilename(name);
+    MapSerial::loadMap(str.c_str());
+    
+    enableGame(true);
 }
 
 bool GameScene::onContactPreSolve(cocos2d::PhysicsContact& contact,
@@ -79,6 +144,9 @@ bool GameScene::onContactPreSolve(cocos2d::PhysicsContact& contact,
 }
 
 void GameScene::onTouch(const cocos2d::Vec2& pos) {
+    if(mChoosingLevel)
+        return;
+    
     auto leftBound = mLeftButton->getBoundingBox();
     auto rightBound = mRightButton->getBoundingBox();
     auto jumpBound = mJumpButton->getBoundingBox();
@@ -101,14 +169,34 @@ void GameScene::onTouch(const cocos2d::Vec2& pos) {
 
 void GameScene::onEndTouch(const cocos2d::Vec2& pos) {
     
-    if(pos.x < VisibleRect::center().x) {
-        mLeftButton->setOpacity(TRANSPARENT_BUTTON);
-        mRightButton->setOpacity(TRANSPARENT_BUTTON);
-        mGame->mMoveLeft = false;
-        mGame->mMoveRight = false;
+    if(mChoosingLevel){
+        for (auto l : mCurrentLevels) {
+            auto b = l.second->getSprite()->getBoundingBox();
+            if(b.containsPoint(pos)) {
+                int id = l.first;
+                char levelName[256];
+                sprintf(levelName, "maps/remote/w1_%03d.json",id);
+                enterGame(levelName);
+                return;
+            }
+        }
     } else {
-        mJumpButton->setOpacity(TRANSPARENT_BUTTON);
+        if(pos.x < VisibleRect::center().x) {
+            mLeftButton->setOpacity(TRANSPARENT_BUTTON);
+            mRightButton->setOpacity(TRANSPARENT_BUTTON);
+            mGame->mMoveLeft = false;
+            mGame->mMoveRight = false;
+        } else {
+            mJumpButton->setOpacity(TRANSPARENT_BUTTON);
+        }
     }
+}
+
+void GameScene::enableGame(bool v) {
+    mGame->enableGame(v);
+    mLeftButton->setVisible(v);
+    mRightButton->setVisible(v);
+    mJumpButton->setVisible(v);
 }
 
 void GameScene::createControlPad() {

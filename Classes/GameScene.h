@@ -13,6 +13,7 @@
 #include "LogicManager.h"
 
 class GameLogic;
+class BlockBase;
 
 class GameScene : public cocos2d::Layer
 {
@@ -36,6 +37,10 @@ public:
     
     bool onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::PhysicsContactPreSolve& solve);
     
+    void enableGame(bool v);
+    
+    void loadChooseLevel(const std::string& name);
+    
     CREATE_FUNC(GameScene);
     
 private:
@@ -44,6 +49,8 @@ private:
     void onEndTouch(const cocos2d::Vec2& pos);
     
     void createControlPad();
+    void updateChoosingLevel(float dt);
+    void enterGame(const std::string& name);
     
 private:
     
@@ -54,6 +61,11 @@ private:
     cocos2d::Sprite* mLeftButton{ nullptr };
     cocos2d::Sprite* mRightButton{ nullptr };
     cocos2d::Sprite* mJumpButton{ nullptr };
+    
+    bool mChoosingLevel{ false };
+    BlockBase* mLightPath{ nullptr };
+    std::map<int,BlockBase*> mCurrentLevels;
+    std::vector<cocos2d::Label*> mLevelLabels;
 };
 
 #endif /* defined(__JumpEdt__GameScene__) */

@@ -631,8 +631,8 @@ void BlockBase::getPointsForShadow(const cocos2d::Vec2& source,
     auto p = mSprite->getPosition();
     out.resize(4);
     out[0] = p + Vec2(-size.width/2,  size.height/2);
-    out[1] = p + Vec2(-size.width/2, -size.height/2);
-    out[2] = p + Vec2( size.width/2,  size.height/2);
+    out[2] = p + Vec2(-size.width/2, -size.height/2);
+    out[1] = p + Vec2( size.width/2,  size.height/2);
     out[3] = p + Vec2( size.width/2, -size.height/2);
 }
 
