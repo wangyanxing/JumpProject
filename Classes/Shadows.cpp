@@ -199,20 +199,20 @@ void ShadowManager::updateBlockSoft(BlockBase* block, std::vector<cocos2d::V2F_C
     
     Vec2 midLine = OA + OB;
     midLine.normalize();
-    Vec2 far = mLightPos + midLine * 2000; // make it long enough
+    Vec2 loneFar = mLightPos + midLine * 2000; // make it long enough
     
     bool intersetA = false;
     bool intersetB = false;
     Vec2 interA, interB;
     Vec2 intersection;
     
-    if(Vec2::isSegmentIntersect(pa0, pa1, mLightPos, far)) {
+	if (Vec2::isSegmentIntersect(pa0, pa1, mLightPos, loneFar)) {
         intersetA = true;
-        interA = Vec2::getIntersectPoint(pa0, pa1, mLightPos, far);
+		interA = Vec2::getIntersectPoint(pa0, pa1, mLightPos, loneFar);
     }
-    if(Vec2::isSegmentIntersect(pb0, pb1, mLightPos, far)) {
+	if (Vec2::isSegmentIntersect(pb0, pb1, mLightPos, loneFar)) {
         intersetB = true;
-        interB = Vec2::getIntersectPoint(pb0, pb1, mLightPos, far);
+		interB = Vec2::getIntersectPoint(pb0, pb1, mLightPos, loneFar);
     }
     if(intersetA && intersetB) {
         intersection = interA.getMidpoint(interB);
