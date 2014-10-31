@@ -55,6 +55,8 @@ public:
     
     void die();
     
+    void win();
+    
     void setBackGradientCenter(const cocos2d::Vec2& p);
     
     void setBackGradientColor(const cocos2d::Color3B& colorSrc,
@@ -94,6 +96,8 @@ public:
     
     bool mDeadFlag{ false };
     
+    bool mWinFlag{ false };
+    
     bool mGameMode{ false };
     
     cocos2d::Vec2 mSpawnPos;
@@ -103,6 +107,8 @@ public:
     cocos2d::Color3B mGradientColorDst;
     
     float mGameTimer{ 0 };
+    
+    std::function<void()> mWinGameEvent;
 };
 
 #endif /* defined(__JumpEdt__LogicManager__) */

@@ -56,6 +56,8 @@ private:
     
     void toMainMenu();
     
+    void onWinGame();
+    
     void showHideMenu(bool force = false);
     
 private:

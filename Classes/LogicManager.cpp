@@ -367,12 +367,23 @@ void GameLogic::jump(){
     }
 }
 
+void GameLogic::win() {
+    mWinFlag = false;
+    
+    // trigger a win-game callback
+    if(mWinGameEvent) {
+        mWinGameEvent();
+    }
+}
+
 void GameLogic::die() {
     mHero->getSprite()->getPhysicsBody()->resetForces();
     mHero->getSprite()->getPhysicsBody()->setVelocity(Vec2(0,0));
     mHero->setPosition(mSpawnPos);
     mHero->getSprite()->setOpacity(255);
     mDeadFlag = false;
+    
+    
 }
 
 void GameLogic::postUpdate(float dt) {
@@ -386,7 +397,11 @@ void GameLogic::postUpdate(float dt) {
 
 void GameLogic::updateGame(float dt){
     if(mDeadFlag) {
-        die();
+        enableGame(true,true);
+        return;
+    }
+    if(mWinFlag) {
+        win();
         return;
     }
     
@@ -483,6 +498,7 @@ void GameLogic::enableGame(bool val, bool force) {
     }
     
     die();
+    
     mHero->getSprite()->getPhysicsBody()->setGravityEnable(val);
     
     mGameTimer = 0;

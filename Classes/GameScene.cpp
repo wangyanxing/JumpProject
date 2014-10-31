@@ -59,7 +59,7 @@ bool GameScene::init() {
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
     
     mGame = new GameLogic(this);
-    
+    mGame->mWinGameEvent = [this]{onWinGame();};
     createControlPad();
     createMenuButtons();
     
@@ -236,6 +236,16 @@ void GameScene::enableGame(bool v) {
     mLeftButton->setVisible(v);
     mRightButton->setVisible(v);
     mJumpButton->setVisible(v);
+}
+
+void GameScene::onWinGame() {
+    enableGame(false);
+    if(mTimerLabel->getPositionY() < VisibleRect::top().y) {
+        showHideMenu(true);
+    }
+    this->runAction(Sequence::create(DelayTime::create(0.3), CallFunc::create([this]{
+        toMainMenu();
+    }), NULL));
 }
 
 void GameScene::toMainMenu() {
