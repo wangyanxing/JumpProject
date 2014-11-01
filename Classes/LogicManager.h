@@ -27,6 +27,8 @@ public:
     
     BlockBase* createBlock(const cocos2d::Vec2& pos, BlockKind kind);
     
+    void showGameScene(bool val);
+    
     void blockTraversal(const std::function<void(BlockBase*)>& func);
     
     void createFixedBlocks();

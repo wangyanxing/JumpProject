@@ -18,7 +18,6 @@
 		1AC6FB31180E99EB004C840B /* libcocos2dx-extensions iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB09180E9839004C840B /* libcocos2dx-extensions iOS.a */; };
 		1AC6FB32180E99EB004C840B /* libCocosDenshion iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB0F180E9839004C840B /* libCocosDenshion iOS.a */; };
 		1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */; };
-		1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAF8B516D35DE700DB1158 /* HelloWorldScene.cpp */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
@@ -30,7 +29,6 @@
 		503AE11217EB99EE00D1A890 /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 503AE11117EB99EE00D1A890 /* libcurl.dylib */; };
 		503AE11B17EB9C5A00D1A890 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503AE11A17EB9C5A00D1A890 /* IOKit.framework */; };
 		5087E75717EB910900C73F5D /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */; };
-		5087E75817EB910900C73F5D /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAF8B516D35DE700DB1158 /* HelloWorldScene.cpp */; };
 		5087E76317EB910900C73F5D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		5087E76517EB910900C73F5D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		5087E76717EB910900C73F5D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -98,6 +96,12 @@
 		B5B2D77A1A00C4FA00F68044 /* SpriteUV.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7771A00C4FA00F68044 /* SpriteUV.cpp */; };
 		B5B2D77C1A00D63D00F68044 /* palette in Resources */ = {isa = PBXBuildFile; fileRef = B5B2D77B1A00D63D00F68044 /* palette */; };
 		B5B2D77D1A00D63D00F68044 /* palette in Resources */ = {isa = PBXBuildFile; fileRef = B5B2D77B1A00D63D00F68044 /* palette */; };
+		B5B2D7891A032FFE00F68044 /* LevelSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7871A032FFE00F68044 /* LevelSelector.cpp */; };
+		B5B2D78A1A032FFE00F68044 /* LevelSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7871A032FFE00F68044 /* LevelSelector.cpp */; };
+		B5B2D7981A043BA100F68044 /* LevelLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7961A043BA100F68044 /* LevelLayer.cpp */; };
+		B5B2D7991A043BA100F68044 /* LevelLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7961A043BA100F68044 /* LevelLayer.cpp */; };
+		B5B2D7A01A043C8300F68044 /* LevelScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D79E1A043C8300F68044 /* LevelScene.cpp */; };
+		B5B2D7A11A043C8300F68044 /* LevelScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D79E1A043C8300F68044 /* LevelScene.cpp */; };
 		B5CA04DA19F1C87000A94996 /* UILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5CA04D819F1C87000A94996 /* UILayer.cpp */; };
 		B5CA04DB19F1C87000A94996 /* UILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5CA04D819F1C87000A94996 /* UILayer.cpp */; };
 		B5CA04E019F1E52600A94996 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B5CA04DF19F1E52600A94996 /* fonts */; };
@@ -263,8 +267,6 @@
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = ../Classes/AppDelegate.cpp; sourceTree = "<group>"; };
 		1AFAF8B416D35DE700DB1158 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../Classes/AppDelegate.h; sourceTree = "<group>"; };
-		1AFAF8B516D35DE700DB1158 /* HelloWorldScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HelloWorldScene.cpp; path = ../Classes/HelloWorldScene.cpp; sourceTree = "<group>"; };
-		1AFAF8B616D35DE700DB1158 /* HelloWorldScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelloWorldScene.h; path = ../Classes/HelloWorldScene.h; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* JumpEdt iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JumpEdt iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -349,6 +351,12 @@
 		B5B2D7771A00C4FA00F68044 /* SpriteUV.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpriteUV.cpp; path = ../Classes/SpriteUV.cpp; sourceTree = "<group>"; };
 		B5B2D7781A00C4FA00F68044 /* SpriteUV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpriteUV.h; path = ../Classes/SpriteUV.h; sourceTree = "<group>"; };
 		B5B2D77B1A00D63D00F68044 /* palette */ = {isa = PBXFileReference; lastKnownFileType = folder; path = palette; sourceTree = "<group>"; };
+		B5B2D7871A032FFE00F68044 /* LevelSelector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LevelSelector.cpp; path = ../Classes/LevelSelector.cpp; sourceTree = "<group>"; };
+		B5B2D7881A032FFE00F68044 /* LevelSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LevelSelector.h; path = ../Classes/LevelSelector.h; sourceTree = "<group>"; };
+		B5B2D7961A043BA100F68044 /* LevelLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LevelLayer.cpp; path = ../Classes/LevelLayer.cpp; sourceTree = "<group>"; };
+		B5B2D7971A043BA100F68044 /* LevelLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LevelLayer.h; path = ../Classes/LevelLayer.h; sourceTree = "<group>"; };
+		B5B2D79E1A043C8300F68044 /* LevelScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LevelScene.cpp; path = ../Classes/LevelScene.cpp; sourceTree = "<group>"; };
+		B5B2D79F1A043C8300F68044 /* LevelScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LevelScene.h; path = ../Classes/LevelScene.h; sourceTree = "<group>"; };
 		B5CA04D819F1C87000A94996 /* UILayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UILayer.cpp; path = ../Classes/UILayer.cpp; sourceTree = "<group>"; };
 		B5CA04D919F1C87000A94996 /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UILayer.h; path = ../Classes/UILayer.h; sourceTree = "<group>"; };
 		B5CA04DF19F1E52600A94996 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
@@ -437,8 +445,6 @@
 				B5A45F2319EA3A37009349EF /* DrawNodeEx.cpp */,
 				B5A45F2419EA3A37009349EF /* DrawNodeEx.h */,
 				B587F1FF19F8C97400AC4174 /* Defines.h */,
-				1AFAF8B516D35DE700DB1158 /* HelloWorldScene.cpp */,
-				1AFAF8B616D35DE700DB1158 /* HelloWorldScene.h */,
 				B5829B1B19E3BCEF0001A066 /* EditorScene.cpp */,
 				B5829B1C19E3BCEF0001A066 /* EditorScene.h */,
 				B5829B2119E3BE010001A066 /* GameUtils.cpp */,
@@ -474,6 +480,12 @@
 				B587F20D19F8CCC100AC4174 /* LogicManager.h */,
 				B5B2D74019FF1D2500F68044 /* GameScene.cpp */,
 				B5B2D74119FF1D2500F68044 /* GameScene.h */,
+				B5B2D79E1A043C8300F68044 /* LevelScene.cpp */,
+				B5B2D79F1A043C8300F68044 /* LevelScene.h */,
+				B5B2D7961A043BA100F68044 /* LevelLayer.cpp */,
+				B5B2D7971A043BA100F68044 /* LevelLayer.h */,
+				B5B2D7871A032FFE00F68044 /* LevelSelector.cpp */,
+				B5B2D7881A032FFE00F68044 /* LevelSelector.h */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -838,7 +850,9 @@
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				B587F20E19F8CCC100AC4174 /* LogicManager.cpp in Sources */,
 				B587F1FD19F8C95200AC4174 /* Path.cpp in Sources */,
+				B5B2D7A01A043C8300F68044 /* LevelScene.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				B5B2D7981A043BA100F68044 /* LevelLayer.cpp in Sources */,
 				B5B2D74219FF1D2500F68044 /* GameScene.cpp in Sources */,
 				B587F20219F8CA6D00AC4174 /* Button.cpp in Sources */,
 				B5A45F3419F093E0009349EF /* MapSerial.cpp in Sources */,
@@ -856,8 +870,8 @@
 				B5A45F3019F06FD6009349EF /* HttpHelper.cpp in Sources */,
 				B5829B1D19E3BCEF0001A066 /* EditorScene.cpp in Sources */,
 				B587F20A19F8CBB300AC4174 /* Blocks.cpp in Sources */,
-				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,
 				B587F22519FB2AD500AC4174 /* Rotator.cpp in Sources */,
+				B5B2D7891A032FFE00F68044 /* LevelSelector.cpp in Sources */,
 				B5B2D7791A00C4FA00F68044 /* SpriteUV.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -871,21 +885,23 @@
 				5087E75717EB910900C73F5D /* AppDelegate.cpp in Sources */,
 				B563267119F0CD3C004E78B6 /* PathLibOSX.mm in Sources */,
 				B5B2D74319FF1D2500F68044 /* GameScene.cpp in Sources */,
-				5087E75817EB910900C73F5D /* HelloWorldScene.cpp in Sources */,
 				B587F22619FB2AD500AC4174 /* Rotator.cpp in Sources */,
 				B5829B2819E3BE330001A066 /* VisibleRect.cpp in Sources */,
 				B587F1FE19F8C95200AC4174 /* Path.cpp in Sources */,
 				B5829B2419E3BE010001A066 /* GameUtils.cpp in Sources */,
+				B5B2D78A1A032FFE00F68044 /* LevelSelector.cpp in Sources */,
 				B563266F19F0CD3C004E78B6 /* PathLib.cpp in Sources */,
 				B5B2D73D19FE25FA00F68044 /* UIColorEditor.cpp in Sources */,
 				B5829B1E19E3BCEF0001A066 /* EditorScene.cpp in Sources */,
 				B587F20719F8CB1800AC4174 /* Shadows.cpp in Sources */,
+				B5B2D7A11A043C8300F68044 /* LevelScene.cpp in Sources */,
 				B587F20F19F8CCC100AC4174 /* LogicManager.cpp in Sources */,
 				B5A45F3519F093E0009349EF /* MapSerial.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				B5B2D77A1A00C4FA00F68044 /* SpriteUV.cpp in Sources */,
 				B5A45F2619EA3A37009349EF /* DrawNodeEx.cpp in Sources */,
 				B5A45F3119F06FD6009349EF /* HttpHelper.cpp in Sources */,
+				B5B2D7991A043BA100F68044 /* LevelLayer.cpp in Sources */,
 				B587F20B19F8CBB300AC4174 /* Blocks.cpp in Sources */,
 				B5CA04DB19F1C87000A94996 /* UILayer.cpp in Sources */,
 			);

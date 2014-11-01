@@ -199,9 +199,8 @@ void DrawNodeEx::onDraw(const Mat4 &transform, uint32_t flags)
 {
     auto glProgram = getGLProgram();
     glProgram->use();
-    glProgram->setUniformsForBuiltins(transform);
-    
     getGLProgramState()->applyUniforms();
+    glProgram->setUniformsForBuiltins(transform);
     
     GL::blendFunc(_blendFunc.src, _blendFunc.dst);
     GL::bindTexture2D( _texture->getName() );

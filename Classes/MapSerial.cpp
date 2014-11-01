@@ -588,7 +588,6 @@ void MapSerial::loadMap(const char* filename) {
 		}
 	}
 
-
     if(d["blocks"].IsArray()) {
         auto size = d["blocks"].Size();
         

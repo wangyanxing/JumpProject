@@ -101,8 +101,10 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
     mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(30,181,199));
 #endif
     mParentLayer->addChild(mBack, 0);
-    
+
+#if EDITOR_MODE
     createFixedBlocks();
+#endif
     
     enableGame(false);
 }
@@ -311,6 +313,10 @@ void GameLogic::setBackGradientCenter(const cocos2d::Vec2& pos) {
                                                Vec4(screenWidth, screenHeight, p.x, p.y));
     
     mShadows->updateShaderParam();
+}
+
+void GameLogic::showGameScene(bool val) {
+    mBack->setVisible(val);
 }
 
 void GameLogic::createFixedBlocks() {

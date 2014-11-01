@@ -4,8 +4,7 @@
 #include "chipmunk.h"
 #include "EditorScene.h"
 #include "SpriteUV.h"
-
-#define ORG_RECT_SIZE 8
+#include "Defines.h"
 
 using namespace cocos2d;
 using namespace cocos2d::extension;

@@ -12,10 +12,12 @@
 #include "cocos2d.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
-#   define EDITOR_MODE 1
+#   define EDITOR_MODE 0
 #else
 #   define EDITOR_MODE 0
 #endif
+
+#define ORG_RECT_SIZE 8.0
 
 enum BlockKind {
     KIND_HERO = 0,

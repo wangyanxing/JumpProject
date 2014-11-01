@@ -1,7 +1,42 @@
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
+#include "Defines.h"
+
+#if EDITOR_MODE
+#   include "EditorScene.h"
+#   include "UILayer.h"
+#else
+#   include "GameScene.h"
+#   include "LevelScene.h"
+#endif
 
 USING_NS_CC;
+
+Scene* createScene()
+{
+#if EDITOR_MODE == 0
+    Director::getInstance()->getOpenGLView()->setDesignResolutionSize(960, 960/1.7778f, ResolutionPolicy::EXACT_FIT);
+#endif
+    
+#if EDITOR_MODE
+    auto scene = Scene::createWithPhysics();
+    scene->getPhysicsWorld()->setGravity(Vec2(0,-1000));
+    
+    auto layer = LayerColor::create(Color4B(0x1E,0xB5,0xC7,0xFF));
+    scene->addChild(layer);
+    
+    auto uiLayer = new UILayer();
+    uiLayer->init(scene);
+    
+    auto EditorScene = EditorScene::create();
+    layer->addChild(EditorScene);
+    
+    return scene;
+#else
+    auto levels = LevelScene::create();
+    levels->retain();
+    return levels;
+#endif
+}
 
 AppDelegate::AppDelegate() {
 
@@ -12,7 +47,7 @@ AppDelegate::~AppDelegate()
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
-    // initialize director
+
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
@@ -22,17 +57,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     
     //glview->setFrameSize(1336, 540);
 
-    // turn on display FPS
-    director->setDisplayStats(false);
-
-    // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
-
-    // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
-
-    // run
-    director->runWithScene(scene);
+    director->runWithScene(createScene());
 
     return true;
 }

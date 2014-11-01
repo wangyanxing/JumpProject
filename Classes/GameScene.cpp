@@ -11,22 +11,40 @@
 #include "VisibleRect.h"
 #include "Blocks.h"
 #include "Shadows.h"
+#include "LevelSelector.h"
+#include "LevelScene.h"
 
 #define TRANSPARENT_BUTTON 80
 
 USING_NS_CC;
 
+cocos2d::Scene* GameScene::createScene() {
+    auto scene = Scene::createWithPhysics();
+    scene->getPhysicsWorld()->setGravity(Vec2(0,-1000));
+    //scene->retain();
+
+    auto game = GameScene::create();
+    scene->addChild(game);
+
+    return scene;
+}
+
 GameScene* GameScene::Scene = nullptr;
 
 GameScene::~GameScene() {
+
+    getScheduler()->unscheduleAllForTarget(&mPostUpdater);
+    
+    mTimerLabel->removeFromParent();
+    mBackMenu->removeFromParent();
+    mRestartMenu->removeFromParent();
+    
     delete mGame;
     mGame = nullptr;
 }
 
-bool GameScene::init() {
-    Scene = this;
-    
-    Layer::init();
+void GameScene::onEnter() {
+    Layer::onEnter();
     
     getScheduler()->scheduleUpdate(this, -2, false);
     getScheduler()->scheduleUpdate(&mPostUpdater, 100, false);
@@ -57,12 +75,20 @@ bool GameScene::init() {
         }
     };
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
+}
+
+bool GameScene::init() {
+    Scene = this;
+    
+    Layer::init();
     
     mGame = new GameLogic(this);
     mGame->mWinGameEvent = [this]{onWinGame();};
     createControlPad();
     createMenuButtons();
     
+    //loadChooseLevel("maps/remote/w1_chooselevel.json");
+    /*
 #if 1
     loadChooseLevel("maps/remote/w1_chooselevel.json");
 #else
@@ -70,6 +96,8 @@ bool GameScene::init() {
     MapSerial::loadMap(str.c_str());
     enableGame(true);
 #endif
+     */
+    
     return true;
 }
 
@@ -103,7 +131,7 @@ void GameScene::loadChooseLevel(const std::string& name) {
             mCurrentLevels[id] = block;
         }
     }
-    
+
     size_t size = mCurrentLevels.size();
     mLevelLabels.resize(size);
     for(size_t i = 0; i < size; ++i){
@@ -249,12 +277,15 @@ void GameScene::onWinGame() {
 }
 
 void GameScene::toMainMenu() {
-    loadChooseLevel("maps/remote/w1_chooselevel.json");
+    //loadChooseLevel("maps/remote/w1_chooselevel.json");
+    enableGame(false);
+    auto trans = TransitionFade::create(0.5, LevelScene::getInstance());
+    Director::getInstance()->replaceScene(trans);
 }
 
 void GameScene::createMenuButtons() {
 
-    mTimerLabel = Label::createWithSystemFont("23.1", "Heiti TC", 50,
+    mTimerLabel = Label::createWithSystemFont("0.0", "Heiti TC", 50,
                                               Size::ZERO, TextHAlignment::CENTER,TextVAlignment::CENTER);
     addChild(mTimerLabel,1000);
     mTimerLabel->setPosition(VisibleRect::center().x, VisibleRect::top().y + 50);

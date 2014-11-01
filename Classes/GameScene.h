@@ -25,11 +25,15 @@ public:
     
     static GameScene* Scene;
     
+    static cocos2d::Scene* createScene();
+    
     struct PostUpdater {
         void update(float dt) {
             GameLogic::Game->postUpdate(dt);
         }
     };
+    
+    virtual void onEnter();
     
     virtual bool init();
     
@@ -40,6 +44,8 @@ public:
     void enableGame(bool v);
     
     void loadChooseLevel(const std::string& name);
+    
+    void enterGame(const std::string& name);
     
     CREATE_FUNC(GameScene);
     
@@ -52,7 +58,6 @@ private:
     void createMenuButtons();
     
     void updateChoosingLevel(float dt);
-    void enterGame(const std::string& name);
     
     void toMainMenu();
     

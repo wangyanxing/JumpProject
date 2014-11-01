@@ -14,15 +14,6 @@ SpriteUV* SpriteUV::create(const std::string& filename)
     return nullptr;
 }
 
-SpriteUV::SpriteUV()
-{
-}
-
-
-SpriteUV::~SpriteUV()
-{
-}
-
 void SpriteUV::setupTexParameters(){
 
     Texture2D::TexParams params = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT };

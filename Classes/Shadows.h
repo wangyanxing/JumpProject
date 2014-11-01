@@ -26,12 +26,18 @@ public:
     
     void update(float dt);
     
+    void updateNodes(float dt, std::vector<cocos2d::Node*>& nodes, bool clipX);
+    
     void updateShaderParam();
     
-    void updateBlockSoft(BlockBase* block, std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles);
-    void updateBlockNormal(BlockBase* block, std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles);
+    void updateShaderParam(const cocos2d::Vec2& center,
+                           const cocos2d::Color3B& colSrc,
+                           const cocos2d::Color3B& colDst);
     
-    std::pair<cocos2d::Vec2, cocos2d::Vec2> getShadowEntry(BlockBase* block,const std::vector<cocos2d::Vec2>& pts);
+    void updateBlockSoft(BlockBase* block, std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles, bool clipX = false);
+    void updateBlockNormal(BlockBase* block, std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles, bool clipX = false);
+    
+    std::pair<cocos2d::Vec2, cocos2d::Vec2> getShadowEntry(const std::vector<cocos2d::Vec2>& pts);
     
     cocos2d::Vec2 mLightPos;
     cocos2d::Vec2 mOriginLightPos;
