@@ -9,6 +9,7 @@
 #include "LevelLayer.h"
 #include "VisibleRect.h"
 #include "LevelSelector.h"
+#include "MapSerial.h"
 
 #define SHORTEST_SLIDE_LENGTH 5
 #define TAP_LENGTH 20
@@ -39,8 +40,14 @@ bool LevelLayer::init() {
     WINDOW_HEIGHT = VisibleRect::top().y;
     return true;
 }  
-  
+
 void LevelLayer::goToCurrNode() {
+    
+    // just for testing
+    if(curPageNode == 1) {
+        MapSerial::saveRemoteMaps();
+    }
+    
     this->runAction(MoveTo::create(0.2f, Vec2(-curPageNode * WINDOW_WIDTH, 0)));
 }
 

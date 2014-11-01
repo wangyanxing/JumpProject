@@ -221,6 +221,8 @@ public:
     
     virtual void initPhysics();
     
+    void update(float dt){}
+    
     virtual cocos2d::Color3B getColor(){ return cocos2d::Color3B::BLACK; }
     
     virtual int getZOrder(){ return 30; }

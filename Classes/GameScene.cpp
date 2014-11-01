@@ -112,8 +112,6 @@ void GameScene::loadChooseLevel(const std::string& name) {
     mLevelLabels.clear();
     mCurrentLevels.clear();
     
-    mChoosingLevel = true;
-    
     enableGame(true);
     mGame->mHero->getSprite()->setVisible(false);
     mLeftButton->setVisible(false);
@@ -152,28 +150,27 @@ void GameScene::updateChoosingLevel(float dt) {
 }
 
 void GameScene::update(float dt) {
-    if(mChoosingLevel)
-        updateChoosingLevel(dt);
-    else {
-        // update timer
-        char time[10];
-        sprintf(time, "%.1f",mGame->mGameTimer);
-        mTimerLabel->setString(time);
-    }
+    // update timer
+    char time[10];
+    sprintf(time, "%.1f",mGame->mGameTimer);
+    mTimerLabel->setString(time);
     
     mGame->update(dt);
 }
 
-void GameScene::enterGame(const std::string& name) {
+void GameScene::enterGame(const std::string& name, bool absPath) {
     for(auto l : mLevelLabels) {
         l->removeFromParent();
     }
     mLevelLabels.clear();
     mCurrentLevels.clear();
-    mChoosingLevel = false;
 
-    auto str = FileUtils::getInstance()->fullPathForFilename(name);
-    MapSerial::loadMap(str.c_str());
+    if(absPath) {
+        MapSerial::loadMap(name.c_str());
+    } else {
+        auto str = FileUtils::getInstance()->fullPathForFilename(name);
+        MapSerial::loadMap(str.c_str());
+    }
     
     enableGame(true);
 }
@@ -184,9 +181,7 @@ bool GameScene::onContactPreSolve(cocos2d::PhysicsContact& contact,
 }
 
 void GameScene::onTouch(const cocos2d::Vec2& pos) {
-    if(mChoosingLevel)
-        return;
-    
+
     auto leftBound = mLeftButton->getBoundingBox();
     auto rightBound = mRightButton->getBoundingBox();
     auto jumpBound = mJumpButton->getBoundingBox();
@@ -201,9 +196,10 @@ void GameScene::onTouch(const cocos2d::Vec2& pos) {
         mGame->mMoveRight = true;
     }
     
-    if(jumpBound.containsPoint(pos)){
+    if(mCanJump && jumpBound.containsPoint(pos)){
         mJumpButton->setOpacity(255);
         mGame->jump();
+        mCanJump = false;
     }
 }
 
@@ -231,30 +227,17 @@ void GameScene::showHideMenu(bool force) {
 
 void GameScene::onEndTouch(const cocos2d::Vec2& pos) {
     
-    if(mChoosingLevel){
-        for (auto l : mCurrentLevels) {
-            auto b = l.second->getSprite()->getBoundingBox();
-            if(b.containsPoint(pos)) {
-                int id = l.first;
-                char levelName[256];
-                sprintf(levelName, "maps/remote/w1_%03d.json",id);
-                enterGame(levelName);
-                return;
-            }
-        }
+    if(pos.y > VisibleRect::top().y * 0.3 && pos.y < VisibleRect::top().y - 100) {
+        showHideMenu();
     } else {
-        
-        if(pos.y > VisibleRect::top().y * 0.3 && pos.y < VisibleRect::top().y - 100) {
-            showHideMenu();
+        if(pos.x < VisibleRect::center().x) {
+            mLeftButton->setOpacity(TRANSPARENT_BUTTON);
+            mRightButton->setOpacity(TRANSPARENT_BUTTON);
+            mGame->mMoveLeft = false;
+            mGame->mMoveRight = false;
         } else {
-            if(pos.x < VisibleRect::center().x) {
-                mLeftButton->setOpacity(TRANSPARENT_BUTTON);
-                mRightButton->setOpacity(TRANSPARENT_BUTTON);
-                mGame->mMoveLeft = false;
-                mGame->mMoveRight = false;
-            } else {
-                mJumpButton->setOpacity(TRANSPARENT_BUTTON);
-            }
+            mCanJump = true;
+            mJumpButton->setOpacity(TRANSPARENT_BUTTON);
         }
     }
 }

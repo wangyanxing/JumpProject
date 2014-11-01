@@ -104,9 +104,23 @@ void LevelSelLayer::createBlock(int id, const cocos2d::Vec2& pt) {
                 int levelID = n->getTag();
                 char levelName[256];
                 sprintf(levelName, "maps/remote/w1_%03d.json",levelID);
+                bool absPath = false;
+                
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+                char newlevelName[256];
+                sprintf(newlevelName, "w1_%03d.json",levelID);
+                
+                auto p = FileUtils::getInstance()->getWritablePath();
+                p += newlevelName;
+                
+                if(FileUtils::getInstance()->isFileExist(p)) {
+                    strcpy(levelName, p.c_str());
+                    absPath = true;
+                }
+#endif
                 
                 auto s = GameScene::createScene();
-                GameScene::Scene->enterGame(levelName);
+                GameScene::Scene->enterGame(levelName,absPath);
                 auto trans = TransitionFade::create(0.5, s);
                 Director::getInstance()->replaceScene(trans);
             }

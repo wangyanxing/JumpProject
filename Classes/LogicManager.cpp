@@ -369,6 +369,8 @@ BlockBase* GameLogic::findBlock(int id) {
 void GameLogic::jump(){
     if(mHero->mCanJump) {
         mHero->getSprite()->getPhysicsBody()->applyImpulse(Vec2(0,325));
+        float scale = mHero->getSprite()->getScaleX();
+        mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,scale*0.8,scale*1.2),ScaleTo::create(0.2,scale,scale), NULL));
         mHero->mCanJump = false;
     }
 }

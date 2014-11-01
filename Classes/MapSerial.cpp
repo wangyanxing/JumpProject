@@ -853,9 +853,13 @@ void MapSerial::afterLoadRemoteMaps() {
             continue;
         }
         
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        fullpath = FileUtils::getInstance()->getWritablePath();
+        fullpath += m.name;
+#else
         fullpath += "/remote/";
         fullpath += m.name;
-        
+#endif
         auto fp = fopen(fullpath.c_str(), "w+");
         
         if (!fp) {

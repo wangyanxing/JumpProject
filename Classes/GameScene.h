@@ -45,7 +45,7 @@ public:
     
     void loadChooseLevel(const std::string& name);
     
-    void enterGame(const std::string& name);
+    void enterGame(const std::string& name, bool absPath);
     
     CREATE_FUNC(GameScene);
     
@@ -79,10 +79,11 @@ private:
     cocos2d::MenuItemImage* mBackMenu{ nullptr };
     cocos2d::MenuItemImage* mRestartMenu{ nullptr };
     
-    bool mChoosingLevel{ false };
     BlockBase* mLightPath{ nullptr };
     std::map<int,BlockBase*> mCurrentLevels;
     std::vector<cocos2d::Label*> mLevelLabels;
+    
+    bool mCanJump{ true };
 };
 
 #endif /* defined(__JumpEdt__GameScene__) */

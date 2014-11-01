@@ -11,6 +11,8 @@
 USING_NS_CC;
 
 #include "SimpleAudioEngine.h"
+#include "MapSerial.h"
+
 using namespace CocosDenshion; 
 
 #define LAYER_NUMBER 3
@@ -22,6 +24,10 @@ LevelScene *LevelScene::getInstance() {
         return instance;
     }
     return  NULL;
+}
+
+void LevelScene::onEnter() {
+    Scene::onEnter();
 }
 
 bool LevelScene::init()  {
