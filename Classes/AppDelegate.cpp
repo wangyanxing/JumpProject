@@ -1,5 +1,6 @@
 #include "AppDelegate.h"
 #include "Defines.h"
+#include "VisibleRect.h"
 
 #if EDITOR_MODE
 #   include "EditorScene.h"
