@@ -14,7 +14,20 @@ USING_NS_CC;
 Scene* createScene()
 {
 #if EDITOR_MODE == 0
-    Director::getInstance()->getOpenGLView()->setDesignResolutionSize(960, 960/1.7778f, ResolutionPolicy::EXACT_FIT);
+    
+    auto framesize = VisibleRect::getFrameSize();
+    float ratio = framesize.width / framesize.height;
+    float designRatio = 1;
+    
+    if(ratio > 1.7) { // wide
+        designRatio = 1.7778f;
+    } else if(ratio < 1.4) { // ipad
+        designRatio = 1.3333f;
+    } else { //ip4
+        designRatio = 1.5f;
+    }
+
+    Director::getInstance()->getOpenGLView()->setDesignResolutionSize(960, 960/designRatio, ResolutionPolicy::EXACT_FIT);
 #endif
     
 #if EDITOR_MODE
