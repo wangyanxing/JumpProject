@@ -12,7 +12,7 @@
 #include "cocos2d.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
-#   define EDITOR_MODE 0
+#   define EDITOR_MODE 1
 #else
 #   define EDITOR_MODE 0
 #endif
