@@ -535,7 +535,7 @@ void BlockBase::moveY(float val) {
 void BlockBase::addThickness(int val) {
     auto t = getThickness();
     t += val;
-    t = std::min<int>(t, VisibleRect::top().x * 1.2);
+    t = std::min<int>(t, VisibleRect::top().y * 1.3);
     
     if(mKind == KIND_DEATH_CIRCLE)
         mSprite->setScale(t / mImageSize);
@@ -567,7 +567,7 @@ void BlockBase::subThickness(int val) {
 void BlockBase::addWidth(int val) {
     auto w = getWidth();
     w += val;
-    w = std::min<int>(w, VisibleRect::right().x * 1.2);
+    w = std::min<int>(w, VisibleRect::right().x * 1.3);
     
     if(mKind == KIND_DEATH_CIRCLE)
         mSprite->setScale(w / mImageSize);
