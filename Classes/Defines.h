@@ -22,7 +22,7 @@
 #define EDITOR_IP4_MODE  3
 
 // change at here
-#define EDITOR_RATIO EDITOR_IP4_MODE
+#define EDITOR_RATIO EDITOR_IP5_MODE
 
 #define ORG_RECT_SIZE 8.0
 
