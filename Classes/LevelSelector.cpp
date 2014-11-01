@@ -17,6 +17,24 @@
 
 USING_NS_CC;
 
+static const char* getLevelSuffix() {
+    static std::string suffix;
+    
+    auto framesize = VisibleRect::getFrameSize();
+    float ratio = framesize.width / framesize.height;
+    
+    if(ratio > 1.7) { // wide
+        // ok, do nothing
+        suffix = "";
+    } else if(ratio < 1.4) { // ipad
+        suffix = "_pad";
+    } else { //ip4
+        suffix = "_ip4";
+    }
+    
+    return suffix.c_str();
+}
+
 LevelSelLayer::~LevelSelLayer() {
     cleanBlocks();
     delete mShadows;
@@ -103,12 +121,12 @@ void LevelSelLayer::createBlock(int id, const cocos2d::Vec2& pt) {
             if(mWorld == WORLD_1) {
                 int levelID = n->getTag();
                 char levelName[256];
-                sprintf(levelName, "maps/remote/w1_%03d.json",levelID);
+                sprintf(levelName, "maps/remote/w1_%03d%s.json",levelID,getLevelSuffix());
                 bool absPath = false;
                 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
                 char newlevelName[256];
-                sprintf(newlevelName, "w1_%03d.json",levelID);
+                sprintf(newlevelName, "w1_%03d%s.json",levelID,getLevelSuffix());
                 
                 auto p = FileUtils::getInstance()->getWritablePath();
                 p += newlevelName;

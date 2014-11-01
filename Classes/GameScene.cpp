@@ -164,7 +164,7 @@ void GameScene::enterGame(const std::string& name, bool absPath) {
     }
     mLevelLabels.clear();
     mCurrentLevels.clear();
-
+    
     if(absPath) {
         MapSerial::loadMap(name.c_str());
     } else {

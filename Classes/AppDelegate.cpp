@@ -52,10 +52,20 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
         glview = GLView::create("Jump Editor");
+        
+#if EDITOR_MODE
+#   if EDITOR_RATIO == EDITOR_IP4_MODE
+        glview->setFrameSize(960, 750);
+#   elif EDITOR_RATIO == EDITOR_IPAD_MODE
+        glview->setFrameSize(960, 850);
+#   endif
+#endif
+        
         director->setOpenGLView(glview);
     }
     
     //glview->setFrameSize(1336, 540);
+
 
     director->setAnimationInterval(1.0 / 60);
     director->runWithScene(createScene());

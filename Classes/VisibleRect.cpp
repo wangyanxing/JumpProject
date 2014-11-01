@@ -33,7 +33,14 @@ void VisibleRect::lazyInit()
 {
 #if EDITOR_MODE
     s_visibleRect.origin = Vec2(0,0);
+    
+#   if EDITOR_RATIO == EDITOR_IP5_MODE
     float ratio = 1.7778f;
+#   elif EDITOR_RATIO == EDITOR_IP4_MODE
+    float ratio = 1.5f;
+#   elif EDITOR_RATIO == EDITOR_IPAD_MODE
+    float ratio = 1.3333f;
+#   endif
     float fixedWidth = 960;
     s_visibleRect.size = Size(fixedWidth, fixedWidth / ratio);
 #else

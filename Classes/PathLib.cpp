@@ -14,6 +14,20 @@
 std::string DiPathLib::msAppFile;
 #endif
 
+bool DiPathLib::EndsWith(const std::string& a, const std::string& b) {
+    if (b.size() > a.size()) return false;
+    return std::equal(a.begin() + a.size() - b.size(), a.end(), b.begin());
+}
+
+void DiPathLib::ReplaceString(std::string& subject, const std::string& search,
+                          const std::string& replace) {
+    size_t pos = 0;
+    while ((pos = subject.find(search, pos)) != std::string::npos) {
+        subject.replace(pos, search.length(), replace);
+        pos += replace.length();
+    }
+}
+
 std::vector<std::string> DiPathLib::StringSplit(const std::string &source, const char *delimiter, bool keepEmpty)
 {
     std::vector<std::string> results;

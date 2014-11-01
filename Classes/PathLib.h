@@ -12,6 +12,11 @@ class DiPathLib
 public:
     
     static std::vector<std::string> StringSplit(const std::string &source, const char *delimiter = " ", bool keepEmpty = false);
+    
+    static void ReplaceString(std::string& subject, const std::string& search,
+                              const std::string& replace);
+    
+    static bool EndsWith(const std::string& a, const std::string& b);
 
     /** we need a absolute path
     */

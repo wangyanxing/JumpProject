@@ -468,6 +468,16 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
             mGame->mMoveLeft = true;
         if (keyCode == EventKeyboard::KeyCode::KEY_D)
             mGame->mMoveRight = true;
+    } else {
+        if (keyCode == EventKeyboard::KeyCode::KEY_A && mPressingCtrl) {
+            mSelections.clear();
+            for(auto b : mGame->mBlocks) {
+                if(!b.second->mCanPickup) continue;
+                mSelections.insert(b.second);
+                mSelectionHead = b.second;
+                b.second->switchToSelectionImage();
+            }
+        }
     }
 }
 

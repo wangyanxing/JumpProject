@@ -14,6 +14,7 @@
 #include "PathLib.h"
 #include "UILayer.h"
 #include "UIColorEditor.h"
+#include "VisibleRect.h"
 
 #include "rapidjson/document.h"
 #include "rapidjson/rapidjson.h"
@@ -220,7 +221,7 @@ void MapSerial::savePalette(const char* file){
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 	author = getlogin();
 #endif
-
+    
 	stringstream ss;
 	ss << "{\n";
 
@@ -277,6 +278,9 @@ void MapSerial::saveMap(const char* file) {
     
 	INDENT_1 ss << "\"author\": " << "\"" << author << "\""; RT_LINE
 	INDENT_1 ss << "\"time\": " << "\"" << timestr << "\""; RT_LINE
+    float ratio = VisibleRect::right().x / VisibleRect::top().y;
+    INDENT_1 ss << "\"ratio\": " << ratio; RT_LINE
+    
 	INDENT_1 ss << "\"backgroundColor\": " << colorStr(GameLogic::Game->mBackgroundColor); RT_LINE
 #if 0
     INDENT_1 ss << "\"heroColor\": " << colorStr(GameLogic::Game->mBlockColors[0]); RT_LINE
@@ -438,6 +442,14 @@ void MapSerial::saveMap() {
     }
     
     auto filename = out[0];
+    
+#   if EDITOR_RATIO == EDITOR_IPAD_MODE
+    if(!DiPathLib::EndsWith(filename, "_pad.json"))
+        DiPathLib::ReplaceString(filename, ".json", "_pad.json");
+#   elif EDITOR_RATIO == EDITOR_IP4_MODE
+    if(!DiPathLib::EndsWith(filename, "_ip4.json"))
+        DiPathLib::ReplaceString(filename, ".json", "_ip4.json");
+#   endif
     
     saveMap(filename.c_str());
 }
@@ -658,6 +670,28 @@ void MapSerial::loadMap(const char* filename) {
             if (var["shadowEnable"].IsBool()) {
                 shadowEnable = var["shadowEnable"].GetBool();
             }
+            
+#if EDITOR_MODE
+            if (!pickable) {
+                float width = VisibleRect::right().x;
+                float height = VisibleRect::top().y;
+                float frameSize = 10;
+                
+                if(id == 1) {
+                    pos = Vec2(width/2,frameSize/2);
+                    size = Size(width, frameSize);
+                } else if(id == 2) {
+                    pos = Vec2(width/2,height - frameSize/2);
+                    size = Size(width, frameSize);
+                } else if(id == 3) {
+                    pos = Vec2(frameSize/2,height/2);
+                    size = Size(frameSize, height);
+                } else if(id == 4) {
+                    pos = Vec2(width - frameSize/2,height/2);
+                    size = Size(frameSize, height);
+                }
+            }
+#endif
 			
             BlockBase* block = new BlockBase();
             block->create(pos,size);
@@ -800,12 +834,22 @@ void MapSerial::loadMap(const char* filename) {
     delete[] buffer;
     BlockBase::mIDCounter = maxID + 1;
 #if EDITOR_MODE
-    EditorScene::Scene->mCurFileName = filename;
+    std::string fixedfilename = filename;
+    
+#   if EDITOR_RATIO == EDITOR_IPAD_MODE
+    if(!DiPathLib::EndsWith(fixedfilename, "_pad.json"))
+        DiPathLib::ReplaceString(fixedfilename, ".json", "_pad.json");
+#   elif EDITOR_RATIO == EDITOR_IP4_MODE
+    if(!DiPathLib::EndsWith(fixedfilename, "_ip4.json"))
+        DiPathLib::ReplaceString(fixedfilename, ".json", "_ip4.json");
+#   endif
+    
+    EditorScene::Scene->mCurFileName = fixedfilename;
     EditorScene::Scene->mSpawnPoint->setPosition(GameLogic::Game->mSpawnPos);
     EditorScene::Scene->mLightPoint->setPosition(GameLogic::Game->mShadows->mOriginLightPos);
     EditorScene::Scene->mGradientCenterPoint->setPosition(GameLogic::Game->mGradientCenter);
     
-    UILayer::Layer->setFileName(filename);
+    UILayer::Layer->setFileName(fixedfilename.c_str());
     UILayer::Layer->addMessage("File loaded");
 #endif
     
