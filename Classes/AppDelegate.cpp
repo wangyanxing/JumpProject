@@ -51,7 +51,19 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-        glview = GLView::create("Jump Editor");
+        
+        
+#if EDITOR_MODE
+#   if EDITOR_RATIO == EDITOR_IP5_MODE
+        glview = GLView::create("Jump Editor - for iPhone 5/5s/6/6+");
+#   elif EDITOR_RATIO == EDITOR_IP4_MODE
+        glview = GLView::create("Jump Editor - for iPhone 4/4s");
+#   elif EDITOR_RATIO == EDITOR_IPAD_MODE
+        glview = GLView::create("Jump Editor - for iPad");
+#   endif
+#else
+        glview = GLView::create("Jump Game");
+#endif
         
 #if EDITOR_MODE
 #   if EDITOR_RATIO == EDITOR_IP4_MODE
