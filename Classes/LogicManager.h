@@ -127,6 +127,8 @@ public:
     
     std::vector<cocos2d::Vec2> mStarList;
     std::vector<cocos2d::Node*> mStarNodes;
+    
+    bool mRejectInput{ false };
 };
 
 #endif /* defined(__JumpEdt__LogicManager__) */

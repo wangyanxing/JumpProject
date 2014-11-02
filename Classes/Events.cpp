@@ -116,7 +116,7 @@ void initEvents() {
 
         e.func = [&](const std::vector<Arg>& args, BlockBase* block){
             GameLogic::Game->mDeadFlag = true;
-            };
+        };
         EventLists[e.command] = e;
     }
     {

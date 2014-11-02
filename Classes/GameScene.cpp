@@ -83,7 +83,7 @@ void GameScene::onEnter() {
 bool GameScene::init() {
     Scene = this;
     
-    Layer::init();
+    ShaderLayer::init("shaders/game.glsl");
     
     mGame = new GameLogic(this);
     mGame->mWinGameEvent = [this]{onWinGame();};

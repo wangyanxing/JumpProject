@@ -8,6 +8,7 @@
 #include "Button.h"
 #include "Blocks.h"
 #include "LogicManager.h"
+#include "ShaderLayer.h"
 
 #if EDITOR_MODE
 
@@ -16,7 +17,7 @@ class ShadowManager;
 class Hero;
 class GameLogic;
 
-class EditorScene : public cocos2d::Layer
+class EditorScene : public ShaderLayer
 {
 public:
     

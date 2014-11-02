@@ -11,12 +11,12 @@
 
 #include "cocos2d.h"
 #include "LogicManager.h"
+#include "ShaderLayer.h"
 
 class GameLogic;
 class BlockBase;
 
-class GameScene : public cocos2d::Layer
-{
+class GameScene : public ShaderLayer {
 public:
     
     GameScene() = default;

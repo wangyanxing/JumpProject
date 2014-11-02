@@ -31,7 +31,7 @@ EditorScene* EditorScene::Scene = nullptr;
 bool EditorScene::init() {
     Scene = this;
     
-    if ( !Layer::init() ) {
+    if ( !ShaderLayer::init("shaders/game.glsl") ) {
         return false;
     }
     

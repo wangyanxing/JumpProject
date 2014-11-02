@@ -11,9 +11,11 @@
 #include "GameUtils.h"
 #include "Shadows.h"
 #include "Button.h"
+#include "Shake.h"
 #include "VisibleRect.h"
 
 #define GRADIENT 1
+#define DIE_FX_TAG 1001
 
 USING_NS_CC;
 
@@ -395,7 +397,7 @@ BlockBase* GameLogic::findBlock(int id) {
 }
 
 void GameLogic::jump(){
-    if(mHero->mCanJump) {
+    if(mHero->mCanJump && !mRejectInput) {
         mHero->getSprite()->getPhysicsBody()->applyImpulse(Vec2(0,325));
         float scale = mHero->getSprite()->getScaleX();
         mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,scale*0.8,scale*1.2),ScaleTo::create(0.2,scale,scale), NULL));
@@ -413,13 +415,15 @@ void GameLogic::win() {
 }
 
 void GameLogic::die() {
+    if(mParentLayer->getChildByTag(DIE_FX_TAG)) {
+        mParentLayer->removeChildByTag(DIE_FX_TAG);
+    }
+    
     mHero->getSprite()->getPhysicsBody()->resetForces();
     mHero->getSprite()->getPhysicsBody()->setVelocity(Vec2(0,0));
     mHero->setPosition(mSpawnPos);
     mHero->getSprite()->setOpacity(255);
     mDeadFlag = false;
-    
-    
 }
 
 void GameLogic::postUpdate(float dt) {
@@ -432,8 +436,22 @@ void GameLogic::postUpdate(float dt) {
 }
 
 void GameLogic::updateGame(float dt){
-    if(mDeadFlag) {
-        enableGame(true,true);
+    if(mDeadFlag && !mRejectInput) {
+        // play dead effect
+        ParticleSystem* m_emitter0 = ParticleSystemQuad::create("fx/diefx.plist");
+        ParticleBatchNode *batch0 = ParticleBatchNode::createWithTexture(m_emitter0->getTexture());
+        batch0->addChild(m_emitter0);
+        batch0->setPosition(mHero->getPosition());
+        mParentLayer->addChild(batch0,15,DIE_FX_TAG);
+        
+        mParentLayer->runAction(CCShake::create(0.2, 3));
+        
+        mRejectInput = true;
+        mHero->getSprite()->runAction(ScaleTo::create(0.2,0.1,0.1));
+        mParentLayer->runAction(Sequence::create(DelayTime::create(0.6), CallFunc::create([this]{
+            enableGame(true,true);
+        }), NULL));
+        
         return;
     }
     if(mWinFlag) {
@@ -443,11 +461,13 @@ void GameLogic::updateGame(float dt){
     
     mGameTimer += dt;
     
-    float speed = mHero->mPushing ? 80 : 200;
-    if(mMoveLeft){
-        mHero->moveX(dt * -speed);
-    } else if(mMoveRight){
-        mHero->moveX(dt * speed);
+    if(!mRejectInput) {
+        float speed = mHero->mPushing ? 80 : 200;
+        if(mMoveLeft){
+            mHero->moveX(dt * -speed);
+        } else if(mMoveRight){
+            mHero->moveX(dt * speed);
+        }
     }
     
     mHero->mPushing = false;
@@ -503,7 +523,13 @@ void GameLogic::deleteBlock(BlockBase* sel) {
 }
 
 void GameLogic::enableGame(bool val, bool force) {
-    if( mGameMode == val && !force) return;
+    if( mGameMode == val && !force)
+        return;
+    
+    if(val) {
+        mRejectInput = false;
+    }
+    
     mGameMode = val;
     
     mMoveLeft = false;
@@ -511,9 +537,11 @@ void GameLogic::enableGame(bool val, bool force) {
     
     mShadows->reset();
     
-    mHero->setPosition(mSpawnPos);
+    die();
+    
     mHero->setVisible(mGameMode);
     mHero->mCanJump = false;
+    mHero->setSize(mHero->mRestoreSize);
     mHero->getSprite()->getPhysicsBody()->setVelocityLimit(1000);
     
     for(auto bc : mBlocks) {
@@ -532,8 +560,6 @@ void GameLogic::enableGame(bool val, bool force) {
 #endif
         b->reset();
     }
-    
-    die();
     
     mHero->getSprite()->getPhysicsBody()->setGravityEnable(val);
     

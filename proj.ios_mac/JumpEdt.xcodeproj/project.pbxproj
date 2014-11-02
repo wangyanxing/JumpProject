@@ -104,6 +104,10 @@
 		B5B2D7A11A043C8300F68044 /* LevelScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D79E1A043C8300F68044 /* LevelScene.cpp */; };
 		B5B2D7A61A059E6E00F68044 /* fx in Resources */ = {isa = PBXBuildFile; fileRef = B5B2D7A51A059E6E00F68044 /* fx */; };
 		B5B2D7A71A059E6E00F68044 /* fx in Resources */ = {isa = PBXBuildFile; fileRef = B5B2D7A51A059E6E00F68044 /* fx */; };
+		B5B2D7AA1A05BE7100F68044 /* Shake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7A81A05BE7100F68044 /* Shake.cpp */; };
+		B5B2D7AB1A05BE7100F68044 /* Shake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7A81A05BE7100F68044 /* Shake.cpp */; };
+		B5B2D7B11A05C7A800F68044 /* ShaderLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7B01A05C7A800F68044 /* ShaderLayer.cpp */; };
+		B5B2D7B21A05C7A800F68044 /* ShaderLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7B01A05C7A800F68044 /* ShaderLayer.cpp */; };
 		B5CA04DA19F1C87000A94996 /* UILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5CA04D819F1C87000A94996 /* UILayer.cpp */; };
 		B5CA04DB19F1C87000A94996 /* UILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5CA04D819F1C87000A94996 /* UILayer.cpp */; };
 		B5CA04E019F1E52600A94996 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B5CA04DF19F1E52600A94996 /* fonts */; };
@@ -360,6 +364,10 @@
 		B5B2D79E1A043C8300F68044 /* LevelScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LevelScene.cpp; path = ../Classes/LevelScene.cpp; sourceTree = "<group>"; };
 		B5B2D79F1A043C8300F68044 /* LevelScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LevelScene.h; path = ../Classes/LevelScene.h; sourceTree = "<group>"; };
 		B5B2D7A51A059E6E00F68044 /* fx */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fx; sourceTree = "<group>"; };
+		B5B2D7A81A05BE7100F68044 /* Shake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Shake.cpp; path = ../Classes/Shake.cpp; sourceTree = "<group>"; };
+		B5B2D7A91A05BE7100F68044 /* Shake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shake.h; path = ../Classes/Shake.h; sourceTree = "<group>"; };
+		B5B2D7AD1A05C36400F68044 /* ShaderLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderLayer.h; path = ../Classes/ShaderLayer.h; sourceTree = "<group>"; };
+		B5B2D7B01A05C7A800F68044 /* ShaderLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShaderLayer.cpp; path = ../Classes/ShaderLayer.cpp; sourceTree = "<group>"; };
 		B5CA04D819F1C87000A94996 /* UILayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UILayer.cpp; path = ../Classes/UILayer.cpp; sourceTree = "<group>"; };
 		B5CA04D919F1C87000A94996 /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UILayer.h; path = ../Classes/UILayer.h; sourceTree = "<group>"; };
 		B5CA04DF19F1E52600A94996 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
@@ -475,6 +483,10 @@
 				B587F20919F8CBB300AC4174 /* Blocks.h */,
 				B587F22319FB2AD500AC4174 /* Rotator.cpp */,
 				B587F22419FB2AD500AC4174 /* Rotator.h */,
+				B5B2D7B01A05C7A800F68044 /* ShaderLayer.cpp */,
+				B5B2D7AD1A05C36400F68044 /* ShaderLayer.h */,
+				B5B2D7A81A05BE7100F68044 /* Shake.cpp */,
+				B5B2D7A91A05BE7100F68044 /* Shake.h */,
 				B5B2D7771A00C4FA00F68044 /* SpriteUV.cpp */,
 				B5B2D7781A00C4FA00F68044 /* SpriteUV.h */,
 				B5B2D73A19FE25FA00F68044 /* UIColorEditor.cpp */,
@@ -853,6 +865,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5B2D7B11A05C7A800F68044 /* ShaderLayer.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				B587F20E19F8CCC100AC4174 /* LogicManager.cpp in Sources */,
 				B587F1FD19F8C95200AC4174 /* Path.cpp in Sources */,
@@ -861,6 +874,7 @@
 				B5B2D7981A043BA100F68044 /* LevelLayer.cpp in Sources */,
 				B5B2D74219FF1D2500F68044 /* GameScene.cpp in Sources */,
 				B587F20219F8CA6D00AC4174 /* Button.cpp in Sources */,
+				B5B2D7AA1A05BE7100F68044 /* Shake.cpp in Sources */,
 				B5A45F3419F093E0009349EF /* MapSerial.cpp in Sources */,
 				B5B2D73C19FE25FA00F68044 /* UIColorEditor.cpp in Sources */,
 				B5CA04E519F3350700A94996 /* Events.cpp in Sources */,
@@ -888,6 +902,8 @@
 			files = (
 				B587F20319F8CA6D00AC4174 /* Button.cpp in Sources */,
 				B5CA04E619F3350700A94996 /* Events.cpp in Sources */,
+				B5B2D7B21A05C7A800F68044 /* ShaderLayer.cpp in Sources */,
+				B5B2D7AB1A05BE7100F68044 /* Shake.cpp in Sources */,
 				5087E75717EB910900C73F5D /* AppDelegate.cpp in Sources */,
 				B563267119F0CD3C004E78B6 /* PathLibOSX.mm in Sources */,
 				B5B2D74319FF1D2500F68044 /* GameScene.cpp in Sources */,
