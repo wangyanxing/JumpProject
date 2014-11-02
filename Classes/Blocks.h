@@ -94,6 +94,8 @@ public:
     
     virtual void initPhysics();
     
+    virtual void initShader();
+    
     virtual void setVisible(bool val);
     
     virtual bool canPush();

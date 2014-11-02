@@ -53,6 +53,7 @@ void BlockBase::create(const cocos2d::Point& pt) {
     mRestoreSize = r.size;
     mRestorePosition = getPosition();
     
+    initShader();
     initPhysics();
 }
 
@@ -65,6 +66,7 @@ void BlockBase::create(const cocos2d::Rect& rect) {
     mRestoreSize = rect.size;
     mRestorePosition = getPosition();
     
+    initShader();
     initPhysics();
 }
 
@@ -84,7 +86,25 @@ void BlockBase::create(const cocos2d::Point& pt, const cocos2d::Size& size) {
     mRestoreSize = size;
     mRestorePosition = getPosition();
     
+    initShader();
     initPhysics();
+}
+
+void BlockBase::initShader() {
+#if EDITOR_MODE == 0
+    auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/normal_vig.fsh");
+
+    // init shader
+    GLchar * fragSource = (GLchar*)String::createWithContentsOfFile(shaderfile.c_str())->getCString();
+    auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource);
+    auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
+    
+    float screenWidth = VisibleRect::getFrameSize().width;
+    float screenHeight = VisibleRect::getFrameSize().height;
+    
+    mSprite->setGLProgramState(glProgramState);
+    glProgramState->setUniformVec3("resolution", Vec3(screenWidth, screenHeight, 1.1));
+#endif
 }
 
 void BlockBase::setPosition(const cocos2d::Point& pt) {
