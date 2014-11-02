@@ -87,6 +87,7 @@ public:
     bool mPressingM{ false };
     bool mPressingN{ false };
     bool mPressingB{ false };
+    bool mPressingV{ false };
     
     BlockBase* mMovingBlock{ nullptr };
     

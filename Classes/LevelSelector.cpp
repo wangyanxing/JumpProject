@@ -118,15 +118,15 @@ void LevelSelLayer::createBlock(int id, const cocos2d::Vec2& pt) {
     block->addTouchEventListener([&](Ref *pSender, ui::Widget::TouchEventType type){
         if(type == ui::Widget::TouchEventType::ENDED){
             Node* n = (Node*)(pSender);
-            if(mWorld == WORLD_1) {
+            if(mWorld == WORLD_1 || mWorld == WORLD_2) {
                 int levelID = n->getTag();
                 char levelName[256];
-                sprintf(levelName, "maps/remote/w1_%03d%s.json",levelID,getLevelSuffix());
+                sprintf(levelName, "maps/remote/w%d_%03d%s.json",mWorld,levelID,getLevelSuffix());
                 bool absPath = false;
                 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
                 char newlevelName[256];
-                sprintf(newlevelName, "w1_%03d%s.json",levelID,getLevelSuffix());
+                sprintf(newlevelName, "w%d_%03d%s.json",mWorld,levelID,getLevelSuffix());
                 
                 auto p = FileUtils::getInstance()->getWritablePath();
                 p += newlevelName;

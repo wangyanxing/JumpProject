@@ -64,6 +64,16 @@ public:
     void setBackGradientColor(const cocos2d::Color3B& colorSrc,
                               const cocos2d::Color3B& colorDst);
     
+    cocos2d::Node* createParticle(const cocos2d::Vec2& pos);
+    
+    void loadFxFromList();
+    
+    void loadStarFromList();
+    
+    void clearFx();
+    
+    void clearStars();
+    
 public:
     
     cocos2d::Layer* mParentLayer{ nullptr };
@@ -111,6 +121,12 @@ public:
     float mGameTimer{ 0 };
     
     std::function<void()> mWinGameEvent;
+    
+    std::vector<std::string> mFxList;
+    std::vector<cocos2d::ParticleBatchNode*> mFxNodes;
+    
+    std::vector<cocos2d::Vec2> mStarList;
+    std::vector<cocos2d::Node*> mStarNodes;
 };
 
 #endif /* defined(__JumpEdt__LogicManager__) */

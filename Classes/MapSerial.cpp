@@ -299,10 +299,25 @@ void MapSerial::saveMap(const char* file) {
 	INDENT_1 ss << "\"gradientCenter\": " << vec2Str(GameLogic::Game->mGradientCenter); RT_LINE
 	INDENT_1 ss << "\"gradientColorSrc\": " << colorStr(GameLogic::Game->mGradientColorSrc); RT_LINE
 	INDENT_1 ss << "\"gradientColorDst\": " << colorStr(GameLogic::Game->mGradientColorDst); RT_LINE
-
 	INDENT_1 ss << "\"paletteFile\": \"" << GameLogic::Game->mPaletteFileName << "\""; RT_LINE
 	savePalette(GameLogic::Game->mPaletteFileName.c_str());
-
+    
+    INDENT_1 ss << "\"fx\": [ \n";
+    for(size_t fi = 0; fi < GameLogic::Game->mFxList.size(); ++fi) {
+        INDENT_2 ss << "\"" << GameLogic::Game->mFxList[fi] << "\"";
+        if (fi != GameLogic::Game->mFxList.size() - 1) ss << ",";
+        ss << "\n";
+    }
+    INDENT_1 ss << "]"; RT_LINE
+    
+    INDENT_1 ss << "\"stars\": [ \n";
+    for(size_t fi = 0; fi < GameLogic::Game->mStarList.size(); ++fi) {
+        INDENT_2 ss << vec2Str(GameLogic::Game->mStarList[fi]);
+        if (fi != GameLogic::Game->mStarList.size() - 1) ss << ",";
+        ss << "\n";
+    }
+    INDENT_1 ss << "]"; RT_LINE
+    
     INDENT_1 ss << "\"blocks\": [ \n";
     
     for (auto it = GameLogic::Game->mBlocks.begin(); it != GameLogic::Game->mBlocks.end(); ++it) {
@@ -551,6 +566,24 @@ void MapSerial::loadMap(const char* filename) {
 
 	GameLogic::Game->setBackGradientCenter(gradientCenter);
 	GameLogic::Game->setBackGradientColor(colorSrc, colorDst);
+    
+    if (d["fx"].IsArray()) {
+        auto fxsize = d["fx"].Size();
+        for(auto fi = 0; fi < fxsize; ++fi) {
+            auto fxname = d["fx"][fi].GetString();
+            GameLogic::Game->mFxList.push_back(fxname);
+        }
+    }
+    GameLogic::Game->loadFxFromList();
+    
+    if (d["stars"].IsArray()) {
+        auto fxsize = d["stars"].Size();
+        for(auto fi = 0; fi < fxsize; ++fi) {
+            auto fxname = d["stars"][fi].GetString();
+            GameLogic::Game->mStarList.push_back(str2Vec(fxname));
+        }
+    }
+    GameLogic::Game->loadStarFromList();
 
 	std::string palletteFileName = GameLogic::Game->mPaletteFileName;
 	if (d["paletteFile"].IsString()){

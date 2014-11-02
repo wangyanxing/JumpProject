@@ -45,7 +45,7 @@ public:
     cocos2d::DrawNodeEx* mRendererNormal{ nullptr };
     
     float mLightMoveTimer{ 0 };
-    bool mMoving{ false };
+    bool mMoving{ true };
     float mMoveTarget{ 0 };
     float mMovingSpeed{ 0 };
     

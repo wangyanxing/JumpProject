@@ -109,6 +109,34 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
     enableGame(false);
 }
 
+Node* GameLogic::createParticle(const Vec2& pos) {
+    
+    auto parent = Node::create();
+    auto pg = Sprite::create("images/glow.png");
+    auto p = Sprite::create("images/particle.png");
+    
+    float fadeTime = 10 + rand()%10;
+    fadeTime /= 10;
+    
+    pg->runAction(RepeatForever::create(Sequence::create(FadeOut::create(fadeTime),FadeIn::create(fadeTime), NULL)));
+    p->setScale(0.5);
+    
+    parent->addChild(pg, 0);
+    parent->addChild(p, 1);
+    
+    float scale = 3 + rand()%2;
+    scale /= 10;
+    
+    parent->setScale(scale);
+    
+    mParentLayer->addChild(parent, 30);
+    
+    parent->setPosition(pos);
+    
+    return parent;
+}
+
+
 GameLogic::~GameLogic() {
     clean();
     
@@ -529,6 +557,22 @@ BlockBase* GameLogic::createBlock(const cocos2d::Vec2& pos, BlockKind kind) {
     return block;
 }
 
+void GameLogic::clearStars() {
+    for(auto f : mStarNodes) {
+        f->removeFromParent();
+    }
+    mStarNodes.clear();
+    mStarList.clear();
+}
+
+void GameLogic::clearFx() {
+    for(auto f : mFxNodes) {
+        f->removeFromParent();
+    }
+    mFxNodes.clear();
+    mFxList.clear();
+}
+
 void GameLogic::clean() {
     
     mGroups.clear();
@@ -538,6 +582,9 @@ void GameLogic::clean() {
     }
     mBlocks.clear();
     
+    clearStars();
+    clearFx();
+    
     enableGame(false);
     BlockBase::mIDCounter = 1;
 }
@@ -545,5 +592,33 @@ void GameLogic::clean() {
 void GameLogic::blockTraversal(const std::function<void(BlockBase*)>& func) {
     for (auto b : mBlocks) {
         func(b.second);
+    }
+}
+
+void GameLogic::loadStarFromList() {
+    for(auto f : mStarNodes) {
+        f->removeFromParent();
+    }
+    mStarNodes.clear();
+    
+    for(auto p : mStarList) {
+        mStarNodes.push_back(createParticle(p));
+    }
+}
+
+void GameLogic::loadFxFromList() {
+    
+    for(auto f : mFxNodes) {
+        f->removeFromParent();
+    }
+    mFxNodes.clear();
+    
+    for(auto i : mFxList) {
+        ParticleSystem* m_emitter0 = ParticleSystemQuad::create(i);
+        ParticleBatchNode *batch0 = ParticleBatchNode::createWithTexture(m_emitter0->getTexture());
+        batch0->addChild(m_emitter0);
+        mParentLayer->addChild(batch0,5);
+        
+        mFxNodes.push_back(batch0);
     }
 }

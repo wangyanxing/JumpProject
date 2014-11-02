@@ -102,6 +102,8 @@
 		B5B2D7991A043BA100F68044 /* LevelLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7961A043BA100F68044 /* LevelLayer.cpp */; };
 		B5B2D7A01A043C8300F68044 /* LevelScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D79E1A043C8300F68044 /* LevelScene.cpp */; };
 		B5B2D7A11A043C8300F68044 /* LevelScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D79E1A043C8300F68044 /* LevelScene.cpp */; };
+		B5B2D7A61A059E6E00F68044 /* fx in Resources */ = {isa = PBXBuildFile; fileRef = B5B2D7A51A059E6E00F68044 /* fx */; };
+		B5B2D7A71A059E6E00F68044 /* fx in Resources */ = {isa = PBXBuildFile; fileRef = B5B2D7A51A059E6E00F68044 /* fx */; };
 		B5CA04DA19F1C87000A94996 /* UILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5CA04D819F1C87000A94996 /* UILayer.cpp */; };
 		B5CA04DB19F1C87000A94996 /* UILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5CA04D819F1C87000A94996 /* UILayer.cpp */; };
 		B5CA04E019F1E52600A94996 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B5CA04DF19F1E52600A94996 /* fonts */; };
@@ -357,6 +359,7 @@
 		B5B2D7971A043BA100F68044 /* LevelLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LevelLayer.h; path = ../Classes/LevelLayer.h; sourceTree = "<group>"; };
 		B5B2D79E1A043C8300F68044 /* LevelScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LevelScene.cpp; path = ../Classes/LevelScene.cpp; sourceTree = "<group>"; };
 		B5B2D79F1A043C8300F68044 /* LevelScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LevelScene.h; path = ../Classes/LevelScene.h; sourceTree = "<group>"; };
+		B5B2D7A51A059E6E00F68044 /* fx */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fx; sourceTree = "<group>"; };
 		B5CA04D819F1C87000A94996 /* UILayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UILayer.cpp; path = ../Classes/UILayer.cpp; sourceTree = "<group>"; };
 		B5CA04D919F1C87000A94996 /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UILayer.h; path = ../Classes/UILayer.h; sourceTree = "<group>"; };
 		B5CA04DF19F1E52600A94996 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
@@ -601,6 +604,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B5B2D7A51A059E6E00F68044 /* fx */,
 				B5B2D77B1A00D63D00F68044 /* palette */,
 				B587F1F619F8A81C00AC4174 /* extensions */,
 				B5E7CA8919F6202F009198C6 /* shaders */,
@@ -818,6 +822,7 @@
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				B5E7CA8A19F6202F009198C6 /* shaders in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
+				B5B2D7A61A059E6E00F68044 /* fx in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
@@ -830,6 +835,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5B2D7A71A059E6E00F68044 /* fx in Resources */,
 				B5829B2B19E3BFE00001A066 /* images in Resources */,
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
 				B587F1F819F8A81C00AC4174 /* extensions in Resources */,

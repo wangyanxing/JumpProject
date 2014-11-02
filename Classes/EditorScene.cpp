@@ -123,6 +123,11 @@ void EditorScene::mouseDown(cocos2d::Event* event) {
         mGame->setBackGradientCenter(mGradientCenterPoint->getPosition());
         return;
     }
+    if (mPressingV) {
+        mGame->createParticle(pt);
+        mGame->mStarList.push_back(pt);
+        return;
+    }
     
     if (mPressingShift) {
         mGame->createBlock(pt, KIND_BLOCK);
@@ -443,6 +448,9 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
     if (keyCode == EventKeyboard::KeyCode::KEY_B) {
         mPressingB = true;
     }
+    if (keyCode == EventKeyboard::KeyCode::KEY_V) {
+        mPressingV = true;
+    }
     
     if (keyCode == EventKeyboard::KeyCode::KEY_J) {
         group();
@@ -503,6 +511,9 @@ void EditorScene::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
     if (keyCode == EventKeyboard::KeyCode::KEY_B) {
         mPressingB = false;
     }
+    if (keyCode == EventKeyboard::KeyCode::KEY_V) {
+        mPressingV = false;
+    }
     
     if (mGame->mGameMode) {
         if (keyCode == EventKeyboard::KeyCode::KEY_A)
@@ -519,7 +530,7 @@ void EditorScene::enableGame(bool val, bool force) {
     mLightPoint->setVisible(!val);
     mGradientCenterPoint->setVisible(!val);
     if(val) {
-        mPressingB = mPressingN = mPressingM = false;
+        mPressingV = mPressingB = mPressingN = mPressingM = false;
     }
 }
 
