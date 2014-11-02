@@ -10,6 +10,8 @@ class ShaderLayer : public cocos2d::Layer {
 public:
 	ShaderLayer();
 	~ShaderLayer();
+    
+    bool enableShaderLayer{ false };
 
     virtual bool init(
 		std::string pixelShaderFile,
@@ -21,6 +23,9 @@ public:
 
 	RenderTexture* renderTexture;
 	Sprite* rendTexSprite;
+    
+    int paramBlending{ 0 };
+    Vec2 darkness{1,1};
 
 	virtual void visit(
 		Renderer *renderer,

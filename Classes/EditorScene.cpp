@@ -31,13 +31,15 @@ EditorScene* EditorScene::Scene = nullptr;
 bool EditorScene::init() {
     Scene = this;
     
-    if ( !ShaderLayer::init("shaders/game.glsl") ) {
+    if ( !ShaderLayer::init("shaders/vignette.glsl") ) {
         return false;
     }
     
+    rendTexSprite->getGLProgramState()->setUniformVec2("darkness", Vec2(1,1));
+    
     MapSerial::saveRemoteMaps();
     
-    getScheduler()->scheduleUpdate(this, -2, false);    
+    getScheduler()->scheduleUpdate(this, -2, false);
     getScheduler()->scheduleUpdate(&mPostUpdater, 100, false);
     
     auto keyboardListener = EventListenerKeyboard::create();
@@ -708,6 +710,11 @@ void EditorScene::group() {
         
         UILayer::Layer->addMessage("Group");
     }
+}
+
+void EditorScene::showDieFullScreenAnim() {
+    enableShaderLayer = true;
+    paramBlending = 4;
 }
 
 void EditorScene::clean(bool save) {

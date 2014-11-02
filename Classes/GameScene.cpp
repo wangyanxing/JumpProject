@@ -46,6 +46,11 @@ GameScene::~GameScene() {
     mGame = nullptr;
 }
 
+void GameScene::showDieFullScreenAnim() {
+    enableShaderLayer = true;
+    paramBlending = 4;
+}
+
 void GameScene::onEnter() {
     Layer::onEnter();
     
@@ -83,7 +88,9 @@ void GameScene::onEnter() {
 bool GameScene::init() {
     Scene = this;
     
-    ShaderLayer::init("shaders/game.glsl");
+    ShaderLayer::init("shaders/vignette.glsl");
+    
+    rendTexSprite->getGLProgramState()->setUniformVec2("darkness", Vec2(1.3,1));
     
     mGame = new GameLogic(this);
     mGame->mWinGameEvent = [this]{onWinGame();};

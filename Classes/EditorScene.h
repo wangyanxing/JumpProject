@@ -79,6 +79,8 @@ public:
     
     void group();
     
+    void showDieFullScreenAnim();
+    
     bool mPressingShift{ false };
     
     bool mPressingCtrl{ false };

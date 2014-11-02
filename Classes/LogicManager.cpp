@@ -14,6 +14,12 @@
 #include "Shake.h"
 #include "VisibleRect.h"
 
+#if EDITOR_MODE
+#   include "EditorScene.h"
+#else
+#   include "GameScene.h"
+#endif
+
 #define GRADIENT 1
 #define DIE_FX_TAG 1001
 
@@ -444,11 +450,16 @@ void GameLogic::updateGame(float dt){
         batch0->setPosition(mHero->getPosition());
         mParentLayer->addChild(batch0,15,DIE_FX_TAG);
         
-        mParentLayer->runAction(CCShake::create(0.2, 3));
+        //mParentLayer->runAction(CCShake::create(0.3, 3));
         
         mRejectInput = true;
         mHero->getSprite()->runAction(ScaleTo::create(0.2,0.1,0.1));
-        mParentLayer->runAction(Sequence::create(DelayTime::create(0.6), CallFunc::create([this]{
+        mParentLayer->runAction(Sequence::create(DelayTime::create(0.4), CallFunc::create([this]{
+#if EDITOR_MODE
+            EditorScene::Scene->showDieFullScreenAnim();
+#else
+            GameScene::Scene->showDieFullScreenAnim();
+#endif
             enableGame(true,true);
         }), NULL));
         

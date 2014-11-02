@@ -47,6 +47,8 @@ public:
     
     void enterGame(const std::string& name, bool absPath);
     
+    void showDieFullScreenAnim();
+    
     CREATE_FUNC(GameScene);
     
 private:

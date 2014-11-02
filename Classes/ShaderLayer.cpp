@@ -46,18 +46,41 @@ bool ShaderLayer::init(string pixelShaderFile, string vertexShaderFile) {
     return true;
 }
 
-void ShaderLayer::visit(
-	Renderer *renderer,
+void ShaderLayer::visit( Renderer *renderer,
 	const Mat4& parentTransform,
 	uint32_t parentFlags) {
-	renderTexture->beginWithClear(0, 0, 0, 0);
-    
-    sortAllChildren();
-    
-	for (auto child : getChildren()) {
-		if (child != renderTexture && child != rendTexSprite)
-			child->visit(renderer, parentTransform, parentFlags);
-	}
-	renderTexture->end();
-	rendTexSprite->visit(renderer, parentTransform, parentFlags);
+
+    if(enableShaderLayer) {
+        
+        float dt = 1.0 / 60;
+        if (paramBlending > 0) {
+            darkness.y -= (float)paramBlending * dt;
+            if(darkness.y <= 0){
+                darkness.y = 0;
+                paramBlending *= -1;
+            }            
+            rendTexSprite->getGLProgramState()->setUniformVec2("darkness", darkness);
+        } else if(paramBlending < 0) {
+            darkness.y -= (float)paramBlending * dt;
+            if(darkness.y >= 1) {
+                darkness.y = 1;
+                paramBlending = 0;
+                enableShaderLayer = false;
+            }
+            rendTexSprite->getGLProgramState()->setUniformVec2("darkness", darkness);
+        }
+        
+        renderTexture->beginWithClear(0, 0, 0, 0);
+        
+        sortAllChildren();
+        
+        for (auto child : getChildren()) {
+            if (child != renderTexture && child != rendTexSprite)
+                child->visit(renderer, parentTransform, parentFlags);
+        }
+        renderTexture->end();
+        rendTexSprite->visit(renderer, parentTransform, parentFlags);
+    } else {
+        Layer::visit(renderer, parentTransform, parentFlags);
+    }
 }
