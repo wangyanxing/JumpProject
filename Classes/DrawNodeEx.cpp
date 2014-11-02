@@ -197,6 +197,7 @@ void DrawNodeEx::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 
 void DrawNodeEx::onDraw(const Mat4 &transform, uint32_t flags)
 {
+    
     auto glProgram = getGLProgram();
     glProgram->use();
     getGLProgramState()->applyUniforms();
