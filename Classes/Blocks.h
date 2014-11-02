@@ -208,7 +208,7 @@ public:
     cocos2d::LabelAtlas* mIDLabel{ nullptr };
 #endif
     
-private:
+protected:
     SpriteUV* mSprite{ nullptr };
 };
 
@@ -221,7 +221,9 @@ public:
 #endif
     }
     
-    virtual void initPhysics();
+    virtual void initPhysics() override;
+    
+    virtual void initShader() override;
     
     void update(float dt){}
     
@@ -238,6 +240,10 @@ public:
     bool mCanJump{ false };
     
     bool mPushing{ false };
+    
+    cocos2d::ParticleSystem* mTrailFx{ nullptr };
+    
+    cocos2d::ParticleBatchNode* mTrailFxNode{ nullptr };
 };
 
 

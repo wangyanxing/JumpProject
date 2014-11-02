@@ -48,7 +48,7 @@ GameScene::~GameScene() {
 
 void GameScene::showDieFullScreenAnim() {
     enableShaderLayer = true;
-    paramBlending = 4;
+    paramBlending = 2;
 }
 
 void GameScene::onEnter() {

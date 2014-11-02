@@ -693,6 +693,18 @@ void BlockBase::callTriggerEvent(){
     }
 }
 
+void Hero::initShader() {
+    BlockBase::initShader();
+    
+#if 0
+    mTrailFx = ParticleSystemQuad::create("fx/trail.plist");
+    mTrailFxNode = ParticleBatchNode::createWithTexture(mTrailFx->getTexture());
+    mTrailFxNode->addChild(mTrailFx);
+    mTrailFxNode->setPosition(getPosition());
+    GameLogic::Game->mParentLayer->addChild(mTrailFxNode, getZOrder() - 2);
+#endif
+}
+
 void Hero::initPhysics() {
     PhysicsBody* pbody = nullptr;
     pbody = PhysicsBody::createBox(getSize());

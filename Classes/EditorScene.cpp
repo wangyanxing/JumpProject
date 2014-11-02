@@ -714,7 +714,7 @@ void EditorScene::group() {
 
 void EditorScene::showDieFullScreenAnim() {
     enableShaderLayer = true;
-    paramBlending = 4;
+    paramBlending = 2;
 }
 
 void EditorScene::clean(bool save) {

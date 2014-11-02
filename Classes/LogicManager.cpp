@@ -453,7 +453,10 @@ void GameLogic::updateGame(float dt){
         //mParentLayer->runAction(CCShake::create(0.3, 3));
         
         mRejectInput = true;
-        mHero->getSprite()->runAction(ScaleTo::create(0.2,0.1,0.1));
+        mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,0.1,0.1),
+                                                       CallFunc::create([this]{
+                                                            mHero->getSprite()->setVisible(false);
+                                                        }),NULL));
         mParentLayer->runAction(Sequence::create(DelayTime::create(0.4), CallFunc::create([this]{
 #if EDITOR_MODE
             EditorScene::Scene->showDieFullScreenAnim();
