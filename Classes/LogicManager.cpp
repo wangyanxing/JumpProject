@@ -129,7 +129,7 @@ Node* GameLogic::createParticle(const Vec2& pos) {
     
     parent->setScale(scale);
     
-    mParentLayer->addChild(parent, 30);
+    mParentLayer->addChild(parent, 15);
     
     parent->setPosition(pos);
     
