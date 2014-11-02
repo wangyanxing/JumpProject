@@ -27,7 +27,7 @@ void main(void)
     vec3 bcol = mix(colorDest.xyz, color.xyz, ratio);
     
 #if 1
-    float darkness = 1.1;
+    float darkness = 1.3;
     vec2 uv = v_texCoord - vec2( 0.5 );
     gl_FragColor = vec4( mix( bcol.rgb, vec3( 1.0 - darkness ), dot( uv, uv ) ), 1.0 );
 #else

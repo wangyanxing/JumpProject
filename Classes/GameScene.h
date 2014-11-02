@@ -59,8 +59,6 @@ private:
     void createControlPad();
     void createMenuButtons();
     
-    void updateChoosingLevel(float dt);
-    
     void toMainMenu();
     
     void onWinGame();
@@ -80,10 +78,6 @@ private:
     cocos2d::Label* mTimerLabel{ nullptr };
     cocos2d::MenuItemImage* mBackMenu{ nullptr };
     cocos2d::MenuItemImage* mRestartMenu{ nullptr };
-    
-    BlockBase* mLightPath{ nullptr };
-    std::map<int,BlockBase*> mCurrentLevels;
-    std::vector<cocos2d::Label*> mLevelLabels;
     
     bool mCanJump{ true };
 };

@@ -35,7 +35,7 @@ bool EditorScene::init() {
         return false;
     }
     
-    rendTexSprite->getGLProgramState()->setUniformVec2("darkness", Vec2(1,1));
+    rendTexSprite->getGLProgramState()->setUniformVec2("darkness", Vec2(1.3,1));
     
     MapSerial::saveRemoteMaps();
     

@@ -123,6 +123,7 @@ public:
     float mPathWaitingTimer{ 0 };
     bool mDisable{ true };
     bool mPause{ false };
+    bool mOriginalPause{ false };
     
 #if EDITOR_MODE
     cocos2d::DrawNode* mSegmentNode{ nullptr };

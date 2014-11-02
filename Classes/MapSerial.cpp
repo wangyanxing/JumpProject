@@ -804,6 +804,7 @@ void MapSerial::loadMap(const char* filename) {
             
             if(var["pause"].IsBool()) {
                 block->mPath.mPause = var["pause"].GetBool();
+                block->mPath.mOriginalPause = block->mPath.mPause;
             }
             
             if(var["pathWaitTime"].IsNumber()) {

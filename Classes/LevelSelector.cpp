@@ -110,7 +110,6 @@ void LevelSelLayer::initWorld(WorldID world) {
 
 void LevelSelLayer::createBlock(int id, const cocos2d::Vec2& pt) {
     auto size = Size(65,55);
-    //auto block = GameUtils::createRect(r, Color3B::WHITE);
     
     auto block = ui::Button::create("images/rect.png");
     block->setScale(size.width / ORG_RECT_SIZE, size.height / ORG_RECT_SIZE);

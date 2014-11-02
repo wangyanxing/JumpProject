@@ -103,7 +103,7 @@ void BlockBase::initShader() {
     float screenHeight = VisibleRect::getFrameSize().height;
     
     mSprite->setGLProgramState(glProgramState);
-    glProgramState->setUniformVec3("resolution", Vec3(screenWidth, screenHeight, 1.1));
+    glProgramState->setUniformVec3("resolution", Vec3(screenWidth, screenHeight, 1.3));
 #endif
 }
 
@@ -195,6 +195,8 @@ void BlockBase::closeDoor(float speed, bool downDirDoor) {
 
 void BlockBase::reset() {
     mStatus = IDLE;
+    
+    mPath.mPause = mPath.mOriginalPause;
     
     if(mKind != KIND_DEATH_CIRCLE)
         setSize(mRestoreSize);

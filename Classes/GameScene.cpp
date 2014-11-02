@@ -90,73 +90,14 @@ bool GameScene::init() {
     
     ShaderLayer::init("shaders/vignette.glsl");
     
-    rendTexSprite->getGLProgramState()->setUniformVec2("darkness", Vec2(1.3,1));
+    rendTexSprite->getGLProgramState()->setUniformVec2("darkness", Vec2(1,1));
     
     mGame = new GameLogic(this);
     mGame->mWinGameEvent = [this]{onWinGame();};
     createControlPad();
     createMenuButtons();
     
-    //loadChooseLevel("maps/remote/w1_chooselevel.json");
-    /*
-#if 1
-    loadChooseLevel("maps/remote/w1_chooselevel.json");
-#else
-    auto str = FileUtils::getInstance()->fullPathForFilename("maps/local/t_yw_shadow.json");
-    MapSerial::loadMap(str.c_str());
-    enableGame(true);
-#endif
-     */
-    
     return true;
-}
-
-void GameScene::loadChooseLevel(const std::string& name) {
-
-    auto str = FileUtils::getInstance()->fullPathForFilename("maps/remote/w1_chooselevel.json");
-    MapSerial::loadMap(str.c_str());
-    
-    for(auto l : mLevelLabels) {
-        l->removeFromParent();
-    }
-    mLevelLabels.clear();
-    mCurrentLevels.clear();
-    
-    enableGame(true);
-    mGame->mHero->getSprite()->setVisible(false);
-    mLeftButton->setVisible(false);
-    mRightButton->setVisible(false);
-    mJumpButton->setVisible(false);
-    
-    for(auto b : mGame->mBlocks) {
-        auto block = b.second;
-        if(block->mUserData == "lightPath") {
-            mLightPath = block;
-            block->getSprite()->setVisible(false);
-        }
-        else if(!block->mUserData.empty()) {
-            int id = atoi(block->mUserData.c_str());
-            mCurrentLevels[id] = block;
-        }
-    }
-
-    size_t size = mCurrentLevels.size();
-    mLevelLabels.resize(size);
-    for(size_t i = 0; i < size; ++i){
-        TTFConfig config("fonts/Montserra.ttf", 30);
-        char t[5];
-        sprintf(t, "%d", (int)i+1);
-        mLevelLabels[i] = Label::createWithTTF(config,t,TextHAlignment::CENTER);
-        addChild(mLevelLabels[i],1000);
-        mLevelLabels[i]->setPosition(mCurrentLevels[(int)i+1]->getPosition());
-        mLevelLabels[i]->setColor(Color3B(100,100,100));
-    }
-}
-
-void GameScene::updateChoosingLevel(float dt) {
-    if(mLightPath) {
-        mGame->mShadows->mLightPos = mLightPath->getPosition();
-    }
 }
 
 void GameScene::update(float dt) {
@@ -169,11 +110,6 @@ void GameScene::update(float dt) {
 }
 
 void GameScene::enterGame(const std::string& name, bool absPath) {
-    for(auto l : mLevelLabels) {
-        l->removeFromParent();
-    }
-    mLevelLabels.clear();
-    mCurrentLevels.clear();
     
     if(absPath) {
         MapSerial::loadMap(name.c_str());
