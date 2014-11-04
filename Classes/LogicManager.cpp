@@ -117,14 +117,14 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
 #endif
     
     enableGame(false);
-    return;
+
+#if 0
     {
         auto l = new LightBeam();
         l->mDesc.uvSpeed = 0.1;
         mLightBeams.push_back(l);
         l->getNode()->setPosition(VisibleRect::center().x,VisibleRect::center().y+50);
     }
-    //return;
     {
         auto l = new LightBeam();
         l->mDesc.uvSpeed = 0.04;
@@ -137,6 +137,7 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
         mLightBeams.push_back(l);
         l->getNode()->setPosition(VisibleRect::center().x,VisibleRect::center().y+50);
     }
+#endif
 }
 
 Node* GameLogic::createParticle(const Vec2& pos) {

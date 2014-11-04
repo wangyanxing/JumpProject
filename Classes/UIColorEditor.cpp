@@ -173,7 +173,7 @@ void UIColorEditor::cleanColors(){
 void UIColorEditor::addColor(int index, cocos2d::Color3B color){
 	if (mColorTableEndIndex >= BUTTON_NUM) return;
 
-	int size = mPaletteIndexArray.size();
+	int size = (int)mPaletteIndexArray.size();
 	if (size - 1 < mColorTableEndIndex){
 		mPaletteIndexArray.push_back(index);
 		mPaletteColorArray.push_back(color);

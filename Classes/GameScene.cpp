@@ -20,7 +20,7 @@ USING_NS_CC;
 
 cocos2d::Scene* GameScene::createScene() {
     
-    srand(time(nullptr));
+    srand((unsigned)time(nullptr));
     
     auto scene = Scene::createWithPhysics();
     scene->getPhysicsWorld()->setGravity(Vec2(0,-1000));
