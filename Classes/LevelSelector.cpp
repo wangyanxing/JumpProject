@@ -183,7 +183,7 @@ void LevelSelLayer::initAsTitle() {
     
     auto& l2 = mWaveFx->newLine();
     l2.phase = 1.1;
-    l2.height = 10;
+    l2.height = 30;
     l2.angleBias = 1.1;
     
 #if 0
@@ -198,14 +198,14 @@ void LevelSelLayer::initAsWorld1() {
     mTapToMove = false;
     Vec2 pts[16] = {
         {482.121f,481.758f},
-        {618.0f,459.91f},
+        {618.0f,  459.91f},
         {736.621f,406.059f},
         {822.777f,315.379f},
         {823.383f,207.66f},
-        {731.27f,120.188f},
+        {731.27f, 120.188f},
         {619.511f,72.7305f},
         {483.051f,54.9687f},
-        {343.66f,76.6016f},
+        {343.66f, 76.6016f},
         {222.125f,120.808f},
         {135.863f,210.914f},
         {135.019f,317.911f},

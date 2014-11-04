@@ -14,6 +14,8 @@
 #include "Shake.h"
 #include "VisibleRect.h"
 
+#include "LightBeam.h"
+
 #if EDITOR_MODE
 #   include "EditorScene.h"
 #else
@@ -115,6 +117,26 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
 #endif
     
     enableGame(false);
+    return;
+    {
+        auto l = new LightBeam();
+        l->mDesc.uvSpeed = 0.1;
+        mLightBeams.push_back(l);
+        l->getNode()->setPosition(VisibleRect::center().x,VisibleRect::center().y+50);
+    }
+    //return;
+    {
+        auto l = new LightBeam();
+        l->mDesc.uvSpeed = 0.04;
+        mLightBeams.push_back(l);
+        l->getNode()->setPosition(VisibleRect::center().x,VisibleRect::center().y+50);
+    }
+    {
+        auto l = new LightBeam();
+        l->mDesc.uvSpeed = -0.04;
+        mLightBeams.push_back(l);
+        l->getNode()->setPosition(VisibleRect::center().x,VisibleRect::center().y+50);
+    }
 }
 
 Node* GameLogic::createParticle(const Vec2& pos) {
@@ -503,6 +525,10 @@ void GameLogic::update(float dt){
     
     if(mGameMode) {
         updateGame(dt);
+    }
+    
+    for(auto l : mLightBeams) {
+        l->update(dt);
     }
 }
 

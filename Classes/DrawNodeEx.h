@@ -37,6 +37,8 @@ public:
     // Overrides
     virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
     
+    Texture2D* getTexture() { return _texture; }
+    
 CC_CONSTRUCTOR_ACCESS:
     DrawNodeEx();
     virtual ~DrawNodeEx();

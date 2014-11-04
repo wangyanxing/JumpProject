@@ -17,7 +17,7 @@ public:
     struct WaveLine {
         cocos2d::Color4B color{255,255,255,255};
         float length{ 20 };
-        float height{ 15 };
+        float height{ 25 };
         float yBias{ -25 };
         float seg{ 5 };
         float angleBias{ 0 };

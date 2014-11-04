@@ -110,6 +110,8 @@
 		B5B2D7B21A05C7A800F68044 /* ShaderLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7B01A05C7A800F68044 /* ShaderLayer.cpp */; };
 		B5B2D7B81A06F97D00F68044 /* WaveEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7B61A06F97C00F68044 /* WaveEffect.cpp */; };
 		B5B2D7B91A06F97D00F68044 /* WaveEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7B61A06F97C00F68044 /* WaveEffect.cpp */; };
+		B5C1B41B1A0895DC00BC85DF /* LightBeam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5C1B4191A0895DC00BC85DF /* LightBeam.cpp */; };
+		B5C1B41C1A0895DC00BC85DF /* LightBeam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5C1B4191A0895DC00BC85DF /* LightBeam.cpp */; };
 		B5CA04DA19F1C87000A94996 /* UILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5CA04D819F1C87000A94996 /* UILayer.cpp */; };
 		B5CA04DB19F1C87000A94996 /* UILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5CA04D819F1C87000A94996 /* UILayer.cpp */; };
 		B5CA04E019F1E52600A94996 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B5CA04DF19F1E52600A94996 /* fonts */; };
@@ -372,6 +374,8 @@
 		B5B2D7B01A05C7A800F68044 /* ShaderLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShaderLayer.cpp; path = ../Classes/ShaderLayer.cpp; sourceTree = "<group>"; };
 		B5B2D7B61A06F97C00F68044 /* WaveEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WaveEffect.cpp; path = ../Classes/WaveEffect.cpp; sourceTree = "<group>"; };
 		B5B2D7B71A06F97D00F68044 /* WaveEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaveEffect.h; path = ../Classes/WaveEffect.h; sourceTree = "<group>"; };
+		B5C1B4191A0895DC00BC85DF /* LightBeam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LightBeam.cpp; path = ../Classes/LightBeam.cpp; sourceTree = "<group>"; };
+		B5C1B41A1A0895DC00BC85DF /* LightBeam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LightBeam.h; path = ../Classes/LightBeam.h; sourceTree = "<group>"; };
 		B5CA04D819F1C87000A94996 /* UILayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UILayer.cpp; path = ../Classes/UILayer.cpp; sourceTree = "<group>"; };
 		B5CA04D919F1C87000A94996 /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UILayer.h; path = ../Classes/UILayer.h; sourceTree = "<group>"; };
 		B5CA04DF19F1E52600A94996 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
@@ -507,6 +511,8 @@
 				B5B2D7881A032FFE00F68044 /* LevelSelector.h */,
 				B5B2D7B61A06F97C00F68044 /* WaveEffect.cpp */,
 				B5B2D7B71A06F97D00F68044 /* WaveEffect.h */,
+				B5C1B4191A0895DC00BC85DF /* LightBeam.cpp */,
+				B5C1B41A1A0895DC00BC85DF /* LightBeam.h */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -890,6 +896,7 @@
 				B5829B2319E3BE010001A066 /* GameUtils.cpp in Sources */,
 				B5829B2719E3BE330001A066 /* VisibleRect.cpp in Sources */,
 				B5CA04DA19F1C87000A94996 /* UILayer.cpp in Sources */,
+				B5C1B41B1A0895DC00BC85DF /* LightBeam.cpp in Sources */,
 				B563267019F0CD3C004E78B6 /* PathLibOSX.mm in Sources */,
 				B5A45F2519EA3A37009349EF /* DrawNodeEx.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
@@ -922,6 +929,7 @@
 				B563266F19F0CD3C004E78B6 /* PathLib.cpp in Sources */,
 				B5B2D73D19FE25FA00F68044 /* UIColorEditor.cpp in Sources */,
 				B5829B1E19E3BCEF0001A066 /* EditorScene.cpp in Sources */,
+				B5C1B41C1A0895DC00BC85DF /* LightBeam.cpp in Sources */,
 				B587F20719F8CB1800AC4174 /* Shadows.cpp in Sources */,
 				B5B2D7A11A043C8300F68044 /* LevelScene.cpp in Sources */,
 				B587F20F19F8CCC100AC4174 /* LogicManager.cpp in Sources */,
