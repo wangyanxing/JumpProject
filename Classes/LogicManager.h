@@ -15,6 +15,7 @@
 class BlockBase;
 class Hero;
 class ShadowManager;
+class LightBeam;
 
 class GameLogic {
 public:
@@ -129,6 +130,8 @@ public:
     std::vector<cocos2d::Node*> mStarNodes;
     
     bool mRejectInput{ false };
+    
+    std::vector<LightBeam*> mLightBeams;
 };
 
 #endif /* defined(__JumpEdt__LogicManager__) */

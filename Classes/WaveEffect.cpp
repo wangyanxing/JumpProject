@@ -23,7 +23,7 @@ WaveEffect::~WaveEffect() {
 WaveEffect::WaveLine& WaveEffect::newLine() {
     mLines.push_back(WaveLine());
     
-    mLines.back().node = DrawNodeEx::create("images/gradient.png");
+    mLines.back().node = DrawNodeEx::create("images/eff_line008.jpg");
     mLines.back().node->setBlendFunc(BlendFunc::ADDITIVE);
     mParentNode->addChild(mLines.back().node,50);
     
@@ -49,8 +49,10 @@ void WaveEffect::updateLine(WaveEffect::WaveLine& line, float dt) {
         if(nextW > screenWidth)
             break;
         
-        float y0 = sin((curW  / screenWidth) * twoPI + line.angleBias) * line.length + screenHeight / 2 + line.yBias;
-        float y1 = sin((nextW / screenWidth) * twoPI + line.angleBias) * line.length + screenHeight / 2 + line.yBias;
+        float ratio0 = curW  / screenWidth;
+        float ratio1 = nextW / screenWidth;
+        float y0 = sin(ratio0 * twoPI + line.angleBias) * line.length + screenHeight / 2 + line.yBias;
+        float y1 = sin(ratio1 * twoPI + line.angleBias) * line.length + screenHeight / 2 + line.yBias;
         float y01 = y0 - line.height;
         float y11 = y1 - line.height;
         float x0 = curW;
@@ -59,29 +61,29 @@ void WaveEffect::updateLine(WaveEffect::WaveLine& line, float dt) {
         V2F_C4B_T2F_Triangle t;
         t.a.vertices.set(x0, y0);
         t.a.colors = colorBase;
-        t.a.texCoords = Tex2F(0,0);
+        t.a.texCoords = Tex2F(0,ratio0);
         
         t.b.vertices.set(x0, y01);
         t.b.colors = colorBase;
-        t.b.texCoords = Tex2F(0,1);
+        t.b.texCoords = Tex2F(1,ratio0);
         
         t.c.vertices.set(x1, y1);
         t.c.colors = colorBase;
-        t.c.texCoords = Tex2F(1,0);
+        t.c.texCoords = Tex2F(0,ratio1);
         
         triangles.push_back(t);
         
         t.a.vertices.set(x0, y01);
         t.a.colors = colorBase;
-        t.a.texCoords = Tex2F(0,1);
+        t.a.texCoords = Tex2F(1,ratio0);
         
         t.b.vertices.set(x1, y11);
         t.b.colors = colorBase;
-        t.b.texCoords = Tex2F(1,1);
+        t.b.texCoords = Tex2F(1,ratio1);
         
         t.c.vertices.set(x1, y1);
         t.c.colors = colorBase;
-        t.c.texCoords = Tex2F(1,0);
+        t.c.texCoords = Tex2F(0,ratio1);
         
         triangles.push_back(t);
         
