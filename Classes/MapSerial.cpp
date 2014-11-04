@@ -300,8 +300,9 @@ void MapSerial::saveMap(const char* file) {
 	INDENT_1 ss << "\"gradientColorSrc\": " << colorStr(GameLogic::Game->mGradientColorSrc); RT_LINE
 	INDENT_1 ss << "\"gradientColorDst\": " << colorStr(GameLogic::Game->mGradientColorDst); RT_LINE
 	INDENT_1 ss << "\"paletteFile\": \"" << GameLogic::Game->mPaletteFileName << "\""; RT_LINE
+#if 0
 	savePalette(GameLogic::Game->mPaletteFileName.c_str());
-    
+#endif
     INDENT_1 ss << "\"fx\": [ \n";
     for(size_t fi = 0; fi < GameLogic::Game->mFxList.size(); ++fi) {
         INDENT_2 ss << "\"" << GameLogic::Game->mFxList[fi] << "\"";
@@ -589,6 +590,8 @@ void MapSerial::loadMap(const char* filename) {
 	if (d["paletteFile"].IsString()){
 		palletteFileName = d["paletteFile"].GetString();
 	}
+
+	GameLogic::Game->mPaletteFileName = palletteFileName;
 
 	palletteFileName = FileUtils::getInstance()->fullPathForFilename(palletteFileName.c_str());
 	auto fpPallette = fopen(palletteFileName.c_str(), "r");

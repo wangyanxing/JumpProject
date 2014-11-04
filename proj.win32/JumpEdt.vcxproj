@@ -148,11 +148,13 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Path.cpp" />
     <ClCompile Include="..\Classes\PathLib.cpp" />
     <ClCompile Include="..\Classes\Rotator.cpp" />
+    <ClCompile Include="..\Classes\ShaderLayer.cpp" />
     <ClCompile Include="..\Classes\Shadows.cpp" />
     <ClCompile Include="..\Classes\SpriteUV.cpp" />
     <ClCompile Include="..\Classes\UIColorEditor.cpp" />
     <ClCompile Include="..\Classes\UILayer.cpp" />
     <ClCompile Include="..\Classes\VisibleRect.cpp" />
+    <ClCompile Include="..\Classes\WaveEffect.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -174,11 +176,13 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Path.h" />
     <ClInclude Include="..\Classes\PathLib.h" />
     <ClInclude Include="..\Classes\Rotator.h" />
+    <ClInclude Include="..\Classes\ShaderLayer.h" />
     <ClInclude Include="..\Classes\Shadows.h" />
     <ClInclude Include="..\Classes\SpriteUV.h" />
     <ClInclude Include="..\Classes\UIColorEditor.h" />
     <ClInclude Include="..\Classes\UILayer.h" />
     <ClInclude Include="..\Classes\VisibleRect.h" />
+    <ClInclude Include="..\Classes\WaveEffect.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
