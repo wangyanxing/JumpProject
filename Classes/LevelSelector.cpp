@@ -14,6 +14,7 @@
 #include "VisibleRect.h"
 #include "GameScene.h"
 #include "CocosGUI.h"
+#include "WaveEffect.h"
 
 USING_NS_CC;
 
@@ -39,6 +40,9 @@ LevelSelLayer::~LevelSelLayer() {
     cleanBlocks();
     delete mShadows;
     mShadows = nullptr;
+    
+    delete mWaveFx;
+    mWaveFx = nullptr;
     
     mBack->removeFromParent();
 }
@@ -164,15 +168,30 @@ void LevelSelLayer::initAsTitle() {
     auto title = Label::createWithSystemFont("JUMP FGDSB", "HelveticaNeue-Light", 110,
                                               Size::ZERO, TextHAlignment::CENTER,TextVAlignment::CENTER);
     addChild(title,10);
-    title->setPosition(VisibleRect::center().x, VisibleRect::center().y + 100);
+    title->setPosition(VisibleRect::center().x, VisibleRect::center().y + 130);
     
     auto tapHelp = Label::createWithSystemFont("TAP TO PLAY", "HelveticaNeue-Light", 40,
                                              Size::ZERO, TextHAlignment::CENTER,TextVAlignment::CENTER);
     addChild(tapHelp,10);
-    tapHelp->setPosition(VisibleRect::center().x, VisibleRect::center().y - 140);
+    tapHelp->setPosition(VisibleRect::center().x, VisibleRect::center().y - 160);
     
     setBackGradientColor(Color3B(50,201,219), Color3B(30,181,199));
     setBackGradientCenter(Vec2(510.625,287.641));
+    
+    mWaveFx = new WaveEffect(this);
+    mWaveFx->newLine();
+    
+    auto& l2 = mWaveFx->newLine();
+    l2.phase = 1.1;
+    l2.height = 10;
+    l2.angleBias = 1.1;
+    
+#if 0
+    auto& l3 = mWaveFx->newLine();
+    l3.phase = 1.3;
+    l3.height = 8;
+    l3.angleBias = 0.4;
+#endif
 }
 
 void LevelSelLayer::initAsWorld1() {
@@ -211,14 +230,14 @@ void LevelSelLayer::initAsWorld2() {
     mTapToMove = false;
     Vec2 pts[16] = {
         {482.121f,481.758f},
-        {618.0f,459.91f},
+        {618.0f,  459.91f},
         {736.621f,406.059f},
         {822.777f,315.379f},
         {823.383f,207.66f},
-        {731.27f,120.188f},
+        {731.27f, 120.188f},
         {619.511f,72.7305f},
         {483.051f,54.9687f},
-        {343.66f,76.6016f},
+        {343.66f, 76.6016f},
         {222.125f,120.808f},
         {135.863f,210.914f},
         {135.019f,317.911f},
@@ -248,6 +267,9 @@ void LevelSelLayer::onEnter() {
 void LevelSelLayer::update(float dt) {
     mShadows->updateNodes(dt, mBlocks, true);
     
+    if(mWaveFx) {
+        mWaveFx->update(dt);
+    }
 }
 
 void LevelSelLayer::setBackGradientColor(const cocos2d::Color3B& colorSrc,

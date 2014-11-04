@@ -108,6 +108,8 @@
 		B5B2D7AB1A05BE7100F68044 /* Shake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7A81A05BE7100F68044 /* Shake.cpp */; };
 		B5B2D7B11A05C7A800F68044 /* ShaderLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7B01A05C7A800F68044 /* ShaderLayer.cpp */; };
 		B5B2D7B21A05C7A800F68044 /* ShaderLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7B01A05C7A800F68044 /* ShaderLayer.cpp */; };
+		B5B2D7B81A06F97D00F68044 /* WaveEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7B61A06F97C00F68044 /* WaveEffect.cpp */; };
+		B5B2D7B91A06F97D00F68044 /* WaveEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B2D7B61A06F97C00F68044 /* WaveEffect.cpp */; };
 		B5CA04DA19F1C87000A94996 /* UILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5CA04D819F1C87000A94996 /* UILayer.cpp */; };
 		B5CA04DB19F1C87000A94996 /* UILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5CA04D819F1C87000A94996 /* UILayer.cpp */; };
 		B5CA04E019F1E52600A94996 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B5CA04DF19F1E52600A94996 /* fonts */; };
@@ -368,6 +370,8 @@
 		B5B2D7A91A05BE7100F68044 /* Shake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shake.h; path = ../Classes/Shake.h; sourceTree = "<group>"; };
 		B5B2D7AD1A05C36400F68044 /* ShaderLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderLayer.h; path = ../Classes/ShaderLayer.h; sourceTree = "<group>"; };
 		B5B2D7B01A05C7A800F68044 /* ShaderLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShaderLayer.cpp; path = ../Classes/ShaderLayer.cpp; sourceTree = "<group>"; };
+		B5B2D7B61A06F97C00F68044 /* WaveEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WaveEffect.cpp; path = ../Classes/WaveEffect.cpp; sourceTree = "<group>"; };
+		B5B2D7B71A06F97D00F68044 /* WaveEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaveEffect.h; path = ../Classes/WaveEffect.h; sourceTree = "<group>"; };
 		B5CA04D819F1C87000A94996 /* UILayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UILayer.cpp; path = ../Classes/UILayer.cpp; sourceTree = "<group>"; };
 		B5CA04D919F1C87000A94996 /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UILayer.h; path = ../Classes/UILayer.h; sourceTree = "<group>"; };
 		B5CA04DF19F1E52600A94996 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
@@ -501,6 +505,8 @@
 				B5B2D7971A043BA100F68044 /* LevelLayer.h */,
 				B5B2D7871A032FFE00F68044 /* LevelSelector.cpp */,
 				B5B2D7881A032FFE00F68044 /* LevelSelector.h */,
+				B5B2D7B61A06F97C00F68044 /* WaveEffect.cpp */,
+				B5B2D7B71A06F97D00F68044 /* WaveEffect.h */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -873,6 +879,7 @@
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				B5B2D7981A043BA100F68044 /* LevelLayer.cpp in Sources */,
 				B5B2D74219FF1D2500F68044 /* GameScene.cpp in Sources */,
+				B5B2D7B81A06F97D00F68044 /* WaveEffect.cpp in Sources */,
 				B587F20219F8CA6D00AC4174 /* Button.cpp in Sources */,
 				B5B2D7AA1A05BE7100F68044 /* Shake.cpp in Sources */,
 				B5A45F3419F093E0009349EF /* MapSerial.cpp in Sources */,
@@ -918,6 +925,7 @@
 				B587F20719F8CB1800AC4174 /* Shadows.cpp in Sources */,
 				B5B2D7A11A043C8300F68044 /* LevelScene.cpp in Sources */,
 				B587F20F19F8CCC100AC4174 /* LogicManager.cpp in Sources */,
+				B5B2D7B91A06F97D00F68044 /* WaveEffect.cpp in Sources */,
 				B5A45F3519F093E0009349EF /* MapSerial.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				B5B2D77A1A00C4FA00F68044 /* SpriteUV.cpp in Sources */,

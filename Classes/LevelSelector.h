@@ -13,6 +13,7 @@
 
 class BlockBase;
 class ShadowManager;
+class WaveEffect;
 
 enum WorldID {
     TITLE,
@@ -66,6 +67,8 @@ private:
     ShadowManager* mShadows{ nullptr };
     
     cocos2d::Sprite* mBack{ nullptr };
+    
+    WaveEffect* mWaveFx{ nullptr };
     
     WorldID mWorld{ TITLE };
     
