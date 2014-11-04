@@ -15,7 +15,7 @@
 struct LightBeamDesc {
     int zorder{ 50 };
     float segSizeUpper{ 13 };
-    float segSizeLower{ 13 };
+    float segSizeLower{ 8 };
     int segNums{ 8 };
     float height{ 700 };
     float uvScale{ 1 };

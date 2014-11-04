@@ -170,7 +170,7 @@ Only valid for cocos2d-mac. Not supported on cocos2d-ios.
  
  */
 #ifndef CC_TEXTURE_ATLAS_USE_VAO
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         #define CC_TEXTURE_ATLAS_USE_VAO 1
     #else
         /* Some Windows display adapter driver cannot support VAO. */

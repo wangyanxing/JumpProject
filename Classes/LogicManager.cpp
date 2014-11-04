@@ -118,7 +118,7 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
     
     enableGame(false);
 
-#if 0
+#if 1
     {
         auto l = new LightBeam();
         l->mDesc.uvSpeed = 0.1;
@@ -648,6 +648,12 @@ void GameLogic::clean() {
         delete b.second;
     }
     mBlocks.clear();
+    
+    /*
+    for (auto l : mLightBeams) {
+        delete l;
+    }
+    mLightBeams.clear();*/
     
     clearStars();
     clearFx();

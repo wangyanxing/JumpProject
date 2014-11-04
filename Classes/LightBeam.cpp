@@ -104,5 +104,5 @@ void LightBeam::update(float dt) {
 }
 
 void LightBeam::destroy() {
-    mNode->removeFromParent();
+    mNode->clear();
 }
