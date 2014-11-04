@@ -64,22 +64,22 @@
     }, 
     {
       "index": 16, 
-      "color": "#ff6239" 
+      "color": "#000066" 
     }, 
     {
       "index": 17, 
-      "color": "#ffff9d" 
+      "color": "#333333" 
     }, 
     {
       "index": 18, 
-      "color": "#beeb9f" 
+      "color": "#330000" 
     }, 
     {
       "index": 19, 
-      "color": "#78bd8e" 
+      "color": "#003300" 
     }, 
     {
       "index": 20, 
-      "color": "#00a388" 
+      "color": "#000033" 
     }  ] 
 }

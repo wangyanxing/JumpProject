@@ -206,7 +206,6 @@ void GameScene::onWinGame() {
 }
 
 void GameScene::toMainMenu() {
-    //loadChooseLevel("maps/remote/w1_chooselevel.json");
     enableGame(false);
     auto trans = TransitionFade::create(0.5, LevelScene::getInstance());
     Director::getInstance()->replaceScene(trans);
