@@ -426,6 +426,8 @@ public:
     virtual bool isOpacityModifyRGB(void) const override;
     /// @}
 
+    virtual void setTextureCoords(Rect rect);
+
 CC_CONSTRUCTOR_ACCESS:
 
     Sprite(void);
@@ -521,7 +523,7 @@ CC_CONSTRUCTOR_ACCESS:
 protected:
 
     void updateColor(void);
-    virtual void setTextureCoords(Rect rect);
+
     virtual void updateBlendFunc(void);
     virtual void setReorderChildDirtyRecursively(void);
     virtual void setDirtyRecursively(bool bValue);

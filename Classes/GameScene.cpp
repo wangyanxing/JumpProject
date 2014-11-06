@@ -13,6 +13,7 @@
 #include "Shadows.h"
 #include "LevelSelector.h"
 #include "LevelScene.h"
+#include "EffectSprite.h"
 
 #define TRANSPARENT_BUTTON 80
 
@@ -96,6 +97,31 @@ bool GameScene::init() {
     mGame->mWinGameEvent = [this]{onWinGame();};
     createControlPad();
     createMenuButtons();
+    
+#if 0
+    Size sz(300,300/1.778);
+    auto testsp = EffectSprite::create();
+    testsp->setContentSize(sz);
+    testsp->setTag(1024);
+    
+    testsp->setTexture(renderTexture->getSprite()->getTexture());
+    addChild(testsp,5000);
+    Rect r = VisibleRect::getVisibleRect();
+    r.size = sz;
+    testsp->setTextureRect(r);
+    
+    auto ruv = r;
+    ruv.size = renderTexture->getSprite()->getTexture()->getContentSizeInPixels();
+    testsp->setPosition(VisibleRect::center());
+    testsp->setFlippedY(true);
+    testsp->setTextureCoords(ruv);
+    //testsp->addEffect(EffectBloom::create(), 1);
+    testsp->addEffect(EffectBlur::create(), 2);
+    
+    testsp->setBlendFunc({GL_ONE,GL_ONE});
+    //auto visibleRect = VisibleRect::getVisibleRect();
+    //testsp->setScale(visibleRect.size.width / sz.width, visibleRect.size.height / sz.height);
+#endif
     
     return true;
 }

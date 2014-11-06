@@ -9,6 +9,7 @@
 #include "LogicManager.h"
 
 #include "UIColorEditor.h"
+#include "EffectSprite.h"
 
 #if EDITOR_MODE
 
@@ -27,15 +28,28 @@ EditorScene::~EditorScene() {
 
 EditorScene* EditorScene::Scene = nullptr;
 
+
 // on "init" you need to initialize your instance
 bool EditorScene::init() {
     Scene = this;
     
+#if VIG
     if ( !ShaderLayer::init("shaders/vignette.glsl") ) {
         return false;
     }
+#else
+    if ( !ShaderLayer::init("shaders/post_down4_p.glsl", "shaders/post_down4_v.glsl") ) {
+        return false;
+    }
+#endif
     
+#if VIG
     rendTexSprite->getGLProgramState()->setUniformVec2("darkness", Vec2(1.3,1));
+#else
+    auto v = VisibleRect::getVisibleRect();
+    rendTexSprite->getGLProgramState()->setUniformVec4("g_viewportSize",
+                                                       Vec4(v.size.width, v.size.height, 1.0/v.size.width,1.0/v.size.height));
+#endif
     
     MapSerial::saveRemoteMaps();
     
@@ -86,6 +100,40 @@ bool EditorScene::init() {
 			sel->setColor(index);
         }
     };
+    
+#if 0
+    Size sz(300,300/1.778);
+    auto testsp = EffectSprite::create();
+    testsp->setContentSize(sz);
+    testsp->setTag(1024);
+    
+    testsp->setTexture(renderTexture->getSprite()->getTexture());
+    addChild(testsp,5000);
+    Rect r = VisibleRect::getVisibleRect();
+    r.size = sz;
+    testsp->setTextureRect(r);
+    
+    auto ruv = r;
+    ruv.size = renderTexture->getSprite()->getTexture()->getContentSizeInPixels();
+    testsp->setPosition(VisibleRect::center());
+    testsp->setFlippedY(true);
+    testsp->setTextureCoords(ruv);
+//    testsp->setBlendFunc({GL_ONE,GL_ONE});
+#   if 0
+    testsp->addEffect(EffectBloom::create(), 1);
+    testsp->addEffect(EffectBlur::create(), 2);
+    auto visibleRect = VisibleRect::getVisibleRect();
+    testsp->setScale(visibleRect.size.width / sz.width, visibleRect.size.height / sz.height);
+#   endif
+    
+#endif
+    
+#if 0
+    auto e = EffectSprite::create("images/cross.png");
+    e->setPosition(VisibleRect::center());
+    e->setEffect(EffectBlur::create());
+    addChild(e,1000);
+#endif
     
     return true;
 }

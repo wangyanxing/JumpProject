@@ -24,6 +24,8 @@
 // change at here
 #define EDITOR_RATIO EDITOR_IP5_MODE
 
+#define GLOW_NODE_TAG 2000
+
 #define ORG_RECT_SIZE 8.0
 
 enum BlockKind {

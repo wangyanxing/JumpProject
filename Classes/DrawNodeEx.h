@@ -8,7 +8,7 @@
 
 NS_CC_BEGIN
 
-class CC_DLL DrawNodeEx : public Node
+class DrawNodeEx : public Node
 {
 public:
     /** creates and initialize a DrawNodeEx node */

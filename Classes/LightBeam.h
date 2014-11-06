@@ -29,6 +29,8 @@ struct LightBeamDesc {
     static LightBeamDesc DEFAULT;
 };
 
+////////////////////////////////////////////////////////////////////////
+
 class LightBeam {
 public:
     

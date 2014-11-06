@@ -102,8 +102,6 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
     
     mBack->setGLProgramState(glProgramState);
     glProgramState->setUniformVec4("data", Vec4(screenWidth, screenHeight, 0, 0));
-    //glProgramState->setUniformVec4("color", Vec4(251.0/255.0, 3.0/255.0,137.0/255.0, 0.4));
-    //glProgramState->setUniformVec4("colorDest", Vec4(173.0/255.0, 3.0/255.0, 58.0/255.0, 0));
     glProgramState->setUniformVec4("color", Vec4(50.0/255.0, 201.0/255.0,219.0/255.0, 0.4));
     glProgramState->setUniformVec4("colorDest", Vec4(30.0/255.0, 181.0/255.0,199.0/255.0, 0.4));
     
@@ -138,6 +136,7 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
         l->getNode()->setPosition(VisibleRect::center().x,VisibleRect::center().y+50);
     }
 #endif
+    
 }
 
 Node* GameLogic::createParticle(const Vec2& pos) {
@@ -649,11 +648,12 @@ void GameLogic::clean() {
     }
     mBlocks.clear();
     
-    /*
+#if 1
     for (auto l : mLightBeams) {
         delete l;
     }
-    mLightBeams.clear();*/
+    mLightBeams.clear();
+#endif
     
     clearStars();
     clearFx();

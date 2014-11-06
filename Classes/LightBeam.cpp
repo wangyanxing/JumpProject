@@ -17,6 +17,8 @@ LightBeamDesc LightBeamDesc::DEFAULT;
 void LightBeam::init(const LightBeamDesc& desc) {
     mNode = DrawNodeEx::create(desc.texture);
     mNode->setBlendFunc({GL_ONE, GL_ONE});
+    mNode->setTag(GLOW_NODE_TAG);
+    
     GameLogic::Game->mParentLayer->addChild(mNode,desc.zorder);
     
     auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/light_beam.fsh");

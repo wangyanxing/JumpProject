@@ -120,6 +120,8 @@
 		B5CA04E619F3350700A94996 /* Events.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5CA04E319F3350700A94996 /* Events.cpp */; };
 		B5E7CA8A19F6202F009198C6 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = B5E7CA8919F6202F009198C6 /* shaders */; };
 		B5E7CA8B19F6202F009198C6 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = B5E7CA8919F6202F009198C6 /* shaders */; };
+		B5F22BD01A0A0D68006E0342 /* EffectSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F22BCE1A0A0D68006E0342 /* EffectSprite.cpp */; };
+		B5F22BD11A0A0D68006E0342 /* EffectSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F22BCE1A0A0D68006E0342 /* EffectSprite.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -382,6 +384,8 @@
 		B5CA04E319F3350700A94996 /* Events.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Events.cpp; path = ../Classes/Events.cpp; sourceTree = "<group>"; };
 		B5CA04E419F3350700A94996 /* Events.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Events.h; path = ../Classes/Events.h; sourceTree = "<group>"; };
 		B5E7CA8919F6202F009198C6 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
+		B5F22BCE1A0A0D68006E0342 /* EffectSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EffectSprite.cpp; path = ../Classes/EffectSprite.cpp; sourceTree = "<group>"; };
+		B5F22BCF1A0A0D68006E0342 /* EffectSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectSprite.h; path = ../Classes/EffectSprite.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -513,6 +517,8 @@
 				B5B2D7B71A06F97D00F68044 /* WaveEffect.h */,
 				B5C1B4191A0895DC00BC85DF /* LightBeam.cpp */,
 				B5C1B41A1A0895DC00BC85DF /* LightBeam.h */,
+				B5F22BCE1A0A0D68006E0342 /* EffectSprite.cpp */,
+				B5F22BCF1A0A0D68006E0342 /* EffectSprite.h */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -883,6 +889,7 @@
 				B587F1FD19F8C95200AC4174 /* Path.cpp in Sources */,
 				B5B2D7A01A043C8300F68044 /* LevelScene.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				B5F22BD01A0A0D68006E0342 /* EffectSprite.cpp in Sources */,
 				B5B2D7981A043BA100F68044 /* LevelLayer.cpp in Sources */,
 				B5B2D74219FF1D2500F68044 /* GameScene.cpp in Sources */,
 				B5B2D7B81A06F97D00F68044 /* WaveEffect.cpp in Sources */,
@@ -941,6 +948,7 @@
 				B5A45F3119F06FD6009349EF /* HttpHelper.cpp in Sources */,
 				B5B2D7991A043BA100F68044 /* LevelLayer.cpp in Sources */,
 				B587F20B19F8CBB300AC4174 /* Blocks.cpp in Sources */,
+				B5F22BD11A0A0D68006E0342 /* EffectSprite.cpp in Sources */,
 				B5CA04DB19F1C87000A94996 /* UILayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

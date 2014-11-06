@@ -5,6 +5,8 @@
 #include <string>
 USING_NS_CC;
 
+#define VIG 1
+
 class ShaderLayer : public cocos2d::Layer {
 	GLProgram* p;
 public:
@@ -21,8 +23,10 @@ public:
 		std::string pixelShaderFile,
 		std::string vertexShaderFile = "shaders/generic.vsh");
 
-	RenderTexture* renderTexture;
-	Sprite* rendTexSprite;
+	RenderTexture* renderTexture{ nullptr };
+    RenderTexture* renderTextureBlur{ nullptr };
+    Sprite* rendTexSprite{ nullptr };
+    Sprite* rendTexSpriteBlur{ nullptr };
     
     int paramBlending{ 0 };
     Vec2 darkness{1,1};
