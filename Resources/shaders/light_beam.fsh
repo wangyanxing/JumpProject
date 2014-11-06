@@ -9,6 +9,6 @@ void main(void) {
     
     vec4 texel = texture2D(CC_Texture0, v_texCoord);
     texel.rgb *= texel.a * v_fragmentColor.a;
-    texel.rgb *= v_fragmentColor.rgb;
+    texel.rgb *= v_fragmentColor.rgb*2.0;
     gl_FragColor = texel;
 }

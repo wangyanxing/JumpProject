@@ -132,6 +132,8 @@ public:
     bool mRejectInput{ false };
     
     std::vector<LightBeam*> mLightBeams;
+    
+    bool mJumpFlag{ false };
 };
 
 #endif /* defined(__JumpEdt__LogicManager__) */

@@ -102,24 +102,27 @@ bool EditorScene::init() {
     };
     
 #if 0
-    Size sz(300,300/1.778);
-    auto testsp = EffectSprite::create();
+    Rect r = VisibleRect::getVisibleRect();
+    
+    Size sz(r.size);
+    auto testsp = Sprite::create();
     testsp->setContentSize(sz);
     testsp->setTag(1024);
     
-    testsp->setTexture(renderTexture->getSprite()->getTexture());
+    testsp->setTexture(renderTextureBlur->getSprite()->getTexture());
     addChild(testsp,5000);
-    Rect r = VisibleRect::getVisibleRect();
+    
     r.size = sz;
     testsp->setTextureRect(r);
     
     auto ruv = r;
-    ruv.size = renderTexture->getSprite()->getTexture()->getContentSizeInPixels();
+    ruv.size = renderTexture->getSprite()->getTexture()->getContentSizeInPixels() / 4;
     testsp->setPosition(VisibleRect::center());
     testsp->setFlippedY(true);
     testsp->setTextureCoords(ruv);
-//    testsp->setBlendFunc({GL_ONE,GL_ONE});
+    testsp->setBlendFunc({GL_ONE,GL_ONE});
 #   if 0
+    testsp->setBlendFunc({GL_ONE,GL_ONE});
     testsp->addEffect(EffectBloom::create(), 1);
     testsp->addEffect(EffectBlur::create(), 2);
     auto visibleRect = VisibleRect::getVisibleRect();
@@ -464,12 +467,14 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
         }
     }
     
+#if 0
     if (keyCode == EventKeyboard::KeyCode::KEY_H /*&& mSelectionHead && !mGame->mGameMode*/) {
         //mSelectionHead->mRotator.push(0);
         //mSelectionHead->mRotator.push(90);
         auto g = mGame->mHero->getSprite()->getPhysicsBody()->isGravityEnabled();
         mGame->mHero->getSprite()->getPhysicsBody()->setGravityEnable(!g);
     }
+#endif
     
     if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) {
         // only work for one selection
@@ -479,8 +484,10 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
     }
     
     if (keyCode == EventKeyboard::KeyCode::KEY_SPACE) {
-        if(mGame->mGameMode)
-            mGame->jump();
+        if(mGame->mGameMode) {
+            mGame->mJumpFlag = true;
+        }
+            //mGame->jump();
     }
     
     if (keyCode == EventKeyboard::KeyCode::KEY_RETURN ||

@@ -98,25 +98,27 @@ bool GameScene::init() {
     createControlPad();
     createMenuButtons();
     
-#if 0
-    Size sz(300,300/1.778);
-    auto testsp = EffectSprite::create();
+#if 1
+    Rect r = VisibleRect::getVisibleRect();
+    
+    Size sz(r.size);
+    auto testsp = Sprite::create();
     testsp->setContentSize(sz);
     testsp->setTag(1024);
     
-    testsp->setTexture(renderTexture->getSprite()->getTexture());
+    testsp->setTexture(renderTextureBlur->getSprite()->getTexture());
     addChild(testsp,5000);
-    Rect r = VisibleRect::getVisibleRect();
+    
     r.size = sz;
     testsp->setTextureRect(r);
     
     auto ruv = r;
-    ruv.size = renderTexture->getSprite()->getTexture()->getContentSizeInPixels();
+    ruv.size = renderTexture->getSprite()->getTexture()->getContentSizeInPixels() / 4;
     testsp->setPosition(VisibleRect::center());
     testsp->setFlippedY(true);
     testsp->setTextureCoords(ruv);
     //testsp->addEffect(EffectBloom::create(), 1);
-    testsp->addEffect(EffectBlur::create(), 2);
+    //testsp->addEffect(EffectBlur::create(), 2);
     
     testsp->setBlendFunc({GL_ONE,GL_ONE});
     //auto visibleRect = VisibleRect::getVisibleRect();
@@ -170,7 +172,7 @@ void GameScene::onTouch(const cocos2d::Vec2& pos) {
     
     if(mCanJump && jumpBound.containsPoint(pos)){
         mJumpButton->setOpacity(255);
-        mGame->jump();
+        mGame->mJumpFlag = true;
         mCanJump = false;
     }
 }

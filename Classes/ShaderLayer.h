@@ -24,9 +24,12 @@ public:
 		std::string vertexShaderFile = "shaders/generic.vsh");
 
 	RenderTexture* renderTexture{ nullptr };
+    RenderTexture* renderTextureDownscale{ nullptr };
     RenderTexture* renderTextureBlur{ nullptr };
     Sprite* rendTexSprite{ nullptr };
     Sprite* rendTexSpriteBlur{ nullptr };
+    Sprite* rendTexSpriteFinal{ nullptr };
+
     
     int paramBlending{ 0 };
     Vec2 darkness{1,1};

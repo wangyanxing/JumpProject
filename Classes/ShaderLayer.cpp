@@ -1,5 +1,6 @@
 #include "ShaderLayer.h"
 #include "VisibleRect.h"
+#include "Defines.h"
 
 using namespace std;
 
@@ -39,12 +40,14 @@ bool ShaderLayer::init(string pixelShaderFile, string vertexShaderFile) {
     
 	renderTexture = RenderTexture::create(texSzie.width, texSzie.height);
     renderTextureBlur = RenderTexture::create(visibleSize.width/4, visibleSize.height/4);
+    renderTextureDownscale = RenderTexture::create(visibleSize.width/4, visibleSize.height/4);
     
     auto texRect = Rect(0, 0, texSzie.width, texSzie.height);
     auto texRect2 = Rect(0, 0, visibleSize.width/4, visibleSize.height/4);
     
     renderTexture->retain();
     renderTextureBlur->retain();
+    renderTextureDownscale->retain();
 	
     rendTexSprite = Sprite::create();
 	rendTexSprite->setTexture(renderTexture->getSprite()->getTexture());
@@ -52,17 +55,33 @@ bool ShaderLayer::init(string pixelShaderFile, string vertexShaderFile) {
 	rendTexSprite->setPosition(Point::ZERO);
 	rendTexSprite->setAnchorPoint(Point::ZERO);
 	rendTexSprite->setFlippedY(true);
+    rendTexSprite->setGLProgram(p);
     rendTexSprite->retain();
     
     rendTexSpriteBlur = Sprite::create();
-    rendTexSpriteBlur->setTexture(renderTextureBlur->getSprite()->getTexture());
+    rendTexSpriteBlur->setTexture(renderTextureDownscale->getSprite()->getTexture());
     rendTexSpriteBlur->setTextureRect(texRect2);
     rendTexSpriteBlur->setPosition(Point::ZERO);
     rendTexSpriteBlur->setAnchorPoint(Point::ZERO);
     rendTexSpriteBlur->setFlippedY(true);
+#if 1
+    rendTexSpriteBlur->setGLProgram(GLProgram::createWithFilenames("shaders/generic.vsh", "shaders/blur.fsh"));
+    
+    auto _glprogramstate = rendTexSpriteBlur->getGLProgramState();
+    _glprogramstate->setUniformVec2("resolution", Vec2(visibleSize.width, visibleSize.height));
+    _glprogramstate->setUniformFloat("blurRadius", 10);
+    _glprogramstate->setUniformFloat("sampleNum", 5);
+#endif
     rendTexSpriteBlur->retain();
-
-	rendTexSprite->setGLProgram(p);
+    
+    rendTexSpriteFinal = Sprite::create();
+    rendTexSpriteFinal->setTexture(renderTextureBlur->getSprite()->getTexture());
+    rendTexSpriteFinal->setTextureRect(texRect);
+    rendTexSpriteFinal->setPosition(Point::ZERO);
+    rendTexSpriteFinal->setAnchorPoint(Point::ZERO);
+    rendTexSpriteFinal->setFlippedY(true);
+    rendTexSpriteFinal->retain();
+    
     return true;
 }
 
@@ -104,24 +123,42 @@ void ShaderLayer::visit( Renderer *renderer,
         renderTexture->end();
         
 #if !VIG
-        renderTextureBlur->beginWithClear(0, 0, 0, 0);
+        
+        // original scene -> down scale
+        // down scale -> blur
+        // blur -> get blured texture!
+        
+        renderTextureDownscale->beginWithClear(0, 0, 0, 0);
         rendTexSprite->visit(renderer, parentTransform, parentFlags);
+        renderTextureDownscale->end();
+        
+        renderTextureBlur->beginWithClear(0, 0, 0, 0);
+        rendTexSpriteBlur->visit(renderer, parentTransform, parentFlags);
         renderTextureBlur->end();
         
-        rendTexSpriteBlur->visit(renderer, parentTransform, parentFlags);
+        //rendTexSpriteBlur->visit(renderer, parentTransform, parentFlags);
 #else
         rendTexSprite->visit(renderer, parentTransform, parentFlags);
 #endif
 
     } else {
         Layer::visit(renderer, parentTransform, parentFlags);
-#if 0
+        
+#if !VIG
         renderTexture->beginWithClear(0, 0, 0, 0);
         for (auto child : getChildren()) {
-            if (child != renderTexture && child != rendTexSprite && child->getTag() != 1024)
+            if (child->getTag() == GLOW_NODE_TAG)
                 child->visit(renderer, parentTransform, parentFlags);
         }
         renderTexture->end();
+        
+        renderTextureDownscale->beginWithClear(0, 0, 0, 0);
+        rendTexSprite->visit(renderer, parentTransform, parentFlags);
+        renderTextureDownscale->end();
+        
+        renderTextureBlur->beginWithClear(0, 0, 0, 0);
+        rendTexSpriteBlur->visit(renderer, parentTransform, parentFlags);
+        renderTextureBlur->end();
 #endif
     }
 }
