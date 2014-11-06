@@ -118,6 +118,7 @@ Node::Node(void)
 , _physicsBody(nullptr)
 , _physicsScaleStartX(1.0f)
 , _physicsScaleStartY(1.0f)
+, _physicsEnableScaling(true)
 #endif
 , _displayedOpacity(255)
 , _realOpacity(255)
@@ -1913,6 +1914,9 @@ void Node::updatePhysicsBodyRotation(Scene* scene)
 
 void Node::updatePhysicsBodyScale(Scene* scene)
 {
+    if(!_physicsEnableScaling)
+        return;
+    
     if (_physicsBody != nullptr)
     {
         if (scene != nullptr && scene->getPhysicsWorld() != nullptr)

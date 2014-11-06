@@ -76,6 +76,7 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
     mHero->setKind(KIND_HERO);
     mHeroShape = mHero->getSprite()->getPhysicsBody()->getShapes().front();
     mHero->addToScene(mParentLayer);
+    mHero->getSprite()->setPhysicsScaleEnabled(false);    
     mBlockTable[mHero->getSprite()] = mHero;
     
     mShadows = new ShadowManager(mParentLayer);
@@ -425,9 +426,11 @@ BlockBase* GameLogic::findBlock(int id) {
 void GameLogic::jump(){
     if(mHero->mCanJump && !mRejectInput) {
         mHero->getSprite()->getPhysicsBody()->applyImpulse(Vec2(0,325));
-        //float scale = mHero->getSprite()->getScaleX();
-        //if(mHero->getSprite()->getNumberOfRunningActions() == 0)
-        //    mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,scale*0.8,scale*1.2),ScaleTo::create(0.2,scale,scale), NULL));
+#if 1
+        float scale = mHero->getSprite()->getScaleX();
+        if(mHero->getSprite()->getNumberOfRunningActions() == 0)
+            mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,scale*0.8,scale*1.2),ScaleTo::create(0.2,scale,scale), NULL));
+#endif
         mHero->mCanJump = false;
     }
     mJumpFlag = false;
@@ -474,12 +477,11 @@ void GameLogic::updateGame(float dt){
         //mParentLayer->runAction(CCShake::create(0.3, 3));
         
         mRejectInput = true;
-#if 0
         mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,0.1,0.1),
                                                        CallFunc::create([this]{
                                                             mHero->getSprite()->setVisible(false);
                                                         }),NULL));
-#endif
+
         mParentLayer->runAction(Sequence::create(DelayTime::create(0.4), CallFunc::create([this]{
 #if EDITOR_MODE
             EditorScene::Scene->showDieFullScreenAnim();

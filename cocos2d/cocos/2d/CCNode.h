@@ -1451,6 +1451,10 @@ public:
      *   get the PhysicsBody the sprite have
      */
     PhysicsBody* getPhysicsBody() const;
+    
+    bool isPhysicsScaleEnabled() const { return _physicsEnableScaling; }
+    
+    void setPhysicsScaleEnabled(bool enable) { _physicsEnableScaling = enable; }
 
 #endif
     
@@ -1607,6 +1611,7 @@ protected:
     PhysicsBody* _physicsBody;        ///< the physicsBody the node have
     float _physicsScaleStartX;         ///< the scale x value when setPhysicsBody
     float _physicsScaleStartY;         ///< the scale y value when setPhysicsBody
+    bool _physicsEnableScaling;        ///< added by Yanxing
 #endif
     
     // opacity controls
