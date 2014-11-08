@@ -248,8 +248,10 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
     } else if( otherBlock->mKind == KIND_BLOCK ) {
         if(normal.y > 0.9) {
             auto p = pushObject->getSprite()->getPhysicsBody()->getPosition();
-            if(otherBlock->mMovementThisFrame != Vec2::ZERO) {
-                p += otherBlock->mMovementThisFrame;
+            auto mv = otherBlock->mMovementThisFrame;
+            mv.y = 0;
+            if(mv != Vec2::ZERO) {
+                p += mv;
                 onMovingPlatform = true;
                 pushObject->setPosition(p);
             }
@@ -314,21 +316,18 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
             h -= 1;
         }
         
-        if(normal.y < -0.9){
+        if(normal.y < -0.9) {
             if(onButton) h -= 1;
             else h += 1;
             pushObject->setPositionY(pushedObject->getSprite()->getPhysicsBody()->getPosition().y - h);
         }else{
             pushObject->setPositionY(pushedObject->getSprite()->getPhysicsBody()->getPosition().y + h);
-            
-            if(pushObject->mKind == KIND_PUSHABLE || pushObject->mKind == KIND_HERO) {
-                pushObject->getSprite()->getPhysicsBody()->resetForces();
-                pushObject->getSprite()->getPhysicsBody()->setVelocityLimit(0);
+            if(pushObject == mHero) {
+                mHero->mLinkingID = pushedObject->mID;
             }
         }
         
-        auto v = pushObject->getSprite()->getPhysicsBody()->getVelocity();
-        pushObject->getSprite()->getPhysicsBody()->setVelocity(Vec2(v.x, 0));
+        pushObject->mVelocity.y = 0;
     }
     
     pushObject->getSprite()->getPhysicsBody()->getFirstShape()->_forceUpdateShape();
@@ -425,7 +424,8 @@ BlockBase* GameLogic::findBlock(int id) {
 
 void GameLogic::jump(){
     if(mHero->mCanJump && !mRejectInput) {
-        mHero->getSprite()->getPhysicsBody()->applyImpulse(Vec2(0,325));
+        //mHero->getSprite()->getPhysicsBody()->applyImpulse(Vec2(0,325));
+        mHero->mJumpVelocity.y += JUMP_VOL;
 #if 1
         float scale = mHero->getSprite()->getScaleX();
         if(mHero->getSprite()->getNumberOfRunningActions() == 0)
@@ -450,18 +450,21 @@ void GameLogic::die() {
         mParentLayer->removeChildByTag(DIE_FX_TAG);
     }
     
-    mHero->getSprite()->getPhysicsBody()->resetForces();
-    mHero->getSprite()->getPhysicsBody()->setVelocity(Vec2(0,0));
+    //mHero->getSprite()->getPhysicsBody()->resetForces();
+    //mHero->getSprite()->getPhysicsBody()->setVelocity(Vec2(0,0));
+    mHero->mRestorePosition = mSpawnPos;
     mHero->setPosition(mSpawnPos);
     mHero->getSprite()->setOpacity(255);
     mDeadFlag = false;
 }
 
 void GameLogic::postUpdate(float dt) {
-    for(auto b : mBlocks) {
-        b.second->postUpdate(dt);
+    if(mGameMode) {
+        for(auto b : mBlocks) {
+            b.second->postUpdate(dt);
+        }
+        mHero->postUpdate(dt);
     }
-    mHero->postUpdate(dt);
     mShadows->update(dt);
 }
 
@@ -474,7 +477,9 @@ void GameLogic::updateGame(float dt){
         batch0->setPosition(mHero->getPosition());
         mParentLayer->addChild(batch0,15,DIE_FX_TAG);
         
-        //mParentLayer->runAction(CCShake::create(0.3, 3));
+#if 0
+        mParentLayer->runAction(CCShake::create(0.3, 3));
+#endif
         
         mRejectInput = true;
         mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,0.1,0.1),
@@ -521,19 +526,22 @@ void GameLogic::update(float dt){
     
     //printf("%s\n", mHero->mCanJump?"can":"can't");
     
-    for(auto b : mBlocks) {
-        b.second->preUpdate();
-    }
-    
-    for(auto b : mBlocks) {
-        b.second->update(dt);
-    }
-    
-    for(auto b : mBlocks) {
-        b.second->updatePathMove();
-    }
-    
     if(mGameMode) {
+        for(auto b : mBlocks) {
+            b.second->preUpdate();
+        }
+        mHero->preUpdate();
+        
+        for(auto b : mBlocks) {
+            b.second->update(dt);
+        }
+        mHero->update(dt);
+        
+        for(auto b : mBlocks) {
+            b.second->updateMovement(dt);
+        }
+        mHero->updateMovement(dt);
+        
         updateGame(dt);
     }
     
@@ -592,7 +600,7 @@ void GameLogic::enableGame(bool val, bool force) {
     mHero->setVisible(mGameMode);
     mHero->mCanJump = false;
     mHero->setSize(mHero->mRestoreSize);
-    //mHero->getSprite()->getPhysicsBody()->setVelocityLimit(1000);
+    mHero->reset();
     
     for(auto bc : mBlocks) {
         auto b = bc.second;
@@ -610,8 +618,6 @@ void GameLogic::enableGame(bool val, bool force) {
 #endif
         b->reset();
     }
-    
-    //mHero->getSprite()->getPhysicsBody()->setGravityEnable(val);
     
     mGameTimer = 0;
 }

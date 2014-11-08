@@ -86,6 +86,13 @@ void GameScene::onEnter() {
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
 }
 
+void GameScene::onEnterTransitionDidFinish() {
+    ShaderLayer::onEnterTransitionDidFinish();
+    
+    mGame->enableGame(false);
+    mGame->enableGame(true);
+}
+
 bool GameScene::init() {
     Scene = this;
     

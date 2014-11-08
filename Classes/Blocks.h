@@ -121,7 +121,7 @@ public:
     
     virtual void preUpdate();
     
-    virtual void updatePathMove();
+    virtual void updateMovement(float dt);
     
     virtual void postUpdate(float dt);
     
@@ -200,6 +200,10 @@ public:
     bool mTriggerEventsCalled{ false };
     bool mHeroOpacityChanged{ false };
     float mTriggerEventContinueTime{ 0.0 };
+    
+    cocos2d::Vec2 mVelocity{ 0,0 };
+    cocos2d::Vec2 mJumpVelocity{ 0,0 };
+    bool mEnableGravity{ false };
 
 #if EDITOR_MODE
     bool mShowIDLabel{ false };
@@ -225,7 +229,7 @@ public:
     
     virtual void initShader() override;
     
-    void update(float dt){}
+    virtual void updateMovement(float dt) override;
     
     virtual cocos2d::Color3B getColor(){ return cocos2d::Color3B::BLACK; }
     
@@ -244,6 +248,8 @@ public:
     cocos2d::ParticleSystem* mTrailFx{ nullptr };
     
     cocos2d::ParticleBatchNode* mTrailFxNode{ nullptr };
+    
+    int mLinkingID{ -1 };
 };
 
 
