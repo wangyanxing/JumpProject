@@ -1103,7 +1103,7 @@ void MapSerial::loadControlConfig(const char* file){
 }
 
 void MapSerial::loadControlConfig(){
-    MapSerial::loadControlConfig("ControlConfig.json");
+    MapSerial::loadControlConfig("controlconfig.json");
 }
 
 ControlPad::ControlPad(){
