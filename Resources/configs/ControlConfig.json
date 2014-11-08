@@ -36,14 +36,14 @@
       "scale": 0.4, 
       "leftButton": "74,60", 
       "rightButton": "320,60", 
-      "jumpButton": "820,60" 
+      "jumpButton": "830,60" 
     } , 
     {
       "desc": "default", 
       "scale": 0.5,
       "leftButton": "74,60", 
-      "rightButton": "480,60",
-      "jumpButton": "820,60" 
+      "rightButton": "330,60",
+      "jumpButton": "830,60" 
     }  
   ],
   "ConfigArray_pad": [ 

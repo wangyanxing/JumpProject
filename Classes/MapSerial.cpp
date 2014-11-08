@@ -1057,7 +1057,7 @@ void MapSerial::loadControlConfig(const char* file){
     fullPath += file;
     auto fp = fopen(fullPath.c_str(), "r");
     if(!fp) {
-        CCLOG("Warning: cannot access the map file : %s", file);
+        CCLOG("Warning: cannot access the config file : %s", fullPath.c_str());
         return;
     }
     
@@ -1079,15 +1079,15 @@ void MapSerial::loadControlConfig(const char* file){
     }
     std::string configKey = "ConfigArray";
     configKey += getLevelSuffix();
-    if(d["ConfigArray"].IsArray()) {
-        auto size = d["ConfigArray"].Size();
+    if(d[configKey.c_str()].IsArray()) {
+        auto size = d[configKey.c_str()].Size();
         
         if(size>0) ControlPad::controlPadConfig->clearConfig();
         
         for(auto i = 0; i < size; ++i) {
             auto config = new ControlPadConfig();
             
-            auto& var = d["ConfigArray"][i];
+            auto& var = d[configKey.c_str()][i];
             
             config->mDescription = var["desc"].GetString();
             config->mScale = var["scale"].GetDouble();
