@@ -72,6 +72,7 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
     mHero = new Hero();
     mHero->create(VisibleRect::center());
     mHero->setSize(Size(30,30));
+    mHero->mRestoreSize = Size(30,30);
     mHero->setVisible(false);
     mHero->setKind(KIND_HERO);
     mHeroShape = mHero->getSprite()->getPhysicsBody()->getShapes().front();
@@ -238,6 +239,11 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
            }
        }
     
+    auto phyPosPush = pushObject->getSprite()->getPhysicsBody()->getPosition();
+    auto phyPosPushed = pushedObject->getSprite()->getPhysicsBody()->getPosition();
+    auto pushedSize = pushedObject->getSize();
+    Size pushSize = pushObject == mHero ? mHero->mRestoreSize : pushObject->getSize();
+    
     if( otherBlock->mKind == KIND_DEATH ||
        otherBlock->mKind == KIND_DEATH_CIRCLE) {
         if (thisBlock == mHero){
@@ -246,15 +252,17 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
         return false;
         
     } else if( otherBlock->mKind == KIND_BLOCK ) {
+        auto p = phyPosPush;
+        auto mv = otherBlock->mMovementThisFrame;
         if(normal.y > 0.9) {
-            auto p = pushObject->getSprite()->getPhysicsBody()->getPosition();
-            auto mv = otherBlock->mMovementThisFrame;
             mv.y = 0;
             if(mv != Vec2::ZERO) {
                 p += mv;
                 onMovingPlatform = true;
                 pushObject->setPosition(p);
             }
+        } else if(normal.y < -0.9) {
+            onMovingPlatform = true;
         }
     } else if( otherBlock->mKind == KIND_BUTTON ) {
         
@@ -293,16 +301,29 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
         }
     }
     
+#if 1
+    if(pushObject == mHero) {
+        
+        float xdis = abs(phyPosPushed.x - phyPosPush.x);
+        float ydis = abs(phyPosPushed.y - phyPosPush.y);
+        if(abs(xdis*2 - (pushSize.width + pushedSize.width)) < 5 &&
+           abs(ydis*2 - (pushSize.height + pushedSize.height)) < 5) {
+            return false;
+        }
+    }
+#endif
+    
     if(normal.x > 0.9 || normal.x < -0.9) {
         
-        auto h = pushedObject->getSize().width/2 + pushObject->getSize().width/2;
+        auto h = pushedSize.width/2 + pushSize.width/2;
         if(onMovingPlatform)
             h += 1;
-        auto phyPos = pushObject->getSprite()->getPhysicsBody()->getPosition();
-        if (pushObject->getPosition().x < pushedObject->getSprite()->getPositionX())
-            pushObject->setPosition(pushedObject->getSprite()->getPositionX() - h, phyPos.y);
-        else
-            pushObject->setPosition(pushedObject->getSprite()->getPositionX() + h, phyPos.y);
+        
+        if (phyPosPush.x < phyPosPushed.x) {
+            pushObject->setPosition(phyPosPushed.x - h, phyPosPush.y);
+        } else {
+            pushObject->setPosition(phyPosPushed.x + h, phyPosPush.y);
+        }
     }
     
     if(normal.y > 0.9 || normal.y < -0.9) {
@@ -311,7 +332,7 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
             mHero->mCanJump = true;
         }
         
-        auto h = pushedObject->getSize().height/2 + pushObject->getSize().height/2;
+        auto h = pushedSize.height/2 + pushSize.height/2;
         if(onMovingPlatform && pushObject == mHero) {
             h -= 1;
         }
@@ -319,9 +340,14 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
         if(normal.y < -0.9) {
             if(onButton) h -= 1;
             else h += 1;
-            pushObject->setPositionY(pushedObject->getSprite()->getPhysicsBody()->getPosition().y - h);
+            
+            if(onMovingPlatform && pushObject == mHero) {
+                mHero->mJumpVelocity.y = -100;
+            }
+            pushObject->setPositionY(phyPosPushed.y - h);
+            
         }else{
-            pushObject->setPositionY(pushedObject->getSprite()->getPhysicsBody()->getPosition().y + h);
+            pushObject->setPositionY(phyPosPushed.y + h);
             if(pushObject == mHero) {
                 mHero->mLinkingID = pushedObject->mID;
             }
@@ -429,7 +455,7 @@ void GameLogic::jump(){
 #if 1
         float scale = mHero->getSprite()->getScaleX();
         if(mHero->getSprite()->getNumberOfRunningActions() == 0)
-            mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,scale*0.8,scale*1.2),ScaleTo::create(0.2,scale,scale), NULL));
+            mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,scale*0.4,scale*1.4),ScaleTo::create(0.2,scale,scale), NULL));
 #endif
         mHero->mCanJump = false;
     }
