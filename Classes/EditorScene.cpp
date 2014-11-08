@@ -469,10 +469,8 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
     
 #if 0
     if (keyCode == EventKeyboard::KeyCode::KEY_H /*&& mSelectionHead && !mGame->mGameMode*/) {
-        //mSelectionHead->mRotator.push(0);
-        //mSelectionHead->mRotator.push(90);
-        auto g = mGame->mHero->getSprite()->getPhysicsBody()->isGravityEnabled();
-        mGame->mHero->getSprite()->getPhysicsBody()->setGravityEnable(!g);
+        //auto g = mGame->mHero->getSprite()->getPhysicsBody()->isGravityEnabled();
+        //mGame->mHero->getSprite()->getPhysicsBody()->setGravityEnable(!g);
     }
 #endif
     
@@ -606,7 +604,7 @@ void EditorScene::onDrawPrimitive(const Mat4 &transform, uint32_t flags) {
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, transform);
     
     if(mShowGrid) {
-        auto size = mGame->mHero->getSize();
+        static auto size = mGame->mHero->getSize();
         
         DrawPrimitives::setDrawColor4B(200,200,200,255);
         

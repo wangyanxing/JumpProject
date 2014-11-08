@@ -197,6 +197,8 @@ void BlockBase::reset() {
     mStatus = IDLE;
     
     mPath.mPause = mPath.mOriginalPause;
+    mVelocity.set(0,0);
+    mJumpVelocity.set(0,0);
     
     if(mKind != KIND_DEATH_CIRCLE)
         setSize(mRestoreSize);
@@ -274,10 +276,21 @@ void BlockBase::postUpdate(float dt) {
     }
 }
 
-void BlockBase::updatePathMove() {
-    if(mKind == KIND_PUSHABLE) return;
+void BlockBase::updateMovement(float dt) {
+    
     auto lastpos = mSprite->getPosition();
-    mSprite->setPosition(mRestorePosition + mMovementToRestore);
+    auto newpos = Vec2::ZERO;
+    
+    if(mKind != KIND_PUSHABLE) {
+        newpos = mRestorePosition + mMovementToRestore;
+    } else {
+        newpos = lastpos;
+    }
+    
+    newpos.y += mVelocity.y * dt;
+    newpos.x += mVelocity.x * dt;
+    
+    mSprite->setPosition(newpos);
     
     mMovementThisFrame = mSprite->getPosition() - lastpos;
 }
@@ -291,6 +304,14 @@ void BlockBase::preUpdate() {
 }
 
 void BlockBase::update(float dt) {
+    
+    // update velocity
+    if(mEnableGravity) {
+        float gy = GRAVITY_VAL;
+        mVelocity.y += dt * gy;
+        mVelocity.y = MIN(mVelocity.y, 1000);
+        mVelocity.x = MIN(mVelocity.x, 600);
+    }
     
     if(!mRotator.empty()) {
         auto rot = mRestoreRotation;
@@ -426,6 +447,9 @@ void BlockBase::initPhysics() {
     
     pbody->setDynamic((mKind == KIND_PUSHABLE || mKind == KIND_HERO) ? true : false);
     pbody->setContactTestBitmask(1);
+    pbody->setGravityEnable(false);
+    
+    mEnableGravity = mKind == KIND_PUSHABLE || mKind == KIND_HERO;
     
     mSprite->setPhysicsBody(pbody);
 }
@@ -707,6 +731,24 @@ void Hero::initShader() {
 #endif
 }
 
+void Hero::updateMovement(float dt) {
+    
+    Vec2 linkMove;
+    if(mLinkingID != -1) {
+        auto b = GameLogic::Game->findBlock(mLinkingID);
+        linkMove.y = b->mMovementThisFrame.y;
+        mLinkingID = -1;
+    }
+    
+    mVelocity += mJumpVelocity;
+    mJumpVelocity.set(0,0);
+
+    auto lastpos = mSprite->getPosition();
+    lastpos += mVelocity * dt + linkMove;
+    
+    mSprite->setPosition(lastpos);
+}
+
 void Hero::initPhysics() {
     PhysicsBody* pbody = nullptr;
     pbody = PhysicsBody::createBox(getSize());
@@ -715,5 +757,8 @@ void Hero::initPhysics() {
     pbody->setMoment(0);
     pbody->setMass(0.8);
     pbody->setContactTestBitmask(1);
+    pbody->setGravityEnable(false);
     getSprite()->setPhysicsBody(pbody);
+    
+    mEnableGravity = true;
 }

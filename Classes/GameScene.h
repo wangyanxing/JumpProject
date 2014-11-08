@@ -33,7 +33,9 @@ public:
         }
     };
     
-    virtual void onEnter();
+    virtual void onEnter() override;
+    
+    virtual void onEnterTransitionDidFinish() override;
     
     virtual bool init();
     

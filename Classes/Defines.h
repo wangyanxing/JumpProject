@@ -28,6 +28,9 @@
 
 #define ORG_RECT_SIZE 8.0
 
+#define GRAVITY_VAL -1200
+#define JUMP_VOL 490
+
 enum BlockKind {
     KIND_HERO = 0,
     KIND_BLOCK,

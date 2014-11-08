@@ -72,6 +72,7 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
     mHero = new Hero();
     mHero->create(VisibleRect::center());
     mHero->setSize(Size(30,30));
+    mHero->mRestoreSize = Size(30,30);
     mHero->setVisible(false);
     mHero->setKind(KIND_HERO);
     mHeroShape = mHero->getSprite()->getPhysicsBody()->getShapes().front();
@@ -238,6 +239,11 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
            }
        }
     
+    auto phyPosPush = pushObject->getSprite()->getPhysicsBody()->getPosition();
+    auto phyPosPushed = pushedObject->getSprite()->getPhysicsBody()->getPosition();
+    auto pushedSize = pushedObject->getSize();
+    Size pushSize = pushObject == mHero ? mHero->mRestoreSize : pushObject->getSize();
+    
     if( otherBlock->mKind == KIND_DEATH ||
        otherBlock->mKind == KIND_DEATH_CIRCLE) {
         if (thisBlock == mHero){
@@ -246,13 +252,17 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
         return false;
         
     } else if( otherBlock->mKind == KIND_BLOCK ) {
+        auto p = phyPosPush;
+        auto mv = otherBlock->mMovementThisFrame;
         if(normal.y > 0.9) {
-            auto p = pushObject->getSprite()->getPhysicsBody()->getPosition();
-            if(otherBlock->mMovementThisFrame != Vec2::ZERO) {
-                p += otherBlock->mMovementThisFrame;
+            mv.y = 0;
+            if(mv != Vec2::ZERO) {
+                p += mv;
                 onMovingPlatform = true;
                 pushObject->setPosition(p);
             }
+        } else if(normal.y < -0.9) {
+            onMovingPlatform = true;
         }
     } else if( otherBlock->mKind == KIND_BUTTON ) {
         
@@ -291,16 +301,35 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
         }
     }
     
+#if 1
+    if(pushObject == mHero) {
+        
+        float xdis = abs(phyPosPushed.x - phyPosPush.x);
+        float ydis = abs(phyPosPushed.y - phyPosPush.y);
+        if(abs(xdis*2 - (pushSize.width + pushedSize.width)) < 5 &&
+           abs(ydis*2 - (pushSize.height + pushedSize.height)) < 5) {
+            return false;
+        }
+    }
+#endif
+    
     if(normal.x > 0.9 || normal.x < -0.9) {
         
-        auto h = pushedObject->getSize().width/2 + pushObject->getSize().width/2;
+        auto h = pushedSize.width/2 + pushSize.width/2;
         if(onMovingPlatform)
             h += 1;
-        auto phyPos = pushObject->getSprite()->getPhysicsBody()->getPosition();
-        if (pushObject->getPosition().x < pushedObject->getSprite()->getPositionX())
-            pushObject->setPosition(pushedObject->getSprite()->getPositionX() - h, phyPos.y);
-        else
-            pushObject->setPosition(pushedObject->getSprite()->getPositionX() + h, phyPos.y);
+        
+        if (phyPosPush.x < phyPosPushed.x) {
+            if(pushObject == mHero) {
+                mHero->mPushRightFlag = true;
+            }
+            pushObject->setPosition(phyPosPushed.x - h, phyPosPush.y);
+        } else {
+            if(pushObject == mHero) {
+                mHero->mPushLeftFlag = true;
+            }
+            pushObject->setPosition(phyPosPushed.x + h, phyPosPush.y);
+        }
     }
     
     if(normal.y > 0.9 || normal.y < -0.9) {
@@ -309,26 +338,28 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
             mHero->mCanJump = true;
         }
         
-        auto h = pushedObject->getSize().height/2 + pushObject->getSize().height/2;
+        auto h = pushedSize.height/2 + pushSize.height/2;
         if(onMovingPlatform && pushObject == mHero) {
             h -= 1;
         }
         
-        if(normal.y < -0.9){
+        if(normal.y < -0.9) {
             if(onButton) h -= 1;
             else h += 1;
-            pushObject->setPositionY(pushedObject->getSprite()->getPhysicsBody()->getPosition().y - h);
-        }else{
-            pushObject->setPositionY(pushedObject->getSprite()->getPhysicsBody()->getPosition().y + h);
             
-            if(pushObject->mKind == KIND_PUSHABLE || pushObject->mKind == KIND_HERO) {
-                pushObject->getSprite()->getPhysicsBody()->resetForces();
-                pushObject->getSprite()->getPhysicsBody()->setVelocityLimit(0);
+            if(onMovingPlatform && pushObject == mHero) {
+                mHero->mJumpVelocity.y = -100;
+            }
+            pushObject->setPositionY(phyPosPushed.y - h);
+            
+        }else{
+            pushObject->setPositionY(phyPosPushed.y + h);
+            if(pushObject == mHero) {
+                mHero->mLinkingID = pushedObject->mID;
             }
         }
         
-        auto v = pushObject->getSprite()->getPhysicsBody()->getVelocity();
-        pushObject->getSprite()->getPhysicsBody()->setVelocity(Vec2(v.x, 0));
+        pushObject->mVelocity.y = 0;
     }
     
     pushObject->getSprite()->getPhysicsBody()->getFirstShape()->_forceUpdateShape();
@@ -425,11 +456,12 @@ BlockBase* GameLogic::findBlock(int id) {
 
 void GameLogic::jump(){
     if(mHero->mCanJump && !mRejectInput) {
-        mHero->getSprite()->getPhysicsBody()->applyImpulse(Vec2(0,325));
+        //mHero->getSprite()->getPhysicsBody()->applyImpulse(Vec2(0,325));
+        mHero->mJumpVelocity.y += JUMP_VOL;
 #if 1
         float scale = mHero->getSprite()->getScaleX();
         if(mHero->getSprite()->getNumberOfRunningActions() == 0)
-            mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,scale*0.8,scale*1.2),ScaleTo::create(0.2,scale,scale), NULL));
+            mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,scale*0.4,scale*1.4),ScaleTo::create(0.2,scale,scale), NULL));
 #endif
         mHero->mCanJump = false;
     }
@@ -450,18 +482,19 @@ void GameLogic::die() {
         mParentLayer->removeChildByTag(DIE_FX_TAG);
     }
     
-    mHero->getSprite()->getPhysicsBody()->resetForces();
-    mHero->getSprite()->getPhysicsBody()->setVelocity(Vec2(0,0));
+    mHero->mRestorePosition = mSpawnPos;
     mHero->setPosition(mSpawnPos);
     mHero->getSprite()->setOpacity(255);
     mDeadFlag = false;
 }
 
 void GameLogic::postUpdate(float dt) {
-    for(auto b : mBlocks) {
-        b.second->postUpdate(dt);
+    if(mGameMode) {
+        for(auto b : mBlocks) {
+            b.second->postUpdate(dt);
+        }
+        mHero->postUpdate(dt);
     }
-    mHero->postUpdate(dt);
     mShadows->update(dt);
 }
 
@@ -474,7 +507,9 @@ void GameLogic::updateGame(float dt){
         batch0->setPosition(mHero->getPosition());
         mParentLayer->addChild(batch0,15,DIE_FX_TAG);
         
-        //mParentLayer->runAction(CCShake::create(0.3, 3));
+#if 0
+        mParentLayer->runAction(CCShake::create(0.3, 3));
+#endif
         
         mRejectInput = true;
         mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,0.1,0.1),
@@ -504,36 +539,47 @@ void GameLogic::updateGame(float dt){
         jump();
     }
     
+    if(!mMoveLeft && !mMoveRight) {
+        mHero->mCurrentMovingSpeed = 0;
+    }
+    
     if(!mRejectInput) {
         float speed = mHero->mPushing ? 80 : 200;
-        if(mMoveLeft){
-            mHero->moveX(dt * -speed);
-        } else if(mMoveRight){
-            mHero->moveX(dt * speed);
+        mHero->mCurrentMovingSpeed += dt * 800;
+        mHero->mCurrentMovingSpeed = std::min(speed,mHero->mCurrentMovingSpeed);
+        if(mMoveLeft && !mHero->mPushLeftFlag){
+            mHero->moveX(dt * -mHero->mCurrentMovingSpeed);
+        } else if(mMoveRight && !mHero->mPushRightFlag){
+            mHero->moveX(dt * mHero->mCurrentMovingSpeed);
         }
     }
     
     mHero->mPushing = false;
     mHero->mCanJump = false;
+    mHero->mPushLeftFlag = false;
+    mHero->mPushRightFlag = false;
 }
 
 void GameLogic::update(float dt){
     
     //printf("%s\n", mHero->mCanJump?"can":"can't");
     
-    for(auto b : mBlocks) {
-        b.second->preUpdate();
-    }
-    
-    for(auto b : mBlocks) {
-        b.second->update(dt);
-    }
-    
-    for(auto b : mBlocks) {
-        b.second->updatePathMove();
-    }
-    
     if(mGameMode) {
+        for(auto b : mBlocks) {
+            b.second->preUpdate();
+        }
+        mHero->preUpdate();
+        
+        for(auto b : mBlocks) {
+            b.second->update(dt);
+        }
+        mHero->update(dt);
+        
+        for(auto b : mBlocks) {
+            b.second->updateMovement(dt);
+        }
+        mHero->updateMovement(dt);
+        
         updateGame(dt);
     }
     
@@ -592,7 +638,7 @@ void GameLogic::enableGame(bool val, bool force) {
     mHero->setVisible(mGameMode);
     mHero->mCanJump = false;
     mHero->setSize(mHero->mRestoreSize);
-    //mHero->getSprite()->getPhysicsBody()->setVelocityLimit(1000);
+    mHero->reset();
     
     for(auto bc : mBlocks) {
         auto b = bc.second;
@@ -610,8 +656,6 @@ void GameLogic::enableGame(bool val, bool force) {
 #endif
         b->reset();
     }
-    
-    //mHero->getSprite()->getPhysicsBody()->setGravityEnable(val);
     
     mGameTimer = 0;
 }
