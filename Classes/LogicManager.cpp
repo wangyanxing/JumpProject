@@ -320,8 +320,14 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
             h += 1;
         
         if (phyPosPush.x < phyPosPushed.x) {
+            if(pushObject == mHero) {
+                mHero->mPushRightFlag = true;
+            }
             pushObject->setPosition(phyPosPushed.x - h, phyPosPush.y);
         } else {
+            if(pushObject == mHero) {
+                mHero->mPushLeftFlag = true;
+            }
             pushObject->setPosition(phyPosPushed.x + h, phyPosPush.y);
         }
     }
@@ -476,8 +482,6 @@ void GameLogic::die() {
         mParentLayer->removeChildByTag(DIE_FX_TAG);
     }
     
-    //mHero->getSprite()->getPhysicsBody()->resetForces();
-    //mHero->getSprite()->getPhysicsBody()->setVelocity(Vec2(0,0));
     mHero->mRestorePosition = mSpawnPos;
     mHero->setPosition(mSpawnPos);
     mHero->getSprite()->setOpacity(255);
@@ -535,17 +539,25 @@ void GameLogic::updateGame(float dt){
         jump();
     }
     
+    if(!mMoveLeft && !mMoveRight) {
+        mHero->mCurrentMovingSpeed = 0;
+    }
+    
     if(!mRejectInput) {
         float speed = mHero->mPushing ? 80 : 200;
-        if(mMoveLeft){
-            mHero->moveX(dt * -speed);
-        } else if(mMoveRight){
-            mHero->moveX(dt * speed);
+        mHero->mCurrentMovingSpeed += dt * 800;
+        mHero->mCurrentMovingSpeed = std::min(speed,mHero->mCurrentMovingSpeed);
+        if(mMoveLeft && !mHero->mPushLeftFlag){
+            mHero->moveX(dt * -mHero->mCurrentMovingSpeed);
+        } else if(mMoveRight && !mHero->mPushRightFlag){
+            mHero->moveX(dt * mHero->mCurrentMovingSpeed);
         }
     }
     
     mHero->mPushing = false;
     mHero->mCanJump = false;
+    mHero->mPushLeftFlag = false;
+    mHero->mPushRightFlag = false;
 }
 
 void GameLogic::update(float dt){

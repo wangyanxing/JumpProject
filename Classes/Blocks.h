@@ -250,6 +250,12 @@ public:
     cocos2d::ParticleBatchNode* mTrailFxNode{ nullptr };
     
     int mLinkingID{ -1 };
+    
+    bool mPushLeftFlag{ false };
+    
+    bool mPushRightFlag{ false };
+    
+    float mCurrentMovingSpeed{ 0 };
 };
 
 
