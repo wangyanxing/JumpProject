@@ -50,6 +50,24 @@ using namespace rapidjson;
 
 using namespace cocos2d;
 
+static const char* getLevelSuffix() {
+    static std::string suffix;
+    
+    auto framesize = VisibleRect::getFrameSize();
+    float ratio = framesize.width / framesize.height;
+    
+    if(ratio > 1.7) { // wide
+        // ok, do nothing
+        suffix = "";
+    } else if(ratio < 1.4) { // ipad
+        suffix = "_pad";
+    } else { //ip4
+        suffix = "_ip4";
+    }
+    
+    return suffix.c_str();
+}
+
 std::string colorStr(const Color3B& color) {
     char temp[100];
     sprintf(temp, "\"#%02X%02X%02X\"",color.r,color.g,color.b);
@@ -969,3 +987,143 @@ const char* MapSerial::getMapDir() {
 #endif
     return fullpath.c_str();
 }
+
+const char* MapSerial::getConfigDir() {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+    static std::string fullpath;
+    auto env = getenv("XCODE_PROJ_DIR"); // manually added
+    if(env) {
+        fullpath = env;
+        fullpath += "/../Resources/configs";
+    }else {
+        fullpath = FileUtils::getInstance()->fullPathForFilename("configs");
+    }
+#else
+    static std::string fullpath = FileUtils::getInstance()->fullPathForFilename("configs");
+#endif
+    return fullpath.c_str();
+}
+
+void MapSerial::saveControlConfig(const char* file){
+    if(ControlPad::controlPadConfig->mControlConfig.empty()){
+        auto config1 = new ControlPadConfig();
+        ControlPad::controlPadConfig->mControlConfig.push_back(config1);
+        auto config2 = new ControlPadConfig();
+        config2->mRightButtonPos = Vec2(300, 60);
+        config2->mScale = 0.3f;
+        ControlPad::controlPadConfig->mControlConfig.push_back(config2);
+        auto config3 = new ControlPadConfig();
+        config2->mRightButtonPos = Vec2(320, 60);
+        config2->mScale = 0.4f;
+        ControlPad::controlPadConfig->mControlConfig.push_back(config3);
+    }
+    
+    stringstream ss;
+    ss << "{\n";
+    
+    INDENT_1 ss << "\"ConfigIndex\" : " << ControlPad::controlPadConfig->mSelectedConfig << ",\n ";
+
+    INDENT_1 ss << "\"ConfigArray\": [ \n";
+    for (auto it = ControlPad::controlPadConfig->mControlConfig.begin(); it != ControlPad::controlPadConfig->mControlConfig.end(); ++it){
+        if (it != ControlPad::controlPadConfig->mControlConfig.begin()){
+            ss << ", \n";
+        }
+        INDENT_2 ss << "{\n";
+        INDENT_3 ss << "\"desc\": \"" << (*it)->mDescription << "\", \n";
+        INDENT_3 ss << "\"scale\": " << (*it)->mScale << ", \n";
+        INDENT_3 ss << "\"leftButton\": " << vec2Str((*it)->mLeftButtonPos) << ", \n";
+        INDENT_3 ss << "\"rightButton\": " << vec2Str((*it)->mRightButtonPos) << ", \n";
+        INDENT_3 ss << "\"jumpButton\": " << vec2Str((*it)->mJumpButtonPos) << " \n";
+        INDENT_2 ss << "} ";
+    }
+    
+    ss << "\n";
+    INDENT_1 ss << "] \n";
+    
+    ss << "}";
+    
+    auto fp = fopen(file, "w+");
+    if (!fp) {
+        CCLOG("Warning: cannot access the map file : %s", file);
+        return;
+    }
+    fprintf(fp, "%s", ss.str().c_str());
+    fclose(fp);
+}
+
+void MapSerial::loadControlConfig(const char* file){
+    std::string fullPath = getConfigDir();
+    fullPath += "/";
+    fullPath += file;
+    auto fp = fopen(fullPath.c_str(), "r");
+    if(!fp) {
+        CCLOG("Warning: cannot access the map file : %s", file);
+        return;
+    }
+    
+    fseek(fp, 0, SEEK_END);
+    auto fsize = ftell(fp);
+    rewind(fp);
+    char* buffer = new char[fsize];
+    fread(buffer, 1, fsize, fp);
+    fclose(fp);
+    
+    Document d;
+    d.Parse<kParseDefaultFlags>(buffer);
+
+    int configIndex = 0;
+    if (d["ConfigIndex"].IsInt()) {
+        configIndex = d["ConfigIndex"].GetInt();
+        
+        ControlPad::controlPadConfig->mSelectedConfig = configIndex;
+    }
+    std::string configKey = "ConfigArray";
+    configKey += getLevelSuffix();
+    if(d["ConfigArray"].IsArray()) {
+        auto size = d["ConfigArray"].Size();
+        
+        if(size>0) ControlPad::controlPadConfig->clearConfig();
+        
+        for(auto i = 0; i < size; ++i) {
+            auto config = new ControlPadConfig();
+            
+            auto& var = d["ConfigArray"][i];
+            
+            config->mDescription = var["desc"].GetString();
+            config->mScale = var["scale"].GetDouble();
+            config->mLeftButtonPos = str2Vec(var["leftButton"].GetString());
+            config->mRightButtonPos = str2Vec(var["rightButton"].GetString());
+            config->mJumpButtonPos = str2Vec(var["jumpButton"].GetString());
+            
+            ControlPad::controlPadConfig->mControlConfig.push_back(config);
+        }
+    }
+    
+    delete[] buffer;
+}
+
+void MapSerial::loadControlConfig(){
+    MapSerial::loadControlConfig("ControlConfig.json");
+}
+
+ControlPad::ControlPad(){
+}
+
+ControlPad::~ControlPad(){
+    clearConfig();
+}
+
+void ControlPad::clearConfig(){
+    for(ControlPadConfigs::iterator it = mControlConfig.begin(); it!=mControlConfig.end(); ++it){
+        delete (*it);
+    }
+    
+    mControlConfig.clear();
+}
+
+ControlPadConfig* ControlPad::getControlConfig(){
+    if(mSelectedConfig<= mControlConfig.size()-1){
+        return mControlConfig.at(mSelectedConfig);
+    }
+}
+ControlPad* ControlPad::controlPadConfig = new ControlPad();

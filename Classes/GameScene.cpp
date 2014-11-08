@@ -285,17 +285,20 @@ void GameScene::createControlPad() {
     mRightButton = Sprite::create("images/right_arrow.png");
     mJumpButton = Sprite::create("images/jump_arrow_sel.png");
     
-    mLeftButton->setPosition(Vec2(74,60));
-    mRightButton->setPosition(Vec2(280,60));
-    mJumpButton->setPosition(Vec2(820,60));
+    MapSerial::loadControlConfig();
+    auto config = ControlPad::controlPadConfig->getControlConfig();
+    auto desc = config->mDescription;
+    mLeftButton->setPosition(config->mLeftButtonPos);//Vec2(74,60));
+    mRightButton->setPosition(config->mRightButtonPos);//Vec2(280,60));
+    mJumpButton->setPosition(config->mJumpButtonPos);//Vec2(820,60));
     
     mLeftButton->setColor(Color3B(200,200,200));
     mRightButton->setColor(Color3B(200,200,200));
     mJumpButton->setColor(Color3B(200,200,200));
-    
-    mLeftButton->setScale(0.3);
-    mRightButton->setScale(0.3);
-    mJumpButton->setScale(0.3);
+    float scale = config->mScale;
+    mLeftButton->setScale(scale);//0.3);
+    mRightButton->setScale(scale);//0.3);
+    mJumpButton->setScale(scale);//0.3);
     
     mLeftButton->setOpacity(TRANSPARENT_BUTTON);
     mRightButton->setOpacity(TRANSPARENT_BUTTON);
