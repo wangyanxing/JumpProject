@@ -14,6 +14,7 @@
 #include "LevelSelector.h"
 #include "LevelScene.h"
 #include "EffectSprite.h"
+#include "LogicManager.h"
 
 #define TRANSPARENT_BUTTON 80
 
@@ -24,8 +25,8 @@ cocos2d::Scene* GameScene::createScene() {
     srand((unsigned)time(nullptr));
     
     auto scene = Scene::createWithPhysics();
-    scene->getPhysicsWorld()->setGravity(Vec2(0,-1000));
-    //scene->retain();
+    scene->getPhysicsWorld()->setGravity(Vec2(0,0));
+    GameLogic::PhysicsWorld = scene->getPhysicsWorld();
 
     auto game = GameScene::create();
     scene->addChild(game);

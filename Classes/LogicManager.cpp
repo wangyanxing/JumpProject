@@ -13,7 +13,7 @@
 #include "Button.h"
 #include "Shake.h"
 #include "VisibleRect.h"
-
+#include "SpriteSoft.h"
 #include "LightBeam.h"
 
 #if EDITOR_MODE
@@ -28,6 +28,7 @@
 USING_NS_CC;
 
 GameLogic* GameLogic::Game = nullptr;
+PhysicsWorld* GameLogic::PhysicsWorld = nullptr;
 
 GameLogic::GameLogic(cocos2d::Layer* parent) {
     mParentLayer = parent;
@@ -139,7 +140,12 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
         l->getNode()->setPosition(VisibleRect::center().x,VisibleRect::center().y+50);
     }
 #endif
-    
+ 
+#if 0
+    auto s = SpriteSoft::create("images/daisy.png");
+    s->setPosition(VisibleRect::center());
+    mParentLayer->addChild(s,9000);
+#endif
 }
 
 Node* GameLogic::createParticle(const Vec2& pos) {
@@ -262,7 +268,8 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
             if(otherBlock->mForceFieldIntensity < 0)
                 ratio = 1 - ratio;
             dir = dir / len;
-            dir *= otherBlock->mForceFieldIntensity * ratio;
+            dir.y *= otherBlock->mForceFieldIntensity * ratio;
+            dir.x *= otherBlock->mForceFieldIntensity * ratio * 0.5f;
             thisBlock->mForceFieldVelocity += dir;
             
             if(thisBlock == mHero && otherBlock->mForceFieldIntensity < 0) {

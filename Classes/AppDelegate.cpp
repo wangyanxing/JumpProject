@@ -1,6 +1,7 @@
 #include "AppDelegate.h"
 #include "Defines.h"
 #include "VisibleRect.h"
+#include "LogicManager.h"
 
 #if EDITOR_MODE
 #   include "EditorScene.h"
@@ -33,7 +34,8 @@ Scene* createScene()
     
 #if EDITOR_MODE
     auto scene = Scene::createWithPhysics();
-    scene->getPhysicsWorld()->setGravity(Vec2(0,-1000));
+    scene->getPhysicsWorld()->setGravity(Vec2(0,-200));
+    GameLogic::PhysicsWorld = scene->getPhysicsWorld();
     
     auto layer = LayerColor::create(Color4B(0x1E,0xB5,0xC7,0xFF));
     scene->addChild(layer);

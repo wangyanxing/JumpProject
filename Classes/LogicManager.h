@@ -22,6 +22,8 @@ public:
     
     static GameLogic* Game;
     
+    static cocos2d::PhysicsWorld* PhysicsWorld;
+    
     GameLogic(cocos2d::Layer* parent);
     
     ~GameLogic();
