@@ -579,7 +579,7 @@ void GameLogic::updateGame(float dt){
 }
 
 void GameLogic::update(float dt){
-    
+
     if(mGameMode) {
         for(auto b : mBlocks) {
             b.second->preUpdate();
@@ -761,7 +761,6 @@ void GameLogic::loadFxFromList() {
         ParticleBatchNode *batch0 = ParticleBatchNode::createWithTexture(m_emitter0->getTexture());
         batch0->addChild(m_emitter0);
         mParentLayer->addChild(batch0,5);
-        
         mFxNodes.push_back(batch0);
     }
 }

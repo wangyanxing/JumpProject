@@ -84,13 +84,15 @@ void GameScene::onEnter() {
         }
     };
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
+    
+    runAction(Sequence::create(DelayTime::create(0.5), CallFunc::create([this]{
+        mGame->enableGame(true, true);
+    }),  NULL));
+    
 }
 
 void GameScene::onEnterTransitionDidFinish() {
     ShaderLayer::onEnterTransitionDidFinish();
-    
-    mGame->enableGame(false);
-    mGame->enableGame(true);
 }
 
 bool GameScene::init() {
@@ -105,7 +107,7 @@ bool GameScene::init() {
     createControlPad();
     createMenuButtons();
     
-#if 1
+#if 0
     Rect r = VisibleRect::getVisibleRect();
     
     Size sz(r.size);
@@ -141,7 +143,7 @@ void GameScene::update(float dt) {
     sprintf(time, "%.1f",mGame->mGameTimer);
     mTimerLabel->setString(time);
     
-    mGame->update(dt);
+    mGame->update(1.0f / 60.0f);
 }
 
 void GameScene::enterGame(const std::string& name, bool absPath) {
