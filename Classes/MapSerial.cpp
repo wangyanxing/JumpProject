@@ -175,6 +175,7 @@ std::string kind2Str(BlockKind v) {
         "\"DEATH_CIRCLE\"",
         "\"BUTTON\"",
         "\"PUSHABLE\"",
+        "\"FORCEFIELD\""
     };
     return names[v];
 }
@@ -186,7 +187,8 @@ BlockKind str2Kind(const string& v) {
         {"DEATH",KIND_DEATH},
         {"DEATH_CIRCLE",KIND_DEATH_CIRCLE},
         {"BUTTON",KIND_BUTTON},
-        {"PUSHABLE",KIND_PUSHABLE}
+        {"PUSHABLE",KIND_PUSHABLE},
+        {"FORCEFIELD",KIND_FORCEFIELD}
     };
     
     if(!kinds.count(v)) {
@@ -380,6 +382,10 @@ void MapSerial::saveMap(const char* file) {
             INDENT_3 ss << "\"pushedEvent\": " << "\""<< b->mButton->mPushedEvent << "\""; RT_LINE
             INDENT_3 ss << "\"restoredEvent\": " << "\""<< b->mButton->mRestoredEvent << "\""; RT_LINE
             INDENT_3 ss << "\"pushingEvent\": " << "\""<< b->mButton->mPushingEvent << "\""; RT_LINE
+        }
+        
+        if(b->mKind == KIND_FORCEFIELD) {
+            INDENT_3 ss << "\"forcefieldIntensity\": " << b->mForceFieldIntensity; RT_LINE
         }
         
         // group
@@ -814,6 +820,11 @@ void MapSerial::loadMap(const char* filename) {
                     block->mButton->mPushingEvent = var["pushingEvent"].GetString();
                 }
             }
+            else if(kind == KIND_FORCEFIELD) {
+                if(var["forcefieldIntensity"].IsNumber()){
+                    block->mForceFieldIntensity = var["forcefieldIntensity"].GetDouble();
+                }
+            }
             
             if(var["pathSpeed"].IsNumber()) {
                 block->mPath.mSpeed = var["pathSpeed"].GetDouble();
@@ -1103,7 +1114,7 @@ void MapSerial::loadControlConfig(const char* file){
 }
 
 void MapSerial::loadControlConfig(){
-    MapSerial::loadControlConfig("controlconfig.json");
+    MapSerial::loadControlConfig("ControlConfig.json");
 }
 
 ControlPad::ControlPad(){

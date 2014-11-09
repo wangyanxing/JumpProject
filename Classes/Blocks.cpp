@@ -440,7 +440,7 @@ void BlockBase::initPhysics() {
     auto size = Size(mSprite->getScaleX() * mImageSize,
                      mSprite->getScaleY() * mImageSize);
     PhysicsBody* pbody = nullptr;
-    if(mKind != KIND_DEATH_CIRCLE)
+    if(mKind != KIND_DEATH_CIRCLE && mKind != KIND_FORCEFIELD)
         pbody = PhysicsBody::createBox(size);
     else
         pbody = PhysicsBody::createCircle(std::max(size.height/2, size.width/2));
@@ -467,6 +467,7 @@ void BlockBase::setKind(BlockKind kind) {
         15,
         15,
         15,
+        20,
         20
     };
     
@@ -476,7 +477,8 @@ void BlockBase::setKind(BlockKind kind) {
         false,
         false,
         false,
-        true
+        true,
+        false
     };
     
 	if (mPaletteIndex == -1)
@@ -507,11 +509,15 @@ void BlockBase::setKind(BlockKind kind) {
         }
     }
 
-    if(kind == KIND_DEATH_CIRCLE) {
+    if(kind == KIND_DEATH_CIRCLE || kind == KIND_FORCEFIELD) {
         auto s = Size(mSprite->getScaleX() * mImageSize,
                       mSprite->getScaleY() * mImageSize);
         auto size = std::max(s.width, s.height);
-        mRotationSpeed = 50;
+        
+        if(kind == KIND_DEATH_CIRCLE)
+            mRotationSpeed = 50;
+        else
+            mSprite->setOpacity(80);
         
         // update image
         mImageSize = 8;
@@ -583,7 +589,7 @@ void BlockBase::addThickness(int val) {
     t += val;
     t = std::min<int>(t, VisibleRect::top().y * 1.3);
     
-    if(mKind == KIND_DEATH_CIRCLE)
+    if(mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD)
         mSprite->setScale(t / mImageSize);
     else
         mSprite->setScale(mSprite->getScaleX(), t / mImageSize);
@@ -599,7 +605,7 @@ void BlockBase::subThickness(int val) {
     t -= val;
     t = std::max<int>(t, 5);
     
-    if(mKind == KIND_DEATH_CIRCLE)
+    if(mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD)
         mSprite->setScale(t / mImageSize);
     else
         mSprite->setScale(mSprite->getScaleX(), t / mImageSize);
@@ -615,7 +621,7 @@ void BlockBase::addWidth(int val) {
     w += val;
     w = std::min<int>(w, VisibleRect::right().x * 1.3);
     
-    if(mKind == KIND_DEATH_CIRCLE)
+    if(mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD)
         mSprite->setScale(w / mImageSize);
     else
         mSprite->setScale(w / mImageSize, mSprite->getScaleY());
@@ -631,7 +637,7 @@ void BlockBase::subWidth(int val) {
     w -= val;
     w = std::max<int>(w, 5);
     
-    if(mKind == KIND_DEATH_CIRCLE)
+    if(mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD)
         mSprite->setScale(w / mImageSize);
     else
         mSprite->setScale(w / mImageSize, mSprite->getScaleY());
@@ -644,7 +650,7 @@ void BlockBase::subWidth(int val) {
 
 void BlockBase::setWidth(float val) {
     
-    if(mKind == KIND_DEATH_CIRCLE)
+    if(mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD)
         mSprite->setScale(val / mImageSize);
     else
         mSprite->setScale(val / mImageSize, mSprite->getScaleY());
@@ -654,7 +660,7 @@ void BlockBase::setWidth(float val) {
 
 void BlockBase::setHeight(float val) {
     
-    if(mKind == KIND_DEATH_CIRCLE)
+    if(mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD)
         mSprite->setScale(val / mImageSize);
     else
         mSprite->setScale(mSprite->getScaleX(), val / mImageSize);
@@ -736,12 +742,22 @@ void Hero::updateMovement(float dt) {
     Vec2 linkMove;
     if(mLinkingID != -1) {
         auto b = GameLogic::Game->findBlock(mLinkingID);
-        linkMove.y = b->mMovementThisFrame.y;
+        if( b ) {
+            linkMove.y = b->mMovementThisFrame.y;
+        }
         mLinkingID = -1;
     }
     
     mVelocity += mJumpVelocity;
     mJumpVelocity.set(0,0);
+    
+    mVelocity += mForceFieldVelocity;
+    mForceFieldVelocity.set(0,0);
+    
+    // linear damping
+    float damping = 5;
+    float rat = std::min(std::max(1.0f - dt * damping, 0.0f), 1.0f);
+    mVelocity.x *= rat;
 
     auto lastpos = mSprite->getPosition();
     lastpos += mVelocity * dt + linkMove;
@@ -761,4 +777,5 @@ void Hero::initPhysics() {
     getSprite()->setPhysicsBody(pbody);
     
     mEnableGravity = true;
+    mEnableForceField = true;
 }

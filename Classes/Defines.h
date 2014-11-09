@@ -38,6 +38,7 @@ enum BlockKind {
     KIND_DEATH_CIRCLE,
     KIND_BUTTON,
     KIND_PUSHABLE,
+    KIND_FORCEFIELD,
     
     KIND_MAX
 };

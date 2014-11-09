@@ -40,6 +40,7 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
     mBlockColors[KIND_DEATH_CIRCLE] = Color3B::BLACK;
     mBlockColors[KIND_BUTTON] = Color3B(254, 225, 50);
     mBlockColors[KIND_PUSHABLE] = Color3B(220, 150, 168);
+    mBlockColors[KIND_FORCEFIELD] = Color3B(84, 194, 123);
     mBackgroundColor = Color3B(30, 181, 199);
 
 	mPalette.insert(std::pair<int, Color3B>(1, Color3B(0xFF, 0xFF, 0xFF)));
@@ -251,6 +252,14 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
         }
         return false;
         
+    } if(otherBlock->mKind == KIND_FORCEFIELD) {
+        if(thisBlock->mEnableForceField) {
+            Vec2 dir = otherBlock->getPosition() - thisBlock->getPosition();
+            dir.normalize();
+            dir *= otherBlock->mForceFieldIntensity;
+            thisBlock->mForceFieldVelocity += dir;
+        }
+        return false;
     } else if( otherBlock->mKind == KIND_BLOCK ) {
         auto p = phyPosPush;
         auto mv = otherBlock->mMovementThisFrame;
@@ -456,12 +465,11 @@ BlockBase* GameLogic::findBlock(int id) {
 
 void GameLogic::jump(){
     if(mHero->mCanJump && !mRejectInput) {
-        //mHero->getSprite()->getPhysicsBody()->applyImpulse(Vec2(0,325));
         mHero->mJumpVelocity.y += JUMP_VOL;
 #if 1
         float scale = mHero->getSprite()->getScaleX();
         if(mHero->getSprite()->getNumberOfRunningActions() == 0)
-            mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,scale*0.4,scale*1.4),ScaleTo::create(0.2,scale,scale), NULL));
+            mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,scale*0.6,scale*1.4),ScaleTo::create(0.2,scale,scale), NULL));
 #endif
         mHero->mCanJump = false;
     }
@@ -561,8 +569,6 @@ void GameLogic::updateGame(float dt){
 }
 
 void GameLogic::update(float dt){
-    
-    //printf("%s\n", mHero->mCanJump?"can":"can't");
     
     if(mGameMode) {
         for(auto b : mBlocks) {
