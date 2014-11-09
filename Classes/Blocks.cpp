@@ -468,7 +468,7 @@ void BlockBase::setKind(BlockKind kind) {
         15,
         15,
         20,
-        20
+        12
     };
     
     static bool castShadow[KIND_MAX] = {
@@ -516,8 +516,6 @@ void BlockBase::setKind(BlockKind kind) {
         
         if(kind == KIND_DEATH_CIRCLE)
             mRotationSpeed = 50;
-        else
-            mSprite->setOpacity(80);
         
         // update image
         mImageSize = 8;

@@ -76,7 +76,7 @@ public:
     
     virtual void setSize(cocos2d::Size size);
     
-    cocos2d::Size getSize();
+    virtual cocos2d::Size getSize();
     
     virtual void moveX(float val);
     
@@ -244,6 +244,8 @@ public:
     virtual void openDoor(float speed, bool downDirDoor){}
     
     virtual void closeDoor(float speed, bool downDirDoor){}
+    
+    virtual cocos2d::Size getSize() override { return mRestoreSize; }
     
     bool mCanJump{ false };
     
