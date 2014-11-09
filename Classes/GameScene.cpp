@@ -85,7 +85,7 @@ void GameScene::onEnter() {
     };
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
     
-    runAction(Sequence::create(DelayTime::create(0.5), CallFunc::create([this]{
+    runAction(Sequence::create(DelayTime::create(0.4), CallFunc::create([this]{
         mGame->enableGame(true, true);
     }),  NULL));
     
@@ -155,7 +155,7 @@ void GameScene::enterGame(const std::string& name, bool absPath) {
         MapSerial::loadMap(str.c_str());
     }
     
-    enableGame(true);
+    enableGame(false);
 }
 
 bool GameScene::onContactPreSolve(cocos2d::PhysicsContact& contact,
