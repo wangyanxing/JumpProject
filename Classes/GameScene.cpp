@@ -156,7 +156,10 @@ void GameScene::enterGame(const std::string& name, bool absPath) {
         MapSerial::loadMap(str.c_str());
     }
     
-    enableGame(false);
+    mGame->enableGame(false);
+    mLeftButton->setVisible(true);
+    mRightButton->setVisible(true);
+    mJumpButton->setVisible(true);
 }
 
 bool GameScene::onContactPreSolve(cocos2d::PhysicsContact& contact,
