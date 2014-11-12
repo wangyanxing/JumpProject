@@ -29,8 +29,11 @@
 
 [Rr]esources/maps/*
 cocos2d/cocos/network/proj.win32/*
+cocos2d/cocos/platform/android/*
+bin/debug/*
 proj.win32/*
 proj.win32/Debug.win32/*
+proj.android/*
 *.tlog
 *.lastbuildstate
 *.idb
