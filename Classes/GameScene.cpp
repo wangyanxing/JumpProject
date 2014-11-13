@@ -254,8 +254,14 @@ void GameScene::toMainMenu() {
 
 void GameScene::createMenuButtons() {
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
     mTimerLabel = Label::createWithSystemFont("0.0", "Heiti TC", 50,
                                               Size::ZERO, TextHAlignment::CENTER,TextVAlignment::CENTER);
+#else
+    TTFConfig config("fonts/Montserra.ttf",50);
+    mTimerLabel = Label::createWithTTF(config,"0.0");
+#endif
+    
     addChild(mTimerLabel,1000);
     mTimerLabel->setPosition(VisibleRect::center().x, VisibleRect::top().y + 50);
     

@@ -498,9 +498,10 @@ void MapSerial::saveMap() {
 void MapSerial::loadMap(const char* filename) {
     int maxID = 0;
     
+#if 0
     auto fp = fopen(filename, "r");
     if(!fp) {
-        CCLOG("Warning: cannot access the map file : %s", filename);
+        CCLOG("Warning: cannot read the map file : %s", filename);
         return;
     }
     
@@ -510,9 +511,12 @@ void MapSerial::loadMap(const char* filename) {
     char* buffer = new char[fsize];
     fread(buffer, 1, fsize, fp);
     fclose(fp);
+#else
+    auto buffer = FileUtils::getInstance()->getStringFromFile(filename);
+#endif
     
     Document d;
-    d.Parse<kParseDefaultFlags>(buffer);
+    d.Parse<kParseDefaultFlags>(buffer.c_str());
     
     std::map<BlockBase*, std::vector<int>> pregroups;
     
@@ -897,7 +901,6 @@ void MapSerial::loadMap(const char* filename) {
         }
     }
     
-    delete[] buffer;
     BlockBase::mIDCounter = maxID + 1;
 #if EDITOR_MODE
     std::string fixedfilename = filename;
@@ -963,7 +966,7 @@ void MapSerial::afterLoadRemoteMaps() {
             continue;
         }
         
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
         fullpath = FileUtils::getInstance()->getWritablePath();
         fullpath += m.name;
 #else
@@ -973,7 +976,7 @@ void MapSerial::afterLoadRemoteMaps() {
         auto fp = fopen(fullpath.c_str(), "w+");
         
         if (!fp) {
-            CCLOG("Warning: cannot access the map file : %s", fullpath.c_str());
+            CCLOG("Warning: cannot save the map file : %s", fullpath.c_str());
             continue;
         }
         
@@ -993,6 +996,8 @@ const char* MapSerial::getMapDir() {
     }else {
         fullpath = FileUtils::getInstance()->fullPathForFilename("maps");
     }
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    static std::string fullpath = FileUtils::getInstance()->fullPathForFilename("assets/maps");
 #else
     static std::string fullpath = FileUtils::getInstance()->fullPathForFilename("maps");
 #endif
@@ -1009,6 +1014,8 @@ const char* MapSerial::getConfigDir() {
     }else {
         fullpath = FileUtils::getInstance()->fullPathForFilename("configs");
     }
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    static std::string fullpath = FileUtils::getInstance()->fullPathForFilename("assets/configs");
 #else
     static std::string fullpath = FileUtils::getInstance()->fullPathForFilename("configs");
 #endif
@@ -1066,6 +1073,8 @@ void MapSerial::loadControlConfig(const char* file){
     std::string fullPath = getConfigDir();
     fullPath += "/";
     fullPath += file;
+    
+#if 0
     auto fp = fopen(fullPath.c_str(), "r");
     if(!fp) {
         CCLOG("Warning: cannot access the config file : %s", fullPath.c_str());
@@ -1078,9 +1087,12 @@ void MapSerial::loadControlConfig(const char* file){
     char* buffer = new char[fsize];
     fread(buffer, 1, fsize, fp);
     fclose(fp);
+#else
+    auto buffer = FileUtils::getInstance()->getStringFromFile(fullPath);
+#endif
     
     Document d;
-    d.Parse<kParseDefaultFlags>(buffer);
+    d.Parse<kParseDefaultFlags>(buffer.c_str());
 
     int configIndex = 0;
     if (d["ConfigIndex"].IsInt()) {
@@ -1109,8 +1121,6 @@ void MapSerial::loadControlConfig(const char* file){
             ControlPad::controlPadConfig->mControlConfig.push_back(config);
         }
     }
-    
-    delete[] buffer;
 }
 
 void MapSerial::loadControlConfig(){
