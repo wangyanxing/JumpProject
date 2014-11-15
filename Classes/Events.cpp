@@ -133,6 +133,7 @@ void initEvents() {
             }
             
             targetBlock->setVisible(true);
+            targetBlock->getSprite()->getPhysicsBody()->setEnable(true);
         };
         EventLists[e.command] = e;
     }
@@ -150,12 +151,14 @@ void initEvents() {
             }
             
             targetBlock->setVisible(false);
+            targetBlock->getSprite()->getPhysicsBody()->setEnable(false);
         };
         EventLists[e.command] = e;
     }
+#if 0
     {
         Event e;
-        e.command = "moveTo";
+        e.command = "move";
         e.args = {
             { "", false },    // ID
             { "100", true },  // SPEED
@@ -167,10 +170,14 @@ void initEvents() {
                 CCLOG("Bad ID: %d", args[0].getInt());
                 return;
             }
-            targetBlock->setPosition(args[1].getFloat(), args[2].getFloat());
+            
+            auto pos = targetBlock->getPosition();
+            targetBlock->setPosition(args[1].getFloat()+ pos.x, args[2].getFloat()+pos.y);
+            targetBlock->getSprite()->getPhysicsBody()->setPositionOffset(cocos2d::Vec2(args[1].getFloat(), args[2].getFloat()));
         };
         EventLists[e.command] = e;
     }
+#endif
     {
         Event e;
         e.command = "pause_path";
