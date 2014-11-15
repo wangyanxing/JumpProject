@@ -121,6 +121,58 @@ void initEvents() {
     }
     {
         Event e;
+        e.command = "show";
+        e.args = {
+            {"", false},    // ID
+        };
+        e.func = [&](const std::vector<Arg>& args, BlockBase* block){
+            auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
+            if (!targetBlock) {
+                CCLOG("Bad ID: %d", args[0].getInt());
+                return;
+            }
+            
+            targetBlock->setVisible(true);
+        };
+        EventLists[e.command] = e;
+    }
+    {
+        Event e;
+        e.command = "hide";
+        e.args = {
+            {"", false},    // ID
+        };
+        e.func = [&](const std::vector<Arg>& args, BlockBase* block){
+            auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
+            if (!targetBlock) {
+                CCLOG("Bad ID: %d", args[0].getInt());
+                return;
+            }
+            
+            targetBlock->setVisible(false);
+        };
+        EventLists[e.command] = e;
+    }
+    {
+        Event e;
+        e.command = "moveTo";
+        e.args = {
+            { "", false },    // ID
+            { "100", true },  // SPEED
+            { "100", true }, // DIR
+        };
+        e.func = [&](const std::vector<Arg>& args, BlockBase* block){
+            auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
+            if (!targetBlock) {
+                CCLOG("Bad ID: %d", args[0].getInt());
+                return;
+            }
+            targetBlock->setPosition(args[1].getFloat(), args[2].getFloat());
+        };
+        EventLists[e.command] = e;
+    }
+    {
+        Event e;
         e.command = "pause_path";
         e.args = {
             {"", false},    // ID
