@@ -121,6 +121,65 @@ void initEvents() {
     }
     {
         Event e;
+        e.command = "show";
+        e.args = {
+            {"", false},    // ID
+        };
+        e.func = [&](const std::vector<Arg>& args, BlockBase* block){
+            auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
+            if (!targetBlock) {
+                CCLOG("Bad ID: %d", args[0].getInt());
+                return;
+            }
+            
+            targetBlock->setVisible(true);
+            targetBlock->getSprite()->getPhysicsBody()->setEnable(true);
+        };
+        EventLists[e.command] = e;
+    }
+    {
+        Event e;
+        e.command = "hide";
+        e.args = {
+            {"", false},    // ID
+        };
+        e.func = [&](const std::vector<Arg>& args, BlockBase* block){
+            auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
+            if (!targetBlock) {
+                CCLOG("Bad ID: %d", args[0].getInt());
+                return;
+            }
+            
+            targetBlock->setVisible(false);
+            targetBlock->getSprite()->getPhysicsBody()->setEnable(false);
+        };
+        EventLists[e.command] = e;
+    }
+#if 0
+    {
+        Event e;
+        e.command = "move";
+        e.args = {
+            { "", false },    // ID
+            { "100", true },  // SPEED
+            { "100", true }, // DIR
+        };
+        e.func = [&](const std::vector<Arg>& args, BlockBase* block){
+            auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
+            if (!targetBlock) {
+                CCLOG("Bad ID: %d", args[0].getInt());
+                return;
+            }
+            
+            auto pos = targetBlock->getPosition();
+            targetBlock->setPosition(args[1].getFloat()+ pos.x, args[2].getFloat()+pos.y);
+            targetBlock->getSprite()->getPhysicsBody()->setPositionOffset(cocos2d::Vec2(args[1].getFloat(), args[2].getFloat()));
+        };
+        EventLists[e.command] = e;
+    }
+#endif
+    {
+        Event e;
         e.command = "pause_path";
         e.args = {
             {"", false},    // ID

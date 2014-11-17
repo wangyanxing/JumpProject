@@ -253,9 +253,13 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
     
     if( otherBlock->mKind == KIND_DEATH ||
        otherBlock->mKind == KIND_DEATH_CIRCLE) {
+#if 0
         if (thisBlock == mHero){
             otherBlock->callTriggerEvent();
         }
+#endif
+        otherBlock->callTriggerEvent();
+        
         return false;
         
     } if(otherBlock->mKind == KIND_FORCEFIELD) {
