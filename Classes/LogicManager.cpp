@@ -594,9 +594,9 @@ void GameLogic::updateGame(float dt){
 void GameLogic::update(float dt){
 
     if(mGameMode) {
-		for (auto e : mTimeEvents){
-			e.update(dt);
-		}
+        for(std::vector<TimeEvent>::iterator it=mTimeEvents.begin(); it!=mTimeEvents.end(); ++it){
+            (*it).update(dt);
+        }
 
         for(auto b : mBlocks) {
             b.second->preUpdate();
@@ -672,6 +672,10 @@ void GameLogic::enableGame(bool val, bool force) {
     mHero->mCanJump = false;
     mHero->setSize(mHero->mRestoreSize);
     mHero->reset();
+    
+    for(std::vector<TimeEvent>::iterator it=mTimeEvents.begin(); it!=mTimeEvents.end(); ++it){
+        (*it).reset();
+    }
     
     for(auto bc : mBlocks) {
         auto b = bc.second;

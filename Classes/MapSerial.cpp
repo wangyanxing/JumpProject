@@ -435,6 +435,51 @@ void MapSerial::saveMap(const char* file) {
         INDENT_2 ss << "}\n";
     }
     
+    INDENT_1 ss << "],\n";
+    
+    INDENT_1 ss << "\"timeEvents\": [\n";
+    
+    for(auto it=GameLogic::Game->mTimeEvents.begin(); it!=GameLogic::Game->mTimeEvents.end(); ++it){
+        if(it!=GameLogic::Game->mTimeEvents.begin()){
+            INDENT_2 ss << "},\n";
+        }
+        auto event = (*it);
+        INDENT_2 ss << "{\n";
+        
+        INDENT_3 ss << "\"initDelay\": " <<event.mInitDelay << ",\n";
+        INDENT_3 ss << "\"loop\": " << event.mLoop << ",\n";
+        
+        INDENT_3 ss << "\"events\": [\n";
+        
+        for(auto eit=event.mEventPoints.begin(); eit!=event.mEventPoints.end(); ++eit){
+            if(eit!=event.mEventPoints.begin()){
+                ss << "},\n";
+            }
+            
+            INDENT_4 ss << "{ ";
+            ss << "\"event\": [";
+            
+            auto command = (*eit);
+            for(auto comIt = command.mEvents.begin(); comIt!=command.mEvents.end(); ++comIt){
+                if(comIt!=command.mEvents.begin()){
+                    ss << ", ";
+                }
+                ss << "\"" << (*comIt) << "\"";
+            }
+            ss << "], \"delay\": " << (*eit).waitTime ;
+        }
+        
+        if(!event.mEventPoints.empty()){
+            ss << "}\n";
+        }
+        
+        INDENT_3 ss << "]\n";
+    }
+    
+    if(!GameLogic::Game->mTimeEvents.empty()){
+        INDENT_2 ss << "}\n";
+    }
+    
     INDENT_1 ss << "]\n";
     
     ss << "}";
