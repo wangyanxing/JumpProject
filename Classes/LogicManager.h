@@ -16,6 +16,7 @@ class BlockBase;
 class Hero;
 class ShadowManager;
 class LightBeam;
+class TimeEvent;
 
 class GameLogic {
 public:
@@ -125,6 +126,7 @@ public:
     
     std::function<void()> mWinGameEvent;
     
+	std::vector<TimeEvent> mTimeEvents;
     std::vector<std::string> mFxList;
     std::vector<cocos2d::ParticleBatchNode*> mFxNodes;
     

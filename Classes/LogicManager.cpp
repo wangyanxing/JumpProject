@@ -16,6 +16,8 @@
 #include "SpriteSoft.h"
 #include "LightBeam.h"
 
+#include "TimeEvent.h"
+
 #if EDITOR_MODE
 #   include "EditorScene.h"
 #else
@@ -592,6 +594,10 @@ void GameLogic::updateGame(float dt){
 void GameLogic::update(float dt){
 
     if(mGameMode) {
+		for (auto e : mTimeEvents){
+			e.update(dt);
+		}
+
         for(auto b : mBlocks) {
             b.second->preUpdate();
         }

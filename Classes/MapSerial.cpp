@@ -15,6 +15,7 @@
 #include "UILayer.h"
 #include "UIColorEditor.h"
 #include "VisibleRect.h"
+#include "TimeEvent.h"
 
 #include "rapidjson/document.h"
 #include "rapidjson/rapidjson.h"
@@ -667,6 +668,48 @@ void MapSerial::loadMap(const char* filename) {
 	#if EDITOR_MODE
 			UIColorEditor::colorEditor->updateColorButtonDisplay();
 	#endif
+		}
+	}
+	/***
+		2014 11 17
+	***/
+	if (d["timeEvents"].IsArray()){
+		auto size = d["timeEvents"].Size();
+
+		for (auto i = 0; i < size; ++i) {
+			auto& var = d["timeEvents"][i];
+
+			bool loop = true;
+			float initDelay = -1.0f;
+			if (var["loop"].IsBool()){
+				loop = var["loop"].GetBool();
+			}
+
+			if (var["initDelay"].IsNumber()){
+				initDelay = var["initDelay"].GetDouble();
+			}
+
+			TimeEvent tEvent;
+			tEvent.mLoop = loop;
+			tEvent.mInitDelay = initDelay;
+
+			if (var["events"].IsArray()){
+				auto eventsSize = var["events"].Size();
+				for (auto j = 0; j < eventsSize; j++){
+					float delayTime = var["events"][j]["delay"].GetDouble();
+					TimeEvent::TimeEventPoint tEventPoint(delayTime);
+					if (var["events"][j]["event"].IsArray()){
+						auto pointSize = var["events"][j]["event"].Size();
+						for (auto k = 0; k < pointSize; k++){
+							auto command = var["events"][j]["event"][k].GetString();
+							tEventPoint.push(command);
+						}
+					}
+					tEvent.mEventPoints.push_back(tEventPoint);
+				}
+			}
+			tEvent.reset();
+			GameLogic::Game->mTimeEvents.push_back(tEvent);
 		}
 	}
 

@@ -155,6 +155,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Shake.cpp" />
     <ClCompile Include="..\Classes\SpriteSoft.cpp" />
     <ClCompile Include="..\Classes\SpriteUV.cpp" />
+    <ClCompile Include="..\Classes\TimeEvent.cpp" />
     <ClCompile Include="..\Classes\UIColorEditor.cpp" />
     <ClCompile Include="..\Classes\UILayer.cpp" />
     <ClCompile Include="..\Classes\VisibleRect.cpp" />
@@ -187,6 +188,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Shake.h" />
     <ClInclude Include="..\Classes\SpriteSoft.h" />
     <ClInclude Include="..\Classes\SpriteUV.h" />
+    <ClInclude Include="..\Classes\TimeEvent.h" />
     <ClInclude Include="..\Classes\UIColorEditor.h" />
     <ClInclude Include="..\Classes\UILayer.h" />
     <ClInclude Include="..\Classes\VisibleRect.h" />
