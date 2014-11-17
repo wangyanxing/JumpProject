@@ -136,6 +136,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Button.cpp" />
     <ClCompile Include="..\Classes\DrawNodeEx.cpp" />
     <ClCompile Include="..\Classes\EditorScene.cpp" />
+    <ClCompile Include="..\Classes\EffectSprite.cpp" />
     <ClCompile Include="..\Classes\Events.cpp" />
     <ClCompile Include="..\Classes\GameScene.cpp" />
     <ClCompile Include="..\Classes\GameUtils.cpp" />
@@ -143,6 +144,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\LevelLayer.cpp" />
     <ClCompile Include="..\Classes\LevelScene.cpp" />
     <ClCompile Include="..\Classes\LevelSelector.cpp" />
+    <ClCompile Include="..\Classes\LightBeam.cpp" />
     <ClCompile Include="..\Classes\LogicManager.cpp" />
     <ClCompile Include="..\Classes\MapSerial.cpp" />
     <ClCompile Include="..\Classes\Path.cpp" />
@@ -150,6 +152,8 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Rotator.cpp" />
     <ClCompile Include="..\Classes\ShaderLayer.cpp" />
     <ClCompile Include="..\Classes\Shadows.cpp" />
+    <ClCompile Include="..\Classes\Shake.cpp" />
+    <ClCompile Include="..\Classes\SpriteSoft.cpp" />
     <ClCompile Include="..\Classes\SpriteUV.cpp" />
     <ClCompile Include="..\Classes\UIColorEditor.cpp" />
     <ClCompile Include="..\Classes\UILayer.cpp" />
@@ -164,6 +168,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Defines.h" />
     <ClInclude Include="..\Classes\DrawNodeEx.h" />
     <ClInclude Include="..\Classes\EditorScene.h" />
+    <ClInclude Include="..\Classes\EffectSprite.h" />
     <ClInclude Include="..\Classes\Events.h" />
     <ClInclude Include="..\Classes\GameScene.h" />
     <ClInclude Include="..\Classes\GameUtils.h" />
@@ -171,6 +176,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\LevelLayer.h" />
     <ClInclude Include="..\Classes\LevelScene.h" />
     <ClInclude Include="..\Classes\LevelSelector.h" />
+    <ClInclude Include="..\Classes\LightBeam.h" />
     <ClInclude Include="..\Classes\LogicManager.h" />
     <ClInclude Include="..\Classes\MapSerial.h" />
     <ClInclude Include="..\Classes\Path.h" />
@@ -178,6 +184,8 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Rotator.h" />
     <ClInclude Include="..\Classes\ShaderLayer.h" />
     <ClInclude Include="..\Classes\Shadows.h" />
+    <ClInclude Include="..\Classes\Shake.h" />
+    <ClInclude Include="..\Classes\SpriteSoft.h" />
     <ClInclude Include="..\Classes\SpriteUV.h" />
     <ClInclude Include="..\Classes\UIColorEditor.h" />
     <ClInclude Include="..\Classes\UILayer.h" />
@@ -205,6 +213,9 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ProjectReference Include="..\cocos2d\external\chipmunk\proj.win32\chipmunk.vcxproj">
       <Project>{207bc7a9-ccf1-4f2f-a04d-45f72242ae25}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Classes\PathLibOSX.mm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
