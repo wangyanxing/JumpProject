@@ -131,6 +131,8 @@
 		D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
+		DA8335731A1A1E2F0038D1E0 /* TimeEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA8335711A1A1E2F0038D1E0 /* TimeEvent.cpp */; };
+		DA8335741A1A1E2F0038D1E0 /* TimeEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA8335711A1A1E2F0038D1E0 /* TimeEvent.cpp */; };
 		DAFB092A1A0DBDAE00B96CC9 /* configs in Resources */ = {isa = PBXBuildFile; fileRef = DAFB09291A0DBDAE00B96CC9 /* configs */; };
 		DAFB092B1A0DBDAE00B96CC9 /* configs in Resources */ = {isa = PBXBuildFile; fileRef = DAFB09291A0DBDAE00B96CC9 /* configs */; };
 /* End PBXBuildFile section */
@@ -399,6 +401,8 @@
 		D44C620D132DFF430009C878 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
+		DA8335711A1A1E2F0038D1E0 /* TimeEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TimeEvent.cpp; path = ../Classes/TimeEvent.cpp; sourceTree = "<group>"; };
+		DA8335721A1A1E2F0038D1E0 /* TimeEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeEvent.h; path = ../Classes/TimeEvent.h; sourceTree = "<group>"; };
 		DAFB09291A0DBDAE00B96CC9 /* configs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = configs; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -496,6 +500,8 @@
 				B587F1FC19F8C95200AC4174 /* Path.h */,
 				B587F20019F8CA6D00AC4174 /* Button.cpp */,
 				B587F20119F8CA6D00AC4174 /* Button.h */,
+				DA8335711A1A1E2F0038D1E0 /* TimeEvent.cpp */,
+				DA8335721A1A1E2F0038D1E0 /* TimeEvent.h */,
 				B587F20419F8CB1800AC4174 /* Shadows.cpp */,
 				B587F20519F8CB1800AC4174 /* Shadows.h */,
 				B587F20819F8CBB300AC4174 /* Blocks.cpp */,
@@ -927,6 +933,7 @@
 				B587F22519FB2AD500AC4174 /* Rotator.cpp in Sources */,
 				B5B2D7891A032FFE00F68044 /* LevelSelector.cpp in Sources */,
 				B5B2D7791A00C4FA00F68044 /* SpriteUV.cpp in Sources */,
+				DA8335731A1A1E2F0038D1E0 /* TimeEvent.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -955,6 +962,7 @@
 				B5B2D7A11A043C8300F68044 /* LevelScene.cpp in Sources */,
 				B587F20F19F8CCC100AC4174 /* LogicManager.cpp in Sources */,
 				B5B2D7B91A06F97D00F68044 /* WaveEffect.cpp in Sources */,
+				DA8335741A1A1E2F0038D1E0 /* TimeEvent.cpp in Sources */,
 				B5A45F3519F093E0009349EF /* MapSerial.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				B5B2D77A1A00C4FA00F68044 /* SpriteUV.cpp in Sources */,
