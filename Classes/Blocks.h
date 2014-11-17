@@ -185,6 +185,7 @@ public:
     bool mDownDirDoor{ true };
 
 	void callTriggerEvent();
+	void callInitEvent();
     
     Status mStatus{ IDLE };
     
@@ -197,6 +198,8 @@ public:
     std::string mUserData;
 
 	std::vector<std::string> mTriggerEvents;
+	std::vector<std::string> mInitialEvents;
+
     bool mTriggerEventsCalled{ false };
     bool mHeroOpacityChanged{ false };
     float mTriggerEventContinueTime{ 0.0 };

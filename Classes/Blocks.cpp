@@ -210,6 +210,8 @@ void BlockBase::reset() {
     }
     
     mSprite->setRotation(0);
+
+	callInitEvent();
 }
 
 void BlockBase::updateOpenClose(float dt) {
@@ -722,6 +724,14 @@ void BlockBase::callTriggerEvent(){
         Events::callEvent(mTriggerEvents[i].c_str(), this);
     }
 }
+
+void BlockBase::callInitEvent(){
+	if (mInitialEvents.empty()) return;
+
+	for (size_t i = 0; i < mInitialEvents.size(); ++i) {
+		Events::callEvent(mInitialEvents[i].c_str(), this);
+	}
+} 
 
 void Hero::initShader() {
     BlockBase::initShader();

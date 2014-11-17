@@ -9,7 +9,7 @@
 #include "Path.h"
 
 void Path::update(float dt, cocos2d::Vec2& out, cocos2d::Vec2& outsize) {
-    if(mPoints.empty()) return;
+	if (mPoints.empty() || mPoints.size()==1) return;
     if(mPause) dt = 0;
     
     if(mDisable) {

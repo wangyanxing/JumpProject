@@ -363,17 +363,23 @@ void MapSerial::saveMap(const char* file) {
             INDENT_3 ss << "\"userData\": \"" << b->mUserData << "\""; RT_LINE
         }
 
-        if (b->mKind == KIND_DEATH_CIRCLE || b->mKind == KIND_DEATH)
-        {
-        INDENT_3 ss << "\"triggerEvents\": [";
-        for (size_t i = 0; i < b->mTriggerEvents.size(); i++)
-        {
-            ss << "\"" + b->mTriggerEvents[i] + "\"";
-            if (i != b->mTriggerEvents.size() - 1) ss << ", ";
+        if (b->mKind == KIND_DEATH_CIRCLE || b->mKind == KIND_DEATH){
+            INDENT_3 ss << "\"triggerEvents\": [";
+				for (size_t i = 0; i < b->mTriggerEvents.size(); i++){
+				ss << "\"" + b->mTriggerEvents[i] + "\"";
+				if (i != b->mTriggerEvents.size() - 1) ss << ", ";
+			}
+
+			ss << "],\n";
         }
 
-        ss << "],\n";
-        }
+		INDENT_3 ss << "\"initEvents\": [";
+		for (size_t i = 0; i < b->mInitialEvents.size(); i++){
+			ss << "\"" + b->mInitialEvents[i] + "\"";
+			if (i != b->mInitialEvents.size() - 1) ss << ", ";
+		}
+
+		ss << "],\n";
 
         if(b->mKind == KIND_BUTTON) {
             INDENT_3 ss << "\"direction\": " << direction2Str(b->mButton->mDir); RT_LINE
@@ -781,6 +787,17 @@ void MapSerial::loadMap(const char* filename) {
                     }
                 }
             }
+
+			if (var["initEvents"].IsArray())
+			{
+				auto initEventSize = var["initEvents"].Size();
+
+				for (auto i = 0; i < initEventSize; i++)
+				{
+					std::string initEvent = var["initEvents"][i].GetString();
+					block->mInitialEvents.push_back(initEvent);
+				}
+			}
 
             block->setKind(kind);
             block->mCanPickup = pickable;
