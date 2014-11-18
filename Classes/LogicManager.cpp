@@ -731,7 +731,7 @@ void GameLogic::clearFx() {
 }
 
 void GameLogic::clean() {
-    
+	mTimeEvents.clear();
     mGroups.clear();
     
     for (auto b : mBlocks) {
