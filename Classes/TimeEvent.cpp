@@ -44,8 +44,10 @@ void TimeEvent::update(float dt){
 	}
 	if (mEventPoints.empty() || !mEnalbe) return;
 
+    
     if (mWaitingTimer > mEventWaitingTimer){
 		mEventPoints[mCurEventIndex].trigger();
+        //mWaitingTimer -= mEventWaitingTimer;
 		mEventWaitingTimer = mEventPoints[mCurEventIndex].waitTime;
 		mWaitingTimer = 0.0f;
 		mCurEventIndex++;
@@ -54,7 +56,7 @@ void TimeEvent::update(float dt){
 			if (mLoop) mCurEventIndex = 0;
 			else mEnalbe = false;
 		}
-    }else{
-        mWaitingTimer += dt;
     }
+    
+    mWaitingTimer += dt;
 }
