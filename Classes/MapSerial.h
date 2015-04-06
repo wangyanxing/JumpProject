@@ -13,7 +13,7 @@
 
 class ControlPadConfig{
 public:
-    std::string mDescription {"default"};
+    std::string mDescription = "default";
     cocos2d::Vec2 mLeftButtonPos {cocos2d::Vec2(74,60)};
     cocos2d::Vec2 mRightButtonPos{cocos2d::Vec2(280,60)};
     cocos2d::Vec2 mJumpButtonPos{cocos2d::Vec2(820,60)};

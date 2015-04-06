@@ -24,7 +24,7 @@ struct LightBeamDesc {
     float uvStart{ 0 };
     float uvSpeed{ 0.1 };
     cocos2d::Color4B color{255,255,255,255};
-    std::string texture{ "images/lightbeam.png" };
+    std::string texture = "images/lightbeam.png";
     
     static LightBeamDesc DEFAULT;
 };

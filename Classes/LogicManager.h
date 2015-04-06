@@ -104,7 +104,7 @@ public:
     
     cocos2d::Color3B mBlockColors[KIND_MAX];
 	std::map<int, cocos2d::Color3B> mPalette;
-	std::string mPaletteFileName{"palette/color01.json"};
+	std::string mPaletteFileName = "palette/color01.json";
     
     cocos2d::Color3B mBackgroundColor;
     
