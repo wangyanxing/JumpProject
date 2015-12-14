@@ -13,7 +13,6 @@
 
 class UILayer {
 public:
-
   void init(cocos2d::Node* parent);
 
   void setFileName(const char* file);

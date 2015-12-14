@@ -143,6 +143,7 @@ public:
   int mZOrder{ 20 };
 
   int mPaletteIndex{ -1 };
+
   cocos2d::Color3B mColor{ cocos2d::Color3B::WHITE };
 
   Path mPath;
@@ -156,9 +157,13 @@ public:
   cocos2d::Vec2 mMovementThisFrame{ 0, 0 };
 
   cocos2d::Vec2 mMovementToRestore{ 0, 0 };
+
   cocos2d::Vec2 mUpSideMovement{ 0, 0 };
+
   cocos2d::Vec2 mDownSideMovement{ 0, 0 };
+
   cocos2d::Vec2 mLeftSideMovement{ 0, 0 };
+
   cocos2d::Vec2 mRightSideMovement{ 0, 0 };
 
   FollowMode mFollowMode{ F_CENTER };
@@ -182,6 +187,7 @@ public:
   bool mDownDirDoor{ true };
 
   void callTriggerEvent();
+
   void callInitEvent();
 
   Status mStatus{ IDLE };
@@ -195,74 +201,39 @@ public:
   std::string mUserData;
 
   std::vector<std::string> mTriggerEvents;
+
   std::vector<std::string> mInitialEvents;
 
   bool mTriggerEventsCalled{ false };
+
   bool mHeroOpacityChanged{ false };
+
   float mTriggerEventContinueTime{ 0.0 };
 
   cocos2d::Vec2 mVelocity{ 0,0 };
+
   cocos2d::Vec2 mJumpVelocity{ 0,0 };
+
   bool mEnableGravity{ false };
 
   bool mEnableForceField{ false };
+
   float mForceFieldIntensity{ 30 };
+
   cocos2d::Vec2 mForceFieldVelocity{0,0};
 
 #if EDITOR_MODE
   bool mShowIDLabel{ false };
+
   void initIDLabel();
+
   void updateIDLabel();
+
   cocos2d::LabelAtlas* mIDLabel{ nullptr };
 #endif
 
 protected:
   SpriteUV* mSprite{ nullptr };
 };
-
-class Hero : public BlockBase {
-public:
-
-  Hero() {
-#if EDITOR_MODE
-    mShowIDLabel = false;
-#endif
-  }
-
-  virtual void initPhysics() override;
-
-  virtual void initShader() override;
-
-  virtual void updateMovement(float dt) override;
-
-  virtual cocos2d::Color3B getColor() override { return cocos2d::Color3B::BLACK; }
-
-  virtual int getZOrder() override { return 30; }
-
-  virtual bool canPush() override { return true; }
-
-  virtual void openDoor(float speed, bool downDirDoor) override {}
-
-  virtual void closeDoor(float speed, bool downDirDoor) override {}
-
-  virtual cocos2d::Size getSize() override { return mRestoreSize; }
-
-  bool mCanJump{ false };
-
-  bool mPushing{ false };
-
-  cocos2d::ParticleSystem* mTrailFx{ nullptr };
-
-  cocos2d::ParticleBatchNode* mTrailFxNode{ nullptr };
-
-  int mLinkingID{ -1 };
-
-  bool mPushLeftFlag{ false };
-
-  bool mPushRightFlag{ false };
-
-  float mCurrentMovingSpeed{ 0 };
-};
-
 
 #endif /* defined(__JumpEdt__Blocks__) */

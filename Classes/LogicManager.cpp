@@ -8,6 +8,7 @@
 
 #include "LogicManager.h"
 #include "Blocks.h"
+#include "Hero.h"
 #include "GameUtils.h"
 #include "Shadows.h"
 #include "Button.h"

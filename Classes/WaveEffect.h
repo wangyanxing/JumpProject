@@ -13,7 +13,6 @@
 
 class WaveEffect {
 public:
-
   struct WaveLine {
     cocos2d::Color4B color{255,255,255,255};
     float length{ 20 };

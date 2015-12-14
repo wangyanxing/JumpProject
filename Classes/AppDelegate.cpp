@@ -13,8 +13,7 @@
 
 USING_NS_CC;
 
-Scene* createScene()
-{
+Scene* createScene() {
 #if EDITOR_MODE == 0
 
   auto framesize = VisibleRect::getFrameSize();

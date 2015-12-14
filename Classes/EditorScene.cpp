@@ -5,11 +5,12 @@
 #include "UILayer.h"
 #include "Events.h"
 #include "Shadows.h"
-#include "cocos-ext.h"
 #include "LogicManager.h"
-
 #include "UIColorEditor.h"
 #include "EffectSprite.h"
+#include "Hero.h"
+
+#include "cocos-ext.h"
 
 #if EDITOR_MODE
 
@@ -19,7 +20,6 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 
 #define UI_LAYER_HIGHT 100
-////////////////////////
 
 EditorScene::~EditorScene() {
   delete mGame;
@@ -28,8 +28,6 @@ EditorScene::~EditorScene() {
 
 EditorScene* EditorScene::Scene = nullptr;
 
-
-// on "init" you need to initialize your instance
 bool EditorScene::init() {
   Scene = this;
 
@@ -48,7 +46,8 @@ bool EditorScene::init() {
 #else
   auto v = VisibleRect::getVisibleRect();
   rendTexSprite->getGLProgramState()->setUniformVec4("g_viewportSize",
-                                                     Vec4(v.size.width, v.size.height, 1.0/v.size.width,1.0/v.size.height));
+                                                     Vec4(v.size.width, v.size.height,
+                                                          1.0/v.size.width,1.0/v.size.height));
 #endif
 
   MapSerial::saveRemoteMaps();
@@ -427,7 +426,7 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
   }
 
   if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) {
-    // only work for one selection
+    // Only work for one selection
     if(mPathMode) {
       mPathMode = false;
     }

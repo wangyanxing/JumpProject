@@ -11,6 +11,7 @@
 #include "VisibleRect.h"
 #include "EditorScene.h"
 #include "LogicManager.h"
+#include "Hero.h"
 
 USING_NS_CC;
 

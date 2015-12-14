@@ -17,6 +17,7 @@
 #include "VisibleRect.h"
 #include "TimeEvent.h"
 #include "Palette.h"
+#include "Hero.h"
 
 #include "rapidjson/document.h"
 #include "rapidjson/rapidjson.h"

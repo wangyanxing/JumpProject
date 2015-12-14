@@ -21,9 +21,7 @@ USING_NS_CC;
 
 UILayer* UILayer::Layer = nullptr;
 
-// on "init" you need to initialize your instance
 void UILayer::init(cocos2d::Node* parent) {
-
   Layer = this;
 
   auto vis = Director::getInstance()->getOpenGLView()->getVisibleRect();
@@ -78,9 +76,12 @@ void UILayer::setFileName(const char* file) {
     }
   }
 
-  if(rawFile.empty()) rawFile = file;
-  if(rawFile[0] == '\\' || rawFile[0] == '/')
-    rawFile.erase(rawFile.begin(), rawFile.begin()+1);
+  if(rawFile.empty()) {
+    rawFile = file;
+  }
+  if(rawFile[0] == '\\' || rawFile[0] == '/') {
+    rawFile.erase(rawFile.begin(), rawFile.begin() + 1);
+  }
 
   std::string text = "File: ";
   mFileNameLabel->setString(text + rawFile);
@@ -88,4 +89,3 @@ void UILayer::setFileName(const char* file) {
   auto h = mLayer->getBoundingBox().size.height;
   mFileNameLabel->setPosition(LEFT_GAP + size.width/2, h - size.height/2);
 }
-

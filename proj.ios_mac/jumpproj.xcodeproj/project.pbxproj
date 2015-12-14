@@ -126,6 +126,8 @@
 		BC3CEA891C1CD47000738B33 /* rapidjson in Resources */ = {isa = PBXBuildFile; fileRef = BC3CEA871C1CD47000738B33 /* rapidjson */; };
 		BC3CEA901C1F20F700738B33 /* Palette.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CEA8E1C1F20F700738B33 /* Palette.cpp */; };
 		BC3CEA911C1F20F700738B33 /* Palette.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CEA8E1C1F20F700738B33 /* Palette.cpp */; };
+		BC3CEA941C1F475F00738B33 /* Hero.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CEA921C1F475F00738B33 /* Hero.cpp */; };
+		BC3CEA951C1F475F00738B33 /* Hero.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CEA921C1F475F00738B33 /* Hero.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -282,6 +284,8 @@
 		BC3CEA871C1CD47000738B33 /* rapidjson */ = {isa = PBXFileReference; lastKnownFileType = folder; path = rapidjson; sourceTree = "<group>"; };
 		BC3CEA8E1C1F20F700738B33 /* Palette.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Palette.cpp; sourceTree = "<group>"; };
 		BC3CEA8F1C1F20F700738B33 /* Palette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Palette.h; sourceTree = "<group>"; };
+		BC3CEA921C1F475F00738B33 /* Hero.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hero.cpp; sourceTree = "<group>"; };
+		BC3CEA931C1F475F00738B33 /* Hero.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hero.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -491,6 +495,8 @@
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
 				BC3CEA8E1C1F20F700738B33 /* Palette.cpp */,
 				BC3CEA8F1C1F20F700738B33 /* Palette.h */,
+				BC3CEA921C1F475F00738B33 /* Hero.cpp */,
+				BC3CEA931C1F475F00738B33 /* Hero.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -588,7 +594,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0710;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "jumpproj" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -716,6 +722,7 @@
 				BC3CEA111C1B86B400738B33 /* LevelSelector.cpp in Sources */,
 				BC3CEA051C1B86B400738B33 /* Events.cpp in Sources */,
 				BC3CEA2D1C1B86B400738B33 /* TimeEvent.cpp in Sources */,
+				BC3CEA941C1F475F00738B33 /* Hero.cpp in Sources */,
 				BC3CEA311C1B86B400738B33 /* UILayer.cpp in Sources */,
 				BC3CEA191C1B86B400738B33 /* Path.cpp in Sources */,
 				BC3CEA0B1C1B86B400738B33 /* HttpHelper.cpp in Sources */,
@@ -757,6 +764,7 @@
 				BC3CEA0A1C1B86B400738B33 /* GameUtils.cpp in Sources */,
 				BC3CEA081C1B86B400738B33 /* GameScene.cpp in Sources */,
 				BC3CEA2E1C1B86B400738B33 /* TimeEvent.cpp in Sources */,
+				BC3CEA951C1F475F00738B33 /* Hero.cpp in Sources */,
 				BC3CEA101C1B86B400738B33 /* LevelScene.cpp in Sources */,
 				BC3CEA001C1B86B400738B33 /* DrawNodeEx.cpp in Sources */,
 				BC3CEA1E1C1B86B400738B33 /* PathLibOSX.mm in Sources */,
@@ -814,6 +822,7 @@
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.demigames.jump;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END)";
@@ -849,6 +858,7 @@
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.demigames.jump;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END)";
@@ -860,9 +870,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -881,10 +891,12 @@
 				);
 				INFOPLIST_FILE = mac/Info.plist;
 				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_MAC_BEGIN)",
 					"$(_COCOS_LIB_MAC_END)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.demigames.jump;
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_MAC_BEGIN) $(_COCOS_HEADER_MAC_END)";
 			};
 			name = Debug;
@@ -893,9 +905,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = mac/Prefix.pch;
@@ -912,10 +924,12 @@
 				);
 				INFOPLIST_FILE = mac/Info.plist;
 				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_MAC_BEGIN)",
 					"$(_COCOS_LIB_MAC_END)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.demigames.jump;
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_MAC_BEGIN) $(_COCOS_HEADER_MAC_END)";
 			};
 			name = Release;
@@ -926,6 +940,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;

@@ -22,8 +22,9 @@ void LightBeam::init(const LightBeamDesc& desc) {
   GameLogic::Game->mParentLayer->addChild(mNode,desc.zorder);
 
   auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/light_beam.fsh");
-  GLchar * fragSource = (GLchar*)String::createWithContentsOfFile(shaderfile.c_str())->getCString();
-  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_vert, fragSource);
+  auto shaderContent = FileUtils::getInstance()->getStringFromFile(shaderfile);
+  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_vert,
+                                                 shaderContent.c_str());
   auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
   mNode->setGLProgramState(glProgramState);
 
@@ -44,18 +45,23 @@ void LightBeam::update(float dt) {
 
   Texture2D::TexParams params = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_CLAMP_TO_EDGE };
   mNode->getTexture()->setTexParameters(params);
-  //mNode->getTexture()->setAntiAliasTexParameters();
 
   mUVAnimTimer += dt * mDesc.uvSpeed;
 
-  if(mUVAnimTimer > 1) mUVAnimTimer -= 1;
-  if(mUVAnimTimer < -1) mUVAnimTimer += 1;
+  if(mUVAnimTimer > 1) {
+    mUVAnimTimer -= 1;
+  }
+  if(mUVAnimTimer < -1) {
+    mUVAnimTimer += 1;
+  }
 
   for (int i = 0; i < mDesc.segNums; ++i) {
     auto col0 = mDesc.color;
     auto col1 = mDesc.color;
 
-    if(i == 0) col0 = Color4B::BLACK;
+    if(i == 0) {
+      col0 = Color4B::BLACK;
+    }
     if(i == mDesc.segNums-1) col1 = Color4B::BLACK;
 
     float x0_u = i * mDesc.segSizeUpper - upperLength / 2;

@@ -11,6 +11,7 @@
 #include "LogicManager.h"
 #include "PathLib.h"
 #include "Blocks.h"
+#include "Hero.h"
 
 #include <string>
 #include <map>

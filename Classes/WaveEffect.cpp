@@ -46,8 +46,9 @@ void WaveEffect::updateLine(WaveEffect::WaveLine& line, float dt) {
 
   while (true) {
     float nextW = curW + line.seg;
-    if(nextW > screenWidth)
+    if(nextW > screenWidth) {
       break;
+    }
 
     float ratio0 = curW  / screenWidth;
     float ratio1 = nextW / screenWidth;
@@ -98,7 +99,6 @@ void WaveEffect::updateLine(WaveEffect::WaveLine& line, float dt) {
 }
 
 void WaveEffect::update(float dt) {
-
   for(auto& l : mLines) {
     updateLine(l, dt);
   }
