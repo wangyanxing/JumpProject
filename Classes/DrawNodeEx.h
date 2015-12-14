@@ -8,21 +8,24 @@
 
 NS_CC_BEGIN
 
-class DrawNodeEx : public Node {
+class CC_DLL DrawNodeEx : public Node {
 public:
-  /** creates and initialize a DrawNodeEx node */
+  /** creates and initialize a DrawNode node.
+   *
+   * @return Return an autorelease object.
+   */
   static DrawNodeEx* create(const std::string& texture);
 
   void drawTriangles(const std::vector<V2F_C4B_T2F_Triangle>& triangles);
 
+
   /** Clear the geometry in the node's buffer. */
   void clear();
-  /**
-   * @js NA
+  /** Get the color mixed mode.
    * @lua NA
    */
   const BlendFunc& getBlendFunc() const;
-  /**
+  /** Set the color mixed mode.
    * @code
    * When this function bound into js or lua,the parameter will be changed
    * In js: var setBlendFunc(var src, var dst)
@@ -31,12 +34,17 @@ public:
    */
   void setBlendFunc(const BlendFunc &blendFunc);
 
+  /**
+   * @js NA
+   */
   void onDraw(const Mat4 &transform, uint32_t flags);
 
   // Overrides
   virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
 
-  Texture2D* getTexture() { return _texture; }
+  Texture2D* getTexture() {
+    return _texture;
+  }
 
 CC_CONSTRUCTOR_ACCESS:
   DrawNodeEx();
@@ -47,18 +55,22 @@ protected:
   void ensureCapacity(int count);
 
   GLuint      _vao;
+
   GLuint      _vbo;
 
   int         _bufferCapacity;
+
   GLsizei     _bufferCount;
+
   V2F_C4B_T2F *_buffer;
 
   BlendFunc   _blendFunc;
+
   CustomCommand _customCommand;
 
-  Texture2D* _texture{ nullptr };
-
   bool        _dirty;
+
+  Texture2D* _texture{ nullptr };
 
 private:
   CC_DISALLOW_COPY_AND_ASSIGN(DrawNodeEx);

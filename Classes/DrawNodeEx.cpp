@@ -1,6 +1,5 @@
 
 #include "DrawNodeEx.h"
-//#include "CCGL.h"
 #include "base/CCEventType.h"
 #include "base/CCConfiguration.h"
 #include "renderer/CCCustomCommand.h"
@@ -12,62 +11,6 @@
 #include "renderer/CCTextureCache.h"
 
 NS_CC_BEGIN
-
-// Vec2 == CGPoint in 32-bits, but not in 64-bits (OS X)
-// that's why the "v2f" functions are needed
-static Vec2 v2fzero(0.0f,0.0f);
-
-static inline Vec2 v2f(float x, float y) {
-  Vec2 ret(x, y);
-  return ret;
-}
-
-static inline Vec2 v2fadd(const Vec2 &v0, const Vec2 &v1) {
-  return v2f(v0.x+v1.x, v0.y+v1.y);
-}
-
-static inline Vec2 v2fsub(const Vec2 &v0, const Vec2 &v1) {
-  return v2f(v0.x-v1.x, v0.y-v1.y);
-}
-
-static inline Vec2 v2fmult(const Vec2 &v, float s) {
-  return v2f(v.x * s, v.y * s);
-}
-
-static inline Vec2 v2fperp(const Vec2 &p0) {
-  return v2f(-p0.y, p0.x);
-}
-
-static inline Vec2 v2fneg(const Vec2 &p0) {
-  return v2f(-p0.x, - p0.y);
-}
-
-static inline float v2fdot(const Vec2 &p0, const Vec2 &p1) {
-  return  p0.x * p1.x + p0.y * p1.y;
-}
-
-static inline Vec2 v2fforangle(float _a_) {
-  return v2f(cosf(_a_), sinf(_a_));
-}
-
-static inline Vec2 v2fnormalize(const Vec2 &p) {
-  Vec2 r = Vec2(p.x, p.y).getNormalized();
-  return v2f(r.x, r.y);
-}
-
-static inline Vec2 __v2f(const Vec2 &v) {
-  //#ifdef __LP64__
-  return v2f(v.x, v.y);
-  // #else
-  // 	return * ((Vec2*) &v);
-  // #endif
-}
-
-static inline Tex2F __t(const Vec2 &v) {
-  return *(Tex2F*)&v;
-}
-
-// implementation of DrawNodeEx
 
 DrawNodeEx::DrawNodeEx()
 : _vao(0)
@@ -89,25 +32,25 @@ DrawNodeEx::~DrawNodeEx() {
   _vbo = 0;
 
   if (Configuration::getInstance()->supportsShareableVAO()) {
-    glDeleteVertexArrays(1, &_vao);
     GL::bindVAO(0);
+    glDeleteVertexArrays(1, &_vao);
     _vao = 0;
   }
 }
 
 DrawNodeEx* DrawNodeEx::create(const std::string& texture) {
-  DrawNodeEx* ret = new DrawNodeEx();
+  DrawNodeEx* ret = new (std::nothrow) DrawNodeEx();
   if (ret && ret->init(texture)) {
     ret->autorelease();
   } else {
     CC_SAFE_DELETE(ret);
   }
-
   return ret;
 }
 
 void DrawNodeEx::ensureCapacity(int count) {
   CCASSERT(count>=0, "capacity must be >= 0");
+
   if(_bufferCount + count > _bufferCapacity) {
     _bufferCapacity += MAX(_bufferCapacity, count);
     _buffer = (V2F_C4B_T2F*)realloc(_buffer, _bufferCapacity*sizeof(V2F_C4B_T2F));
@@ -119,32 +62,35 @@ bool DrawNodeEx::init(const std::string& texture) {
 
   _texture = Director::getInstance()->getTextureCache()->addImage(texture);
 
-  setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR));
+  setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(
+      GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR));
 
-  ensureCapacity(512);
+  ensureCapacity(1024);
 
   if (Configuration::getInstance()->supportsShareableVAO()) {
     glGenVertexArrays(1, &_vao);
     GL::bindVAO(_vao);
-  }
+    glGenBuffers(1, &_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(V2F_C4B_T2F)* _bufferCapacity, _buffer, GL_STREAM_DRAW);
+    // vertex
+    glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_POSITION);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, vertices));
+    // color
+    glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_COLOR);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, colors));
+    // texcood
+    glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_TEX_COORD);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, texCoords));
 
-  glGenBuffers(1, &_vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(V2F_C4B_T2F)* _bufferCapacity, _buffer, GL_STREAM_DRAW);
-
-  glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_POSITION);
-  glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, vertices));
-
-  glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_COLOR);
-  glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, colors));
-
-  glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_TEX_COORD);
-  glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, texCoords));
-
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-  if (Configuration::getInstance()->supportsShareableVAO()) {
     GL::bindVAO(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+  } else {
+    glGenBuffers(1, &_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(V2F_C4B_T2F)* _bufferCapacity, _buffer, GL_STREAM_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
   }
 
   CHECK_GL_ERROR_DEBUG();
@@ -153,7 +99,7 @@ bool DrawNodeEx::init(const std::string& texture) {
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
   // Need to listen the event only when not use batchnode, because it will use VBO
-  auto listener = EventListenerCustom::create(EVENT_RENDERER_RECREATED, [&](EventCustom* event){
+  auto listener = EventListenerCustom::create(EVENT_RENDERER_RECREATED, [this](EventCustom* event){
     /** listen the event that renderer was recreated on Android/WP8 */
     this->init(texture);
   });
@@ -165,25 +111,30 @@ bool DrawNodeEx::init(const std::string& texture) {
 }
 
 void DrawNodeEx::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) {
-  _customCommand.init(_globalZOrder);
-  _customCommand.func = CC_CALLBACK_0(DrawNodeEx::onDraw, this, transform, flags);
-  renderer->addCommand(&_customCommand);
+  if(_bufferCount) {
+    _customCommand.init(_globalZOrder, transform, flags);
+    _customCommand.func = CC_CALLBACK_0(DrawNodeEx::onDraw, this, transform, flags);
+    renderer->addCommand(&_customCommand);
+  }
 }
 
 void DrawNodeEx::onDraw(const Mat4 &transform, uint32_t flags) {
   auto glProgram = getGLProgram();
   glProgram->use();
-  getGLProgramState()->applyUniforms();
   glProgram->setUniformsForBuiltins(transform);
 
+  getGLProgramState()->applyUniforms();
+
   GL::blendFunc(_blendFunc.src, _blendFunc.dst);
-  GL::bindTexture2D( _texture->getName() );
+  GL::bindTexture2D(_texture->getName());
 
   if (_dirty) {
     glBindBuffer(GL_ARRAY_BUFFER, _vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(V2F_C4B_T2F)*_bufferCapacity, _buffer, GL_STREAM_DRAW);
+
     _dirty = false;
   }
+
   if (Configuration::getInstance()->supportsShareableVAO()) {
     GL::bindVAO(_vao);
   } else {
@@ -194,12 +145,10 @@ void DrawNodeEx::onDraw(const Mat4 &transform, uint32_t flags) {
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2,
                           GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F),
                           (GLvoid *)offsetof(V2F_C4B_T2F, vertices));
-
     // color
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4,
                           GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V2F_C4B_T2F),
                           (GLvoid *)offsetof(V2F_C4B_T2F, colors));
-
     // texcood
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2,
                           GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F),
@@ -213,7 +162,7 @@ void DrawNodeEx::onDraw(const Mat4 &transform, uint32_t flags) {
     GL::bindVAO(0);
   }
 
-  CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1,_bufferCount);
+  CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, _bufferCount);
   CHECK_GL_ERROR_DEBUG();
 }
 
