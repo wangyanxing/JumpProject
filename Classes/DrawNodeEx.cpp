@@ -191,13 +191,19 @@ void DrawNodeEx::onDraw(const Mat4 &transform, uint32_t flags) {
 
     glBindBuffer(GL_ARRAY_BUFFER, _vbo);
     // vertex
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, vertices));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2,
+                          GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F),
+                          (GLvoid *)offsetof(V2F_C4B_T2F, vertices));
 
     // color
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, colors));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4,
+                          GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V2F_C4B_T2F),
+                          (GLvoid *)offsetof(V2F_C4B_T2F, colors));
 
     // texcood
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, texCoords));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2,
+                          GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F),
+                          (GLvoid *)offsetof(V2F_C4B_T2F, texCoords));
   }
 
   glDrawArrays(GL_TRIANGLES, 0, _bufferCount);

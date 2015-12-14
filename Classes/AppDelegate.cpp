@@ -15,7 +15,6 @@ USING_NS_CC;
 
 Scene* createScene() {
 #if EDITOR_MODE == 0
-
   auto framesize = VisibleRect::getFrameSize();
   float ratio = framesize.width / framesize.height;
   float designRatio = 1;
@@ -45,6 +44,10 @@ Scene* createScene() {
 
   auto EditorScene = EditorScene::create();
   layer->addChild(EditorScene);
+
+#if 1
+  scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+#endif
 
   return scene;
 #else

@@ -1244,7 +1244,6 @@ void ControlPad::clearConfig(){
   for(ControlPadConfigs::iterator it = mControlConfig.begin(); it!=mControlConfig.end(); ++it){
     delete (*it);
   }
-  
   mControlConfig.clear();
 }
 

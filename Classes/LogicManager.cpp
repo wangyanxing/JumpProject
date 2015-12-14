@@ -344,8 +344,7 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
         mHero->mJumpVelocity.y = -100;
       }
       pushObject->setPositionY(phyPosPushed.y - h);
-
-    }else{
+    } else {
       pushObject->setPositionY(phyPosPushed.y + h);
       if(pushObject == mHero) {
         mHero->mLinkingID = pushedObject->mID;
@@ -353,6 +352,8 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
     }
     pushObject->mVelocity.y = 0;
   }
+
+  CCLOG("- %.3f, %.3f", mHero->getPosition().y, mHero->getSprite()->getPhysicsBody()->getPosition().y);
 
   pushObject->getSprite()->getPhysicsBody()->getShapes().at(0)->_forceUpdateShape();
   return false;

@@ -46,8 +46,10 @@ bool EditorScene::init() {
 #else
   auto v = VisibleRect::getVisibleRect();
   rendTexSprite->getGLProgramState()->setUniformVec4("g_viewportSize",
-                                                     Vec4(v.size.width, v.size.height,
-                                                          1.0/v.size.width,1.0/v.size.height));
+                                                     Vec4(v.size.width,
+                                                          v.size.height,
+                                                          1.0/v.size.width,
+                                                          1.0/v.size.height));
 #endif
 
   MapSerial::saveRemoteMaps();
@@ -108,7 +110,6 @@ bool EditorScene::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSo
 
 void EditorScene::mouseDown(cocos2d::Event* event) {
   auto mouse = (EventMouse*)event;
-
   auto target = static_cast<Sprite*>(mouse->getCurrentTarget());
 
   Point pt(mouse->getCursorX(), mouse->getCursorY());
@@ -278,7 +279,9 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
       mSelectionHead->mPath.setBackPos(p);
     } else {
       if(mPressingShift) {
-        if(mSelectionHead) alignUp();
+        if(mSelectionHead) {
+          alignUp();
+        }
       }else{
         for(auto sel : mSelections) {
           sel->moveY(mPressingAlt ? 20 : 1);
@@ -294,7 +297,9 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
       mSelectionHead->mPath.setBackPos(p);
     } else {
       if(mPressingShift) {
-        if(mSelectionHead) alignDown();
+        if(mSelectionHead) {
+          alignDown();
+        }
       }else{
         for(auto sel : mSelections) {
           sel->moveY(mPressingAlt ? -20 : -1);
@@ -310,7 +315,9 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
       mSelectionHead->mPath.setBackPos(p);
     } else {
       if(mPressingShift) {
-        if(mSelectionHead) alignLeft();
+        if(mSelectionHead) {
+          alignLeft();
+        }
       }else{
         for(auto sel : mSelections) {
           sel->moveX(mPressingAlt ? -20 : -1);
@@ -326,8 +333,10 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
       mSelectionHead->mPath.setBackPos(p);
     } else {
       if(mPressingShift) {
-        if(mSelectionHead) alignRight();
-      }else{
+        if(mSelectionHead) {
+          alignRight();
+        }
+      } else {
         for(auto sel : mSelections) {
           sel->moveX(mPressingAlt ? 20 : 1);
         }
@@ -337,10 +346,11 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
 
   if (keyCode == EventKeyboard::KeyCode::KEY_F1) {
     auto d = getScene()->getPhysicsWorld()->getDebugDrawMask();
-    if(d == PhysicsWorld::DEBUGDRAW_ALL)
+    if(d == PhysicsWorld::DEBUGDRAW_ALL) {
       getScene()->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_NONE);
-    else
+    } else {
       getScene()->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+    }
   }
 
   if (keyCode == EventKeyboard::KeyCode::KEY_P) {
@@ -365,7 +375,6 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
 
   if (keyCode == EventKeyboard::KeyCode::KEY_O) {
     if(mPressingCtrl) {
-      // Open map
       MapSerial::loadMap();
     } else {
       for(auto sel : mSelections) {
@@ -510,21 +519,26 @@ void EditorScene::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
   if (keyCode == EventKeyboard::KeyCode::KEY_M) {
     mPressingM = false;
   }
+
   if (keyCode == EventKeyboard::KeyCode::KEY_N) {
     mPressingN = false;
   }
+
   if (keyCode == EventKeyboard::KeyCode::KEY_B) {
     mPressingB = false;
   }
+
   if (keyCode == EventKeyboard::KeyCode::KEY_V) {
     mPressingV = false;
   }
 
   if (mGame->mGameMode) {
-    if (keyCode == EventKeyboard::KeyCode::KEY_A)
+    if (keyCode == EventKeyboard::KeyCode::KEY_A) {
       mGame->mMoveLeft = false;
-    if (keyCode == EventKeyboard::KeyCode::KEY_D)
+    }
+    if (keyCode == EventKeyboard::KeyCode::KEY_D) {
       mGame->mMoveRight = false;
+    }
   }
 }
 
@@ -533,7 +547,10 @@ void EditorScene::enableGame(bool val, bool force) {
   mSpawnPoint->setVisible(!val);
   mLightPoint->setVisible(!val);
   mGradientCenterPoint->setVisible(!val);
-  mGroupNode->setVisible(!val);
+
+  if (mGroupNode) {
+    mGroupNode->setVisible(!val);
+  }
   if(val) {
     mPressingV = mPressingB = mPressingN = mPressingM = false;
   }

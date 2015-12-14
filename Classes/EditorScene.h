@@ -19,7 +19,6 @@ class GameLogic;
 
 class EditorScene : public ShaderLayer {
 public:
-
   EditorScene() = default;
 
   virtual ~EditorScene();
