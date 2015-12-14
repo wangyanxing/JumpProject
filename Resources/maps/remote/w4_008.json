@@ -1,0 +1,499 @@
+{
+  "author": "moyongfeng",
+  "time": "Fri Jan  9 17:46:53 2015",
+  "ratio": 1.7778,
+  "backgroundColor": "#1EB5C7",
+  "heroColorIndex": -1,
+  "normalBlockColor": "#FFFFFF",
+  "deathBlockColor": "#000000",
+  "deathCircleColor": "#000000",
+  "buttonColor": "#FEE132",
+  "pushableBlockColor": "#DC96A8",
+  "spawnPosition": "65.2734,444.367",
+  "lightPosition": "490.035,491.109",
+  "lightMoving": false,
+  "shadowDarkness": 0.098,
+  "useSoftShadow": false,
+  "gradientCenter": "460.203,464.016",
+  "gradientColorSrc": "#32C9DB",
+  "gradientColorDst": "#1EB5C7",
+  "paletteFile": "palette/color01.json",
+  "fx": [ 
+  ],
+  "stars": [ 
+  ],
+  "blocks": [ 
+    { 
+      "id": 1,
+      "size": "960,10",
+      "position": "480,5",
+      "pickable": false,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 2,
+      "size": "960,10",
+      "position": "480,534.993",
+      "pickable": false,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 3,
+      "size": "10,539.993",
+      "position": "5,269.997",
+      "pickable": false,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 4,
+      "size": "10,539.993",
+      "position": "955,269.997",
+      "pickable": false,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 5,
+      "size": "140,15",
+      "position": "79.1094,422.777",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 6,
+      "size": "15,260",
+      "position": "156.254,300.277",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 7,
+      "size": "140,15",
+      "position": "881.23,422.777",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 8,
+      "size": "20,260",
+      "position": "173.254,300.277",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": true,
+      "textureName": "images/saw_r.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "kind": "DEATH"
+    },
+    { 
+      "id": 9,
+      "size": "120,60",
+      "position": "360.195,228.414",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 10,
+      "size": "80,15",
+      "position": "148.637,82.2031",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": ["hide 10"],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 11,
+      "size": "940,20",
+      "position": "479.344,20.6719",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "kind": "DEATH"
+    },
+    { 
+      "id": 12,
+      "size": "40,15",
+      "position": "29.8438,162.449",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 13,
+      "size": "40,15",
+      "position": "29.8438,302.449",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 14,
+      "size": "40,15",
+      "position": "128.844,242.449",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 15,
+      "size": "100,15",
+      "position": "647.633,82.2031",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 16,
+      "size": "40,15",
+      "position": "321.996,82.25",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 17,
+      "size": "40,15",
+      "position": "461.996,82.25",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 18,
+      "size": "40,15",
+      "position": "520.23,395.723",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 19,
+      "size": "40,15",
+      "position": "833.539,156.391",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 20,
+      "size": "40,15",
+      "position": "713.539,236.391",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 21,
+      "size": "40,15",
+      "position": "606.539,316.391",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 22,
+      "size": "40,15",
+      "position": "693.539,416.391",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 23,
+      "size": "30,40",
+      "position": "911.016,448.879",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 5,
+      "flipUV": false,
+      "textureName": "images/rect.png",
+      "triggerEvents": ["exit"],
+      "initEvents": [],
+      "kind": "DEATH"
+    },
+    { 
+      "id": 25,
+      "size": "40,15",
+      "position": "520.23,395.723",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 26,
+      "size": "40,40",
+      "position": "324.23,196.961",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 180,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "324.23,196.961",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        },
+        { 
+          "position": "324.23,106.961",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 27,
+      "size": "40,40",
+      "position": "785.605,529.336",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": ["hide 12", "hide 13", "hide 14", "hide 19", "hide 20", "hide 21", "hide 26"],
+      "pathSpeed": 500,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "785.605,529.336",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        },
+        { 
+          "position": "785.605,29.3359",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 28,
+      "size": "110,20",
+      "position": "358.789,267.645",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "kind": "DEATH"
+    }
+  ],
+  "timeEvents": [
+    {
+      "initDelay": -1,
+      "loop": 1,
+      "events": [
+        { "event": ["hide 12", "hide 13"], "delay": 1},
+        { "event": ["hide 14", "hide 12"], "delay": 1},
+        { "event": ["hide 13", "hide 14"], "delay": 1}
+      ]
+    },
+    {
+      "initDelay": -1,
+      "loop": 1,
+      "events": [
+        { "event": ["show 19", "hide 21"], "delay": 1},
+        { "event": ["show 20", "hide 19"], "delay": 1},
+        { "event": ["show 21", "hide 20"], "delay": 1}
+      ]
+    },
+    {
+      "initDelay": 0.5,
+      "loop": 1,
+      "events": [
+        { "event": ["show 26"], "delay": 1},
+        { "event": ["hide 26"], "delay": 1}
+      ]
+    },
+    {
+      "initDelay": -1,
+      "loop": 1,
+      "events": [
+        { "event": ["show 27"], "delay": 2},
+        { "event": ["hide 27"], "delay": 1}
+      ]
+    },
+    {
+      "initDelay": -1,
+      "loop": 1,
+      "events": [
+        { "event": ["hide 17"], "delay": 1},
+        { "event": ["show 17"], "delay": 1}
+      ]
+    },
+    {
+      "initDelay": -1,
+      "loop": 1,
+      "events": [
+        { "event": ["show 18", "hide 25"], "delay": 1},
+        { "event": ["show 25", "hide 18"], "delay": 1}
+      ]
+    }
+  ]
+}

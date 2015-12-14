@@ -1,0 +1,416 @@
+{
+  "author": "moyongfeng",
+  "time": "Fri Jan  9 17:17:12 2015",
+  "ratio": 1.7778,
+  "backgroundColor": "#C7B51E",
+  "heroColorIndex": 16,
+  "normalBlockColor": "#FFFFFF",
+  "deathBlockColor": "#000000",
+  "deathCircleColor": "#000000",
+  "buttonColor": "#FEE132",
+  "pushableBlockColor": "#DC96A8",
+  "spawnPosition": "895.785,173.898",
+  "lightPosition": "549.59,506.094",
+  "lightMoving": true,
+  "shadowDarkness": 0.098,
+  "useSoftShadow": false,
+  "gradientCenter": "585.195,480.684",
+  "gradientColorSrc": "#64E200",
+  "gradientColorDst": "#4CB300",
+  "paletteFile": "palette/color01.json",
+  "fx": [ 
+  ],
+  "stars": [ 
+  ],
+  "blocks": [ 
+    { 
+      "id": 1,
+      "size": "960,10",
+      "position": "480,5",
+      "pickable": false,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 2,
+      "size": "960,10",
+      "position": "480,534.993",
+      "pickable": false,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 3,
+      "size": "10,539.993",
+      "position": "5,269.997",
+      "pickable": false,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 4,
+      "size": "10,539.993",
+      "position": "955,269.997",
+      "pickable": false,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 5,
+      "size": "100,15",
+      "position": "462.719,407.473",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 6,
+      "size": "520,35",
+      "position": "689.473,20.5352",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 19,
+      "flipUV": false,
+      "textureName": "images/saw.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "kind": "DEATH"
+    },
+    { 
+      "id": 7,
+      "size": "15,390",
+      "position": "420.453,205.016",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 8,
+      "size": "100,15",
+      "position": "900.84,147.066",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 9,
+      "size": "40,15",
+      "position": "780,180",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "pathSpeed": 150,
+      "pingpong": false,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "780,180",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        },
+        { 
+          "position": "630,180",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 10,
+      "size": "60,15",
+      "position": "457.566,278.828",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 11,
+      "size": "40,15",
+      "position": "589,296",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "pathSpeed": 180,
+      "pingpong": false,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "589,296",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "789,296",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        },
+        { 
+          "position": "789,356",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        },
+        { 
+          "position": "589,356",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 12,
+      "size": "35,35",
+      "position": "688.891,389.691",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 13,
+      "size": "100,15",
+      "position": "363.344,224.328",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 14,
+      "size": "100,25",
+      "position": "363.289,240.781",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 19,
+      "flipUV": false,
+      "textureName": "images/saw.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "kind": "DEATH"
+    },
+    { 
+      "id": 15,
+      "size": "60,15",
+      "position": "105,175",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "pathSpeed": 150,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "105,175",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "255,175",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 16,
+      "size": "300,25",
+      "position": "161.668,23.3711",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "kind": "DEATH"
+    },
+    { 
+      "id": 17,
+      "size": "50,50",
+      "position": "175,500",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 280,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "175,500",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "175,220",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 18,
+      "size": "25,35",
+      "position": "374.703,28.0664",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/rect.png",
+      "triggerEvents": ["exit"],
+      "initEvents": [],
+      "kind": "DEATH"
+    },
+    { 
+      "id": 19,
+      "size": "40,15",
+      "position": "525,160",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "pathSpeed": 120,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": 0.4,
+      "pathes": [ 
+        { 
+          "position": "525,160",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        },
+        { 
+          "position": "525,280",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 20,
+      "size": "100,15",
+      "position": "900.68,408.883",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    }
+  ],
+  "timeEvents": [
+  ]
+}

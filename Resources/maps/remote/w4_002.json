@@ -1,0 +1,483 @@
+{
+  "author": "_spotlight",
+  "time": "Sun Nov 30 03:52:06 2014",
+  "ratio": 1.7778,
+  "backgroundColor": "#1EB5C7",
+  "heroColorIndex": -1,
+  "normalBlockColor": "#FFFFFF",
+  "deathBlockColor": "#000000",
+  "deathCircleColor": "#000000",
+  "buttonColor": "#FEE132",
+  "pushableBlockColor": "#DC96A8",
+  "spawnPosition": "421.141,24.8281",
+  "lightPosition": "928.941,446.539",
+  "lightMoving": true,
+  "shadowDarkness": 0.098,
+  "useSoftShadow": false,
+  "gradientCenter": "783.512,321.078",
+  "gradientColorSrc": "#32C9DB",
+  "gradientColorDst": "#1EB5C7",
+  "paletteFile": "palette/color01.json",
+  "fx": [ 
+  ],
+  "stars": [ 
+  ],
+  "blocks": [ 
+    { 
+      "id": 1,
+      "size": "960,10",
+      "position": "480,5",
+      "pickable": false,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 2,
+      "size": "960,10",
+      "position": "480,534.993",
+      "pickable": false,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 3,
+      "size": "10,539.993",
+      "position": "5,269.997",
+      "pickable": false,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 4,
+      "size": "10,539.993",
+      "position": "955,269.997",
+      "pickable": false,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 5,
+      "size": "15,390",
+      "position": "479.219,204.5",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 6,
+      "size": "780,15",
+      "position": "480.25,142.98",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 7,
+      "size": "195,55",
+      "position": "107.512,37.6836",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 8,
+      "size": "365,15",
+      "position": "192.379,277.527",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 9,
+      "size": "700,15",
+      "position": "450.859,392",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 10,
+      "size": "320,45",
+      "position": "790.484,277.203",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 11,
+      "size": "50,50",
+      "position": "477.648,208",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 510,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": 1,
+      "pathes": [ 
+        { 
+          "position": "477.648,208",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        },
+        { 
+          "position": "-33.3516,208",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 12,
+      "size": "100,15",
+      "position": "393.566,200.578",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "pathSpeed": 250,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": 1,
+      "pathes": [ 
+        { 
+          "position": "393.566,200.578",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "143.566,200.578",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 13,
+      "size": "40,40",
+      "position": "29.8398,304.543",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 14,
+      "size": "180,35",
+      "position": "239.98,416.727",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 15,
+      "size": "100,20",
+      "position": "380.242,409.199",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "kind": "DEATH"
+    },
+    { 
+      "id": 16,
+      "size": "80,30",
+      "position": "472.117,414.609",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 17,
+      "size": "100,20",
+      "position": "562.871,409.598",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "kind": "DEATH"
+    },
+    { 
+      "id": 18,
+      "size": "185,30",
+      "position": "708.359,414.578",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 19,
+      "size": "50,50",
+      "position": "479.375,331.562",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 510,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": 1,
+      "pathes": [ 
+        { 
+          "position": "479.375,331.562",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        },
+        { 
+          "position": "989.375,331.562",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 20,
+      "size": "30,40",
+      "position": "539.797,29.2812",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 5,
+      "flipUV": false,
+      "textureName": "images/rect.png",
+      "triggerEvents": ["exit"],
+      "initEvents": [],
+      "kind": "DEATH"
+    },
+    { 
+      "id": 21,
+      "size": "235,15",
+      "position": "603,292.203",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "pathSpeed": 120,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "600,292.203",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        },
+        { 
+          "position": "660,292.203",
+          "width": 0.2,
+          "height": 1,
+          "waittime": 1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 22,
+      "size": "75,75",
+      "position": "100,277.871",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 250,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": 1.5,
+      "pathes": [ 
+        { 
+          "position": "100,277.871",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "350,277.871",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 23,
+      "size": "75,75",
+      "position": "550,142",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 250,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": 1.5,
+      "pathes": [ 
+        { 
+          "position": "550,142",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "800,142",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    }
+  ],
+  "timeEvents": [
+    {
+      "initDelay": 1,
+      "loop": 1,
+      "events": [
+        { "event": ["show 11", "show 19"], "delay": 2},
+        { "event": ["hide 11", "hide 19"], "delay": 1}
+      ]
+    },
+    {
+      "initDelay": -1,
+      "loop": 1,
+      "events": [
+        { "event": ["show 21"], "delay": 1.5},
+        { "event": ["hide 21"], "delay": 1},
+        { "event": ["show 21"], "delay": 0.5}
+      ]
+    }
+  ]
+}

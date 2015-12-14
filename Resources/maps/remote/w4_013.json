@@ -1,0 +1,886 @@
+{
+  "author": "moyongfeng",
+  "time": "Fri Jan  9 17:57:57 2015",
+  "ratio": 1.7778,
+  "backgroundColor": "#1EB5C7",
+  "heroColorIndex": -1,
+  "normalBlockColor": "#FFFFFF",
+  "deathBlockColor": "#000000",
+  "deathCircleColor": "#000000",
+  "buttonColor": "#FEE132",
+  "pushableBlockColor": "#DC96A8",
+  "spawnPosition": "85.2305,119.477",
+  "lightPosition": "464.766,530.289",
+  "lightMoving": true,
+  "shadowDarkness": 0.098,
+  "useSoftShadow": false,
+  "gradientCenter": "470.324,418.945",
+  "gradientColorSrc": "#22C4DE",
+  "gradientColorDst": "#326F9D",
+  "paletteFile": "palette/color01.json",
+  "fx": [ 
+  ],
+  "stars": [ 
+  ],
+  "blocks": [ 
+    { 
+      "id": 1,
+      "size": "960,10",
+      "position": "480,5",
+      "pickable": false,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 2,
+      "size": "960,10",
+      "position": "480,534.993",
+      "pickable": false,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 3,
+      "size": "10,539.993",
+      "position": "5,269.997",
+      "pickable": false,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 4,
+      "size": "10,539.993",
+      "position": "955,269.997",
+      "pickable": false,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": -1,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 5,
+      "size": "140,55",
+      "position": "260,60",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "groupFollowMode": "CENTER",
+      "groupMembers": [6, 7],
+      "pathSpeed": 42.5,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": 3,
+      "pathes": [ 
+        { 
+          "position": "260,60",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        },
+        { 
+          "position": "260,230",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 6,
+      "size": "40,40",
+      "position": "190,32.5",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 195,
+      "pingpong": false,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "190,32.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "190,87.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "330,87.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "330,32.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 7,
+      "size": "40,40",
+      "position": "330,87.5",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 195,
+      "pingpong": false,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "330,87.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "330,32.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "190,32.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "190,87.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 8,
+      "size": "140,55",
+      "position": "260,480",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "groupFollowMode": "CENTER",
+      "groupMembers": [9, 10],
+      "pathSpeed": 45,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": 3,
+      "pathes": [ 
+        { 
+          "position": "260,480",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        },
+        { 
+          "position": "260,300",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 9,
+      "size": "40,40",
+      "position": "330,507.5",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 195,
+      "pingpong": false,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "330,507.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "330,452.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "190,452.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "190,507.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 10,
+      "size": "40,40",
+      "position": "190,452.5",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 195,
+      "pingpong": false,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "190,452.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "190,507.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "330,507.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "330,452.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 11,
+      "size": "140,55",
+      "position": "480,60",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "groupFollowMode": "CENTER",
+      "groupMembers": [12, 13],
+      "pathSpeed": 42.5,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": 2,
+      "pathes": [ 
+        { 
+          "position": "480,60",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        },
+        { 
+          "position": "480,230",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 12,
+      "size": "40,40",
+      "position": "550,87.5",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 195,
+      "pingpong": false,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "550,87.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "550,32.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "410,32.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "410,87.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 13,
+      "size": "40,40",
+      "position": "410,32.5",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 195,
+      "pingpong": false,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "410,32.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "410,87.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "550,87.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "550,32.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 14,
+      "size": "140,55",
+      "position": "700,60",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "groupFollowMode": "CENTER",
+      "groupMembers": [15, 16],
+      "pathSpeed": 42.5,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": 1,
+      "pathes": [ 
+        { 
+          "position": "700,60",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        },
+        { 
+          "position": "700,230",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 15,
+      "size": "40,40",
+      "position": "770,87.5",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 195,
+      "pingpong": false,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "770,87.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "770,32.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "630,32.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "630,87.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 16,
+      "size": "40,40",
+      "position": "630,32.5",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 195,
+      "pingpong": false,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "630,32.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "630,87.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "770,87.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "770,32.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 17,
+      "size": "140,55",
+      "position": "480,480",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "groupFollowMode": "CENTER",
+      "groupMembers": [18, 19],
+      "pathSpeed": 42.5,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": 2,
+      "pathes": [ 
+        { 
+          "position": "480,480",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        },
+        { 
+          "position": "480,300",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 18,
+      "size": "40,40",
+      "position": "550,507.5",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 195,
+      "pingpong": false,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "550,507.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "550,452.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "410,452.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "410,507.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 19,
+      "size": "40,40",
+      "position": "410,452.5",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 195,
+      "pingpong": false,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "410,452.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "410,507.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "550,507.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "550,452.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 20,
+      "size": "40,40",
+      "position": "770,507.5",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 195,
+      "pingpong": false,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "770,507.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "770,452.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "630,452.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "630,507.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 21,
+      "size": "140,55",
+      "position": "700,480",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "groupFollowMode": "CENTER",
+      "groupMembers": [20, 22],
+      "pathSpeed": 45,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": 1,
+      "pathes": [ 
+        { 
+          "position": "700,480",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        },
+        { 
+          "position": "700,300",
+          "width": 1,
+          "height": 1,
+          "waittime": 1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 22,
+      "size": "40,40",
+      "position": "630,452.5",
+      "pickable": true,
+      "rotatespeed": 50,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 13,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "triggerEvents": ["die"],
+      "initEvents": [],
+      "pathSpeed": 195,
+      "pingpong": false,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "630,452.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "630,507.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "770,507.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        },
+        { 
+          "position": "770,452.5",
+          "width": 1,
+          "height": 1,
+          "waittime": 0.5
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 23,
+      "size": "100,15",
+      "position": "59.7148,98",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 24,
+      "size": "100,15",
+      "position": "902.496,262.25",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 25,
+      "size": "100,15",
+      "position": "59.7148,412.207",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": true,
+      "paletteIndex": 17,
+      "flipUV": false,
+      "textureName": "images/saw3.png",
+      "initEvents": [],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 26,
+      "size": "25,35",
+      "position": "43.2617,437.398",
+      "pickable": true,
+      "rotatespeed": 0,
+      "shadowLength": 100,
+      "shadowEnable": false,
+      "paletteIndex": 5,
+      "flipUV": false,
+      "textureName": "images/rect.png",
+      "triggerEvents": ["exit"],
+      "initEvents": [],
+      "kind": "DEATH"
+    }
+  ],
+  "timeEvents": [
+  ]
+}
