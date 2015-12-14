@@ -341,12 +341,13 @@ void ShadowManager::updateNodes(float dt, std::vector<cocos2d::Node*>& nodes, bo
   mRendererSoft->setVisible(false);
 
   for(auto block : nodes) {
-
-    if(!block->isVisible())
+    if(!block->isVisible()) {
       return;
+    }
 
-    if(block->getBoundingBox().containsPoint(mLightPos))
+    if(block->getBoundingBox().containsPoint(mLightPos)) {
       return;
+    }
 
     std::vector<Vec2> pts;
     auto size = block->getBoundingBox().size;
@@ -375,7 +376,6 @@ void ShadowManager::updateNodes(float dt, std::vector<cocos2d::Node*>& nodes, bo
     Vec2 f1 = entries.second + dir1 * LENGTH;
 
     if(clipX) {
-
       Vec2 leftupper(0, 2000);
       Vec2 leftlower(0, -1000);
 
@@ -420,8 +420,9 @@ void ShadowManager::updateNodes(float dt, std::vector<cocos2d::Node*>& nodes, bo
     triangles.push_back(t);
   }
 
-  if(!triangles.empty())
+  if(!triangles.empty()) {
     mRendererNormal->drawTriangles(triangles);
+  }
 }
 
 void ShadowManager::update(float dt) {
@@ -432,7 +433,6 @@ void ShadowManager::update(float dt) {
   std::vector<V2F_C4B_T2F_Triangle> triangles;
 
   if(mUseSoftShadow) {
-
     mRendererNormal->setVisible(false);
     mRendererSoft->setVisible(true);
 
@@ -446,7 +446,6 @@ void ShadowManager::update(float dt) {
       mRendererSoft->drawTriangles(triangles);
 
   } else {
-
     mRendererNormal->setVisible(true);
     mRendererSoft->setVisible(false);
 
@@ -460,8 +459,9 @@ void ShadowManager::update(float dt) {
       mRendererNormal->drawTriangles(triangles);
   }
 
-  if(!mShadowMovingEnable || !GameLogic::Game->mGameMode)
+  if(!mShadowMovingEnable || !GameLogic::Game->mGameMode) {
     return;
+  }
 
   mLightMoveTimer += dt;
 

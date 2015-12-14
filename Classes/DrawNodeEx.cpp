@@ -209,6 +209,10 @@ void DrawNodeEx::onDraw(const Mat4 &transform, uint32_t flags) {
   glDrawArrays(GL_TRIANGLES, 0, _bufferCount);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+  if (Configuration::getInstance()->supportsShareableVAO()) {
+    GL::bindVAO(0);
+  }
+
   CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1,_bufferCount);
   CHECK_GL_ERROR_DEBUG();
 }
