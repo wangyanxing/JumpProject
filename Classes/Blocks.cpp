@@ -366,7 +366,7 @@ void BlockBase::update(float dt) {
   if(mRotationSpeed > 0) {
     auto r = mSprite->getRotation();
     r += mRotationSpeed * dt;
-    if(r > 360) r-=360;
+    if(r > 360) r -= 360;
     mSprite->setRotation(r);
   }
 
@@ -722,4 +722,20 @@ void BlockBase::callInitEvent(){
   for (size_t i = 0; i < mInitialEvents.size(); ++i) {
     Events::callEvent(mInitialEvents[i].c_str(), this);
   }
+}
+
+void BlockBase::forceUpdatePhysicsPosition() {
+  auto body = mSprite->getPhysicsBody();
+  if (!body) {
+    return;
+  }
+
+  Vec2 pos = mSprite->getPosition();
+  auto scene = mSprite->getScene();
+  if (scene && scene->getPhysicsWorld()) {
+    pos = mSprite->getParent() == scene ? mSprite->getPosition() :
+        scene->convertToNodeSpace(mSprite->getParent()->convertToWorldSpace(getPosition()));
+  }
+
+  body->setPosition(pos.x, pos.y);
 }

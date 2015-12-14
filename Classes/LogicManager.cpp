@@ -351,9 +351,8 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
       }
     }
     pushObject->mVelocity.y = 0;
+    pushObject->forceUpdatePhysicsPosition();
   }
-
-  CCLOG("- %.3f, %.3f", mHero->getPosition().y, mHero->getSprite()->getPhysicsBody()->getPosition().y);
 
   pushObject->getSprite()->getPhysicsBody()->getShapes().at(0)->_forceUpdateShape();
   return false;
@@ -365,13 +364,16 @@ void GameLogic::setBackGradientColor(const cocos2d::Color3B& colorSrc,
   mGradientColorSrc = colorSrc;
 
   auto glProgramState = mBack->getGLProgramState();
-  glProgramState->setUniformVec4("color", Vec4(mGradientColorSrc.r/255.0,
-                                               mGradientColorSrc.g/255.0,
-                                               mGradientColorSrc.b/255.0, 0.4));
-  glProgramState->setUniformVec4("colorDest", Vec4(mGradientColorDst.r/255.0,
-                                                   mGradientColorDst.g/255.0,
-                                                   mGradientColorDst.b/255.0, 0.4));
-
+  glProgramState->setUniformVec4("color",
+                                 Vec4(mGradientColorSrc.r/255.0,
+                                      mGradientColorSrc.g/255.0,
+                                      mGradientColorSrc.b/255.0,
+                                      0.4));
+  glProgramState->setUniformVec4("colorDest",
+                                 Vec4(mGradientColorDst.r/255.0,
+                                      mGradientColorDst.g/255.0,
+                                      mGradientColorDst.b/255.0,
+                                      0.4));
   mShadows->updateShaderParam();
 }
 

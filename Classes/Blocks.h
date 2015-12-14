@@ -45,6 +45,8 @@ public:
     setPosition(cocos2d::Point(getPosition().x, y));
   }
 
+  void forceUpdatePhysicsPosition();
+
   void rotate();
 
   void normalizeUV();

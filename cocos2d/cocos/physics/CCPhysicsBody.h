@@ -489,19 +489,19 @@ public:
     virtual void onExit() override;
     virtual void onAdd() override;
     virtual void onRemove() override;
-    
-protected:
-    PhysicsBody();
-    virtual ~PhysicsBody();
 
-    virtual bool init()override;
-    
     virtual void setPosition(float positionX, float positionY);
 
     virtual void setRotation(float rotation);
 
     virtual void setScale(float scaleX, float scaleY);
-    
+
+protected:
+    PhysicsBody();
+    virtual ~PhysicsBody();
+
+    virtual bool init()override;
+
     void update(float delta)override;
     
     void removeJoint(PhysicsJoint* joint);
