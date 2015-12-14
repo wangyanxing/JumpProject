@@ -16,6 +16,7 @@
 #include "UIColorEditor.h"
 #include "VisibleRect.h"
 #include "TimeEvent.h"
+#include "Palette.h"
 
 #include "rapidjson/document.h"
 #include "rapidjson/rapidjson.h"
@@ -59,7 +60,6 @@ using namespace cocos2d;
 
 static const char* getLevelSuffix() {
   static std::string suffix;
-
   auto framesize = VisibleRect::getFrameSize();
   float ratio = framesize.width / framesize.height;
 
@@ -82,7 +82,6 @@ std::string colorStr(const Color3B& color) {
 }
 
 Color3B str2Color(std::string hex) {
-
   int rgb[3];
   stringstream ss;
   string str;
@@ -257,8 +256,9 @@ void MapSerial::savePalette(const char* file){
 
   INDENT_1 ss << "\"palette\": [ \n";
 
-  for (auto it = GameLogic::Game->mPalette.begin(); it != GameLogic::Game->mPalette.end(); ++it){
-    if (it != GameLogic::Game->mPalette.begin()){
+  const auto& palette = Palette::getInstance()->getPalette();
+  for (auto it = palette.begin(); it != palette.end(); ++it){
+    if (it != palette.begin()){
       ss << ", \n";
     }
     INDENT_2 ss << "{\n";
@@ -303,6 +303,8 @@ void MapSerial::saveMap(const char* file) {
   stringstream ss;
   ss << "{\n";
 
+  auto palette = Palette::getInstance();
+
   INDENT_1 ss << "\"author\": " << "\"" << author << "\""; RT_LINE
   INDENT_1 ss << "\"time\": " << "\"" << timestr << "\""; RT_LINE
   float ratio = VisibleRect::right().x / VisibleRect::top().y;
@@ -310,14 +312,14 @@ void MapSerial::saveMap(const char* file) {
 
   INDENT_1 ss << "\"backgroundColor\": " << colorStr(GameLogic::Game->mBackgroundColor); RT_LINE
 #if 0
-  INDENT_1 ss << "\"heroColor\": " << colorStr(GameLogic::Game->mBlockColors[0]); RT_LINE
+  INDENT_1 ss << "\"heroColor\": " << colorStr(palette->getDefaultBlockColors(KIND_HERO)); RT_LINE
 #endif
   INDENT_1 ss << "\"heroColorIndex\": " << GameLogic::Game->mHero->mPaletteIndex; RT_LINE
-  INDENT_1 ss << "\"normalBlockColor\": " << colorStr(GameLogic::Game->mBlockColors[1]); RT_LINE
-  INDENT_1 ss << "\"deathBlockColor\": " << colorStr(GameLogic::Game->mBlockColors[2]); RT_LINE
-  INDENT_1 ss << "\"deathCircleColor\": " << colorStr(GameLogic::Game->mBlockColors[3]); RT_LINE
-  INDENT_1 ss << "\"buttonColor\": " << colorStr(GameLogic::Game->mBlockColors[4]); RT_LINE
-  INDENT_1 ss << "\"pushableBlockColor\": " << colorStr(GameLogic::Game->mBlockColors[5]); RT_LINE
+  INDENT_1 ss << "\"normalBlockColor\": " << colorStr(palette->getDefaultBlockColors(KIND_BLOCK)); RT_LINE
+  INDENT_1 ss << "\"deathBlockColor\": " << colorStr(palette->getDefaultBlockColors(KIND_DEATH)); RT_LINE
+  INDENT_1 ss << "\"deathCircleColor\": " << colorStr(palette->getDefaultBlockColors(KIND_DEATH_CIRCLE)); RT_LINE
+  INDENT_1 ss << "\"buttonColor\": " << colorStr(palette->getDefaultBlockColors(KIND_BUTTON)); RT_LINE
+  INDENT_1 ss << "\"pushableBlockColor\": " << colorStr(palette->getDefaultBlockColors(KIND_PUSHABLE)); RT_LINE
   INDENT_1 ss << "\"spawnPosition\": " << vec2Str(GameLogic::Game->mSpawnPos); RT_LINE
   INDENT_1 ss << "\"lightPosition\": " << vec2Str(GameLogic::Game->mShadows->mOriginLightPos); RT_LINE
   INDENT_1 ss << "\"lightMoving\": " << bool2Str(GameLogic::Game->mShadows->mShadowMovingEnable); RT_LINE
@@ -326,7 +328,7 @@ void MapSerial::saveMap(const char* file) {
   INDENT_1 ss << "\"gradientCenter\": " << vec2Str(GameLogic::Game->mGradientCenter); RT_LINE
   INDENT_1 ss << "\"gradientColorSrc\": " << colorStr(GameLogic::Game->mGradientColorSrc); RT_LINE
   INDENT_1 ss << "\"gradientColorDst\": " << colorStr(GameLogic::Game->mGradientColorDst); RT_LINE
-  INDENT_1 ss << "\"paletteFile\": \"" << GameLogic::Game->mPaletteFileName << "\""; RT_LINE
+  INDENT_1 ss << "\"paletteFile\": \"" << palette->getPaletteFileName() << "\""; RT_LINE
 #if 0
   savePalette(GameLogic::Game->mPaletteFileName.c_str());
 #endif
@@ -522,7 +524,9 @@ void MapSerial::saveMap(const char* file) {
 
 void MapSerial::loadLastEdit() {
   auto file = UserDefault::getInstance()->getStringForKey("lastedit");
-  if(file.empty()) return;
+  if(file.empty()) {
+    return;
+  }
   loadMap(file.c_str());
 }
 
@@ -554,12 +558,17 @@ void MapSerial::saveMap() {
 #endif
 
 void MapSerial::loadMap(const char* filename) {
+  if (!FileUtils::getInstance()->isFileExist(filename)) {
+    CCLOGWARN("Failed to load map file: %s", filename);
+    return;
+  }
+
   int maxID = 0;
 
 #if 0
   std::ifstream mapFileStream(filename);
   if (!mapFileStream) {
-    CCLOG("Warning: cannot read the map file : %s", filename);
+    CCLOGWARN("Warning: cannot read the map file : %s", filename);
     return;
   }
   std::string buffer((std::istreambuf_iterator<char>(mapFileStream)),
@@ -571,8 +580,8 @@ void MapSerial::loadMap(const char* filename) {
   Document d;
   ParseResult ok = d.Parse<kParseDefaultFlags>(buffer.c_str());
   if (!ok) {
-    printf( "JSON parse error: %d (%lu)\n", ok.Code(), ok.Offset());
-    cout << buffer << endl;
+    CCLOGWARN("JSON parse error: %d (%lu)", ok.Code(), ok.Offset());
+    CCLOGWARN("%s", buffer.c_str());
   }
 
   std::map<BlockBase*, std::vector<int>> pregroups;
@@ -587,9 +596,11 @@ void MapSerial::loadMap(const char* filename) {
     GameLogic::Game->setBackgroundColor(str2Color(d["backgroundColor"].GetString()));
   }SHOW_WARNING
 
+  auto palette = Palette::getInstance();
+
 #if 0
   if (d["heroColor"].IsString()) {
-    GameLogic::Game->mBlockColors[0] = str2Color(d["heroColor"].GetString());
+    palette->setDefaultBlockColors(KIND_HERO, str2Color(d["heroColor"].GetString()));
   }
 #endif
   if (d["heroColorIndex"].IsInt()) {
@@ -597,23 +608,23 @@ void MapSerial::loadMap(const char* filename) {
   }
 
   if (d["normalBlockColor"].IsString()) {
-    GameLogic::Game->mBlockColors[1] = str2Color(d["normalBlockColor"].GetString());
+    palette->setDefaultBlockColors(KIND_BLOCK, str2Color(d["normalBlockColor"].GetString()));
   }SHOW_WARNING
 
   if (d["deathBlockColor"].IsString()) {
-    GameLogic::Game->mBlockColors[2] = str2Color(d["deathBlockColor"].GetString());
+    palette->setDefaultBlockColors(KIND_DEATH, str2Color(d["deathBlockColor"].GetString()));
   }SHOW_WARNING
 
   if (d["deathCircleColor"].IsString()) {
-    GameLogic::Game->mBlockColors[3] = str2Color(d["deathCircleColor"].GetString());
+    palette->setDefaultBlockColors(KIND_DEATH_CIRCLE, str2Color(d["deathCircleColor"].GetString()));
   }SHOW_WARNING
 
   if (d["buttonColor"].IsString()) {
-    GameLogic::Game->mBlockColors[4] = str2Color(d["buttonColor"].GetString());
+    palette->setDefaultBlockColors(KIND_BUTTON, str2Color(d["buttonColor"].GetString()));
   }SHOW_WARNING
 
   if (d["pushableBlockColor"].IsString()) {
-    GameLogic::Game->mBlockColors[5] = str2Color(d["pushableBlockColor"].GetString());
+    palette->setDefaultBlockColors(KIND_PUSHABLE, str2Color(d["pushableBlockColor"].GetString()));
   }SHOW_WARNING
 
   if (d["spawnPosition"].IsString()) {
@@ -671,12 +682,11 @@ void MapSerial::loadMap(const char* filename) {
   }
   GameLogic::Game->loadStarFromList();
 
-  std::string paletteFileName = GameLogic::Game->mPaletteFileName;
+  std::string paletteFileName = Palette::getInstance()->getPaletteFileName();
   if (d["paletteFile"].IsString()){
     paletteFileName = d["paletteFile"].GetString();
+    Palette::getInstance()->setPaletteFileName(paletteFileName);
   }
-
-  GameLogic::Game->mPaletteFileName = paletteFileName;
 
   paletteFileName = FileUtils::getInstance()->fullPathForFilename(paletteFileName.c_str());
   std::ifstream paletteFileStream(paletteFileName);
@@ -695,7 +705,7 @@ void MapSerial::loadMap(const char* filename) {
     if (CHECK_ARRAY(dPalette, "palette")) {
       auto size = dPalette["palette"].Size();
       if (size > 0){
-        GameLogic::Game->mPalette.clear();
+        Palette::getInstance()->clearPalette();
 #if EDITOR_MODE
         UIColorEditor::colorEditor->cleanColors();
 #endif
@@ -704,12 +714,13 @@ void MapSerial::loadMap(const char* filename) {
       for (auto i = 0; i < size; i++){
         auto& palette = dPalette["palette"][i];
         if (palette["index"].IsInt() && palette["color"].IsString()){
-          GameLogic::Game->mPalette.insert(std::pair<int, Color3B>(palette["index"].GetInt(), str2Color(palette["color"].GetString())));
+          Palette::getInstance()->setColorFromPalette(palette["index"].GetInt(),
+                                                      str2Color(palette["color"].GetString()));
 #if EDITOR_MODE
-          UIColorEditor::colorEditor->addColor(palette["index"].GetInt(), str2Color(palette["color"].GetString()));
+          UIColorEditor::colorEditor->addColor(palette["index"].GetInt(),
+                                               str2Color(palette["color"].GetString()));
 #endif
         }
-
       }
 
 #if EDITOR_MODE

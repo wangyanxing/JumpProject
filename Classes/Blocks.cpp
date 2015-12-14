@@ -8,6 +8,7 @@
 
 #include "Blocks.h"
 #include "GameUtils.h"
+#include "Palette.h"
 #include "Button.h"
 #include "LogicManager.h"
 #include "EditorScene.h"
@@ -485,7 +486,7 @@ void BlockBase::setKind(BlockKind kind) {
   };
 
   if (mPaletteIndex == -1) {
-    mColor = GameLogic::Game->mBlockColors[kind];
+    mColor = Palette::getInstance()->getDefaultBlockColors(kind);
   } else {
     setColor(mPaletteIndex);
   }
@@ -554,7 +555,7 @@ void BlockBase::setKind(BlockKind kind) {
 
 void BlockBase::setColor(int index){
   mPaletteIndex = index;
-  Color3B color = GameLogic::Game->getColorFromPalette(index);
+  Color3B color = Palette::getInstance()->getColorFromPalette(index);
   mColor = color;
   getSprite()->setColor(color);
 }

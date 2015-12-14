@@ -124,6 +124,8 @@
 		BC3CEA4E1C1B879100738B33 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = BC3CEA3E1C1B879100738B33 /* shaders */; };
 		BC3CEA881C1CD47000738B33 /* rapidjson in Resources */ = {isa = PBXBuildFile; fileRef = BC3CEA871C1CD47000738B33 /* rapidjson */; };
 		BC3CEA891C1CD47000738B33 /* rapidjson in Resources */ = {isa = PBXBuildFile; fileRef = BC3CEA871C1CD47000738B33 /* rapidjson */; };
+		BC3CEA901C1F20F700738B33 /* Palette.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CEA8E1C1F20F700738B33 /* Palette.cpp */; };
+		BC3CEA911C1F20F700738B33 /* Palette.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CEA8E1C1F20F700738B33 /* Palette.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -278,6 +280,8 @@
 		BC3CEA3D1C1B879100738B33 /* palette */ = {isa = PBXFileReference; lastKnownFileType = folder; path = palette; sourceTree = "<group>"; };
 		BC3CEA3E1C1B879100738B33 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
 		BC3CEA871C1CD47000738B33 /* rapidjson */ = {isa = PBXFileReference; lastKnownFileType = folder; path = rapidjson; sourceTree = "<group>"; };
+		BC3CEA8E1C1F20F700738B33 /* Palette.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Palette.cpp; sourceTree = "<group>"; };
+		BC3CEA8F1C1F20F700738B33 /* Palette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Palette.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -485,6 +489,8 @@
 				BC3CE9FA1C1B86B400738B33 /* WaveEffect.h */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
+				BC3CEA8E1C1F20F700738B33 /* Palette.cpp */,
+				BC3CEA8F1C1F20F700738B33 /* Palette.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -691,6 +697,7 @@
 				BC3CEA1D1C1B86B400738B33 /* PathLibOSX.mm in Sources */,
 				BC3CEA091C1B86B400738B33 /* GameUtils.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				BC3CEA901C1F20F700738B33 /* Palette.cpp in Sources */,
 				BC3CE9FB1C1B86B400738B33 /* Blocks.cpp in Sources */,
 				BC3CEA211C1B86B400738B33 /* Rotator.cpp in Sources */,
 				BC3CEA271C1B86B400738B33 /* Shake.cpp in Sources */,
@@ -737,6 +744,7 @@
 				BC3CEA0E1C1B86B400738B33 /* LevelLayer.cpp in Sources */,
 				BC3CE9FC1C1B86B400738B33 /* Blocks.cpp in Sources */,
 				BC3CEA241C1B86B400738B33 /* ShaderLayer.cpp in Sources */,
+				BC3CEA911C1F20F700738B33 /* Palette.cpp in Sources */,
 				BC3CEA0C1C1B86B400738B33 /* HttpHelper.cpp in Sources */,
 				BC3CEA361C1B86B400738B33 /* WaveEffect.cpp in Sources */,
 				BC3CEA021C1B86B400738B33 /* EditorScene.cpp in Sources */,

@@ -53,8 +53,6 @@ public:
 
   void setBackgroundColor(const cocos2d::Color3B& color);
 
-  cocos2d::Color3B getColorFromPalette(int index){ return mPalette[index]; }
-
   BlockBase* findBlock(int id);
 
   void jump();
@@ -101,10 +99,6 @@ public:
   std::map<cocos2d::Node*,BlockBase*> mBlockTable;
 
   ShadowManager* mShadows{ nullptr };
-
-  cocos2d::Color3B mBlockColors[KIND_MAX];
-  std::map<int, cocos2d::Color3B> mPalette;
-  std::string mPaletteFileName = "palette/color01.json";
 
   cocos2d::Color3B mBackgroundColor;
 

@@ -36,40 +36,7 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
   mParentLayer = parent;
   Game = this;
 
-  // default colors
-  mBlockColors[KIND_HERO] = Color3B::BLACK;
-  mBlockColors[KIND_BLOCK] = Color3B::WHITE;
-  mBlockColors[KIND_DEATH] = Color3B::BLACK;
-  mBlockColors[KIND_DEATH_CIRCLE] = Color3B::BLACK;
-  mBlockColors[KIND_BUTTON] = Color3B(254, 225, 50);
-  mBlockColors[KIND_PUSHABLE] = Color3B(220, 150, 168);
-  mBlockColors[KIND_FORCEFIELD] = Color3B(84, 194, 123);
   mBackgroundColor = Color3B(30, 181, 199);
-
-  mPalette.insert(std::pair<int, Color3B>(1, Color3B(0xFF, 0xFF, 0xFF)));
-  mPalette.insert(std::pair<int, Color3B>(2, Color3B(0xFF, 0x00, 0x00)));
-  mPalette.insert(std::pair<int, Color3B>(3, Color3B(0x00, 0xFF, 0x00)));
-  mPalette.insert(std::pair<int, Color3B>(4, Color3B(0x00, 0x00, 0xFF)));
-
-  mPalette.insert(std::pair<int, Color3B>(5, Color3B(0xCC, 0xCC, 0xCC)));
-  mPalette.insert(std::pair<int, Color3B>(6, Color3B(0xCC, 0x00, 0x00)));
-  mPalette.insert(std::pair<int, Color3B>(7, Color3B(0x00, 0xCC, 0x00)));
-  mPalette.insert(std::pair<int, Color3B>(8, Color3B(0x00, 0x00, 0xCC)));
-
-  mPalette.insert(std::pair<int, Color3B>(9, Color3B(0x99, 0x99, 0x99)));
-  mPalette.insert(std::pair<int, Color3B>(10, Color3B(0x99, 0x00, 0x00)));
-  mPalette.insert(std::pair<int, Color3B>(11, Color3B(0x00, 0x99, 0x00)));
-  mPalette.insert(std::pair<int, Color3B>(12, Color3B(0x00, 0x00, 0x99)));
-
-  mPalette.insert(std::pair<int, Color3B>(13, Color3B(0x66, 0x66, 0x66)));
-  mPalette.insert(std::pair<int, Color3B>(14, Color3B(0x66, 0x00, 0x00)));
-  mPalette.insert(std::pair<int, Color3B>(15, Color3B(0x00, 0x66, 0x00)));
-  mPalette.insert(std::pair<int, Color3B>(16, Color3B(0x00, 0x00, 0x66)));
-
-  mPalette.insert(std::pair<int, Color3B>(17, Color3B(0x33, 0x33, 0x33)));
-  mPalette.insert(std::pair<int, Color3B>(18, Color3B(0x33, 0x00, 0x00)));
-  mPalette.insert(std::pair<int, Color3B>(19, Color3B(0x00, 0x33, 0x00)));
-  mPalette.insert(std::pair<int, Color3B>(20, Color3B(0x00, 0x00, 0x33)));
 
   mSpawnPos = VisibleRect::center();
 
@@ -79,7 +46,6 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
   mHero->setKind(KIND_HERO);
   mHeroShape = mHero->getSprite()->getPhysicsBody()->getShapes().front();
   mHero->addToScene(mParentLayer);
-  //mHero->getSprite()->setPhysicsScaleEnabled(false);
   mBlockTable[mHero->getSprite()] = mHero;
 
   mShadows = new ShadowManager(mParentLayer);
