@@ -36,9 +36,9 @@ public:
 
   virtual void onEnterTransitionDidFinish() override;
 
-  virtual bool init();
+  virtual bool init() override;
 
-  void update(float dt);
+  void update(float dt) override;
 
   bool onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::PhysicsContactPreSolve& solve);
 

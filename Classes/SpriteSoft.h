@@ -3,14 +3,13 @@
 
 #include "SpriteUV.h"
 
-class SpriteSoft : public SpriteUV
-{
+class SpriteSoft : public SpriteUV {
 public:
-
   static SpriteSoft* create(const std::string& filename);
 
-  virtual bool initWithFile(const char *pszFilename);
-  virtual bool initWithSpriteFrameName(const char *framename);
+  virtual bool initWithFile(const char *pszFilename) override;
+
+  virtual bool initWithSpriteFrameName(const char *framename) override;
 
   CREATE_FUNC(SpriteSoft);
 

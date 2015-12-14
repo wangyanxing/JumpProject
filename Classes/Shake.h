@@ -3,8 +3,7 @@
 
 #include "cocos2d.h"
 
-class CCShake : public cocos2d::ActionInterval
-{
+class CCShake : public cocos2d::ActionInterval {
 public:
   CCShake();
 
@@ -19,12 +18,13 @@ public:
 
 protected:
 
-  void startWithTarget(cocos2d::Node *pTarget);
-  void update(float time);
-  void stop(void);
+  void startWithTarget(cocos2d::Node *pTarget) override;
+
+  void update(float time) override;
+
+  void stop(void) override;
 
   cocos2d::Point m_StartPosition;
-
 
   // Strength of the action
   float m_strength_x, m_strength_y;

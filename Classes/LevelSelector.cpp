@@ -56,8 +56,8 @@ bool LevelSelLayer::init() {
 
   auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/back.fsh");
 
-  // init shader
-  GLchar * fragSource = (GLchar*)String::createWithContentsOfFile(shaderfile.c_str())->getCString();
+  // Load shaders
+  GLchar * fragSource = (GLchar*) FileUtils::getInstance()->getStringFromFile(shaderfile).c_str();
   auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource);
   auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
 

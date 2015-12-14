@@ -87,7 +87,6 @@ bool EditorScene::init() {
 
   mSpawnPoint = Sprite::create("images/cross.png");
   addChild(mSpawnPoint, 100);
-  //mSpawnPoint->setPosition(VisibleRect::center());
   mSpawnPoint->setPosition(50,100);
   mGame->mSpawnPos = mSpawnPoint->getPosition();
   mSpawnPoint->setScale(0.3);
@@ -96,48 +95,11 @@ bool EditorScene::init() {
 
   UIColorEditor::colorEditor->onSetColorFunc = [&](int index, cocos2d::Color3B color){
     for (auto sel : mSelections) {
-      //sel->mColor = color;
       sel->setColor(index);
     }
   };
 
-#if 0
-  Rect r = VisibleRect::getVisibleRect();
-
-  Size sz(r.size);
-  auto testsp = Sprite::create();
-  testsp->setContentSize(sz);
-  testsp->setTag(1024);
-
-  testsp->setTexture(renderTextureBlur->getSprite()->getTexture());
-  addChild(testsp,5000);
-
-  r.size = sz;
-  testsp->setTextureRect(r);
-
-  auto ruv = r;
-  ruv.size = renderTexture->getSprite()->getTexture()->getContentSizeInPixels() / 4;
-  testsp->setPosition(VisibleRect::center());
-  testsp->setFlippedY(true);
-  testsp->setTextureCoords(ruv);
-  testsp->setBlendFunc({GL_ONE,GL_ONE});
-#   if 0
-  testsp->setBlendFunc({GL_ONE,GL_ONE});
-  testsp->addEffect(EffectBloom::create(), 1);
-  testsp->addEffect(EffectBlur::create(), 2);
-  auto visibleRect = VisibleRect::getVisibleRect();
-  testsp->setScale(visibleRect.size.width / sz.width, visibleRect.size.height / sz.height);
-#   endif
-
-#endif
-
-#if 0
-  auto e = EffectSprite::create("images/cross.png");
-  e->setPosition(VisibleRect::center());
-  e->setEffect(EffectBlur::create());
-  addChild(e,1000);
-#endif
-
+  initDrawNodes();
   return true;
 }
 
@@ -184,10 +146,8 @@ void EditorScene::mouseDown(cocos2d::Event* event) {
 
   if (mPressingShift) {
     mGame->createBlock(pt, KIND_BLOCK);
-
     mMovingBlock = nullptr;
   } else {
-    // pick up
     if(!mPressingCtrl) {
       mSelections.clear();
       mPathMode = false;
@@ -216,7 +176,6 @@ void EditorScene::mouseDown(cocos2d::Event* event) {
 
 void EditorScene::mouseUp(cocos2d::Event* event) {
   auto mouse = (EventMouse*)event;
-
   auto target = static_cast<Sprite*>(mouse->getCurrentTarget());
 
   Point pt(mouse->getCursorX(), mouse->getCursorY());
@@ -407,7 +366,7 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
 
   if (keyCode == EventKeyboard::KeyCode::KEY_O) {
     if(mPressingCtrl) {
-      // open map
+      // Open map
       MapSerial::loadMap();
     } else {
       for(auto sel : mSelections) {
@@ -420,7 +379,7 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
 
   if (keyCode == EventKeyboard::KeyCode::KEY_S) {
     if(mPressingCtrl) {
-      // save map
+      // Save map
       if(!mCurFileName.empty())
         MapSerial::saveMap(mCurFileName.c_str());
       else
@@ -442,9 +401,9 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
 
   if (keyCode == EventKeyboard::KeyCode::KEY_G) {
     mShowGrid = !mShowGrid;
-
+    mGridNode->setVisible(mShowGrid);
 #if EDITOR_MODE
-    // also show or hide ID labels
+    // Also show or hide ID labels
     mGame->blockTraversal([&](BlockBase* b){
       b->mIDLabel->setVisible(mShowGrid);
       b->mShowIDLabel = mShowGrid;
@@ -452,9 +411,9 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
 #endif
   }
 
-  // path mode
+  // Path mode
   if (keyCode == EventKeyboard::KeyCode::KEY_F && mSelectionHead && !mGame->mGameMode) {
-    // only work for one selection
+    // Only work for one selection
     mPathMode = true;
 
     if(mSelectionHead->mPath.empty()) {
@@ -467,13 +426,6 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
     }
   }
 
-#if 0
-  if (keyCode == EventKeyboard::KeyCode::KEY_H /*&& mSelectionHead && !mGame->mGameMode*/) {
-    //auto g = mGame->mHero->getSprite()->getPhysicsBody()->isGravityEnabled();
-    //mGame->mHero->getSprite()->getPhysicsBody()->setGravityEnable(!g);
-  }
-#endif
-
   if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE) {
     // only work for one selection
     if(mPathMode) {
@@ -485,7 +437,6 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
     if(mGame->mGameMode) {
       mGame->mJumpFlag = true;
     }
-    //mGame->jump();
   }
 
   if (keyCode == EventKeyboard::KeyCode::KEY_RETURN ||
@@ -579,11 +530,11 @@ void EditorScene::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 }
 
 void EditorScene::enableGame(bool val, bool force) {
-
   mGame->enableGame(val,force);
   mSpawnPoint->setVisible(!val);
   mLightPoint->setVisible(!val);
   mGradientCenterPoint->setVisible(!val);
+  mGroupNode->setVisible(!val);
   if(val) {
     mPressingV = mPressingB = mPressingN = mPressingM = false;
   }
@@ -602,39 +553,6 @@ void EditorScene::onDrawPrimitive(const Mat4 &transform, uint32_t flags) {
   Director* director = Director::getInstance();
   director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
   director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, transform);
-
-  if(mShowGrid) {
-    static auto size = mGame->mHero->getSize();
-
-    DrawPrimitives::setDrawColor4B(200,200,200,255);
-
-    float y = 0;
-    while(y < VisibleRect::top().y) {
-
-      DrawPrimitives::drawLine( Vec2(0, y), Vec2(VisibleRect::right().x, y) );
-      y += size.height;
-    }
-
-    float x = 0;
-    while(x < VisibleRect::right().x+50) {
-
-      DrawPrimitives::drawLine( Vec2(x, 0), Vec2(x, VisibleRect::top().y) );
-      x += size.width;
-    }
-  }
-
-  if(!mGame->mGameMode) {
-    DrawPrimitives::setDrawColor4B(17,47,245,255);
-    for(auto g : mGame->mGroups){
-      auto head = g.first;
-
-      for(auto m : g.second) {
-        DrawPrimitives::drawSolidCircle(m->getPosition(), 3, 0, 20, 1, 1);
-        DrawPrimitives::drawLine(head->getPosition(), m->getPosition());
-      }
-    }
-  }
-
   director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 }
 void EditorScene::update(float dt){
@@ -782,6 +700,39 @@ void EditorScene::clean(bool save) {
 
   mCurFileName = "";
   UILayer::Layer->setFileName("untitled");
+}
+
+void EditorScene::initDrawNodes() {
+  auto size = mGame->mHero->getSize();
+  Color4F gridColor(0.8f, 0.8f, 0.8f, 1);
+
+  mGridNode = DrawNode::create();
+  float y = 0;
+  while(y < VisibleRect::top().y) {
+    mGridNode->drawLine(Vec2(0, y), Vec2(VisibleRect::right().x, y), gridColor);
+    y += size.height;
+  }
+
+  float x = 0;
+  while(x < VisibleRect::right().x + 50) {
+    mGridNode->drawLine(Vec2(x, 0), Vec2(x, VisibleRect::top().y), gridColor);
+    x += size.width;
+  }
+
+  mGroupNode = DrawNode::create();
+  Color4F lineColor(0.06f, 0.18f, 0.96f, 1);
+  for(auto g : mGame->mGroups){
+    auto head = g.first;
+    for(auto m : g.second) {
+      mGroupNode->drawSolidCircle(m->getPosition(), 3, 0, 20, 1, 1, lineColor);
+      mGroupNode->drawLine(head->getPosition(), m->getPosition(), lineColor);
+    }
+  }
+
+  addChild(mGridNode);
+  addChild(mGroupNode);
+
+  mGridNode->setVisible(false);
 }
 
 #endif

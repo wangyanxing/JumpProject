@@ -9,8 +9,13 @@
 #include "Rotator.h"
 
 void Rotator::update(float dt, float& out, cocos2d::Vec2& outsize) {
-  if(mPoints.empty()) return;
-  if(mPause) dt = 0;
+  if(mPoints.empty()) {
+    return;
+  }
+  
+  if(mPause) {
+    dt = 0;
+  }
 
   if(mDisable) {
     out = mPoints[0].rotation;
@@ -24,7 +29,7 @@ void Rotator::update(float dt, float& out, cocos2d::Vec2& outsize) {
       if(mWaitingTimer > mPoints[mCurPt].waitTime) {
         auto pt = mPoints[mCurPt];
         auto ptNext = mPoints[nextPt];
-        float dist = abs(pt.rotation - ptNext.rotation);//pt.pt.distance(ptNext.pt);
+        float dist = std::abs(pt.rotation - ptNext.rotation);
 
         mCurDist += mSpeed * dt;
         if(mCurDist >= dist) {

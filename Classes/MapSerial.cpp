@@ -102,7 +102,6 @@ Color3B str2Color(std::string hex) {
     ss >> rgb[i];
     ss.clear();
   }
-
   return Color3B(rgb[0],rgb[1],rgb[2]);
 }
 
@@ -229,7 +228,7 @@ Button::PushDir str2Direction(const string& v) {
   return kinds[v];
 }
 
-void MapSerial::savePalette(const char* file){
+void MapSerial::savePalette(const char* file) {
   time_t rawtime;
   struct tm * ptm;
   time(&rawtime);
@@ -281,7 +280,6 @@ void MapSerial::savePalette(const char* file){
 }
 
 void MapSerial::saveMap(const char* file) {
-
   time_t rawtime;
   struct tm * ptm;
   time ( &rawtime );
@@ -500,18 +498,18 @@ void MapSerial::saveMap(const char* file) {
   fprintf(fp, "%s", ss.str().c_str());
   fclose(fp);
 
-  // update file
+  // Update file
 #if EDITOR_MODE
   EditorScene::Scene->mCurFileName = file;
 #endif
   UILayer::Layer->setFileName(file);
   UILayer::Layer->addMessage("File saved");
 
-  // save to history
+  // Save history
   UserDefault::getInstance()->setStringForKey("lastedit", file);
   UserDefault::getInstance()->flush();
 
-  // save to server
+  // Save to server
   std::string filename = file;
 
   const size_t last_slash_idx = filename.find_last_of("\\/");
@@ -532,7 +530,6 @@ void MapSerial::loadLastEdit() {
 
 #if EDITOR_MODE
 void MapSerial::saveMap() {
-
   std::string fullpath = getMapDir();
 
   std::vector<std::string> out;
@@ -683,7 +680,7 @@ void MapSerial::loadMap(const char* filename) {
   GameLogic::Game->loadStarFromList();
 
   std::string paletteFileName = Palette::getInstance()->getPaletteFileName();
-  if (d["paletteFile"].IsString()){
+  if (d["paletteFile"].IsString()) {
     paletteFileName = d["paletteFile"].GetString();
     Palette::getInstance()->setPaletteFileName(paletteFileName);
   }
@@ -711,9 +708,9 @@ void MapSerial::loadMap(const char* filename) {
 #endif
       }
 
-      for (auto i = 0; i < size; i++){
+      for (auto i = 0; i < size; i++) {
         auto& palette = dPalette["palette"][i];
-        if (palette["index"].IsInt() && palette["color"].IsString()){
+        if (palette["index"].IsInt() && palette["color"].IsString()) {
           Palette::getInstance()->setColorFromPalette(palette["index"].GetInt(),
                                                       str2Color(palette["color"].GetString()));
 #if EDITOR_MODE
@@ -729,7 +726,7 @@ void MapSerial::loadMap(const char* filename) {
     }
   }
 
-  if (CHECK_ARRAY(d, "timeEvents")){
+  if (CHECK_ARRAY(d, "timeEvents")) {
     auto size = d["timeEvents"].Size();
 
     for (auto i = 0; i < size; ++i) {
@@ -789,22 +786,22 @@ void MapSerial::loadMap(const char* filename) {
       float shadowLeng = 100;
       bool shadowEnable = true;
 
-      if(var["id"].IsInt()){
+      if(var["id"].IsInt()) {
         id = var["id"].GetInt();
         maxID = std::max(id, maxID);
       }SHOW_WARNING
 
-      if(var["size"].IsString()){
+      if(var["size"].IsString()) {
         size = str2Size(var["size"].GetString());
         size.width = std::max(size.width, 0.5f);
         size.height = std::max(size.height, 0.5f);
       }SHOW_WARNING
 
-      if(var["position"].IsString()){
+      if(var["position"].IsString()) {
         pos = str2Vec(var["position"].GetString());
       }SHOW_WARNING
 
-      if(var["pickable"].IsBool()){
+      if(var["pickable"].IsBool()) {
         pickable = var["pickable"].GetBool();
       }SHOW_WARNING
 
@@ -812,19 +809,19 @@ void MapSerial::loadMap(const char* filename) {
         rotSpeed = var["rotatespeed"].GetInt();
       }
 
-      if(var["kind"].IsString()){
+      if(var["kind"].IsString()) {
         kind = str2Kind(var["kind"].GetString());
       }SHOW_WARNING
 
-      if (CHECK_BOOL(var,"flipUV")){
+      if (CHECK_BOOL(var,"flipUV")) {
         flipuv = var["flipUV"].GetBool();
       }
 
-      if (var["textureName"].IsString()){
+      if (var["textureName"].IsString()) {
         textureName = var["textureName"].GetString();
       }
 
-      if (var.HasMember("timeEvents") && var["userData"].IsString()){
+      if (var.HasMember("timeEvents") && var["userData"].IsString()) {
         userData = var["userData"].GetString();
       }
 
@@ -877,8 +874,7 @@ void MapSerial::loadMap(const char* filename) {
         if (CHECK_ARRAY(var, "triggerEvents")) {
           auto triggerEventSize = var["triggerEvents"].Size();
 
-          for (auto i = 0; i < triggerEventSize; i++)
-          {
+          for (auto i = 0; i < triggerEventSize; i++) {
             std::string triggerEvent = var["triggerEvents"][i].GetString();
             block->mTriggerEvents.push_back(triggerEvent);
           }
@@ -934,8 +930,7 @@ void MapSerial::loadMap(const char* filename) {
         if(var["pushingEvent"].IsString()){
           block->mButton->mPushingEvent = var["pushingEvent"].GetString();
         }
-      }
-      else if(kind == KIND_FORCEFIELD) {
+      } else if(kind == KIND_FORCEFIELD) {
         if (CHECK_NUMBER(var, "forcefieldIntensity")) {
           block->mForceFieldIntensity = var["forcefieldIntensity"].GetDouble();
         }
@@ -1003,7 +998,7 @@ void MapSerial::loadMap(const char* filename) {
   }SHOW_WARNING
 
   CC_ASSERT(GameLogic::Game->mGroups.empty());
-  // process groups
+  // Process groups
   for(auto gi : pregroups) {
     for(auto idi : gi.second) {
       auto m = GameLogic::Game->findBlock(idi);
@@ -1092,7 +1087,6 @@ void MapSerial::afterLoadRemoteMaps() {
     }
 
     fprintf(fp, "%s", m.content.c_str());
-
     fclose(fp);
   }
 }
@@ -1211,6 +1205,7 @@ void MapSerial::loadControlConfig(const char* file){
 
     ControlPad::controlPadConfig->mSelectedConfig = configIndex;
   }
+
   std::string configKey = "ConfigArray";
   configKey += getLevelSuffix();
 
@@ -1255,8 +1250,10 @@ void ControlPad::clearConfig(){
 }
 
 ControlPadConfig* ControlPad::getControlConfig(){
-  if(mSelectedConfig<= mControlConfig.size()-1){
+  if(mSelectedConfig<= mControlConfig.size() - 1){
     return mControlConfig.at(mSelectedConfig);
   }
+  return nullptr;
 }
+
 ControlPad* ControlPad::controlPadConfig = new ControlPad();

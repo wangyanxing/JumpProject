@@ -8,7 +8,7 @@
 
 //Note:: Might not work with Texture Atlases or fliped sprites yet
 
-class SpriteUV :  public cocos2d::Sprite {
+class SpriteUV : public cocos2d::Sprite {
 public:
   void setupTexParameters();
 

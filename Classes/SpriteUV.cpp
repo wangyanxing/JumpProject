@@ -2,8 +2,7 @@
 
 using namespace cocos2d;
 
-SpriteUV* SpriteUV::create(const std::string& filename)
-{
+SpriteUV* SpriteUV::create(const std::string& filename) {
   SpriteUV *sprite = new (std::nothrow) SpriteUV();
   if (sprite && sprite->initWithFile(filename.c_str()))
   {
@@ -15,33 +14,23 @@ SpriteUV* SpriteUV::create(const std::string& filename)
 }
 
 void SpriteUV::setupTexParameters(){
-
   Texture2D::TexParams params = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT };
   this->getTexture()->setTexParameters(params);
 }
 
-bool SpriteUV::initWithFile(const char *pszFilename)
-{
-  if( CCSprite::initWithFile(pszFilename) )
-  {
+bool SpriteUV::initWithFile(const char *pszFilename) {
+  if(Sprite::initWithFile(pszFilename)) {
     setupTexParameters();
-
     return true;
   }
-
   return false;
 }
 
-
-bool SpriteUV::initWithSpriteFrameName(const char *pszFilename)
-{
-  if( CCSprite::initWithSpriteFrameName(pszFilename) )
-  {
+bool SpriteUV::initWithSpriteFrameName(const char *pszFilename) {
+  if(Sprite::initWithSpriteFrameName(pszFilename)) {
     setupTexParameters();
-
     return true;
   }
-
   return false;
 }
 
@@ -56,7 +45,6 @@ void SpriteUV::setUVWidth(float length) {
 }
 
 void SpriteUV::setUVSize(float val) {
-
 }
 
 void SpriteUV::rotateUV() {
@@ -92,7 +80,6 @@ void SpriteUV::resetUV() {
 }
 
 void SpriteUV::setUVOffset(cocos2d::Point offset){
-
   V3F_C4B_T2F_Quad quad = this->getQuad();
 
   //change UV coords
@@ -108,5 +95,4 @@ void SpriteUV::setUVOffset(cocos2d::Point offset){
 
   //write quad back
   this->_quad = quad;
-
 }

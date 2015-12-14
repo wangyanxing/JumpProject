@@ -35,8 +35,9 @@ ShadowManager::ShadowManager(cocos2d::Node* parentNode) {
 #else
   auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/normal_shadow.fsh");
 #endif
-  // init shader
-  GLchar * fragSource = (GLchar*)String::createWithContentsOfFile(shaderfile.c_str())->getCString();
+
+  // Load shaders
+  GLchar * fragSource = (GLchar*) FileUtils::getInstance()->getStringFromFile(shaderfile).c_str();
   auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_vert, fragSource);
   auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
 
@@ -466,7 +467,7 @@ void ShadowManager::update(float dt) {
   bool lightLeft = mLightPos.x <= VisibleRect::center().x;
   bool heroLeft = GameLogic::Game->mHero->getPosition().x <= VisibleRect::center().x;
 
-  float dis = abs(mOriginLightPos.x - VisibleRect::center().x);
+  float dis = std::abs(mOriginLightPos.x - VisibleRect::center().x);
 
   if(lightLeft == heroLeft && mLightMoveTimer > 10) {
     mLightMoveTimer = 0;

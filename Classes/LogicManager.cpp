@@ -50,7 +50,7 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
 
   mShadows = new ShadowManager(mParentLayer);
 
-  // background
+  // Background
 #if GRADIENT
   mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(255,255,255));
 
@@ -59,9 +59,11 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
 #else
   auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/back.fsh");
 #endif
-  // init shader
-  GLchar * fragSource = (GLchar*)String::createWithContentsOfFile(shaderfile.c_str())->getCString();
-  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource);
+
+  // Load shaders
+  auto shaderContent = FileUtils::getInstance()->getStringFromFile(shaderfile);
+  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert,
+                                                 shaderContent.c_str());
   auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
 
   float screenWidth = VisibleRect::getFrameSize().width;

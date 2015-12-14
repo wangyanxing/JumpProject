@@ -20,7 +20,7 @@ class GameLogic;
 class EditorScene : public ShaderLayer {
 public:
 
-  EditorScene(){}
+  EditorScene() = default;
 
   virtual ~EditorScene();
 
@@ -32,7 +32,6 @@ public:
 
   static EditorScene* Scene;
 
-  // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
   virtual bool init();
 
   void keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
@@ -53,6 +52,8 @@ public:
   CREATE_FUNC(EditorScene);
 
 public:
+
+  void initDrawNodes();
 
   void draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags);
 
@@ -87,8 +88,11 @@ public:
   bool mPressingAlt{ false };
 
   bool mPressingM{ false };
+
   bool mPressingN{ false };
+
   bool mPressingB{ false };
+
   bool mPressingV{ false };
 
   BlockBase* mMovingBlock{ nullptr };
@@ -110,10 +114,14 @@ public:
   bool mShowGrid{ false };
 
   std::string mCurFileName;
-
+  
   PostUpdater mPostUpdater;
-
+  
   GameLogic* mGame{ nullptr };
+
+  cocos2d::DrawNode* mGridNode{ nullptr };
+
+  cocos2d::DrawNode* mGroupNode{ nullptr };
 };
 
 #endif

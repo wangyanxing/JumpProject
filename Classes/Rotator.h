@@ -14,7 +14,6 @@
 
 class Rotator {
 public:
-
   Rotator() {
   }
 
@@ -97,7 +96,6 @@ public:
   bool mPause{ false };
 
 private:
-
   std::vector<RotatorPoint> mPoints;
 };
 
