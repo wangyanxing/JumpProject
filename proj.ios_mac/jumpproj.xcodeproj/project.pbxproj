@@ -104,8 +104,6 @@
 		BC3CEA321C1B86B400738B33 /* UILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9F51C1B86B400738B33 /* UILayer.cpp */; };
 		BC3CEA331C1B86B400738B33 /* VisibleRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9F71C1B86B400738B33 /* VisibleRect.cpp */; };
 		BC3CEA341C1B86B400738B33 /* VisibleRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9F71C1B86B400738B33 /* VisibleRect.cpp */; };
-		BC3CEA351C1B86B400738B33 /* WaveEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9F91C1B86B400738B33 /* WaveEffect.cpp */; };
-		BC3CEA361C1B86B400738B33 /* WaveEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9F91C1B86B400738B33 /* WaveEffect.cpp */; };
 		BC3CEA3F1C1B879100738B33 /* configs in Resources */ = {isa = PBXBuildFile; fileRef = BC3CEA371C1B879100738B33 /* configs */; };
 		BC3CEA401C1B879100738B33 /* configs in Resources */ = {isa = PBXBuildFile; fileRef = BC3CEA371C1B879100738B33 /* configs */; };
 		BC3CEA411C1B879100738B33 /* extensions in Resources */ = {isa = PBXBuildFile; fileRef = BC3CEA381C1B879100738B33 /* extensions */; };
@@ -271,8 +269,6 @@
 		BC3CE9F61C1B86B400738B33 /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILayer.h; sourceTree = "<group>"; };
 		BC3CE9F71C1B86B400738B33 /* VisibleRect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisibleRect.cpp; sourceTree = "<group>"; };
 		BC3CE9F81C1B86B400738B33 /* VisibleRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisibleRect.h; sourceTree = "<group>"; };
-		BC3CE9F91C1B86B400738B33 /* WaveEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaveEffect.cpp; sourceTree = "<group>"; };
-		BC3CE9FA1C1B86B400738B33 /* WaveEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveEffect.h; sourceTree = "<group>"; };
 		BC3CEA371C1B879100738B33 /* configs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = configs; sourceTree = "<group>"; };
 		BC3CEA381C1B879100738B33 /* extensions */ = {isa = PBXFileReference; lastKnownFileType = folder; path = extensions; sourceTree = "<group>"; };
 		BC3CEA391C1B879100738B33 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
@@ -489,8 +485,6 @@
 				BC3CE9F61C1B86B400738B33 /* UILayer.h */,
 				BC3CE9F71C1B86B400738B33 /* VisibleRect.cpp */,
 				BC3CE9F81C1B86B400738B33 /* VisibleRect.h */,
-				BC3CE9F91C1B86B400738B33 /* WaveEffect.cpp */,
-				BC3CE9FA1C1B86B400738B33 /* WaveEffect.h */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
 				BC3CEA8E1C1F20F700738B33 /* Palette.cpp */,
@@ -714,7 +708,6 @@
 				BC3CEA151C1B86B400738B33 /* LogicManager.cpp in Sources */,
 				BC3CEA291C1B86B400738B33 /* SpriteSoft.cpp in Sources */,
 				BC3CEA0D1C1B86B400738B33 /* LevelLayer.cpp in Sources */,
-				BC3CEA351C1B86B400738B33 /* WaveEffect.cpp in Sources */,
 				BC3CEA231C1B86B400738B33 /* ShaderLayer.cpp in Sources */,
 				BC3CEA1B1C1B86B400738B33 /* PathLib.cpp in Sources */,
 				BC3CE9FD1C1B86B400738B33 /* Button.cpp in Sources */,
@@ -753,7 +746,6 @@
 				BC3CEA241C1B86B400738B33 /* ShaderLayer.cpp in Sources */,
 				BC3CEA911C1F20F700738B33 /* Palette.cpp in Sources */,
 				BC3CEA0C1C1B86B400738B33 /* HttpHelper.cpp in Sources */,
-				BC3CEA361C1B86B400738B33 /* WaveEffect.cpp in Sources */,
 				BC3CEA021C1B86B400738B33 /* EditorScene.cpp in Sources */,
 				BC3CEA161C1B86B400738B33 /* LogicManager.cpp in Sources */,
 				BC3CEA341C1B86B400738B33 /* VisibleRect.cpp in Sources */,

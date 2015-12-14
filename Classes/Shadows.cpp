@@ -38,8 +38,9 @@ ShadowManager::ShadowManager(cocos2d::Node* parentNode) {
 #endif
 
   // Load shaders
-  GLchar * fragSource = (GLchar*) FileUtils::getInstance()->getStringFromFile(shaderfile).c_str();
-  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_vert, fragSource);
+  auto shaderContent = FileUtils::getInstance()->getStringFromFile(shaderfile);
+  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_vert,
+                                                 shaderContent.c_str());
   auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
 
   float screenWidth = VisibleRect::getFrameSize().width;

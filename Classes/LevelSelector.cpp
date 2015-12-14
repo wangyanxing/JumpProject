@@ -14,7 +14,6 @@
 #include "VisibleRect.h"
 #include "GameScene.h"
 #include "CocosGUI.h"
-#include "WaveEffect.h"
 
 USING_NS_CC;
 
@@ -38,11 +37,6 @@ static const char* getLevelSuffix() {
 
 LevelSelLayer::~LevelSelLayer() {
   cleanBlocks();
-  delete mShadows;
-  mShadows = nullptr;
-
-  delete mWaveFx;
-  mWaveFx = nullptr;
 
   mBack->removeFromParent();
 }
@@ -50,15 +44,13 @@ LevelSelLayer::~LevelSelLayer() {
 bool LevelSelLayer::init() {
   Layer::init();
 
-  mShadows = new ShadowManager(this);
-
   mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(255,255,255));
 
-  auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/back.fsh");
-
   // Load shaders
-  GLchar * fragSource = (GLchar*) FileUtils::getInstance()->getStringFromFile(shaderfile).c_str();
-  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource);
+  auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/back.fsh");
+  auto shaderContent = FileUtils::getInstance()->getStringFromFile(shaderfile);
+  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert,
+                                                 shaderContent.c_str());
   auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
 
   float screenWidth = VisibleRect::getFrameSize().width;
@@ -160,7 +152,6 @@ void LevelSelLayer::cleanBlocks() {
     b->removeFromParent();
   }
   mBlocks.clear();
-  mShadows->reset();
 }
 
 void LevelSelLayer::initAsTitle() {
@@ -178,21 +169,6 @@ void LevelSelLayer::initAsTitle() {
 
   setBackGradientColor(Color3B(50,201,219), Color3B(30,181,199));
   setBackGradientCenter(Vec2(510.625,287.641));
-
-  mWaveFx = new WaveEffect(this);
-  mWaveFx->newLine();
-
-  auto& l2 = mWaveFx->newLine();
-  l2.phase = 1.1;
-  l2.height = 30;
-  l2.angleBias = 1.1;
-
-#if 0
-  auto& l3 = mWaveFx->newLine();
-  l3.phase = 1.3;
-  l3.height = 8;
-  l3.angleBias = 0.4;
-#endif
 }
 
 void LevelSelLayer::initAsWorld1() {
@@ -219,9 +195,6 @@ void LevelSelLayer::initAsWorld1() {
   for(auto i = 0; i < 16; ++i) {
     createBlock(i+1,pts[i]);
   }
-
-  mShadows->mLightPos = Vec2(509.891,285.473);
-  mShadows->updateShaderParam(Vec2(510.625,287.641), Color3B(251,3,137), Color3B(173,3,58));
 
   setBackGradientColor(Color3B(251,3,137), Color3B(173,3,58));
   setBackGradientCenter(Vec2(510.625,287.641));
@@ -252,9 +225,6 @@ void LevelSelLayer::initAsWorld2() {
     createBlock(i+1,pts[i]);
   }
 
-  mShadows->mLightPos = Vec2(509.891,285.473);
-  mShadows->updateShaderParam(Vec2(510.625,287.641), Color3B(50,201,219), Color3B(30,181,199));
-
   setBackGradientColor(Color3B(50,201,219), Color3B(30,181,199));
   setBackGradientCenter(Vec2(510.625,287.641));
 }
@@ -266,11 +236,6 @@ void LevelSelLayer::onEnter() {
 }
 
 void LevelSelLayer::update(float dt) {
-  mShadows->updateNodes(dt, mBlocks, true);
-
-  if(mWaveFx) {
-    mWaveFx->update(dt);
-  }
 }
 
 void LevelSelLayer::setBackGradientColor(const cocos2d::Color3B& colorSrc,
