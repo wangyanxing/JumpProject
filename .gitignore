@@ -4,10 +4,6 @@
 *.o
 *.obj
 
-# Precompiled Headers
-*.gch
-*.pch
-
 # Compiled Dynamic libraries
 *.so
 *.dylib
@@ -37,3 +33,7 @@ proj.android/*
 *.tlog
 *.lastbuildstate
 *.idb
+
+cocos2d/build/cocos2d_libs.xcodeproj/xcuserdata/*
+proj.ios_mac/jumpproj.xcodeproj/project.xcworkspace/xcuserdata/*
+proj.ios_mac/jumpproj.xcodeproj/xcuserdata/*
