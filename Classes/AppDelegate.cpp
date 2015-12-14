@@ -28,7 +28,8 @@ Scene* createScene() {
     designRatio = 1.5f;
   }
 
-  Director::getInstance()->getOpenGLView()->setDesignResolutionSize(960, 960/designRatio, ResolutionPolicy::EXACT_FIT);
+  Director::getInstance()->getOpenGLView()->setDesignResolutionSize(960, 960/designRatio,
+                                                                    ResolutionPolicy::EXACT_FIT);
 #endif
 
 #if EDITOR_MODE
@@ -66,12 +67,10 @@ void AppDelegate::initGLContextAttrs() {
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
-
   auto director = Director::getInstance();
   auto glview = director->getOpenGLView();
+
   if(!glview) {
-
-
 #if EDITOR_MODE
 #   if EDITOR_RATIO == EDITOR_IP5_MODE
     glview = GLViewImpl::create("Jump Editor - for iPhone 5/5s/6/6+");
@@ -94,9 +93,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     director->setOpenGLView(glview);
   }
-
-  //glview->setFrameSize(1336, 540);
-
 
   director->setAnimationInterval(1.0 / 60);
   director->runWithScene(createScene());

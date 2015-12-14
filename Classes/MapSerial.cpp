@@ -44,6 +44,8 @@
 #define CHECK_ARRAY(doc, member) (doc.HasMember(member) && doc[member].IsArray())
 #define CHECK_NUMBER(doc, member) (doc.HasMember(member) && doc[member].IsNumber())
 #define CHECK_BOOL(doc, member) (doc.HasMember(member) && doc[member].IsBool())
+#define CHECK_INT(doc, member) (doc.HasMember(member) && doc[member].IsInt())
+#define CHECK_STRING(doc, member) (doc.HasMember(member) && doc[member].IsString())
 
 void pushwarning() {
   CCLOG("Invalid map file!");
@@ -590,18 +592,13 @@ void MapSerial::loadMap(const char* filename) {
   GameLogic::Game->clean();
 #endif
 
-  if(d["backgroundColor"].IsString()) {
+  if (CHECK_STRING(d, "backgroundColor")) {
     GameLogic::Game->setBackgroundColor(str2Color(d["backgroundColor"].GetString()));
   }SHOW_WARNING
 
   auto palette = Palette::getInstance();
 
-#if 0
-  if (d["heroColor"].IsString()) {
-    palette->setDefaultBlockColors(KIND_HERO, str2Color(d["heroColor"].GetString()));
-  }
-#endif
-  if (d["heroColorIndex"].IsInt()) {
+  if (CHECK_INT(d, "heroColorIndex")) {
     GameLogic::Game->mHero->setColor(d["heroColorIndex"].GetInt());
   }
 
@@ -629,12 +626,12 @@ void MapSerial::loadMap(const char* filename) {
     GameLogic::Game->mSpawnPos = str2Vec(d["spawnPosition"].GetString());
   }SHOW_WARNING
 
-  if (d["lightPosition"].IsString()) {
+  if (CHECK_STRING(d, "lightPosition")) {
     GameLogic::Game->mShadows->mLightPos = str2Vec(d["lightPosition"].GetString());
     GameLogic::Game->mShadows->mOriginLightPos = GameLogic::Game->mShadows->mLightPos;
   }
 
-  if (d["lightMoving"].IsBool()) {
+  if (CHECK_BOOL(d, "lightMoving")) {
     GameLogic::Game->mShadows->mShadowMovingEnable = d["lightMoving"].GetBool();
   }
 
@@ -649,13 +646,14 @@ void MapSerial::loadMap(const char* filename) {
   Vec2 gradientCenter(0, 0);
   Color3B colorSrc(50, 201, 219);
   Color3B colorDst(30, 181, 199);
-  if (d["gradientCenter"].IsString()) {
+
+  if (CHECK_STRING(d, "gradientCenter")) {
     gradientCenter = str2Vec(d["gradientCenter"].GetString());
   }
-  if (d["gradientColorSrc"].IsString()) {
+  if (CHECK_STRING(d, "gradientColorSrc")) {
     colorSrc = str2Color(d["gradientColorSrc"].GetString());
   }
-  if (d["gradientColorDst"].IsString()) {
+  if (CHECK_STRING(d, "gradientColorDst")) {
     colorDst = str2Color(d["gradientColorDst"].GetString());
   }
 
@@ -681,7 +679,7 @@ void MapSerial::loadMap(const char* filename) {
   GameLogic::Game->loadStarFromList();
 
   std::string paletteFileName = Palette::getInstance()->getPaletteFileName();
-  if (d["paletteFile"].IsString()) {
+  if (CHECK_STRING(d, "paletteFile")) {
     paletteFileName = d["paletteFile"].GetString();
     Palette::getInstance()->setPaletteFileName(paletteFileName);
   }
@@ -818,7 +816,7 @@ void MapSerial::loadMap(const char* filename) {
         flipuv = var["flipUV"].GetBool();
       }
 
-      if (var["textureName"].IsString()) {
+      if (CHECK_STRING(var, "textureName")) {
         textureName = var["textureName"].GetString();
       }
 
@@ -834,7 +832,7 @@ void MapSerial::loadMap(const char* filename) {
         shadowLeng = var["shadowLength"].GetDouble();
       }
 
-      if (var["shadowEnable"].IsBool()) {
+      if (CHECK_BOOL(var, "shadowEnable")) {
         shadowEnable = var["shadowEnable"].GetBool();
       }
 
