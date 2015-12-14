@@ -13,39 +13,39 @@
 
 class TimeEvent{
 public:
-	TimeEvent();
-	~TimeEvent();
+  TimeEvent();
+  ~TimeEvent();
 
-	struct TimeEventPoint {
-		TimeEventPoint(float wt) {
-			waitTime = wt;
-		}
-		~TimeEventPoint(){
-			mEvents.clear();
-		}
+  struct TimeEventPoint {
+    TimeEventPoint(float wt) {
+      waitTime = wt;
+    }
+    ~TimeEventPoint(){
+      mEvents.clear();
+    }
 
-		void trigger();
-		void push(std::string event){
-			mEvents.push_back(event);
-		}
+    void trigger();
+    void push(std::string event){
+      mEvents.push_back(event);
+    }
 
-		float waitTime{ -1 };
-		std::vector<std::string> mEvents;
-	};
+    float waitTime{ -1 };
+    std::vector<std::string> mEvents;
+  };
 
-	void reset();
-	void update(float dt);
+  void reset();
+  void update(float dt);
 
-	bool mLoop{ false };
-	bool mEnalbe{ true };
-	float mInitDelay{ -1 };
+  bool mLoop{ false };
+  bool mEnalbe{ true };
+  float mInitDelay{ -1 };
 
 
-	int mCurEventIndex{ 0 };
-	float mWaitingTimer{ 0 };
-	float mEventWaitingTimer{ 0 };
+  int mCurEventIndex{ 0 };
+  float mWaitingTimer{ 0 };
+  float mEventWaitingTimer{ 0 };
 
-	std::vector<TimeEventPoint> mEventPoints;
+  std::vector<TimeEventPoint> mEventPoints;
 };
 
 #endif /* #define(__JumpEdt__TimeEvent__) */

@@ -8,36 +8,31 @@ USING_NS_CC;
 #define VIG 1
 
 class ShaderLayer : public cocos2d::Layer {
-	GLProgram* p;
+  GLProgram* p;
 public:
-	ShaderLayer();
-	~ShaderLayer();
-    
-    bool enableShaderLayer{ false };
+  ShaderLayer();
+  ~ShaderLayer();
 
-    virtual bool init(
-		std::string pixelShaderFile,
-		std::string vertexShaderFile = "shaders/generic.vsh");
-    
-	static ShaderLayer* create(
-		std::string pixelShaderFile,
-		std::string vertexShaderFile = "shaders/generic.vsh");
+  bool enableShaderLayer{ false };
 
-	RenderTexture* renderTexture{ nullptr };
-    RenderTexture* renderTextureDownscale{ nullptr };
-    RenderTexture* renderTextureBlur{ nullptr };
-    Sprite* rendTexSprite{ nullptr };
-    Sprite* rendTexSpriteBlur{ nullptr };
-    Sprite* rendTexSpriteFinal{ nullptr };
+  virtual bool init(std::string pixelShaderFile, std::string vertexShaderFile = "shaders/generic.vsh");
 
-    
-    int paramBlending{ 0 };
-    Vec2 darkness{1,1};
+  static ShaderLayer* create(std::string pixelShaderFile, std::string vertexShaderFile = "shaders/generic.vsh");
 
-	virtual void visit(
-		Renderer *renderer,
-		const Mat4& parentTransform,
-        uint32_t parentFlags) override;
+  RenderTexture* renderTexture{ nullptr };
+  RenderTexture* renderTextureDownscale{ nullptr };
+  RenderTexture* renderTextureBlur{ nullptr };
+  Sprite* rendTexSprite{ nullptr };
+  Sprite* rendTexSpriteBlur{ nullptr };
+  Sprite* rendTexSpriteFinal{ nullptr };
+
+
+  int paramBlending{ 0 };
+  Vec2 darkness{1,1};
+
+  virtual void visit(Renderer *renderer,
+                     const Mat4& parentTransform,
+                     uint32_t parentFlags) override;
 };
 
 #endif

@@ -563,7 +563,7 @@ void MapSerial::loadMap(const char* filename) {
     return;
   }
   std::string buffer((std::istreambuf_iterator<char>(mapFileStream)),
-                  std::istreambuf_iterator<char>());
+                     std::istreambuf_iterator<char>());
 #else
   auto buffer = FileUtils::getInstance()->getStringFromFile(filename);
 #endif
@@ -685,7 +685,7 @@ void MapSerial::loadMap(const char* filename) {
     CCLOG("Warning: cannot access the palette file : %s\nUsing default value", filename);
   } else {
     std::string paletteBuffer((std::istreambuf_iterator<char>(paletteFileStream)),
-                    std::istreambuf_iterator<char>());
+                              std::istreambuf_iterator<char>());
     Document dPalette;
     ParseResult ok = dPalette.Parse<kParseDefaultFlags>(paletteBuffer.c_str());
     if (!ok) {
@@ -1218,7 +1218,7 @@ void MapSerial::loadControlConfig(const char* file){
       config->mLeftButtonPos = str2Vec(var["leftButton"].GetString());
       config->mRightButtonPos = str2Vec(var["rightButton"].GetString());
       config->mJumpButtonPos = str2Vec(var["jumpButton"].GetString());
-
+      
       ControlPad::controlPadConfig->mControlConfig.push_back(config);
     }
   }
@@ -1239,7 +1239,7 @@ void ControlPad::clearConfig(){
   for(ControlPadConfigs::iterator it = mControlConfig.begin(); it!=mControlConfig.end(); ++it){
     delete (*it);
   }
-
+  
   mControlConfig.clear();
 }
 

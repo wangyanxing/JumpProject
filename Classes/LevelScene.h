@@ -11,16 +11,15 @@
 #include <iostream>
 #include "cocos2d.h"
 
-class LevelScene : public cocos2d::Scene
-{
-public:  
+class LevelScene : public cocos2d::Scene {
+public:
 
-    virtual bool init();
-    virtual void onEnter();
-    CREATE_FUNC(LevelScene);
-    static LevelScene *getInstance();
-    
+  virtual bool init();
+  virtual void onEnter();
+  CREATE_FUNC(LevelScene);
+  static LevelScene *getInstance();
+
 private:
-    static LevelScene *instance;
-}; 
+  static LevelScene *instance;
+};
 #endif

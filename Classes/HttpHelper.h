@@ -16,22 +16,21 @@
 #include "HttpClient.h"
 
 struct MapResource {
-    int id{ 0 };
-    std::string name;
-    std::string author;
-    std::string time;
-    std::string content;
+  int id{ 0 };
+  std::string name;
+  std::string author;
+  std::string time;
+  std::string content;
 };
 
 class HttpHelper {
 public:
-    
-    static void getAllMaps();
-    
-    static void updateMap(const std::string& name, const std::string& author,
-                          const std::string& time, const std::string& content);
-    
-    static std::vector<MapResource> sAllMaps;
+  static void getAllMaps();
+
+  static void updateMap(const std::string& name, const std::string& author,
+                        const std::string& time, const std::string& content);
+
+  static std::vector<MapResource> sAllMaps;
 };
 
 #endif /* defined(__JumpEdt__HttpHelper__) */

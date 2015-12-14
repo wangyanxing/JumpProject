@@ -16,66 +16,65 @@ class BlockBase;
 
 class Button {
 public:
-    
-    enum PushDir {
-        DIR_UP, DIR_DOWN, DIR_LEFT, DIR_RIGHT
-    };
-    
-    Button(BlockBase* parent);
-    
-    ~Button();
-    
-    void setParentHeight(float v);
-    
-    void setParentWidth(float v);
-    
-    // call in case collsion detected
-    bool push(const cocos2d::Vec2& normal, BlockBase* hero);
-    
-    void doPush();
-    
-    void update(float dt);
-    
-    void rotateDir();
-    
-    void reset();
-    
-    bool mEnable{ true };
-    
-    bool mPushing{ false };
-    
-    bool mCanRestore{ true };
-    
-    void updatePosition();
-    
-    void callPushEvent();
-    
-    void callPushingEvent();
-    
-    void callRestoreEvent();
-    
-    PushDir mDir{ DIR_DOWN };
-    
-    BlockBase* mParent{ nullptr };
-    
-    std::string mPushedEvent;
-    
-    std::string mRestoredEvent;
-    
-    std::string mPushingEvent;
-    
-    bool mPushedEventCalled{ false };
-    
-    bool mRestoredEventCalled{ false };
-    
-    float mPushLength{ 0 };
-    
-    BlockBase* mPusher{ nullptr };
-    
+  enum PushDir {
+    DIR_UP, DIR_DOWN, DIR_LEFT, DIR_RIGHT
+  };
+
+  Button(BlockBase* parent);
+
+  ~Button();
+
+  void setParentHeight(float v);
+
+  void setParentWidth(float v);
+
+  // call in case collsion detected
+  bool push(const cocos2d::Vec2& normal, BlockBase* hero);
+
+  void doPush();
+
+  void update(float dt);
+
+  void rotateDir();
+
+  void reset();
+
+  bool mEnable{ true };
+
+  bool mPushing{ false };
+
+  bool mCanRestore{ true };
+
+  void updatePosition();
+
+  void callPushEvent();
+
+  void callPushingEvent();
+
+  void callRestoreEvent();
+
+  PushDir mDir{ DIR_DOWN };
+
+  BlockBase* mParent{ nullptr };
+
+  std::string mPushedEvent;
+
+  std::string mRestoredEvent;
+
+  std::string mPushingEvent;
+
+  bool mPushedEventCalled{ false };
+
+  bool mRestoredEventCalled{ false };
+
+  float mPushLength{ 0 };
+
+  BlockBase* mPusher{ nullptr };
+
 #if EDITOR_MODE
-    void updateHelper();
-    void showHelper(bool val) {mHelperNode->setVisible(val);}
-    cocos2d::DrawNode* mHelperNode{ nullptr };
+  void updateHelper();
+  void showHelper(bool val) {mHelperNode->setVisible(val);}
+  cocos2d::DrawNode* mHelperNode{ nullptr };
 #endif
 };
 

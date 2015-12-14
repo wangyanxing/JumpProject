@@ -11,23 +11,22 @@
 
 #include "cocos2d.h"
 
-class UILayer
-{
+class UILayer {
 public:
-    
-    void init(cocos2d::Node* parent);
-    
-    void setFileName(const char* file);
-    
-    void addMessage(const char* message);
-    
-    static UILayer* Layer;
-    
+
+  void init(cocos2d::Node* parent);
+
+  void setFileName(const char* file);
+
+  void addMessage(const char* message);
+
+  static UILayer* Layer;
+
 public:
-    
-    cocos2d::LayerColor* mLayer{ nullptr };
-    
-    cocos2d::Label* mFileNameLabel{ nullptr };
+
+  cocos2d::LayerColor* mLayer{ nullptr };
+
+  cocos2d::Label* mFileNameLabel{ nullptr };
 };
 
 #endif /* defined(__JumpEdt__UILayer__) */
