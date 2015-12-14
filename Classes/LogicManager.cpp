@@ -212,14 +212,6 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::Phy
     normal *= -1;
   }
 
-  //CCLOG("%f, %f", normal.x, normal.y);
-  //CCLOG("pos: %f, %f", mHero->getSprite()->getPositionX(), mHero->getSprite()->getPositionY());
-
-  bool debug = normal.x > 0.9;
-  if (debug) {
-    CCLOG("Right");
-  }
-
   auto otherNode = otherShape->getBody()->getNode();
 
   BlockBase* otherBlock = nullptr;
