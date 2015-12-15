@@ -2,8 +2,11 @@
 #define __SHADERLAYER_H__
 
 #include "cocos2d.h"
+#include "Defines.h"
 #include <string>
 USING_NS_CC;
+
+#if USE_SHADER_LAYER
 
 #define VIG 1
 
@@ -44,4 +47,5 @@ private:
   GLProgram* p;
 };
 
+#endif
 #endif

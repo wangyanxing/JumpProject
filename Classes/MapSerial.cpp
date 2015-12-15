@@ -322,10 +322,14 @@ void MapSerial::saveMap(const char* file) {
   INDENT_1 ss << "\"buttonColor\": " << colorStr(palette->getDefaultBlockColors(KIND_BUTTON)); RT_LINE
   INDENT_1 ss << "\"pushableBlockColor\": " << colorStr(palette->getDefaultBlockColors(KIND_PUSHABLE)); RT_LINE
   INDENT_1 ss << "\"spawnPosition\": " << vec2Str(GameLogic::Game->mSpawnPos); RT_LINE
+
+#if USE_SHADOW
   INDENT_1 ss << "\"lightPosition\": " << vec2Str(GameLogic::Game->mShadows->mOriginLightPos); RT_LINE
   INDENT_1 ss << "\"lightMoving\": " << bool2Str(GameLogic::Game->mShadows->mShadowMovingEnable); RT_LINE
   INDENT_1 ss << "\"shadowDarkness\": " << GameLogic::Game->mShadows->mShadowDarkness; RT_LINE
   INDENT_1 ss << "\"useSoftShadow\": " << bool2Str(GameLogic::Game->mShadows->mUseSoftShadow); RT_LINE
+#endif
+
   INDENT_1 ss << "\"gradientCenter\": " << vec2Str(GameLogic::Game->mGradientCenter); RT_LINE
   INDENT_1 ss << "\"gradientColorSrc\": " << colorStr(GameLogic::Game->mGradientColorSrc); RT_LINE
   INDENT_1 ss << "\"gradientColorDst\": " << colorStr(GameLogic::Game->mGradientColorDst); RT_LINE
@@ -626,6 +630,7 @@ void MapSerial::loadMap(const char* filename) {
     GameLogic::Game->mSpawnPos = str2Vec(d["spawnPosition"].GetString());
   }SHOW_WARNING
 
+#if USE_SHADOW
   if (CHECK_STRING(d, "lightPosition")) {
     GameLogic::Game->mShadows->mLightPos = str2Vec(d["lightPosition"].GetString());
     GameLogic::Game->mShadows->mOriginLightPos = GameLogic::Game->mShadows->mLightPos;
@@ -642,6 +647,7 @@ void MapSerial::loadMap(const char* filename) {
   if (CHECK_BOOL(d, "useSoftShadow")) {
     GameLogic::Game->mShadows->mUseSoftShadow = d["useSoftShadow"].GetBool();
   }
+#endif
 
   Vec2 gradientCenter(0, 0);
   Color3B colorSrc(50, 201, 219);

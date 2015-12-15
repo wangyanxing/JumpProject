@@ -49,7 +49,9 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
   mHero->addToScene(mParentLayer);
   mBlockTable[mHero->getSprite()] = mHero;
 
+#if USE_SHADOW
   mShadows = new ShadowManager(mParentLayer);
+#endif
 
   // Background
 #if GRADIENT
@@ -151,11 +153,14 @@ GameLogic::~GameLogic() {
   delete mHero;
   mHero = nullptr;
 
+#if USE_SHADOW
   delete mShadows;
   mShadows = nullptr;
+#endif
 }
 
-bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::PhysicsContactPreSolve& solve) {
+bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact,
+                                  cocos2d::PhysicsContactPreSolve& solve) {
   auto iA = mBlockTable.find(contact.getShapeA()->getBody()->getNode());
   auto iB = mBlockTable.find(contact.getShapeB()->getBody()->getNode());
   if(iA == mBlockTable.end() || iB == mBlockTable.end()) {
@@ -374,7 +379,9 @@ void GameLogic::setBackGradientColor(const cocos2d::Color3B& colorSrc,
                                       mGradientColorDst.g/255.0,
                                       mGradientColorDst.b/255.0,
                                       0.4));
+#if USE_SHADOW
   mShadows->updateShaderParam();
+#endif
 }
 
 void GameLogic::setBackGradientCenter(const cocos2d::Vec2& pos) {
@@ -394,7 +401,9 @@ void GameLogic::setBackGradientCenter(const cocos2d::Vec2& pos) {
   mBack->getGLProgramState()->setUniformVec4("data",
                                              Vec4(screenWidth, screenHeight, p.x, p.y));
 
+#if USE_SHADOW
   mShadows->updateShaderParam();
+#endif
 }
 
 void GameLogic::showGameScene(bool val) {
@@ -454,7 +463,8 @@ void GameLogic::jump(){
 #if 0
     float scale = mHero->getSprite()->getScaleX();
     if(mHero->getSprite()->getNumberOfRunningActions() == 0) {
-      mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,scale*0.6,scale*1.4),ScaleTo::create(0.2,scale,scale), NULL));
+      mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,scale*0.6,scale*1.4),
+                                                     ScaleTo::create(0.2,scale,scale), NULL));
     }
 #endif
     mHero->mCanJump = false;
@@ -487,7 +497,9 @@ void GameLogic::postUpdate(float dt) {
     }
     mHero->postUpdate(dt);
   }
+#if USE_SHADOW
   mShadows->update(dt);
+#endif
 }
 
 void GameLogic::updateGame(float dt){
@@ -626,7 +638,9 @@ void GameLogic::enableGame(bool val, bool force) {
   mMoveLeft = false;
   mMoveRight = false;
 
+#if USE_SHADOW
   mShadows->reset();
+#endif
 
   die();
 

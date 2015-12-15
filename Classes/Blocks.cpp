@@ -91,11 +91,11 @@ void BlockBase::create(const cocos2d::Point& pt, const cocos2d::Size& size) {
 
 void BlockBase::initShader() {
 #if EDITOR_MODE == 0
+  // Load shader
   auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/normal_vig.fsh");
-
-  // init shader
-  GLchar * fragSource = (GLchar*)String::createWithContentsOfFile(shaderfile.c_str())->getCString();
-  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource);
+  auto shaderContent = FileUtils::getInstance()->getStringFromFile(shaderfile);
+  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert,
+                                                 shaderContent.c_str());
   auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
 
   float screenWidth = VisibleRect::getFrameSize().width;

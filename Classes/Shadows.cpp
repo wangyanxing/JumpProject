@@ -13,6 +13,8 @@
 #include "LogicManager.h"
 #include "Hero.h"
 
+#if USE_SHADOW
+
 USING_NS_CC;
 
 void colorMix(const Color4B& src, const Color4B& dst, float r, Color4B& out) {
@@ -23,7 +25,6 @@ void colorMix(const Color4B& src, const Color4B& dst, float r, Color4B& out) {
 }
 
 ShadowManager::ShadowManager(cocos2d::Node* parentNode) {
-
   mRendererSoft = DrawNodeEx::create("images/rect.png");
   parentNode->addChild(mRendererSoft, 2);
 
@@ -503,3 +504,5 @@ void ShadowManager::reset() {
   mMoveTarget = 0;
   mMovingSpeed = 0;
 }
+
+#endif

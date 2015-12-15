@@ -1,7 +1,7 @@
 #include "ShaderLayer.h"
 #include "VisibleRect.h"
-#include "Defines.h"
 
+#if USE_SHADER_LAYER
 using namespace std;
 
 ShaderLayer::ShaderLayer() {
@@ -11,8 +11,10 @@ ShaderLayer::ShaderLayer() {
 ShaderLayer::~ShaderLayer() {
   renderTexture->release();
   renderTextureBlur->release();
+  renderTextureDownscale->release();
   rendTexSprite->release();
   rendTexSpriteBlur->release();
+  rendTexSpriteFinal->release();
 }
 
 ShaderLayer* ShaderLayer::create(string pixelShaderFile, string vertexShaderFile) {
@@ -35,7 +37,6 @@ bool ShaderLayer::init(string pixelShaderFile, string vertexShaderFile) {
   p = GLProgram::createWithFilenames(vertexShaderFile, pixelShaderFile);
 
   Size visibleSize = VisibleRect::getVisibleRect().size;
-
   Size texSzie = visibleSize;
 
   renderTexture = RenderTexture::create(texSzie.width, texSzie.height);
@@ -65,7 +66,8 @@ bool ShaderLayer::init(string pixelShaderFile, string vertexShaderFile) {
   rendTexSpriteBlur->setAnchorPoint(Point::ZERO);
   rendTexSpriteBlur->setFlippedY(true);
 #if 1
-  rendTexSpriteBlur->setGLProgram(GLProgram::createWithFilenames("shaders/generic.vsh", "shaders/blur.fsh"));
+  rendTexSpriteBlur->setGLProgram(GLProgram::createWithFilenames("shaders/generic.vsh",
+                                                                 "shaders/blur.fsh"));
 
   auto _glprogramstate = rendTexSpriteBlur->getGLProgramState();
   _glprogramstate->setUniformVec2("resolution", Vec2(visibleSize.width, visibleSize.height));
@@ -123,7 +125,6 @@ void ShaderLayer::visit( Renderer *renderer,
     renderTexture->end();
 
 #if !VIG
-
     // original scene -> down scale
     // down scale -> blur
     // blur -> get blured texture!
@@ -162,3 +163,4 @@ void ShaderLayer::visit( Renderer *renderer,
 #endif
   }
 }
+#endif

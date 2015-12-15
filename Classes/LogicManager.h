@@ -98,7 +98,9 @@ public:
 
   std::map<cocos2d::Node*,BlockBase*> mBlockTable;
 
+#if USE_SHADOW
   ShadowManager* mShadows{ nullptr };
+#endif
 
   cocos2d::Color3B mBackgroundColor;
 

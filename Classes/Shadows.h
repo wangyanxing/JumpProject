@@ -10,6 +10,9 @@
 #define __JumpEdt__Shadows__
 
 #include "cocos2d.h"
+#include "Defines.h"
+
+#if USE_SHADOW
 
 class BlockBase;
 namespace cocos2d {
@@ -66,6 +69,8 @@ public:
 
   bool mUseSoftShadow{ false }; // Using fake soft shadow or not
 };
+
+#endif
 
 
 #endif /* defined(__JumpEdt__Shadows__) */

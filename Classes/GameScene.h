@@ -10,17 +10,22 @@
 #define __JumpEdt__GameScene__
 
 #include "cocos2d.h"
+#include "Defines.h"
 #include "LogicManager.h"
 #include "ShaderLayer.h"
 
 class GameLogic;
 class BlockBase;
 
+#if USE_SHADER_LAYER
 class GameScene : public ShaderLayer {
+#else
+class GameScene : public cocos2d::Layer {
+#endif
 public:
   GameScene() = default;
 
-  ~GameScene();
+  virtual ~GameScene();
 
   static GameScene* Scene;
 

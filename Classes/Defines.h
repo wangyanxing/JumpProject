@@ -48,5 +48,7 @@ enum FollowMode {
   F_UP, F_DOWN, F_LEFT, F_RIGHT
 };
 
+#define USE_SHADER_LAYER 0
+#define USE_SHADOW 1
 
 #endif /* defined(__JumpEdt__Defines__) */
