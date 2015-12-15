@@ -7,23 +7,27 @@
 #include <string>
 #include <vector>
 
-class DiPathLib
-{
+class DiPathLib {
 public:
 
-  static std::vector<std::string> StringSplit(const std::string &source, const char *delimiter = " ", bool keepEmpty = false);
+  static std::vector<std::string> StringSplit(const std::string &source,
+                                              const char *delimiter = " ",
+                                              bool keepEmpty = false);
 
-  static void ReplaceString(std::string& subject, const std::string& search,
+  static void ReplaceString(std::string& subject,
+                            const std::string& search,
                             const std::string& replace);
 
-  static bool EndsWith(const std::string& a, const std::string& b);
+  static bool EndsWith(const std::string& a,
+                       const std::string& b);
 
   /** we need a absolute path
    */
   static bool FileExisted(const std::string& file);
 
-  enum FileDlgFlag
-  {
+  static std::vector<std::string> listFiles(const char* path, const char* ext);
+
+  enum FileDlgFlag {
     MULTIPLE_SELECTION = 0x01
   };
 
@@ -33,13 +37,26 @@ public:
 
 #if EDITOR_MODE
 
-  static bool OpenDirectoryDialog(const void* wndHandle, const std::string& title, const std::string& defaultPath, std::string& outFolderName);
+  static bool OpenDirectoryDialog(const void* wndHandle,
+                                  const std::string& title,
+                                  const std::string& defaultPath,
+                                  std::string& outFolderName);
 
-  static bool OpenFileDialog(const void* wndHandle, const std::string& title, const std::string& defaultPath, const std::string& defaultFile,
-                             const std::string& fileTypes, unsigned int flags, std::vector<std::string>& outFiles);
+  static bool OpenFileDialog(const void* wndHandle,
+                             const std::string& title,
+                             const std::string& defaultPath,
+                             const std::string& defaultFile,
+                             const std::string& fileTypes,
+                             unsigned int flags,
+                             std::vector<std::string>& outFiles);
 
-  static bool SaveFileDialog(const void* wndHandle, const std::string& dialogTitle, const std::string& defaultPath,
-                             const std::string& defaultFile, const std::string& fileTypes, unsigned int flags, std::vector<std::string>& outFilenames);
+  static bool SaveFileDialog(const void* wndHandle,
+                             const std::string& dialogTitle,
+                             const std::string& defaultPath,
+                             const std::string& defaultFile,
+                             const std::string& fileTypes,
+                             unsigned int flags,
+                             std::vector<std::string>& outFilenames);
 
   static std::string msAppFile;
 

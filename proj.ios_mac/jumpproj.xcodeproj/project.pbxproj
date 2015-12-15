@@ -66,12 +66,8 @@
 		BC3CEA0A1C1B86B400738B33 /* GameUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9CF1C1B86B400738B33 /* GameUtils.cpp */; };
 		BC3CEA0B1C1B86B400738B33 /* HttpHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9D11C1B86B400738B33 /* HttpHelper.cpp */; };
 		BC3CEA0C1C1B86B400738B33 /* HttpHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9D11C1B86B400738B33 /* HttpHelper.cpp */; };
-		BC3CEA0D1C1B86B400738B33 /* LevelLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9D31C1B86B400738B33 /* LevelLayer.cpp */; };
-		BC3CEA0E1C1B86B400738B33 /* LevelLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9D31C1B86B400738B33 /* LevelLayer.cpp */; };
 		BC3CEA0F1C1B86B400738B33 /* LevelScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9D51C1B86B400738B33 /* LevelScene.cpp */; };
 		BC3CEA101C1B86B400738B33 /* LevelScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9D51C1B86B400738B33 /* LevelScene.cpp */; };
-		BC3CEA111C1B86B400738B33 /* LevelSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9D71C1B86B400738B33 /* LevelSelector.cpp */; };
-		BC3CEA121C1B86B400738B33 /* LevelSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9D71C1B86B400738B33 /* LevelSelector.cpp */; };
 		BC3CEA131C1B86B400738B33 /* LightBeam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9D91C1B86B400738B33 /* LightBeam.cpp */; };
 		BC3CEA141C1B86B400738B33 /* LightBeam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9D91C1B86B400738B33 /* LightBeam.cpp */; };
 		BC3CEA151C1B86B400738B33 /* LogicManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9DB1C1B86B400738B33 /* LogicManager.cpp */; };
@@ -232,12 +228,8 @@
 		BC3CE9D01C1B86B400738B33 /* GameUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUtils.h; sourceTree = "<group>"; };
 		BC3CE9D11C1B86B400738B33 /* HttpHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HttpHelper.cpp; sourceTree = "<group>"; };
 		BC3CE9D21C1B86B400738B33 /* HttpHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpHelper.h; sourceTree = "<group>"; };
-		BC3CE9D31C1B86B400738B33 /* LevelLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelLayer.cpp; sourceTree = "<group>"; };
-		BC3CE9D41C1B86B400738B33 /* LevelLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelLayer.h; sourceTree = "<group>"; };
 		BC3CE9D51C1B86B400738B33 /* LevelScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelScene.cpp; sourceTree = "<group>"; };
 		BC3CE9D61C1B86B400738B33 /* LevelScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelScene.h; sourceTree = "<group>"; };
-		BC3CE9D71C1B86B400738B33 /* LevelSelector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelSelector.cpp; sourceTree = "<group>"; };
-		BC3CE9D81C1B86B400738B33 /* LevelSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelSelector.h; sourceTree = "<group>"; };
 		BC3CE9D91C1B86B400738B33 /* LightBeam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LightBeam.cpp; sourceTree = "<group>"; };
 		BC3CE9DA1C1B86B400738B33 /* LightBeam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LightBeam.h; sourceTree = "<group>"; };
 		BC3CE9DB1C1B86B400738B33 /* LogicManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LogicManager.cpp; sourceTree = "<group>"; };
@@ -448,12 +440,8 @@
 				BC3CE9D01C1B86B400738B33 /* GameUtils.h */,
 				BC3CE9D11C1B86B400738B33 /* HttpHelper.cpp */,
 				BC3CE9D21C1B86B400738B33 /* HttpHelper.h */,
-				BC3CE9D31C1B86B400738B33 /* LevelLayer.cpp */,
-				BC3CE9D41C1B86B400738B33 /* LevelLayer.h */,
 				BC3CE9D51C1B86B400738B33 /* LevelScene.cpp */,
 				BC3CE9D61C1B86B400738B33 /* LevelScene.h */,
-				BC3CE9D71C1B86B400738B33 /* LevelSelector.cpp */,
-				BC3CE9D81C1B86B400738B33 /* LevelSelector.h */,
 				BC3CE9D91C1B86B400738B33 /* LightBeam.cpp */,
 				BC3CE9DA1C1B86B400738B33 /* LightBeam.h */,
 				BC3CE9DB1C1B86B400738B33 /* LogicManager.cpp */,
@@ -707,12 +695,10 @@
 				BC3CEA011C1B86B400738B33 /* EditorScene.cpp in Sources */,
 				BC3CEA151C1B86B400738B33 /* LogicManager.cpp in Sources */,
 				BC3CEA291C1B86B400738B33 /* SpriteSoft.cpp in Sources */,
-				BC3CEA0D1C1B86B400738B33 /* LevelLayer.cpp in Sources */,
 				BC3CEA231C1B86B400738B33 /* ShaderLayer.cpp in Sources */,
 				BC3CEA1B1C1B86B400738B33 /* PathLib.cpp in Sources */,
 				BC3CE9FD1C1B86B400738B33 /* Button.cpp in Sources */,
 				BC3CEA071C1B86B400738B33 /* GameScene.cpp in Sources */,
-				BC3CEA111C1B86B400738B33 /* LevelSelector.cpp in Sources */,
 				BC3CEA051C1B86B400738B33 /* Events.cpp in Sources */,
 				BC3CEA2D1C1B86B400738B33 /* TimeEvent.cpp in Sources */,
 				BC3CEA941C1F475F00738B33 /* Hero.cpp in Sources */,
@@ -738,10 +724,8 @@
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				BC3CEA1C1C1B86B400738B33 /* PathLib.cpp in Sources */,
-				BC3CEA121C1B86B400738B33 /* LevelSelector.cpp in Sources */,
 				BC3CEA141C1B86B400738B33 /* LightBeam.cpp in Sources */,
 				BC3CEA041C1B86B400738B33 /* EffectSprite.cpp in Sources */,
-				BC3CEA0E1C1B86B400738B33 /* LevelLayer.cpp in Sources */,
 				BC3CE9FC1C1B86B400738B33 /* Blocks.cpp in Sources */,
 				BC3CEA241C1B86B400738B33 /* ShaderLayer.cpp in Sources */,
 				BC3CEA911C1F20F700738B33 /* Palette.cpp in Sources */,

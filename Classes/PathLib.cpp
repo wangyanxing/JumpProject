@@ -7,6 +7,8 @@
 #   include <windows.h>
 #   include <ShlObj.h>
 #else
+#   include <sys/types.h>
+#   include <dirent.h>
 #   include <unistd.h>
 #endif
 
@@ -308,7 +310,60 @@ const std::string& _GetAppFileName()
 #define _SLASH "/"
 
 #endif
-bool DiPathLib::FileExisted(const std::string& file)
-{
+
+bool DiPathLib::FileExisted(const std::string& file) {
   return (access(file.c_str(), 0) != -1);
 }
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+std::vector<std::string> DiPathLib::listFiles(const char* path, const char* ext) {
+  std::vector<std::string> ret;
+  struct _finddata_t dirFile;
+  long hFile;
+  if (( hFile = _findfirst( path, &dirFile )) != -1 ) {
+    do {
+      if ( !strcmp( dirFile.name, "."   )) continue;
+      if ( !strcmp( dirFile.name, ".."  )) continue;
+      if ( dirFile.attrib & _A_HIDDEN ) continue;
+      if ( dirFile.name[0] == '.' ) continue;
+
+      // dirFile.name is the name of the file. Do whatever string comparison
+      // you want here. Something like:
+      if ( strstr( dirFile.name, ext )) {
+        ret.push_back(dirFile.name);
+      }
+
+    } while ( _findnext( hFile, &dirFile ) == 0 );
+    _findclose( hFile );
+  }
+  return ret;
+}
+
+#else
+std::vector<std::string> DiPathLib::listFiles(const char* path, const char* ext) {
+  std::vector<std::string> ret;
+  DIR* dirFile = opendir( path );
+  if ( dirFile ) {
+    struct dirent* hFile;
+    errno = 0;
+    while (( hFile = readdir( dirFile )) != NULL ) {
+      if ( !strcmp( hFile->d_name, "."  )) continue;
+      if ( !strcmp( hFile->d_name, ".." )) continue;
+
+      // in linux hidden files all start with '.'
+      if ( hFile->d_name[0] == '.' ) {
+        continue;
+      }
+
+      // dirFile.name is the name of the file. Do whatever string comparison
+      // you want here. Something like:
+      if ( strstr( hFile->d_name, ext ) ) {
+        std::string dir;
+        ret.push_back(hFile->d_name);
+      }
+    }
+    closedir(dirFile);
+  }
+  return ret;
+}
+#endif

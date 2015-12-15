@@ -11,7 +11,6 @@
 #include "VisibleRect.h"
 #include "Blocks.h"
 #include "Shadows.h"
-#include "LevelSelector.h"
 #include "LevelScene.h"
 #include "EffectSprite.h"
 #include "LogicManager.h"
