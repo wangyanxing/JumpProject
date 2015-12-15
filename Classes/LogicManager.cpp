@@ -50,7 +50,9 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
   mBlockTable[mHero->getSprite()] = mHero;
 
 #if USE_SHADOW
-  mShadows = new ShadowManager(mParentLayer);
+  mShadowNode = Node::create();
+  mShadows = new ShadowManager(mShadowNode);
+  mParentLayer->addChild(mShadowNode, ZORDER_SHADOW_1);
 #endif
 
   // Background

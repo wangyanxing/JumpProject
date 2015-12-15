@@ -31,6 +31,7 @@ EditorScene* EditorScene::Scene = nullptr;
 bool EditorScene::init() {
   Scene = this;
 
+#if USE_SHADER_LAYER
 #if VIG
   if ( !ShaderLayer::init("shaders/vignette.glsl") ) {
     return false;
@@ -50,6 +51,11 @@ bool EditorScene::init() {
                                                           v.size.height,
                                                           1.0/v.size.width,
                                                           1.0/v.size.height));
+#endif
+#else
+  if ( !Layer::init() ) {
+    return false;
+  }
 #endif
 
   MapSerial::saveRemoteMaps();
@@ -700,8 +706,10 @@ void EditorScene::group() {
 }
 
 void EditorScene::showDieFullScreenAnim() {
+#if USE_SHADER_LAYER
   enableShaderLayer = true;
   paramBlending = 2;
+#endif
 }
 
 void EditorScene::clean(bool save) {

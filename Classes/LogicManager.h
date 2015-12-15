@@ -100,6 +100,8 @@ public:
 
 #if USE_SHADOW
   ShadowManager* mShadows{ nullptr };
+
+  cocos2d::Node* mShadowNode{ nullptr };
 #endif
 
   cocos2d::Color3B mBackgroundColor;

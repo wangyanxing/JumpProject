@@ -24,5 +24,5 @@ void main(void)
     float ratio = 1.0 - colorSrc.w * length(p);
     vec3 bcol = mix(colorDest.xyz, colorSrc.xyz, ratio);
     
-    gl_FragColor = vec4(bcol * v_fragmentColor.rgb,1.0);
+    gl_FragColor = vec4(bcol * v_fragmentColor.rgb, v_fragmentColor.a);
 }

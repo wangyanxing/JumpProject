@@ -48,6 +48,9 @@ enum FollowMode {
   F_UP, F_DOWN, F_LEFT, F_RIGHT
 };
 
+#define ZORDER_SHADOW_1 2
+#define ZORDER_SHADOW_2 3
+
 #define USE_SHADER_LAYER 0
 #define USE_SHADOW 1
 

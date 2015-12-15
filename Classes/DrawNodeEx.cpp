@@ -23,8 +23,6 @@ DrawNodeEx::DrawNodeEx()
 }
 
 DrawNodeEx::~DrawNodeEx() {
-  CC_SAFE_RELEASE(_texture);
-
   free(_buffer);
   _buffer = nullptr;
 
@@ -38,9 +36,9 @@ DrawNodeEx::~DrawNodeEx() {
   }
 }
 
-DrawNodeEx* DrawNodeEx::create(const std::string& texture) {
+DrawNodeEx* DrawNodeEx::create() {
   DrawNodeEx* ret = new (std::nothrow) DrawNodeEx();
-  if (ret && ret->init(texture)) {
+  if (ret && ret->init()) {
     ret->autorelease();
   } else {
     CC_SAFE_DELETE(ret);
@@ -57,10 +55,8 @@ void DrawNodeEx::ensureCapacity(int count) {
   }
 }
 
-bool DrawNodeEx::init(const std::string& texture) {
+bool DrawNodeEx::init() {
   _blendFunc = BlendFunc::ALPHA_NON_PREMULTIPLIED;
-
-  _texture = Director::getInstance()->getTextureCache()->addImage(texture);
 
   setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(
       GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR));
@@ -75,14 +71,19 @@ bool DrawNodeEx::init(const std::string& texture) {
     glBufferData(GL_ARRAY_BUFFER, sizeof(V2F_C4B_T2F)* _bufferCapacity, _buffer, GL_STREAM_DRAW);
     // vertex
     glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_POSITION);
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, vertices));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2,
+                          GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F),
+                          (GLvoid *)offsetof(V2F_C4B_T2F, vertices));
     // color
     glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_COLOR);
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, colors));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4,
+                          GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V2F_C4B_T2F),
+                          (GLvoid *)offsetof(V2F_C4B_T2F, colors));
     // texcood
     glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_TEX_COORD);
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, texCoords));
-
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2,
+                          GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F),
+                          (GLvoid *)offsetof(V2F_C4B_T2F, texCoords));
     GL::bindVAO(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -123,10 +124,7 @@ void DrawNodeEx::onDraw(const Mat4 &transform, uint32_t flags) {
   glProgram->use();
   glProgram->setUniformsForBuiltins(transform);
 
-  getGLProgramState()->applyUniforms();
-
   GL::blendFunc(_blendFunc.src, _blendFunc.dst);
-  GL::bindTexture2D(_texture->getName());
 
   if (_dirty) {
     glBindBuffer(GL_ARRAY_BUFFER, _vbo);

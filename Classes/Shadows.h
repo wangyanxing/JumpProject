@@ -68,6 +68,8 @@ public:
   float mShadowDarkness{ 0.098f };
 
   bool mUseSoftShadow{ false }; // Using fake soft shadow or not
+
+  bool mUseAlphaBlend{ true };
 };
 
 #endif

@@ -17,7 +17,11 @@ class ShadowManager;
 class Hero;
 class GameLogic;
 
+#if USE_SHADER_LAYER
 class EditorScene : public ShaderLayer {
+#else
+class EditorScene : public cocos2d::Layer {
+#endif
 public:
   EditorScene() = default;
 

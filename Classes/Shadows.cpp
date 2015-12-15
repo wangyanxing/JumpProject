@@ -25,12 +25,14 @@ void colorMix(const Color4B& src, const Color4B& dst, float r, Color4B& out) {
 }
 
 ShadowManager::ShadowManager(cocos2d::Node* parentNode) {
-  mRendererSoft = DrawNodeEx::create("images/rect.png");
-  parentNode->addChild(mRendererSoft, 2);
+  mRendererSoft = DrawNodeEx::create();
+  parentNode->addChild(mRendererSoft);
 
-  mRendererNormal = DrawNodeEx::create("images/rect.png");
-  parentNode->addChild(mRendererNormal, 2);
-  mRendererNormal->setBlendFunc(BlendFunc::DISABLE);
+  mRendererNormal = DrawNodeEx::create();
+  parentNode->addChild(mRendererNormal);
+  mRendererNormal->setBlendFunc(mUseAlphaBlend ?
+                                BlendFunc::ALPHA_NON_PREMULTIPLIED :
+                                BlendFunc::DISABLE);
 
 #if EDITOR_MODE
   auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/normal_shadow_editor.fsh");
@@ -151,9 +153,13 @@ void ShadowManager::updateBlockNormal(BlockBase* block,
   auto entries = getShadowEntry(pts);
 
   Color4B colorBase = Color4B::BLACK;
-  colorBase.r = 255 * (1-mShadowDarkness);
-  colorBase.g = 255 * (1-mShadowDarkness);
-  colorBase.b = 255 * (1-mShadowDarkness);
+  if (mUseAlphaBlend) {
+    colorBase.a = 255 * mShadowDarkness;
+  } else {
+    colorBase.r = 255 * (1 - mShadowDarkness);
+    colorBase.g = 255 * (1 - mShadowDarkness);
+    colorBase.b = 255 * (1 - mShadowDarkness);
+  }
 
   const float LENGTH = 1500;
 

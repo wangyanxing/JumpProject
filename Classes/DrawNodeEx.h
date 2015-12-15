@@ -14,7 +14,7 @@ public:
    *
    * @return Return an autorelease object.
    */
-  static DrawNodeEx* create(const std::string& texture);
+  static DrawNodeEx* create();
 
   void drawTriangles(const std::vector<V2F_C4B_T2F_Triangle>& triangles);
 
@@ -42,14 +42,16 @@ public:
   // Overrides
   virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
 
-  Texture2D* getTexture() {
-    return _texture;
-  }
+//  Texture2D* getTexture() {
+//    return _texture;
+//  }
 
 CC_CONSTRUCTOR_ACCESS:
   DrawNodeEx();
+
   virtual ~DrawNodeEx();
-  virtual bool init(const std::string& texture);
+
+  virtual bool init() override;
 
 protected:
   void ensureCapacity(int count);
@@ -69,8 +71,6 @@ protected:
   CustomCommand _customCommand;
 
   bool        _dirty;
-
-  Texture2D* _texture{ nullptr };
 
 private:
   CC_DISALLOW_COPY_AND_ASSIGN(DrawNodeEx);

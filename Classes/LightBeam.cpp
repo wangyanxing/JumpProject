@@ -15,7 +15,7 @@ USING_NS_CC;
 LightBeamDesc LightBeamDesc::DEFAULT;
 
 void LightBeam::init(const LightBeamDesc& desc) {
-  mNode = DrawNodeEx::create(desc.texture);
+  mNode = DrawNodeEx::create(/* desc.texture */);
   mNode->setBlendFunc({GL_ONE, GL_ONE});
   mNode->setTag(GLOW_NODE_TAG);
 
@@ -43,8 +43,8 @@ void LightBeam::update(float dt) {
   float upperLength = mDesc.segSizeUpper * mDesc.segNums;
   float lowerLength = mDesc.segSizeLower * mDesc.segNums;
 
-  Texture2D::TexParams params = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_CLAMP_TO_EDGE };
-  mNode->getTexture()->setTexParameters(params);
+//  Texture2D::TexParams params = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_CLAMP_TO_EDGE };
+//  mNode->getTexture()->setTexParameters(params);
 
   mUVAnimTimer += dt * mDesc.uvSpeed;
 

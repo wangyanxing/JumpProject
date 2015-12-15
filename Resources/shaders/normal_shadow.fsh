@@ -29,7 +29,7 @@ void main(void)
     
     vec2 uv = gl_FragCoord.xy / data.xy - vec2(0.5);
     float darkness = 1.3;
-    gl_FragColor = vec4( mix( bcol.rgb, vec3( 1.0 - darkness ), dot( uv, uv ) ), 1.0 );
+    gl_FragColor = vec4( mix( bcol.rgb, vec3( 1.0 - darkness ), dot( uv, uv ) ), v_fragmentColor.a );
     
     gl_FragColor.rgb *= v_fragmentColor.rgb;
 }
