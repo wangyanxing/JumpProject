@@ -45,7 +45,7 @@ Scene* createScene() {
   auto EditorScene = EditorScene::create();
   layer->addChild(EditorScene);
 
-#if 1
+#if 0
   scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 #endif
 

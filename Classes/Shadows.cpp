@@ -141,11 +141,17 @@ void ShadowManager::updateBlockNormal(BlockBase* block,
                                       std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles,
                                       bool clipX) {
 
-  if(!block->mCastShadow || !block->isVisible() || !block->mCanPickup)
+  if(!block->mCastShadow || !block->isVisible() || !block->mCanPickup) {
     return;
+  }
 
-  if(block->getSprite()->getBoundingBox().containsPoint(mLightPos))
+  if(block->getSprite()->getBoundingBox().containsPoint(mLightPos)) {
     return;
+  }
+
+  if(block->mShadowLayerID != mShadowLayerID) {
+    return;
+  }
 
   std::vector<Vec2> pts;
   block->getPointsForShadow(mLightPos, pts);

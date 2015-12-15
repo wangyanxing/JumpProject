@@ -47,6 +47,7 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
   mHero->setKind(KIND_HERO);
   mHeroShape = mHero->getSprite()->getPhysicsBody()->getShapes().front();
   mHero->addToScene(mParentLayer);
+  mHero->mShadowLayerID = 1;
   mBlockTable[mHero->getSprite()] = mHero;
 
 #if USE_SHADOW
@@ -92,33 +93,6 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
 #endif
 
   enableGame(false);
-
-#if 0
-  {
-    auto l = new LightBeam();
-    l->mDesc.uvSpeed = 0.1;
-    mLightBeams.push_back(l);
-    l->getNode()->setPosition(VisibleRect::center().x,VisibleRect::center().y+50);
-  }
-  {
-    auto l = new LightBeam();
-    l->mDesc.uvSpeed = 0.04;
-    mLightBeams.push_back(l);
-    l->getNode()->setPosition(VisibleRect::center().x,VisibleRect::center().y+50);
-  }
-  {
-    auto l = new LightBeam();
-    l->mDesc.uvSpeed = -0.04;
-    mLightBeams.push_back(l);
-    l->getNode()->setPosition(VisibleRect::center().x,VisibleRect::center().y+50);
-  }
-#endif
-
-#if 0
-  auto s = SpriteSoft::create("images/daisy.png");
-  s->setPosition(VisibleRect::center());
-  mParentLayer->addChild(s,9000);
-#endif
 }
 
 Node* GameLogic::createParticle(const Vec2& pos) {
@@ -130,13 +104,15 @@ Node* GameLogic::createParticle(const Vec2& pos) {
   float fadeTime = 10 + rand()%10;
   fadeTime /= 10;
 
-  pg->runAction(RepeatForever::create(Sequence::create(FadeOut::create(fadeTime),FadeIn::create(fadeTime), NULL)));
+  pg->runAction(RepeatForever::create(Sequence::create(FadeOut::create(fadeTime),
+                                                       FadeIn::create(fadeTime),
+                                                       NULL)));
   p->setScale(0.5);
 
   parent->addChild(pg, 0);
   parent->addChild(p, 1);
 
-  float scale = 3 + rand()%2;
+  float scale = 3 + rand() % 2;
   scale /= 10;
 
   parent->setScale(scale);
@@ -147,7 +123,6 @@ Node* GameLogic::createParticle(const Vec2& pos) {
 
   return parent;
 }
-
 
 GameLogic::~GameLogic() {
   clean();

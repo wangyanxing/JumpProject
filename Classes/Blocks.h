@@ -134,6 +134,8 @@ public:
 
   bool mCastShadow{ true };
 
+  int mShadowLayerID{ 0 };
+
   float mShadowLength{ 100 };
 
   float mShadowFadeRatio{ 0.4 };

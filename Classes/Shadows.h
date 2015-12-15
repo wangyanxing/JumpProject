@@ -70,6 +70,8 @@ public:
   bool mUseSoftShadow{ false }; // Using fake soft shadow or not
 
   bool mUseAlphaBlend{ true };
+
+  int mShadowLayerID{ 0 };
 };
 
 #endif
