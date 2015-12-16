@@ -37,10 +37,6 @@ public:
                          const cocos2d::Color3B& colSrc,
                          const cocos2d::Color3B& colDst);
 
-  void updateBlockSoft(BlockBase* block,
-                       std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles,
-                       bool clipX = false);
-
   void updateBlockNormal(BlockBase* block,
                          std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles,
                          bool clipX = false);
@@ -50,8 +46,6 @@ public:
   cocos2d::Vec2 mLightPos;
 
   cocos2d::Vec2 mOriginLightPos;
-
-  cocos2d::DrawNodeEx* mRendererSoft{ nullptr };
 
   cocos2d::DrawNodeEx* mRendererNormal{ nullptr };
 
@@ -66,8 +60,6 @@ public:
   bool mShadowMovingEnable{ true };
 
   float mShadowDarkness{ 0.098f };
-
-  bool mUseSoftShadow{ false }; // Using fake soft shadow or not
 
   bool mUseAlphaBlend{ true };
 

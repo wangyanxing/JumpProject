@@ -96,12 +96,11 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
 }
 
 Node* GameLogic::createParticle(const Vec2& pos) {
-
   auto parent = Node::create();
   auto pg = Sprite::create("images/glow.png");
   auto p = Sprite::create("images/particle.png");
 
-  float fadeTime = 10 + rand()%10;
+  float fadeTime = 10 + rand() % 10;
   fadeTime /= 10;
 
   pg->runAction(RepeatForever::create(Sequence::create(FadeOut::create(fadeTime),
@@ -116,11 +115,8 @@ Node* GameLogic::createParticle(const Vec2& pos) {
   scale /= 10;
 
   parent->setScale(scale);
-
-  mParentLayer->addChild(parent, 15);
-
   parent->setPosition(pos);
-
+  mParentLayer->addChild(parent, 15);
   return parent;
 }
 

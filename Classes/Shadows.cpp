@@ -25,9 +25,6 @@ void colorMix(const Color4B& src, const Color4B& dst, float r, Color4B& out) {
 }
 
 ShadowManager::ShadowManager(cocos2d::Node* parentNode) {
-  mRendererSoft = DrawNodeEx::create();
-  parentNode->addChild(mRendererSoft);
-
   mRendererNormal = DrawNodeEx::create();
   parentNode->addChild(mRendererNormal);
   mRendererNormal->setBlendFunc(mUseAlphaBlend ?
@@ -62,7 +59,6 @@ ShadowManager::ShadowManager(cocos2d::Node* parentNode) {
 }
 
 ShadowManager::~ShadowManager() {
-  mRendererSoft->removeFromParent();
   mRendererNormal->removeFromParent();
 }
 
@@ -223,136 +219,12 @@ void ShadowManager::updateBlockNormal(BlockBase* block,
   triangles.push_back(t);
 }
 
-void ShadowManager::updateBlockSoft(BlockBase* block,
-                                    std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles,
-                                    bool clipX) {
-  Color4B colorBase = Color4B::BLACK;
-  colorBase.a = 255 * mShadowDarkness;
-
-  if(!block->mCastShadow || !block->isVisible() || !block->mCanPickup)
-    return;
-
-  if(block->getSprite()->getBoundingBox().containsPoint(mLightPos))
-    return;
-
-  std::vector<Vec2> pts;
-  block->getPointsForShadow(mLightPos, pts);
-
-  auto entries = getShadowEntry(pts);
-
-  Vec2 pa0 = pts[0].getMidpoint(pts[2]);
-  Vec2 pa1 = pts[1].getMidpoint(pts[3]);
-
-  Vec2 pb0 = pts[0].getMidpoint(pts[1]);
-  Vec2 pb1 = pts[2].getMidpoint(pts[3]);
-
-  Vec2 OA = entries.first - mLightPos;
-  Vec2 OB = entries.second - mLightPos;
-
-  Vec2 midLine = OA + OB;
-  midLine.normalize();
-  Vec2 loneFar = mLightPos + midLine * 2000; // make it long enough
-
-  bool intersetA = false;
-  bool intersetB = false;
-  Vec2 interA, interB;
-  Vec2 intersection;
-
-  if (Vec2::isSegmentIntersect(pa0, pa1, mLightPos, loneFar)) {
-    intersetA = true;
-    interA = Vec2::getIntersectPoint(pa0, pa1, mLightPos, loneFar);
-  }
-  if (Vec2::isSegmentIntersect(pb0, pb1, mLightPos, loneFar)) {
-    intersetB = true;
-    interB = Vec2::getIntersectPoint(pb0, pb1, mLightPos, loneFar);
-  }
-  if(intersetA && intersetB) {
-    intersection = interA.getMidpoint(interB);
-  } else if(!intersetA && !intersetB) {
-    return;
-  } else {
-    intersection = intersetA ? interA : interB;
-  }
-
-  float OX = intersection.distance(mLightPos);
-
-  const float PI = 3.14159265;
-  float lenOA = OA.length();
-  float lenOB = OB.length();
-
-  float ag = midLine.getAngle(OA);
-  if(ag < 0) {
-    ag += PI;
-  }
-  if(ag > PI / 2) {
-    ag = PI - ag;
-  }
-  float cosTheta = cos(ag);
-  float lengthA = (OX + block->mShadowLength) / cosTheta - lenOA;
-  float lengthB = (OX + block->mShadowLength) / cosTheta - lenOB;
-
-  auto dir0 = OA/lenOA;
-  auto dir1 = OB/lenOB;
-  auto curPt0 = entries.first;
-  auto curPt1 = entries.second;
-  auto len0 = lengthA;
-  auto len1 = lengthB;
-
-  for (int i = 0; i < block->mShadowFadeSegments + 1; i++) {
-
-    float curlen0 = (i==0) ? block->mShadowFadeRatio * len0 :
-    (1.0-block->mShadowFadeRatio) * len0 / block->mShadowFadeSegments;
-
-    float curlen1 = (i==0) ? block->mShadowFadeRatio * len1 :
-    (1.0-block->mShadowFadeRatio) * len0 / block->mShadowFadeSegments;
-
-    Color4B color0 = colorBase;
-    Color4B color1 = colorBase;
-
-    if(i > 0) {
-      colorMix(colorBase, Color4B(0,0,0,0), (i-1.0) / block->mShadowFadeSegments, color0);
-      colorMix(colorBase, Color4B(0,0,0,0), (i-1.0) / block->mShadowFadeSegments, color1);
-    }
-
-    auto pt0 = curPt0;
-    auto pt1 = curPt1;
-
-    curPt0 = curPt0 + dir0 * curlen0;
-    curPt1 = curPt1 + dir1 * curlen1;
-
-    V2F_C4B_T2F_Triangle t;
-    t.a.vertices = pt0;
-    t.a.colors = color0;
-
-    t.b.vertices = curPt0;
-    t.b.colors = color0;
-
-    t.c.vertices = pt1;
-    t.c.colors = color0;
-
-    triangles.push_back(t);
-
-    t.a.vertices = pt1;
-    t.a.colors = color1;
-
-    t.b.vertices = curPt0;
-    t.b.colors = color1;
-
-    t.c.vertices = curPt1;
-    t.c.colors = color1;
-
-    triangles.push_back(t);
-  }
-}
-
 void ShadowManager::updateNodes(float dt, std::vector<cocos2d::Node*>& nodes, bool clipX) {
-  mRendererSoft->clear();
   mRendererNormal->clear();
 
   std::vector<V2F_C4B_T2F_Triangle> triangles;
 
   mRendererNormal->setVisible(true);
-  mRendererSoft->setVisible(false);
 
   for(auto block : nodes) {
     if(!block->isVisible()) {
@@ -440,37 +312,20 @@ void ShadowManager::updateNodes(float dt, std::vector<cocos2d::Node*>& nodes, bo
 }
 
 void ShadowManager::update(float dt) {
-
-  mRendererSoft->clear();
   mRendererNormal->clear();
 
   std::vector<V2F_C4B_T2F_Triangle> triangles;
 
-  if(mUseSoftShadow) {
-    mRendererNormal->setVisible(false);
-    mRendererSoft->setVisible(true);
+  mRendererNormal->setVisible(true);
 
-    for(auto b : GameLogic::Game->mBlocks) {
-      auto block = b.second;
-      updateBlockSoft(block, triangles);
-    }
-    updateBlockSoft(GameLogic::Game->mHero, triangles);
+  for(auto b : GameLogic::Game->mBlocks) {
+    auto block = b.second;
+    updateBlockNormal(block, triangles);
+  }
+  updateBlockNormal(GameLogic::Game->mHero, triangles);
 
-    if(!triangles.empty())
-      mRendererSoft->drawTriangles(triangles);
-
-  } else {
-    mRendererNormal->setVisible(true);
-    mRendererSoft->setVisible(false);
-
-    for(auto b : GameLogic::Game->mBlocks) {
-      auto block = b.second;
-      updateBlockNormal(block, triangles);
-    }
-    updateBlockNormal(GameLogic::Game->mHero, triangles);
-
-    if(!triangles.empty())
-      mRendererNormal->drawTriangles(triangles);
+  if(!triangles.empty()) {
+    mRendererNormal->drawTriangles(triangles);
   }
 
   if(!mShadowMovingEnable || !GameLogic::Game->mGameMode) {
@@ -489,7 +344,9 @@ void ShadowManager::update(float dt) {
 
     mMoveTarget = heroLeft ? VisibleRect::center().x + dis : VisibleRect::center().x - dis;
     mMovingSpeed = (dis * 2) / 3.0f;
-    if(!heroLeft) mMovingSpeed*=-1;
+    if(!heroLeft) {
+      mMovingSpeed *= -1;
+    }
     mMoving = true;
   }
 
