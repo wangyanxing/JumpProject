@@ -25,13 +25,7 @@ void colorMix(const Color4B& src, const Color4B& dst, float r, Color4B& out) {
 }
 
 ShadowManager::ShadowManager(cocos2d::Node* parentNode) {
-  mRendererNormal = DrawNodeEx::create();
-  parentNode->addChild(mRendererNormal);
-  mRendererNormal->setBlendFunc(mUseAlphaBlend ?
-                                BlendFunc::ALPHA_NON_PREMULTIPLIED :
-                                BlendFunc::DISABLE);
-
-#if EDITOR_MODE
+#if 0
   auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/normal_shadow_editor.fsh");
 #else
   auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/normal_shadow.fsh");
@@ -43,23 +37,32 @@ ShadowManager::ShadowManager(cocos2d::Node* parentNode) {
                                                  shaderContent.c_str());
   auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
 
-  float screenWidth = VisibleRect::getFrameSize().width;
-  float screenHeight = VisibleRect::getFrameSize().height;
+  for(int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
+    mShadowDrawers[i] = DrawNodeEx::create();
+    mShadowDrawers[i]->setGLProgramState(glProgramState);
 
-  mRendererNormal->setGLProgramState(glProgramState);
-  glProgramState->setUniformVec4("data", Vec4(screenWidth, screenHeight, 0, 0));
-  glProgramState->setUniformVec4("colorSrc", Vec4(50.0/255.0, 201.0/255.0,219.0/255.0, 0.4));
-  glProgramState->setUniformVec4("colorDest", Vec4(30.0/255.0, 181.0/255.0,199.0/255.0, 0.4));
+    Size visibleSize = VisibleRect::getVisibleRect().size;
+    mRenderTextures[i] = RenderTexture::create(visibleSize.width,
+                                               visibleSize.height,
+                                               Texture2D::PixelFormat::RGBA8888);
+    mRenderTextures[i]->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+    mRenderTextures[i]->getSprite()->setOpacity(255 * mShadowDarkness);
+    parentNode->addChild(mRenderTextures[i]);
+
+    mShadowDrawers[i]->retain();
+  }
 
   mLightPos = VisibleRect::center();
   mLightPos.x = 300;
   mLightPos.y = VisibleRect::top().y - 10;
-
   mOriginLightPos = mLightPos;
 }
 
 ShadowManager::~ShadowManager() {
-  mRendererNormal->removeFromParent();
+  for(int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
+    mShadowDrawers[i]->release();
+    mRenderTextures[i]->removeFromParent();
+  }
 }
 
 std::pair<Vec2, Vec2> ShadowManager::getShadowEntry(const std::vector<Vec2>& pts) {
@@ -101,51 +104,14 @@ std::pair<Vec2, Vec2> ShadowManager::getShadowEntry(const std::vector<Vec2>& pts
   return std::make_pair(minPt,maxPt);
 }
 
-void ShadowManager::updateShaderParam(const cocos2d::Vec2& center,
-                                      const cocos2d::Color3B& colSrc,
-                                      const cocos2d::Color3B& colDst) {
-  Vec2 p = center;
-  p.x -= VisibleRect::center().x;
-  p.x *= -1;
-  p.x /= VisibleRect::center().x;
-
-  p.y -= VisibleRect::center().y;
-  p.y *= -1;
-  p.y /= VisibleRect::center().x;
-
-  float screenWidth = VisibleRect::getFrameSize().width;
-  float screenHeight = VisibleRect::getFrameSize().height;
-
-  mRendererNormal->getGLProgramState()->setUniformVec4("data",
-                                                       Vec4(screenWidth, screenHeight, p.x, p.y));
-
-  mRendererNormal->getGLProgramState()->setUniformVec4("colorSrc", Vec4(colSrc.r/255.0,
-                                                                        colSrc.g/255.0,
-                                                                        colSrc.b/255.0, 0.4));
-  mRendererNormal->getGLProgramState()->setUniformVec4("colorDest", Vec4(colDst.r/255.0,
-                                                                         colDst.g/255.0,
-                                                                         colDst.b/255.0, 0.4));
-}
-
-void ShadowManager::updateShaderParam() {
-  updateShaderParam(GameLogic::Game->mGradientCenter,
-                    GameLogic::Game->mGradientColorSrc,
-                    GameLogic::Game->mGradientColorDst);
-}
-
-void ShadowManager::updateBlockNormal(BlockBase* block,
-                                      std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles,
-                                      bool clipX) {
-
+void ShadowManager::updateBlock(BlockBase* block,
+                                std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles,
+                                bool clipX) {
   if(!block->mCastShadow || !block->isVisible() || !block->mCanPickup) {
     return;
   }
 
   if(block->getSprite()->getBoundingBox().containsPoint(mLightPos)) {
-    return;
-  }
-
-  if(block->mShadowLayerID != mShadowLayerID) {
     return;
   }
 
@@ -155,14 +121,6 @@ void ShadowManager::updateBlockNormal(BlockBase* block,
   auto entries = getShadowEntry(pts);
 
   Color4B colorBase = Color4B::BLACK;
-  if (mUseAlphaBlend) {
-    colorBase.a = 255 * mShadowDarkness;
-  } else {
-    colorBase.r = 255 * (1 - mShadowDarkness);
-    colorBase.g = 255 * (1 - mShadowDarkness);
-    colorBase.b = 255 * (1 - mShadowDarkness);
-  }
-
   const float LENGTH = 1500;
 
   Vec2 dir0 = entries.first - mLightPos;
@@ -174,7 +132,6 @@ void ShadowManager::updateBlockNormal(BlockBase* block,
   Vec2 f1 = entries.second + dir1 * LENGTH;
 
   if(clipX) {
-
     Vec2 leftupper(0, 2000);
     Vec2 leftlower(0, -1000);
 
@@ -219,13 +176,12 @@ void ShadowManager::updateBlockNormal(BlockBase* block,
   triangles.push_back(t);
 }
 
-void ShadowManager::updateNodes(float dt, std::vector<cocos2d::Node*>& nodes, bool clipX) {
-  mRendererNormal->clear();
+void ShadowManager::updateNodes(int layer, float dt,
+                                std::vector<cocos2d::Node*>& nodes, bool clipX) {
+  mShadowDrawers[layer]->clear();
+  mShadowDrawers[layer]->setVisible(true);
 
   std::vector<V2F_C4B_T2F_Triangle> triangles;
-
-  mRendererNormal->setVisible(true);
-
   for(auto block : nodes) {
     if(!block->isVisible()) {
       return;
@@ -307,25 +263,29 @@ void ShadowManager::updateNodes(float dt, std::vector<cocos2d::Node*>& nodes, bo
   }
 
   if(!triangles.empty()) {
-    mRendererNormal->drawTriangles(triangles);
+    mShadowDrawers[layer]->drawTriangles(triangles);
   }
 }
 
 void ShadowManager::update(float dt) {
-  mRendererNormal->clear();
-
-  std::vector<V2F_C4B_T2F_Triangle> triangles;
-
-  mRendererNormal->setVisible(true);
+  std::vector<V2F_C4B_T2F_Triangle> triangles[NUM_SHADOW_LAYERS];
 
   for(auto b : GameLogic::Game->mBlocks) {
     auto block = b.second;
-    updateBlockNormal(block, triangles);
+    updateBlock(block, triangles[block->mShadowLayerID]);
   }
-  updateBlockNormal(GameLogic::Game->mHero, triangles);
 
-  if(!triangles.empty()) {
-    mRendererNormal->drawTriangles(triangles);
+  updateBlock(GameLogic::Game->mHero, triangles[SHADOW_LAYER_HERO]);
+
+  for(int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
+    if (!triangles[i].empty()) {
+      mShadowDrawers[i]->clear();
+      mShadowDrawers[i]->drawTriangles(triangles[i]);
+    }
+
+    mRenderTextures[i]->beginWithClear(0, 0, 0, 0);
+    mShadowDrawers[i]->visit();
+    mRenderTextures[i]->end();
   }
 
   if(!mShadowMovingEnable || !GameLogic::Game->mGameMode) {

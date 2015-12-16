@@ -16,7 +16,11 @@ void main(void) {
     
     vec2 uv = gl_FragCoord.xy / resolution.xy - vec2(0.5);
     float darkness = resolution.z;
-    
+
+#if 0
     gl_FragColor = vec4( mix( texel.rgb, vec3( 1.0 - darkness ), dot( uv, uv ) ), texel.a );
+#else
+    gl_FragColor = texel;
+#endif
     gl_FragColor.rgb *= v_fragmentColor.rgb;
 }

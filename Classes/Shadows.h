@@ -21,6 +21,14 @@ namespace cocos2d {
 
 class ShadowManager {
 public:
+  enum {
+    SHADOW_LAYER_0,
+    SHADOW_LAYER_1,
+    NUM_SHADOW_LAYERS,
+
+    SHADOW_LAYER_HERO = SHADOW_LAYER_1,
+  };
+
   ShadowManager(cocos2d::Node* parentNode);
 
   ~ShadowManager();
@@ -29,17 +37,11 @@ public:
 
   void update(float dt);
 
-  void updateNodes(float dt, std::vector<cocos2d::Node*>& nodes, bool clipX);
+  void updateNodes(int layer, float dt, std::vector<cocos2d::Node*>& nodes, bool clipX);
 
-  void updateShaderParam();
-
-  void updateShaderParam(const cocos2d::Vec2& center,
-                         const cocos2d::Color3B& colSrc,
-                         const cocos2d::Color3B& colDst);
-
-  void updateBlockNormal(BlockBase* block,
-                         std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles,
-                         bool clipX = false);
+  void updateBlock(BlockBase* block,
+                   std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles,
+                   bool clipX = false);
 
   std::pair<cocos2d::Vec2, cocos2d::Vec2> getShadowEntry(const std::vector<cocos2d::Vec2>& pts);
 
@@ -47,7 +49,9 @@ public:
 
   cocos2d::Vec2 mOriginLightPos;
 
-  cocos2d::DrawNodeEx* mRendererNormal{ nullptr };
+  cocos2d::DrawNodeEx* mShadowDrawers[NUM_SHADOW_LAYERS];
+
+  cocos2d::RenderTexture* mRenderTextures[NUM_SHADOW_LAYERS];
 
   float mLightMoveTimer{ 0 };
 
@@ -60,10 +64,6 @@ public:
   bool mShadowMovingEnable{ true };
 
   float mShadowDarkness{ 0.098f };
-
-  bool mUseAlphaBlend{ true };
-
-  int mShadowLayerID{ 0 };
 };
 
 #endif
