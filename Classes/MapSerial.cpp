@@ -327,7 +327,6 @@ void MapSerial::saveMap(const char* file) {
   INDENT_1 ss << "\"lightPosition\": " << vec2Str(GameLogic::Game->mShadows->mOriginLightPos); RT_LINE
   INDENT_1 ss << "\"lightMoving\": " << bool2Str(GameLogic::Game->mShadows->mShadowMovingEnable); RT_LINE
   INDENT_1 ss << "\"shadowDarkness\": " << GameLogic::Game->mShadows->mShadowDarkness; RT_LINE
-  INDENT_1 ss << "\"useSoftShadow\": " << bool2Str(GameLogic::Game->mShadows->mUseSoftShadow); RT_LINE
 #endif
 
   INDENT_1 ss << "\"gradientCenter\": " << vec2Str(GameLogic::Game->mGradientCenter); RT_LINE
@@ -642,10 +641,6 @@ void MapSerial::loadMap(const char* filename) {
 
   if (CHECK_NUMBER(d, "shadowDarkness")) {
     GameLogic::Game->mShadows->mShadowDarkness = d["shadowDarkness"].GetDouble();
-  }
-
-  if (CHECK_BOOL(d, "useSoftShadow")) {
-    GameLogic::Game->mShadows->mUseSoftShadow = d["useSoftShadow"].GetBool();
   }
 #endif
 

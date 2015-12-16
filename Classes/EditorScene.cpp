@@ -401,10 +401,6 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
     }
   }
 
-  if (keyCode == EventKeyboard::KeyCode::KEY_Y) {
-    mGame->mShadows->mUseSoftShadow = !mGame->mShadows->mUseSoftShadow;
-  }
-
   if (keyCode == EventKeyboard::KeyCode::KEY_F5) {
     MapSerial::loadMap(std::string(mCurFileName).c_str());
   }
