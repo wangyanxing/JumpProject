@@ -470,9 +470,6 @@ void GameLogic::postUpdate(float dt) {
     }
     mHero->postUpdate(dt);
   }
-#if USE_SHADOW
-  mShadows->update(dt);
-#endif
 }
 
 void GameLogic::updateGame(float dt){
@@ -538,7 +535,6 @@ void GameLogic::updateGame(float dt){
 }
 
 void GameLogic::update(float dt){
-
   if(mGameMode) {
     for(auto it = mTimeEvents.begin(); it != mTimeEvents.end(); ++it){
       (*it).update(dt);
@@ -565,6 +561,9 @@ void GameLogic::update(float dt){
   for(auto l : mLightBeams) {
     l->update(dt);
   }
+#if USE_SHADOW
+  mShadows->update(dt);
+#endif
 }
 
 void GameLogic::deleteBlock(BlockBase* sel) {

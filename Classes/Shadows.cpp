@@ -49,6 +49,7 @@ ShadowManager::ShadowManager(cocos2d::Node* parentNode) {
     mRenderTextures[i]->getSprite()->setOpacity(255 * mShadowDarkness);
     parentNode->addChild(mRenderTextures[i]);
 
+    mRenderTextures[i]->retain();
     mShadowDrawers[i]->retain();
   }
 
@@ -62,6 +63,7 @@ ShadowManager::~ShadowManager() {
   for(int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
     mShadowDrawers[i]->release();
     mRenderTextures[i]->removeFromParent();
+    mRenderTextures[i]->release();
   }
 }
 

@@ -36,9 +36,6 @@ GameScene* GameScene::Scene = nullptr;
 
 GameScene::~GameScene() {
   getScheduler()->unscheduleAllForTarget(&mPostUpdater);
-
-  delete mGame;
-  mGame = nullptr;
 }
 
 void GameScene::showDieFullScreenAnim() {
@@ -103,6 +100,9 @@ bool GameScene::init() {
   Layer::init();
 #endif
 
+  if (GameLogic::Game) {
+    delete GameLogic::Game;
+  }
   mGame = new GameLogic(this);
   mGame->mWinGameEvent = [this]{onWinGame();};
   createControlPad();
