@@ -369,6 +369,7 @@ void MapSerial::saveMap(const char* file) {
     INDENT_3 ss << "\"rotatespeed\": " << b->mRotationSpeed; RT_LINE
     INDENT_3 ss << "\"shadowLength\": " << b->mShadowLength; RT_LINE
     INDENT_3 ss << "\"shadowEnable\": " << bool2Str(b->mCastShadow); RT_LINE
+    INDENT_3 ss << "\"shadowLayer\": " << b->mShadowLayerID; RT_LINE
     INDENT_3 ss << "\"paletteIndex\": " << b->mPaletteIndex; RT_LINE
     INDENT_3 ss << "\"flipUV\": " << bool2Str(b->mUVFlipped); RT_LINE
     INDENT_3 ss << "\"textureName\": \"" << b->mTextureName << "\""; RT_LINE
@@ -785,6 +786,7 @@ void MapSerial::loadMap(const char* filename) {
       std::string triggerEvent = "";
       float shadowLeng = 100;
       bool shadowEnable = true;
+      int shadowLayer = 0;
 
       if(var["id"].IsInt()) {
         id = var["id"].GetInt();
@@ -835,6 +837,10 @@ void MapSerial::loadMap(const char* filename) {
 
       if (CHECK_BOOL(var, "shadowEnable")) {
         shadowEnable = var["shadowEnable"].GetBool();
+      }
+
+      if (CHECK_INT(var, "shadowLayer")) {
+        shadowLayer = var["shadowLayer"].GetInt();
       }
 
 #if EDITOR_MODE
@@ -896,6 +902,7 @@ void MapSerial::loadMap(const char* filename) {
       block->mRotationSpeed = rotSpeed;
       block->mShadowLength = shadowLeng;
       block->mCastShadow = shadowEnable;
+      block->mShadowLayerID = shadowLayer;
       block->mUVFlipped = flipuv;
       block->mUserData = userData;
 #if EDITOR_MODE

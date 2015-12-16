@@ -70,6 +70,8 @@ public:
 
   void setKind(int kind);
 
+  void setShadowLayer(int layer);
+
   void alignLeft();
 
   void alignRight();

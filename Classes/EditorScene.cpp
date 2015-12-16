@@ -263,7 +263,11 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
 
   if (keyCode >= EventKeyboard::KeyCode::KEY_1 &&
       keyCode <= EventKeyboard::KeyCode::KEY_9) {
-    setKind((int)keyCode - (int)EventKeyboard::KeyCode::KEY_1 + 1);
+    if (mPressingShift) {
+      setShadowLayer((int)keyCode - (int)EventKeyboard::KeyCode::KEY_1);
+    } else {
+      setKind((int)keyCode - (int)EventKeyboard::KeyCode::KEY_1 + 1);
+    }
   }
 
   if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_BRACKET) {
@@ -578,11 +582,22 @@ void EditorScene::update(float dt){
   mGame->update(dt);
 }
 
-void EditorScene::setKind(int kind) {
-  if(kind >= KIND_MAX) return;
+void EditorScene::setShadowLayer(int layer) {
+  if(layer >= ShadowManager::NUM_SHADOW_LAYERS) {
+    return;
+  }
 
   for(auto sel : mSelections) {
+    sel->mShadowLayerID = layer;
+  }
+}
 
+void EditorScene::setKind(int kind) {
+  if(kind >= KIND_MAX) {
+    return;
+  }
+
+  for(auto sel : mSelections) {
     sel->setKind(BlockKind(kind));
   }
 }
