@@ -47,6 +47,7 @@ void BlockBase::create(const cocos2d::Point& pt) {
   r.size.height = thick / 2;
   mSprite = GameUtils::createRect(r, getColor());
   mSprite->setPosition(pt);
+  mSprite->setCameraMask((unsigned short)CameraFlag::USER2);
 
 #if EDITOR_MODE
   initIDLabel();

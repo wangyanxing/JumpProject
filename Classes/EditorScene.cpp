@@ -111,6 +111,11 @@ bool EditorScene::init() {
     }
   };
 
+  mCamera = Camera::create();
+  mCamera->setCameraFlag(CameraFlag::USER2);
+  this->addChild(mCamera);
+  this->setCameraMask((unsigned short)CameraFlag::USER2);
+
   initDrawNodes();
   return true;
 }
@@ -237,6 +242,9 @@ void EditorScene::convertMouse(cocos2d::Point& pt) {
 
   pt.y = height + pt.y;
   pt = convertToNodeSpace(pt);
+
+  auto camRelative = mCamera->getPosition() - visRect.size / 2;
+  pt += camRelative;
 }
 
 void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event) {

@@ -127,6 +127,8 @@ public:
   cocos2d::DrawNode* mGridNode{ nullptr };
 
   cocos2d::DrawNode* mGroupNode{ nullptr };
+
+  cocos2d::Camera* mCamera{ nullptr };
 };
 
 #endif

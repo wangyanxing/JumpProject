@@ -137,6 +137,7 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact,
   auto iA = mBlockTable.find(contact.getShapeA()->getBody()->getNode());
   auto iB = mBlockTable.find(contact.getShapeB()->getBody()->getNode());
   if(iA == mBlockTable.end() || iB == mBlockTable.end()) {
+    CCLOGWARN("Cannot get the block from the node.");
     return true;
   }
 
