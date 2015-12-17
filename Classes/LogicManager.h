@@ -20,7 +20,6 @@ class TimeEvent;
 
 class GameLogic {
 public:
-
   static GameLogic* Game;
 
   static cocos2d::PhysicsWorld* PhysicsWorld;
@@ -76,8 +75,9 @@ public:
 
   void clearStars();
 
-public:
+  void updateCamera(cocos2d::Camera* cam);
 
+public:
   cocos2d::Layer* mParentLayer{ nullptr };
 
   std::map<BlockBase*,std::vector<BlockBase*>> mGroups;
@@ -117,7 +117,9 @@ public:
   cocos2d::Vec2 mSpawnPos;
 
   cocos2d::Vec2 mGradientCenter{0,0};
+
   cocos2d::Color3B mGradientColorSrc;
+
   cocos2d::Color3B mGradientColorDst;
 
   float mGameTimer{ 0 };
@@ -125,10 +127,13 @@ public:
   std::function<void()> mWinGameEvent;
 
   std::vector<TimeEvent> mTimeEvents;
+
   std::vector<std::string> mFxList;
+
   std::vector<cocos2d::ParticleBatchNode*> mFxNodes;
 
   std::vector<cocos2d::Vec2> mStarList;
+
   std::vector<cocos2d::Node*> mStarNodes;
 
   bool mRejectInput{ false };

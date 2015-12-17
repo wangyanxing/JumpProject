@@ -61,6 +61,7 @@ bool EditorScene::init() {
   }
 #endif
 
+  mCamera = Camera::create();
   MapSerial::saveRemoteMaps();
 
   getScheduler()->scheduleUpdate(this, -2, false);
@@ -105,16 +106,15 @@ bool EditorScene::init() {
 
   MapSerial::loadLastEdit();
 
-  UIColorEditor::colorEditor->onSetColorFunc = [&](int index, cocos2d::Color3B color){
+  UIColorEditor::colorEditor->onSetColorFunc = [&](int index, cocos2d::Color3B color) {
     for (auto sel : mSelections) {
       sel->setColor(index);
     }
   };
 
-  mCamera = Camera::create();
   mCamera->setCameraFlag(CameraFlag::USER2);
-  this->addChild(mCamera);
-  this->setCameraMask((unsigned short)CameraFlag::USER2);
+  addChild(mCamera);
+  setCameraMask((unsigned short)CameraFlag::USER2);
 
   initDrawNodes();
   return true;
@@ -135,7 +135,7 @@ void EditorScene::mouseDown(cocos2d::Event* event) {
   Rect rect = Rect(0, 0, size.width, size.height - UI_LAYER_HIGHT);
 
   if (!rect.containsPoint(pt)){
-    return ;
+    return;
   }
 
   if (mPressingM && !mGame->mGameMode) {
@@ -163,16 +163,21 @@ void EditorScene::mouseDown(cocos2d::Event* event) {
   }
 
   if (mPressingShift) {
+    // Create block
     mGame->createBlock(pt, KIND_BLOCK);
     mMovingBlock = nullptr;
+  } else if (mPressingAlt) {
+    // Move camrea
+    mMovingCamera = true;
   } else {
+    // Move blocks
     if(!mPressingCtrl) {
       mSelections.clear();
       mPathMode = false;
       mSelectionHead = nullptr;
     }
 
-    mGame->blockTraversal([&](BlockBase* bl){
+    mGame->blockTraversal([&](BlockBase* bl) {
       bl->switchToNormalImage();
       auto box = bl->getSprite()->getBoundingBox();
       if(box.containsPoint(pt) && bl->mCanPickup) {
@@ -187,8 +192,9 @@ void EditorScene::mouseDown(cocos2d::Event* event) {
     for(auto sel: mSelections) {
       sel->switchToSelectionImage();
     }
-    if(mSelectionHead)
+    if(mSelectionHead) {
       mSelectionHead->getSprite()->setColor(Color3B(200,0,255));
+    }
   }
 }
 
@@ -207,32 +213,37 @@ void EditorScene::mouseUp(cocos2d::Event* event) {
   }
 
   mMovingBlock = nullptr;
+  mMovingCamera = false;
 }
 
 void EditorScene::mouseMove(cocos2d::Event* event) {
   auto mouse = (EventMouse*)event;
 
-  auto target = static_cast<Sprite*>(mouse->getCurrentTarget());
+  auto location = mouse->getLocationInView();
+  auto delta = location - mLastCursorInView;
+  mLastCursorInView = location;
 
+  auto target = static_cast<Sprite*>(mouse->getCurrentTarget());
   Point pt(mouse->getCursorX(), mouse->getCursorY());
   convertMouse(pt);
 
   Size size = target->getContentSize();
   Rect rect = Rect(0, 0, size.width, size.height - UI_LAYER_HIGHT);
-
   if (!rect.containsPoint(pt)){
     return;
   }
 
-  if(!mMovingBlock)
-    return;
-
   Point dt = pt - mLastPoint;
   mLastPoint = pt;
 
-  for(auto sel: mSelections) {
-    sel->moveX(dt.x);
-    sel->moveY(dt.y);
+  if(mMovingBlock) {
+    for(auto sel: mSelections) {
+      sel->moveX(dt.x);
+      sel->moveY(dt.y);
+    }
+  } else if (mMovingCamera) {
+    auto camPos = mCamera->getPosition();
+    mCamera->setPosition(camPos - Vec2(delta.x, delta.y));
   }
 }
 
@@ -420,6 +431,12 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
     }
   }
 
+  if (keyCode == EventKeyboard::KeyCode::KEY_R) {
+    if (!mGame->mGameMode) {
+      mCamera->setPosition(VisibleRect::getFrameSize() / 2);
+    }
+  }
+
   if (keyCode == EventKeyboard::KeyCode::KEY_F5) {
     MapSerial::loadMap(std::string(mCurFileName).c_str());
   }
@@ -574,6 +591,8 @@ void EditorScene::enableGame(bool val, bool force) {
   }
   if(val) {
     mPressingV = mPressingB = mPressingN = mPressingM = false;
+  } else {
+    mCamera->setPosition(VisibleRect::getFrameSize() / 2);
   }
 }
 
@@ -595,6 +614,14 @@ void EditorScene::onDrawPrimitive(const Mat4 &transform, uint32_t flags) {
 
 void EditorScene::update(float dt){
   mGame->update(dt);
+}
+
+void EditorScene::updateCamera() {
+  if (!mGame->mGameMode) {
+
+  } else {
+    mGame->updateCamera(mCamera);
+  }
 }
 
 void EditorScene::setShadowLayer(int layer) {

@@ -51,7 +51,6 @@ public:
 
   bool onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::PhysicsContactPreSolve& solve);
 
-  // implement the "static create()" method manually
   CREATE_FUNC(EditorScene);
 
 public:
@@ -65,6 +64,8 @@ public:
   void duplicate();
 
   void update(float dt);
+
+  void updateCamera();
 
   void enableGame(bool val, bool force = false);
 
@@ -104,6 +105,8 @@ public:
 
   cocos2d::Point mLastPoint;
 
+  cocos2d::Vec2 mLastCursorInView;
+
   cocos2d::Sprite* mSpawnPoint{ nullptr };
 
   cocos2d::Sprite* mLightPoint{ nullptr };
@@ -117,6 +120,8 @@ public:
   bool mPathMode{ false };
 
   bool mShowGrid{ false };
+
+  bool mMovingCamera{ false };
 
   std::string mCurFileName;
   

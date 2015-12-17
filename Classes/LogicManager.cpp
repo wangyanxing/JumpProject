@@ -730,3 +730,12 @@ void GameLogic::loadFxFromList() {
     mFxNodes.push_back(batch0);
   }
 }
+
+void GameLogic::updateCamera(cocos2d::Camera* cam) {
+  if (!mGameMode) {
+    return;
+  }
+  auto halfFrame = VisibleRect::getFrameSize() / 2;
+  auto heroRel = mHero->getPosition() - halfFrame;
+  cam->setPosition(Vec2(halfFrame) + heroRel);
+}
