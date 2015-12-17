@@ -26,6 +26,12 @@ BlockBase::BlockBase() {
 }
 
 BlockBase::~BlockBase() {
+  mSprite->removeFromParent();
+
+#if EDITOR_MODE
+  mIDLabel->removeFromParent();
+#endif
+
   if(mButton) {
     delete mButton;
     mButton = nullptr;

@@ -591,7 +591,7 @@ void MapSerial::loadMap(const char* filename) {
   std::map<BlockBase*, std::vector<int>> pregroups;
 
 #if EDITOR_MODE
-  EditorScene::Scene->clean(false);//
+  EditorScene::Scene->clean(false);
 #else
   GameLogic::Game->clean();
 #endif
@@ -921,20 +921,20 @@ void MapSerial::loadMap(const char* filename) {
 #endif
         }SHOW_WARNING
 
-        if(var["canRestore"].IsBool()){
+        if(CHECK_BOOL(var, "canRestore")){
           block->mButton->mCanRestore = var["canRestore"].GetBool();
 #if EDITOR_MODE
           block->mButton->updateHelper();
 #endif
         }
 
-        if(var["pushedEvent"].IsString()){
+        if(CHECK_STRING(var, "pushedEvent")){
           block->mButton->mPushedEvent = var["pushedEvent"].GetString();
         }
-        if(var["restoredEvent"].IsString()){
+        if(CHECK_STRING(var, "restoredEvent")){
           block->mButton->mRestoredEvent = var["restoredEvent"].GetString();
         }
-        if(var["pushingEvent"].IsString()){
+        if(CHECK_STRING(var, "pushingEvent")){
           block->mButton->mPushingEvent = var["pushingEvent"].GetString();
         }
       } else if(kind == KIND_FORCEFIELD) {
@@ -1028,7 +1028,9 @@ void MapSerial::loadMap(const char* filename) {
 
   EditorScene::Scene->mCurFileName = fixedfilename;
   EditorScene::Scene->mSpawnPoint->setPosition(GameLogic::Game->mSpawnPos);
+#if USE_SHADOW
   EditorScene::Scene->mLightPoint->setPosition(GameLogic::Game->mShadows->mOriginLightPos);
+#endif
   EditorScene::Scene->mGradientCenterPoint->setPosition(GameLogic::Game->mGradientCenter);
 
   UILayer::Layer->setFileName(fixedfilename.c_str());

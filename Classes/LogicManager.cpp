@@ -567,7 +567,7 @@ void GameLogic::update(float dt){
 }
 
 void GameLogic::deleteBlock(BlockBase* sel) {
-  // find it in groups
+  // Find it in groups
   for(auto& i : mGroups) {
     auto ii = std::find(i.second.begin(), i.second.end(), sel);
     if(ii != i.second.end()) {

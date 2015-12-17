@@ -9,6 +9,7 @@
 #include "UIColorEditor.h"
 #include "EffectSprite.h"
 #include "Hero.h"
+#include "Defines.h"
 
 #include "cocos-ext.h"
 
@@ -22,8 +23,10 @@ USING_NS_CC_EXT;
 #define UI_LAYER_HIGHT 100
 
 EditorScene::~EditorScene() {
-  delete mGame;
-  mGame = nullptr;
+  if (mGame) {
+    delete mGame;
+    mGame = nullptr;
+  }
 }
 
 EditorScene* EditorScene::Scene = nullptr;
@@ -83,8 +86,10 @@ bool EditorScene::init() {
   mLightPoint = Sprite::create("images/sun.png");
   addChild(mLightPoint, 100);
   mLightPoint->setPosition(300,520);
+#if USE_SHADOW
   mGame->mShadows->mLightPos = mLightPoint->getPosition();
   mGame->mShadows->mOriginLightPos = mGame->mShadows->mLightPos;
+#endif
 
   mGradientCenterPoint = Sprite::create("images/daisy.png");
   addChild(mGradientCenterPoint, 100);
@@ -133,12 +138,14 @@ void EditorScene::mouseDown(cocos2d::Event* event) {
     mGame->mSpawnPos = mSpawnPoint->getPosition();
     return;
   }
+#if USE_SHADOW
   if (mPressingN && !mGame->mGameMode) {
     mLightPoint->setPosition(pt);
     mGame->mShadows->mLightPos = mLightPoint->getPosition();
     mGame->mShadows->mOriginLightPos = mLightPoint->getPosition();
     return;
   }
+#endif
   if (mPressingB && !mGame->mGameMode) {
     mGradientCenterPoint->setPosition(pt);
     mGame->setBackGradientCenter(mGradientCenterPoint->getPosition());
@@ -577,12 +584,13 @@ void EditorScene::onDrawPrimitive(const Mat4 &transform, uint32_t flags) {
   director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, transform);
   director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 }
-void EditorScene::update(float dt){
 
+void EditorScene::update(float dt){
   mGame->update(dt);
 }
 
 void EditorScene::setShadowLayer(int layer) {
+#if USE_SHADOW
   if(layer >= ShadowManager::NUM_SHADOW_LAYERS) {
     return;
   }
@@ -590,6 +598,7 @@ void EditorScene::setShadowLayer(int layer) {
   for(auto sel : mSelections) {
     sel->mShadowLayerID = layer;
   }
+#endif
 }
 
 void EditorScene::setKind(int kind) {
