@@ -55,28 +55,28 @@ void GameScene::onEnter() {
   contactListener->onContactPreSolve = CC_CALLBACK_2(GameScene::onContactPreSolve, this);
   _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
-  auto listener1 = EventListenerTouchAllAtOnce::create();
-  listener1->onTouchesBegan = [&](const std::vector<Touch*>& touches, Event* event){
+  auto touchListener = EventListenerTouchAllAtOnce::create();
+  touchListener->onTouchesBegan = [&](const std::vector<Touch*>& touches, Event* event){
     for(auto& t : touches) {
       onTouch(t->getLocation());
     }
   };
-  listener1->onTouchesMoved = [&](const std::vector<Touch*>& touches, Event*){
+  touchListener->onTouchesMoved = [&](const std::vector<Touch*>& touches, Event*){
     for(auto& t : touches) {
       onTouch(t->getLocation());
     }
   };
-  listener1->onTouchesEnded = [&](const std::vector<Touch*>& touches, Event*){
+  touchListener->onTouchesEnded = [&](const std::vector<Touch*>& touches, Event*){
     for(auto& t : touches) {
       onEndTouch(t->getLocation());
     }
   };
-  listener1->onTouchesCancelled = [&](const std::vector<Touch*>& touches, Event*){
+  touchListener->onTouchesCancelled = [&](const std::vector<Touch*>& touches, Event*){
     for(auto& t : touches) {
       onEndTouch(t->getLocation());
     }
   };
-  _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
+  _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
   runAction(Sequence::create(DelayTime::create(0.4), CallFunc::create([this]{
     mGame->enableGame(true, true);
@@ -100,6 +100,8 @@ bool GameScene::init() {
   Layer::init();
 #endif
 
+  mCamera = Camera::create();
+
   if (GameLogic::Game) {
     delete GameLogic::Game;
   }
@@ -107,6 +109,10 @@ bool GameScene::init() {
   mGame->mWinGameEvent = [this]{onWinGame();};
   createControlPad();
   createMenuButtons();
+
+  mCamera->setCameraFlag(CameraFlag::USER2);
+  addChild(mCamera);
+  setCameraMask((unsigned short)CameraFlag::USER2);
   return true;
 }
 
@@ -116,6 +122,7 @@ void GameScene::update(float dt) {
   sprintf(time, "%.1f",mGame->mGameTimer);
   mTimerLabel->setString(time);
   mGame->update(1.0f / 60.0f);
+  mGame->updateCamera(mCamera);
 }
 
 void GameScene::enterGame(const std::string& name, bool absPath) {

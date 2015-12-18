@@ -26,12 +26,10 @@ BlockBase::BlockBase() {
 }
 
 BlockBase::~BlockBase() {
-  mSprite->removeFromParent();
-
 #if EDITOR_MODE
+  mSprite->removeFromParent();
   mIDLabel->removeFromParent();
 #endif
-
   if(mButton) {
     delete mButton;
     mButton = nullptr;
@@ -47,7 +45,6 @@ void BlockBase::create(const cocos2d::Point& pt) {
   r.size.height = thick / 2;
   mSprite = GameUtils::createRect(r, getColor());
   mSprite->setPosition(pt);
-  mSprite->setCameraMask((unsigned short)CameraFlag::USER2);
 
 #if EDITOR_MODE
   initIDLabel();
@@ -76,7 +73,6 @@ void BlockBase::create(const cocos2d::Rect& rect) {
 void BlockBase::create(const cocos2d::Point& pt, const cocos2d::Size& size) {
   Rect r(pt, size);
   mSprite = GameUtils::createRect(r, getColor());
-
   setPosition(pt);
 
 #if EDITOR_MODE

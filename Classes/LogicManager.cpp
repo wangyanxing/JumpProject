@@ -116,6 +116,8 @@ Node* GameLogic::createParticle(const Vec2& pos) {
 
   parent->setScale(scale);
   parent->setPosition(pos);
+
+  parent->setCameraMask((unsigned short)CameraFlag::USER2);
   mParentLayer->addChild(parent, 15);
   return parent;
 }
@@ -477,8 +479,8 @@ void GameLogic::updateGame(float dt){
     ParticleBatchNode *batch0 = ParticleBatchNode::createWithTexture(m_emitter0->getTexture());
     batch0->addChild(m_emitter0);
     batch0->setPosition(mHero->getPosition());
+    batch0->setCameraMask((unsigned short)CameraFlag::USER2);
     mParentLayer->addChild(batch0,15,DIE_FX_TAG);
-
 #if 0
     mParentLayer->runAction(CCShake::create(0.3, 3));
 #endif
@@ -737,7 +739,20 @@ void GameLogic::updateCamera(cocos2d::Camera* cam) {
   }
   auto halfFrame = VisibleRect::getFrameSize() / 2;
   auto heroRel = mHero->getPosition() - halfFrame;
-  cam->setPosition(Vec2(halfFrame) + heroRel);
+  auto newPos = Vec2(halfFrame) + heroRel;
+#if EDITOR_MODE
+  newPos.x = std::max(newPos.x, halfFrame.width);
+  newPos.x = std::min(newPos.x, mBounds.size.width - halfFrame.width);
+  newPos.y = std::max(newPos.y, halfFrame.height);
+  newPos.y = std::min(newPos.y, mBounds.size.height + UI_LAYER_HIGHT - halfFrame.height);
+#else
+  auto center = VisibleRect::center();
+  newPos.x = std::max(newPos.x, center.x);
+  newPos.x = std::min(newPos.x, mBounds.size.width - center.x);
+  newPos.y = std::max(newPos.y, center.y);
+  newPos.y = std::min(newPos.y, mBounds.size.height - center.y);
+#endif
+  cam->setPosition(newPos);
 }
 
 void GameLogic::updateBounds() {

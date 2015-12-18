@@ -48,6 +48,8 @@ enum FollowMode {
   F_UP, F_DOWN, F_LEFT, F_RIGHT
 };
 
+#define UI_LAYER_HIGHT 100
+
 #define ZORDER_SHADOW_1 2
 #define ZORDER_SHADOW_2 3
 

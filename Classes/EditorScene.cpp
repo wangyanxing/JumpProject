@@ -20,8 +20,6 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-#define UI_LAYER_HIGHT 100
-
 EditorScene::~EditorScene() {
   if (mGame) {
     delete mGame;

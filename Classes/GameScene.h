@@ -78,12 +78,18 @@ private:
   PostUpdater mPostUpdater;
 
   cocos2d::Sprite* mLeftButton{ nullptr };
+
   cocos2d::Sprite* mRightButton{ nullptr };
+
   cocos2d::Sprite* mJumpButton{ nullptr };
 
   cocos2d::Label* mTimerLabel{ nullptr };
+
   cocos2d::MenuItemImage* mBackMenu{ nullptr };
+
   cocos2d::MenuItemImage* mRestartMenu{ nullptr };
+
+  cocos2d::Camera* mCamera{ nullptr };
 
   bool mCanJump{ true };
 };
