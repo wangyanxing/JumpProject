@@ -829,16 +829,10 @@ void EditorScene::initDrawNodes() {
 }
 
 void EditorScene::drawBorder() {
-  float left = 0, top = 0, right = 0, bottom = 0;
-  for (auto& p : mGame->mBlocks) {
-    auto size = p.second->getSprite()->getBoundingBox().size;
-    left = std::min(left, p.second->getPosition().x - size.width / 2);
-    right = std::max(right, p.second->getPosition().x + size.width / 2);
-    bottom = std::min(bottom, p.second->getPosition().y - size.height / 2);
-    top = std::max(top, p.second->getPosition().y + size.height / 2);
-  }
-
-  auto rect = this->getBoundingBox();
+  mGame->updateBounds();
+  auto bounds = mGame->mBounds;
+  float left = bounds.origin.x, bottom = bounds.origin.y;
+  float right = left + bounds.size.width, top = bottom + bounds.size.height;
   mBorderNode->clear();
   mBorderNode->drawSegment(Vec2(left, top), Vec2(left, bottom), 1, Color4F::RED);
   mBorderNode->drawSegment(Vec2(right, top), Vec2(right, bottom), 1, Color4F::RED);

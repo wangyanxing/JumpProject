@@ -1014,6 +1014,8 @@ void MapSerial::loadMap(const char* filename) {
     }
   }
 
+  GameLogic::Game->updateBounds();
+
   BlockBase::mIDCounter = maxID + 1;
 #if EDITOR_MODE
   std::string fixedfilename = filename;

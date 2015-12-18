@@ -77,6 +77,8 @@ public:
 
   void updateCamera(cocos2d::Camera* cam);
 
+  void updateBounds();
+
 public:
   cocos2d::Layer* mParentLayer{ nullptr };
 
@@ -141,6 +143,8 @@ public:
   std::vector<LightBeam*> mLightBeams;
   
   bool mJumpFlag{ false };
+
+  cocos2d::Rect mBounds;
 };
 
 #endif /* defined(__JumpEdt__LogicManager__) */

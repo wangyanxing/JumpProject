@@ -739,3 +739,15 @@ void GameLogic::updateCamera(cocos2d::Camera* cam) {
   auto heroRel = mHero->getPosition() - halfFrame;
   cam->setPosition(Vec2(halfFrame) + heroRel);
 }
+
+void GameLogic::updateBounds() {
+  float left = 0, top = 0, right = 0, bottom = 0;
+  for (auto& p : mBlocks) {
+    auto size = p.second->getSprite()->getBoundingBox().size;
+    left = std::min(left, p.second->getPosition().x - size.width / 2);
+    right = std::max(right, p.second->getPosition().x + size.width / 2);
+    bottom = std::min(bottom, p.second->getPosition().y - size.height / 2);
+    top = std::max(top, p.second->getPosition().y + size.height / 2);
+  }
+  mBounds = Rect(left, bottom, right - left, top - bottom);
+}
