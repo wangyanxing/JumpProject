@@ -124,13 +124,11 @@ bool EditorScene::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSo
 
 void EditorScene::mouseDown(cocos2d::Event* event) {
   auto mouse = (EventMouse*)event;
-  auto target = static_cast<Sprite*>(mouse->getCurrentTarget());
-
   Point pt(mouse->getCursorX(), mouse->getCursorY());
   convertMouse(pt);
 
-  Size size = target->getContentSize();
-  Rect rect = Rect(0, 0, size.width, size.height - UI_LAYER_HIGHT);
+  auto bounds = mGame->mBounds;
+  Rect rect = Rect(0, 0, bounds.size.width, bounds.size.height);
 
   if (!rect.containsPoint(pt)){
     return;
@@ -198,14 +196,12 @@ void EditorScene::mouseDown(cocos2d::Event* event) {
 
 void EditorScene::mouseUp(cocos2d::Event* event) {
   auto mouse = (EventMouse*)event;
-  auto target = static_cast<Sprite*>(mouse->getCurrentTarget());
 
   Point pt(mouse->getCursorX(), mouse->getCursorY());
   convertMouse(pt);
 
-  Size size = target->getContentSize();
-  Rect rect = Rect(0, 0, size.width, size.height - UI_LAYER_HIGHT);
-
+  auto bounds = mGame->mBounds;
+  Rect rect = Rect(0, 0, bounds.size.width, bounds.size.height);
   if (!rect.containsPoint(pt)){
     return;
   }
@@ -220,14 +216,13 @@ void EditorScene::mouseMove(cocos2d::Event* event) {
   auto delta = location - mLastCursorInView;
   mLastCursorInView = location;
 
-  auto target = static_cast<Sprite*>(mouse->getCurrentTarget());
   Point pt(mouse->getCursorX(), mouse->getCursorY());
   convertMouse(pt);
   Point dt = pt - mLastPoint;
   mLastPoint = pt;
 
-  Size size = target->getContentSize();
-  Rect rect = Rect(0, 0, size.width, size.height - UI_LAYER_HIGHT);
+  auto bounds = mGame->mBounds;
+  Rect rect = Rect(0, 0, bounds.size.width, bounds.size.height);
   if (!rect.containsPoint(pt)){
     return;
   }

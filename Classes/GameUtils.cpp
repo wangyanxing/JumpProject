@@ -18,7 +18,7 @@ void GameUtils::setPixelStyleTexture(Sprite* sp) {
   sp->getTexture()->setTexParameters(param);
 }
 
-SpriteUV* GameUtils::createRect(cocos2d::Rect rect, cocos2d::Color3B col) {
+SpriteUV* GameUtils::createRect(cocos2d::Rect rect, cocos2d::Color3B col, bool setCameraMask) {
   SpriteUV* sprite = SpriteUV::create("images/rect.png");
   setPixelStyleTexture(sprite);
 
@@ -26,11 +26,14 @@ SpriteUV* GameUtils::createRect(cocos2d::Rect rect, cocos2d::Color3B col) {
   sprite->setPosition(rect.origin.x + rect.size.width / 2, rect.origin.y + rect.size.height / 2);
   sprite->setColor(col);
   sprite->setContentSize(cocos2d::Size(ORG_RECT_SIZE,ORG_RECT_SIZE));
-  sprite->setCameraMask((unsigned short)CameraFlag::USER2);
+  if (setCameraMask) {
+    sprite->setCameraMask((unsigned short)CameraFlag::USER2);
+  }
   return sprite;
 }
 
-SpriteUV* GameUtils::createRect(cocos2d::Size size, cocos2d::Vec2 pos, cocos2d::Color3B col) {
+SpriteUV* GameUtils::createRect(cocos2d::Size size, cocos2d::Vec2 pos,
+                                cocos2d::Color3B col, bool setCameraMask) {
   SpriteUV* sprite = SpriteUV::create("images/rect.png");
   setPixelStyleTexture(sprite);
 
@@ -38,6 +41,8 @@ SpriteUV* GameUtils::createRect(cocos2d::Size size, cocos2d::Vec2 pos, cocos2d::
   sprite->setPosition(pos);
   sprite->setColor(col);
   sprite->setContentSize(cocos2d::Size(ORG_RECT_SIZE,ORG_RECT_SIZE));
-  sprite->setCameraMask((unsigned short)CameraFlag::USER2);
+  if (setCameraMask) {
+    sprite->setCameraMask((unsigned short)CameraFlag::USER2);
+  }
   return sprite;
 }
