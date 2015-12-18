@@ -73,6 +73,8 @@ public:
 
   void setShadowLayer(int layer);
 
+  void drawBorder();
+
   void alignLeft();
 
   void alignRight();
@@ -132,6 +134,8 @@ public:
   cocos2d::DrawNode* mGridNode{ nullptr };
 
   cocos2d::DrawNode* mGroupNode{ nullptr };
+
+  cocos2d::DrawNode* mBorderNode{ nullptr };
 
   cocos2d::Camera* mCamera{ nullptr };
 };

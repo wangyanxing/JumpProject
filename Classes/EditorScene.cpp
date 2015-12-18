@@ -218,7 +218,6 @@ void EditorScene::mouseUp(cocos2d::Event* event) {
 
 void EditorScene::mouseMove(cocos2d::Event* event) {
   auto mouse = (EventMouse*)event;
-
   auto location = mouse->getLocationInView();
   auto delta = location - mLastCursorInView;
   mLastCursorInView = location;
@@ -226,15 +225,14 @@ void EditorScene::mouseMove(cocos2d::Event* event) {
   auto target = static_cast<Sprite*>(mouse->getCurrentTarget());
   Point pt(mouse->getCursorX(), mouse->getCursorY());
   convertMouse(pt);
+  Point dt = pt - mLastPoint;
+  mLastPoint = pt;
 
   Size size = target->getContentSize();
   Rect rect = Rect(0, 0, size.width, size.height - UI_LAYER_HIGHT);
   if (!rect.containsPoint(pt)){
     return;
   }
-
-  Point dt = pt - mLastPoint;
-  mLastPoint = pt;
 
   if(mMovingBlock) {
     for(auto sel: mSelections) {
@@ -387,6 +385,10 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
     } else {
       getScene()->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     }
+  }
+
+  if (keyCode == EventKeyboard::KeyCode::KEY_F2) {
+    mBorderNode->setVisible(!mBorderNode->isVisible());
   }
 
   if (keyCode == EventKeyboard::KeyCode::KEY_P) {
@@ -586,6 +588,9 @@ void EditorScene::enableGame(bool val, bool force) {
   mLightPoint->setVisible(!val);
   mGradientCenterPoint->setVisible(!val);
 
+  if (mBorderNode) {
+    mBorderNode->setVisible(!val);
+  }
   if (mGroupNode) {
     mGroupNode->setVisible(!val);
   }
@@ -614,6 +619,10 @@ void EditorScene::onDrawPrimitive(const Mat4 &transform, uint32_t flags) {
 
 void EditorScene::update(float dt){
   mGame->update(dt);
+  updateCamera();
+  if (mBorderNode->isVisible()) {
+    drawBorder();
+  }
 }
 
 void EditorScene::updateCamera() {
@@ -808,10 +817,33 @@ void EditorScene::initDrawNodes() {
     }
   }
 
+  mBorderNode = DrawNode::create();
+  mBorderNode->setPosition(0, 0);
+  mBorderNode->setCameraMask((unsigned short)CameraFlag::USER2);
+
   addChild(mGridNode);
   addChild(mGroupNode);
+  addChild(mBorderNode, 50);
 
   mGridNode->setVisible(false);
+}
+
+void EditorScene::drawBorder() {
+  float left = 0, top = 0, right = 0, bottom = 0;
+  for (auto& p : mGame->mBlocks) {
+    auto size = p.second->getSprite()->getBoundingBox().size;
+    left = std::min(left, p.second->getPosition().x - size.width / 2);
+    right = std::max(right, p.second->getPosition().x + size.width / 2);
+    bottom = std::min(bottom, p.second->getPosition().y - size.height / 2);
+    top = std::max(top, p.second->getPosition().y + size.height / 2);
+  }
+
+  auto rect = this->getBoundingBox();
+  mBorderNode->clear();
+  mBorderNode->drawSegment(Vec2(left, top), Vec2(left, bottom), 1, Color4F::RED);
+  mBorderNode->drawSegment(Vec2(right, top), Vec2(right, bottom), 1, Color4F::RED);
+  mBorderNode->drawSegment(Vec2(left, top), Vec2(right, top), 1, Color4F::RED);
+  mBorderNode->drawSegment(Vec2(left, bottom), Vec2(right, bottom), 1, Color4F::RED);
 }
 
 #endif
