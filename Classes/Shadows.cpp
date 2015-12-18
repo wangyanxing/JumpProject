@@ -280,11 +280,10 @@ void ShadowManager::update(float dt) {
   updateBlock(GameLogic::Game->mHero, triangles[SHADOW_LAYER_HERO]);
 
   for(int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
+    mShadowDrawers[i]->clear();
     if (!triangles[i].empty()) {
-      mShadowDrawers[i]->clear();
       mShadowDrawers[i]->drawTriangles(triangles[i]);
     }
-
     mRenderTextures[i]->beginWithClear(0, 0, 0, 0);
     mShadowDrawers[i]->visit();
     mRenderTextures[i]->end();

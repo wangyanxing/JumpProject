@@ -352,9 +352,6 @@ void GameLogic::setBackGradientColor(const cocos2d::Color3B& colorSrc,
                                       mGradientColorDst.g/255.0,
                                       mGradientColorDst.b/255.0,
                                       0.4));
-#if USE_SHADOW
-  //mShadows->updateShaderParam();
-#endif
 }
 
 void GameLogic::setBackGradientCenter(const cocos2d::Vec2& pos) {
@@ -373,10 +370,6 @@ void GameLogic::setBackGradientCenter(const cocos2d::Vec2& pos) {
   mGradientCenter = pos;
   mBack->getGLProgramState()->setUniformVec4("data",
                                              Vec4(screenWidth, screenHeight, p.x, p.y));
-
-#if USE_SHADOW
-  //mShadows->updateShaderParam();
-#endif
 }
 
 void GameLogic::showGameScene(bool val) {

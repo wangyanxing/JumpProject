@@ -129,7 +129,6 @@ void EditorScene::mouseDown(cocos2d::Event* event) {
 
   auto bounds = mGame->mBounds;
   Rect rect = Rect(0, 0, bounds.size.width, bounds.size.height);
-
   if (!rect.containsPoint(pt)){
     return;
   }
@@ -196,7 +195,6 @@ void EditorScene::mouseDown(cocos2d::Event* event) {
 
 void EditorScene::mouseUp(cocos2d::Event* event) {
   auto mouse = (EventMouse*)event;
-
   Point pt(mouse->getCursorX(), mouse->getCursorY());
   convertMouse(pt);
 
@@ -244,7 +242,6 @@ void EditorScene::convertMouse(cocos2d::Point& pt) {
 
   pt.y = height + pt.y;
   pt = convertToNodeSpace(pt);
-
   auto camRelative = mCamera->getPosition() - visRect.size / 2;
   pt += camRelative;
 }
