@@ -39,6 +39,8 @@ bool LevelScene::init()  {
   }
   instance = this;
 
+  MapSerial::saveRemoteMaps();
+
   Size size = Director::getInstance()->getWinSize();
   Director::getInstance()->setClearColor(Color4F::WHITE);
 

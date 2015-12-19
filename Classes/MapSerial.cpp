@@ -1047,18 +1047,15 @@ void MapSerial::loadMap(const char* filename) {
 
 #if EDITOR_MODE
 void MapSerial::loadMap(bool local) {
-
   std::string fullpath = getMapDir();
   std::vector<std::string> out;
   auto filter = "JSON file(json)|*.json|All files (*.*)|*.*";
-  DiPathLib::OpenFileDialog(nullptr, "Open map", fullpath+(local?"/local":"/remote"), "", filter, 0, out);
-
+  DiPathLib::OpenFileDialog(nullptr, "Open map", fullpath+(local?"/local":"/remote"),
+                            "", filter, 0, out);
   if (out.empty()) {
     return;
   }
-
   auto filename = out[0];
-
   loadMap(filename.c_str());
 }
 #endif

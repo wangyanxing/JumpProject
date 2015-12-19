@@ -16,7 +16,6 @@
 #include "VisibleRect.h"
 #include "SpriteSoft.h"
 #include "LightBeam.h"
-
 #include "TimeEvent.h"
 
 #if EDITOR_MODE
@@ -472,7 +471,7 @@ void GameLogic::postUpdate(float dt) {
 
 void GameLogic::updateGame(float dt){
   if(mDeadFlag && !mRejectInput) {
-    // play dead effect
+    // Play dead effect
     ParticleSystem* m_emitter0 = ParticleSystemQuad::create("fx/diefx.plist");
     ParticleBatchNode *batch0 = ParticleBatchNode::createWithTexture(m_emitter0->getTexture());
     batch0->addChild(m_emitter0);

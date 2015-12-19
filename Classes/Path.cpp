@@ -11,33 +11,33 @@
 USING_NS_CC;
 
 void Path::update(float dt, cocos2d::Vec2& out, cocos2d::Vec2& outsize) {
-  if (mPoints.empty() || mPoints.size()==1) {
+  if (mPoints.empty() || mPoints.size() == 1) {
     return;
   }
-  if(mPause) {
+  if (mPause) {
     dt = 0;
   }
 
-  if(mDisable) {
+  if (mDisable) {
     out = mPoints[0].pt;
   } else {
     // Process path timer
-    if(mPathWaitingTimer > mPathWaitTime) {
+    if (mPathWaitingTimer > mPathWaitTime) {
       int nextPt = nextPoint();
 
-      if(mWaitingTimer > mPoints[mCurPt].waitTime) {
+      if (mWaitingTimer > mPoints[mCurPt].waitTime) {
         auto pt = mPoints[mCurPt];
         auto ptNext = mPoints[nextPt];
         float dist = pt.pt.distance(ptNext.pt);
 
         mCurDist += mSpeed * dt;
-        if(mCurDist >= dist) {
+        if (mCurDist >= dist) {
           // Move to next point
           mCurDist -= dist;
           mWaitingTimer = 0;
 
-          if(mDirection) {
-            if(nextPt == mPoints.size() - 1 && mPingPong) {
+          if (mDirection) {
+            if (nextPt == mPoints.size() - 1 && mPingPong) {
               mDirection = !mDirection;
             }
           } else {
@@ -71,7 +71,7 @@ void Path::update(float dt, cocos2d::Vec2& out, cocos2d::Vec2& outsize) {
 
 #if EDITOR_MODE
   mSegmentNode->clear();
-  for(size_t i = 0; i < mPoints.size() - 1; ++i) {
+  for (size_t i = 0; i < mPoints.size() - 1; ++i) {
     mSegmentNode->drawSegment(mPoints[i].pt, mPoints[i + 1].pt, 1, cocos2d::Color4F(0, 1, 0, 1));
   }
 #endif
@@ -112,7 +112,7 @@ void Path::push(const cocos2d::Vec2& pos, float waitTime, float width, float hei
 
 void Path::cloneFrom(const Path& rsh, const cocos2d::Vec2& posBias) {
   reset();
-  for(size_t i = 0; i < rsh.mPoints.size(); ++i) {
+  for (size_t i = 0; i < rsh.mPoints.size(); ++i) {
     const auto& p = rsh.mPoints[i];
     push(p.pt + posBias, p.waitTime, p.width, p.height);
   }
@@ -124,7 +124,7 @@ void Path::cloneFrom(const Path& rsh, const cocos2d::Vec2& posBias) {
 
 int Path::nextPoint() {
   int nextPt;
-  if(mPingPong) {
+  if (mPingPong) {
     nextPt = mDirection ? mCurPt + 1 : mCurPt - 1;
     nextPt %= mPoints.size();
   } else {

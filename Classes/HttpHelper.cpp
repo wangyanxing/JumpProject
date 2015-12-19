@@ -35,7 +35,6 @@ using namespace rapidjson;
 std::vector<MapResource> HttpHelper::sAllMaps;
 
 void HttpHelper::getAllMaps() {
-
   cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest();
   request->setUrl(GET_URL);
 
@@ -45,7 +44,6 @@ void HttpHelper::getAllMaps() {
                                     cocos2d::network::HttpResponse* response){
 
     if(response->isSucceed() && response->getResponseCode() == 200) {
-
       CCLOG("Got reponse from server: HTTP 200 OK");
 
       std::vector<char> *buf = response->getResponseData();
@@ -78,13 +76,11 @@ void HttpHelper::getAllMaps() {
       }
 
       delete[] buffer;
-
       MapSerial::afterLoadRemoteMaps();
     } else {
       CCLOG("HTTP GET ERROR(code %ld): %s", response->getResponseCode(), response->getErrorBuffer());
     }
-  } );
-
+  });
 
   request->setTag("GET get_maps");
   cocos2d::network::HttpClient::getInstance()->send(request);
