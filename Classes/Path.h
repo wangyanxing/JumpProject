@@ -14,13 +14,13 @@
 
 class Path {
 public:
-
   Path() {
 #if EDITOR_MODE
     mHelperNode = cocos2d::Node::create();
     mHelperNode->setPosition(0, 0);
     mSegmentNode = cocos2d::DrawNode::create();
-    mHelperNode->addChild(mSegmentNode,90);
+    mHelperNode->addChild(mSegmentNode, 90);
+    mHelperNode->setCameraMask((unsigned short)cocos2d::CameraFlag::USER2);
 #endif
   }
 
@@ -39,10 +39,13 @@ public:
       width = w;
       height = h;
     }
+
     cocos2d::Vec2 pt;
 
     float waitTime{ -1 };
+
     float width{ 1 };
+
     float height{ 1 };
   };
 
@@ -73,7 +76,9 @@ public:
   }
 
   void clear() {
-    while(!empty()) pop();
+    while(!empty()) {
+      pop();
+    }
   }
 
   void pop();
@@ -94,7 +99,6 @@ public:
   void translatePoints(const cocos2d::Vec2& d) {
     for(size_t i = 0; i < mPoints.size(); ++i) {
       mPoints[i].pt += d;
-
 #if EDITOR_MODE
       auto node = mHelperNode->getChildByTag(i);
       node->setPosition(mPoints[i].pt);
@@ -114,22 +118,32 @@ public:
 #endif
 
   bool mPingPong{ true };
+
   float mSpeed{ 50 };
+
   float mPathWaitTime{ -1 };
+
   bool mDirection{ true };
+
   int mCurPt{ 0 };
+
   float mCurDist{ 0 };
+
   float mWaitingTimer{ 0 };
+
   float mPathWaitingTimer{ 0 };
+
   bool mDisable{ true };
+
   bool mPause{ false };
+
   bool mOriginalPause{ false };
 
 #if EDITOR_MODE
   cocos2d::DrawNode* mSegmentNode{ nullptr };
+
   cocos2d::Node* mHelperNode{ nullptr };
 #endif
-
 private:
 
   std::vector<PathPoint> mPoints;

@@ -265,10 +265,9 @@ void Button::updatePosition() {
 }
 
 Button::Button(BlockBase* parent) : mParent(parent) {
-  //mRestoreSize = mParent->getBoundingBox().size;
-
 #if EDITOR_MODE
   mHelperNode = DrawNode::create();
+  mHelperNode->setCameraMask((unsigned short)CameraFlag::USER2);
   mParent->getSprite()->getParent()->addChild(mHelperNode,1000);
   updateHelper();
 #endif

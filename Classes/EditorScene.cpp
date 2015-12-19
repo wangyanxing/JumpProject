@@ -799,25 +799,33 @@ void EditorScene::initDrawNodes() {
     x += size.width;
   }
 
-  mGroupNode = DrawNode::create();
+  mBorderNode = DrawNode::create();
+  mBorderNode->setPosition(0, 0);
+
+  mGridNode->setCameraMask((unsigned short)CameraFlag::USER2);
+  mBorderNode->setCameraMask((unsigned short)CameraFlag::USER2);
+
+  addChild(mGridNode);
+  addChild(mBorderNode, 50);
+
+  mGridNode->setVisible(false);
+}
+
+void EditorScene::updateGroupDrawNode() {
+  if (!mGroupNode) {
+    mGroupNode = DrawNode::create();
+    addChild(mGroupNode);
+    mGroupNode->setCameraMask((unsigned short)CameraFlag::USER2);
+  }
+  mGroupNode->clear();
   Color4F lineColor(0.06f, 0.18f, 0.96f, 1);
   for(auto g : mGame->mGroups){
     auto head = g.first;
     for(auto m : g.second) {
       mGroupNode->drawSolidCircle(m->getPosition(), 3, 0, 20, 1, 1, lineColor);
-      mGroupNode->drawLine(head->getPosition(), m->getPosition(), lineColor);
+      mGroupNode->drawSegment(head->getPosition(), m->getPosition(), 1, lineColor);
     }
   }
-
-  mBorderNode = DrawNode::create();
-  mBorderNode->setPosition(0, 0);
-  mBorderNode->setCameraMask((unsigned short)CameraFlag::USER2);
-
-  addChild(mGridNode);
-  addChild(mGroupNode);
-  addChild(mBorderNode, 50);
-
-  mGridNode->setVisible(false);
 }
 
 void EditorScene::drawBorder() {

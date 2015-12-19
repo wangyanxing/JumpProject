@@ -57,6 +57,8 @@ public:
 
   void initDrawNodes();
 
+  void updateGroupDrawNode();
+
   void draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags);
 
   void onDrawPrimitive(const cocos2d::Mat4 &transform, uint32_t flags);

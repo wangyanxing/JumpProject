@@ -1040,6 +1040,7 @@ void MapSerial::loadMap(const char* filename) {
 #endif
 
 #if EDITOR_MODE
+  EditorScene::Scene->updateGroupDrawNode();
   EditorScene::Scene->enableGame(false,true);
 #endif
 }

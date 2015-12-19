@@ -73,7 +73,9 @@ public:
 
 #if EDITOR_MODE
   void updateHelper();
+
   void showHelper(bool val) {mHelperNode->setVisible(val);}
+
   cocos2d::DrawNode* mHelperNode{ nullptr };
 #endif
 };

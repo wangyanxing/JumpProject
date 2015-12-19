@@ -82,7 +82,7 @@ public:
 public:
   cocos2d::Layer* mParentLayer{ nullptr };
 
-  std::map<BlockBase*,std::vector<BlockBase*>> mGroups;
+  std::map<BlockBase*, std::vector<BlockBase*>> mGroups;
 
   Hero* mHero{ nullptr };
 
