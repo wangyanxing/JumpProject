@@ -124,12 +124,15 @@ bool EditorScene::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSo
 
 void EditorScene::mouseDown(cocos2d::Event* event) {
   auto mouse = (EventMouse*)event;
+
   Point pt(mouse->getCursorX(), mouse->getCursorY());
+  Point ptInView = pt;
   convertMouse(pt);
+  convertMouse(ptInView, false);
 
   auto bounds = mGame->mBounds;
   Rect rect = Rect(0, 0, bounds.size.width, bounds.size.height);
-  if (!rect.containsPoint(pt)){
+  if (!rect.containsPoint(ptInView)){
     return;
   }
 
@@ -195,12 +198,15 @@ void EditorScene::mouseDown(cocos2d::Event* event) {
 
 void EditorScene::mouseUp(cocos2d::Event* event) {
   auto mouse = (EventMouse*)event;
+
   Point pt(mouse->getCursorX(), mouse->getCursorY());
+  Point ptInView = pt;
   convertMouse(pt);
+  convertMouse(ptInView, false);
 
   auto bounds = mGame->mBounds;
   Rect rect = Rect(0, 0, bounds.size.width, bounds.size.height);
-  if (!rect.containsPoint(pt)){
+  if (!rect.containsPoint(ptInView)){
     return;
   }
 
@@ -215,13 +221,15 @@ void EditorScene::mouseMove(cocos2d::Event* event) {
   mLastCursorInView = location;
 
   Point pt(mouse->getCursorX(), mouse->getCursorY());
+  Point ptInView = pt;
   convertMouse(pt);
+  convertMouse(ptInView, false);
   Point dt = pt - mLastPoint;
   mLastPoint = pt;
 
   auto bounds = mGame->mBounds;
   Rect rect = Rect(0, 0, bounds.size.width, bounds.size.height);
-  if (!rect.containsPoint(pt)){
+  if (!rect.containsPoint(ptInView)){
     return;
   }
 
@@ -236,14 +244,16 @@ void EditorScene::mouseMove(cocos2d::Event* event) {
   }
 }
 
-void EditorScene::convertMouse(cocos2d::Point& pt) {
+void EditorScene::convertMouse(cocos2d::Point& pt, bool cameraRelative) {
   auto visRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
   auto height = visRect.origin.y + visRect.size.height;
 
   pt.y = height + pt.y;
   pt = convertToNodeSpace(pt);
-  auto camRelative = mCamera->getPosition() - visRect.size / 2;
-  pt += camRelative;
+  if (cameraRelative) {
+    auto camRelative = mCamera->getPosition() - visRect.size / 2;
+    pt += camRelative;
+  }
 }
 
 void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event) {

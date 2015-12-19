@@ -107,12 +107,14 @@ bool GameScene::init() {
   }
   mGame = new GameLogic(this);
   mGame->mWinGameEvent = [this]{onWinGame();};
-  createControlPad();
-  createMenuButtons();
 
   mCamera->setCameraFlag(CameraFlag::USER2);
+  mCamera->setDepth(-10);  
   addChild(mCamera);
   setCameraMask((unsigned short)CameraFlag::USER2);
+
+  createControlPad();
+  createMenuButtons();
   return true;
 }
 
@@ -170,7 +172,6 @@ void GameScene::showHideMenu(bool force) {
     auto down = Vec2(VisibleRect::center().x, VisibleRect::top().y - 50);
     auto up = Vec2(VisibleRect::center().x, VisibleRect::top().y + 50);
     bool out = mTimerLabel->getPositionY() > VisibleRect::top().y;
-
     mTimerLabel->runAction(MoveTo::create(0.3, out ? down : up));
   }
   if(force || mBackMenu->getNumberOfRunningActions() == 0) {
@@ -227,7 +228,6 @@ void GameScene::toMainMenu() {
 }
 
 void GameScene::createMenuButtons() {
-
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
   mTimerLabel = Label::createWithSystemFont("0.0",
                                             "Heiti TC",

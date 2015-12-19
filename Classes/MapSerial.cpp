@@ -366,6 +366,7 @@ void MapSerial::saveMap(const char* file) {
     INDENT_3 ss << "\"size\": " << size2Str(b->mRestoreSize); RT_LINE
     INDENT_3 ss << "\"position\": " << vec2Str(b->mRestorePosition); RT_LINE
     INDENT_3 ss << "\"pickable\": " << bool2Str(b->mCanPickup); RT_LINE
+    INDENT_3 ss << "\"removable\": " << bool2Str(b->mCanDelete); RT_LINE
     INDENT_3 ss << "\"rotatespeed\": " << b->mRotationSpeed; RT_LINE
     INDENT_3 ss << "\"shadowLength\": " << b->mShadowLength; RT_LINE
     INDENT_3 ss << "\"shadowEnable\": " << bool2Str(b->mCastShadow); RT_LINE
@@ -777,6 +778,7 @@ void MapSerial::loadMap(const char* filename) {
       Size size;
       Vec2 pos;
       bool pickable = true;
+      bool removable = true;
       int rotSpeed = 0;
       BlockKind kind = KIND_BLOCK;
       std::string textureName = "images/saw3.png";
@@ -799,8 +801,12 @@ void MapSerial::loadMap(const char* filename) {
         size.height = std::max(size.height, 0.5f);
       }SHOW_WARNING
 
-      if(var["position"].IsString()) {
+      if(CHECK_STRING(var, "position")) {
         pos = str2Vec(var["position"].GetString());
+      }SHOW_WARNING
+
+      if(CHECK_BOOL(var, "removable")) {
+        removable = var["removable"].GetBool();
       }SHOW_WARNING
 
       if(var["pickable"].IsBool()) {
@@ -873,7 +879,7 @@ void MapSerial::loadMap(const char* filename) {
       block->addToScene(GameScene::Scene);
 #endif
       block->mTextureName = textureName;
-      if (paletteIndex!=-1)
+      if (paletteIndex != -1)
         block->setColor(paletteIndex);
 
       if (kind == KIND_DEATH_CIRCLE || kind == KIND_DEATH) {
@@ -889,7 +895,6 @@ void MapSerial::loadMap(const char* filename) {
 
       if (CHECK_ARRAY(var, "initEvents")) {
         auto initEventSize = var["initEvents"].Size();
-
         for (auto i = 0; i < initEventSize; i++) {
           std::string initEvent = var["initEvents"][i].GetString();
           block->mInitialEvents.push_back(initEvent);
@@ -899,6 +904,7 @@ void MapSerial::loadMap(const char* filename) {
       block->mID = id;
       block->setKind(kind);
       block->mCanPickup = pickable;
+      block->mCanDelete = id > 4 ? removable : false;
       block->mRotationSpeed = rotSpeed;
       block->mShadowLength = shadowLeng;
       block->mCastShadow = shadowEnable;

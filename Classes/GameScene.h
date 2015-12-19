@@ -55,6 +55,8 @@ public:
 
   void showDieFullScreenAnim();
 
+  cocos2d::Camera* getCamera() { return mCamera; }
+
   CREATE_FUNC(GameScene);
 
 private:

@@ -47,7 +47,7 @@ public:
 
   void mouseMove(cocos2d::Event* event);
 
-  void convertMouse(cocos2d::Point& pt);
+  void convertMouse(cocos2d::Point& pt, bool cameraRelative = true);
 
   bool onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::PhysicsContactPreSolve& solve);
 

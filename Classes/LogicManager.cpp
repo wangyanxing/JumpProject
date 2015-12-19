@@ -755,6 +755,7 @@ void GameLogic::updateCamera(cocos2d::Camera* cam) {
   newPos.y = std::min(newPos.y, mBounds.size.height - center.y);
 #endif
   cam->setPosition(newPos);
+  mBack->setPosition(cam->getPosition());
 }
 
 void GameLogic::updateBounds() {

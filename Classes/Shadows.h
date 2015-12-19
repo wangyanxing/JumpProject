@@ -37,13 +37,12 @@ public:
 
   void update(float dt);
 
-  void updateNodes(int layer, float dt, std::vector<cocos2d::Node*>& nodes, bool clipX);
-
   void updateBlock(BlockBase* block,
                    std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles,
                    bool clipX = false);
 
-  std::pair<cocos2d::Vec2, cocos2d::Vec2> getShadowEntry(const std::vector<cocos2d::Vec2>& pts);
+  std::pair<cocos2d::Vec2, cocos2d::Vec2> getShadowEntry(const std::vector<cocos2d::Vec2>& pts,
+                                                         const cocos2d::Vec2& lightPos);
 
   cocos2d::Vec2 mLightPos;
 
