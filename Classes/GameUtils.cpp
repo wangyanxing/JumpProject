@@ -9,6 +9,10 @@
 using namespace cocos2d;
 using namespace cocos2d::extension;
 
+void GameUtils::logVec2(const cocos2d::Vec2& vec2) {
+  CCLOG("x = %.2f, y = %.2f", vec2.x, vec2.y);
+}
+
 void GameUtils::setPixelStyleTexture(Sprite* sp) {
   static Texture2D::TexParams param;
   param.minFilter = GL_NEAREST;

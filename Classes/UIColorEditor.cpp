@@ -40,7 +40,7 @@ void UIColorEditor::init(cocos2d::Node* parent){
   mShowhideColorButton->setTexture("images/sakura.png");
   mShowhideColorButton->setScale(0.5f);
 
-  parent->addChild(mShowhideColorButton);
+  parent->addChild(mShowhideColorButton, 100);
 
   auto listener = EventListenerTouchOneByOne::create();
   listener->setSwallowTouches(true);

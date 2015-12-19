@@ -665,9 +665,11 @@ BlockBase* GameLogic::createBlock(const cocos2d::Vec2& pos, BlockKind kind) {
 }
 
 void GameLogic::clearStars() {
+#if 0
   for(auto f : mStarNodes) {
     f->removeFromParent();
   }
+#endif
   mStarNodes.clear();
   mStarList.clear();
 }
@@ -747,15 +749,17 @@ void GameLogic::updateCamera(cocos2d::Camera* cam) {
   newPos.x = std::min(newPos.x, mBounds.size.width - halfFrame.width);
   newPos.y = std::max(newPos.y, halfFrame.height);
   newPos.y = std::min(newPos.y, mBounds.size.height + UI_LAYER_HIGHT - halfFrame.height);
+  auto camRelative = newPos - VisibleRect::getVisibleRect().size / 2 - Vec2(0, UI_LAYER_HIGHT / 2);
 #else
   auto center = VisibleRect::center();
   newPos.x = std::max(newPos.x, center.x);
   newPos.x = std::min(newPos.x, mBounds.size.width - center.x);
   newPos.y = std::max(newPos.y, center.y);
   newPos.y = std::min(newPos.y, mBounds.size.height - center.y);
+  auto camRelative = newPos - VisibleRect::getVisibleRect().size / 2;
 #endif
   cam->setPosition(newPos);
-  mBack->setPosition(cam->getPosition());
+  mBack->setPosition(VisibleRect::center() + camRelative);
 }
 
 void GameLogic::updateBounds() {
