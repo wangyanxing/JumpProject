@@ -56,4 +56,10 @@ enum FollowMode {
 #define USE_SHADER_LAYER 0
 #define USE_SHADOW 1
 
+#define BORDER_BLOCK_LEFT 3
+#define BORDER_BLOCK_RIGHT 4
+#define BORDER_BLOCK_TOP 2
+#define BORDER_BLOCK_BOTTOM 1
+#define BORDER_FRAME_SIZE 10
+
 #endif /* defined(__JumpEdt__Defines__) */

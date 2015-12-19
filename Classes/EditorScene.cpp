@@ -509,7 +509,9 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
       }
     } else {
       for(auto sel : mSelections) {
-        mGame->deleteBlock(sel);
+        if (sel->mCanDelete) {
+          mGame->deleteBlock(sel);
+        }
       }
     }
     mSelections.clear();

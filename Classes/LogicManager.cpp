@@ -379,35 +379,40 @@ void GameLogic::showGameScene(bool val) {
 void GameLogic::createFixedBlocks() {
   auto width = VisibleRect::right().x;
   auto height = VisibleRect::top().y;
-  int frameSize = 10;
   {
+    // Bottom
     BlockBase* block = new BlockBase();
-    block->mCanPickup = false;
-    block->create(Rect(0,0,width,frameSize));
+    block->mCanDelete = false;
+    block->create(Rect(0, -BORDER_FRAME_SIZE, width, BORDER_FRAME_SIZE));
     block->addToScene(mParentLayer);
     mBlockTable[block->getSprite()] = block;
     mBlocks[block->mID] = block;
   }
   {
+    // Top
     BlockBase* block = new BlockBase();
-    block->mCanPickup = false;
-    block->create(Rect(0,height-frameSize,width,frameSize));
+    block->mCanDelete = false;
+    block->create(Rect(0, height, width, BORDER_FRAME_SIZE));
     block->addToScene(mParentLayer);
     mBlockTable[block->getSprite()] = block;
     mBlocks[block->mID] = block;
   }
   {
+    // Left
     BlockBase* block = new BlockBase();
-    block->mCanPickup = false;
-    block->create(Rect(0,0,frameSize,height));
+    block->mCanDelete = false;
+    block->create(Rect(-BORDER_FRAME_SIZE, -BORDER_FRAME_SIZE,
+                       BORDER_FRAME_SIZE, height + BORDER_FRAME_SIZE * 2));
     block->addToScene(mParentLayer);
     mBlockTable[block->getSprite()] = block;
     mBlocks[block->mID] = block;
   }
   {
+    // Right
     BlockBase* block = new BlockBase();
-    block->mCanPickup = false;
-    block->create(Rect(width-frameSize,0,frameSize,height));
+    block->mCanDelete = false;
+    block->create(Rect(width, -BORDER_FRAME_SIZE,
+                       BORDER_FRAME_SIZE, height + BORDER_FRAME_SIZE * 2));
     block->addToScene(mParentLayer);
     mBlockTable[block->getSprite()] = block;
     mBlocks[block->mID] = block;
@@ -635,6 +640,11 @@ void GameLogic::enableGame(bool val, bool force) {
     b->reset();
   }
 
+  for(int i = 1; i <= 4; ++i) {
+    if (mBlocks[i]) {
+      mBlocks[i]->getSprite()->setVisible(!val);
+    }
+  }
   mGameTimer = 0;
 }
 
@@ -749,13 +759,10 @@ void GameLogic::updateCamera(cocos2d::Camera* cam) {
 }
 
 void GameLogic::updateBounds() {
-  float left = 0, top = 0, right = 0, bottom = 0;
-  for (auto& p : mBlocks) {
-    auto size = p.second->getSprite()->getBoundingBox().size;
-    left = std::min(left, p.second->getPosition().x - size.width / 2);
-    right = std::max(right, p.second->getPosition().x + size.width / 2);
-    bottom = std::min(bottom, p.second->getPosition().y - size.height / 2);
-    top = std::max(top, p.second->getPosition().y + size.height / 2);
-  }
+  float halfBorderSize = BORDER_FRAME_SIZE / 2;
+  float left = mBlocks[BORDER_BLOCK_LEFT]->getPosition().x + halfBorderSize;
+  float right = mBlocks[BORDER_BLOCK_RIGHT]->getPosition().x - halfBorderSize;
+  float top = mBlocks[BORDER_BLOCK_TOP]->getPosition().y - halfBorderSize;
+  float bottom = mBlocks[BORDER_BLOCK_BOTTOM]->getPosition().y + halfBorderSize;
   mBounds = Rect(left, bottom, right - left, top - bottom);
 }

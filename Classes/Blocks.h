@@ -176,6 +176,8 @@ public:
 
   bool mCanPickup{ true };
 
+  bool mCanDelete{ true };
+
   int mID{ 0 };
 
   cocos2d::Size mRestoreSize;

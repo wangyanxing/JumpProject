@@ -205,9 +205,9 @@ void ShadowManager::updateNodes(int layer, float dt,
     auto entries = getShadowEntry(pts);
 
     Color4B colorBase = Color4B::BLACK;
-    colorBase.r = 255 * (1-mShadowDarkness);
-    colorBase.g = 255 * (1-mShadowDarkness);
-    colorBase.b = 255 * (1-mShadowDarkness);
+    colorBase.r = 255 * (1 - mShadowDarkness);
+    colorBase.g = 255 * (1 - mShadowDarkness);
+    colorBase.b = 255 * (1 - mShadowDarkness);
 
     const float LENGTH = 1500;
 
@@ -222,7 +222,6 @@ void ShadowManager::updateNodes(int layer, float dt,
     if(clipX) {
       Vec2 leftupper(0, 2000);
       Vec2 leftlower(0, -1000);
-
       Vec2 rightupper(VisibleRect::right().x, 2000);
       Vec2 rightlower(VisibleRect::right().x, -1000);
 
@@ -271,7 +270,6 @@ void ShadowManager::updateNodes(int layer, float dt,
 
 void ShadowManager::update(float dt) {
   std::vector<V2F_C4B_T2F_Triangle> triangles[NUM_SHADOW_LAYERS];
-
   for(auto b : GameLogic::Game->mBlocks) {
     auto block = b.second;
     updateBlock(block, triangles[block->mShadowLayerID]);
@@ -302,7 +300,6 @@ void ShadowManager::update(float dt) {
 
   if(lightLeft == heroLeft && mLightMoveTimer > 10) {
     mLightMoveTimer = 0;
-
     mMoveTarget = heroLeft ? VisibleRect::center().x + dis : VisibleRect::center().x - dis;
     mMovingSpeed = (dis * 2) / 3.0f;
     if(!heroLeft) {
