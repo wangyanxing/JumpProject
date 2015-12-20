@@ -5,6 +5,7 @@
 #include "GameUtils.h"
 #include "VisibleRect.h"
 #include "cocos-ext.h"
+#include "Defines.h"
 
 #define _COLOR_DEBUG_	1
 
@@ -32,11 +33,19 @@ void UIColorEditor::init(cocos2d::Node* parent){
     indexData[i] = i;
   }
 
+  auto background = GameUtils::createRect(Rect(0, 0,
+                                               VisibleRect::getFrameSize().width,
+                                               UI_LAYER_HIGHT),
+                                          Color3B::GRAY, false);
+  background->setPositionY(EDT_UI_YBIAS + UI_LAYER_HIGHT/2);
+  parent->addChild(background);
+
   Rect r;
   r.origin = Point::ZERO;
   r.size = Size(COLOR_BUTTON_SIZE, COLOR_BUTTON_SIZE);
-  mShowhideColorButton = GameUtils::createRect(r, Color3B(0xff, 0xff, 0xff), false);
-  mShowhideColorButton->setPosition(Vec2(COLOR_BUTTON_SIZE, COLOR_BUTTON_SIZE*1.5f));
+  mShowhideColorButton = GameUtils::createRect(r, Color3B::WHITE, false);
+  mShowhideColorButton->setPositionX(COLOR_BUTTON_SIZE);
+  mShowhideColorButton->setPositionY(COLOR_BUTTON_SIZE * 1.5f + EDT_UI_YBIAS);
   mShowhideColorButton->setTexture("images/sakura.png");
   mShowhideColorButton->setScale(0.5f);
 
@@ -44,7 +53,6 @@ void UIColorEditor::init(cocos2d::Node* parent){
 
   auto listener = EventListenerTouchOneByOne::create();
   listener->setSwallowTouches(true);
-
   listener->onTouchBegan = CC_CALLBACK_2(UIColorEditor::beginTouchShowHide, this);
   EventDispatcher* _eventDispatcher = Director::getInstance()->getEventDispatcher();
   _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, mShowhideColorButton);
@@ -54,12 +62,9 @@ void UIColorEditor::init(cocos2d::Node* parent){
 
 bool UIColorEditor::beginTouchShowHide(cocos2d::Touch* touch, cocos2d::Event* event){
   auto target = static_cast<Sprite*>(event->getCurrentTarget());
-  Point locationInNode = target->convertTouchToNodeSpace(touch);
-
-  Size size = target->getContentSize();
-  Rect rect = Rect(0, 0, size.width, size.height);
-
-  if (rect.containsPoint(locationInNode)){
+  auto loc = touch->getLocation();
+  auto rect = target->getBoundingBox();
+  if (rect.containsPoint(loc)){
     mColorButtonShow = !mColorButtonShow;
     updateColorButtonDisplay();
   }
@@ -68,12 +73,9 @@ bool UIColorEditor::beginTouchShowHide(cocos2d::Touch* touch, cocos2d::Event* ev
 
 bool UIColorEditor::beginTouchColor(cocos2d::Touch* touch, cocos2d::Event* event){
   auto target = static_cast<Sprite*>(event->getCurrentTarget());
-  Point locationInNode = target->convertTouchToNodeSpace(touch);
-
-  Size size = target->getContentSize();
-  Rect rect = Rect(0, 0, size.width, size.height);
-
-  if (rect.containsPoint(locationInNode)){
+  auto loc = touch->getLocation();
+  auto rect = target->getBoundingBox();
+  if (rect.containsPoint(loc)){
     void* p = target->getUserData();
     int index = *(int*)p;
 
@@ -83,7 +85,7 @@ bool UIColorEditor::beginTouchColor(cocos2d::Touch* touch, cocos2d::Event* event
     UILayer::Layer->addMessage(num);
 #endif
 
-    if (onSetColorFunc != nullptr) {
+    if (onSetColorFunc) {
       onSetColorFunc(mPaletteIndexArray[index], mPaletteColorArray[index]);
     }
   }
@@ -92,7 +94,7 @@ bool UIColorEditor::beginTouchColor(cocos2d::Touch* touch, cocos2d::Event* event
 
 void UIColorEditor::updateColorButtonDisplay(){
   for (int i = 0; i < mColorButtons.size(); i++){
-    if (mPaletteIndexArray[i]>-1 && mColorButtonShow){
+    if (mPaletteIndexArray[i] > -1 && mColorButtonShow){
       mColorButtons[i]->setColor(mPaletteColorArray[i]);
       mColorButtons[i]->setVisible(true);
     } else {
@@ -109,8 +111,9 @@ void UIColorEditor::initColorButtons(cocos2d::Node* parent){
       r.size = Size(COLOR_BUTTON_SIZE, COLOR_BUTTON_SIZE);
 
       auto button = GameUtils::createRect(r, Color3B(0xFF, 0xFF, 0xFF), false);
-      button->setPosition(Vec2(COLOR_BUTTON_SIZE*(j + 2.5f) + SPACE_BETWEEN_TWO_BUTTON*j,
-                               COLOR_BUTTON_SIZE*(2 - i) - SPACE_BETWEEN_TWO_BUTTON*i));
+      button->setPosition(Vec2(COLOR_BUTTON_SIZE*(j + 2.5f) + SPACE_BETWEEN_TWO_BUTTON * j,
+                               COLOR_BUTTON_SIZE*(2 - i) - SPACE_BETWEEN_TWO_BUTTON * i +
+                               EDT_UI_YBIAS));
       button->setTexture("images/rect.png");
       void* p = (void*)&indexData[BUTTON_COLS*i + j];
       button->setUserData(p);

@@ -28,29 +28,21 @@ void UILayer::init(cocos2d::Node* parent) {
   auto vis = Director::getInstance()->getOpenGLView()->getVisibleRect();
   auto height = vis.size.height - VisibleRect::top().y;
 
-  mLayer = LayerColor::create(Color4B(0x1E,0xB5,0xC7,0xFF), VisibleRect::right().x, height);
+  mLayer = Layer::create();
+  mLayer->setContentSize(Size(VisibleRect::right().x, height));
   parent->addChild(mLayer);
-
-  TTFConfig config("fonts/Montserra.ttf",15);
-  mFileNameLabel = Label::createWithTTF(config,"");
-  mFileNameLabel->setPosition(0, 30);
-  mLayer->addChild(mFileNameLabel);
-
-  auto background = GameUtils::createRect(Rect(0,
-                                               0,
-                                               VisibleRect::getFrameSize().width,
-                                               UI_LAYER_HIGHT),
-                                          Color3B::GRAY, false);
-  mLayer->addChild(background);
 
   auto uiLayer = new UIColorEditor();
   uiLayer->init(mLayer);
+
+  TTFConfig config("fonts/Montserra.ttf", 15);
+  mFileNameLabel = Label::createWithTTF(config,"");
+  mLayer->addChild(mFileNameLabel);
 
   setFileName("untitled");
 
   auto camera = Camera::create();
   camera->setCameraFlag(CameraFlag::USER1);
-  camera->setPositionY(-VisibleRect::getFrameSize().height/2 + UI_LAYER_HIGHT);
   mLayer->addChild(camera);
   mLayer->setCameraMask((unsigned short)CameraFlag::USER1);
 }
@@ -62,13 +54,11 @@ void UILayer::addMessage(const char* message) {
   auto size = label->getBoundingBox().size;
   auto w = mLayer->getBoundingBox().size.width;
   label->setPosition(w - size.width/2 - RIGHT_GAP, size.height/2);
-
   label->runAction(Spawn::create(FadeOut::create(0.8),
                                  Sequence::create(MoveBy::create(1, Vec2(0,50)),
                                                   CallFuncN::create([&](Node* n){
                                    n->removeFromParent();
-                                 })
-                                                  , NULL), NULL));
+                                 }), NULL), NULL));
 }
 
 void UILayer::setFileName(const char* file) {
@@ -82,7 +72,7 @@ void UILayer::setFileName(const char* file) {
     rawFile = base_match[0].str();
   } else {
     ret = std::regex_search(rawFile, base_match, rxback );
-    if(ret) {
+    if (ret) {
       rawFile = base_match[0].str();
     }
   }
@@ -98,5 +88,5 @@ void UILayer::setFileName(const char* file) {
   mFileNameLabel->setString(text + rawFile);
   auto size = mFileNameLabel->getBoundingBox().size;
   auto h = mLayer->getBoundingBox().size.height;
-  mFileNameLabel->setPosition(LEFT_GAP + size.width/2, h - size.height/2);
+  mFileNameLabel->setPosition(LEFT_GAP + size.width/2, h - size.height/2 + EDT_UI_YBIAS);
 }

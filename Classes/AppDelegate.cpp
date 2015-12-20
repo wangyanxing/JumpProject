@@ -27,7 +27,7 @@ Scene* createScene() {
     designRatio = 1.5f;
   }
 
-  Director::getInstance()->getOpenGLView()->setDesignResolutionSize(960, 960/designRatio,
+  Director::getInstance()->getOpenGLView()->setDesignResolutionSize(960, 960 / designRatio,
                                                                     ResolutionPolicy::EXACT_FIT);
 #endif
 

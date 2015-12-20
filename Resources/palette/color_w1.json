@@ -20,7 +20,7 @@
     }, 
     {
       "index": 5, 
-      "color": "#CCCCCC" 
+      "color": "#6BAE00"
     }, 
     {
       "index": 6, 
@@ -52,7 +52,7 @@
     }, 
     {
       "index": 13, 
-      "color": "#CA224D" 
+      "color": "#CA224D"
     }, 
     {
       "index": 14, 
@@ -80,7 +80,7 @@
     }, 
     {
       "index": 20, 
-      "color": "#000033" 
+      "color": "#D1AB14"
     }
   ]
 }

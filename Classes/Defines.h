@@ -62,4 +62,6 @@ enum FollowMode {
 #define BORDER_BLOCK_BOTTOM 1
 #define BORDER_FRAME_SIZE 10
 
+#define EDT_UI_YBIAS (VisibleRect::getFrameSize().height - UI_LAYER_HIGHT)
+
 #endif /* defined(__JumpEdt__Defines__) */

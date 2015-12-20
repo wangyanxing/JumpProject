@@ -124,7 +124,6 @@ bool EditorScene::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSo
 
 void EditorScene::mouseDown(cocos2d::Event* event) {
   auto mouse = (EventMouse*)event;
-
   Point pt(mouse->getCursorX(), mouse->getCursorY());
   Point ptInView = pt;
   convertMouse(pt);
@@ -187,7 +186,7 @@ void EditorScene::mouseDown(cocos2d::Event* event) {
 
     mLastPoint = pt;
 
-    for(auto sel: mSelections) {
+    for(auto sel : mSelections) {
       sel->switchToSelectionImage();
     }
     if(mSelectionHead) {
@@ -198,7 +197,6 @@ void EditorScene::mouseDown(cocos2d::Event* event) {
 
 void EditorScene::mouseUp(cocos2d::Event* event) {
   auto mouse = (EventMouse*)event;
-
   Point pt(mouse->getCursorX(), mouse->getCursorY());
   Point ptInView = pt;
   convertMouse(pt);

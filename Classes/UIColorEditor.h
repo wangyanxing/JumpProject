@@ -25,6 +25,7 @@ public:
   static UIColorEditor* colorEditor;
 
   std::function<void(int, cocos2d::Color3B)> onSetColorFunc{nullptr};
+
 private:
   SpriteUV* mShowhideColorButton;
 
