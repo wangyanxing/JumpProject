@@ -544,11 +544,15 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
   }
 }
 
-void BlockBase::setColor(int index){
-  mPaletteIndex = index;
-  Color3B color = Palette::getInstance()->getColorFromPalette(index);
-  mColor = color;
-  getSprite()->setColor(color);
+void BlockBase::setColor(int index) {
+  if (index == -1) {
+    mColor = Palette::getInstance()->getDefaultBlockColors(mKind);
+  } else {
+    mPaletteIndex = index;
+    Color3B color = Palette::getInstance()->getColorFromPalette(index);
+    mColor = color;
+  }
+  getSprite()->setColor(mColor);
 }
 
 void BlockBase::moveX(float val) {

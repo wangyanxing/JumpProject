@@ -654,7 +654,6 @@ void EditorScene::setKind(int kind) {
 
 void EditorScene::duplicate() {
   std::set<BlockBase*> duplicated;
-
   Vec2 bias(20,20);
 
   for (auto sel : mSelections) {
@@ -663,6 +662,7 @@ void EditorScene::duplicate() {
     block->create(pos, sel->getSize());
     block->addToScene(this);
     block->setKind(sel->mKind);
+    block->setColor(sel->mPaletteIndex);
     block->mPath.cloneFrom(sel->mPath,bias);
 
     block->mRestoreSize = block->getSize();
