@@ -142,12 +142,6 @@ std::string bool2Str(bool v) {
   return v ? "true" : "false";
 }
 
-#if 0
-bool str2Bool(const string& v) {
-  return v == "true" ? true : false;
-}
-#endif
-
 std::string followMode2Str(FollowMode v) {
   static std::string names[] = {
     "\"CENTER\"",
@@ -312,9 +306,7 @@ void MapSerial::saveMap(const char* file) {
   INDENT_1 ss << "\"ratio\": " << ratio; RT_LINE
 
   INDENT_1 ss << "\"backgroundColor\": " << colorStr(GameLogic::Game->mBackgroundColor); RT_LINE
-#if 0
-  INDENT_1 ss << "\"heroColor\": " << colorStr(palette->getDefaultBlockColors(KIND_HERO)); RT_LINE
-#endif
+
   INDENT_1 ss << "\"heroColorIndex\": " << GameLogic::Game->mHero->mPaletteIndex; RT_LINE
   INDENT_1 ss << "\"normalBlockColor\": " << colorStr(palette->getDefaultBlockColors(KIND_BLOCK)); RT_LINE
   INDENT_1 ss << "\"deathBlockColor\": " << colorStr(palette->getDefaultBlockColors(KIND_DEATH)); RT_LINE
@@ -333,9 +325,7 @@ void MapSerial::saveMap(const char* file) {
   INDENT_1 ss << "\"gradientColorSrc\": " << colorStr(GameLogic::Game->mGradientColorSrc); RT_LINE
   INDENT_1 ss << "\"gradientColorDst\": " << colorStr(GameLogic::Game->mGradientColorDst); RT_LINE
   INDENT_1 ss << "\"paletteFile\": \"" << palette->getPaletteFileName() << "\""; RT_LINE
-#if 0
-  savePalette(GameLogic::Game->mPaletteFileName.c_str());
-#endif
+
   INDENT_1 ss << "\"fx\": [ \n";
   for(size_t fi = 0; fi < GameLogic::Game->mFxList.size(); ++fi) {
     INDENT_2 ss << "\"" << GameLogic::Game->mFxList[fi] << "\"";
@@ -569,18 +559,7 @@ void MapSerial::loadMap(const char* filename) {
   }
 
   int maxID = 0;
-
-#if 0
-  std::ifstream mapFileStream(filename);
-  if (!mapFileStream) {
-    CCLOGWARN("Warning: cannot read the map file : %s", filename);
-    return;
-  }
-  std::string buffer((std::istreambuf_iterator<char>(mapFileStream)),
-                     std::istreambuf_iterator<char>());
-#else
   auto buffer = FileUtils::getInstance()->getStringFromFile(filename);
-#endif
 
   Document d;
   ParseResult ok = d.Parse<kParseDefaultFlags>(buffer.c_str());
@@ -602,10 +581,6 @@ void MapSerial::loadMap(const char* filename) {
   }SHOW_WARNING
 
   auto palette = Palette::getInstance();
-
-  if (CHECK_INT(d, "heroColorIndex")) {
-    GameLogic::Game->mHero->setColor(d["heroColorIndex"].GetInt());
-  }
 
   if (d["normalBlockColor"].IsString()) {
     palette->setDefaultBlockColors(KIND_BLOCK, str2Color(d["normalBlockColor"].GetString()));
@@ -728,6 +703,10 @@ void MapSerial::loadMap(const char* filename) {
     }
   }
 
+  if (CHECK_INT(d, "heroColorIndex")) {
+    GameLogic::Game->mHero->setColor(d["heroColorIndex"].GetInt());
+  }
+
   if (CHECK_ARRAY(d, "timeEvents")) {
     auto size = d["timeEvents"].Size();
 
@@ -771,7 +750,7 @@ void MapSerial::loadMap(const char* filename) {
   if (CHECK_ARRAY(d, "blocks")) {
     auto size = d["blocks"].Size();
 
-    for(auto i = 0; i < size; ++i) {
+    for (auto i = 0; i < size; ++i) {
       auto& var = d["blocks"][i];
 
       int id = 0;
@@ -879,8 +858,10 @@ void MapSerial::loadMap(const char* filename) {
       block->addToScene(GameScene::Scene);
 #endif
       block->mTextureName = textureName;
-      if (paletteIndex != -1)
+
+      if (paletteIndex != -1) {
         block->setColor(paletteIndex);
+      }
 
       if (kind == KIND_DEATH_CIRCLE || kind == KIND_DEATH) {
         if (CHECK_ARRAY(var, "triggerEvents")) {
@@ -902,7 +883,7 @@ void MapSerial::loadMap(const char* filename) {
       }
 
       block->mID = id;
-      block->setKind(kind);
+      block->setKind(kind, true);
       block->mCanPickup = pickable;
       block->mCanDelete = id > 4 ? removable : false;
       block->mRotationSpeed = rotSpeed;
@@ -1194,44 +1175,28 @@ void MapSerial::loadControlConfig(const char* file){
   fullPath += "/";
   fullPath += file;
 
-#if 0
-  auto fp = fopen(fullPath.c_str(), "r");
-  if(!fp) {
-    CCLOG("Warning: cannot access the config file : %s", fullPath.c_str());
-    return;
-  }
-
-  fseek(fp, 0, SEEK_END);
-  auto fsize = ftell(fp);
-  rewind(fp);
-  char* buffer = new char[fsize];
-  fread(buffer, 1, fsize, fp);
-  fclose(fp);
-#else
   auto buffer = FileUtils::getInstance()->getStringFromFile(fullPath);
-#endif
-
   Document d;
   d.Parse<kParseDefaultFlags>(buffer.c_str());
 
   int configIndex = 0;
   if (d["ConfigIndex"].IsInt()) {
     configIndex = d["ConfigIndex"].GetInt();
-
     ControlPad::controlPadConfig->mSelectedConfig = configIndex;
   }
 
   std::string configKey = "ConfigArray";
   configKey += getLevelSuffix();
 
-  if(CHECK_ARRAY(d, configKey.c_str())) {
+  if (CHECK_ARRAY(d, configKey.c_str())) {
     auto size = d[configKey.c_str()].Size();
 
-    if(size>0) ControlPad::controlPadConfig->clearConfig();
+    if (size > 0) {
+      ControlPad::controlPadConfig->clearConfig();
+    }
 
-    for(auto i = 0; i < size; ++i) {
+    for (auto i = 0; i < size; ++i) {
       auto config = new ControlPadConfig();
-
       auto& var = d[configKey.c_str()][i];
 
       config->mDescription = var["desc"].GetString();

@@ -105,7 +105,7 @@ public:
 
   bool isVisible() { return mSprite->isVisible(); };
 
-  virtual void setKind(BlockKind kind);
+  virtual void setKind(BlockKind kind, bool forceSet = false);
 
   virtual cocos2d::Color3B getColor(){ return mColor; }
 

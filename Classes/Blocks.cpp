@@ -450,8 +450,8 @@ void BlockBase::initPhysics() {
   mSprite->setPhysicsBody(pbody);
 }
 
-void BlockBase::setKind(BlockKind kind) {
-  if(kind == mKind) {
+void BlockBase::setKind(BlockKind kind, bool forceSet) {
+  if(!forceSet && kind == mKind) {
     return;
   }
 
