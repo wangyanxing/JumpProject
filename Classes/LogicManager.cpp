@@ -657,7 +657,7 @@ void GameLogic::setBackgroundColor(const cocos2d::Color3B& color) {
 BlockBase* GameLogic::createBlock(const cocos2d::Vec2& pos, BlockKind kind) {
   BlockBase* block = new BlockBase();
   block->create(pos);
-  block->setKind(kind);
+  block->setKind(kind, true);
   block->addToScene(mParentLayer);
   mBlockTable[block->getSprite()] = block;
   mBlocks[block->mID] = block;
