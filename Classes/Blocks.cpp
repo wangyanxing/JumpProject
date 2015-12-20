@@ -116,11 +116,11 @@ void BlockBase::normalizeUV() {
     return;
   }
 
-  //change uv
+  //Change uv
   auto w = getWidth();
   auto h = getThickness();
   mSprite->resetUV();
-  if(w >= h) {
+  if (w >= h) {
     if (mTextureName != "images/saw.png") {
       mTextureName = "images/saw.png";
       Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
@@ -132,7 +132,7 @@ void BlockBase::normalizeUV() {
 
     float l = w / h;
     mSprite->setUVWidth(l);
-    if(mUVFlipped) {
+    if (mUVFlipped) {
       mSprite->flipUVY();
     }
 
@@ -149,7 +149,7 @@ void BlockBase::normalizeUV() {
     float l = h / w;
     mSprite->setUVHeight(l);
 
-    if(mUVFlipped) {
+    if (mUVFlipped) {
       mSprite->flipUVX();
     }
   }
@@ -168,7 +168,6 @@ void BlockBase::rotate() {
 }
 
 bool BlockBase::canPush() {
-  //return !mPath.empty();
   return false;
 }
 
@@ -195,13 +194,13 @@ void BlockBase::reset() {
   mVelocity.set(0,0);
   mJumpVelocity.set(0,0);
 
-  if(mKind != KIND_DEATH_CIRCLE) {
+  if (mKind != KIND_DEATH_CIRCLE) {
     setSize(mRestoreSize);
   }
 
   setPosition(mRestorePosition);
 
-  if(mButton) {
+  if (mButton) {
     mButton->reset();
   }
 
@@ -212,11 +211,11 @@ void BlockBase::reset() {
 
 void BlockBase::updateOpenClose(float dt) {
   float minLength = 1;
-  if(mStatus == CLOSING) {
-    if(mDownDirDoor) {
+  if (mStatus == CLOSING) {
+    if (mDownDirDoor) {
       float upperbound = mRestorePosition.y + mRestoreSize.height / 2;
       float curHeight = getThickness() + dt * mOpenCloseSpeed;
-      if(curHeight >= mRestoreSize.height) {
+      if (curHeight >= mRestoreSize.height) {
         curHeight = mRestoreSize.height;
         mStatus = CLOSED;
       }
@@ -225,7 +224,7 @@ void BlockBase::updateOpenClose(float dt) {
     } else {
       float lowerbound = mRestorePosition.y - mRestoreSize.height / 2;
       float curHeight = getThickness() + dt * mOpenCloseSpeed;
-      if(curHeight >= mRestoreSize.height) {
+      if (curHeight >= mRestoreSize.height) {
         curHeight = mRestoreSize.height;
         mStatus = CLOSED;
       }
@@ -233,10 +232,10 @@ void BlockBase::updateOpenClose(float dt) {
       mMovementToRestore.y += lowerbound + curHeight / 2 - mRestorePosition.y;
     }
   } else if(mStatus == OPENING) {
-    if(mDownDirDoor) {
+    if (mDownDirDoor) {
       float upperbound = mRestorePosition.y + mRestoreSize.height / 2;
       float curHeight = getThickness() - dt * mOpenCloseSpeed;
-      if(curHeight <= minLength) {
+      if (curHeight <= minLength) {
         curHeight = minLength;
         mStatus = OPENED;
       }
@@ -245,7 +244,7 @@ void BlockBase::updateOpenClose(float dt) {
     } else {
       float lowerbound = mRestorePosition.y - mRestoreSize.height / 2;
       float curHeight = getThickness() - dt * mOpenCloseSpeed;
-      if(curHeight <= minLength) {
+      if (curHeight <= minLength) {
         curHeight = minLength;
         mStatus = OPENED;
       }
@@ -256,7 +255,7 @@ void BlockBase::updateOpenClose(float dt) {
     setHeight(minLength);
     float upperbound = mRestorePosition.y + mRestoreSize.height / 2;
     float lowerbound = mRestorePosition.y - mRestoreSize.height / 2;
-    if(mDownDirDoor) {
+    if (mDownDirDoor) {
       mMovementToRestore.y += upperbound - minLength / 2 - mRestorePosition.y;
     } else {
       mMovementToRestore.y += lowerbound + minLength / 2 - mRestorePosition.y;
@@ -265,7 +264,7 @@ void BlockBase::updateOpenClose(float dt) {
 }
 
 void BlockBase::postUpdate(float dt) {
-  if(mKind == KIND_PUSHABLE || mKind == KIND_HERO){
+  if (mKind == KIND_PUSHABLE || mKind == KIND_HERO) {
     getSprite()->getPhysicsBody()->setVelocityLimit(1000);
   }
 }
@@ -291,14 +290,14 @@ void BlockBase::preUpdate() {
 
 void BlockBase::update(float dt) {
   // Update velocity
-  if(mEnableGravity) {
+  if (mEnableGravity) {
     float gy = GRAVITY_VAL;
     mVelocity.y += dt * gy;
     mVelocity.y = MIN(mVelocity.y, 1000);
     mVelocity.x = MIN(mVelocity.x, 600);
   }
 
-  if(!mRotator.empty()) {
+  if (!mRotator.empty()) {
     auto rot = mRestoreRotation;
     auto size = mRestoreSize;
     float newRot = rot;
@@ -307,7 +306,7 @@ void BlockBase::update(float dt) {
     mSprite->setRotation(newRot);
   }
 
-  if(!mPath.empty()) {
+  if (!mPath.empty()) {
     auto pos = mRestorePosition;//mSprite->getPosition();
     auto newPos = pos;
     auto size = mRestoreSize;
@@ -328,9 +327,8 @@ void BlockBase::update(float dt) {
     mLeftSideMovement  = (newPos + Vec2(-newSize.width/2, 0)) - (pos + Vec2(-size.width/2, 0));
 
     auto it = GameLogic::Game->mGroups.find(this);
-    if(it != GameLogic::Game->mGroups.end()) {
-      for(auto& c : it->second) {
-
+    if (it != GameLogic::Game->mGroups.end()) {
+      for (auto& c : it->second) {
         switch(mFollowMode) {
           case F_CENTER:
             c->mMovementToRestore += mMovementToRestore;
@@ -348,19 +346,17 @@ void BlockBase::update(float dt) {
             c->mMovementToRestore += mUpSideMovement;
             break;
         }
-
-        //c->getSprite()->setPosition(p);
       }
     }
   }
 
-  if(mButton) {
+  if (mButton) {
     mButton->update(dt);
   } else {
     updateOpenClose(dt);
   }
 
-  if(mRotationSpeed > 0) {
+  if (mRotationSpeed > 0) {
     auto r = mSprite->getRotation();
     r += mRotationSpeed * dt;
     if(r > 360) r -= 360;
@@ -373,18 +369,17 @@ void BlockBase::update(float dt) {
   if (mTriggerEventsCalled){
     mTriggerEventContinueTime += dt;
     mTriggerEventsCalled = false;
-  }
-  else{
+  } else {
     mTriggerEventContinueTime = 0.0f;
-    if (mHeroOpacityChanged){
+    if (mHeroOpacityChanged) {
       GameLogic::Game->mHero->getSprite()->setOpacity(255);
       mHeroOpacityChanged = false;
     }
   }
 
 #if EDITOR_MODE
-  if(mIDLabel) {
-    if(mShowIDLabel) {
+  if (mIDLabel) {
+    if (mShowIDLabel) {
       mIDLabel->setVisible(true);
       mIDLabel->setPosition(mSprite->getPosition() -
                             Vec2(mIDLabel->getBoundingBox().size.width/2,
@@ -394,13 +389,10 @@ void BlockBase::update(float dt) {
     }
   }
 #endif
-
-  //CCLOG("%.1f, %.1f", mVelocity.x, mVelocity.y);
 }
 
 void BlockBase::setVisible(bool val) {
   mSprite->setVisible(val);
-  //mSprite->getPhysicsBody()->setResting(val);
 }
 
 #if EDITOR_MODE
@@ -435,7 +427,7 @@ void BlockBase::initPhysics() {
                    mSprite->getScaleY() * mImageSize);
 #endif
   PhysicsBody* pbody = nullptr;
-  if(mKind != KIND_DEATH_CIRCLE && mKind != KIND_FORCEFIELD) {
+  if (mKind != KIND_DEATH_CIRCLE && mKind != KIND_FORCEFIELD) {
     pbody = PhysicsBody::createBox(size);
   } else {
     pbody = PhysicsBody::createCircle(std::max(size.height/2, size.width/2));
@@ -512,12 +504,12 @@ void BlockBase::setKind(BlockKind kind) {
     }
   }
 
-  if(kind == KIND_DEATH_CIRCLE || kind == KIND_FORCEFIELD) {
+  if (kind == KIND_DEATH_CIRCLE || kind == KIND_FORCEFIELD) {
     auto s = Size(mSprite->getScaleX() * mImageSize,
                   mSprite->getScaleY() * mImageSize);
     auto size = std::max(s.width, s.height);
 
-    if(kind == KIND_DEATH_CIRCLE) {
+    if (kind == KIND_DEATH_CIRCLE) {
       mRotationSpeed = 50;
     }
 
@@ -530,7 +522,7 @@ void BlockBase::setKind(BlockKind kind) {
     setWidth(size);
     setHeight(size);
     mRestoreSize = Size(size,size);
-  }else if(kind == KIND_DEATH) {
+  } else if(kind == KIND_DEATH) {
     if (mTriggerEvents.size() == 1 && mTriggerEvents.at(0) == "die") {
       mTextureName = "images/saw.png";
     }
@@ -559,7 +551,7 @@ void BlockBase::setColor(int index){
 }
 
 void BlockBase::moveX(float val) {
-  if(mPath.empty()) {
+  if (mPath.empty()) {
     auto p = mSprite->getPosition();
     setPosition(p.x + val, p.y);
 
@@ -570,7 +562,7 @@ void BlockBase::moveX(float val) {
 }
 
 void BlockBase::moveY(float val) {
-  if(mPath.empty()) {
+  if (mPath.empty()) {
     auto p = mSprite->getPosition();
     setPosition(p.x, p.y + val);
   } else {
@@ -583,7 +575,7 @@ void BlockBase::addThickness(int val) {
   auto t = getThickness() + val;
   t = std::min<int>(t, VisibleRect::top().y * 1.3);
 
-  if(mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
+  if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
     mSprite->setScale(t / mImageSize);
   } else {
     mSprite->setScale(mSprite->getScaleX(), t / mImageSize);
@@ -598,7 +590,7 @@ void BlockBase::subThickness(int val) {
   auto t = getThickness() - val;
   t = std::max<int>(t, 5);
 
-  if(mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
+  if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
     mSprite->setScale(t / mImageSize);
   } else {
     mSprite->setScale(mSprite->getScaleX(), t / mImageSize);
@@ -613,7 +605,7 @@ void BlockBase::addWidth(int val) {
   auto w = getWidth() + val;
   w = std::min<int>(w, VisibleRect::right().x * 1.3);
 
-  if(mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD)
+  if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD)
     mSprite->setScale(w / mImageSize);
   else
     mSprite->setScale(w / mImageSize, mSprite->getScaleY());
@@ -628,7 +620,7 @@ void BlockBase::subWidth(int val) {
   auto w = getWidth() - val;
   w = std::max<int>(w, 5);
 
-  if(mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
+  if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
     mSprite->setScale(w / mImageSize);
   } else {
     mSprite->setScale(w / mImageSize, mSprite->getScaleY());
@@ -639,7 +631,7 @@ void BlockBase::subWidth(int val) {
 }
 
 void BlockBase::setWidth(float val) {
-  if(mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
+  if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
     mSprite->setScale(val / mImageSize);
   } else {
     mSprite->setScale(val / mImageSize, mSprite->getScaleY());
@@ -648,7 +640,7 @@ void BlockBase::setWidth(float val) {
 }
 
 void BlockBase::setHeight(float val) {
-  if(mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
+  if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
     mSprite->setScale(val / mImageSize);
   } else {
     mSprite->setScale(mSprite->getScaleX(), val / mImageSize);

@@ -662,8 +662,7 @@ void EditorScene::duplicate() {
 
   Vec2 bias(20,20);
 
-  for(auto sel : mSelections) {
-
+  for (auto sel : mSelections) {
     BlockBase* block = new BlockBase();
     auto pos = sel->getPosition() + bias;
     block->create(pos, sel->getSize());
@@ -680,14 +679,14 @@ void EditorScene::duplicate() {
     duplicated.insert(block);
   }
 
-  for(auto sel : mSelections) {
+  for (auto sel : mSelections) {
     sel->getSprite()->setColor(sel->getColor());
   }
 
   mSelections.clear();
 
   mSelections = duplicated;
-  for(auto sel : mSelections) {
+  for (auto sel : mSelections) {
     sel->switchToSelectionImage();
   }
 }
@@ -697,8 +696,8 @@ void EditorScene::alignLeft() {
   auto w = mSelectionHead->getSize().width;
   float mostLeft = p.x - w/2;
 
-  for(auto sel : mSelections) {
-    if(sel != mSelectionHead) {
+  for (auto sel : mSelections) {
+    if (sel != mSelectionHead) {
       auto selWid = sel->getSize().width;
       sel->setPositionX(mostLeft + selWid/2);
       sel->mRestorePosition = sel->getPosition();
@@ -711,8 +710,8 @@ void EditorScene::alignRight() {
   auto w = mSelectionHead->getSize().width;
   float mostRight = p.x + w/2;
 
-  for(auto sel : mSelections) {
-    if(sel != mSelectionHead) {
+  for (auto sel : mSelections) {
+    if (sel != mSelectionHead) {
       auto selWid = sel->getSize().width;
       sel->setPositionX(mostRight - selWid/2);
       sel->mRestorePosition = sel->getPosition();
@@ -725,8 +724,8 @@ void EditorScene::alignUp() {
   auto h = mSelectionHead->getSize().height;
   float mostUp = p.y + h/2;
 
-  for(auto sel : mSelections) {
-    if(sel != mSelectionHead) {
+  for (auto sel : mSelections) {
+    if (sel != mSelectionHead) {
       auto selHei = sel->getSize().height;
       sel->setPositionY(mostUp - selHei/2);
       sel->mRestorePosition = sel->getPosition();
@@ -739,8 +738,8 @@ void EditorScene::alignDown() {
   auto h = mSelectionHead->getSize().height;
   float mostDown = p.y - h/2;
 
-  for(auto sel : mSelections) {
-    if(sel != mSelectionHead) {
+  for (auto sel : mSelections) {
+    if (sel != mSelectionHead) {
       auto selHei = sel->getSize().height;
       sel->setPositionY(mostDown + selHei/2);
       sel->mRestorePosition = sel->getPosition();
@@ -749,12 +748,12 @@ void EditorScene::alignDown() {
 }
 
 void EditorScene::group() {
-  if(mSelections.empty() || !mSelectionHead) {
+  if (mSelections.empty() || !mSelectionHead) {
     return;
   }
 
   auto it = mGame->mGroups.find(mSelectionHead);
-  if(it != mGame->mGroups.end()) {
+  if (it != mGame->mGroups.end()) {
     for(auto s : it->second) {
       s->reset();
     }
@@ -798,13 +797,13 @@ void EditorScene::initDrawNodes() {
 
   mGridNode = DrawNode::create();
   float y = 0;
-  while(y < VisibleRect::top().y) {
+  while (y < VisibleRect::top().y) {
     mGridNode->drawLine(Vec2(0, y), Vec2(VisibleRect::right().x, y), gridColor);
     y += size.height;
   }
 
   float x = 0;
-  while(x < VisibleRect::right().x + 50) {
+  while (x < VisibleRect::right().x + 50) {
     mGridNode->drawLine(Vec2(x, 0), Vec2(x, VisibleRect::top().y), gridColor);
     x += size.width;
   }
@@ -829,9 +828,9 @@ void EditorScene::updateGroupDrawNode() {
   }
   mGroupNode->clear();
   Color4F lineColor(0.06f, 0.18f, 0.96f, 1);
-  for(auto g : mGame->mGroups){
+  for (auto g : mGame->mGroups){
     auto head = g.first;
-    for(auto m : g.second) {
+    for (auto m : g.second) {
       mGroupNode->drawSolidCircle(m->getPosition(), 3, 0, 20, 1, 1, lineColor);
       mGroupNode->drawSegment(head->getPosition(), m->getPosition(), 1, lineColor);
     }

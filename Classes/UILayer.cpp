@@ -8,11 +8,12 @@
 
 #include "UILayer.h"
 #include "VisibleRect.h"
-
 #include "UIColorEditor.h"
+#include "Defines.h"
+#include "SpriteUV.h"
+#include "GameUtils.h"
 
 #include <regex>
-#include <iostream>
 
 USING_NS_CC;
 
@@ -28,19 +29,30 @@ void UILayer::init(cocos2d::Node* parent) {
   auto height = vis.size.height - VisibleRect::top().y;
 
   mLayer = LayerColor::create(Color4B(0x1E,0xB5,0xC7,0xFF), VisibleRect::right().x, height);
-  parent->addChild(mLayer, 1500);
-
-  mLayer->setPositionY(VisibleRect::top().y);
+  parent->addChild(mLayer);
 
   TTFConfig config("fonts/Montserra.ttf",15);
   mFileNameLabel = Label::createWithTTF(config,"");
-  mFileNameLabel->setPosition(0,30);
+  mFileNameLabel->setPosition(0, 30);
   mLayer->addChild(mFileNameLabel);
+
+  auto background = GameUtils::createRect(Rect(0,
+                                               0,
+                                               VisibleRect::getFrameSize().width,
+                                               UI_LAYER_HIGHT),
+                                          Color3B::GRAY, false);
+  mLayer->addChild(background);
 
   auto uiLayer = new UIColorEditor();
   uiLayer->init(mLayer);
 
   setFileName("untitled");
+
+  auto camera = Camera::create();
+  camera->setCameraFlag(CameraFlag::USER1);
+  camera->setPositionY(-VisibleRect::getFrameSize().height/2 + UI_LAYER_HIGHT);
+  mLayer->addChild(camera);
+  mLayer->setCameraMask((unsigned short)CameraFlag::USER1);
 }
 
 void UILayer::addMessage(const char* message) {
@@ -61,13 +73,12 @@ void UILayer::addMessage(const char* message) {
 
 void UILayer::setFileName(const char* file) {
   std::string rawFile = file;
-
   std::regex rx("(\\/|\\\\)(local|remote)(\\/|\\\\)(\\w)*.json$", std::regex_constants::icase);
   std::regex rxback("(\\/|\\\\)(\\w)*.json$", std::regex_constants::icase);
   std::smatch base_match;
 
   auto ret = std::regex_search(rawFile, base_match, rx );
-  if(ret) {
+  if (ret) {
     rawFile = base_match[0].str();
   } else {
     ret = std::regex_search(rawFile, base_match, rxback );
@@ -76,10 +87,10 @@ void UILayer::setFileName(const char* file) {
     }
   }
 
-  if(rawFile.empty()) {
+  if (rawFile.empty()) {
     rawFile = file;
   }
-  if(rawFile[0] == '\\' || rawFile[0] == '/') {
+  if (rawFile[0] == '\\' || rawFile[0] == '/') {
     rawFile.erase(rawFile.begin(), rawFile.begin() + 1);
   }
 
