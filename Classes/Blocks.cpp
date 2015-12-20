@@ -406,6 +406,7 @@ void BlockBase::initIDLabel() {
   mIDLabel->setPosition(mSprite->getPosition() - Vec2(size.width/2, size.height/2));
   mShowIDLabel = EditorScene::Scene->mShowGrid;
   mIDLabel->setVisible(mShowIDLabel);
+  mIDLabel->setCameraMask((unsigned short)CameraFlag::USER2);
 }
 
 void BlockBase::updateIDLabel() {
