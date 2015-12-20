@@ -55,7 +55,7 @@ void UILayer::addMessage(const char* message) {
   auto w = mLayer->getBoundingBox().size.width;
   label->setPosition(w - size.width/2 - RIGHT_GAP, size.height/2);
   label->runAction(Spawn::create(FadeOut::create(0.8),
-                                 Sequence::create(MoveBy::create(1, Vec2(0,50)),
+                                 Sequence::create(MoveBy::create(1, Vec2(0, 50)),
                                                   CallFuncN::create([&](Node* n){
                                    n->removeFromParent();
                                  }), NULL), NULL));

@@ -758,8 +758,8 @@ void GameLogic::updateCamera(cocos2d::Camera* cam) {
   newPos.y = std::min(newPos.y, mBounds.size.height - center.y);
   auto camRelative = newPos - VisibleRect::getVisibleRect().size / 2;
 #endif
-  cam->setPosition(newPos);
   mBack->setPosition(VisibleRect::center() + camRelative);
+  cam->setPosition(newPos);
 }
 
 void GameLogic::updateBounds() {
@@ -769,4 +769,9 @@ void GameLogic::updateBounds() {
   float top = mBlocks[BORDER_BLOCK_TOP]->getPosition().y - halfBorderSize;
   float bottom = mBlocks[BORDER_BLOCK_BOTTOM]->getPosition().y + halfBorderSize;
   mBounds = Rect(left, bottom, right - left, top - bottom);
+}
+
+void GameLogic::restoreBackgroundPos() {
+  auto visRect = VisibleRect::getVisibleRect();
+  mBack->setPosition(visRect.size.width / 2, visRect.size.height / 2);
 }

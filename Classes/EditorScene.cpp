@@ -594,10 +594,11 @@ void EditorScene::enableGame(bool val, bool force) {
   if (mGroupNode) {
     mGroupNode->setVisible(!val);
   }
-  if(val) {
+  if (val) {
     mPressingV = mPressingB = mPressingN = mPressingM = false;
   } else {
     mCamera->setPosition(VisibleRect::getFrameSize() / 2);
+    mGame->restoreBackgroundPos();
   }
 }
 
@@ -626,11 +627,7 @@ void EditorScene::update(float dt){
 }
 
 void EditorScene::updateCamera() {
-  if (!mGame->mGameMode) {
-
-  } else {
-    mGame->updateCamera(mCamera);
-  }
+  mGame->updateCamera(mCamera);
 }
 
 void EditorScene::setShadowLayer(int layer) {

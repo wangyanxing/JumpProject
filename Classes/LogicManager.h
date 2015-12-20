@@ -79,6 +79,8 @@ public:
 
   void updateBounds();
 
+  void restoreBackgroundPos();
+
 public:
   cocos2d::Layer* mParentLayer{ nullptr };
 
