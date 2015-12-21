@@ -299,7 +299,9 @@ public:
     * @return An integer number.
     */
     inline int getDebugDrawMask() { return _debugDrawMask; }
-    
+
+    void setDebugDrawCameraMask(unsigned short mask);
+
     /**
      * To control the step of physics.
      *
@@ -368,7 +370,9 @@ protected:
     bool _autoStep;
     PhysicsDebugDraw* _debugDraw;
     int _debugDrawMask;
-    
+    unsigned short _debugDrawCameraMask;
+
+
     EventDispatcher* _eventDispatcher;
 
     Vector<PhysicsBody*> _delayAddBodies;

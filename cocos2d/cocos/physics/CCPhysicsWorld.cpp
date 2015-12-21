@@ -37,6 +37,7 @@
 
 #include "2d/CCDrawNode.h"
 #include "2d/CCScene.h"
+#include "2d/CCCamera.h"
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
 #include "base/CCEventCustom.h"
@@ -190,6 +191,7 @@ void PhysicsWorld::debugDraw()
     if (_debugDraw == nullptr)
     {
         _debugDraw = new (std::nothrow) PhysicsDebugDraw(*this);
+        _debugDraw->_drawNode->setCameraMask(_debugDrawCameraMask);
     }
     
     if (_debugDraw && !_bodies.empty())
@@ -751,6 +753,11 @@ void PhysicsWorld::setDebugDrawMask(int mask)
     _debugDrawMask = mask;
 }
 
+void PhysicsWorld::setDebugDrawCameraMask(unsigned short mask)
+{
+  _debugDrawCameraMask = mask;
+}
+
 const Vector<PhysicsBody*>& PhysicsWorld::getAllBodies() const
 {
     return _bodies;
@@ -887,6 +894,7 @@ PhysicsWorld::PhysicsWorld()
 , _autoStep(true)
 , _debugDraw(nullptr)
 , _debugDrawMask(DEBUGDRAW_NONE)
+, _debugDrawCameraMask((unsigned short)CameraFlag::DEFAULT)
 , _eventDispatcher(nullptr)
 {
     

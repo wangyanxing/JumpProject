@@ -378,7 +378,7 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
 
   if (keyCode == EventKeyboard::KeyCode::KEY_F1) {
     auto d = getScene()->getPhysicsWorld()->getDebugDrawMask();
-    if(d == PhysicsWorld::DEBUGDRAW_ALL) {
+    if(d == PhysicsWorld::DEBUGDRAW_ALL) {      
       getScene()->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_NONE);
     } else {
       getScene()->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);

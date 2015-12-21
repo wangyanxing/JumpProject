@@ -35,6 +35,7 @@ Scene* createScene() {
   auto scene = Scene::createWithPhysics();
   scene->getPhysicsWorld()->setGravity(Vec2(0,-200));
   GameLogic::PhysicsWorld = scene->getPhysicsWorld();
+  scene->getPhysicsWorld()->setDebugDrawCameraMask((unsigned short)CameraFlag::USER2);
 
   auto layer = LayerColor::create(Color4B(0x1E,0xB5,0xC7,0xFF));
   scene->addChild(layer);
