@@ -70,10 +70,7 @@ void Path::update(float dt, cocos2d::Vec2& out, cocos2d::Vec2& outsize) {
   }
 
 #if EDITOR_MODE
-  mSegmentNode->clear();
-  for (size_t i = 0; i < mPoints.size() - 1; ++i) {
-    mSegmentNode->drawSegment(mPoints[i].pt, mPoints[i + 1].pt, 1, cocos2d::Color4F(0, 1, 0, 1));
-  }
+  updateHelper();
 #endif
 }
 
@@ -132,3 +129,12 @@ int Path::nextPoint() {
   }
   return nextPt;
 }
+
+#if EDITOR_MODE
+void Path::updateHelper() {
+  mSegmentNode->clear();
+  for (size_t i = 0; i < mPoints.size() - 1; ++i) {
+    mSegmentNode->drawSegment(mPoints[i].pt, mPoints[i + 1].pt, 1, cocos2d::Color4F(0, 1, 0, 1));
+  }
+}
+#endif

@@ -115,6 +115,8 @@ public:
       node->setScale(scale);
     }
   }
+
+  void updateHelper();
 #endif
 
   bool mPingPong{ true };

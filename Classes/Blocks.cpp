@@ -556,22 +556,23 @@ void BlockBase::setColor(int index) {
 }
 
 void BlockBase::moveX(float val) {
-  if (mPath.empty()) {
-    auto p = mSprite->getPosition();
-    setPosition(p.x + val, p.y);
-
-  } else {
+  setPositionX(val + mSprite->getPositionX());
+  if (!mPath.empty()) {
     mPath.translatePoints(Vec2(val, 0));
+#if EDITOR_MODE
+    mPath.updateHelper();
+#endif
   }
   mRestorePosition.x += val;
 }
 
 void BlockBase::moveY(float val) {
-  if (mPath.empty()) {
-    auto p = mSprite->getPosition();
-    setPosition(p.x, p.y + val);
-  } else {
+  setPositionY(val + mSprite->getPositionY());
+  if (!mPath.empty()) {
     mPath.translatePoints(Vec2(0, val));
+#if EDITOR_MODE
+    mPath.updateHelper();
+#endif
   }
   mRestorePosition.y += val;
 }
