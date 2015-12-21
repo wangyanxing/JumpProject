@@ -621,6 +621,7 @@ void EditorScene::onDrawPrimitive(const Mat4 &transform, uint32_t flags) {
 void EditorScene::update(float dt){
   mGame->update(dt);
   updateCamera();
+  updateGroupDrawNode();
   if (mBorderNode->isVisible()) {
     drawBorder();
   }
@@ -749,18 +750,19 @@ void EditorScene::group() {
 
   auto it = mGame->mGroups.find(mSelectionHead);
   if (it != mGame->mGroups.end()) {
-    for(auto s : it->second) {
+    for (auto s : it->second) {
       s->reset();
     }
     mGame->mGroups.erase(it);
     UILayer::Layer->addMessage("Ungroup");
   } else  {
     mGame->mGroups[mSelectionHead].clear();
-    for(auto s : mSelections) {
-      if(s == mSelectionHead) continue;
+    for (auto s : mSelections) {
+      if (s == mSelectionHead) {
+        continue;
+      }
       mGame->mGroups[mSelectionHead].push_back(s);
     }
-
     UILayer::Layer->addMessage("Group");
   }
 }
@@ -818,7 +820,7 @@ void EditorScene::initDrawNodes() {
 void EditorScene::updateGroupDrawNode() {
   if (!mGroupNode) {
     mGroupNode = DrawNode::create();
-    addChild(mGroupNode);
+    addChild(mGroupNode, 50);
     mGroupNode->setCameraMask((unsigned short)CameraFlag::USER2);
   }
   mGroupNode->clear();
@@ -826,8 +828,9 @@ void EditorScene::updateGroupDrawNode() {
   for (auto g : mGame->mGroups){
     auto head = g.first;
     for (auto m : g.second) {
+      auto headPos = head->getPosition();
       mGroupNode->drawSolidCircle(m->getPosition(), 3, 0, 20, 1, 1, lineColor);
-      mGroupNode->drawSegment(head->getPosition(), m->getPosition(), 1, lineColor);
+      mGroupNode->drawSegment(headPos, m->getPosition(), 1, lineColor);
     }
   }
 }
