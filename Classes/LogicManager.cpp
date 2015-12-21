@@ -759,6 +759,9 @@ void GameLogic::updateCamera(cocos2d::Camera* cam) {
   auto camRelative = newPos - VisibleRect::getVisibleRect().size / 2;
 #endif
   mBack->setPosition(VisibleRect::center() + camRelative);
+#if EDITOR_MODE
+  EditorScene::Scene->mGridNode->setPosition(camRelative);
+#endif
   cam->setPosition(newPos);
 }
 
@@ -774,4 +777,9 @@ void GameLogic::updateBounds() {
 void GameLogic::restoreBackgroundPos() {
   auto visRect = VisibleRect::getVisibleRect();
   mBack->setPosition(visRect.size.width / 2, visRect.size.height / 2);
+#if EDITOR_MODE
+  if (EditorScene::Scene->mGridNode) {
+    EditorScene::Scene->mGridNode->setPosition(0, 0);
+  }
+#endif
 }
