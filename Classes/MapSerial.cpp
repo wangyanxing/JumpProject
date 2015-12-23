@@ -909,27 +909,27 @@ void MapSerial::loadMap(const char* filename) {
       GameLogic::Game->mBlocks[block->mID] = block;
 
       if(kind == KIND_BUTTON) {
-        if(var["direction"].IsString()){
+        if (var["direction"].IsString()) {
           block->mButton->mDir = str2Direction(var["direction"].GetString());
 #if EDITOR_MODE
           block->mButton->updateHelper();
 #endif
         }SHOW_WARNING
 
-        if(CHECK_BOOL(var, "canRestore")){
+        if (CHECK_BOOL(var, "canRestore")) {
           block->mButton->mCanRestore = var["canRestore"].GetBool();
 #if EDITOR_MODE
           block->mButton->updateHelper();
 #endif
         }
 
-        if(CHECK_STRING(var, "pushedEvent")){
+        if(CHECK_STRING(var, "pushedEvent")) {
           block->mButton->mPushedEvent = var["pushedEvent"].GetString();
         }
-        if(CHECK_STRING(var, "restoredEvent")){
+        if(CHECK_STRING(var, "restoredEvent")) {
           block->mButton->mRestoredEvent = var["restoredEvent"].GetString();
         }
-        if(CHECK_STRING(var, "pushingEvent")){
+        if(CHECK_STRING(var, "pushingEvent")) {
           block->mButton->mPushingEvent = var["pushingEvent"].GetString();
         }
       } else if(kind == KIND_FORCEFIELD) {
@@ -955,7 +955,7 @@ void MapSerial::loadMap(const char* filename) {
         block->mPath.mPathWaitTime = var["pathWaitTime"].GetDouble();
       }
 
-      if(CHECK_ARRAY(var, "pathes")) {
+      if (CHECK_ARRAY(var, "pathes")) {
         auto pathsize = var["pathes"].Size();
         for(auto j = 0; j < pathsize; ++j) {
           auto& pa = var["pathes"][j];
@@ -963,7 +963,7 @@ void MapSerial::loadMap(const char* filename) {
           float waittime = -1;
           float width = 1, height = 1;
 
-          if(pa["position"].IsString()) {
+          if (pa["position"].IsString()) {
             pos = str2Vec(pa["position"].GetString());
           }SHOW_WARNING
 
@@ -984,12 +984,12 @@ void MapSerial::loadMap(const char* filename) {
       }
 
       if (CHECK_ARRAY(var, "groupMembers")) {
-        if(var["groupFollowMode"].IsString()) {
+        if (var["groupFollowMode"].IsString()) {
           block->mFollowMode = str2FollowMode(var["groupFollowMode"].GetString());
         }SHOW_WARNING
 
         auto memberSize = var["groupMembers"].Size();
-        for(auto j = 0; j < memberSize; ++j) {
+        for (auto j = 0; j < memberSize; ++j) {
           if(var["groupMembers"][j].IsNumber()) {
             auto id = var["groupMembers"][j].GetInt();
             pregroups[block].push_back(id);
