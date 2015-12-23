@@ -115,7 +115,7 @@ std::string vec2Str(const Vec2& v) {
 }
 
 Vec2 str2Vec(const std::string& str) {
-  auto v = DiPathLib::StringSplit(str, ",");
+  auto v = PathLib::stringSplit(str, ",");
   if(v.size() != 2) {
     CCLOG("Invalid vec2: %s", str.c_str());
     return Vec2::ZERO;
@@ -130,7 +130,7 @@ std::string size2Str(const Size& v) {
 }
 
 Size str2Size(const std::string& str) {
-  auto v = DiPathLib::StringSplit(str, ",");
+  auto v = PathLib::stringSplit(str, ",");
   if(v.size() != 2) {
     CCLOG("Invalid vec2: %s", str.c_str());
     return Size::ZERO;
@@ -532,7 +532,7 @@ void MapSerial::saveMap() {
 
   std::vector<std::string> out;
   auto filter = "JSON file(json)|*.json|All files (*.*)|*.*";
-  DiPathLib::SaveFileDialog(nullptr, "Save map", fullpath+"/local", "", filter, 0, out);
+  PathLib::saveFileDialog(nullptr, "Save map", fullpath+"/local", "", filter, 0, out);
 
   if (out.empty()) {
     return;
@@ -541,11 +541,11 @@ void MapSerial::saveMap() {
   auto filename = out[0];
 
 #   if EDITOR_RATIO == EDITOR_IPAD_MODE
-  if(!DiPathLib::EndsWith(filename, "_pad.json"))
-    DiPathLib::ReplaceString(filename, ".json", "_pad.json");
+  if(!PathLib::endsWith(filename, "_pad.json"))
+    PathLib::replaceString(filename, ".json", "_pad.json");
 #   elif EDITOR_RATIO == EDITOR_IP4_MODE
-  if(!DiPathLib::EndsWith(filename, "_ip4.json"))
-    DiPathLib::ReplaceString(filename, ".json", "_ip4.json");
+  if(!PathLib::endsWith(filename, "_ip4.json"))
+    PathLib::replaceString(filename, ".json", "_ip4.json");
 #   endif
 
   saveMap(filename.c_str());
@@ -1008,11 +1008,11 @@ void MapSerial::loadMap(const char* filename) {
   std::string fixedfilename = filename;
 
 #   if EDITOR_RATIO == EDITOR_IPAD_MODE
-  if(!DiPathLib::EndsWith(fixedfilename, "_pad.json"))
-    DiPathLib::ReplaceString(fixedfilename, ".json", "_pad.json");
+  if(!PathLib::endsWith(fixedfilename, "_pad.json"))
+    PathLib::replaceString(fixedfilename, ".json", "_pad.json");
 #   elif EDITOR_RATIO == EDITOR_IP4_MODE
-  if(!DiPathLib::EndsWith(fixedfilename, "_ip4.json"))
-    DiPathLib::ReplaceString(fixedfilename, ".json", "_ip4.json");
+  if(!PathLib::endsWith(fixedfilename, "_ip4.json"))
+    PathLib::replaceString(fixedfilename, ".json", "_ip4.json");
 #   endif
 
   EditorScene::Scene->mCurFileName = fixedfilename;
@@ -1037,7 +1037,7 @@ void MapSerial::loadMap(bool local) {
   std::string fullpath = getMapDir();
   std::vector<std::string> out;
   auto filter = "JSON file(json)|*.json|All files (*.*)|*.*";
-  DiPathLib::OpenFileDialog(nullptr, "Open map", fullpath+(local?"/local":"/remote"),
+  PathLib::openFileDialog(nullptr, "Open map", fullpath+(local?"/local":"/remote"),
                             "", filter, 0, out);
   if (out.empty()) {
     return;

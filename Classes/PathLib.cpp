@@ -13,16 +13,19 @@
 #endif
 
 #if EDITOR_MODE
-std::string DiPathLib::msAppFile;
+std::string PathLib::msAppFile;
 #endif
 
-bool DiPathLib::EndsWith(const std::string& a, const std::string& b) {
-  if (b.size() > a.size()) return false;
+bool PathLib::endsWith(const std::string& a, const std::string& b) {
+  if (b.size() > a.size()) {
+    return false;
+  }
   return std::equal(a.begin() + a.size() - b.size(), a.end(), b.begin());
 }
 
-void DiPathLib::ReplaceString(std::string& subject, const std::string& search,
-                              const std::string& replace) {
+void PathLib::replaceString(std::string& subject,
+                            const std::string& search,
+                            const std::string& replace) {
   size_t pos = 0;
   while ((pos = subject.find(search, pos)) != std::string::npos) {
     subject.replace(pos, search.length(), replace);
@@ -30,36 +33,30 @@ void DiPathLib::ReplaceString(std::string& subject, const std::string& search,
   }
 }
 
-std::vector<std::string> DiPathLib::StringSplit(const std::string &source, const char *delimiter, bool keepEmpty)
-{
+std::vector<std::string> PathLib::stringSplit(const std::string &source, const char *delimiter, bool keepEmpty) {
   std::vector<std::string> results;
 
   size_t prev = 0;
   size_t next = 0;
 
-  while ((next = source.find_first_of(delimiter, prev)) != std::string::npos)
-  {
-    if (keepEmpty || (next - prev != 0))
-    {
+  while ((next = source.find_first_of(delimiter, prev)) != std::string::npos) {
+    if (keepEmpty || (next - prev != 0)) {
       results.push_back(source.substr(prev, next - prev));
     }
     prev = next + 1;
   }
 
-  if (prev < source.size())
-  {
+  if (prev < source.size()) {
     results.push_back(source.substr(prev));
   }
 
   return results;
 }
 
-std::string GetFileExtension(const std::string& strin)
-{
+std::string GetFileExtension(const std::string& strin) {
   const char* str = strin.c_str();
   const char* ext = strrchr(str, '.');
-  if (ext)
-  {
+  if (ext) {
     ext++;
     return std::string(ext);
   }
@@ -68,8 +65,7 @@ std::string GetFileExtension(const std::string& strin)
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 
-const std::string& _GetAppFileName()
-{
+const std::string& _GetAppFileName() {
   static std::string appFile;
 
   char moduleFile[MAX_PATH];
@@ -81,9 +77,13 @@ const std::string& _GetAppFileName()
 
 #define _SLASH "\\"
 
-static bool FileDialogShared(bool bSave, const void* wndHandle, const std::string& dialogTitle,
-                             const std::string& defaultPath, const std::string& defaultFile, const std::string& fileTypes, unsigned int flags, std::vector<std::string>& outFiles)
-{
+static bool FileDialogShared(bool bSave,
+                             const void* wndHandle,
+                             const std::string& dialogTitle,
+                             const std::string& defaultPath,
+                             const std::string& defaultFile,
+                             const std::string& fileTypes,
+                             unsigned int flags, std::vector<std::string>& outFiles) {
   std::string defFile = defaultFile;
   std::string defPath = defaultPath;
 
@@ -102,7 +102,7 @@ static bool FileDialogShared(bool bSave, const void* wndHandle, const std::strin
 
   std::vector<std::string> CleanExtensionList;
 
-  std::vector<std::string> UnformattedExtensions = DiPathLib::StringSplit(fileTypes,"|");
+  std::vector<std::string> UnformattedExtensions = PathLib::stringSplit(fileTypes,"|");
   for (size_t ExtensionIndex = 1; ExtensionIndex < UnformattedExtensions.size(); ExtensionIndex += 2)
   {
     const std::string& Extension = UnformattedExtensions[ExtensionIndex];
@@ -152,21 +152,19 @@ static bool FileDialogShared(bool bSave, const void* wndHandle, const std::strin
   else
     ofn.Flags |= OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
-  if (flags & DiPathLib::MULTIPLE_SELECTION)
+  if (flags & PathLib::MULTIPLE_SELECTION)
     ofn.Flags |= OFN_ALLOWMULTISELECT;
 
   bool bSuccess;
-  if (bSave)
+  if (bSave) {
     bSuccess = !!::GetSaveFileName(&ofn);
-  else
+  } else {
     bSuccess = !!::GetOpenFileName(&ofn);
+  }
 
-  if (bSuccess)
-  {
-    DiPathLib::ResetCurrentDir();
-
-    if (flags & DiPathLib::MULTIPLE_SELECTION)
-    {
+  if (bSuccess) {
+    PathLib::resetCurrentDir();
+    if (flags & PathLib::MULTIPLE_SELECTION) {
       // When selecting multiple files, the returned string is a NULL delimited list
       // where the first element is the directory and all remaining elements are filenames.
       // There is an extra NULL character to indicate the end of the list.
@@ -174,59 +172,47 @@ static bool FileDialogShared(bool bSave, const void* wndHandle, const std::strin
       CHAR* Pos = Filename + DirectoryOrSingleFileName.length() + 1;
 
       outFiles.clear();
-      if (Pos[0] == 0)
-      {
+      if (Pos[0] == 0) {
         // One item selected. There was an extra trailing NULL character.
         outFiles.push_back(DirectoryOrSingleFileName);
-      }
-      else
-      {
+      } else {
         // Multiple items selected. Keep adding filenames until two NULL characters.
         std::string SelectedFile;
-        do
-        {
+        do {
           SelectedFile = std::string(Pos);
           outFiles.push_back(SelectedFile);
           Pos += SelectedFile.length() + 1;
         } while (Pos[0] != 0);
       }
-    }
-    else
-    {
+    } else {
       outFiles.clear();
       outFiles.push_back(Filename);
     }
-  }
-  else
-  {
+  } else {
     unsigned int error = ::CommDlgExtendedError();
-    if (error != ERROR_SUCCESS)
-    {
+    if (error != ERROR_SUCCESS) {
       CCLOG("Cannot get the results from open file dialog");
     }
   }
-
   return bSuccess;
 }
 
-static ::INT CALLBACK OpenDirCallback(HWND hwnd, ::UINT uMsg, LPARAM lParam, LPARAM lpData)
-{
+static ::INT CALLBACK OpenDirCallback(HWND hwnd, ::UINT uMsg, LPARAM lParam, LPARAM lpData) {
   // Set the path to the start path upon initialization.
-  switch (uMsg)
-  {
+  switch (uMsg) {
     case BFFM_INITIALIZED:
-      if (lpData)
-      {
+      if (lpData) {
         SendMessage(hwnd, BFFM_SETSELECTION, true, lpData);
       }
       break;
   }
-
   return 0;
 }
 
-bool DiPathLib::OpenDirectoryDialog(const void* wndHandle, const std::string& title, const std::string& defaultPath, std::string& outFolderName)
-{
+bool PathLib::openDirectoryDialog(const void* wndHandle,
+                                  const std::string& title,
+                                  const std::string& defaultPath,
+                                  std::string& outFolderName) {
   BROWSEINFO bi;
   ZeroMemory(&bi, sizeof(BROWSEINFO));
 
@@ -243,67 +229,59 @@ bool DiPathLib::OpenDirectoryDialog(const void* wndHandle, const std::string& ti
   bi.lParam = (LPARAM)(PathToSelect.c_str());
   bool bSuccess = false;
   LPCITEMIDLIST Folder = ::SHBrowseForFolderA(&bi);
-  if (Folder)
-  {
+  if (Folder) {
     bSuccess = (::SHGetPathFromIDListA(Folder, FolderName) ? true : false);
-    if (bSuccess)
-    {
+    if (bSuccess) {
       outFolderName = FolderName;
       //FPaths::NormalizeFilename(OutFolderName);
-    }
-    else
-    {
+    } else {
       CCLOG("Failed to launch the open directory dialog");
     }
-  }
-  else
-  {
+  } else {
     CCLOG("Failed to launch the open directory dialog");
   }
-
   return bSuccess;
 }
 
-void DiPathLib::ResetCurrentDir()
-{
-  //std::string path = DiPathLib::GetApplicationPath();
-  //::SetCurrentDirectoryA(path.c_str());
+void PathLib::resetCurrentDir() {
 }
 
-bool DiPathLib::OpenFileDialog(const void* wndHandle, const std::string& title,
-                               const std::string& defaultPath, const std::string& defaultFile, const std::string& fileTypes, unsigned int flags, std::vector<std::string>& outFiles)
-{
+bool PathLib::openFileDialog(const void* wndHandle,
+                             const std::string& title,
+                             const std::string& defaultPath,
+                             const std::string& defaultFile,
+                             const std::string& fileTypes,
+                             unsigned int flags,
+                             std::vector<std::string>& outFiles) {
   return FileDialogShared(false, wndHandle, title, defaultPath, defaultFile, fileTypes, flags, outFiles);
 }
 
-bool DiPathLib::SaveFileDialog(const void* wndHandle, const std::string& title, const std::string& defaultPath,
-                               const std::string& defaultFile, const std::string& fileTypes, unsigned int flags, std::vector<std::string>& outFiles)
-{
+bool PathLib::saveFileDialog(const void* wndHandle,
+                             const std::string& title,
+                             const std::string& defaultPath,
+                             const std::string& defaultFile,
+                             const std::string& fileTypes,
+                             unsigned int flags,
+                             std::vector<std::string>& outFiles) {
   return FileDialogShared(true, wndHandle, title, defaultPath, defaultFile, fileTypes, flags, outFiles);
 }
 
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 #   include <mach-o/dyld.h>
 
-const std::string& _GetAppFileName()
-{
+const std::string& _GetAppFileName() {
   static std::string ret;
   unsigned int pathNameSize = 1024;
   char pathName[1024];
 
-  if (!_NSGetExecutablePath(pathName, &pathNameSize))
-  {
+  if (!_NSGetExecutablePath(pathName, &pathNameSize)) {
     char real[PATH_MAX];
-
-    if (realpath(pathName, real) != NULL)
-    {
+    if (realpath(pathName, real) != NULL) {
       pathNameSize = strlen(real);
       strncpy(pathName, real, pathNameSize);
     }
-
     ret = pathName;
   }
-
   return ret;
 }
 
@@ -311,21 +289,29 @@ const std::string& _GetAppFileName()
 
 #endif
 
-bool DiPathLib::FileExisted(const std::string& file) {
+bool PathLib::fileExisted(const std::string& file) {
   return (access(file.c_str(), 0) != -1);
 }
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
-std::vector<std::string> DiPathLib::listFiles(const char* path, const char* ext) {
+std::vector<std::string> PathLib::listFiles(const char* path, const char* ext) {
   std::vector<std::string> ret;
   struct _finddata_t dirFile;
   long hFile;
   if (( hFile = _findfirst( path, &dirFile )) != -1 ) {
     do {
-      if ( !strcmp( dirFile.name, "."   )) continue;
-      if ( !strcmp( dirFile.name, ".."  )) continue;
-      if ( dirFile.attrib & _A_HIDDEN ) continue;
-      if ( dirFile.name[0] == '.' ) continue;
+      if ( !strcmp( dirFile.name, "."   )) {
+        continue;
+      }
+      if ( !strcmp( dirFile.name, ".."  )) {
+        continue;
+      }
+      if ( dirFile.attrib & _A_HIDDEN ) {
+        continue;
+      }
+      if ( dirFile.name[0] == '.' ) {
+        continue;
+      }
 
       // dirFile.name is the name of the file. Do whatever string comparison
       // you want here. Something like:
@@ -340,15 +326,19 @@ std::vector<std::string> DiPathLib::listFiles(const char* path, const char* ext)
 }
 
 #else
-std::vector<std::string> DiPathLib::listFiles(const char* path, const char* ext) {
+std::vector<std::string> PathLib::listFiles(const char* path, const char* ext) {
   std::vector<std::string> ret;
   DIR* dirFile = opendir( path );
   if ( dirFile ) {
     struct dirent* hFile;
     errno = 0;
     while (( hFile = readdir( dirFile )) != NULL ) {
-      if ( !strcmp( hFile->d_name, "."  )) continue;
-      if ( !strcmp( hFile->d_name, ".." )) continue;
+      if ( !strcmp( hFile->d_name, "."  )) {
+        continue;
+      }
+      if ( !strcmp( hFile->d_name, ".." )) {
+        continue;
+      }
 
       // in linux hidden files all start with '.'
       if ( hFile->d_name[0] == '.' ) {

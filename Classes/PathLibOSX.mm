@@ -9,23 +9,21 @@
 
 class FCocoaScopeContext {
 public:
-  FCocoaScopeContext(void)
-  {
+  FCocoaScopeContext(void) {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     PreviousContext = [NSOpenGLContext currentContext];
     [pool drain];
   }
 
-  ~FCocoaScopeContext( void )
-  {
+  ~FCocoaScopeContext( void ) {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSOpenGLContext* NewContext = [NSOpenGLContext currentContext];
-    if (PreviousContext != NewContext)
-    {
-      if (PreviousContext)
+    if (PreviousContext != NewContext) {
+      if (PreviousContext) {
         [PreviousContext makeCurrentContext];
-      else
+      } else {
         [NSOpenGLContext clearCurrentContext];
+      }
     }
     [pool drain];
   }
@@ -62,7 +60,6 @@ private:
   [TextField setBordered:NO];
   [TextField setBackgroundColor:[NSColor controlColor]];
 
-
   PopUpButton = [[NSPopUpButton alloc] initWithFrame: NSMakeRect(88.0, 50.0, 160.0, 25.0) ];
   [PopUpButton setTarget: self];
   [PopUpButton setAction:@selector(PopUpButtonAction:)];
@@ -83,8 +80,7 @@ private:
 
     [PopUpButton removeAllItems];
 
-    for( int Index = 0; Index < ArrayCount; Index += 2 )
-    {
+    for( int Index = 0; Index < ArrayCount; Index += 2 ) {
       [PopUpButton addItemWithTitle: [AllowedFileTypes objectAtIndex: Index]];
     }
 
@@ -110,7 +106,9 @@ private:
     NSMutableArray* Extensions = [NSMutableArray arrayWithCapacity: [ExtensionsWildcards count]];
 
     for( unsigned long Index = 0; Index < [ExtensionsWildcards count]; ++Index ) {
-      NSString* Temp = [[ExtensionsWildcards objectAtIndex:Index] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"*."]];
+      NSString* Temp = [[ExtensionsWildcards objectAtIndex:Index]
+                        stringByTrimmingCharactersInSet:[NSCharacterSet
+                                                         characterSetWithCharactersInString:@"*."]];
       [Extensions addObject: Temp];
     }
 
@@ -178,7 +176,14 @@ private:
 @end
 
 
-static bool FileDialogShared(bool bSave, const void* wndHandle, const std::string& dlgTitle, const std::string& defaultPath, const std::string& defaultFile, const std::string& fileTypes, uint flags, std::vector<std::string>& outFiles) {
+static bool FileDialogShared(bool bSave,
+                             const void* wndHandle,
+                             const std::string& dlgTitle,
+                             const std::string& defaultPath,
+                             const std::string& defaultFile,
+                             const std::string& fileTypes,
+                             uint flags,
+                             std::vector<std::string>& outFiles) {
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   FCocoaScopeContext ContextGuard;
 
@@ -188,7 +193,7 @@ static bool FileDialogShared(bool bSave, const void* wndHandle, const std::strin
     NSOpenPanel* OpenPanel = (NSOpenPanel*)Panel;
     [OpenPanel setCanChooseFiles: true];
     [OpenPanel setCanChooseDirectories: false];
-    [OpenPanel setAllowsMultipleSelection: flags & DiPathLib::MULTIPLE_SELECTION];
+    [OpenPanel setAllowsMultipleSelection: flags & PathLib::MULTIPLE_SELECTION];
   }
 
   [Panel setCanCreateDirectories: bSave];
@@ -199,17 +204,20 @@ static bool FileDialogShared(bool bSave, const void* wndHandle, const std::strin
   [Panel setDirectoryURL: DefaultPathURL];
   [Panel setNameFieldStringValue: [NSString stringWithCString:defaultFile.c_str() encoding:NSUTF8StringEncoding]];
 
-  FFileDialogAccessoryView* AccessoryView = [[FFileDialogAccessoryView alloc] initWithFrame: NSMakeRect( 0.0, 0.0, 250.0, 85.0 ) dialogPanel: Panel];
+  FFileDialogAccessoryView* AccessoryView = [[FFileDialogAccessoryView alloc]
+                                             initWithFrame: NSMakeRect( 0.0, 0.0, 250.0, 85.0 )
+                                             dialogPanel: Panel];
   [Panel setAccessoryView: AccessoryView];
 
-  std::vector<std::string> FileTypesArray = DiPathLib::StringSplit(fileTypes,"|");
+  std::vector<std::string> FileTypesArray = PathLib::stringSplit(fileTypes,"|");
   int NumFileTypes = (int)FileTypesArray.size();
 
   NSMutableArray* AllowedFileTypes = [NSMutableArray arrayWithCapacity: NumFileTypes];
 
   if( NumFileTypes > 0 ) {
     for( int Index = 0; Index < NumFileTypes; ++Index ) {
-      [AllowedFileTypes addObject: [NSString stringWithCString:FileTypesArray[Index].c_str() encoding:NSUTF8StringEncoding]];
+      [AllowedFileTypes addObject: [NSString stringWithCString:FileTypesArray[Index].c_str()
+                                                      encoding:NSUTF8StringEncoding]];
     }
   }
 
@@ -243,23 +251,34 @@ static bool FileDialogShared(bool bSave, const void* wndHandle, const std::strin
 }
 
 #if EDITOR_MODE
-bool DiPathLib::OpenFileDialog(const void* wndHandle, const std::string& title,
-                               const std::string& defaultPath, const std::string& defaultFile,
-                               const std::string& fileTypes, uint flags, std::vector<std::string>& outFiles) {
+bool PathLib::openFileDialog(const void* wndHandle,
+                             const std::string& title,
+                             const std::string& defaultPath,
+                             const std::string& defaultFile,
+                             const std::string& fileTypes,
+                             uint flags,
+                             std::vector<std::string>& outFiles) {
   return FileDialogShared(false, wndHandle, title, defaultPath, defaultFile, fileTypes, flags, outFiles);
 }
 
-bool DiPathLib::SaveFileDialog(const void* wndHandle, const std::string& title, const std::string& defaultPath,
-                               const std::string& defaultFile, const std::string& fileTypes,
-                               uint flags, std::vector<std::string>& outFiles) {
+bool PathLib::saveFileDialog(const void* wndHandle,
+                             const std::string& title,
+                             const std::string& defaultPath,
+                             const std::string& defaultFile,
+                             const std::string& fileTypes,
+                             uint flags,
+                             std::vector<std::string>& outFiles) {
   return FileDialogShared(true, wndHandle, title, defaultPath, defaultFile, fileTypes, flags, outFiles);
 }
 
-// we don't need this feature under MacOSX
-void DiPathLib::ResetCurrentDir() {
+// We don't need this feature under MacOSX
+void PathLib::resetCurrentDir() {
 }
 
-bool DiPathLib::OpenDirectoryDialog(const void* wndHandle, const std::string& dlgTitle, const std::string& defaultPath, std::string& outFolder) {
+bool PathLib::openDirectoryDialog(const void* wndHandle,
+                                  const std::string& dlgTitle,
+                                  const std::string& defaultPath,
+                                  std::string& outFolder) {
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   FCocoaScopeContext ContextGuard;
 

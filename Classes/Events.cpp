@@ -238,7 +238,7 @@ void Events::callEvent(const char* event, BlockBase* block=NULL) {
   }
 
   std::string e = event;
-  auto splits = DiPathLib::StringSplit(e, " ");
+  auto splits = PathLib::stringSplit(e, " ");
   if(splits.empty()) {
     CCLOG("Calling empty event!");
     return;

@@ -7,23 +7,22 @@
 #include <string>
 #include <vector>
 
-class DiPathLib {
+class PathLib {
 public:
-
-  static std::vector<std::string> StringSplit(const std::string &source,
+  static std::vector<std::string> stringSplit(const std::string &source,
                                               const char *delimiter = " ",
                                               bool keepEmpty = false);
 
-  static void ReplaceString(std::string& subject,
+  static void replaceString(std::string& subject,
                             const std::string& search,
                             const std::string& replace);
 
-  static bool EndsWith(const std::string& a,
+  static bool endsWith(const std::string& a,
                        const std::string& b);
 
-  /** we need a absolute path
+  /** We need absolute path
    */
-  static bool FileExisted(const std::string& file);
+  static bool fileExisted(const std::string& file);
 
   static std::vector<std::string> listFiles(const char* path, const char* ext);
 
@@ -33,16 +32,15 @@ public:
 
   /** Reset the current directory to the binary directory
    */
-  static void ResetCurrentDir();
+  static void resetCurrentDir();
 
 #if EDITOR_MODE
-
-  static bool OpenDirectoryDialog(const void* wndHandle,
+  static bool openDirectoryDialog(const void* wndHandle,
                                   const std::string& title,
                                   const std::string& defaultPath,
                                   std::string& outFolderName);
 
-  static bool OpenFileDialog(const void* wndHandle,
+  static bool openFileDialog(const void* wndHandle,
                              const std::string& title,
                              const std::string& defaultPath,
                              const std::string& defaultFile,
@@ -50,7 +48,7 @@ public:
                              unsigned int flags,
                              std::vector<std::string>& outFiles);
 
-  static bool SaveFileDialog(const void* wndHandle,
+  static bool saveFileDialog(const void* wndHandle,
                              const std::string& dialogTitle,
                              const std::string& defaultPath,
                              const std::string& defaultFile,
@@ -59,7 +57,6 @@ public:
                              std::vector<std::string>& outFilenames);
 
   static std::string msAppFile;
-
 #endif
 };
 
