@@ -14,6 +14,18 @@
 
 #if EDITOR_MODE
 std::string DiPathLib::msAppFile;
+
+void DiPathLib::openInSystem(const char* file) {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+  system(file);
+#else
+  std::string cmd = "open \"";
+  cmd += file;
+  cmd += "\"";
+  system(cmd.c_str());
+#endif
+}
+
 #endif
 
 bool DiPathLib::EndsWith(const std::string& a, const std::string& b) {

@@ -37,6 +37,8 @@ public:
 
 #if EDITOR_MODE
 
+  static void openInSystem(const char* file);
+
   static bool OpenDirectoryDialog(const void* wndHandle,
                                   const std::string& title,
                                   const std::string& defaultPath,

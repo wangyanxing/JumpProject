@@ -61,6 +61,8 @@ using namespace rapidjson;
 
 using namespace cocos2d;
 
+std::string MapSerial::CurrentEditingFile;
+
 static const char* getLevelSuffix() {
   static std::string suffix;
   auto framesize = VisibleRect::getFrameSize();
@@ -557,6 +559,8 @@ void MapSerial::loadMap(const char* filename) {
     CCLOGWARN("Failed to load map file: %s", filename);
     return;
   }
+
+  CurrentEditingFile = filename;
 
   int maxID = 0;
   auto buffer = FileUtils::getInstance()->getStringFromFile(filename);

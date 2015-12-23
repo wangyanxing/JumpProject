@@ -499,7 +499,7 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
 
   mSprite->setRotation(0);
 
-  if (kind == KIND_DEATH || kind == KIND_DEATH_CIRCLE){
+  if (kind == KIND_DEATH || kind == KIND_DEATH_CIRCLE) {
     if (mTriggerEvents.empty()){
       mTriggerEvents.push_back("die");
     }
@@ -522,7 +522,7 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
 
     setWidth(size);
     setHeight(size);
-    mRestoreSize = Size(size,size);
+    mRestoreSize = Size(size, size);
   } else if(kind == KIND_DEATH) {
     if (mTriggerEvents.size() == 1 && mTriggerEvents.at(0) == "die") {
       mTextureName = "images/saw.png";
@@ -539,8 +539,7 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
     mTextureName = "images/rect.png";
     mSprite->setTexture("images/rect.png");
 
-    setSize(Size(mSprite->getScaleX() * mImageSize,
-                 mSprite->getScaleY() * mImageSize));
+    setSize(Size(mSprite->getScaleX() * mImageSize, mSprite->getScaleY() * mImageSize));
   }
 }
 

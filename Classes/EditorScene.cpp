@@ -15,6 +15,8 @@
 
 #if EDITOR_MODE
 
+#include "PathLib.h"
+
 #include <iostream>
 
 USING_NS_CC;
@@ -541,6 +543,12 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
       }
     }
   }
+
+  if (keyCode == EventKeyboard::KeyCode::KEY_E && mPressingCtrl) {
+    if (!MapSerial::CurrentEditingFile.empty()) {
+      DiPathLib::openInSystem(MapSerial::CurrentEditingFile.c_str());
+    }
+  }
 }
 
 void EditorScene::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event) {
@@ -775,7 +783,6 @@ void EditorScene::showDieFullScreenAnim() {
 }
 
 void EditorScene::clean(bool save) {
-
   if(save && !mCurFileName.empty())
     MapSerial::saveMap(mCurFileName.c_str());
 
