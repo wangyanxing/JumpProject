@@ -17,7 +17,10 @@ class BlockBase;
 class Button {
 public:
   enum PushDir {
-    DIR_UP, DIR_DOWN, DIR_LEFT, DIR_RIGHT
+    DIR_UP,
+    DIR_DOWN,
+    DIR_LEFT,
+    DIR_RIGHT
   };
 
   Button(BlockBase* parent);
@@ -28,7 +31,7 @@ public:
 
   void setParentWidth(float v);
 
-  // call in case collsion detected
+  // Call in case collsion detected
   bool push(const cocos2d::Vec2& normal, BlockBase* hero);
 
   void doPush();

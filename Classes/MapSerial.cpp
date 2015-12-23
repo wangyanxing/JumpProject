@@ -76,7 +76,6 @@ static const char* getLevelSuffix() {
   } else { //ip4
     suffix = "_ip4";
   }
-
   return suffix.c_str();
 }
 
@@ -99,10 +98,13 @@ Color3B str2Color(std::string hex) {
   int size = (int)hex.size();
   for (int i = 0; i < 3; i++) {
     // Determine 3 or 6 character format.
-    if (size == 3) { str = string(2, hex[i]); }
-    else if (size == 6) { str = hex.substr(i * 2, 2); }
-    else { break; }
-
+    if (size == 3) {
+      str = string(2, hex[i]);
+    } else if (size == 6) {
+      str = hex.substr(i * 2, 2);
+    } else {
+      break;
+    }
     ss << std::hex << str;
     ss >> rgb[i];
     ss.clear();
@@ -117,7 +119,7 @@ std::string vec2Str(const Vec2& v) {
 }
 
 Vec2 str2Vec(const std::string& str) {
-  auto v = DiPathLib::StringSplit(str, ",");
+  auto v = PathLib::stringSplit(str, ",");
   if(v.size() != 2) {
     CCLOG("Invalid vec2: %s", str.c_str());
     return Vec2::ZERO;
@@ -132,9 +134,9 @@ std::string size2Str(const Size& v) {
 }
 
 Size str2Size(const std::string& str) {
-  auto v = DiPathLib::StringSplit(str, ",");
+  auto v = PathLib::stringSplit(str, ",");
   if(v.size() != 2) {
-    CCLOG("Invalid vec2: %s", str.c_str());
+    CCLOGWARN("Invalid vec2: %s", str.c_str());
     return Size::ZERO;
   }
   return Size(atof(v[0].c_str()), atof(v[1].c_str()));
@@ -157,15 +159,15 @@ std::string followMode2Str(FollowMode v) {
 
 FollowMode str2FollowMode(const string& v) {
   static std::map<std::string, FollowMode> modes = {
-    {"CENTER",F_CENTER},
-    {"UP",F_UP},
-    {"DOWN",F_DOWN},
-    {"LEFT",F_LEFT},
-    {"RIGHT",F_RIGHT}
+    {"CENTER", F_CENTER},
+    {"UP", F_UP},
+    {"DOWN", F_DOWN},
+    {"LEFT", F_LEFT},
+    {"RIGHT", F_RIGHT}
   };
 
   if(!modes.count(v)) {
-    CCLOG("Invalid kind: %s", v.c_str());
+    CCLOGWARN("Invalid kind: %s", v.c_str());
     return F_CENTER;
   }
   return modes[v];
@@ -186,17 +188,17 @@ std::string kind2Str(BlockKind v) {
 
 BlockKind str2Kind(const string& v) {
   static std::map<std::string, BlockKind> kinds = {
-    {"HERO",KIND_HERO},
-    {"BLOCK",KIND_BLOCK},
-    {"DEATH",KIND_DEATH},
-    {"DEATH_CIRCLE",KIND_DEATH_CIRCLE},
-    {"BUTTON",KIND_BUTTON},
-    {"PUSHABLE",KIND_PUSHABLE},
-    {"FORCEFIELD",KIND_FORCEFIELD}
+    {"HERO", KIND_HERO},
+    {"BLOCK", KIND_BLOCK},
+    {"DEATH", KIND_DEATH},
+    {"DEATH_CIRCLE", KIND_DEATH_CIRCLE},
+    {"BUTTON", KIND_BUTTON},
+    {"PUSHABLE", KIND_PUSHABLE},
+    {"FORCEFIELD", KIND_FORCEFIELD}
   };
 
   if(!kinds.count(v)) {
-    CCLOG("Invalid kind: %s", v.c_str());
+    CCLOGWARN("Invalid kind: %s", v.c_str());
     return KIND_BLOCK;
   }
   return kinds[v];
@@ -214,14 +216,14 @@ std::string direction2Str(Button::PushDir v) {
 
 Button::PushDir str2Direction(const string& v) {
   static std::map<std::string, Button::PushDir> kinds = {
-    {"UP",Button::DIR_UP},
-    {"DOWN",Button::DIR_DOWN},
-    {"LEFT",Button::DIR_LEFT},
-    {"RIGHT",Button::DIR_RIGHT}
+    {"UP", Button::DIR_UP},
+    {"DOWN", Button::DIR_DOWN},
+    {"LEFT", Button::DIR_LEFT},
+    {"RIGHT", Button::DIR_RIGHT}
   };
 
   if(!kinds.count(v)) {
-    CCLOG("Invalid push direction: %s", v.c_str());
+    CCLOGWARN("Invalid push direction: %s", v.c_str());
     return Button::DIR_DOWN;
   }
   return kinds[v];
@@ -271,7 +273,7 @@ void MapSerial::savePalette(const char* file) {
 
   auto fp = fopen(file, "w+");
   if (!fp) {
-    CCLOG("Warning: cannot access the map file : %s", file);
+    CCLOGWARN("Warning: cannot access the map file : %s", file);
     return;
   }
   fprintf(fp, "%s", ss.str().c_str());
@@ -331,7 +333,9 @@ void MapSerial::saveMap(const char* file) {
   INDENT_1 ss << "\"fx\": [ \n";
   for(size_t fi = 0; fi < GameLogic::Game->mFxList.size(); ++fi) {
     INDENT_2 ss << "\"" << GameLogic::Game->mFxList[fi] << "\"";
-    if (fi != GameLogic::Game->mFxList.size() - 1) ss << ",";
+    if (fi != GameLogic::Game->mFxList.size() - 1) {
+      ss << ",";
+    }
     ss << "\n";
   }
   INDENT_1 ss << "]"; RT_LINE
@@ -339,7 +343,9 @@ void MapSerial::saveMap(const char* file) {
   INDENT_1 ss << "\"stars\": [ \n";
   for(size_t fi = 0; fi < GameLogic::Game->mStarList.size(); ++fi) {
     INDENT_2 ss << vec2Str(GameLogic::Game->mStarList[fi]);
-    if (fi != GameLogic::Game->mStarList.size() - 1) ss << ",";
+    if (fi != GameLogic::Game->mStarList.size() - 1) {
+      ss << ",";
+    }
     ss << "\n";
   }
   INDENT_1 ss << "]"; RT_LINE
@@ -370,22 +376,22 @@ void MapSerial::saveMap(const char* file) {
       INDENT_3 ss << "\"userData\": \"" << b->mUserData << "\""; RT_LINE
     }
 
-    if (b->mKind == KIND_DEATH_CIRCLE || b->mKind == KIND_DEATH){
+    if (b->mKind == KIND_DEATH_CIRCLE || b->mKind == KIND_DEATH) {
       INDENT_3 ss << "\"triggerEvents\": [";
-      for (size_t i = 0; i < b->mTriggerEvents.size(); i++){
+      for (size_t i = 0; i < b->mTriggerEvents.size(); i++) {
         ss << "\"" + b->mTriggerEvents[i] + "\"";
         if (i != b->mTriggerEvents.size() - 1) ss << ", ";
       }
-
       ss << "],\n";
     }
 
     INDENT_3 ss << "\"initEvents\": [";
-    for (size_t i = 0; i < b->mInitialEvents.size(); i++){
+    for (size_t i = 0; i < b->mInitialEvents.size(); i++) {
       ss << "\"" + b->mInitialEvents[i] + "\"";
-      if (i != b->mInitialEvents.size() - 1) ss << ", ";
+      if (i != b->mInitialEvents.size() - 1) {
+        ss << ", ";
+      }
     }
-
     ss << "],\n";
 
     if(b->mKind == KIND_BUTTON) {
@@ -413,8 +419,8 @@ void MapSerial::saveMap(const char* file) {
       ss << "],\n";
     }
 
-    // path
-    if(!b->mPath.empty()) {
+    // Path
+    if (!b->mPath.empty()) {
       INDENT_3 ss << "\"pathSpeed\": " << b->mPath.mSpeed; RT_LINE
       INDENT_3 ss << "\"pingpong\": " << bool2Str(b->mPath.mPingPong); RT_LINE
       INDENT_3 ss << "\"pause\": " << bool2Str(b->mPath.mPause); RT_LINE
@@ -429,15 +435,18 @@ void MapSerial::saveMap(const char* file) {
         INDENT_5 ss << "\"height\": " << p.height;RT_LINE
         INDENT_5 ss << "\"waittime\": " << p.waitTime << "\n";
         INDENT_4 ss << "}";
-        if(i != b->mPath.getNumPoints()-1) RT_LINE
-          else ss << "\n";
+        if(i != b->mPath.getNumPoints() - 1) {
+          RT_LINE
+        } else {
+          ss << "\n";
+        }
       }
 
       INDENT_3 ss << "],\n";
     }
     INDENT_3 ss << "\"kind\": " << kind2Str(b->mKind) << "\n";
   }
-  if(!GameLogic::Game->mBlocks.empty()) {
+  if (!GameLogic::Game->mBlocks.empty()) {
     INDENT_2 ss << "}\n";
   }
 
@@ -445,8 +454,8 @@ void MapSerial::saveMap(const char* file) {
 
   INDENT_1 ss << "\"timeEvents\": [\n";
 
-  for(auto it=GameLogic::Game->mTimeEvents.begin(); it!=GameLogic::Game->mTimeEvents.end(); ++it){
-    if(it!=GameLogic::Game->mTimeEvents.begin()){
+  for (auto it = GameLogic::Game->mTimeEvents.begin(); it != GameLogic::Game->mTimeEvents.end(); ++it){
+    if (it != GameLogic::Game->mTimeEvents.begin()) {
       INDENT_2 ss << "},\n";
     }
     auto event = (*it);
@@ -457,8 +466,8 @@ void MapSerial::saveMap(const char* file) {
 
     INDENT_3 ss << "\"events\": [\n";
 
-    for(auto eit=event.mEventPoints.begin(); eit!=event.mEventPoints.end(); ++eit){
-      if(eit!=event.mEventPoints.begin()){
+    for (auto eit=event.mEventPoints.begin(); eit!=event.mEventPoints.end(); ++eit) {
+      if (eit!=event.mEventPoints.begin()){
         ss << "},\n";
       }
 
@@ -466,8 +475,8 @@ void MapSerial::saveMap(const char* file) {
       ss << "\"event\": [";
 
       auto command = (*eit);
-      for(auto comIt = command.mEvents.begin(); comIt!=command.mEvents.end(); ++comIt){
-        if(comIt!=command.mEvents.begin()){
+      for (auto comIt = command.mEvents.begin(); comIt!=command.mEvents.end(); ++comIt) {
+        if (comIt!=command.mEvents.begin()) {
           ss << ", ";
         }
         ss << "\"" << (*comIt) << "\"";
@@ -475,14 +484,13 @@ void MapSerial::saveMap(const char* file) {
       ss << "], \"delay\": " << (*eit).waitTime ;
     }
 
-    if(!event.mEventPoints.empty()){
+    if(!event.mEventPoints.empty()) {
       ss << "}\n";
     }
-
     INDENT_3 ss << "]\n";
   }
 
-  if(!GameLogic::Game->mTimeEvents.empty()){
+  if(!GameLogic::Game->mTimeEvents.empty()) {
     INDENT_2 ss << "}\n";
   }
 
@@ -491,7 +499,7 @@ void MapSerial::saveMap(const char* file) {
   ss << "}";
 
   auto fp = fopen(file, "w+");
-  if(!fp) {
+  if (!fp) {
     CCLOG("Warning: cannot access the map file : %s", file);
     return;
   }
@@ -516,13 +524,12 @@ void MapSerial::saveMap(const char* file) {
   if (std::string::npos != last_slash_idx) {
     filename.erase(0, last_slash_idx + 1);
   }
-
   HttpHelper::updateMap(filename, author, timestr, ss.str());
 }
 
 void MapSerial::loadLastEdit() {
   auto file = UserDefault::getInstance()->getStringForKey("lastedit");
-  if(file.empty()) {
+  if (file.empty()) {
     return;
   }
   loadMap(file.c_str());
@@ -534,20 +541,21 @@ void MapSerial::saveMap() {
 
   std::vector<std::string> out;
   auto filter = "JSON file(json)|*.json|All files (*.*)|*.*";
-  DiPathLib::SaveFileDialog(nullptr, "Save map", fullpath+"/local", "", filter, 0, out);
+  PathLib::saveFileDialog(nullptr, "Save map", fullpath+"/local", "", filter, 0, out);
 
   if (out.empty()) {
     return;
   }
 
   auto filename = out[0];
-
 #   if EDITOR_RATIO == EDITOR_IPAD_MODE
-  if(!DiPathLib::EndsWith(filename, "_pad.json"))
-    DiPathLib::ReplaceString(filename, ".json", "_pad.json");
+  if (!PathLib::endsWith(filename, "_pad.json")) {
+    PathLib::replaceString(filename, ".json", "_pad.json");
+  }
 #   elif EDITOR_RATIO == EDITOR_IP4_MODE
-  if(!DiPathLib::EndsWith(filename, "_ip4.json"))
-    DiPathLib::ReplaceString(filename, ".json", "_ip4.json");
+  if (!PathLib::endsWith(filename, "_ip4.json")) {
+    PathLib::replaceString(filename, ".json", "_ip4.json");
+  }
 #   endif
 
   saveMap(filename.c_str());
@@ -670,7 +678,7 @@ void MapSerial::loadMap(const char* filename) {
   std::ifstream paletteFileStream(paletteFileName);
 
   if (!paletteFileStream) {
-    CCLOG("Warning: cannot access the palette file : %s\nUsing default value", filename);
+    CCLOGWARN("Warning: cannot access the palette file : %s\nUsing default value", filename);
   } else {
     std::string paletteBuffer((std::istreambuf_iterator<char>(paletteFileStream)),
                               std::istreambuf_iterator<char>());
@@ -719,7 +727,7 @@ void MapSerial::loadMap(const char* filename) {
 
       bool loop = true;
       float initDelay = -1.0f;
-      if (var["loop"].IsBool()){
+      if (var["loop"].IsBool()) {
         loop = var["loop"].GetBool();
       }
 
@@ -733,12 +741,12 @@ void MapSerial::loadMap(const char* filename) {
 
       if (CHECK_ARRAY(var, "events")) {
         auto eventsSize = var["events"].Size();
-        for (auto j = 0; j < eventsSize; j++){
+        for (auto j = 0; j < eventsSize; j++) {
           float delayTime = var["events"][j]["delay"].GetDouble();
           TimeEvent::TimeEventPoint tEventPoint(delayTime);
           if (CHECK_ARRAY(var["events"][j], "event")) {
             auto pointSize = var["events"][j]["event"].Size();
-            for (auto k = 0; k < pointSize; k++){
+            for (auto k = 0; k < pointSize; k++) {
               auto command = var["events"][j]["event"][k].GetString();
               tEventPoint.push(command);
             }
@@ -905,27 +913,27 @@ void MapSerial::loadMap(const char* filename) {
       GameLogic::Game->mBlocks[block->mID] = block;
 
       if(kind == KIND_BUTTON) {
-        if(var["direction"].IsString()){
+        if (var["direction"].IsString()) {
           block->mButton->mDir = str2Direction(var["direction"].GetString());
 #if EDITOR_MODE
           block->mButton->updateHelper();
 #endif
         }SHOW_WARNING
 
-        if(CHECK_BOOL(var, "canRestore")){
+        if (CHECK_BOOL(var, "canRestore")) {
           block->mButton->mCanRestore = var["canRestore"].GetBool();
 #if EDITOR_MODE
           block->mButton->updateHelper();
 #endif
         }
 
-        if(CHECK_STRING(var, "pushedEvent")){
+        if(CHECK_STRING(var, "pushedEvent")) {
           block->mButton->mPushedEvent = var["pushedEvent"].GetString();
         }
-        if(CHECK_STRING(var, "restoredEvent")){
+        if(CHECK_STRING(var, "restoredEvent")) {
           block->mButton->mRestoredEvent = var["restoredEvent"].GetString();
         }
-        if(CHECK_STRING(var, "pushingEvent")){
+        if(CHECK_STRING(var, "pushingEvent")) {
           block->mButton->mPushingEvent = var["pushingEvent"].GetString();
         }
       } else if(kind == KIND_FORCEFIELD) {
@@ -951,7 +959,7 @@ void MapSerial::loadMap(const char* filename) {
         block->mPath.mPathWaitTime = var["pathWaitTime"].GetDouble();
       }
 
-      if(CHECK_ARRAY(var, "pathes")) {
+      if (CHECK_ARRAY(var, "pathes")) {
         auto pathsize = var["pathes"].Size();
         for(auto j = 0; j < pathsize; ++j) {
           auto& pa = var["pathes"][j];
@@ -959,7 +967,7 @@ void MapSerial::loadMap(const char* filename) {
           float waittime = -1;
           float width = 1, height = 1;
 
-          if(pa["position"].IsString()) {
+          if (pa["position"].IsString()) {
             pos = str2Vec(pa["position"].GetString());
           }SHOW_WARNING
 
@@ -980,12 +988,12 @@ void MapSerial::loadMap(const char* filename) {
       }
 
       if (CHECK_ARRAY(var, "groupMembers")) {
-        if(var["groupFollowMode"].IsString()) {
+        if (var["groupFollowMode"].IsString()) {
           block->mFollowMode = str2FollowMode(var["groupFollowMode"].GetString());
         }SHOW_WARNING
 
         auto memberSize = var["groupMembers"].Size();
-        for(auto j = 0; j < memberSize; ++j) {
+        for (auto j = 0; j < memberSize; ++j) {
           if(var["groupMembers"][j].IsNumber()) {
             auto id = var["groupMembers"][j].GetInt();
             pregroups[block].push_back(id);
@@ -1012,11 +1020,11 @@ void MapSerial::loadMap(const char* filename) {
   std::string fixedfilename = filename;
 
 #   if EDITOR_RATIO == EDITOR_IPAD_MODE
-  if(!DiPathLib::EndsWith(fixedfilename, "_pad.json"))
-    DiPathLib::ReplaceString(fixedfilename, ".json", "_pad.json");
+  if(!PathLib::endsWith(fixedfilename, "_pad.json"))
+    PathLib::replaceString(fixedfilename, ".json", "_pad.json");
 #   elif EDITOR_RATIO == EDITOR_IP4_MODE
-  if(!DiPathLib::EndsWith(fixedfilename, "_ip4.json"))
-    DiPathLib::ReplaceString(fixedfilename, ".json", "_ip4.json");
+  if(!PathLib::endsWith(fixedfilename, "_ip4.json"))
+    PathLib::replaceString(fixedfilename, ".json", "_ip4.json");
 #   endif
 
   EditorScene::Scene->mCurFileName = fixedfilename;
@@ -1041,7 +1049,7 @@ void MapSerial::loadMap(bool local) {
   std::string fullpath = getMapDir();
   std::vector<std::string> out;
   auto filter = "JSON file(json)|*.json|All files (*.*)|*.*";
-  DiPathLib::OpenFileDialog(nullptr, "Open map", fullpath+(local?"/local":"/remote"),
+  PathLib::openFileDialog(nullptr, "Open map", fullpath+(local?"/local":"/remote"),
                             "", filter, 0, out);
   if (out.empty()) {
     return;
@@ -1068,7 +1076,7 @@ void MapSerial::afterLoadRemoteMaps() {
     std::string fullpath = getMapDir();
 
     if (fullpath.size() == 0) {
-      CCLOG("Warning: cannot locate the maps folder!");
+      CCLOGWARN("Warning: cannot locate the maps folder!");
       continue;
     }
 
@@ -1082,7 +1090,7 @@ void MapSerial::afterLoadRemoteMaps() {
     auto fp = fopen(fullpath.c_str(), "w+");
 
     if (!fp) {
-      CCLOG("Warning: cannot save the map file : %s", fullpath.c_str());
+      CCLOGWARN("Warning: cannot save the map file : %s", fullpath.c_str());
       continue;
     }
 
@@ -1095,10 +1103,10 @@ const char* MapSerial::getMapDir() {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
   static std::string fullpath;
   auto env = getenv("XCODE_PROJ_DIR"); // manually added
-  if(env) {
+  if (env) {
     fullpath = env;
     fullpath += "/../Resources/maps";
-  }else {
+  } else {
     fullpath = FileUtils::getInstance()->fullPathForFilename("maps");
   }
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -1113,7 +1121,7 @@ const char* MapSerial::getConfigDir() {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
   static std::string fullpath;
   auto env = getenv("XCODE_PROJ_DIR"); // manually added
-  if(env) {
+  if (env) {
     fullpath = env;
     fullpath += "/../Resources/configs";
   }else {
@@ -1167,7 +1175,7 @@ void MapSerial::saveControlConfig(const char* file){
 
   auto fp = fopen(file, "w+");
   if (!fp) {
-    CCLOG("Warning: cannot access the map file : %s", file);
+    CCLOGWARN("Warning: cannot access the map file : %s", file);
     return;
   }
   fprintf(fp, "%s", ss.str().c_str());
@@ -1214,25 +1222,25 @@ void MapSerial::loadControlConfig(const char* file){
   }
 }
 
-void MapSerial::loadControlConfig(){
+void MapSerial::loadControlConfig() {
   MapSerial::loadControlConfig("ControlConfig.json");
 }
 
-ControlPad::ControlPad(){
+ControlPad::ControlPad() {
 }
 
-ControlPad::~ControlPad(){
+ControlPad::~ControlPad() {
   clearConfig();
 }
 
-void ControlPad::clearConfig(){
-  for(ControlPadConfigs::iterator it = mControlConfig.begin(); it!=mControlConfig.end(); ++it){
+void ControlPad::clearConfig() {
+  for(ControlPadConfigs::iterator it = mControlConfig.begin(); it!=mControlConfig.end(); ++it) {
     delete (*it);
   }
   mControlConfig.clear();
 }
 
-ControlPadConfig* ControlPad::getControlConfig(){
+ControlPadConfig* ControlPad::getControlConfig() {
   if(mSelectedConfig<= mControlConfig.size() - 1){
     return mControlConfig.at(mSelectedConfig);
   }

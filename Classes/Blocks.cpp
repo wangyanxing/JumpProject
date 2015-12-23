@@ -488,7 +488,7 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
   mSprite->setZOrder(kindZOrder[kind]);
   mSprite->setColor(mColor);
 
-  if(kind == KIND_BUTTON) {
+  if (kind == KIND_BUTTON) {
     mButton = new Button(this);
   } else {
     delete mButton;
@@ -500,7 +500,7 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
   mSprite->setRotation(0);
 
   if (kind == KIND_DEATH || kind == KIND_DEATH_CIRCLE) {
-    if (mTriggerEvents.empty()){
+    if (mTriggerEvents.empty()) {
       mTriggerEvents.push_back("die");
     }
   }

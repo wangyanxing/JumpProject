@@ -45,7 +45,7 @@ bool LevelScene::init()  {
   Director::getInstance()->setClearColor(Color4F::WHITE);
 
   auto p = FileUtils::getInstance()->getWritablePath();
-  auto files = DiPathLib::listFiles(p.c_str(), ".json");
+  auto files = PathLib::listFiles(p.c_str(), ".json");
 
   PageView* pageView = PageView::create();
   pageView->setTouchEnabled(true);

@@ -325,7 +325,7 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
   }
 
   if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW) {
-    if(mPathMode && mSelectionHead) {
+    if (mPathMode && mSelectionHead) {
       auto p = mSelectionHead->mPath.getBackPos();
       p.y -= mPressingAlt ? 20 : 1;
       mSelectionHead->mPath.setBackPos(p);
@@ -343,7 +343,7 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
   }
 
   if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW) {
-    if(mPathMode && mSelectionHead) {
+    if (mPathMode && mSelectionHead) {
       auto p = mSelectionHead->mPath.getBackPos();
       p.x -= mPressingAlt ? 20 : 1;
       mSelectionHead->mPath.setBackPos(p);
@@ -361,7 +361,7 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
   }
 
   if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW) {
-    if(mPathMode && mSelectionHead) {
+    if (mPathMode && mSelectionHead) {
       auto p = mSelectionHead->mPath.getBackPos();
       p.x += mPressingAlt ? 20 : 1;
       mSelectionHead->mPath.setBackPos(p);
@@ -528,10 +528,12 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
   }
 
   if (mGame->mGameMode) {
-    if (keyCode == EventKeyboard::KeyCode::KEY_A)
+    if (keyCode == EventKeyboard::KeyCode::KEY_A) {
       mGame->mMoveLeft = true;
-    if (keyCode == EventKeyboard::KeyCode::KEY_D)
+    }
+    if (keyCode == EventKeyboard::KeyCode::KEY_D) {
       mGame->mMoveRight = true;
+    }
   } else {
     if (keyCode == EventKeyboard::KeyCode::KEY_A && mPressingCtrl) {
       mSelections.clear();
@@ -546,7 +548,7 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
 
   if (keyCode == EventKeyboard::KeyCode::KEY_E && mPressingCtrl) {
     if (!MapSerial::CurrentEditingFile.empty()) {
-      DiPathLib::openInSystem(MapSerial::CurrentEditingFile.c_str());
+      PathLib::openInSystem(MapSerial::CurrentEditingFile.c_str());
     }
   }
 }
