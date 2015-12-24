@@ -1,5 +1,5 @@
 //
-//  ControlPad.hpp
+//  ControlPad.h
 //  jumpproj
 //
 //  Created by Yanxing Wang on 12/23/15.

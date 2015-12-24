@@ -213,6 +213,7 @@
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		B5A55AA51C2B8B7200E02C60 /* ControlPad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControlPad.cpp; sourceTree = "<group>"; };
 		B5A55AA61C2B8B7200E02C60 /* ControlPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlPad.h; sourceTree = "<group>"; };
+		B5A55AA91C2B8C6F00E02C60 /* MapSerialUtils.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MapSerialUtils.inl; sourceTree = "<group>"; };
 		BC3CE9C01C1B86B400738B33 /* Blocks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Blocks.cpp; sourceTree = "<group>"; };
 		BC3CE9C11C1B86B400738B33 /* Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blocks.h; sourceTree = "<group>"; };
 		BC3CE9C21C1B86B400738B33 /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
@@ -485,6 +486,7 @@
 				BC3CEA931C1F475F00738B33 /* Hero.h */,
 				B5A55AA51C2B8B7200E02C60 /* ControlPad.cpp */,
 				B5A55AA61C2B8B7200E02C60 /* ControlPad.h */,
+				B5A55AA91C2B8C6F00E02C60 /* MapSerialUtils.inl */,
 			);
 			name = Classes;
 			path = ../Classes;
