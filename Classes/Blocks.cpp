@@ -30,13 +30,13 @@ BlockBase::~BlockBase() {
   mSprite->removeFromParent();
   mIDLabel->removeFromParent();
 #endif
-  if(mButton) {
+  if (mButton) {
     delete mButton;
     mButton = nullptr;
   }
 }
 
-void BlockBase::create(const cocos2d::Point& pt) {
+void BlockBase::create(const cocos2d::Point &pt) {
   auto thick = 30;
   auto width = 200;
   Rect r;
@@ -57,7 +57,7 @@ void BlockBase::create(const cocos2d::Point& pt) {
   initPhysics();
 }
 
-void BlockBase::create(const cocos2d::Rect& rect) {
+void BlockBase::create(const cocos2d::Rect &rect) {
   mSprite = GameUtils::createRect(rect, getColor());
 
 #if EDITOR_MODE
@@ -70,7 +70,7 @@ void BlockBase::create(const cocos2d::Rect& rect) {
   initPhysics();
 }
 
-void BlockBase::create(const cocos2d::Point& pt, const cocos2d::Size& size) {
+void BlockBase::create(const cocos2d::Point &pt, const cocos2d::Size &size) {
   Rect r(pt, size);
   mSprite = GameUtils::createRect(r, getColor());
   setPosition(pt);
@@ -103,9 +103,9 @@ void BlockBase::initShader() {
 #endif
 }
 
-void BlockBase::setPosition(const cocos2d::Point& pt) {
+void BlockBase::setPosition(const cocos2d::Point &pt) {
   mSprite->setPosition(pt);
-  if(mButton) {
+  if (mButton) {
     mButton->updatePosition();
   }
 }
@@ -127,7 +127,7 @@ void BlockBase::normalizeUV() {
       mSprite->setTexture(texture);
     }
 
-    Texture2D::TexParams params = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_CLAMP_TO_EDGE };
+    Texture2D::TexParams params = {GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_CLAMP_TO_EDGE};
     mSprite->getTexture()->setTexParameters(params);
 
     float l = w / h;
@@ -143,7 +143,7 @@ void BlockBase::normalizeUV() {
       mSprite->setTexture(texture);
     }
 
-    Texture2D::TexParams params = { GL_LINEAR, GL_LINEAR, GL_CLAMP_TO_EDGE, GL_REPEAT };
+    Texture2D::TexParams params = {GL_LINEAR, GL_LINEAR, GL_CLAMP_TO_EDGE, GL_REPEAT};
     mSprite->getTexture()->setTexParameters(params);
 
     float l = h / w;
@@ -161,7 +161,7 @@ void BlockBase::rotate() {
   setWidth(h);
   setHeight(w);
 
-  mRestoreSize = Size(h,w);
+  mRestoreSize = Size(h, w);
   mRestorePosition = getPosition();
 
   normalizeUV();
@@ -191,8 +191,8 @@ void BlockBase::reset() {
   mStatus = IDLE;
 
   mPath.mPause = mPath.mOriginalPause;
-  mVelocity.set(0,0);
-  mJumpVelocity.set(0,0);
+  mVelocity.set(0, 0);
+  mJumpVelocity.set(0, 0);
 
   if (mKind != KIND_DEATH_CIRCLE) {
     setSize(mRestoreSize);
@@ -231,7 +231,7 @@ void BlockBase::updateOpenClose(float dt) {
       setHeight(curHeight);
       mMovementToRestore.y += lowerbound + curHeight / 2 - mRestorePosition.y;
     }
-  } else if(mStatus == OPENING) {
+  } else if (mStatus == OPENING) {
     if (mDownDirDoor) {
       float upperbound = mRestorePosition.y + mRestoreSize.height / 2;
       float curHeight = getThickness() - dt * mOpenCloseSpeed;
@@ -251,7 +251,7 @@ void BlockBase::updateOpenClose(float dt) {
       setHeight(curHeight);
       mMovementToRestore.y += lowerbound + curHeight / 2 - mRestorePosition.y;
     }
-  } else if(mStatus == OPENED) {
+  } else if (mStatus == OPENED) {
     setHeight(minLength);
     float upperbound = mRestorePosition.y + mRestoreSize.height / 2;
     float lowerbound = mRestorePosition.y - mRestoreSize.height / 2;
@@ -282,10 +282,10 @@ void BlockBase::updateMovement(float dt) {
 
 void BlockBase::preUpdate() {
   mMovementToRestore = Vec2::ZERO;
-  mUpSideMovement    = Vec2::ZERO;
-  mDownSideMovement  = Vec2::ZERO;
+  mUpSideMovement = Vec2::ZERO;
+  mDownSideMovement = Vec2::ZERO;
   mRightSideMovement = Vec2::ZERO;
-  mLeftSideMovement  = Vec2::ZERO;
+  mLeftSideMovement = Vec2::ZERO;
 }
 
 void BlockBase::update(float dt) {
@@ -301,35 +301,34 @@ void BlockBase::update(float dt) {
     auto rot = mRestoreRotation;
     auto size = mRestoreSize;
     float newRot = rot;
-    Vec2 outsize(1,1);
+    Vec2 outsize(1, 1);
     mRotator.update(dt, newRot, outsize);
     mSprite->setRotation(newRot);
   }
 
   if (!mPath.empty()) {
-    auto pos = mRestorePosition;//mSprite->getPosition();
+    auto pos = mRestorePosition;
     auto newPos = pos;
     auto size = mRestoreSize;
 
-    Vec2 outsize(1,1);
+    Vec2 outsize(1, 1);
     mPath.update(dt, newPos, outsize);
 
-    //mSprite->setPosition(newPos);
     mSprite->setScale(outsize.x * mRestoreSize.width / mImageSize,
                       outsize.y * mRestoreSize.height / mImageSize);
 
     auto newSize = getSize();
 
     mMovementToRestore += newPos - pos;
-    mUpSideMovement    = (newPos + Vec2(0, newSize.height/2)) - (pos + Vec2(0, size.height/2));
-    mDownSideMovement  = (newPos + Vec2(0,-newSize.height/2)) - (pos + Vec2(0,-size.height/2));
-    mRightSideMovement = (newPos + Vec2( newSize.width/2, 0)) - (pos + Vec2( size.width/2, 0));
-    mLeftSideMovement  = (newPos + Vec2(-newSize.width/2, 0)) - (pos + Vec2(-size.width/2, 0));
+    mUpSideMovement = (newPos + Vec2(0, newSize.height / 2)) - (pos + Vec2(0, size.height / 2));
+    mDownSideMovement = (newPos + Vec2(0, -newSize.height / 2)) - (pos + Vec2(0, -size.height / 2));
+    mRightSideMovement = (newPos + Vec2(newSize.width / 2, 0)) - (pos + Vec2(size.width / 2, 0));
+    mLeftSideMovement = (newPos + Vec2(-newSize.width / 2, 0)) - (pos + Vec2(-size.width / 2, 0));
 
     auto it = GameLogic::Game->mGroups.find(this);
     if (it != GameLogic::Game->mGroups.end()) {
-      for (auto& c : it->second) {
-        switch(mFollowMode) {
+      for (auto &c : it->second) {
+        switch (mFollowMode) {
           case F_CENTER:
             c->mMovementToRestore += mMovementToRestore;
             break;
@@ -359,14 +358,14 @@ void BlockBase::update(float dt) {
   if (mRotationSpeed > 0) {
     auto r = mSprite->getRotation();
     r += mRotationSpeed * dt;
-    if(r > 360) r -= 360;
+    if (r > 360) r -= 360;
     mSprite->setRotation(r);
   }
 
   /**
    * event continue time
    */
-  if (mTriggerEventsCalled){
+  if (mTriggerEventsCalled) {
     mTriggerEventContinueTime += dt;
     mTriggerEventsCalled = false;
   } else {
@@ -382,8 +381,8 @@ void BlockBase::update(float dt) {
     if (mShowIDLabel) {
       mIDLabel->setVisible(true);
       mIDLabel->setPosition(mSprite->getPosition() -
-                            Vec2(mIDLabel->getBoundingBox().size.width/2,
-                                 mIDLabel->getBoundingBox().size.height/2));
+                            Vec2(mIDLabel->getBoundingBox().size.width / 2,
+                                 mIDLabel->getBoundingBox().size.height / 2));
     } else {
       mIDLabel->setVisible(false);
     }
@@ -396,6 +395,7 @@ void BlockBase::setVisible(bool val) {
 }
 
 #if EDITOR_MODE
+
 void BlockBase::initIDLabel() {
   char buffer[10];
   sprintf(buffer, "%d", mID);
@@ -403,10 +403,10 @@ void BlockBase::initIDLabel() {
   mIDLabel->setScale(0.3);
   auto size = mIDLabel->getBoundingBox().size;
   EditorScene::Scene->addChild(mIDLabel, 800);
-  mIDLabel->setPosition(mSprite->getPosition() - Vec2(size.width/2, size.height/2));
+  mIDLabel->setPosition(mSprite->getPosition() - Vec2(size.width / 2, size.height / 2));
   mShowIDLabel = EditorScene::Scene->mShowGrid;
   mIDLabel->setVisible(mShowIDLabel);
-  mIDLabel->setCameraMask((unsigned short)CameraFlag::USER2);
+  mIDLabel->setCameraMask((unsigned short) CameraFlag::USER2);
 }
 
 void BlockBase::updateIDLabel() {
@@ -414,6 +414,7 @@ void BlockBase::updateIDLabel() {
   sprintf(buffer, "%d", mID);
   mIDLabel->setString(buffer);
 }
+
 #endif
 
 void BlockBase::initPhysics() {
@@ -427,11 +428,11 @@ void BlockBase::initPhysics() {
   auto size = Size(mSprite->getScaleX() * mImageSize,
                    mSprite->getScaleY() * mImageSize);
 #endif
-  PhysicsBody* pbody = nullptr;
+  PhysicsBody *pbody = nullptr;
   if (mKind != KIND_DEATH_CIRCLE && mKind != KIND_FORCEFIELD) {
     pbody = PhysicsBody::createBox(size);
   } else {
-    pbody = PhysicsBody::createCircle(std::max(size.height/2, size.width/2));
+    pbody = PhysicsBody::createCircle(std::max(size.height / 2, size.width / 2));
   }
   pbody->setContactTestBitmask(1);
   pbody->setGroup(1);
@@ -452,28 +453,28 @@ void BlockBase::initPhysics() {
 }
 
 void BlockBase::setKind(BlockKind kind, bool forceSet) {
-  if(!forceSet && kind == mKind) {
+  if (!forceSet && kind == mKind) {
     return;
   }
 
   static int kindZOrder[KIND_MAX] = {
-    25,
-    20,
-    15,
-    15,
-    15,
-    20,
-    12
+      25,
+      20,
+      15,
+      15,
+      15,
+      20,
+      12
   };
 
   static bool castShadow[KIND_MAX] = {
-    true,
-    true,
-    false,
-    false,
-    false,
-    true,
-    false
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false
   };
 
   if (mPaletteIndex == -1) {
@@ -523,7 +524,7 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
     setWidth(size);
     setHeight(size);
     mRestoreSize = Size(size, size);
-  } else if(kind == KIND_DEATH) {
+  } else if (kind == KIND_DEATH) {
     if (mTriggerEvents.size() == 1 && mTriggerEvents.at(0) == "die") {
       mTextureName = "images/saw.png";
     }
@@ -678,28 +679,28 @@ void BlockBase::switchToNormalImage() {
 }
 
 void BlockBase::switchToSelectionImage() {
-  mSprite->setColor(Color3B(0,0,255));
+  mSprite->setColor(Color3B(0, 0, 255));
 }
 
-void BlockBase::addToScene(cocos2d::Node* parent) {
+void BlockBase::addToScene(cocos2d::Node *parent) {
   parent->addChild(mSprite, mZOrder);
 #if EDITOR_MODE
   parent->addChild(mPath.mHelperNode, mZOrder + 1);
 #endif
 }
 
-void BlockBase::getPointsForShadow(const cocos2d::Vec2& source,
-                                   std::vector<cocos2d::Vec2>& out) {
+void BlockBase::getPointsForShadow(const cocos2d::Vec2 &source,
+                                   std::vector<cocos2d::Vec2> &out) {
   auto size = getSize();
   auto p = mSprite->getPosition();
   out.resize(4);
-  out[0] = p + Vec2(-size.width/2,  size.height/2);
-  out[2] = p + Vec2(-size.width/2, -size.height/2);
-  out[1] = p + Vec2( size.width/2,  size.height/2);
-  out[3] = p + Vec2( size.width/2, -size.height/2);
+  out[0] = p + Vec2(-size.width / 2, size.height / 2);
+  out[2] = p + Vec2(-size.width / 2, -size.height / 2);
+  out[1] = p + Vec2(size.width / 2, size.height / 2);
+  out[3] = p + Vec2(size.width / 2, -size.height / 2);
 }
 
-void BlockBase::callTriggerEvent(){
+void BlockBase::callTriggerEvent() {
   if (mTriggerEvents.empty()) {
     return;
   }
@@ -709,7 +710,7 @@ void BlockBase::callTriggerEvent(){
   }
 }
 
-void BlockBase::callInitEvent(){
+void BlockBase::callInitEvent() {
   if (mInitialEvents.empty()) {
     return;
   }
@@ -728,7 +729,7 @@ void BlockBase::forceUpdatePhysicsPosition() {
   auto scene = mSprite->getScene();
   if (scene && scene->getPhysicsWorld()) {
     pos = mSprite->getParent() == scene ? mSprite->getPosition() :
-        scene->convertToNodeSpace(mSprite->getParent()->convertToWorldSpace(getPosition()));
+          scene->convertToNodeSpace(mSprite->getParent()->convertToWorldSpace(getPosition()));
   }
 
   body->setPosition(pos.x, pos.y);

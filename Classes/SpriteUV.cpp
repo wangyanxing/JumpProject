@@ -2,10 +2,9 @@
 
 using namespace cocos2d;
 
-SpriteUV* SpriteUV::create(const std::string& filename) {
-  SpriteUV *sprite = new (std::nothrow) SpriteUV();
-  if (sprite && sprite->initWithFile(filename.c_str()))
-  {
+SpriteUV *SpriteUV::create(const std::string &filename) {
+  SpriteUV * sprite = new(std::nothrow) SpriteUV();
+  if (sprite && sprite->initWithFile(filename.c_str())) {
     sprite->autorelease();
     return sprite;
   }
@@ -13,13 +12,13 @@ SpriteUV* SpriteUV::create(const std::string& filename) {
   return nullptr;
 }
 
-void SpriteUV::setupTexParameters(){
-  Texture2D::TexParams params = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT };
+void SpriteUV::setupTexParameters() {
+  Texture2D::TexParams params = {GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT};
   this->getTexture()->setTexParameters(params);
 }
 
 bool SpriteUV::initWithFile(const char *pszFilename) {
-  if(Sprite::initWithFile(pszFilename)) {
+  if (Sprite::initWithFile(pszFilename)) {
     setupTexParameters();
     return true;
   }
@@ -27,7 +26,7 @@ bool SpriteUV::initWithFile(const char *pszFilename) {
 }
 
 bool SpriteUV::initWithSpriteFrameName(const char *pszFilename) {
-  if(Sprite::initWithSpriteFrameName(pszFilename)) {
+  if (Sprite::initWithSpriteFrameName(pszFilename)) {
     setupTexParameters();
     return true;
   }
@@ -79,19 +78,19 @@ void SpriteUV::resetUV() {
   _quad.br.texCoords.v = 1;
 }
 
-void SpriteUV::setUVOffset(cocos2d::Point offset){
+void SpriteUV::setUVOffset(cocos2d::Point offset) {
   V3F_C4B_T2F_Quad quad = this->getQuad();
 
   //change UV coords
-  quad.tl.texCoords.u+=offset.x;
-  quad.bl.texCoords.u+=offset.x;
-  quad.tr.texCoords.u+=offset.x;
-  quad.br.texCoords.u+=offset.x;
+  quad.tl.texCoords.u += offset.x;
+  quad.bl.texCoords.u += offset.x;
+  quad.tr.texCoords.u += offset.x;
+  quad.br.texCoords.u += offset.x;
 
-  quad.tl.texCoords.v+=offset.y;
-  quad.bl.texCoords.v+=offset.y;
-  quad.tr.texCoords.v+=offset.y;
-  quad.br.texCoords.v+=offset.y;
+  quad.tl.texCoords.v += offset.y;
+  quad.bl.texCoords.v += offset.y;
+  quad.tr.texCoords.v += offset.y;
+  quad.br.texCoords.v += offset.y;
 
   //write quad back
   this->_quad = quad;

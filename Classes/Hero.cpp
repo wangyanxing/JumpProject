@@ -25,19 +25,19 @@ void Hero::initShader() {
 
 void Hero::updateMovement(float dt) {
   Vec2 linkMove;
-  if(mLinkingID != -1) {
+  if (mLinkingID != -1) {
     auto b = GameLogic::Game->findBlock(mLinkingID);
-    if(b) {
+    if (b) {
       linkMove.y = b->mMovementThisFrame.y;
     }
     mLinkingID = -1;
   }
 
   mVelocity += mJumpVelocity;
-  mJumpVelocity.set(0,0);
+  mJumpVelocity.set(0, 0);
 
   mVelocity += mForceFieldVelocity;
-  mForceFieldVelocity.set(0,0);
+  mForceFieldVelocity.set(0, 0);
 
   // Linear damping
   float damping = 5;
@@ -52,7 +52,7 @@ void Hero::initPhysics() {
     mSprite->removeComponent(mSprite->getPhysicsBody());
   }
 
-  PhysicsBody* pbody = nullptr;
+  PhysicsBody *pbody = nullptr;
 #if 0
   pbody = PhysicsBody::createBox(mSprite->getContentSize());
 #else

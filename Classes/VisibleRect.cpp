@@ -31,7 +31,7 @@ Rect VisibleRect::s_visibleRect;
 
 void VisibleRect::lazyInit() {
 #if EDITOR_MODE
-  s_visibleRect.origin = Vec2(0,0);
+  s_visibleRect.origin = Vec2(0, 0);
 
 #   if EDITOR_RATIO == EDITOR_IP5_MODE
   float ratio = 1.7778f;

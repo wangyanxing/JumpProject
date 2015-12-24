@@ -8,12 +8,15 @@ public:
   CCShake();
 
   // Create the action with a time and a strength (same in x and y)
-  static CCShake *create(float d, float strength );
-  // Create the action with a time and strengths (different in x and y)
-  static CCShake *createWithStrength(float d, float strength_x, float strength_y );
-  bool initWithDuration(float d, float strength_x, float strength_y );
+  static CCShake *create(float d, float strength);
 
-  virtual ActionInterval* reverse() const override;
+  // Create the action with a time and strengths (different in x and y)
+  static CCShake *createWithStrength(float d, float strength_x, float strength_y);
+
+  bool initWithDuration(float d, float strength_x, float strength_y);
+
+  virtual ActionInterval *reverse() const override;
+
   virtual ActionInterval *clone() const override;
 
 protected:

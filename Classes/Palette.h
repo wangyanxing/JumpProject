@@ -13,7 +13,7 @@
 
 class Palette {
 public:
-  static Palette* getInstance() {
+  static Palette *getInstance() {
     if (!sInstance) {
       sInstance = new Palette();
     }
@@ -32,7 +32,7 @@ public:
     return mPaletteFileName;
   }
 
-  void setPaletteFileName(const std::string& file) {
+  void setPaletteFileName(const std::string &file) {
     mPaletteFileName = file;
   }
 
@@ -48,12 +48,12 @@ public:
     mPalette.clear();
   }
 
-  const std::map<int, cocos2d::Color3B>& getPalette() {
+  const std::map<int, cocos2d::Color3B> &getPalette() {
     return mPalette;
   }
 
 private:
-  static Palette* sInstance;  
+  static Palette *sInstance;
 
   Palette();
 

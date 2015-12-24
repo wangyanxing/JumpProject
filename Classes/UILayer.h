@@ -13,19 +13,19 @@
 
 class UILayer {
 public:
-  void init(cocos2d::Node* parent);
+  void init(cocos2d::Node *parent);
 
-  void setFileName(const char* file);
+  void setFileName(const char *file);
 
-  void addMessage(const char* message);
+  void addMessage(const char *message);
 
-  static UILayer* Layer;
+  static UILayer *Layer;
 
 public:
 
-  cocos2d::Layer* mLayer{ nullptr };
+  cocos2d::Layer *mLayer{nullptr};
 
-  cocos2d::Label* mFileNameLabel{ nullptr };
+  cocos2d::Label *mFileNameLabel{nullptr};
 };
 
 #endif /* defined(__JumpEdt__UILayer__) */

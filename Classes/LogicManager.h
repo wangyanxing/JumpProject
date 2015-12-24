@@ -13,32 +13,36 @@
 #include "Defines.h"
 
 class BlockBase;
+
 class Hero;
+
 class ShadowManager;
+
 class LightBeam;
+
 class TimeEvent;
 
 class GameLogic {
 public:
-  static GameLogic* Game;
+  static GameLogic *Game;
 
-  static cocos2d::PhysicsWorld* PhysicsWorld;
+  static cocos2d::PhysicsWorld *PhysicsWorld;
 
-  GameLogic(cocos2d::Layer* parent);
+  GameLogic(cocos2d::Layer *parent);
 
   ~GameLogic();
 
-  BlockBase* createBlock(const cocos2d::Vec2& pos, BlockKind kind);
+  BlockBase *createBlock(const cocos2d::Vec2 &pos, BlockKind kind);
 
   void showGameScene(bool val);
 
-  void blockTraversal(const std::function<void(BlockBase*)>& func);
+  void blockTraversal(const std::function<void(BlockBase *)> &func);
 
   void createFixedBlocks();
 
-  void deleteBlock(BlockBase* b);
+  void deleteBlock(BlockBase *b);
 
-  bool onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::PhysicsContactPreSolve& solve);
+  bool onContactPreSolve(cocos2d::PhysicsContact &contact, cocos2d::PhysicsContactPreSolve &solve);
 
   void update(float dt);
 
@@ -50,9 +54,9 @@ public:
 
   void updateGame(float dt);
 
-  void setBackgroundColor(const cocos2d::Color3B& color);
+  void setBackgroundColor(const cocos2d::Color3B &color);
 
-  BlockBase* findBlock(int id);
+  BlockBase *findBlock(int id);
 
   void jump();
 
@@ -60,12 +64,12 @@ public:
 
   void win();
 
-  void setBackGradientCenter(const cocos2d::Vec2& p);
+  void setBackGradientCenter(const cocos2d::Vec2 &p);
 
-  void setBackGradientColor(const cocos2d::Color3B& colorSrc,
-                            const cocos2d::Color3B& colorDst);
+  void setBackGradientColor(const cocos2d::Color3B &colorSrc,
+                            const cocos2d::Color3B &colorDst);
 
-  cocos2d::Node* createParticle(const cocos2d::Vec2& pos);
+  cocos2d::Node *createParticle(const cocos2d::Vec2 &pos);
 
   void loadFxFromList();
 
@@ -75,76 +79,76 @@ public:
 
   void clearStars();
 
-  void updateCamera(cocos2d::Camera* cam);
+  void updateCamera(cocos2d::Camera *cam);
 
   void updateBounds();
 
   void restoreBackgroundPos();
 
 public:
-  cocos2d::Layer* mParentLayer{ nullptr };
+  cocos2d::Layer *mParentLayer{nullptr};
 
-  std::map<BlockBase*, std::vector<BlockBase*>> mGroups;
+  std::map<BlockBase *, std::vector < BlockBase * >> mGroups;
 
-  Hero* mHero{ nullptr };
+  Hero *mHero{nullptr};
 
-  cocos2d::PhysicsShape* mHeroShape{ nullptr };
+  cocos2d::PhysicsShape *mHeroShape{nullptr};
 
-  std::map<int,BlockBase*> mBlocks;
+  std::map<int, BlockBase *> mBlocks;
 
-  std::set<BlockBase*> mSelections;
+  std::set<BlockBase *> mSelections;
 
-  bool mMoveLeft{ false };
+  bool mMoveLeft{false};
 
-  bool mMoveRight{ false };
+  bool mMoveRight{false};
 
-  BlockBase* mSelectionHead{ nullptr };
+  BlockBase *mSelectionHead{nullptr};
 
-  std::map<cocos2d::Node*,BlockBase*> mBlockTable;
+  std::map<cocos2d::Node *, BlockBase *> mBlockTable;
 
 #if USE_SHADOW
-  ShadowManager* mShadows{ nullptr };
+  ShadowManager *mShadows{nullptr};
 
-  cocos2d::Node* mShadowNode{ nullptr };
+  cocos2d::Node *mShadowNode{nullptr};
 #endif
 
   cocos2d::Color3B mBackgroundColor;
 
-  cocos2d::Sprite* mBack{ nullptr };
+  cocos2d::Sprite *mBack{nullptr};
 
-  bool mDeadFlag{ false };
+  bool mDeadFlag{false};
 
-  bool mWinFlag{ false };
+  bool mWinFlag{false};
 
-  bool mGameMode{ false };
+  bool mGameMode{false};
 
   cocos2d::Vec2 mSpawnPos;
 
-  cocos2d::Vec2 mGradientCenter{0,0};
+  cocos2d::Vec2 mGradientCenter{0, 0};
 
   cocos2d::Color3B mGradientColorSrc;
 
   cocos2d::Color3B mGradientColorDst;
 
-  float mGameTimer{ 0 };
+  float mGameTimer{0};
 
   std::function<void()> mWinGameEvent;
 
-  std::vector<TimeEvent> mTimeEvents;
+  std::vector <TimeEvent> mTimeEvents;
 
-  std::vector<std::string> mFxList;
+  std::vector <std::string> mFxList;
 
-  std::vector<cocos2d::ParticleBatchNode*> mFxNodes;
+  std::vector<cocos2d::ParticleBatchNode *> mFxNodes;
 
-  std::vector<cocos2d::Vec2> mStarList;
+  std::vector <cocos2d::Vec2> mStarList;
 
-  std::vector<cocos2d::Node*> mStarNodes;
+  std::vector<cocos2d::Node *> mStarNodes;
 
-  bool mRejectInput{ false };
+  bool mRejectInput{false};
 
-  std::vector<LightBeam*> mLightBeams;
-  
-  bool mJumpFlag{ false };
+  std::vector<LightBeam *> mLightBeams;
+
+  bool mJumpFlag{false};
 
   cocos2d::Rect mBounds;
 };

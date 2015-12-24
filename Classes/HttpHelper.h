@@ -16,7 +16,7 @@
 #include "HttpClient.h"
 
 struct MapResource {
-  int id{ 0 };
+  int id{0};
   std::string name;
   std::string author;
   std::string time;
@@ -27,8 +27,8 @@ class HttpHelper {
 public:
   static void getAllMaps();
 
-  static void updateMap(const std::string& name, const std::string& author,
-                        const std::string& time, const std::string& content);
+  static void updateMap(const std::string &name, const std::string &author,
+                        const std::string &time, const std::string &content);
 
   static std::vector<MapResource> sAllMaps;
 };

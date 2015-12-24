@@ -13,13 +13,17 @@
 #if EDITOR_MODE
 
 class BlockBase;
+
 class ShadowManager;
+
 class Hero;
+
 class GameLogic;
 
 #if USE_SHADER_LAYER
 class EditorScene : public ShaderLayer {
 #else
+
 class EditorScene : public cocos2d::Layer {
 #endif
 public:
@@ -33,7 +37,7 @@ public:
     }
   };
 
-  static EditorScene* Scene;
+  static EditorScene *Scene;
 
   virtual bool init();
 
@@ -41,15 +45,15 @@ public:
 
   void keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
 
-  void mouseDown(cocos2d::Event* event);
+  void mouseDown(cocos2d::Event *event);
 
-  void mouseUp(cocos2d::Event* event);
+  void mouseUp(cocos2d::Event *event);
 
-  void mouseMove(cocos2d::Event* event);
+  void mouseMove(cocos2d::Event *event);
 
-  void convertMouse(cocos2d::Point& pt, bool cameraRelative = true);
+  void convertMouse(cocos2d::Point &pt, bool cameraRelative = true);
 
-  bool onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::PhysicsContactPreSolve& solve);
+  bool onContactPreSolve(cocos2d::PhysicsContact &contact, cocos2d::PhysicsContactPreSolve &solve);
 
   CREATE_FUNC(EditorScene);
 
@@ -91,55 +95,55 @@ public:
 
   void showDieFullScreenAnim();
 
-  bool mPressingShift{ false };
+  bool mPressingShift{false};
 
-  bool mPressingCtrl{ false };
+  bool mPressingCtrl{false};
 
-  bool mPressingAlt{ false };
+  bool mPressingAlt{false};
 
-  bool mPressingM{ false };
+  bool mPressingM{false};
 
-  bool mPressingN{ false };
+  bool mPressingN{false};
 
-  bool mPressingB{ false };
+  bool mPressingB{false};
 
-  bool mPressingV{ false };
+  bool mPressingV{false};
 
-  BlockBase* mMovingBlock{ nullptr };
+  BlockBase *mMovingBlock{nullptr};
 
   cocos2d::Point mLastPoint;
 
   cocos2d::Vec2 mLastCursorInView;
 
-  cocos2d::Sprite* mSpawnPoint{ nullptr };
+  cocos2d::Sprite *mSpawnPoint{nullptr};
 
-  cocos2d::Sprite* mLightPoint{ nullptr };
+  cocos2d::Sprite *mLightPoint{nullptr};
 
-  cocos2d::Sprite* mGradientCenterPoint{ nullptr };
+  cocos2d::Sprite *mGradientCenterPoint{nullptr};
 
-  std::set<BlockBase*> mSelections;
+  std::set<BlockBase *> mSelections;
 
-  BlockBase* mSelectionHead{ nullptr };
+  BlockBase *mSelectionHead{nullptr};
 
-  bool mPathMode{ false };
+  bool mPathMode{false};
 
-  bool mShowGrid{ false };
+  bool mShowGrid{false};
 
-  bool mMovingCamera{ false };
+  bool mMovingCamera{false};
 
   std::string mCurFileName;
-  
+
   PostUpdater mPostUpdater;
-  
-  GameLogic* mGame{ nullptr };
 
-  cocos2d::DrawNode* mGridNode{ nullptr };
+  GameLogic *mGame{nullptr};
 
-  cocos2d::DrawNode* mGroupNode{ nullptr };
+  cocos2d::DrawNode *mGridNode{nullptr};
 
-  cocos2d::DrawNode* mBorderNode{ nullptr };
+  cocos2d::DrawNode *mGroupNode{nullptr};
 
-  cocos2d::Camera* mCamera{ nullptr };
+  cocos2d::DrawNode *mBorderNode{nullptr};
+
+  cocos2d::Camera *mCamera{nullptr};
 };
 
 #endif

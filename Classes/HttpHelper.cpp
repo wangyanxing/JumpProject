@@ -13,8 +13,10 @@
 #include <time.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+
 #   include <windows.h>
 #   include <Lmcons.h>
+
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 #   include <unistd.h>
 #   include <sys/types.h>
@@ -35,51 +37,52 @@ using namespace rapidjson;
 std::vector<MapResource> HttpHelper::sAllMaps;
 
 void HttpHelper::getAllMaps() {
-  cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest();
+  cocos2d::network::HttpRequest *request = new cocos2d::network::HttpRequest();
   request->setUrl(GET_URL);
 
   request->setRequestType(cocos2d::network::HttpRequest::Type::GET);
 
-  request->setResponseCallback( [&](cocos2d::network::HttpClient* client,
-                                    cocos2d::network::HttpResponse* response){
+  request->setResponseCallback([&](cocos2d::network::HttpClient *client,
+                                   cocos2d::network::HttpResponse *response) {
 
-    if(response->isSucceed() && response->getResponseCode() == 200) {
-      CCLOG("Got reponse from server: HTTP 200 OK");
+      if (response->isSucceed() && response->getResponseCode() == 200) {
+        CCLOG("Got reponse from server: HTTP 200 OK");
 
-      std::vector<char> *buf = response->getResponseData();
-      char* buffer = new char[buf->size() + 1];
-      memcpy(buffer, &buf->at(0), buf->size());
-      buffer[buf->size()] = '\0';
+        std::vector<char> *buf = response->getResponseData();
+        char *buffer = new char[buf->size() + 1];
+        memcpy(buffer, &buf->at(0), buf->size());
+        buffer[buf->size()] = '\0';
 
-      Document d;
-      d.Parse<kParseDefaultFlags>(buffer);
+        Document d;
+        d.Parse<kParseDefaultFlags>(buffer);
 
-      sAllMaps.clear();
-      for(SizeType i = 0; i < d.Size(); ++i) {
-        auto& v = d[i];
-        sAllMaps.push_back(MapResource());
+        sAllMaps.clear();
+        for (SizeType i = 0; i < d.Size(); ++i) {
+          auto &v = d[i];
+          sAllMaps.push_back(MapResource());
 
-        if(v["id"].IsInt())
-          sAllMaps.back().id = v["id"].GetInt();
+          if (v["id"].IsInt())
+            sAllMaps.back().id = v["id"].GetInt();
 
-        if(v["name"].IsString())
-          sAllMaps.back().name = v["name"].GetString();
+          if (v["name"].IsString())
+            sAllMaps.back().name = v["name"].GetString();
 
-        if(v["author"].IsString())
-          sAllMaps.back().author = v["author"].GetString();
+          if (v["author"].IsString())
+            sAllMaps.back().author = v["author"].GetString();
 
-        if(v["time"].IsString())
-          sAllMaps.back().time = v["time"].GetString();
+          if (v["time"].IsString())
+            sAllMaps.back().time = v["time"].GetString();
 
-        if(v["content"].IsString())
-          sAllMaps.back().content = v["content"].GetString();
+          if (v["content"].IsString())
+            sAllMaps.back().content = v["content"].GetString();
+        }
+
+        delete[] buffer;
+        MapSerial::afterLoadRemoteMaps();
+      } else {
+        CCLOG("HTTP GET ERROR(code %ld): %s", response->getResponseCode(),
+              response->getErrorBuffer());
       }
-
-      delete[] buffer;
-      MapSerial::afterLoadRemoteMaps();
-    } else {
-      CCLOG("HTTP GET ERROR(code %ld): %s", response->getResponseCode(), response->getErrorBuffer());
-    }
   });
 
   request->setTag("GET get_maps");
@@ -88,14 +91,14 @@ void HttpHelper::getAllMaps() {
   request->release();
 }
 
-void HttpHelper::updateMap(const std::string& name, const std::string& author,
-                           const std::string& time, const std::string& content) {
+void HttpHelper::updateMap(const std::string &name, const std::string &author,
+                           const std::string &time, const std::string &content) {
 
-  cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest();
+  cocos2d::network::HttpRequest *request = new cocos2d::network::HttpRequest();
   request->setUrl(PUSH_URL);
   request->setRequestType(cocos2d::network::HttpRequest::Type::POST);
-  request->setResponseCallback( [&](cocos2d::network::HttpClient* client,
-                                    cocos2d::network::HttpResponse* response){
+  request->setResponseCallback([&](cocos2d::network::HttpClient *client,
+                                   cocos2d::network::HttpResponse *response) {
   });
 
   std::string t = "map[name]=";

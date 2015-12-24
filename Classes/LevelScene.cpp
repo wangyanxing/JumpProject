@@ -20,20 +20,20 @@ using namespace cocos2d::ui;
 
 using namespace CocosDenshion;
 
-LevelScene* LevelScene::instance;
+LevelScene *LevelScene::instance;
 
 LevelScene *LevelScene::getInstance() {
-  if(instance != NULL) {
+  if (instance != NULL) {
     return instance;
   }
-  return  NULL;
+  return NULL;
 }
 
 void LevelScene::onEnter() {
   Scene::onEnter();
 }
 
-bool LevelScene::init()  {
+bool LevelScene::init() {
   if (!Scene::init()) {
     return false;
   }
@@ -47,7 +47,7 @@ bool LevelScene::init()  {
   auto p = FileUtils::getInstance()->getWritablePath();
   auto files = PathLib::listFiles(p.c_str(), ".json");
 
-  PageView* pageView = PageView::create();
+  PageView *pageView = PageView::create();
   pageView->setTouchEnabled(true);
   pageView->setSize(size);
   pageView->removeAllPages();
@@ -55,21 +55,21 @@ bool LevelScene::init()  {
 
   float buttonWidth = 240, buttonHeight = 60.5f;
   int column = 4, row = 9;
-  int pageCount = (int)files.size() / (column * row) + 1;
-  if ((int)files.size() % (column * row) == 0) {
+  int pageCount = (int) files.size() / (column * row) + 1;
+  if ((int) files.size() % (column * row) == 0) {
     --pageCount;
   }
   int count = 0;
 
   for (int i = 0; i < pageCount; ++i) {
-    HBox* outerBox = HBox::create();
+    HBox *outerBox = HBox::create();
     outerBox->setContentSize(size);
 
     for (int k = 0; k < column; ++k) {
-      VBox* innerBox = VBox::create();
+      VBox *innerBox = VBox::create();
 
       for (int j = 0; j < row; j++) {
-        Button* btn = Button::create("images/button.png",
+        Button *btn = Button::create("images/button.png",
                                      "images/buttonHighlighted.png");
         btn->setScale9Enabled(true);
         btn->setContentSize(Size(buttonWidth, buttonHeight));
@@ -93,7 +93,7 @@ bool LevelScene::init()  {
       outerBox->addChild(innerBox);
 
     }
-    pageView->insertPage(outerBox,i);
+    pageView->insertPage(outerBox, i);
   }
 
   addChild(pageView);
@@ -102,14 +102,14 @@ bool LevelScene::init()  {
 
 void LevelScene::touchEvent(Ref *pSender, Widget::TouchEventType type) {
   if (type == Widget::TouchEventType::ENDED) {
-    Node* n = (Node*)(pSender);
+    Node *n = (Node * )(pSender);
     auto levelName = n->getName();
     CCLOG("Loading scene: %s", levelName.c_str());
 
     auto path = FileUtils::getInstance()->getWritablePath();
     path += levelName;
 
-    if(!FileUtils::getInstance()->isFileExist(path)) {
+    if (!FileUtils::getInstance()->isFileExist(path)) {
       CCLOGWARN("Scene not existed!");
       return;
     }

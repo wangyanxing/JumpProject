@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "Defines.h"
 #include <string>
+
 USING_NS_CC;
 
 #if USE_SHADER_LAYER

@@ -29,10 +29,10 @@ public:
       height = h;
     }
 
-    float rotation{ 0 };
-    float waitTime{ -1 };
-    float width{ 1 };
-    float height{ 1 };
+    float rotation{0};
+    float waitTime{-1};
+    float width{1};
+    float height{1};
   };
 
   int nextPoint();
@@ -45,24 +45,24 @@ public:
     mPathWaitingTimer = 0;
   }
 
-  void cloneFrom(const Rotator& rsh, float bias);
+  void cloneFrom(const Rotator &rsh, float bias);
 
   size_t getNumPoints() {
     return mPoints.size();
   }
 
-  const RotatorPoint& getPoint(size_t i) const {
+  const RotatorPoint &getPoint(size_t i) const {
     return mPoints[i];
   }
 
-  void update(float dt, float& out, cocos2d::Vec2& outsize);
+  void update(float dt, float &out, cocos2d::Vec2 &outsize);
 
   bool empty() {
     return mPoints.empty();
   }
 
   void clear() {
-    while(!empty()) pop();
+    while (!empty()) pop();
   }
 
   void pop();
@@ -77,26 +77,26 @@ public:
   }
 
   void addRotations(float d) {
-    for(size_t i = 0; i < mPoints.size(); ++i) {
+    for (size_t i = 0; i < mPoints.size(); ++i) {
       mPoints[i].rotation += d;
     }
   }
 
   void push(float r, float waitTime = -1, float width = 1, float height = 1);
 
-  bool mPingPong{ true };
-  float mSpeed{ 1 };
-  float mPathWaitTime{ -1 };
-  bool mDirection{ true };
-  int mCurPt{ 0 };
-  float mCurDist{ 0 };
-  float mWaitingTimer{ 0 };
-  float mPathWaitingTimer{ 0 };
-  bool mDisable{ true };
-  bool mPause{ false };
+  bool mPingPong{true};
+  float mSpeed{1};
+  float mPathWaitTime{-1};
+  bool mDirection{true};
+  int mCurPt{0};
+  float mCurDist{0};
+  float mWaitingTimer{0};
+  float mPathWaitingTimer{0};
+  bool mDisable{true};
+  bool mPause{false};
 
 private:
-  std::vector<RotatorPoint> mPoints;
+  std::vector <RotatorPoint> mPoints;
 };
 
 

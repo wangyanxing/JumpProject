@@ -10,7 +10,7 @@
 
 USING_NS_CC;
 
-void Path::update(float dt, cocos2d::Vec2& out, cocos2d::Vec2& outsize) {
+void Path::update(float dt, cocos2d::Vec2 &out, cocos2d::Vec2 &outsize) {
   if (mPoints.empty() || mPoints.size() == 1) {
     return;
   }
@@ -41,7 +41,7 @@ void Path::update(float dt, cocos2d::Vec2& out, cocos2d::Vec2& outsize) {
               mDirection = !mDirection;
             }
           } else {
-            if(nextPt == 0 && mPingPong) {
+            if (nextPt == 0 && mPingPong) {
               mDirection = !mDirection;
             }
           }
@@ -88,15 +88,15 @@ void Path::pop() {
   mPoints.pop_back();
 }
 
-void Path::push(const cocos2d::Vec2& pos, float waitTime, float width, float height) {
-  PathPoint pt(pos, waitTime, width ,height);
+void Path::push(const cocos2d::Vec2 &pos, float waitTime, float width, float height) {
+  PathPoint pt(pos, waitTime, width, height);
   mPoints.push_back(pt);
 #if EDITOR_MODE
   auto sprite = cocos2d::Sprite::create("images/circle.png");
   sprite->setTag(mPoints.size() - 1);
   sprite->setPosition(pos);
   sprite->setScale(0.7);
-  sprite->setCameraMask((unsigned short)CameraFlag::USER2);
+  sprite->setCameraMask((unsigned short) CameraFlag::USER2);
   mHelperNode->addChild(sprite, 100);
   if (mPoints.size() > 1) {
     mSegmentNode->drawSegment(mPoints[mPoints.size() - 1].pt,
@@ -107,10 +107,10 @@ void Path::push(const cocos2d::Vec2& pos, float waitTime, float width, float hei
 #endif
 }
 
-void Path::cloneFrom(const Path& rsh, const cocos2d::Vec2& posBias) {
+void Path::cloneFrom(const Path &rsh, const cocos2d::Vec2 &posBias) {
   reset();
   for (size_t i = 0; i < rsh.mPoints.size(); ++i) {
-    const auto& p = rsh.mPoints[i];
+    const auto &p = rsh.mPoints[i];
     push(p.pt + posBias, p.waitTime, p.width, p.height);
   }
   mSpeed = rsh.mSpeed;
@@ -131,10 +131,12 @@ int Path::nextPoint() {
 }
 
 #if EDITOR_MODE
+
 void Path::updateHelper() {
   mSegmentNode->clear();
   for (size_t i = 0; i < mPoints.size() - 1; ++i) {
     mSegmentNode->drawSegment(mPoints[i].pt, mPoints[i + 1].pt, 1, cocos2d::Color4F(0, 1, 0, 1));
   }
 }
+
 #endif

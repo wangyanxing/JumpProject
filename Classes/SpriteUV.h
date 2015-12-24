@@ -14,20 +14,27 @@ public:
 
 public:
 
-  static SpriteUV* create(const std::string& filename);
+  static SpriteUV *create(const std::string &filename);
 
   // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
   virtual bool initWithFile(const char *pszFilename);
+
   virtual bool initWithSpriteFrameName(const char *framename);
 
   void setUVOffset(cocos2d::Point offset);
 
   void setUVSize(float val);
+
   void setUVHeight(float val);
+
   void setUVWidth(float val);
+
   void resetUV();
+
   void flipUVX();
+
   void flipUVY();
+
   void rotateUV();
 
   // implement the "static node()" method manually

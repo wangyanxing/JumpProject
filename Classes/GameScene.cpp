@@ -19,11 +19,11 @@
 
 USING_NS_CC;
 
-cocos2d::Scene* GameScene::createScene() {
-  srand((unsigned)time(nullptr));
+cocos2d::Scene *GameScene::createScene() {
+  srand((unsigned) time(nullptr));
 
   auto scene = Scene::createWithPhysics();
-  scene->getPhysicsWorld()->setGravity(Vec2(0,0));
+  scene->getPhysicsWorld()->setGravity(Vec2(0, 0));
   GameLogic::PhysicsWorld = scene->getPhysicsWorld();
 
   auto game = GameScene::create();
@@ -32,7 +32,7 @@ cocos2d::Scene* GameScene::createScene() {
   return scene;
 }
 
-GameScene* GameScene::Scene = nullptr;
+GameScene *GameScene::Scene = nullptr;
 
 GameScene::~GameScene() {
   getScheduler()->unscheduleAllForTarget(&mPostUpdater);
@@ -56,31 +56,31 @@ void GameScene::onEnter() {
   _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
   auto touchListener = EventListenerTouchAllAtOnce::create();
-  touchListener->onTouchesBegan = [&](const std::vector<Touch*>& touches, Event* event){
-    for(auto& t : touches) {
-      onTouch(t->getLocation());
-    }
+  touchListener->onTouchesBegan = [&](const std::vector<Touch *> &touches, Event *event) {
+      for (auto &t : touches) {
+        onTouch(t->getLocation());
+      }
   };
-  touchListener->onTouchesMoved = [&](const std::vector<Touch*>& touches, Event*){
-    for(auto& t : touches) {
-      onTouch(t->getLocation());
-    }
+  touchListener->onTouchesMoved = [&](const std::vector<Touch *> &touches, Event *) {
+      for (auto &t : touches) {
+        onTouch(t->getLocation());
+      }
   };
-  touchListener->onTouchesEnded = [&](const std::vector<Touch*>& touches, Event*){
-    for(auto& t : touches) {
-      onEndTouch(t->getLocation());
-    }
+  touchListener->onTouchesEnded = [&](const std::vector<Touch *> &touches, Event *) {
+      for (auto &t : touches) {
+        onEndTouch(t->getLocation());
+      }
   };
-  touchListener->onTouchesCancelled = [&](const std::vector<Touch*>& touches, Event*){
-    for(auto& t : touches) {
-      onEndTouch(t->getLocation());
-    }
+  touchListener->onTouchesCancelled = [&](const std::vector<Touch *> &touches, Event *) {
+      for (auto &t : touches) {
+        onEndTouch(t->getLocation());
+      }
   };
   _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
-  runAction(Sequence::create(DelayTime::create(0.4), CallFunc::create([this]{
-    mGame->enableGame(true, true);
-  }),  NULL));
+  runAction(Sequence::create(DelayTime::create(0.4), CallFunc::create([this] {
+      mGame->enableGame(true, true);
+  }), NULL));
 }
 
 void GameScene::onEnterTransitionDidFinish() {
@@ -106,12 +106,12 @@ bool GameScene::init() {
     delete GameLogic::Game;
   }
   mGame = new GameLogic(this);
-  mGame->mWinGameEvent = [this]{onWinGame();};
+  mGame->mWinGameEvent = [this] { onWinGame(); };
 
   mCamera->setCameraFlag(CameraFlag::USER2);
   mCamera->setDepth(-10);
   addChild(mCamera);
-  setCameraMask((unsigned short)CameraFlag::USER2);
+  setCameraMask((unsigned short) CameraFlag::USER2);
 
   createControlPad();
   createMenuButtons();
@@ -121,14 +121,14 @@ bool GameScene::init() {
 void GameScene::update(float dt) {
   // Update timer
   char time[10];
-  sprintf(time, "%.1f",mGame->mGameTimer);
+  sprintf(time, "%.1f", mGame->mGameTimer);
   mTimerLabel->setString(time);
   mGame->update(1.0f / 60.0f);
   mGame->updateCamera(mCamera);
 }
 
-void GameScene::enterGame(const std::string& name, bool absPath) {
-  if(absPath) {
+void GameScene::enterGame(const std::string &name, bool absPath) {
+  if (absPath) {
     MapSerial::loadMap(name.c_str());
   } else {
     auto str = FileUtils::getInstance()->fullPathForFilename(name);
@@ -140,27 +140,27 @@ void GameScene::enterGame(const std::string& name, bool absPath) {
   mJumpButton->setVisible(true);
 }
 
-bool GameScene::onContactPreSolve(cocos2d::PhysicsContact& contact,
-                                  cocos2d::PhysicsContactPreSolve& solve) {
+bool GameScene::onContactPreSolve(cocos2d::PhysicsContact &contact,
+                                  cocos2d::PhysicsContactPreSolve &solve) {
   return mGame->onContactPreSolve(contact, solve);
 }
 
-void GameScene::onTouch(const cocos2d::Vec2& pos) {
+void GameScene::onTouch(const cocos2d::Vec2 &pos) {
   auto leftBound = mLeftButton->getBoundingBox();
   auto rightBound = mRightButton->getBoundingBox();
   auto jumpBound = mJumpButton->getBoundingBox();
 
-  if(leftBound.containsPoint(pos)){
+  if (leftBound.containsPoint(pos)) {
     mLeftButton->setOpacity(255);
     mGame->mMoveLeft = true;
     mGame->mMoveRight = false;
-  }else if(rightBound.containsPoint(pos)){
+  } else if (rightBound.containsPoint(pos)) {
     mRightButton->setOpacity(255);
     mGame->mMoveLeft = false;
     mGame->mMoveRight = true;
   }
 
-  if(mCanJump && jumpBound.containsPoint(pos)){
+  if (mCanJump && jumpBound.containsPoint(pos)) {
     mJumpButton->setOpacity(255);
     mGame->mJumpFlag = true;
     mCanJump = false;
@@ -168,19 +168,19 @@ void GameScene::onTouch(const cocos2d::Vec2& pos) {
 }
 
 void GameScene::showHideMenu(bool force) {
-  if(force || mTimerLabel->getNumberOfRunningActions() == 0) {
+  if (force || mTimerLabel->getNumberOfRunningActions() == 0) {
     auto down = Vec2(VisibleRect::center().x, VisibleRect::top().y - 50);
     auto up = Vec2(VisibleRect::center().x, VisibleRect::top().y + 50);
     bool out = mTimerLabel->getPositionY() > VisibleRect::top().y;
     mTimerLabel->runAction(MoveTo::create(0.3, out ? down : up));
   }
-  if(force || mBackMenu->getNumberOfRunningActions() == 0) {
+  if (force || mBackMenu->getNumberOfRunningActions() == 0) {
     auto down = Vec2(50, VisibleRect::top().y - 50);
     auto up = Vec2(50, VisibleRect::top().y + 50);
     bool out = mBackMenu->getPositionY() > VisibleRect::top().y;
     mBackMenu->runAction(MoveTo::create(0.3, out ? down : up));
   }
-  if(force || mRestartMenu->getNumberOfRunningActions() == 0) {
+  if (force || mRestartMenu->getNumberOfRunningActions() == 0) {
     auto down = Vec2(VisibleRect::right().x - 50, VisibleRect::top().y - 50);
     auto up = Vec2(VisibleRect::right().x - 50, VisibleRect::top().y + 50);
     bool out = mRestartMenu->getPositionY() > VisibleRect::top().y;
@@ -188,11 +188,11 @@ void GameScene::showHideMenu(bool force) {
   }
 }
 
-void GameScene::onEndTouch(const cocos2d::Vec2& pos) {
-  if(pos.y > VisibleRect::top().y * 0.3 && pos.y < VisibleRect::top().y - 100) {
+void GameScene::onEndTouch(const cocos2d::Vec2 &pos) {
+  if (pos.y > VisibleRect::top().y * 0.3 && pos.y < VisibleRect::top().y - 100) {
     showHideMenu();
   } else {
-    if(pos.x < VisibleRect::center().x) {
+    if (pos.x < VisibleRect::center().x) {
       mLeftButton->setOpacity(TRANSPARENT_BUTTON);
       mRightButton->setOpacity(TRANSPARENT_BUTTON);
       mGame->mMoveLeft = false;
@@ -213,11 +213,11 @@ void GameScene::enableGame(bool v) {
 
 void GameScene::onWinGame() {
   enableGame(false);
-  if(mTimerLabel->getPositionY() < VisibleRect::top().y) {
+  if (mTimerLabel->getPositionY() < VisibleRect::top().y) {
     showHideMenu(true);
   }
-  this->runAction(Sequence::create(DelayTime::create(0.3), CallFunc::create([this]{
-    toMainMenu();
+  this->runAction(Sequence::create(DelayTime::create(0.3), CallFunc::create([this] {
+      toMainMenu();
   }), NULL));
 }
 
@@ -240,35 +240,44 @@ void GameScene::createMenuButtons() {
   mTimerLabel = Label::createWithTTF(config,"0.0");
 #endif
 
-  addChild(mTimerLabel,1000);
+  addChild(mTimerLabel, 1000);
   mTimerLabel->setPosition(VisibleRect::center().x, VisibleRect::top().y + 50);
 
-  mBackMenu = MenuItemImage::create("images/menu_icon.png",
-                                    "images/menu_icon.png",
-                                    [&](Ref*) {
-    mBackMenu->runAction(Sequence::create(ScaleTo::create(0.1, 0.5),
-                                          ScaleTo::create(0.1, 0.4), NULL));
-    showHideMenu(true);
-    this->runAction(Sequence::create(DelayTime::create(0.2), CallFunc::create([this]{
-      toMainMenu();
-    }), NULL));
-  });
+  mBackMenu = MenuItemImage::create(
+      "images/menu_icon.png",
+      "images/menu_icon.png",
+      [&](Ref *) {
+          mBackMenu->runAction(
+              Sequence::create(ScaleTo::create(0.1, 0.5),
+                               ScaleTo::create(0.1, 0.4), NULL));
+          showHideMenu(true);
+          this->runAction(
+              Sequence::create(DelayTime::create(0.2),
+                               CallFunc::create([this] {
+                                   toMainMenu();
+                               }), NULL));
+      });
 
-  mRestartMenu = MenuItemImage::create("images/restart_icon.png",
-                                       "images/restart_icon.png",
-                                       [&](Ref*) {
-    mRestartMenu->runAction(Sequence::create(ScaleTo::create(0.1, 0.6),
-                                             ScaleTo::create(0.1, 0.5), NULL));
-    showHideMenu(true);
-    this->runAction(Sequence::create(DelayTime::create(0.2), CallFunc::create([this]{
-      mGame->enableGame(false);
-      mGame->enableGame(true);
-    }), NULL));
-  });
+  mRestartMenu = MenuItemImage::create(
+      "images/restart_icon.png",
+      "images/restart_icon.png",
+      [&](Ref *) {
+          mRestartMenu->runAction(
+              Sequence::create(ScaleTo::create(0.1, 0.6),
+                               ScaleTo::create(0.1, 0.5), NULL));
+          showHideMenu(true);
+          this->runAction(
+              Sequence::create(DelayTime::create(0.2),
+                               CallFunc::create(
+                                   [this] {
+                                       mGame->enableGame(false);
+                                       mGame->enableGame(true);
+                                   }), NULL));
+      });
 
-  mBackMenu->setColor(Color3B(200,200,200));
-  mRestartMenu->setColor(Color3B(200,200,200));
-  mTimerLabel->setColor(Color3B(200,200,200));
+  mBackMenu->setColor(Color3B(200, 200, 200));
+  mRestartMenu->setColor(Color3B(200, 200, 200));
+  mTimerLabel->setColor(Color3B(200, 200, 200));
 
   mBackMenu->setPosition(50, VisibleRect::top().y + 50);
   mRestartMenu->setPosition(VisibleRect::right().x - 50, VisibleRect::top().y + 50);
@@ -276,9 +285,9 @@ void GameScene::createMenuButtons() {
   mBackMenu->setScale(0.4);
   mRestartMenu->setScale(0.5);
 
-  auto menu = Menu::create(mBackMenu,mRestartMenu, NULL);
+  auto menu = Menu::create(mBackMenu, mRestartMenu, NULL);
   menu->setPosition(Vec2::ZERO);
-  addChild(menu,1000);
+  addChild(menu, 1000);
 }
 
 void GameScene::createControlPad() {
@@ -293,9 +302,9 @@ void GameScene::createControlPad() {
   mRightButton->setPosition(config->mRightButtonPos);
   mJumpButton->setPosition(config->mJumpButtonPos);
 
-  mLeftButton->setColor(Color3B(200,200,200));
-  mRightButton->setColor(Color3B(200,200,200));
-  mJumpButton->setColor(Color3B(200,200,200));
+  mLeftButton->setColor(Color3B(200, 200, 200));
+  mRightButton->setColor(Color3B(200, 200, 200));
+  mJumpButton->setColor(Color3B(200, 200, 200));
 
   float scale = config->mScale;
   mLeftButton->setScale(scale);

@@ -29,7 +29,7 @@ public:
     SHADOW_LAYER_HERO = SHADOW_LAYER_1,
   };
 
-  ShadowManager(cocos2d::Node* parentNode);
+  ShadowManager(cocos2d::Node *parentNode);
 
   ~ShadowManager();
 
@@ -37,32 +37,32 @@ public:
 
   void update(float dt);
 
-  void updateBlock(BlockBase* block,
-                   std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles,
+  void updateBlock(BlockBase *block,
+                   std::vector <cocos2d::V2F_C4B_T2F_Triangle> &triangles,
                    bool clipX = false);
 
-  std::pair<cocos2d::Vec2, cocos2d::Vec2> getShadowEntry(const std::vector<cocos2d::Vec2>& pts,
-                                                         const cocos2d::Vec2& lightPos);
+  std::pair <cocos2d::Vec2, cocos2d::Vec2> getShadowEntry(const std::vector <cocos2d::Vec2> &pts,
+                                                          const cocos2d::Vec2 &lightPos);
 
   cocos2d::Vec2 mLightPos;
 
   cocos2d::Vec2 mOriginLightPos;
 
-  cocos2d::DrawNodeEx* mShadowDrawers[NUM_SHADOW_LAYERS];
+  cocos2d::DrawNodeEx *mShadowDrawers[NUM_SHADOW_LAYERS];
 
-  cocos2d::RenderTexture* mRenderTextures[NUM_SHADOW_LAYERS];
+  cocos2d::RenderTexture *mRenderTextures[NUM_SHADOW_LAYERS];
 
-  float mLightMoveTimer{ 0 };
+  float mLightMoveTimer{0};
 
-  bool mMoving{ true };
+  bool mMoving{true};
 
-  float mMoveTarget{ 0 };
+  float mMoveTarget{0};
 
-  float mMovingSpeed{ 0 };
+  float mMovingSpeed{0};
 
-  bool mShadowMovingEnable{ true };
+  bool mShadowMovingEnable{true};
 
-  float mShadowDarkness{ 0.098f };
+  float mShadowDarkness{0.098f};
 };
 
 #endif

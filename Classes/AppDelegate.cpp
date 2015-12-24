@@ -4,8 +4,10 @@
 #include "LogicManager.h"
 
 #if EDITOR_MODE
+
 #   include "EditorScene.h"
 #   include "UILayer.h"
+
 #else
 #   include "GameScene.h"
 #   include "LevelScene.h"
@@ -13,7 +15,7 @@
 
 USING_NS_CC;
 
-Scene* createScene() {
+Scene *createScene() {
 #if EDITOR_MODE == 0
   auto framesize = VisibleRect::getFrameSize();
   float ratio = framesize.width / framesize.height;
@@ -33,11 +35,11 @@ Scene* createScene() {
 
 #if EDITOR_MODE
   auto scene = Scene::createWithPhysics();
-  scene->getPhysicsWorld()->setGravity(Vec2(0,-200));
+  scene->getPhysicsWorld()->setGravity(Vec2(0, -200));
   GameLogic::PhysicsWorld = scene->getPhysicsWorld();
-  scene->getPhysicsWorld()->setDebugDrawCameraMask((unsigned short)CameraFlag::USER2);
+  scene->getPhysicsWorld()->setDebugDrawCameraMask((unsigned short) CameraFlag::USER2);
 
-  auto layer = LayerColor::create(Color4B(0x1E,0xB5,0xC7,0xFF));
+  auto layer = LayerColor::create(Color4B(0x1E, 0xB5, 0xC7, 0xFF));
   scene->addChild(layer);
 
   auto uiLayer = new UILayer();
@@ -70,7 +72,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
   auto director = Director::getInstance();
   auto glview = director->getOpenGLView();
 
-  if(!glview) {
+  if (!glview) {
 #if EDITOR_MODE
 #   if EDITOR_RATIO == EDITOR_IP5_MODE
     glview = GLViewImpl::create("Jump Editor - for iPhone 5/5s/6/6+");

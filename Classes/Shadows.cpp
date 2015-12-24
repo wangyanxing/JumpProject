@@ -14,7 +14,9 @@
 #include "Hero.h"
 
 #if EDITOR_MODE
+
 # include "EditorScene.h"
+
 #else
 # include "GameScene.h"
 #endif
@@ -23,14 +25,14 @@
 
 USING_NS_CC;
 
-void colorMix(const Color4B& src, const Color4B& dst, float r, Color4B& out) {
+void colorMix(const Color4B &src, const Color4B &dst, float r, Color4B &out) {
   out.r = dst.r * r + src.r * (1 - r);
   out.g = dst.g * r + src.g * (1 - r);
   out.b = dst.b * r + src.b * (1 - r);
   out.a = dst.a * r + src.a * (1 - r);
 }
 
-ShadowManager::ShadowManager(cocos2d::Node* parentNode) {
+ShadowManager::ShadowManager(cocos2d::Node *parentNode) {
 #if 0
   auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/normal_shadow_editor.fsh");
 #else
@@ -43,7 +45,7 @@ ShadowManager::ShadowManager(cocos2d::Node* parentNode) {
                                                  shaderContent.c_str());
   auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
 
-  for(int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
+  for (int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
     mShadowDrawers[i] = DrawNodeEx::create();
     mShadowDrawers[i]->setGLProgramState(glProgramState);
 
@@ -66,42 +68,42 @@ ShadowManager::ShadowManager(cocos2d::Node* parentNode) {
 }
 
 ShadowManager::~ShadowManager() {
-  for(int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
+  for (int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
     mShadowDrawers[i]->release();
     mRenderTextures[i]->removeFromParent();
     mRenderTextures[i]->release();
   }
 }
 
-std::pair<Vec2, Vec2> ShadowManager::getShadowEntry(const std::vector<Vec2>& pts,
-                                                    const cocos2d::Vec2& lightPos) {
+std::pair<Vec2, Vec2> ShadowManager::getShadowEntry(const std::vector<Vec2> &pts,
+                                                    const cocos2d::Vec2 &lightPos) {
   Vec2 minPt, maxPt;
 
   CC_ASSERT(pts.size() == 4);
-  if(lightPos.x >= pts[0].x && lightPos.x <= pts[1].x) {
-    if(lightPos.y >= pts[0].y) {
+  if (lightPos.x >= pts[0].x && lightPos.x <= pts[1].x) {
+    if (lightPos.y >= pts[0].y) {
       minPt = pts[0];
       maxPt = pts[1];
-    } else if(lightPos.y <= pts[2].y) {
+    } else if (lightPos.y <= pts[2].y) {
       minPt = pts[2];
       maxPt = pts[3];
     }
-  } else if(lightPos.x < pts[0].x) {
-    if(lightPos.y >= pts[0].y) {
+  } else if (lightPos.x < pts[0].x) {
+    if (lightPos.y >= pts[0].y) {
       minPt = pts[2];
       maxPt = pts[1];
-    } else if(lightPos.y <= pts[2].y) {
+    } else if (lightPos.y <= pts[2].y) {
       minPt = pts[0];
       maxPt = pts[3];
     } else {
       minPt = pts[0];
       maxPt = pts[2];
     }
-  } else if(lightPos.x > pts[1].x) {
-    if(lightPos.y >= pts[1].y) {
+  } else if (lightPos.x > pts[1].x) {
+    if (lightPos.y >= pts[1].y) {
       minPt = pts[0];
       maxPt = pts[3];
-    } else if(lightPos.y <= pts[3].y) {
+    } else if (lightPos.y <= pts[3].y) {
       minPt = pts[1];
       maxPt = pts[2];
     } else {
@@ -110,17 +112,17 @@ std::pair<Vec2, Vec2> ShadowManager::getShadowEntry(const std::vector<Vec2>& pts
     }
   }
 
-  return std::make_pair(minPt,maxPt);
+  return std::make_pair(minPt, maxPt);
 }
 
-void ShadowManager::updateBlock(BlockBase* block,
-                                std::vector<cocos2d::V2F_C4B_T2F_Triangle>& triangles,
+void ShadowManager::updateBlock(BlockBase *block,
+                                std::vector<cocos2d::V2F_C4B_T2F_Triangle> &triangles,
                                 bool clipX) {
-  if(!block->mCastShadow || !block->isVisible() || !block->mCanPickup) {
+  if (!block->mCastShadow || !block->isVisible() || !block->mCanPickup) {
     return;
   }
 
-  if(block->getSprite()->getBoundingBox().containsPoint(mLightPos)) {
+  if (block->getSprite()->getBoundingBox().containsPoint(mLightPos)) {
     return;
   }
 
@@ -129,7 +131,7 @@ void ShadowManager::updateBlock(BlockBase* block,
 #if EDITOR_MODE
   auto camera = EditorScene::Scene->mCamera;
   auto camRelative = camera->getPosition() - VisibleRect::getVisibleRect().size / 2 -
-      Vec2(0, UI_LAYER_HIGHT / 2);
+                     Vec2(0, UI_LAYER_HIGHT / 2);
 #else
   auto camera = GameScene::Scene->getCamera();
   auto camRelative = camera->getPosition() - VisibleRect::getVisibleRect().size / 2;
@@ -139,7 +141,7 @@ void ShadowManager::updateBlock(BlockBase* block,
 
   std::vector<Vec2> pts;
   block->getPointsForShadow(lightPos, pts);
-  for (auto& p : pts) {
+  for (auto &p : pts) {
     p -= camRelative;
   }
   auto entries = getShadowEntry(pts, lightPos);
@@ -155,23 +157,23 @@ void ShadowManager::updateBlock(BlockBase* block,
   Vec2 f0 = entries.first + dir0 * LENGTH;
   Vec2 f1 = entries.second + dir1 * LENGTH;
 
-  if(clipX) {
+  if (clipX) {
     Vec2 leftupper(0, 2000);
     Vec2 leftlower(0, -1000);
 
     Vec2 rightupper(bounds.size.width, 2000);
     Vec2 rightlower(bounds.size.width, -1000);
 
-    if(Vec2::isSegmentIntersect(leftlower, leftupper, entries.first, f0)) {
+    if (Vec2::isSegmentIntersect(leftlower, leftupper, entries.first, f0)) {
       f0 = Vec2::getIntersectPoint(leftlower, leftupper, entries.first, f0);
     }
-    if(Vec2::isSegmentIntersect(leftlower, leftupper, entries.second, f1)) {
+    if (Vec2::isSegmentIntersect(leftlower, leftupper, entries.second, f1)) {
       f1 = Vec2::getIntersectPoint(leftlower, leftupper, entries.second, f1);
     }
-    if(Vec2::isSegmentIntersect(rightlower, rightupper, entries.first, f0)) {
+    if (Vec2::isSegmentIntersect(rightlower, rightupper, entries.first, f0)) {
       f0 = Vec2::getIntersectPoint(rightlower, rightupper, entries.first, f0);
     }
-    if(Vec2::isSegmentIntersect(rightlower, rightupper, entries.second, f1)) {
+    if (Vec2::isSegmentIntersect(rightlower, rightupper, entries.second, f1)) {
       f1 = Vec2::getIntersectPoint(rightlower, rightupper, entries.second, f1);
     }
   }
@@ -202,14 +204,14 @@ void ShadowManager::updateBlock(BlockBase* block,
 
 void ShadowManager::update(float dt) {
   std::vector<V2F_C4B_T2F_Triangle> triangles[NUM_SHADOW_LAYERS];
-  for(auto b : GameLogic::Game->mBlocks) {
+  for (auto b : GameLogic::Game->mBlocks) {
     auto block = b.second;
     updateBlock(block, triangles[block->mShadowLayerID]);
   }
 
   updateBlock(GameLogic::Game->mHero, triangles[SHADOW_LAYER_HERO]);
 
-  for(int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
+  for (int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
 #if EDITOR_MODE
     mRenderTextures[i]->setPosition(EditorScene::Scene->mCamera->getPosition() -
                                     Vec2(0, UI_LAYER_HIGHT / 2));
@@ -225,7 +227,7 @@ void ShadowManager::update(float dt) {
     mRenderTextures[i]->end();
   }
 
-  if(!mShadowMovingEnable || !GameLogic::Game->mGameMode) {
+  if (!mShadowMovingEnable || !GameLogic::Game->mGameMode) {
     return;
   }
 
@@ -236,25 +238,25 @@ void ShadowManager::update(float dt) {
 
   float dis = std::abs(mOriginLightPos.x - VisibleRect::center().x);
 
-  if(lightLeft == heroLeft && mLightMoveTimer > 10) {
+  if (lightLeft == heroLeft && mLightMoveTimer > 10) {
     mLightMoveTimer = 0;
     mMoveTarget = heroLeft ? VisibleRect::center().x + dis : VisibleRect::center().x - dis;
     mMovingSpeed = (dis * 2) / 3.0f;
-    if(!heroLeft) {
+    if (!heroLeft) {
       mMovingSpeed *= -1;
     }
     mMoving = true;
   }
 
-  if(mMoving) {
+  if (mMoving) {
     mLightPos.x += mMovingSpeed * dt;
-    if(mMovingSpeed > 0) {
-      if(mLightPos.x >= VisibleRect::center().x + dis) {
+    if (mMovingSpeed > 0) {
+      if (mLightPos.x >= VisibleRect::center().x + dis) {
         mLightPos.x = VisibleRect::center().x + dis;
         mMoving = false;
       }
     } else {
-      if(mLightPos.x <= VisibleRect::center().x - dis) {
+      if (mLightPos.x <= VisibleRect::center().x - dis) {
         mLightPos.x = VisibleRect::center().x - dis;
         mMoving = false;
       }

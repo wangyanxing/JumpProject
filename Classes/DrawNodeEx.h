@@ -18,7 +18,6 @@ public:
 
   void drawTriangles(const std::vector<V2F_C4B_T2F_Triangle>& triangles);
 
-
   /** Clear the geometry in the node's buffer. */
   void clear();
   /** Get the color mixed mode.
@@ -42,10 +41,6 @@ public:
   // Overrides
   virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
 
-//  Texture2D* getTexture() {
-//    return _texture;
-//  }
-
 CC_CONSTRUCTOR_ACCESS:
   DrawNodeEx();
 
@@ -56,21 +51,21 @@ CC_CONSTRUCTOR_ACCESS:
 protected:
   void ensureCapacity(int count);
 
-  GLuint      _vao;
+  GLuint _vao;
 
-  GLuint      _vbo;
+  GLuint _vbo;
 
-  int         _bufferCapacity;
+  int _bufferCapacity;
 
-  GLsizei     _bufferCount;
+  GLsizei _bufferCount;
 
   V2F_C4B_T2F *_buffer;
 
-  BlendFunc   _blendFunc;
+  BlendFunc _blendFunc;
 
   CustomCommand _customCommand;
 
-  bool        _dirty;
+  bool _dirty;
 
 private:
   CC_DISALLOW_COPY_AND_ASSIGN(DrawNodeEx);

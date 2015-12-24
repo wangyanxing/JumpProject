@@ -20,9 +20,10 @@
 namespace JE {
 
   struct Arg {
-    Arg(const std::string& defaultVal, bool opt) : value(defaultVal), optional(opt) {}
+    Arg(const std::string &defaultVal, bool opt) : value(defaultVal), optional(opt) { }
+
     std::string value;
-    bool optional{ false };
+    bool optional{false};
 
     bool getBool() const {
       return value == "true" ? true : false;
@@ -40,11 +41,11 @@ namespace JE {
   struct Event {
     std::string command;
     std::vector<Arg> args;
-    std::function<void(const std::vector<Arg>& args, BlockBase* block)> func;
+    std::function<void(const std::vector<Arg> &args, BlockBase *block)> func;
 
     int getMinimumArgs() {
       int nonOpt = 0;
-      for(auto& a : args) {
+      for (auto &a : args) {
         nonOpt += a.optional ? 0 : 1;
       }
       return nonOpt;
@@ -59,22 +60,22 @@ void initEvents() {
   using JE::Event;
   using JE::Arg;
 
-  if(!EventLists.empty()) return;
+  if (!EventLists.empty()) return;
   {
     Event e;
     e.command = "open_door";
     e.args = {
-      {"", false},    // ID
-      {"250", true},  // SPEED
-      {"true", true}, // DIR
+        {"",     false},    // ID
+        {"250",  true},  // SPEED
+        {"true", true}, // DIR
     };
-    e.func = [&](const std::vector<Arg>& args, BlockBase* block){
-      auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
-      if (!targetBlock) {
-        CCLOG("Bad ID: %d", args[0].getInt());
-        return;
-      }
-      targetBlock->openDoor(args[1].getFloat(), args[2].getBool());
+    e.func = [&](const std::vector<Arg> &args, BlockBase *block) {
+        auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
+        if (!targetBlock) {
+          CCLOG("Bad ID: %d", args[0].getInt());
+          return;
+        }
+        targetBlock->openDoor(args[1].getFloat(), args[2].getBool());
     };
     EventLists[e.command] = e;
   }
@@ -82,17 +83,17 @@ void initEvents() {
     Event e;
     e.command = "close_door";
     e.args = {
-      { "", false },    // ID
-      { "250", true },  // SPEED
-      { "true", true }, // DIR
+        {"",     false},    // ID
+        {"250",  true},  // SPEED
+        {"true", true}, // DIR
     };
-    e.func = [&](const std::vector<Arg>& args, BlockBase* block){
-      auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
-      if (!targetBlock) {
-        CCLOG("Bad ID: %d", args[0].getInt());
-        return;
-      }
-      targetBlock->closeDoor(args[1].getFloat(), args[2].getBool());
+    e.func = [&](const std::vector<Arg> &args, BlockBase *block) {
+        auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
+        if (!targetBlock) {
+          CCLOG("Bad ID: %d", args[0].getInt());
+          return;
+        }
+        targetBlock->closeDoor(args[1].getFloat(), args[2].getBool());
     };
     EventLists[e.command] = e;
   }
@@ -100,14 +101,15 @@ void initEvents() {
     Event e;
     e.command = "exit";
 
-    e.func = [&](const std::vector<Arg>& args, BlockBase* block){
-      if (block->mTriggerEventContinueTime > 0.9f){
-        GameLogic::Game->mWinFlag = true;
-        block->mTriggerEventContinueTime = 0.0f;
-      } else{
-        GameLogic::Game->mHero->getSprite()->setOpacity(255.0f*(1.0f - block->mTriggerEventContinueTime)/1.0f);
-        block->mHeroOpacityChanged = true;
-      }
+    e.func = [&](const std::vector<Arg> &args, BlockBase *block) {
+        if (block->mTriggerEventContinueTime > 0.9f) {
+          GameLogic::Game->mWinFlag = true;
+          block->mTriggerEventContinueTime = 0.0f;
+        } else {
+          GameLogic::Game->mHero->getSprite()->setOpacity(
+              255.0f * (1.0f - block->mTriggerEventContinueTime) / 1.0f);
+          block->mHeroOpacityChanged = true;
+        }
     };
     EventLists[e.command] = e;
   }
@@ -115,8 +117,8 @@ void initEvents() {
     Event e;
     e.command = "die";
 
-    e.func = [&](const std::vector<Arg>& args, BlockBase* block){
-      GameLogic::Game->mDeadFlag = true;
+    e.func = [&](const std::vector<Arg> &args, BlockBase *block) {
+        GameLogic::Game->mDeadFlag = true;
     };
     EventLists[e.command] = e;
   }
@@ -124,17 +126,17 @@ void initEvents() {
     Event e;
     e.command = "show";
     e.args = {
-      {"", false},    // ID
+        {"", false},    // ID
     };
-    e.func = [&](const std::vector<Arg>& args, BlockBase* block){
-      auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
-      if (!targetBlock) {
-        CCLOG("Bad ID: %d", args[0].getInt());
-        return;
-      }
+    e.func = [&](const std::vector<Arg> &args, BlockBase *block) {
+        auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
+        if (!targetBlock) {
+          CCLOG("Bad ID: %d", args[0].getInt());
+          return;
+        }
 
-      targetBlock->setVisible(true);
-      targetBlock->getSprite()->getPhysicsBody()->setEnabled(true);
+        targetBlock->setVisible(true);
+        targetBlock->getSprite()->getPhysicsBody()->setEnabled(true);
     };
     EventLists[e.command] = e;
   }
@@ -142,17 +144,17 @@ void initEvents() {
     Event e;
     e.command = "hide";
     e.args = {
-      {"", false},    // ID
+        {"", false},    // ID
     };
-    e.func = [&](const std::vector<Arg>& args, BlockBase* block){
-      auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
-      if (!targetBlock) {
-        CCLOG("Bad ID: %d", args[0].getInt());
-        return;
-      }
+    e.func = [&](const std::vector<Arg> &args, BlockBase *block) {
+        auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
+        if (!targetBlock) {
+          CCLOG("Bad ID: %d", args[0].getInt());
+          return;
+        }
 
-      targetBlock->setVisible(false);
-      targetBlock->getSprite()->getPhysicsBody()->setEnabled(false);
+        targetBlock->setVisible(false);
+        targetBlock->getSprite()->getPhysicsBody()->setEnabled(false);
     };
     EventLists[e.command] = e;
   }
@@ -183,19 +185,19 @@ void initEvents() {
     Event e;
     e.command = "pause_path";
     e.args = {
-      {"", false},    // ID
+        {"", false},    // ID
     };
-    e.func = [&](const std::vector<Arg>& args, BlockBase* block){
-      auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
-      if (!targetBlock) {
-        CCLOG("Bad ID: %d", args[0].getInt());
-        return;
-      }
-      if (targetBlock->mPath.empty()) {
-        CCLOG("The object(ID=%d) has no path!", args[0].getInt());
-        return;
-      }
-      targetBlock->mPath.mPause = true;
+    e.func = [&](const std::vector<Arg> &args, BlockBase *block) {
+        auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
+        if (!targetBlock) {
+          CCLOG("Bad ID: %d", args[0].getInt());
+          return;
+        }
+        if (targetBlock->mPath.empty()) {
+          CCLOG("The object(ID=%d) has no path!", args[0].getInt());
+          return;
+        }
+        targetBlock->mPath.mPause = true;
     };
     EventLists[e.command] = e;
   }
@@ -203,69 +205,69 @@ void initEvents() {
     Event e;
     e.command = "resume_path";
     e.args = {
-      {"", false},    // ID
+        {"", false},    // ID
     };
-    e.func = [&](const std::vector<Arg>& args, BlockBase* block){
-      auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
-      if (!targetBlock) {
-        CCLOG("Bad ID: %d", args[0].getInt());
-        return;
-      }
-      if (targetBlock->mPath.empty()) {
-        CCLOG("The object(ID=%d) has no path!", args[0].getInt());
-        return;
-      }
-      targetBlock->mPath.mPause = false;
+    e.func = [&](const std::vector<Arg> &args, BlockBase *block) {
+        auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
+        if (!targetBlock) {
+          CCLOG("Bad ID: %d", args[0].getInt());
+          return;
+        }
+        if (targetBlock->mPath.empty()) {
+          CCLOG("The object(ID=%d) has no path!", args[0].getInt());
+          return;
+        }
+        targetBlock->mPath.mPause = false;
     };
     EventLists[e.command] = e;
   }
   {
     Event e;
     e.command = "clear_stage";
-    e.func = [&](const std::vector<Arg>& args, BlockBase* block){
-      printf("clearstage\n");
+    e.func = [&](const std::vector<Arg> &args, BlockBase *block) {
+        printf("clearstage\n");
     };
     EventLists[e.command] = e;
   }
 }
 
-void Events::callEvent(const char* event, BlockBase* block=NULL) {
+void Events::callEvent(const char *event, BlockBase *block = NULL) {
   initEvents();
 
-  if(!event) {
+  if (!event) {
     CCLOG("Calling null event!");
     return;
   }
 
   std::string e = event;
   auto splits = PathLib::stringSplit(e, " ");
-  if(splits.empty()) {
+  if (splits.empty()) {
     CCLOG("Calling empty event!");
     return;
   }
 
   auto eit = EventLists.find(splits[0]);
-  if(eit == EventLists.end()) {
+  if (eit == EventLists.end()) {
     CCLOG("Cannot locate event: %s!", splits[0].c_str());
     return;
   }
 
-  if(splits.size() > eit->second.args.size() + 1) {
+  if (splits.size() > eit->second.args.size() + 1) {
     CCLOG("Too many arguments for the event calling: \"%s\"!", event);
     return;
   }
 
-  if(splits.size() < eit->second.getMinimumArgs() + 1) {
+  if (splits.size() < eit->second.getMinimumArgs() + 1) {
     CCLOG("Too few arguments for the event calling: \"%s\"!", event);
     return;
   }
 
   std::vector<JE::Arg> args;
 
-  for(size_t i = 0; i < eit->second.args.size(); ++i) {
+  for (size_t i = 0; i < eit->second.args.size(); ++i) {
     auto arg = eit->second.args[i]; //copy
-    if(i+1 < splits.size())
-      arg.value = splits[i+1];
+    if (i + 1 < splits.size())
+      arg.value = splits[i + 1];
     args.push_back(arg);
   }
 

@@ -13,7 +13,6 @@
 
 class Hero : public BlockBase {
 public:
-
   Hero() {
 #if EDITOR_MODE
     mShowIDLabel = false;
@@ -32,27 +31,27 @@ public:
 
   virtual bool canPush() override { return true; }
 
-  virtual void openDoor(float speed, bool downDirDoor) override {}
+  virtual void openDoor(float speed, bool downDirDoor) override { }
 
-  virtual void closeDoor(float speed, bool downDirDoor) override {}
+  virtual void closeDoor(float speed, bool downDirDoor) override { }
 
   virtual cocos2d::Size getSize() override { return mRestoreSize; }
 
-  bool mCanJump{ false };
+  bool mCanJump{false};
 
-  bool mPushing{ false };
+  bool mPushing{false};
 
-  cocos2d::ParticleSystem* mTrailFx{ nullptr };
+  cocos2d::ParticleSystem *mTrailFx{nullptr};
 
-  cocos2d::ParticleBatchNode* mTrailFxNode{ nullptr };
+  cocos2d::ParticleBatchNode *mTrailFxNode{nullptr};
 
-  int mLinkingID{ -1 };
+  int mLinkingID{-1};
 
-  bool mPushLeftFlag{ false };
+  bool mPushLeftFlag{false};
 
-  bool mPushRightFlag{ false };
+  bool mPushRightFlag{false};
 
-  float mCurrentMovingSpeed{ 0 };
+  float mCurrentMovingSpeed{0};
 };
 
 #include <stdio.h>

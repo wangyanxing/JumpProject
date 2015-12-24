@@ -13,7 +13,7 @@ class BlockBase;
 
 class Events {
 public:
-  static void callEvent(const char* event, BlockBase* block);
+  static void callEvent(const char *event, BlockBase *block);
 };
 
 #endif /* defined(__JumpEdt__Events__) */

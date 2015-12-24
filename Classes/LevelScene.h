@@ -16,13 +16,17 @@ class LevelScene : public cocos2d::Scene {
 public:
 
   virtual bool init();
+
   virtual void onEnter();
+
   CREATE_FUNC(LevelScene);
+
   static LevelScene *getInstance();
 
-  void touchEvent(cocos2d::Ref* sender, cocos2d::ui::Widget::TouchEventType type);
+  void touchEvent(cocos2d::Ref *sender, cocos2d::ui::Widget::TouchEventType type);
 
 private:
   static LevelScene *instance;
 };
+
 #endif

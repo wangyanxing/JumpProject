@@ -15,11 +15,13 @@
 #include "ShaderLayer.h"
 
 class GameLogic;
+
 class BlockBase;
 
 #if USE_SHADER_LAYER
 class GameScene : public ShaderLayer {
 #else
+
 class GameScene : public cocos2d::Layer {
 #endif
 public:
@@ -27,9 +29,9 @@ public:
 
   virtual ~GameScene();
 
-  static GameScene* Scene;
+  static GameScene *Scene;
 
-  static cocos2d::Scene* createScene();
+  static cocos2d::Scene *createScene();
 
   struct PostUpdater {
     void update(float dt) {
@@ -45,26 +47,28 @@ public:
 
   void update(float dt) override;
 
-  bool onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::PhysicsContactPreSolve& solve);
+  bool onContactPreSolve(cocos2d::PhysicsContact &contact, cocos2d::PhysicsContactPreSolve &solve);
 
   void enableGame(bool v);
 
-  void loadChooseLevel(const std::string& name);
+  void loadChooseLevel(const std::string &name);
 
-  void enterGame(const std::string& name, bool absPath);
+  void enterGame(const std::string &name, bool absPath);
 
   void showDieFullScreenAnim();
 
-  cocos2d::Camera* getCamera() { return mCamera; }
+  cocos2d::Camera *getCamera() { return mCamera; }
 
   CREATE_FUNC(GameScene);
 
 private:
 
-  void onTouch(const cocos2d::Vec2& pos);
-  void onEndTouch(const cocos2d::Vec2& pos);
+  void onTouch(const cocos2d::Vec2 &pos);
+
+  void onEndTouch(const cocos2d::Vec2 &pos);
 
   void createControlPad();
+
   void createMenuButtons();
 
   void toMainMenu();
@@ -75,25 +79,25 @@ private:
 
 private:
 
-  GameLogic* mGame{ nullptr };
+  GameLogic *mGame{nullptr};
 
   PostUpdater mPostUpdater;
 
-  cocos2d::Sprite* mLeftButton{ nullptr };
+  cocos2d::Sprite *mLeftButton{nullptr};
 
-  cocos2d::Sprite* mRightButton{ nullptr };
+  cocos2d::Sprite *mRightButton{nullptr};
 
-  cocos2d::Sprite* mJumpButton{ nullptr };
+  cocos2d::Sprite *mJumpButton{nullptr};
 
-  cocos2d::Label* mTimerLabel{ nullptr };
+  cocos2d::Label *mTimerLabel{nullptr};
 
-  cocos2d::MenuItemImage* mBackMenu{ nullptr };
+  cocos2d::MenuItemImage *mBackMenu{nullptr};
 
-  cocos2d::MenuItemImage* mRestartMenu{ nullptr };
+  cocos2d::MenuItemImage *mRestartMenu{nullptr};
 
-  cocos2d::Camera* mCamera{ nullptr };
+  cocos2d::Camera *mCamera{nullptr};
 
-  bool mCanJump{ true };
+  bool mCanJump{true};
 };
 
 #endif /* defined(__JumpEdt__GameScene__) */

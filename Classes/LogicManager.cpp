@@ -19,7 +19,9 @@
 #include "TimeEvent.h"
 
 #if EDITOR_MODE
+
 #   include "EditorScene.h"
+
 #else
 #   include "GameScene.h"
 #endif
@@ -29,10 +31,10 @@
 
 USING_NS_CC;
 
-GameLogic* GameLogic::Game = nullptr;
-PhysicsWorld* GameLogic::PhysicsWorld = nullptr;
+GameLogic *GameLogic::Game = nullptr;
+PhysicsWorld *GameLogic::PhysicsWorld = nullptr;
 
-GameLogic::GameLogic(cocos2d::Layer* parent) {
+GameLogic::GameLogic(cocos2d::Layer *parent) {
   mParentLayer = parent;
   Game = this;
 
@@ -41,7 +43,7 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
   mSpawnPos = VisibleRect::center();
 
   mHero = new Hero();
-  mHero->create(VisibleRect::center(), Size(30,30));
+  mHero->create(VisibleRect::center(), Size(30, 30));
   mHero->setVisible(false);
   mHero->setKind(KIND_HERO);
   mHeroShape = mHero->getSprite()->getPhysicsBody()->getShapes().front();
@@ -57,7 +59,7 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
 
   // Background
 #if GRADIENT
-  mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(255,255,255));
+  mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(255, 255, 255));
 
 #if EDITOR_MODE
   auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/back_editor.fsh");
@@ -74,13 +76,14 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
   float screenWidth = VisibleRect::getFrameSize().width;
   float screenHeight = VisibleRect::getFrameSize().height;
 
-  mGradientColorSrc = Color3B(50,201,219);
-  mGradientColorDst = Color3B(30,181,199);
+  mGradientColorSrc = Color3B(50, 201, 219);
+  mGradientColorDst = Color3B(30, 181, 199);
 
   mBack->setGLProgramState(glProgramState);
   glProgramState->setUniformVec4("data", Vec4(screenWidth, screenHeight, 0, 0));
-  glProgramState->setUniformVec4("color", Vec4(50.0/255.0, 201.0/255.0,219.0/255.0, 0.4));
-  glProgramState->setUniformVec4("colorDest", Vec4(30.0/255.0, 181.0/255.0,199.0/255.0, 0.4));
+  glProgramState->setUniformVec4("color", Vec4(50.0 / 255.0, 201.0 / 255.0, 219.0 / 255.0, 0.4));
+  glProgramState->setUniformVec4("colorDest",
+                                 Vec4(30.0 / 255.0, 181.0 / 255.0, 199.0 / 255.0, 0.4));
 
 #else
   mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(30,181,199));
@@ -94,7 +97,7 @@ GameLogic::GameLogic(cocos2d::Layer* parent) {
   enableGame(false);
 }
 
-Node* GameLogic::createParticle(const Vec2& pos) {
+Node *GameLogic::createParticle(const Vec2 &pos) {
   auto parent = Node::create();
   auto pg = Sprite::create("images/glow.png");
   auto p = Sprite::create("images/particle.png");
@@ -116,7 +119,7 @@ Node* GameLogic::createParticle(const Vec2& pos) {
   parent->setScale(scale);
   parent->setPosition(pos);
 
-  parent->setCameraMask((unsigned short)CameraFlag::USER2);
+  parent->setCameraMask((unsigned short) CameraFlag::USER2);
   mParentLayer->addChild(parent, 15);
   return parent;
 }
@@ -133,20 +136,20 @@ GameLogic::~GameLogic() {
 #endif
 }
 
-bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact,
-                                  cocos2d::PhysicsContactPreSolve& solve) {
+bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact &contact,
+                                  cocos2d::PhysicsContactPreSolve &solve) {
   auto iA = mBlockTable.find(contact.getShapeA()->getBody()->getNode());
   auto iB = mBlockTable.find(contact.getShapeB()->getBody()->getNode());
-  if(iA == mBlockTable.end() || iB == mBlockTable.end()) {
+  if (iA == mBlockTable.end() || iB == mBlockTable.end()) {
     CCLOGWARN("Cannot get the block from the node.");
     return true;
   }
 
-  BlockBase* blockA = iA->second;
-  BlockBase* blockB = iB->second;
+  BlockBase *blockA = iA->second;
+  BlockBase *blockB = iB->second;
 
-  PhysicsShape* pusherShape = mHeroShape;
-  if(blockA != mHero && blockB != mHero) {
+  PhysicsShape *pusherShape = mHeroShape;
+  if (blockA != mHero && blockB != mHero) {
     pusherShape = blockA->pushable() ? contact.getShapeA() : contact.getShapeB();
   }
 
@@ -157,33 +160,33 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact,
   bool onMovingPlatform = false;
   bool onButton = false;
 
-  if(pusherShape == contact.getShapeA()) {
+  if (pusherShape == contact.getShapeA()) {
     normal *= -1;
   }
 
   auto otherNode = otherShape->getBody()->getNode();
 
-  BlockBase* otherBlock = nullptr;
-  BlockBase* thisBlock = nullptr;
+  BlockBase *otherBlock = nullptr;
+  BlockBase *thisBlock = nullptr;
   auto i = mBlockTable.find(otherNode);
-  if(i != mBlockTable.end()) {
+  if (i != mBlockTable.end()) {
     otherBlock = i->second;
   } else {
     return false;
   }
 
-  if(pusherShape == mHeroShape) {
+  if (pusherShape == mHeroShape) {
     thisBlock = mHero;
   } else {
     auto it = mBlockTable.find(pusherShape->getBody()->getNode());
     thisBlock = it->second;
   }
 
-  BlockBase* pushedObject = nullptr;
-  BlockBase* pushObject = nullptr;
+  BlockBase *pushedObject = nullptr;
+  BlockBase *pushObject = nullptr;
 
-  if(!otherBlock || !otherBlock->pushable() ||
-     (normal.y > 0.9 || normal.y < -0.9 || (otherBlock->pushable() && !otherBlock->mCanPush))) {
+  if (!otherBlock || !otherBlock->pushable() ||
+      (normal.y > 0.9 || normal.y < -0.9 || (otherBlock->pushable() && !otherBlock->mCanPush))) {
     otherBlock->mCanPush = true;
     pushObject = thisBlock;
     pushedObject = otherBlock;
@@ -191,7 +194,7 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact,
     // Pushing
     pushObject = otherBlock;
     pushedObject = thisBlock;
-    if(pushedObject == mHero) {
+    if (pushedObject == mHero) {
       mHero->mPushing = true;
     }
   }
@@ -201,19 +204,20 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact,
   auto pushedSize = pushedObject->getSize();
   Size pushSize = pushObject == mHero ? mHero->mRestoreSize : pushObject->getSize();
 
-  if( otherBlock->mKind == KIND_DEATH || otherBlock->mKind == KIND_DEATH_CIRCLE) {
-    if (thisBlock == mHero){
+  if (otherBlock->mKind == KIND_DEATH || otherBlock->mKind == KIND_DEATH_CIRCLE) {
+    if (thisBlock == mHero) {
       otherBlock->callTriggerEvent();
     }
     return false;
-  } if(otherBlock->mKind == KIND_FORCEFIELD) {
-    if(thisBlock->mEnableForceField) {
+  }
+  if (otherBlock->mKind == KIND_FORCEFIELD) {
+    if (thisBlock->mEnableForceField) {
       float radius = otherBlock->getSize().width / 2;
       float radHero = thisBlock->getSize().width / 2;
       Vec2 dir = otherBlock->getPosition() - thisBlock->getPosition();
       float len = dir.length();
       float ratio = len / (radius + radHero);
-      if(otherBlock->mForceFieldIntensity < 0) {
+      if (otherBlock->mForceFieldIntensity < 0) {
         ratio = 1 - ratio;
       }
       dir = dir / len;
@@ -221,37 +225,37 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact,
       dir.x *= otherBlock->mForceFieldIntensity * ratio * 0.5f;
       thisBlock->mForceFieldVelocity += dir;
 
-      if(thisBlock == mHero && otherBlock->mForceFieldIntensity < 0) {
+      if (thisBlock == mHero && otherBlock->mForceFieldIntensity < 0) {
         mHero->mCanJump = true;
       }
     }
     return false;
-  } else if( otherBlock->mKind == KIND_BLOCK ) {
+  } else if (otherBlock->mKind == KIND_BLOCK) {
     auto p = phyPosPush;
     auto mv = otherBlock->mMovementThisFrame;
-    if(normal.y > 0.9) {
+    if (normal.y > 0.9) {
       mv.y = 0;
-      if(mv != Vec2::ZERO) {
+      if (mv != Vec2::ZERO) {
         p += mv;
         onMovingPlatform = true;
         pushObject->setPosition(p);
       }
-    } else if(normal.y < -0.9) {
+    } else if (normal.y < -0.9) {
       onMovingPlatform = true;
     }
-  } else if( otherBlock->mKind == KIND_BUTTON ) {
-    if(otherBlock->mButton->push(normal, pushObject)) {
+  } else if (otherBlock->mKind == KIND_BUTTON) {
+    if (otherBlock->mButton->push(normal, pushObject)) {
       return false;
     }
-    if(otherBlock->mButton->mDir == Button::DIR_UP) {
+    if (otherBlock->mButton->mDir == Button::DIR_UP) {
       onButton = true;
     }
-    if(!blockA->canPush() && !blockB->canPush()) {
+    if (!blockA->canPush() && !blockB->canPush()) {
       return false;
     }
-    if(normal.y > 0.9) {
+    if (normal.y > 0.9) {
       auto p = pushObject->getSprite()->getPhysicsBody()->getPosition();
-      if(otherBlock->mMovementThisFrame != Vec2::ZERO) {
+      if (otherBlock->mMovementThisFrame != Vec2::ZERO) {
         p += otherBlock->mMovementThisFrame;
         onMovingPlatform = true;
         pushObject->setPosition(p);
@@ -259,71 +263,71 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact,
     }
   }
 
-  if(!blockA->canPush() && !blockB->canPush()) {
-    if(normal.x > 0.9 || normal.x < -0.9) {
-      if(blockA->pushable()) {
+  if (!blockA->canPush() && !blockB->canPush()) {
+    if (normal.x > 0.9 || normal.x < -0.9) {
+      if (blockA->pushable()) {
         blockA->mCanPush = false;
-      } else if(blockB->pushable()) {
+      } else if (blockB->pushable()) {
         blockB->mCanPush = false;
       } else {
         return true;
       }
-    } else if(normal.y > 0.9 || normal.y < -0.9) {
-      if(!blockA->pushable() && !blockB->pushable()) {
+    } else if (normal.y > 0.9 || normal.y < -0.9) {
+      if (!blockA->pushable() && !blockB->pushable()) {
         return true;
       }
     }
   }
 
-  if(pushObject == mHero) {
+  if (pushObject == mHero) {
     float xdis = std::abs(phyPosPushed.x - phyPosPush.x);
     float ydis = std::abs(phyPosPushed.y - phyPosPush.y);
-    if(std::abs(xdis*2 - (pushSize.width + pushedSize.width)) < 5 &&
-       std::abs(ydis*2 - (pushSize.height + pushedSize.height)) < 5) {
+    if (std::abs(xdis * 2 - (pushSize.width + pushedSize.width)) < 5 &&
+        std::abs(ydis * 2 - (pushSize.height + pushedSize.height)) < 5) {
       return false;
     }
   }
 
-  if(normal.x > 0.9 || normal.x < -0.9) {
-    auto h = pushedSize.width/2 + pushSize.width/2;
-    if(onMovingPlatform) {
+  if (normal.x > 0.9 || normal.x < -0.9) {
+    auto h = pushedSize.width / 2 + pushSize.width / 2;
+    if (onMovingPlatform) {
       h += 1;
     }
 
     float oldYPos = pushObject->getPosition().y;
 
     if (phyPosPush.x < phyPosPushed.x) {
-      if(pushObject == mHero) {
+      if (pushObject == mHero) {
         mHero->mPushRightFlag = true;
       }
       pushObject->setPosition(phyPosPushed.x - h, oldYPos);
     } else {
-      if(pushObject == mHero) {
+      if (pushObject == mHero) {
         mHero->mPushLeftFlag = true;
       }
       pushObject->setPosition(phyPosPushed.x + h, oldYPos);
     }
   }
 
-  if(normal.y > 0.9 || normal.y < -0.9) {
-    if(pushObject == mHero && normal.y > 0.9) {
+  if (normal.y > 0.9 || normal.y < -0.9) {
+    if (pushObject == mHero && normal.y > 0.9) {
       mHero->mCanJump = true;
     }
 
-    auto h = pushedSize.height/2 + pushSize.height/2;
-    if(onMovingPlatform && pushObject == mHero) {
+    auto h = pushedSize.height / 2 + pushSize.height / 2;
+    if (onMovingPlatform && pushObject == mHero) {
       h -= 1;
     }
 
-    if(normal.y < -0.9) {
+    if (normal.y < -0.9) {
       h += onButton ? -1 : 1;
-      if(onMovingPlatform && pushObject == mHero) {
+      if (onMovingPlatform && pushObject == mHero) {
         mHero->mJumpVelocity.y = -100;
       }
       pushObject->setPositionY(phyPosPushed.y - h);
     } else {
       pushObject->setPositionY(phyPosPushed.y + h);
-      if(pushObject == mHero) {
+      if (pushObject == mHero) {
         mHero->mLinkingID = pushedObject->mID;
       }
     }
@@ -335,25 +339,25 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact& contact,
   return false;
 }
 
-void GameLogic::setBackGradientColor(const cocos2d::Color3B& colorSrc,
-                                     const cocos2d::Color3B& colorDst) {
+void GameLogic::setBackGradientColor(const cocos2d::Color3B &colorSrc,
+                                     const cocos2d::Color3B &colorDst) {
   mGradientColorDst = colorDst;
   mGradientColorSrc = colorSrc;
 
   auto glProgramState = mBack->getGLProgramState();
   glProgramState->setUniformVec4("color",
-                                 Vec4(mGradientColorSrc.r/255.0,
-                                      mGradientColorSrc.g/255.0,
-                                      mGradientColorSrc.b/255.0,
+                                 Vec4(mGradientColorSrc.r / 255.0,
+                                      mGradientColorSrc.g / 255.0,
+                                      mGradientColorSrc.b / 255.0,
                                       0.4));
   glProgramState->setUniformVec4("colorDest",
-                                 Vec4(mGradientColorDst.r/255.0,
-                                      mGradientColorDst.g/255.0,
-                                      mGradientColorDst.b/255.0,
+                                 Vec4(mGradientColorDst.r / 255.0,
+                                      mGradientColorDst.g / 255.0,
+                                      mGradientColorDst.b / 255.0,
                                       0.4));
 }
 
-void GameLogic::setBackGradientCenter(const cocos2d::Vec2& pos) {
+void GameLogic::setBackGradientCenter(const cocos2d::Vec2 &pos) {
   Vec2 p = pos;
   p.x -= VisibleRect::center().x;
   p.x *= -1;
@@ -380,7 +384,7 @@ void GameLogic::createFixedBlocks() {
   auto height = VisibleRect::top().y;
   {
     // Bottom
-    BlockBase* block = new BlockBase();
+    BlockBase *block = new BlockBase();
     block->mCanDelete = false;
     block->create(Rect(0, -BORDER_FRAME_SIZE, width, BORDER_FRAME_SIZE));
     block->addToScene(mParentLayer);
@@ -389,7 +393,7 @@ void GameLogic::createFixedBlocks() {
   }
   {
     // Top
-    BlockBase* block = new BlockBase();
+    BlockBase *block = new BlockBase();
     block->mCanDelete = false;
     block->create(Rect(0, height, width, BORDER_FRAME_SIZE));
     block->addToScene(mParentLayer);
@@ -398,7 +402,7 @@ void GameLogic::createFixedBlocks() {
   }
   {
     // Left
-    BlockBase* block = new BlockBase();
+    BlockBase *block = new BlockBase();
     block->mCanDelete = false;
     block->create(Rect(-BORDER_FRAME_SIZE, -BORDER_FRAME_SIZE,
                        BORDER_FRAME_SIZE, height + BORDER_FRAME_SIZE * 2));
@@ -408,7 +412,7 @@ void GameLogic::createFixedBlocks() {
   }
   {
     // Right
-    BlockBase* block = new BlockBase();
+    BlockBase *block = new BlockBase();
     block->mCanDelete = false;
     block->create(Rect(width, -BORDER_FRAME_SIZE,
                        BORDER_FRAME_SIZE, height + BORDER_FRAME_SIZE * 2));
@@ -418,17 +422,17 @@ void GameLogic::createFixedBlocks() {
   }
 }
 
-BlockBase* GameLogic::findBlock(int id) {
+BlockBase *GameLogic::findBlock(int id) {
   auto it = mBlocks.find(id);
-  if(it != mBlocks.end()) {
+  if (it != mBlocks.end()) {
     return it->second;
   } else {
     return nullptr;
   }
 }
 
-void GameLogic::jump(){
-  if(mHero->mCanJump && !mRejectInput) {
+void GameLogic::jump() {
+  if (mHero->mCanJump && !mRejectInput) {
     mHero->mJumpVelocity.y += JUMP_VOL;
 #if 0
     float scale = mHero->getSprite()->getScaleX();
@@ -444,13 +448,13 @@ void GameLogic::jump(){
 
 void GameLogic::win() {
   mWinFlag = false;
-  if(mWinGameEvent) {
+  if (mWinGameEvent) {
     mWinGameEvent();
   }
 }
 
 void GameLogic::die() {
-  if(mParentLayer->getChildByTag(DIE_FX_TAG)) {
+  if (mParentLayer->getChildByTag(DIE_FX_TAG)) {
     mParentLayer->removeChildByTag(DIE_FX_TAG);
   }
 
@@ -461,66 +465,66 @@ void GameLogic::die() {
 }
 
 void GameLogic::postUpdate(float dt) {
-  if(mGameMode) {
-    for(auto b : mBlocks) {
+  if (mGameMode) {
+    for (auto b : mBlocks) {
       b.second->postUpdate(dt);
     }
     mHero->postUpdate(dt);
   }
 }
 
-void GameLogic::updateGame(float dt){
-  if(mDeadFlag && !mRejectInput) {
+void GameLogic::updateGame(float dt) {
+  if (mDeadFlag && !mRejectInput) {
     // Play dead effect
-    ParticleSystem* m_emitter0 = ParticleSystemQuad::create("fx/diefx.plist");
+    ParticleSystem *m_emitter0 = ParticleSystemQuad::create("fx/diefx.plist");
     ParticleBatchNode *batch0 = ParticleBatchNode::createWithTexture(m_emitter0->getTexture());
     batch0->addChild(m_emitter0);
     batch0->setPosition(mHero->getPosition());
-    batch0->setCameraMask((unsigned short)CameraFlag::USER2);
-    mParentLayer->addChild(batch0,15,DIE_FX_TAG);
+    batch0->setCameraMask((unsigned short) CameraFlag::USER2);
+    mParentLayer->addChild(batch0, 15, DIE_FX_TAG);
 #if 0
     mParentLayer->runAction(CCShake::create(0.3, 3));
 #endif
 
     mRejectInput = true;
-    mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,0.1,0.1),
-                                                   CallFunc::create([this]{
-      mHero->getSprite()->setVisible(false);
-    }),NULL));
+    mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2, 0.1, 0.1),
+                                                   CallFunc::create([this] {
+                                                       mHero->getSprite()->setVisible(false);
+                                                   }), NULL));
 
-    mParentLayer->runAction(Sequence::create(DelayTime::create(0.4), CallFunc::create([this]{
+    mParentLayer->runAction(Sequence::create(DelayTime::create(0.4), CallFunc::create([this] {
 #if EDITOR_MODE
-      EditorScene::Scene->showDieFullScreenAnim();
+        EditorScene::Scene->showDieFullScreenAnim();
 #else
-      GameScene::Scene->showDieFullScreenAnim();
+        GameScene::Scene->showDieFullScreenAnim();
 #endif
-      enableGame(true,true);
+        enableGame(true, true);
     }), NULL));
 
     return;
   }
-  if(mWinFlag) {
+  if (mWinFlag) {
     win();
     return;
   }
 
   mGameTimer += dt;
 
-  if(mJumpFlag) {
+  if (mJumpFlag) {
     jump();
   }
 
-  if(!mMoveLeft && !mMoveRight) {
+  if (!mMoveLeft && !mMoveRight) {
     mHero->mCurrentMovingSpeed = 0;
   }
 
-  if(!mRejectInput) {
+  if (!mRejectInput) {
     float speed = mHero->mPushing ? 80 : 200;
     mHero->mCurrentMovingSpeed += dt * 800;
-    mHero->mCurrentMovingSpeed = std::min(speed,mHero->mCurrentMovingSpeed);
-    if(mMoveLeft && !mHero->mPushLeftFlag){
+    mHero->mCurrentMovingSpeed = std::min(speed, mHero->mCurrentMovingSpeed);
+    if (mMoveLeft && !mHero->mPushLeftFlag) {
       mHero->moveX(dt * -mHero->mCurrentMovingSpeed);
-    } else if(mMoveRight && !mHero->mPushRightFlag){
+    } else if (mMoveRight && !mHero->mPushRightFlag) {
       mHero->moveX(dt * mHero->mCurrentMovingSpeed);
     }
   }
@@ -531,23 +535,23 @@ void GameLogic::updateGame(float dt){
   mHero->mPushRightFlag = false;
 }
 
-void GameLogic::update(float dt){
-  if(mGameMode) {
-    for(auto it = mTimeEvents.begin(); it != mTimeEvents.end(); ++it){
+void GameLogic::update(float dt) {
+  if (mGameMode) {
+    for (auto it = mTimeEvents.begin(); it != mTimeEvents.end(); ++it) {
       (*it).update(dt);
     }
 
-    for(auto b : mBlocks) {
+    for (auto b : mBlocks) {
       b.second->preUpdate();
     }
     mHero->preUpdate();
 
-    for(auto b : mBlocks) {
+    for (auto b : mBlocks) {
       b.second->update(dt);
     }
     mHero->update(dt);
 
-    for(auto b : mBlocks) {
+    for (auto b : mBlocks) {
       b.second->updateMovement(dt);
     }
     mHero->updateMovement(dt);
@@ -555,7 +559,7 @@ void GameLogic::update(float dt){
     updateGame(dt);
   }
 
-  for(auto l : mLightBeams) {
+  for (auto l : mLightBeams) {
     l->update(dt);
   }
 #if USE_SHADOW
@@ -563,29 +567,29 @@ void GameLogic::update(float dt){
 #endif
 }
 
-void GameLogic::deleteBlock(BlockBase* sel) {
+void GameLogic::deleteBlock(BlockBase *sel) {
   // Find it in groups
-  for(auto& i : mGroups) {
+  for (auto &i : mGroups) {
     auto ii = std::find(i.second.begin(), i.second.end(), sel);
-    if(ii != i.second.end()) {
+    if (ii != i.second.end()) {
       i.second.erase(ii);
     }
   }
 
   auto itg = mGroups.find(sel);
-  if(itg != mGroups.end()) {
+  if (itg != mGroups.end()) {
     mGroups.erase(itg);
   }
 
   auto it = mBlocks.begin();
-  for (; it != mBlocks.end(); ++it )
+  for (; it != mBlocks.end(); ++it)
     if (it->second == sel)
       break;
 
   if (it != mBlocks.end()) {
     auto tableit = mBlockTable.find(sel->getSprite());
     mBlockTable.erase(tableit);
-    if(sel == mSelectionHead)
+    if (sel == mSelectionHead)
       mSelectionHead = nullptr;
     delete sel;
     mBlocks.erase(it);
@@ -594,11 +598,11 @@ void GameLogic::deleteBlock(BlockBase* sel) {
 }
 
 void GameLogic::enableGame(bool val, bool force) {
-  if( mGameMode == val && !force) {
+  if (mGameMode == val && !force) {
     return;
   }
 
-  if(val) {
+  if (val) {
     mRejectInput = false;
   }
 
@@ -618,13 +622,13 @@ void GameLogic::enableGame(bool val, bool force) {
   mHero->setSize(mHero->mRestoreSize);
   mHero->reset();
 
-  for(auto it = mTimeEvents.begin(); it != mTimeEvents.end(); ++it){
+  for (auto it = mTimeEvents.begin(); it != mTimeEvents.end(); ++it) {
     (*it).reset();
   }
 
-  for(auto bc : mBlocks) {
+  for (auto bc : mBlocks) {
     auto b = bc.second;
-    if(val) {
+    if (val) {
       b->mPath.reset();
       b->mRotator.reset();
     }
@@ -632,14 +636,14 @@ void GameLogic::enableGame(bool val, bool force) {
     b->mPath.mDisable = !val;
 #if EDITOR_MODE
     b->mPath.mHelperNode->setVisible(!val);
-    if(b->mButton) {
+    if (b->mButton) {
       b->mButton->showHelper(!val);
     }
 #endif
     b->reset();
   }
 
-  for(int i = 1; i <= 4; ++i) {
+  for (int i = 1; i <= 4; ++i) {
     if (mBlocks[i]) {
       mBlocks[i]->getSprite()->setVisible(!val);
     }
@@ -647,15 +651,15 @@ void GameLogic::enableGame(bool val, bool force) {
   mGameTimer = 0;
 }
 
-void GameLogic::setBackgroundColor(const cocos2d::Color3B& color) {
+void GameLogic::setBackgroundColor(const cocos2d::Color3B &color) {
   mBackgroundColor = color;
 #if GRADIENT == 0
   mBack->setColor(mBackgroundColor);
 #endif
 }
 
-BlockBase* GameLogic::createBlock(const cocos2d::Vec2& pos, BlockKind kind) {
-  BlockBase* block = new BlockBase();
+BlockBase *GameLogic::createBlock(const cocos2d::Vec2 &pos, BlockKind kind) {
+  BlockBase *block = new BlockBase();
   block->create(pos);
   block->setKind(kind, true);
   block->addToScene(mParentLayer);
@@ -675,7 +679,7 @@ void GameLogic::clearStars() {
 }
 
 void GameLogic::clearFx() {
-  for(auto f : mFxNodes) {
+  for (auto f : mFxNodes) {
     f->removeFromParent();
   }
   mFxNodes.clear();
@@ -705,39 +709,39 @@ void GameLogic::clean() {
   BlockBase::mIDCounter = 1;
 }
 
-void GameLogic::blockTraversal(const std::function<void(BlockBase*)>& func) {
+void GameLogic::blockTraversal(const std::function<void(BlockBase *)> &func) {
   for (auto b : mBlocks) {
     func(b.second);
   }
 }
 
 void GameLogic::loadStarFromList() {
-  for(auto f : mStarNodes) {
+  for (auto f : mStarNodes) {
     f->removeFromParent();
   }
   mStarNodes.clear();
 
-  for(auto p : mStarList) {
+  for (auto p : mStarList) {
     mStarNodes.push_back(createParticle(p));
   }
 }
 
 void GameLogic::loadFxFromList() {
-  for(auto f : mFxNodes) {
+  for (auto f : mFxNodes) {
     f->removeFromParent();
   }
   mFxNodes.clear();
 
-  for(auto i : mFxList) {
-    ParticleSystem* m_emitter0 = ParticleSystemQuad::create(i);
+  for (auto i : mFxList) {
+    ParticleSystem *m_emitter0 = ParticleSystemQuad::create(i);
     ParticleBatchNode *batch0 = ParticleBatchNode::createWithTexture(m_emitter0->getTexture());
     batch0->addChild(m_emitter0);
-    mParentLayer->addChild(batch0,5);
+    mParentLayer->addChild(batch0, 5);
     mFxNodes.push_back(batch0);
   }
 }
 
-void GameLogic::updateCamera(cocos2d::Camera* cam) {
+void GameLogic::updateCamera(cocos2d::Camera *cam) {
   if (!mGameMode) {
     return;
   }

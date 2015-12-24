@@ -31,14 +31,14 @@ public:
 
   virtual ~BlockBase();
 
-  virtual void setPosition(const cocos2d::Point& pt);
+  virtual void setPosition(const cocos2d::Point &pt);
 
   void setPosition(float x, float y) {
-    setPosition(cocos2d::Point(x,y));
+    setPosition(cocos2d::Point(x, y));
   }
 
   void setPositionX(float x) {
-    setPosition(cocos2d::Point(x,getPosition().y));
+    setPosition(cocos2d::Point(x, getPosition().y));
   }
 
   void setPositionY(float y) {
@@ -53,13 +53,13 @@ public:
 
   cocos2d::Point getPosition() { return mSprite->getPosition(); }
 
-  virtual void create(const cocos2d::Point& pt);
+  virtual void create(const cocos2d::Point &pt);
 
-  virtual void create(const cocos2d::Point& pt, const cocos2d::Size& size);
+  virtual void create(const cocos2d::Point &pt, const cocos2d::Size &size);
 
-  virtual void create(const cocos2d::Rect& rect);
+  virtual void create(const cocos2d::Rect &rect);
 
-  virtual void addToScene(cocos2d::Node* parent);
+  virtual void addToScene(cocos2d::Node *parent);
 
   virtual void addThickness(int val);
 
@@ -85,7 +85,7 @@ public:
 
   virtual void switchToNormalImage();
 
-  virtual int getZOrder(){ return mZOrder; }
+  virtual int getZOrder() { return mZOrder; }
 
   virtual float getWidth();
 
@@ -99,7 +99,7 @@ public:
 
   virtual bool canPush();
 
-  virtual bool pushable(){ return mKind == KIND_PUSHABLE; }
+  virtual bool pushable() { return mKind == KIND_PUSHABLE; }
 
   virtual int pushPriority();
 
@@ -107,12 +107,12 @@ public:
 
   virtual void setKind(BlockKind kind, bool forceSet = false);
 
-  virtual cocos2d::Color3B getColor(){ return mColor; }
+  virtual cocos2d::Color3B getColor() { return mColor; }
 
-  virtual void getPointsForShadow(const cocos2d::Vec2& source,
-                                  std::vector<cocos2d::Vec2>& out);
+  virtual void getPointsForShadow(const cocos2d::Vec2 &source,
+                                  std::vector <cocos2d::Vec2> &out);
 
-  SpriteUV* getSprite() { return mSprite; }
+  SpriteUV *getSprite() { return mSprite; }
 
   void setColor(int index);
 
@@ -132,73 +132,73 @@ public:
 
   void updateOpenClose(float dt);
 
-  bool mCastShadow{ true };
+  bool mCastShadow{true};
 
-  int mShadowLayerID{ 0 };
+  int mShadowLayerID{0};
 
-  float mShadowLength{ 100 };
+  float mShadowLength{100};
 
-  float mShadowFadeRatio{ 0.4 };
+  float mShadowFadeRatio{0.4};
 
-  int mShadowFadeSegments{ 20 };
+  int mShadowFadeSegments{20};
 
-  BlockKind mKind{ KIND_BLOCK };
+  BlockKind mKind{KIND_BLOCK};
 
-  int mZOrder{ 20 };
+  int mZOrder{20};
 
-  int mPaletteIndex{ -1 };
+  int mPaletteIndex{-1};
 
-  cocos2d::Color3B mColor{ cocos2d::Color3B::WHITE };
+  cocos2d::Color3B mColor{cocos2d::Color3B::WHITE};
 
   Path mPath;
 
   Rotator mRotator;
 
-  float mImageSize{ 8 };
+  float mImageSize{8};
 
-  Button* mButton{ nullptr };
+  Button *mButton{nullptr};
 
-  cocos2d::Vec2 mMovementThisFrame{ 0, 0 };
+  cocos2d::Vec2 mMovementThisFrame{0, 0};
 
-  cocos2d::Vec2 mMovementToRestore{ 0, 0 };
+  cocos2d::Vec2 mMovementToRestore{0, 0};
 
-  cocos2d::Vec2 mUpSideMovement{ 0, 0 };
+  cocos2d::Vec2 mUpSideMovement{0, 0};
 
-  cocos2d::Vec2 mDownSideMovement{ 0, 0 };
+  cocos2d::Vec2 mDownSideMovement{0, 0};
 
-  cocos2d::Vec2 mLeftSideMovement{ 0, 0 };
+  cocos2d::Vec2 mLeftSideMovement{0, 0};
 
-  cocos2d::Vec2 mRightSideMovement{ 0, 0 };
+  cocos2d::Vec2 mRightSideMovement{0, 0};
 
-  FollowMode mFollowMode{ F_CENTER };
+  FollowMode mFollowMode{F_CENTER};
 
-  bool mCanPush{ true };
+  bool mCanPush{true};
 
-  bool mCanPickup{ true };
+  bool mCanPickup{true};
 
-  bool mCanDelete{ true };
+  bool mCanDelete{true};
 
-  int mID{ 0 };
+  int mID{0};
 
   cocos2d::Size mRestoreSize;
 
   cocos2d::Vec2 mRestorePosition;
 
-  float mRestoreRotation{ 0 };
+  float mRestoreRotation{0};
 
-  float mOpenCloseSpeed{ 100 };
+  float mOpenCloseSpeed{100};
 
-  int mRotationSpeed{ 0 };
+  int mRotationSpeed{0};
 
-  bool mDownDirDoor{ true };
+  bool mDownDirDoor{true};
 
   void callTriggerEvent();
 
   void callInitEvent();
 
-  Status mStatus{ IDLE };
+  Status mStatus{IDLE};
 
-  bool mUVFlipped{ false };
+  bool mUVFlipped{false};
 
   static int mIDCounter;
 
@@ -206,40 +206,40 @@ public:
 
   std::string mUserData;
 
-  std::vector<std::string> mTriggerEvents;
+  std::vector <std::string> mTriggerEvents;
 
-  std::vector<std::string> mInitialEvents;
+  std::vector <std::string> mInitialEvents;
 
-  bool mTriggerEventsCalled{ false };
+  bool mTriggerEventsCalled{false};
 
-  bool mHeroOpacityChanged{ false };
+  bool mHeroOpacityChanged{false};
 
-  float mTriggerEventContinueTime{ 0.0 };
+  float mTriggerEventContinueTime{0.0};
 
-  cocos2d::Vec2 mVelocity{ 0,0 };
+  cocos2d::Vec2 mVelocity{0, 0};
 
-  cocos2d::Vec2 mJumpVelocity{ 0,0 };
+  cocos2d::Vec2 mJumpVelocity{0, 0};
 
-  bool mEnableGravity{ false };
+  bool mEnableGravity{false};
 
-  bool mEnableForceField{ false };
+  bool mEnableForceField{false};
 
-  float mForceFieldIntensity{ 30 };
+  float mForceFieldIntensity{30};
 
-  cocos2d::Vec2 mForceFieldVelocity{0,0};
+  cocos2d::Vec2 mForceFieldVelocity{0, 0};
 
 #if EDITOR_MODE
-  bool mShowIDLabel{ false };
+  bool mShowIDLabel{false};
 
   void initIDLabel();
 
   void updateIDLabel();
 
-  cocos2d::LabelAtlas* mIDLabel{ nullptr };
+  cocos2d::LabelAtlas *mIDLabel{nullptr};
 #endif
 
 protected:
-  SpriteUV* mSprite{ nullptr };
+  SpriteUV *mSprite{nullptr};
 };
 
 #endif /* defined(__JumpEdt__Blocks__) */

@@ -8,41 +8,41 @@
 
 #include "Rotator.h"
 
-void Rotator::update(float dt, float& out, cocos2d::Vec2& outsize) {
-  if(mPoints.empty()) {
+void Rotator::update(float dt, float &out, cocos2d::Vec2 &outsize) {
+  if (mPoints.empty()) {
     return;
   }
-  
-  if(mPause) {
+
+  if (mPause) {
     dt = 0;
   }
 
-  if(mDisable) {
+  if (mDisable) {
     out = mPoints[0].rotation;
 
   } else {
 
     // process path timer
-    if(mPathWaitingTimer > mPathWaitTime) {
+    if (mPathWaitingTimer > mPathWaitTime) {
       int nextPt = nextPoint();
 
-      if(mWaitingTimer > mPoints[mCurPt].waitTime) {
+      if (mWaitingTimer > mPoints[mCurPt].waitTime) {
         auto pt = mPoints[mCurPt];
         auto ptNext = mPoints[nextPt];
         float dist = std::abs(pt.rotation - ptNext.rotation);
 
         mCurDist += mSpeed * dt;
-        if(mCurDist >= dist) {
+        if (mCurDist >= dist) {
           // move to next point
           mCurDist -= dist;
           mWaitingTimer = 0;
 
-          if(mDirection) {
-            if(nextPt == mPoints.size() - 1 && mPingPong) {
+          if (mDirection) {
+            if (nextPt == mPoints.size() - 1 && mPingPong) {
               mDirection = !mDirection;
             }
           } else {
-            if(nextPt == 0 && mPingPong) {
+            if (nextPt == 0 && mPingPong) {
               mDirection = !mDirection;
             }
           }
@@ -57,8 +57,8 @@ void Rotator::update(float dt, float& out, cocos2d::Vec2& outsize) {
         out = pt.rotation + dt * mCurDist;
 
         float ratio = mCurDist / dist;
-        outsize.x = pt.width * (1-ratio) + ptNext.width * ratio;
-        outsize.y = pt.height * (1-ratio) + ptNext.height * ratio;
+        outsize.x = pt.width * (1 - ratio) + ptNext.width * ratio;
+        outsize.y = pt.height * (1 - ratio) + ptNext.height * ratio;
 
       } else {
         mWaitingTimer += dt;
@@ -71,19 +71,19 @@ void Rotator::update(float dt, float& out, cocos2d::Vec2& outsize) {
 }
 
 void Rotator::pop() {
-  if(empty()) return;
+  if (empty()) return;
   mPoints.pop_back();
 }
 
 void Rotator::push(float r, float waitTime, float width, float height) {
-  RotatorPoint pt(r, waitTime, width ,height);
+  RotatorPoint pt(r, waitTime, width, height);
   mPoints.push_back(pt);
 }
 
-void Rotator::cloneFrom(const Rotator& rsh, float bias) {
+void Rotator::cloneFrom(const Rotator &rsh, float bias) {
   reset();
-  for(size_t i = 0; i < rsh.mPoints.size(); ++i) {
-    const auto& p = rsh.mPoints[i];
+  for (size_t i = 0; i < rsh.mPoints.size(); ++i) {
+    const auto &p = rsh.mPoints[i];
     push(p.rotation + bias, p.waitTime, p.width, p.height);
   }
   mSpeed = rsh.mSpeed;
@@ -94,7 +94,7 @@ void Rotator::cloneFrom(const Rotator& rsh, float bias) {
 
 int Rotator::nextPoint() {
   int nextPt;
-  if(mPingPong) {
+  if (mPingPong) {
     nextPt = mDirection ? mCurPt + 1 : mCurPt - 1;
     nextPt %= mPoints.size();
   } else {

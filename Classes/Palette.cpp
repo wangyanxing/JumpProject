@@ -10,7 +10,7 @@
 
 USING_NS_CC;
 
-Palette* Palette::sInstance = nullptr;
+Palette *Palette::sInstance = nullptr;
 
 Palette::Palette() {
   mDefaultBlockColors[KIND_HERO] = Color3B::BLACK;

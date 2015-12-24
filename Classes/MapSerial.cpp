@@ -23,8 +23,10 @@
 #include "rapidjson/rapidjson.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+
 #   include <windows.h>
 #   include <Lmcons.h>
+
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 #   include <unistd.h>
 #   include <sys/types.h>
@@ -63,15 +65,15 @@ using namespace cocos2d;
 
 std::string MapSerial::CurrentEditingFile;
 
-static const char* getLevelSuffix() {
+static const char *getLevelSuffix() {
   static std::string suffix;
   auto framesize = VisibleRect::getFrameSize();
   float ratio = framesize.width / framesize.height;
 
-  if(ratio > 1.7) { // wide
+  if (ratio > 1.7) { // wide
     // ok, do nothing
     suffix = "";
-  } else if(ratio < 1.4) { // ipad
+  } else if (ratio < 1.4) { // ipad
     suffix = "_pad";
   } else { //ip4
     suffix = "_ip4";
@@ -79,9 +81,9 @@ static const char* getLevelSuffix() {
   return suffix.c_str();
 }
 
-std::string colorStr(const Color3B& color) {
+std::string colorStr(const Color3B &color) {
   char temp[100];
-  sprintf(temp, "\"#%02X%02X%02X\"",color.r,color.g,color.b);
+  sprintf(temp, "\"#%02X%02X%02X\"", color.r, color.g, color.b);
   return temp;
 }
 
@@ -92,10 +94,10 @@ Color3B str2Color(std::string hex) {
 
   // Drop a hash if the value has one
   if (hex[0] == '#') {
-    hex.erase(0,1);
+    hex.erase(0, 1);
   }
 
-  int size = (int)hex.size();
+  int size = (int) hex.size();
   for (int i = 0; i < 3; i++) {
     // Determine 3 or 6 character format.
     if (size == 3) {
@@ -109,33 +111,33 @@ Color3B str2Color(std::string hex) {
     ss >> rgb[i];
     ss.clear();
   }
-  return Color3B(rgb[0],rgb[1],rgb[2]);
+  return Color3B(rgb[0], rgb[1], rgb[2]);
 }
 
-std::string vec2Str(const Vec2& v) {
+std::string vec2Str(const Vec2 &v) {
   char temp[100];
-  sprintf(temp, "\"%g,%g\"",v.x,v.y);
+  sprintf(temp, "\"%g,%g\"", v.x, v.y);
   return temp;
 }
 
-Vec2 str2Vec(const std::string& str) {
+Vec2 str2Vec(const std::string &str) {
   auto v = PathLib::stringSplit(str, ",");
-  if(v.size() != 2) {
+  if (v.size() != 2) {
     CCLOG("Invalid vec2: %s", str.c_str());
     return Vec2::ZERO;
   }
   return Vec2(atof(v[0].c_str()), atof(v[1].c_str()));
 }
 
-std::string size2Str(const Size& v) {
+std::string size2Str(const Size &v) {
   char temp[100];
-  sprintf(temp, "\"%g,%g\"",v.width,v.height);
+  sprintf(temp, "\"%g,%g\"", v.width, v.height);
   return temp;
 }
 
-Size str2Size(const std::string& str) {
+Size str2Size(const std::string &str) {
   auto v = PathLib::stringSplit(str, ",");
-  if(v.size() != 2) {
+  if (v.size() != 2) {
     CCLOGWARN("Invalid vec2: %s", str.c_str());
     return Size::ZERO;
   }
@@ -148,25 +150,25 @@ std::string bool2Str(bool v) {
 
 std::string followMode2Str(FollowMode v) {
   static std::string names[] = {
-    "\"CENTER\"",
-    "\"UP\"",
-    "\"DOWN\"",
-    "\"LEFT\"",
-    "\"RIGHT\""
+      "\"CENTER\"",
+      "\"UP\"",
+      "\"DOWN\"",
+      "\"LEFT\"",
+      "\"RIGHT\""
   };
   return names[v];
 }
 
-FollowMode str2FollowMode(const string& v) {
+FollowMode str2FollowMode(const string &v) {
   static std::map<std::string, FollowMode> modes = {
-    {"CENTER", F_CENTER},
-    {"UP", F_UP},
-    {"DOWN", F_DOWN},
-    {"LEFT", F_LEFT},
-    {"RIGHT", F_RIGHT}
+      {"CENTER", F_CENTER},
+      {"UP",     F_UP},
+      {"DOWN",   F_DOWN},
+      {"LEFT",   F_LEFT},
+      {"RIGHT",  F_RIGHT}
   };
 
-  if(!modes.count(v)) {
+  if (!modes.count(v)) {
     CCLOGWARN("Invalid kind: %s", v.c_str());
     return F_CENTER;
   }
@@ -175,29 +177,29 @@ FollowMode str2FollowMode(const string& v) {
 
 std::string kind2Str(BlockKind v) {
   static std::string names[] = {
-    "\"HERO\"",
-    "\"BLOCK\"",
-    "\"DEATH\"",
-    "\"DEATH_CIRCLE\"",
-    "\"BUTTON\"",
-    "\"PUSHABLE\"",
-    "\"FORCEFIELD\""
+      "\"HERO\"",
+      "\"BLOCK\"",
+      "\"DEATH\"",
+      "\"DEATH_CIRCLE\"",
+      "\"BUTTON\"",
+      "\"PUSHABLE\"",
+      "\"FORCEFIELD\""
   };
   return names[v];
 }
 
-BlockKind str2Kind(const string& v) {
+BlockKind str2Kind(const string &v) {
   static std::map<std::string, BlockKind> kinds = {
-    {"HERO", KIND_HERO},
-    {"BLOCK", KIND_BLOCK},
-    {"DEATH", KIND_DEATH},
-    {"DEATH_CIRCLE", KIND_DEATH_CIRCLE},
-    {"BUTTON", KIND_BUTTON},
-    {"PUSHABLE", KIND_PUSHABLE},
-    {"FORCEFIELD", KIND_FORCEFIELD}
+      {"HERO",         KIND_HERO},
+      {"BLOCK",        KIND_BLOCK},
+      {"DEATH",        KIND_DEATH},
+      {"DEATH_CIRCLE", KIND_DEATH_CIRCLE},
+      {"BUTTON",       KIND_BUTTON},
+      {"PUSHABLE",     KIND_PUSHABLE},
+      {"FORCEFIELD",   KIND_FORCEFIELD}
   };
 
-  if(!kinds.count(v)) {
+  if (!kinds.count(v)) {
     CCLOGWARN("Invalid kind: %s", v.c_str());
     return KIND_BLOCK;
   }
@@ -206,32 +208,32 @@ BlockKind str2Kind(const string& v) {
 
 std::string direction2Str(Button::PushDir v) {
   static std::string names[] = {
-    "\"UP\"",
-    "\"DOWN\"",
-    "\"LEFT\"",
-    "\"RIGHT\""
+      "\"UP\"",
+      "\"DOWN\"",
+      "\"LEFT\"",
+      "\"RIGHT\""
   };
   return names[v];
 }
 
-Button::PushDir str2Direction(const string& v) {
+Button::PushDir str2Direction(const string &v) {
   static std::map<std::string, Button::PushDir> kinds = {
-    {"UP", Button::DIR_UP},
-    {"DOWN", Button::DIR_DOWN},
-    {"LEFT", Button::DIR_LEFT},
-    {"RIGHT", Button::DIR_RIGHT}
+      {"UP",    Button::DIR_UP},
+      {"DOWN",  Button::DIR_DOWN},
+      {"LEFT",  Button::DIR_LEFT},
+      {"RIGHT", Button::DIR_RIGHT}
   };
 
-  if(!kinds.count(v)) {
+  if (!kinds.count(v)) {
     CCLOGWARN("Invalid push direction: %s", v.c_str());
     return Button::DIR_DOWN;
   }
   return kinds[v];
 }
 
-void MapSerial::savePalette(const char* file) {
+void MapSerial::savePalette(const char *file) {
   time_t rawtime;
-  struct tm * ptm;
+  struct tm *ptm;
   time(&rawtime);
   ptm = gmtime(&rawtime);
   std::string timestr = asctime(ptm);
@@ -242,7 +244,7 @@ void MapSerial::savePalette(const char* file) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
   TCHAR username[UNLEN + 1];
   DWORD size = UNLEN + 1;
-  GetUserName((TCHAR*)username, &size);
+  GetUserName((TCHAR *) username, &size);
   author = username;
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
   author = getlogin();
@@ -251,23 +253,33 @@ void MapSerial::savePalette(const char* file) {
   stringstream ss;
   ss << "{\n";
 
-  INDENT_1 ss << "\"author\": " << "\"" << author << "\""; RT_LINE
-  INDENT_1 ss << "\"time\": " << "\"" << timestr << "\""; RT_LINE
+  INDENT_1
+  ss << "\"author\": " << "\"" << author << "\"";
+  RT_LINE
+  INDENT_1
+  ss << "\"time\": " << "\"" << timestr << "\"";
+  RT_LINE
 
-  INDENT_1 ss << "\"palette\": [ \n";
+  INDENT_1
+  ss << "\"palette\": [ \n";
 
-  const auto& palette = Palette::getInstance()->getPalette();
-  for (auto it = palette.begin(); it != palette.end(); ++it){
-    if (it != palette.begin()){
+  const auto &palette = Palette::getInstance()->getPalette();
+  for (auto it = palette.begin(); it != palette.end(); ++it) {
+    if (it != palette.begin()) {
       ss << ", \n";
     }
-    INDENT_2 ss << "{\n";
-    INDENT_3 ss << "\"index\": " << it->first << ", \n";
-    INDENT_3 ss << "\"color\": " << colorStr(it->second) << " \n";
-    INDENT_2 ss << "}";
+    INDENT_2
+    ss << "{\n";
+    INDENT_3
+    ss << "\"index\": " << it->first << ", \n";
+    INDENT_3
+    ss << "\"color\": " << colorStr(it->second) << " \n";
+    INDENT_2
+    ss << "}";
   }
 
-  INDENT_1 ss << "] \n";
+  INDENT_1
+  ss << "] \n";
 
   ss << "}";
 
@@ -280,20 +292,20 @@ void MapSerial::savePalette(const char* file) {
   fclose(fp);
 }
 
-void MapSerial::saveMap(const char* file) {
+void MapSerial::saveMap(const char *file) {
   time_t rawtime;
-  struct tm * ptm;
-  time ( &rawtime );
-  ptm = gmtime ( &rawtime );
+  struct tm *ptm;
+  time(&rawtime);
+  ptm = gmtime(&rawtime);
   std::string timestr = asctime(ptm);
-  timestr.resize(timestr.size()-1);
+  timestr.resize(timestr.size() - 1);
 
   std::string author = "unknown";
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
-  TCHAR username[UNLEN+1];
+  TCHAR username[UNLEN + 1];
   DWORD size = UNLEN + 1;
-  GetUserName((TCHAR*)username, &size);
+  GetUserName((TCHAR *) username, &size);
   author = username;
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
   author = getlogin();
@@ -304,80 +316,154 @@ void MapSerial::saveMap(const char* file) {
 
   auto palette = Palette::getInstance();
 
-  INDENT_1 ss << "\"author\": " << "\"" << author << "\""; RT_LINE
-  INDENT_1 ss << "\"time\": " << "\"" << timestr << "\""; RT_LINE
+  INDENT_1
+  ss << "\"author\": " << "\"" << author << "\"";
+  RT_LINE
+  INDENT_1
+  ss << "\"time\": " << "\"" << timestr << "\"";
+  RT_LINE
   float ratio = VisibleRect::right().x / VisibleRect::top().y;
-  INDENT_1 ss << "\"ratio\": " << ratio; RT_LINE
+  INDENT_1
+  ss << "\"ratio\": " << ratio;
+  RT_LINE
 
-  INDENT_1 ss << "\"backgroundColor\": " << colorStr(GameLogic::Game->mBackgroundColor); RT_LINE
+  INDENT_1
+  ss << "\"backgroundColor\": " << colorStr(GameLogic::Game->mBackgroundColor);
+  RT_LINE
 
-  INDENT_1 ss << "\"heroColorIndex\": " << GameLogic::Game->mHero->mPaletteIndex; RT_LINE
-  INDENT_1 ss << "\"normalBlockColor\": " << colorStr(palette->getDefaultBlockColors(KIND_BLOCK)); RT_LINE
-  INDENT_1 ss << "\"deathBlockColor\": " << colorStr(palette->getDefaultBlockColors(KIND_DEATH)); RT_LINE
-  INDENT_1 ss << "\"deathCircleColor\": " << colorStr(palette->getDefaultBlockColors(KIND_DEATH_CIRCLE)); RT_LINE
-  INDENT_1 ss << "\"buttonColor\": " << colorStr(palette->getDefaultBlockColors(KIND_BUTTON)); RT_LINE
-  INDENT_1 ss << "\"pushableBlockColor\": " << colorStr(palette->getDefaultBlockColors(KIND_PUSHABLE)); RT_LINE
-  INDENT_1 ss << "\"spawnPosition\": " << vec2Str(GameLogic::Game->mSpawnPos); RT_LINE
+  INDENT_1
+  ss << "\"heroColorIndex\": " << GameLogic::Game->mHero->mPaletteIndex;
+  RT_LINE
+  INDENT_1
+  ss << "\"normalBlockColor\": " << colorStr(palette->getDefaultBlockColors(KIND_BLOCK));
+  RT_LINE
+  INDENT_1
+  ss << "\"deathBlockColor\": " << colorStr(palette->getDefaultBlockColors(KIND_DEATH));
+  RT_LINE
+  INDENT_1
+  ss << "\"deathCircleColor\": " << colorStr(palette->getDefaultBlockColors(KIND_DEATH_CIRCLE));
+  RT_LINE
+  INDENT_1
+  ss << "\"buttonColor\": " << colorStr(palette->getDefaultBlockColors(KIND_BUTTON));
+  RT_LINE
+  INDENT_1
+  ss << "\"pushableBlockColor\": " << colorStr(palette->getDefaultBlockColors(KIND_PUSHABLE));
+  RT_LINE
+  INDENT_1
+  ss << "\"spawnPosition\": " << vec2Str(GameLogic::Game->mSpawnPos);
+  RT_LINE
 
 #if USE_SHADOW
-  INDENT_1 ss << "\"lightPosition\": " << vec2Str(GameLogic::Game->mShadows->mOriginLightPos); RT_LINE
-  INDENT_1 ss << "\"lightMoving\": " << bool2Str(GameLogic::Game->mShadows->mShadowMovingEnable); RT_LINE
-  INDENT_1 ss << "\"shadowDarkness\": " << GameLogic::Game->mShadows->mShadowDarkness; RT_LINE
+  INDENT_1
+  ss << "\"lightPosition\": " << vec2Str(GameLogic::Game->mShadows->mOriginLightPos);
+  RT_LINE
+  INDENT_1
+  ss << "\"lightMoving\": " << bool2Str(GameLogic::Game->mShadows->mShadowMovingEnable);
+  RT_LINE
+  INDENT_1
+  ss << "\"shadowDarkness\": " << GameLogic::Game->mShadows->mShadowDarkness;
+  RT_LINE
 #endif
 
-  INDENT_1 ss << "\"gradientCenter\": " << vec2Str(GameLogic::Game->mGradientCenter); RT_LINE
-  INDENT_1 ss << "\"gradientColorSrc\": " << colorStr(GameLogic::Game->mGradientColorSrc); RT_LINE
-  INDENT_1 ss << "\"gradientColorDst\": " << colorStr(GameLogic::Game->mGradientColorDst); RT_LINE
-  INDENT_1 ss << "\"paletteFile\": \"" << palette->getPaletteFileName() << "\""; RT_LINE
+  INDENT_1
+  ss << "\"gradientCenter\": " << vec2Str(GameLogic::Game->mGradientCenter);
+  RT_LINE
+  INDENT_1
+  ss << "\"gradientColorSrc\": " << colorStr(GameLogic::Game->mGradientColorSrc);
+  RT_LINE
+  INDENT_1
+  ss << "\"gradientColorDst\": " << colorStr(GameLogic::Game->mGradientColorDst);
+  RT_LINE
+  INDENT_1
+  ss << "\"paletteFile\": \"" << palette->getPaletteFileName() << "\"";
+  RT_LINE
 
-  INDENT_1 ss << "\"fx\": [ \n";
-  for(size_t fi = 0; fi < GameLogic::Game->mFxList.size(); ++fi) {
-    INDENT_2 ss << "\"" << GameLogic::Game->mFxList[fi] << "\"";
+  INDENT_1
+  ss << "\"fx\": [ \n";
+  for (size_t fi = 0; fi < GameLogic::Game->mFxList.size(); ++fi) {
+    INDENT_2
+    ss << "\"" << GameLogic::Game->mFxList[fi] << "\"";
     if (fi != GameLogic::Game->mFxList.size() - 1) {
       ss << ",";
     }
     ss << "\n";
   }
-  INDENT_1 ss << "]"; RT_LINE
+  INDENT_1
+  ss << "]";
+  RT_LINE
 
-  INDENT_1 ss << "\"stars\": [ \n";
-  for(size_t fi = 0; fi < GameLogic::Game->mStarList.size(); ++fi) {
-    INDENT_2 ss << vec2Str(GameLogic::Game->mStarList[fi]);
+  INDENT_1
+  ss << "\"stars\": [ \n";
+  for (size_t fi = 0; fi < GameLogic::Game->mStarList.size(); ++fi) {
+    INDENT_2
+    ss << vec2Str(GameLogic::Game->mStarList[fi]);
     if (fi != GameLogic::Game->mStarList.size() - 1) {
       ss << ",";
     }
     ss << "\n";
   }
-  INDENT_1 ss << "]"; RT_LINE
+  INDENT_1
+  ss << "]";
+  RT_LINE
 
-  INDENT_1 ss << "\"blocks\": [ \n";
+  INDENT_1
+  ss << "\"blocks\": [ \n";
 
   for (auto it = GameLogic::Game->mBlocks.begin(); it != GameLogic::Game->mBlocks.end(); ++it) {
     auto b = it->second;
 
     if (it != GameLogic::Game->mBlocks.begin()) {
-      INDENT_2 ss << "},\n";
+      INDENT_2
+      ss << "},\n";
     }
 
-    INDENT_2 ss << "{ \n";
-    INDENT_3 ss << "\"id\": " << b->mID; RT_LINE
-    INDENT_3 ss << "\"size\": " << size2Str(b->mRestoreSize); RT_LINE
-    INDENT_3 ss << "\"position\": " << vec2Str(b->mRestorePosition); RT_LINE
-    INDENT_3 ss << "\"pickable\": " << bool2Str(b->mCanPickup); RT_LINE
-    INDENT_3 ss << "\"removable\": " << bool2Str(b->mCanDelete); RT_LINE
-    INDENT_3 ss << "\"rotatespeed\": " << b->mRotationSpeed; RT_LINE
-    INDENT_3 ss << "\"shadowLength\": " << b->mShadowLength; RT_LINE
-    INDENT_3 ss << "\"shadowEnable\": " << bool2Str(b->mCastShadow); RT_LINE
-    INDENT_3 ss << "\"shadowLayer\": " << b->mShadowLayerID; RT_LINE
-    INDENT_3 ss << "\"paletteIndex\": " << b->mPaletteIndex; RT_LINE
-    INDENT_3 ss << "\"flipUV\": " << bool2Str(b->mUVFlipped); RT_LINE
-    INDENT_3 ss << "\"textureName\": \"" << b->mTextureName << "\""; RT_LINE
+    INDENT_2
+    ss << "{ \n";
+    INDENT_3
+    ss << "\"id\": " << b->mID;
+    RT_LINE
+    INDENT_3
+    ss << "\"size\": " << size2Str(b->mRestoreSize);
+    RT_LINE
+    INDENT_3
+    ss << "\"position\": " << vec2Str(b->mRestorePosition);
+    RT_LINE
+    INDENT_3
+    ss << "\"pickable\": " << bool2Str(b->mCanPickup);
+    RT_LINE
+    INDENT_3
+    ss << "\"removable\": " << bool2Str(b->mCanDelete);
+    RT_LINE
+    INDENT_3
+    ss << "\"rotatespeed\": " << b->mRotationSpeed;
+    RT_LINE
+    INDENT_3
+    ss << "\"shadowLength\": " << b->mShadowLength;
+    RT_LINE
+    INDENT_3
+    ss << "\"shadowEnable\": " << bool2Str(b->mCastShadow);
+    RT_LINE
+    INDENT_3
+    ss << "\"shadowLayer\": " << b->mShadowLayerID;
+    RT_LINE
+    INDENT_3
+    ss << "\"paletteIndex\": " << b->mPaletteIndex;
+    RT_LINE
+    INDENT_3
+    ss << "\"flipUV\": " << bool2Str(b->mUVFlipped);
+    RT_LINE
+    INDENT_3
+    ss << "\"textureName\": \"" << b->mTextureName << "\"";
+    RT_LINE
     if (!b->mUserData.empty()) {
-      INDENT_3 ss << "\"userData\": \"" << b->mUserData << "\""; RT_LINE
+      INDENT_3
+      ss << "\"userData\": \"" << b->mUserData << "\"";
+      RT_LINE
     }
 
     if (b->mKind == KIND_DEATH_CIRCLE || b->mKind == KIND_DEATH) {
-      INDENT_3 ss << "\"triggerEvents\": [";
+      INDENT_3
+      ss << "\"triggerEvents\": [";
       for (size_t i = 0; i < b->mTriggerEvents.size(); i++) {
         ss << "\"" + b->mTriggerEvents[i] + "\"";
         if (i != b->mTriggerEvents.size() - 1) ss << ", ";
@@ -385,7 +471,8 @@ void MapSerial::saveMap(const char* file) {
       ss << "],\n";
     }
 
-    INDENT_3 ss << "\"initEvents\": [";
+    INDENT_3
+    ss << "\"initEvents\": [";
     for (size_t i = 0; i < b->mInitialEvents.size(); i++) {
       ss << "\"" + b->mInitialEvents[i] + "\"";
       if (i != b->mInitialEvents.size() - 1) {
@@ -394,107 +481,155 @@ void MapSerial::saveMap(const char* file) {
     }
     ss << "],\n";
 
-    if(b->mKind == KIND_BUTTON) {
-      INDENT_3 ss << "\"direction\": " << direction2Str(b->mButton->mDir); RT_LINE
-      INDENT_3 ss << "\"canRestore\": " << bool2Str(b->mButton->mCanRestore); RT_LINE
+    if (b->mKind == KIND_BUTTON) {
+      INDENT_3
+      ss << "\"direction\": " << direction2Str(b->mButton->mDir);
+      RT_LINE
+      INDENT_3
+      ss << "\"canRestore\": " << bool2Str(b->mButton->mCanRestore);
+      RT_LINE
 
-      INDENT_3 ss << "\"pushedEvent\": " << "\""<< b->mButton->mPushedEvent << "\""; RT_LINE
-      INDENT_3 ss << "\"restoredEvent\": " << "\""<< b->mButton->mRestoredEvent << "\""; RT_LINE
-      INDENT_3 ss << "\"pushingEvent\": " << "\""<< b->mButton->mPushingEvent << "\""; RT_LINE
+      INDENT_3
+      ss << "\"pushedEvent\": " << "\"" << b->mButton->mPushedEvent << "\"";
+      RT_LINE
+      INDENT_3
+      ss << "\"restoredEvent\": " << "\"" << b->mButton->mRestoredEvent << "\"";
+      RT_LINE
+      INDENT_3
+      ss << "\"pushingEvent\": " << "\"" << b->mButton->mPushingEvent << "\"";
+      RT_LINE
     }
 
-    if(b->mKind == KIND_FORCEFIELD) {
-      INDENT_3 ss << "\"forcefieldIntensity\": " << b->mForceFieldIntensity; RT_LINE
+    if (b->mKind == KIND_FORCEFIELD) {
+      INDENT_3
+      ss << "\"forcefieldIntensity\": " << b->mForceFieldIntensity;
+      RT_LINE
     }
 
     // group
     auto ig = GameLogic::Game->mGroups.find(b);
-    if(ig != GameLogic::Game->mGroups.end() && !ig->second.empty()) {
-      INDENT_3 ss << "\"groupFollowMode\": " << followMode2Str(b->mFollowMode); RT_LINE
-      INDENT_3 ss << "\"groupMembers\": [";
+    if (ig != GameLogic::Game->mGroups.end() && !ig->second.empty()) {
+      INDENT_3
+      ss << "\"groupFollowMode\": " << followMode2Str(b->mFollowMode);
+      RT_LINE
+      INDENT_3
+      ss << "\"groupMembers\": [";
       for (size_t i = 0; i < ig->second.size(); ++i) {
         ss << ig->second[i]->mID;
-        if(i != ig->second.size()-1) ss << ", ";
+        if (i != ig->second.size() - 1) ss << ", ";
       }
       ss << "],\n";
     }
 
     // Path
     if (!b->mPath.empty()) {
-      INDENT_3 ss << "\"pathSpeed\": " << b->mPath.mSpeed; RT_LINE
-      INDENT_3 ss << "\"pingpong\": " << bool2Str(b->mPath.mPingPong); RT_LINE
-      INDENT_3 ss << "\"pause\": " << bool2Str(b->mPath.mPause); RT_LINE
-      INDENT_3 ss << "\"pathWaitTime\": " << b->mPath.mPathWaitTime; RT_LINE
-      INDENT_3 ss << "\"pathes\": [ \n";
+      INDENT_3
+      ss << "\"pathSpeed\": " << b->mPath.mSpeed;
+      RT_LINE
+      INDENT_3
+      ss << "\"pingpong\": " << bool2Str(b->mPath.mPingPong);
+      RT_LINE
+      INDENT_3
+      ss << "\"pause\": " << bool2Str(b->mPath.mPause);
+      RT_LINE
+      INDENT_3
+      ss << "\"pathWaitTime\": " << b->mPath.mPathWaitTime;
+      RT_LINE
+      INDENT_3
+      ss << "\"pathes\": [ \n";
 
       for (size_t i = 0; i < b->mPath.getNumPoints(); ++i) {
-        INDENT_4 ss << "{ \n";
-        const auto& p = b->mPath.getPoint(i);
-        INDENT_5 ss << "\"position\": " << vec2Str(p.pt); RT_LINE
-        INDENT_5 ss << "\"width\": " << p.width;RT_LINE
-        INDENT_5 ss << "\"height\": " << p.height;RT_LINE
-        INDENT_5 ss << "\"waittime\": " << p.waitTime << "\n";
-        INDENT_4 ss << "}";
-        if(i != b->mPath.getNumPoints() - 1) {
+        INDENT_4
+        ss << "{ \n";
+        const auto &p = b->mPath.getPoint(i);
+        INDENT_5
+        ss << "\"position\": " << vec2Str(p.pt);
+        RT_LINE
+        INDENT_5
+        ss << "\"width\": " << p.width;
+        RT_LINE
+        INDENT_5
+        ss << "\"height\": " << p.height;
+        RT_LINE
+        INDENT_5
+        ss << "\"waittime\": " << p.waitTime << "\n";
+        INDENT_4
+        ss << "}";
+        if (i != b->mPath.getNumPoints() - 1) {
           RT_LINE
         } else {
           ss << "\n";
         }
       }
 
-      INDENT_3 ss << "],\n";
+      INDENT_3
+      ss << "],\n";
     }
-    INDENT_3 ss << "\"kind\": " << kind2Str(b->mKind) << "\n";
+    INDENT_3
+    ss << "\"kind\": " << kind2Str(b->mKind) << "\n";
   }
   if (!GameLogic::Game->mBlocks.empty()) {
-    INDENT_2 ss << "}\n";
+    INDENT_2
+    ss << "}\n";
   }
 
-  INDENT_1 ss << "],\n";
+  INDENT_1
+  ss << "],\n";
 
-  INDENT_1 ss << "\"timeEvents\": [\n";
+  INDENT_1
+  ss << "\"timeEvents\": [\n";
 
-  for (auto it = GameLogic::Game->mTimeEvents.begin(); it != GameLogic::Game->mTimeEvents.end(); ++it){
+  for (auto it = GameLogic::Game->mTimeEvents.begin();
+       it != GameLogic::Game->mTimeEvents.end(); ++it) {
     if (it != GameLogic::Game->mTimeEvents.begin()) {
-      INDENT_2 ss << "},\n";
+      INDENT_2
+      ss << "},\n";
     }
     auto event = (*it);
-    INDENT_2 ss << "{\n";
+    INDENT_2
+    ss << "{\n";
 
-    INDENT_3 ss << "\"initDelay\": " <<event.mInitDelay << ",\n";
-    INDENT_3 ss << "\"loop\": " << event.mLoop << ",\n";
+    INDENT_3
+    ss << "\"initDelay\": " << event.mInitDelay << ",\n";
+    INDENT_3
+    ss << "\"loop\": " << event.mLoop << ",\n";
 
-    INDENT_3 ss << "\"events\": [\n";
+    INDENT_3
+    ss << "\"events\": [\n";
 
-    for (auto eit=event.mEventPoints.begin(); eit!=event.mEventPoints.end(); ++eit) {
-      if (eit!=event.mEventPoints.begin()){
+    for (auto eit = event.mEventPoints.begin(); eit != event.mEventPoints.end(); ++eit) {
+      if (eit != event.mEventPoints.begin()) {
         ss << "},\n";
       }
 
-      INDENT_4 ss << "{ ";
+      INDENT_4
+      ss << "{ ";
       ss << "\"event\": [";
 
       auto command = (*eit);
-      for (auto comIt = command.mEvents.begin(); comIt!=command.mEvents.end(); ++comIt) {
-        if (comIt!=command.mEvents.begin()) {
+      for (auto comIt = command.mEvents.begin(); comIt != command.mEvents.end(); ++comIt) {
+        if (comIt != command.mEvents.begin()) {
           ss << ", ";
         }
         ss << "\"" << (*comIt) << "\"";
       }
-      ss << "], \"delay\": " << (*eit).waitTime ;
+      ss << "], \"delay\": " << (*eit).waitTime;
     }
 
-    if(!event.mEventPoints.empty()) {
+    if (!event.mEventPoints.empty()) {
       ss << "}\n";
     }
-    INDENT_3 ss << "]\n";
+    INDENT_3
+    ss << "]\n";
   }
 
-  if(!GameLogic::Game->mTimeEvents.empty()) {
-    INDENT_2 ss << "}\n";
+  if (!GameLogic::Game->mTimeEvents.empty()) {
+    INDENT_2
+    ss << "}\n";
   }
 
-  INDENT_1 ss << "]\n";
+  INDENT_1
+  ss << "]\n";
 
   ss << "}";
 
@@ -536,12 +671,13 @@ void MapSerial::loadLastEdit() {
 }
 
 #if EDITOR_MODE
+
 void MapSerial::saveMap() {
   std::string fullpath = getMapDir();
 
   std::vector<std::string> out;
   auto filter = "JSON file(json)|*.json|All files (*.*)|*.*";
-  PathLib::saveFileDialog(nullptr, "Save map", fullpath+"/local", "", filter, 0, out);
+  PathLib::saveFileDialog(nullptr, "Save map", fullpath + "/local", "", filter, 0, out);
 
   if (out.empty()) {
     return;
@@ -560,9 +696,10 @@ void MapSerial::saveMap() {
 
   saveMap(filename.c_str());
 }
+
 #endif
 
-void MapSerial::loadMap(const char* filename) {
+void MapSerial::loadMap(const char *filename) {
   if (!FileUtils::getInstance()->isFileExist(filename)) {
     CCLOGWARN("Failed to load map file: %s", filename);
     return;
@@ -580,7 +717,7 @@ void MapSerial::loadMap(const char* filename) {
     CCLOGWARN("%s", buffer.c_str());
   }
 
-  std::map<BlockBase*, std::vector<int>> pregroups;
+  std::map<BlockBase *, std::vector<int>> pregroups;
 
 #if EDITOR_MODE
   EditorScene::Scene->clean(false);
@@ -590,33 +727,33 @@ void MapSerial::loadMap(const char* filename) {
 
   if (CHECK_STRING(d, "backgroundColor")) {
     GameLogic::Game->setBackgroundColor(str2Color(d["backgroundColor"].GetString()));
-  }SHOW_WARNING
+  } SHOW_WARNING
 
   auto palette = Palette::getInstance();
 
   if (d["normalBlockColor"].IsString()) {
     palette->setDefaultBlockColors(KIND_BLOCK, str2Color(d["normalBlockColor"].GetString()));
-  }SHOW_WARNING
+  } SHOW_WARNING
 
   if (d["deathBlockColor"].IsString()) {
     palette->setDefaultBlockColors(KIND_DEATH, str2Color(d["deathBlockColor"].GetString()));
-  }SHOW_WARNING
+  } SHOW_WARNING
 
   if (d["deathCircleColor"].IsString()) {
     palette->setDefaultBlockColors(KIND_DEATH_CIRCLE, str2Color(d["deathCircleColor"].GetString()));
-  }SHOW_WARNING
+  } SHOW_WARNING
 
   if (d["buttonColor"].IsString()) {
     palette->setDefaultBlockColors(KIND_BUTTON, str2Color(d["buttonColor"].GetString()));
-  }SHOW_WARNING
+  } SHOW_WARNING
 
   if (d["pushableBlockColor"].IsString()) {
     palette->setDefaultBlockColors(KIND_PUSHABLE, str2Color(d["pushableBlockColor"].GetString()));
-  }SHOW_WARNING
+  } SHOW_WARNING
 
   if (d["spawnPosition"].IsString()) {
     GameLogic::Game->mSpawnPos = str2Vec(d["spawnPosition"].GetString());
-  }SHOW_WARNING
+  } SHOW_WARNING
 
 #if USE_SHADOW
   if (CHECK_STRING(d, "lightPosition")) {
@@ -650,18 +787,18 @@ void MapSerial::loadMap(const char* filename) {
   GameLogic::Game->setBackGradientCenter(gradientCenter);
   GameLogic::Game->setBackGradientColor(colorSrc, colorDst);
 
-  if(CHECK_ARRAY(d, "fx")) {
+  if (CHECK_ARRAY(d, "fx")) {
     auto fxsize = d["fx"].Size();
-    for(auto fi = 0; fi < fxsize; ++fi) {
+    for (auto fi = 0; fi < fxsize; ++fi) {
       auto fxname = d["fx"][fi].GetString();
       GameLogic::Game->mFxList.push_back(fxname);
     }
   }
   GameLogic::Game->loadFxFromList();
 
-  if(CHECK_ARRAY(d, "stars")) {
+  if (CHECK_ARRAY(d, "stars")) {
     auto fxsize = d["stars"].Size();
-    for(auto fi = 0; fi < fxsize; ++fi) {
+    for (auto fi = 0; fi < fxsize; ++fi) {
       auto fxname = d["stars"][fi].GetString();
       GameLogic::Game->mStarList.push_back(str2Vec(fxname));
     }
@@ -685,12 +822,12 @@ void MapSerial::loadMap(const char* filename) {
     Document dPalette;
     ParseResult ok = dPalette.Parse<kParseDefaultFlags>(paletteBuffer.c_str());
     if (!ok) {
-      printf( "JSON parse error: %d (%lu)\n", ok.Code(), ok.Offset());
+      printf("JSON parse error: %d (%lu)\n", ok.Code(), ok.Offset());
     }
 
     if (CHECK_ARRAY(dPalette, "palette")) {
       auto size = dPalette["palette"].Size();
-      if (size > 0){
+      if (size > 0) {
         Palette::getInstance()->clearPalette();
 #if EDITOR_MODE
         UIColorEditor::colorEditor->cleanColors();
@@ -698,7 +835,7 @@ void MapSerial::loadMap(const char* filename) {
       }
 
       for (auto i = 0; i < size; i++) {
-        auto& palette = dPalette["palette"][i];
+        auto &palette = dPalette["palette"][i];
         if (palette["index"].IsInt() && palette["color"].IsString()) {
           Palette::getInstance()->setColorFromPalette(palette["index"].GetInt(),
                                                       str2Color(palette["color"].GetString()));
@@ -723,7 +860,7 @@ void MapSerial::loadMap(const char* filename) {
     auto size = d["timeEvents"].Size();
 
     for (auto i = 0; i < size; ++i) {
-      auto& var = d["timeEvents"][i];
+      auto &var = d["timeEvents"][i];
 
       bool loop = true;
       float initDelay = -1.0f;
@@ -763,7 +900,7 @@ void MapSerial::loadMap(const char* filename) {
     auto size = d["blocks"].Size();
 
     for (auto i = 0; i < size; ++i) {
-      auto& var = d["blocks"][i];
+      auto &var = d["blocks"][i];
 
       int id = 0;
       Size size;
@@ -781,38 +918,38 @@ void MapSerial::loadMap(const char* filename) {
       bool shadowEnable = true;
       int shadowLayer = 0;
 
-      if(var["id"].IsInt()) {
+      if (var["id"].IsInt()) {
         id = var["id"].GetInt();
         maxID = std::max(id, maxID);
-      }SHOW_WARNING
+      } SHOW_WARNING
 
-      if(var["size"].IsString()) {
+      if (var["size"].IsString()) {
         size = str2Size(var["size"].GetString());
         size.width = std::max(size.width, 0.5f);
         size.height = std::max(size.height, 0.5f);
-      }SHOW_WARNING
+      } SHOW_WARNING
 
-      if(CHECK_STRING(var, "position")) {
+      if (CHECK_STRING(var, "position")) {
         pos = str2Vec(var["position"].GetString());
-      }SHOW_WARNING
+      } SHOW_WARNING
 
-      if(CHECK_BOOL(var, "removable")) {
+      if (CHECK_BOOL(var, "removable")) {
         removable = var["removable"].GetBool();
-      }SHOW_WARNING
+      } SHOW_WARNING
 
-      if(var["pickable"].IsBool()) {
+      if (var["pickable"].IsBool()) {
         pickable = var["pickable"].GetBool();
-      }SHOW_WARNING
+      } SHOW_WARNING
 
-      if(CHECK_NUMBER(var, "rotatespeed")) {
+      if (CHECK_NUMBER(var, "rotatespeed")) {
         rotSpeed = var["rotatespeed"].GetInt();
       }
 
-      if(var["kind"].IsString()) {
+      if (var["kind"].IsString()) {
         kind = str2Kind(var["kind"].GetString());
-      }SHOW_WARNING
+      } SHOW_WARNING
 
-      if (CHECK_BOOL(var,"flipUV")) {
+      if (CHECK_BOOL(var, "flipUV")) {
         flipuv = var["flipUV"].GetBool();
       }
 
@@ -846,24 +983,24 @@ void MapSerial::loadMap(const char* filename) {
         float height = VisibleRect::top().y;
         float frameSize = 10;
 
-        if(id == 1) {
-          pos = Vec2(width/2,frameSize/2);
+        if (id == 1) {
+          pos = Vec2(width / 2, frameSize / 2);
           size = Size(width, frameSize);
-        } else if(id == 2) {
-          pos = Vec2(width/2,height - frameSize/2);
+        } else if (id == 2) {
+          pos = Vec2(width / 2, height - frameSize / 2);
           size = Size(width, frameSize);
-        } else if(id == 3) {
-          pos = Vec2(frameSize/2,height/2);
+        } else if (id == 3) {
+          pos = Vec2(frameSize / 2, height / 2);
           size = Size(frameSize, height);
-        } else if(id == 4) {
-          pos = Vec2(width - frameSize/2,height/2);
+        } else if (id == 4) {
+          pos = Vec2(width - frameSize / 2, height / 2);
           size = Size(frameSize, height);
         }
       }
 #endif
 
-      BlockBase* block = new BlockBase();
-      block->create(pos,size);
+      BlockBase *block = new BlockBase();
+      block->create(pos, size);
 #if EDITOR_MODE
       block->addToScene(EditorScene::Scene);
 #else
@@ -912,13 +1049,13 @@ void MapSerial::loadMap(const char* filename) {
       GameLogic::Game->mBlockTable[block->getSprite()] = block;
       GameLogic::Game->mBlocks[block->mID] = block;
 
-      if(kind == KIND_BUTTON) {
+      if (kind == KIND_BUTTON) {
         if (var["direction"].IsString()) {
           block->mButton->mDir = str2Direction(var["direction"].GetString());
 #if EDITOR_MODE
           block->mButton->updateHelper();
 #endif
-        }SHOW_WARNING
+        } SHOW_WARNING
 
         if (CHECK_BOOL(var, "canRestore")) {
           block->mButton->mCanRestore = var["canRestore"].GetBool();
@@ -927,16 +1064,16 @@ void MapSerial::loadMap(const char* filename) {
 #endif
         }
 
-        if(CHECK_STRING(var, "pushedEvent")) {
+        if (CHECK_STRING(var, "pushedEvent")) {
           block->mButton->mPushedEvent = var["pushedEvent"].GetString();
         }
-        if(CHECK_STRING(var, "restoredEvent")) {
+        if (CHECK_STRING(var, "restoredEvent")) {
           block->mButton->mRestoredEvent = var["restoredEvent"].GetString();
         }
-        if(CHECK_STRING(var, "pushingEvent")) {
+        if (CHECK_STRING(var, "pushingEvent")) {
           block->mButton->mPushingEvent = var["pushingEvent"].GetString();
         }
-      } else if(kind == KIND_FORCEFIELD) {
+      } else if (kind == KIND_FORCEFIELD) {
         if (CHECK_NUMBER(var, "forcefieldIntensity")) {
           block->mForceFieldIntensity = var["forcefieldIntensity"].GetDouble();
         }
@@ -961,19 +1098,19 @@ void MapSerial::loadMap(const char* filename) {
 
       if (CHECK_ARRAY(var, "pathes")) {
         auto pathsize = var["pathes"].Size();
-        for(auto j = 0; j < pathsize; ++j) {
-          auto& pa = var["pathes"][j];
+        for (auto j = 0; j < pathsize; ++j) {
+          auto &pa = var["pathes"][j];
           Vec2 pos = Vec2::ZERO;
           float waittime = -1;
           float width = 1, height = 1;
 
           if (pa["position"].IsString()) {
             pos = str2Vec(pa["position"].GetString());
-          }SHOW_WARNING
+          } SHOW_WARNING
 
           if (CHECK_NUMBER(pa, "waittime")) {
             waittime = pa["waittime"].GetDouble();
-          }SHOW_WARNING
+          } SHOW_WARNING
 
           if (CHECK_NUMBER(pa, "width")) {
             width = pa["width"].GetDouble();
@@ -990,23 +1127,23 @@ void MapSerial::loadMap(const char* filename) {
       if (CHECK_ARRAY(var, "groupMembers")) {
         if (var["groupFollowMode"].IsString()) {
           block->mFollowMode = str2FollowMode(var["groupFollowMode"].GetString());
-        }SHOW_WARNING
+        } SHOW_WARNING
 
         auto memberSize = var["groupMembers"].Size();
         for (auto j = 0; j < memberSize; ++j) {
-          if(var["groupMembers"][j].IsNumber()) {
+          if (var["groupMembers"][j].IsNumber()) {
             auto id = var["groupMembers"][j].GetInt();
             pregroups[block].push_back(id);
-          }SHOW_WARNING
+          } SHOW_WARNING
         }
       }
     }
-  }SHOW_WARNING
+  } SHOW_WARNING
 
   CC_ASSERT(GameLogic::Game->mGroups.empty());
   // Process groups
-  for(auto gi : pregroups) {
-    for(auto idi : gi.second) {
+  for (auto gi : pregroups) {
+    for (auto idi : gi.second) {
       auto m = GameLogic::Game->findBlock(idi);
       CC_ASSERT(m);
       GameLogic::Game->mGroups[gi.first].push_back(m);
@@ -1040,23 +1177,25 @@ void MapSerial::loadMap(const char* filename) {
 
 #if EDITOR_MODE
   EditorScene::Scene->updateGroupDrawNode();
-  EditorScene::Scene->enableGame(false,true);
+  EditorScene::Scene->enableGame(false, true);
 #endif
 }
 
 #if EDITOR_MODE
+
 void MapSerial::loadMap(bool local) {
   std::string fullpath = getMapDir();
   std::vector<std::string> out;
   auto filter = "JSON file(json)|*.json|All files (*.*)|*.*";
-  PathLib::openFileDialog(nullptr, "Open map", fullpath+(local?"/local":"/remote"),
-                            "", filter, 0, out);
+  PathLib::openFileDialog(nullptr, "Open map", fullpath + (local ? "/local" : "/remote"),
+                          "", filter, 0, out);
   if (out.empty()) {
     return;
   }
   auto filename = out[0];
   loadMap(filename.c_str());
 }
+
 #endif
 
 void MapSerial::saveRemoteMaps() {
@@ -1067,9 +1206,9 @@ void MapSerial::afterLoadRemoteMaps() {
   std::smatch base_match;
   std::regex rx("^(\\S)*\\.json$");
 
-  for(auto& m : HttpHelper::sAllMaps) {
+  for (auto &m : HttpHelper::sAllMaps) {
     auto ret = std::regex_match(m.name, base_match, rx);
-    if(!ret) {
+    if (!ret) {
       m.name += ".json";
     }
 
@@ -1099,7 +1238,7 @@ void MapSerial::afterLoadRemoteMaps() {
   }
 }
 
-const char* MapSerial::getMapDir() {
+const char *MapSerial::getMapDir() {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
   static std::string fullpath;
   auto env = getenv("XCODE_PROJ_DIR"); // manually added
@@ -1117,14 +1256,14 @@ const char* MapSerial::getMapDir() {
   return fullpath.c_str();
 }
 
-const char* MapSerial::getConfigDir() {
+const char *MapSerial::getConfigDir() {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
   static std::string fullpath;
   auto env = getenv("XCODE_PROJ_DIR"); // manually added
   if (env) {
     fullpath = env;
     fullpath += "/../Resources/configs";
-  }else {
+  } else {
     fullpath = FileUtils::getInstance()->fullPathForFilename("configs");
   }
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -1135,8 +1274,8 @@ const char* MapSerial::getConfigDir() {
   return fullpath.c_str();
 }
 
-void MapSerial::saveControlConfig(const char* file){
-  if(ControlPad::controlPadConfig->mControlConfig.empty()){
+void MapSerial::saveControlConfig(const char *file) {
+  if (ControlPad::controlPadConfig->mControlConfig.empty()) {
     auto config1 = new ControlPadConfig();
     ControlPad::controlPadConfig->mControlConfig.push_back(config1);
     auto config2 = new ControlPadConfig();
@@ -1152,24 +1291,35 @@ void MapSerial::saveControlConfig(const char* file){
   stringstream ss;
   ss << "{\n";
 
-  INDENT_1 ss << "\"ConfigIndex\" : " << ControlPad::controlPadConfig->mSelectedConfig << ",\n ";
+  INDENT_1
+  ss << "\"ConfigIndex\" : " << ControlPad::controlPadConfig->mSelectedConfig << ",\n ";
 
-  INDENT_1 ss << "\"ConfigArray\": [ \n";
-  for (auto it = ControlPad::controlPadConfig->mControlConfig.begin(); it != ControlPad::controlPadConfig->mControlConfig.end(); ++it){
-    if (it != ControlPad::controlPadConfig->mControlConfig.begin()){
+  INDENT_1
+  ss << "\"ConfigArray\": [ \n";
+  for (auto it = ControlPad::controlPadConfig->mControlConfig.begin();
+       it != ControlPad::controlPadConfig->mControlConfig.end(); ++it) {
+    if (it != ControlPad::controlPadConfig->mControlConfig.begin()) {
       ss << ", \n";
     }
-    INDENT_2 ss << "{\n";
-    INDENT_3 ss << "\"desc\": \"" << (*it)->mDescription << "\", \n";
-    INDENT_3 ss << "\"scale\": " << (*it)->mScale << ", \n";
-    INDENT_3 ss << "\"leftButton\": " << vec2Str((*it)->mLeftButtonPos) << ", \n";
-    INDENT_3 ss << "\"rightButton\": " << vec2Str((*it)->mRightButtonPos) << ", \n";
-    INDENT_3 ss << "\"jumpButton\": " << vec2Str((*it)->mJumpButtonPos) << " \n";
-    INDENT_2 ss << "} ";
+    INDENT_2
+    ss << "{\n";
+    INDENT_3
+    ss << "\"desc\": \"" << (*it)->mDescription << "\", \n";
+    INDENT_3
+    ss << "\"scale\": " << (*it)->mScale << ", \n";
+    INDENT_3
+    ss << "\"leftButton\": " << vec2Str((*it)->mLeftButtonPos) << ", \n";
+    INDENT_3
+    ss << "\"rightButton\": " << vec2Str((*it)->mRightButtonPos) << ", \n";
+    INDENT_3
+    ss << "\"jumpButton\": " << vec2Str((*it)->mJumpButtonPos) << " \n";
+    INDENT_2
+    ss << "} ";
   }
 
   ss << "\n";
-  INDENT_1 ss << "] \n";
+  INDENT_1
+  ss << "] \n";
 
   ss << "}";
 
@@ -1182,7 +1332,7 @@ void MapSerial::saveControlConfig(const char* file){
   fclose(fp);
 }
 
-void MapSerial::loadControlConfig(const char* file){
+void MapSerial::loadControlConfig(const char *file) {
   std::string fullPath = getConfigDir();
   fullPath += "/";
   fullPath += file;
@@ -1209,14 +1359,14 @@ void MapSerial::loadControlConfig(const char* file){
 
     for (auto i = 0; i < size; ++i) {
       auto config = new ControlPadConfig();
-      auto& var = d[configKey.c_str()][i];
+      auto &var = d[configKey.c_str()][i];
 
       config->mDescription = var["desc"].GetString();
       config->mScale = var["scale"].GetDouble();
       config->mLeftButtonPos = str2Vec(var["leftButton"].GetString());
       config->mRightButtonPos = str2Vec(var["rightButton"].GetString());
       config->mJumpButtonPos = str2Vec(var["jumpButton"].GetString());
-      
+
       ControlPad::controlPadConfig->mControlConfig.push_back(config);
     }
   }
@@ -1234,17 +1384,17 @@ ControlPad::~ControlPad() {
 }
 
 void ControlPad::clearConfig() {
-  for(ControlPadConfigs::iterator it = mControlConfig.begin(); it!=mControlConfig.end(); ++it) {
+  for (ControlPadConfigs::iterator it = mControlConfig.begin(); it != mControlConfig.end(); ++it) {
     delete (*it);
   }
   mControlConfig.clear();
 }
 
-ControlPadConfig* ControlPad::getControlConfig() {
-  if(mSelectedConfig<= mControlConfig.size() - 1){
+ControlPadConfig *ControlPad::getControlConfig() {
+  if (mSelectedConfig <= mControlConfig.size() - 1) {
     return mControlConfig.at(mSelectedConfig);
   }
   return nullptr;
 }
 
-ControlPad* ControlPad::controlPadConfig = new ControlPad();
+ControlPad *ControlPad::controlPadConfig = new ControlPad();

@@ -14,12 +14,12 @@ USING_NS_CC;
 
 LightBeamDesc LightBeamDesc::DEFAULT;
 
-void LightBeam::init(const LightBeamDesc& desc) {
+void LightBeam::init(const LightBeamDesc &desc) {
   mNode = DrawNodeEx::create(/* desc.texture */);
   mNode->setBlendFunc({GL_ONE, GL_ONE});
   mNode->setTag(GLOW_NODE_TAG);
 
-  GameLogic::Game->mParentLayer->addChild(mNode,desc.zorder);
+  GameLogic::Game->mParentLayer->addChild(mNode, desc.zorder);
 
   auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/light_beam.fsh");
   auto shaderContent = FileUtils::getInstance()->getStringFromFile(shaderfile);
@@ -37,7 +37,7 @@ void LightBeam::init(const LightBeamDesc& desc) {
 void LightBeam::update(float dt) {
   mNode->clear();
 
-  std::vector<cocos2d::V2F_C4B_T2F_Triangle> triangles;
+  std::vector <cocos2d::V2F_C4B_T2F_Triangle> triangles;
   triangles.reserve(50);
 
   float upperLength = mDesc.segSizeUpper * mDesc.segNums;
@@ -48,10 +48,10 @@ void LightBeam::update(float dt) {
 
   mUVAnimTimer += dt * mDesc.uvSpeed;
 
-  if(mUVAnimTimer > 1) {
+  if (mUVAnimTimer > 1) {
     mUVAnimTimer -= 1;
   }
-  if(mUVAnimTimer < -1) {
+  if (mUVAnimTimer < -1) {
     mUVAnimTimer += 1;
   }
 
@@ -59,24 +59,24 @@ void LightBeam::update(float dt) {
     auto col0 = mDesc.color;
     auto col1 = mDesc.color;
 
-    if(i == 0) {
+    if (i == 0) {
       col0 = Color4B::BLACK;
     }
-    if(i == mDesc.segNums-1) col1 = Color4B::BLACK;
+    if (i == mDesc.segNums - 1) col1 = Color4B::BLACK;
 
     float x0_u = i * mDesc.segSizeUpper - upperLength / 2;
-    float x1_u = (i+1) * mDesc.segSizeUpper - upperLength / 2;
+    float x1_u = (i + 1) * mDesc.segSizeUpper - upperLength / 2;
 
     float x0_l = i * mDesc.segSizeLower - lowerLength / 2;
-    float x1_l = (i+1) * mDesc.segSizeLower - lowerLength / 2;
+    float x1_l = (i + 1) * mDesc.segSizeLower - lowerLength / 2;
 
-    float y0_u = mDesc.height/2;
-    float y1_u = mDesc.height/2;
-    float y0_l = -mDesc.height/2;
-    float y1_l = -mDesc.height/2;
+    float y0_u = mDesc.height / 2;
+    float y1_u = mDesc.height / 2;
+    float y0_l = -mDesc.height / 2;
+    float y1_l = -mDesc.height / 2;
 
-    float ratio0 = i / (float)mDesc.segNums * mDesc.uvScale + mUVAnimTimer;
-    float ratio1 = (i+1) / (float)mDesc.segNums * mDesc.uvScale + mUVAnimTimer;
+    float ratio0 = i / (float) mDesc.segNums * mDesc.uvScale + mUVAnimTimer;
+    float ratio1 = (i + 1) / (float) mDesc.segNums * mDesc.uvScale + mUVAnimTimer;
 
     V2F_C4B_T2F_Triangle t;
     t.a.vertices.set(x0_u, y0_u);

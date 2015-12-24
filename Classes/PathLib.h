@@ -1,4 +1,3 @@
-
 #ifndef PathLib_h__
 #define PathLib_h__
 
@@ -13,18 +12,18 @@ public:
                                               const char *delimiter = " ",
                                               bool keepEmpty = false);
 
-  static void replaceString(std::string& subject,
-                            const std::string& search,
-                            const std::string& replace);
+  static void replaceString(std::string &subject,
+                            const std::string &search,
+                            const std::string &replace);
 
-  static bool endsWith(const std::string& a,
-                       const std::string& b);
+  static bool endsWith(const std::string &a,
+                       const std::string &b);
 
   /** We need absolute path
    */
-  static bool fileExisted(const std::string& file);
+  static bool fileExisted(const std::string &file);
 
-  static std::vector<std::string> listFiles(const char* path, const char* ext);
+  static std::vector<std::string> listFiles(const char *path, const char *ext);
 
   enum FileDlgFlag {
     MULTIPLE_SELECTION = 0x01
@@ -35,28 +34,29 @@ public:
   static void resetCurrentDir();
 
 #if EDITOR_MODE
-  static void openInSystem(const char* file);
 
-  static bool openDirectoryDialog(const void* wndHandle,
-                                  const std::string& title,
-                                  const std::string& defaultPath,
-                                  std::string& outFolderName);
+  static void openInSystem(const char *file);
 
-  static bool openFileDialog(const void* wndHandle,
-                             const std::string& title,
-                             const std::string& defaultPath,
-                             const std::string& defaultFile,
-                             const std::string& fileTypes,
+  static bool openDirectoryDialog(const void *wndHandle,
+                                  const std::string &title,
+                                  const std::string &defaultPath,
+                                  std::string &outFolderName);
+
+  static bool openFileDialog(const void *wndHandle,
+                             const std::string &title,
+                             const std::string &defaultPath,
+                             const std::string &defaultFile,
+                             const std::string &fileTypes,
                              unsigned int flags,
-                             std::vector<std::string>& outFiles);
+                             std::vector<std::string> &outFiles);
 
-  static bool saveFileDialog(const void* wndHandle,
-                             const std::string& dialogTitle,
-                             const std::string& defaultPath,
-                             const std::string& defaultFile,
-                             const std::string& fileTypes,
+  static bool saveFileDialog(const void *wndHandle,
+                             const std::string &dialogTitle,
+                             const std::string &defaultPath,
+                             const std::string &defaultFile,
+                             const std::string &fileTypes,
                              unsigned int flags,
-                             std::vector<std::string>& outFilenames);
+                             std::vector<std::string> &outFilenames);
 
   static std::string msAppFile;
 #endif

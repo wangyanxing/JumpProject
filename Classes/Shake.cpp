@@ -1,4 +1,3 @@
-
 #include "Shake.h"
 
 USING_NS_CC;
@@ -7,9 +6,9 @@ USING_NS_CC;
 CCShake::CCShake() : m_strength_x(0), m_strength_y(0) {
 }
 
-CCShake *CCShake::create( float d, float strength ) {
+CCShake *CCShake::create(float d, float strength) {
   // call other construction method with twice the same strength
-  return createWithStrength( d, strength, strength );
+  return createWithStrength(d, strength, strength);
 }
 
 CCShake *CCShake::createWithStrength(float duration, float strength_x, float strength_y) {
@@ -23,11 +22,11 @@ CCShake *CCShake::createWithStrength(float duration, float strength_x, float str
   return pRet;
 }
 
-ActionInterval* CCShake::reverse() const {
+ActionInterval *CCShake::reverse() const {
   return nullptr;
 }
 
-ActionInterval* CCShake::clone() const {
+ActionInterval *CCShake::clone() const {
   return nullptr;
 }
 
@@ -42,29 +41,29 @@ bool CCShake::initWithDuration(float duration, float strength_x, float strength_
 
 // Helper function. I included it here so that you can compile the whole file
 // it returns a random value between min and max included
-static float fgRangeRand( float min, float max ) {
-  float rnd = ((float)rand() / (float)RAND_MAX);
+static float fgRangeRand(float min, float max) {
+  float rnd = ((float) rand() / (float) RAND_MAX);
   return rnd * (max - min) + min;
 }
 
 void CCShake::update(float dt) {
-  float randx = fgRangeRand( -m_strength_x, m_strength_x ) * dt;
-  float randy = fgRangeRand( -m_strength_y, m_strength_y ) * dt;
+  float randx = fgRangeRand(-m_strength_x, m_strength_x) * dt;
+  float randy = fgRangeRand(-m_strength_y, m_strength_y) * dt;
 
   // move the target to a shaked position
-  _target->setPosition( m_StartPosition + Vec2( randx, randy));
+  _target->setPosition(m_StartPosition + Vec2(randx, randy));
 }
 
 void CCShake::startWithTarget(Node *pTarget) {
-  ActionInterval::startWithTarget( pTarget );
+  ActionInterval::startWithTarget(pTarget);
 
   // save the initial position
-  m_StartPosition=pTarget->getPosition();
+  m_StartPosition = pTarget->getPosition();
 }
 
 void CCShake::stop(void) {
   // Action is done, reset clip position
-  this->getTarget()->setPosition( m_StartPosition);
+  this->getTarget()->setPosition(m_StartPosition);
 
   ActionInterval::stop();
 }

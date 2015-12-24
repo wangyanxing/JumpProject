@@ -14,13 +14,14 @@
 USING_NS_CC;
 
 class Effect;
+
 class EffectSprite : public Sprite {
 public:
-  static EffectSprite *create(const std::string& filename);
+  static EffectSprite *create(const std::string &filename);
 
   static EffectSprite *create();
 
-  void setEffect(Effect* effect);
+  void setEffect(Effect *effect);
 
   void addEffect(Effect *effect, ssize_t order);
 
@@ -31,25 +32,29 @@ protected:
 
   ~EffectSprite();
 
-  std::vector<std::tuple<ssize_t,Effect*,QuadCommand>> _effects;
-  Effect* _defaultEffect;
+  std::vector <std::tuple<ssize_t, Effect *, QuadCommand>> _effects;
+  Effect *_defaultEffect;
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
 class Effect : public Ref {
 public:
-  GLProgramState* getGLProgramState() const { return _glprogramstate; }
-  virtual void setTarget(EffectSprite *sprite){}
+  GLProgramState *getGLProgramState() const { return _glprogramstate; }
+
+  virtual void setTarget(EffectSprite *sprite) { }
 
 protected:
   bool initGLProgramState(const std::string &fragmentFilename);
+
   Effect();
+
   virtual ~Effect();
+
   GLProgramState *_glprogramstate;
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
   std::string _fragSource;
-  EventListenerCustom* _backgroundListener;
+  EventListenerCustom *_backgroundListener;
 #endif
 };
 
@@ -57,8 +62,11 @@ protected:
 class EffectBlur : public Effect {
 public:
   CREATE_FUNC(EffectBlur);
+
   virtual void setTarget(EffectSprite *sprite) override;
+
   void setBlurRadius(float radius);
+
   void setBlurSampleNum(float num);
 
 protected:
@@ -73,8 +81,7 @@ class EffectOutline : public Effect {
 public:
   CREATE_FUNC(EffectOutline);
 
-  bool init()
-  {
+  bool init() {
     initGLProgramState("shaders/outline.fsh");
 
     Vec3 color(1.0f, 0.2f, 0.3f);
@@ -99,8 +106,7 @@ protected:
     return true;
   }
 
-  virtual void setTarget(EffectSprite* sprite) override
-  {
+  virtual void setTarget(EffectSprite *sprite) override {
     auto s = sprite->getTexture()->getContentSizeInPixels();
     getGLProgramState()->setUniformVec2("resolution", Vec2(s.width, s.height));
   }
@@ -117,16 +123,14 @@ protected:
     return true;
   }
 
-  virtual void setTarget(EffectSprite* sprite) override
-  {
+  virtual void setTarget(EffectSprite *sprite) override {
     auto s = sprite->getTexture()->getContentSizeInPixels();
     getGLProgramState()->setUniformVec2("resolution", Vec2(s.width, s.height));
   }
 };
 
-// cel shading
-class EffectCelShading : public Effect
-{
+// Cel shading
+class EffectCelShading : public Effect {
 public:
   CREATE_FUNC(EffectCelShading);
 
@@ -136,8 +140,7 @@ protected:
     return true;
   }
 
-  virtual void setTarget(EffectSprite* sprite) override
-  {
+  virtual void setTarget(EffectSprite *sprite) override {
     auto s = sprite->getTexture()->getContentSizeInPixels();
     getGLProgramState()->setUniformVec2("resolution", Vec2(s.width, s.height));
   }
