@@ -14,6 +14,7 @@
 #include "LevelScene.h"
 #include "EffectSprite.h"
 #include "LogicManager.h"
+#include "ControlPad.h"
 
 #define TRANSPARENT_BUTTON 80
 

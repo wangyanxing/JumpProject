@@ -48,6 +48,8 @@
 		521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6319F0C34300D177D7 /* Default-736h@3x.png */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
+		B5A55AA71C2B8B7200E02C60 /* ControlPad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A55AA51C2B8B7200E02C60 /* ControlPad.cpp */; };
+		B5A55AA81C2B8B7200E02C60 /* ControlPad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A55AA51C2B8B7200E02C60 /* ControlPad.cpp */; };
 		BC3CE9FB1C1B86B400738B33 /* Blocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C01C1B86B400738B33 /* Blocks.cpp */; };
 		BC3CE9FC1C1B86B400738B33 /* Blocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C01C1B86B400738B33 /* Blocks.cpp */; };
 		BC3CE9FD1C1B86B400738B33 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C21C1B86B400738B33 /* Button.cpp */; };
@@ -209,6 +211,8 @@
 		521A8E6319F0C34300D177D7 /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		B5A55AA51C2B8B7200E02C60 /* ControlPad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControlPad.cpp; sourceTree = "<group>"; };
+		B5A55AA61C2B8B7200E02C60 /* ControlPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlPad.h; sourceTree = "<group>"; };
 		BC3CE9C01C1B86B400738B33 /* Blocks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Blocks.cpp; sourceTree = "<group>"; };
 		BC3CE9C11C1B86B400738B33 /* Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blocks.h; sourceTree = "<group>"; };
 		BC3CE9C21C1B86B400738B33 /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
@@ -479,6 +483,8 @@
 				BC3CEA8F1C1F20F700738B33 /* Palette.h */,
 				BC3CEA921C1F475F00738B33 /* Hero.cpp */,
 				BC3CEA931C1F475F00738B33 /* Hero.h */,
+				B5A55AA51C2B8B7200E02C60 /* ControlPad.cpp */,
+				B5A55AA61C2B8B7200E02C60 /* ControlPad.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -682,6 +688,7 @@
 			files = (
 				BC3CEA2F1C1B86B400738B33 /* UIColorEditor.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				B5A55AA71C2B8B7200E02C60 /* ControlPad.cpp in Sources */,
 				BC3CEA1D1C1B86B400738B33 /* PathLibOSX.mm in Sources */,
 				BC3CEA091C1B86B400738B33 /* GameUtils.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
@@ -727,6 +734,7 @@
 				BC3CEA141C1B86B400738B33 /* LightBeam.cpp in Sources */,
 				BC3CEA041C1B86B400738B33 /* EffectSprite.cpp in Sources */,
 				BC3CE9FC1C1B86B400738B33 /* Blocks.cpp in Sources */,
+				B5A55AA81C2B8B7200E02C60 /* ControlPad.cpp in Sources */,
 				BC3CEA241C1B86B400738B33 /* ShaderLayer.cpp in Sources */,
 				BC3CEA911C1F20F700738B33 /* Palette.cpp in Sources */,
 				BC3CEA0C1C1B86B400738B33 /* HttpHelper.cpp in Sources */,

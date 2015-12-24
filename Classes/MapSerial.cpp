@@ -18,6 +18,7 @@
 #include "TimeEvent.h"
 #include "Palette.h"
 #include "Hero.h"
+#include "ControlPad.h"
 
 #include "rapidjson/document.h"
 #include "rapidjson/rapidjson.h"
@@ -1375,26 +1376,3 @@ void MapSerial::loadControlConfig(const char *file) {
 void MapSerial::loadControlConfig() {
   MapSerial::loadControlConfig("ControlConfig.json");
 }
-
-ControlPad::ControlPad() {
-}
-
-ControlPad::~ControlPad() {
-  clearConfig();
-}
-
-void ControlPad::clearConfig() {
-  for (ControlPadConfigs::iterator it = mControlConfig.begin(); it != mControlConfig.end(); ++it) {
-    delete (*it);
-  }
-  mControlConfig.clear();
-}
-
-ControlPadConfig *ControlPad::getControlConfig() {
-  if (mSelectedConfig <= mControlConfig.size() - 1) {
-    return mControlConfig.at(mSelectedConfig);
-  }
-  return nullptr;
-}
-
-ControlPad *ControlPad::controlPadConfig = new ControlPad();
