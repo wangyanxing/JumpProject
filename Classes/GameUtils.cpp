@@ -22,7 +22,7 @@ void GameUtils::setPixelStyleTexture(Sprite *sp) {
 }
 
 SpriteUV *GameUtils::createRect(cocos2d::Rect rect, cocos2d::Color3B col, bool setCameraMask) {
-  SpriteUV *sprite = SpriteUV::create("images/rect.png");
+  SpriteUV *sprite = SpriteUV::create(BLOCK_IMAGE);
   setPixelStyleTexture(sprite);
 
   sprite->setScale(rect.size.width / ORG_RECT_SIZE, rect.size.height / ORG_RECT_SIZE);
@@ -37,7 +37,7 @@ SpriteUV *GameUtils::createRect(cocos2d::Rect rect, cocos2d::Color3B col, bool s
 
 SpriteUV *GameUtils::createRect(cocos2d::Size size, cocos2d::Vec2 pos,
                                 cocos2d::Color3B col, bool setCameraMask) {
-  SpriteUV *sprite = SpriteUV::create("images/rect.png");
+  SpriteUV *sprite = SpriteUV::create(BLOCK_IMAGE);
   setPixelStyleTexture(sprite);
 
   sprite->setScale(size.width / ORG_RECT_SIZE, size.height / ORG_RECT_SIZE);

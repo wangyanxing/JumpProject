@@ -116,7 +116,7 @@ void UIColorEditor::initColorButtons(cocos2d::Node *parent) {
       button->setPosition(Vec2(COLOR_BUTTON_SIZE * (j + 2.5f) + SPACE_BETWEEN_TWO_BUTTON * j,
                                COLOR_BUTTON_SIZE * (2 - i) - SPACE_BETWEEN_TWO_BUTTON * i +
                                EDT_UI_YBIAS));
-      button->setTexture("images/rect.png");
+      button->setTexture(BLOCK_IMAGE);
       void *p = (void *) &indexData[BUTTON_COLS * i + j];
       button->setUserData(p);
       parent->addChild(button);

@@ -518,6 +518,7 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
     // Update image
     mImageSize = 8;
 
+    mTextureName = DEATH_CIRCLE_IMAGE;
     Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
     mSprite->setTexture(texture);
 
@@ -526,7 +527,7 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
     mRestoreSize = Size(size, size);
   } else if (kind == KIND_DEATH) {
     if (mTriggerEvents.size() == 1 && mTriggerEvents.at(0) == "die") {
-      mTextureName = "images/saw.png";
+      mTextureName = DEATH_IMAGE;
     }
 
     Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
@@ -537,8 +538,8 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
     mImageSize = 8;
     mRotationSpeed = 0;
 
-    mTextureName = "images/rect.png";
-    mSprite->setTexture("images/rect.png");
+    mTextureName = BLOCK_IMAGE;
+    mSprite->setTexture(BLOCK_IMAGE);
 
     setSize(Size(mSprite->getScaleX() * mImageSize, mSprite->getScaleY() * mImageSize));
   }

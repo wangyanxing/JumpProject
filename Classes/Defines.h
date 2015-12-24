@@ -21,7 +21,6 @@
 #define EDITOR_IP5_MODE  2
 #define EDITOR_IP4_MODE  3
 
-// change at here
 #define EDITOR_RATIO EDITOR_IP5_MODE
 
 #define GLOW_NODE_TAG 2000
@@ -63,5 +62,11 @@ enum FollowMode {
 #define BORDER_FRAME_SIZE 10
 
 #define EDT_UI_YBIAS (VisibleRect::getFrameSize().height - UI_LAYER_HIGHT)
+
+
+// Art resource
+#define BLOCK_IMAGE "images/rect.png"
+#define DEATH_IMAGE "images/saw.png"
+#define DEATH_CIRCLE_IMAGE "images/saw3.png"
 
 #endif /* defined(__JumpEdt__Defines__) */
