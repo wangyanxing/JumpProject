@@ -422,12 +422,8 @@ void BlockBase::initPhysics() {
     mSprite->removeComponent(mSprite->getPhysicsBody());
   }
 
-#if 1
   auto size = mSprite->getContentSize();
-#else
-  auto size = Size(mSprite->getScaleX() * mImageSize,
-                   mSprite->getScaleY() * mImageSize);
-#endif
+
   PhysicsBody *pbody = nullptr;
   if (mKind != KIND_DEATH_CIRCLE && mKind != KIND_FORCEFIELD) {
     pbody = PhysicsBody::createBox(size);
@@ -437,9 +433,6 @@ void BlockBase::initPhysics() {
   pbody->setContactTestBitmask(1);
   pbody->setGroup(1);
   pbody->setGravityEnable(false);
-#if 0
-  pbody->setScaleEnabled(false);
-#endif
 
   if (mKind == KIND_PUSHABLE) {
     mEnableGravity = true;

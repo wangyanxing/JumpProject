@@ -41,10 +41,6 @@ public:
 
   bool mPushing{false};
 
-  cocos2d::ParticleSystem *mTrailFx{nullptr};
-
-  cocos2d::ParticleBatchNode *mTrailFxNode{nullptr};
-
   int mLinkingID{-1};
 
   bool mPushLeftFlag{false};

@@ -90,7 +90,7 @@ void initEvents() {
     e.func = [&](const std::vector<Arg> &args, BlockBase *block) {
         auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
         if (!targetBlock) {
-          CCLOG("Bad ID: %d", args[0].getInt());
+          CCLOGWARN("Bad ID: %d", args[0].getInt());
           return;
         }
         targetBlock->closeDoor(args[1].getFloat(), args[2].getBool());
@@ -131,7 +131,7 @@ void initEvents() {
     e.func = [&](const std::vector<Arg> &args, BlockBase *block) {
         auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
         if (!targetBlock) {
-          CCLOG("Bad ID: %d", args[0].getInt());
+          CCLOGWARN("Bad ID: %d", args[0].getInt());
           return;
         }
 
@@ -149,7 +149,7 @@ void initEvents() {
     e.func = [&](const std::vector<Arg> &args, BlockBase *block) {
         auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
         if (!targetBlock) {
-          CCLOG("Bad ID: %d", args[0].getInt());
+          CCLOGWARN("Bad ID: %d", args[0].getInt());
           return;
         }
 
@@ -170,7 +170,7 @@ void initEvents() {
     e.func = [&](const std::vector<Arg>& args, BlockBase* block){
       auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
       if (!targetBlock) {
-        CCLOG("Bad ID: %d", args[0].getInt());
+        CCLOGWARN("Bad ID: %d", args[0].getInt());
         return;
       }
 
@@ -190,11 +190,11 @@ void initEvents() {
     e.func = [&](const std::vector<Arg> &args, BlockBase *block) {
         auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
         if (!targetBlock) {
-          CCLOG("Bad ID: %d", args[0].getInt());
+          CCLOGWARN("Bad ID: %d", args[0].getInt());
           return;
         }
         if (targetBlock->mPath.empty()) {
-          CCLOG("The object(ID=%d) has no path!", args[0].getInt());
+          CCLOGWARN("The object(ID=%d) has no path!", args[0].getInt());
           return;
         }
         targetBlock->mPath.mPause = true;
@@ -210,11 +210,11 @@ void initEvents() {
     e.func = [&](const std::vector<Arg> &args, BlockBase *block) {
         auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
         if (!targetBlock) {
-          CCLOG("Bad ID: %d", args[0].getInt());
+          CCLOGWARN("Bad ID: %d", args[0].getInt());
           return;
         }
         if (targetBlock->mPath.empty()) {
-          CCLOG("The object(ID=%d) has no path!", args[0].getInt());
+          CCLOGWARN("The object(ID=%d) has no path!", args[0].getInt());
           return;
         }
         targetBlock->mPath.mPause = false;
@@ -235,25 +235,25 @@ void Events::callEvent(const char *event, BlockBase *block = NULL) {
   initEvents();
 
   if (!event) {
-    CCLOG("Calling null event!");
+    CCLOGWARN("Calling null event!");
     return;
   }
 
   std::string e = event;
   auto splits = PathLib::stringSplit(e, " ");
   if (splits.empty()) {
-    CCLOG("Calling empty event!");
+    CCLOGWARN("Calling empty event!");
     return;
   }
 
   auto eit = EventLists.find(splits[0]);
   if (eit == EventLists.end()) {
-    CCLOG("Cannot locate event: %s!", splits[0].c_str());
+    CCLOGWARN("Cannot locate event: %s!", splits[0].c_str());
     return;
   }
 
   if (splits.size() > eit->second.args.size() + 1) {
-    CCLOG("Too many arguments for the event calling: \"%s\"!", event);
+    CCLOGWARN("Too many arguments for the event calling: \"%s\"!", event);
     return;
   }
 

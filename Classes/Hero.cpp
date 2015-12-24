@@ -13,14 +13,6 @@ USING_NS_CC;
 
 void Hero::initShader() {
   BlockBase::initShader();
-
-#if 0
-  mTrailFx = ParticleSystemQuad::create("fx/trail.plist");
-  mTrailFxNode = ParticleBatchNode::createWithTexture(mTrailFx->getTexture());
-  mTrailFxNode->addChild(mTrailFx);
-  mTrailFxNode->setPosition(getPosition());
-  GameLogic::Game->mParentLayer->addChild(mTrailFxNode, getZOrder() - 2);
-#endif
 }
 
 void Hero::updateMovement(float dt) {
@@ -53,11 +45,7 @@ void Hero::initPhysics() {
   }
 
   PhysicsBody *pbody = nullptr;
-#if 0
-  pbody = PhysicsBody::createBox(mSprite->getContentSize());
-#else
   pbody = PhysicsBody::createBox(getSize());
-#endif
   pbody->setDynamic(true);
   pbody->setRotationEnable(false);
   pbody->setMoment(0);
