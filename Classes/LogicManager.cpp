@@ -695,13 +695,6 @@ void GameLogic::clean() {
   }
   mBlocks.clear();
 
-#if 0
-  for (auto l : mLightBeams) {
-    delete l;
-  }
-  mLightBeams.clear();
-#endif
-
   clearStars();
   clearFx();
 

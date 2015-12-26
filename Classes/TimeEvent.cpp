@@ -29,11 +29,6 @@ TimeEvent::TimeEvent() {
 }
 
 TimeEvent::~TimeEvent() {
-#if 0
-  for (std::vector<TimeEventPoint>::iterator it = mEventPoints.begin(); it != mEventPoints.end(); ++it){
-    delete &(*it);
-  }
-#endif
   mEventPoints.clear();
 }
 

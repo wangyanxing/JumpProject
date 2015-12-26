@@ -33,13 +33,8 @@ void colorMix(const Color4B &src, const Color4B &dst, float r, Color4B &out) {
 }
 
 ShadowManager::ShadowManager(cocos2d::Node *parentNode) {
-#if 0
-  auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/normal_shadow_editor.fsh");
-#else
-  auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/normal_shadow.fsh");
-#endif
-
   // Load shaders
+  auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/normal_shadow.fsh");
   auto shaderContent = FileUtils::getInstance()->getStringFromFile(shaderfile);
   auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_vert,
                                                  shaderContent.c_str());
