@@ -809,9 +809,7 @@ void MapSerial::loadMap(const char *filename) {
       }
 
       block->setKind(kind, true);
-      if (paletteIndex != -1) {
-        block->setColor(paletteIndex);
-      }
+      block->setColor(paletteIndex);
 
       block->getRenderer()->TextureName = textureName;
       block->mCanPickup = pickable;

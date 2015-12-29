@@ -13,6 +13,7 @@
 #include "Button.h"
 #include "LogicManager.h"
 #include "EditorScene.h"
+#include "GameScene.h"
 #include "VisibleRect.h"
 #include "Events.h"
 #include "BlockRenderer.h"
