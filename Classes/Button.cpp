@@ -9,6 +9,7 @@
 #include "Button.h"
 #include "EditorScene.h"
 #include "Events.h"
+#include "BlockRenderer.h"
 
 USING_NS_CC;
 
@@ -78,8 +79,8 @@ void Button::doPush() {
 
   mPushLength = 0;
 
-  if (!mPusher->getSprite()->getBoundingBox().intersectsRect(
-      mParent->getSprite()->getBoundingBox()) &&
+  if (!mPusher->getRenderer()->getBoundingBox().intersectsRect(
+      mParent->getRenderer()->getBoundingBox()) &&
       mCanRestore) {
     mPushing = false;
   }
@@ -189,7 +190,7 @@ void Button::update(float dt) {
       }
     }
 
-    mParent->getSprite()->getPhysicsBody()->setEnabled(true);
+    mParent->getRenderer()->getPhysicsBody()->setEnabled(true);
 
     Vec2 newPos(0, 0);
     float length = dt * 100;
@@ -244,14 +245,14 @@ void Button::update(float dt) {
 }
 
 void Button::setParentWidth(float v) {
-  if (mParent->getSprite()->getRotation() > 1)
+  if (mParent->getRenderer()->getRotation() > 1)
     mParent->setHeight(v);
   else
     mParent->setWidth(v);
 }
 
 void Button::setParentHeight(float v) {
-  if (mParent->getSprite()->getRotation() > 1)
+  if (mParent->getRenderer()->getRotation() > 1)
     mParent->setWidth(v);
   else
     mParent->setHeight(v);
@@ -268,7 +269,7 @@ Button::Button(BlockBase *parent) : mParent(parent) {
 #if EDITOR_MODE
   mHelperNode = DrawNode::create();
   mHelperNode->setCameraMask((unsigned short) CameraFlag::USER2);
-  mParent->getSprite()->getParent()->addChild(mHelperNode, 1000);
+  mParent->getRenderer()->getNode()->getParent()->addChild(mHelperNode, 1000);
   updateHelper();
 #endif
 }

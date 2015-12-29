@@ -17,11 +17,10 @@
 #include "SpriteSoft.h"
 #include "LightBeam.h"
 #include "TimeEvent.h"
+#include "BlockRenderer.h"
 
 #if EDITOR_MODE
-
 #   include "EditorScene.h"
-
 #else
 #   include "GameScene.h"
 #endif
@@ -46,10 +45,10 @@ GameLogic::GameLogic(cocos2d::Layer *parent) {
   mHero->create(VisibleRect::center(), Size(30, 30));
   mHero->setVisible(false);
   mHero->setKind(KIND_HERO);
-  mHeroShape = mHero->getSprite()->getPhysicsBody()->getShapes().front();
+  mHeroShape = mHero->getRenderer()->getPhysicsBody()->getShapes().front();
   mHero->addToScene(mParentLayer);
   mHero->mShadowLayerID = 1;
-  mBlockTable[mHero->getSprite()] = mHero;
+  mBlockTable[mHero->getRenderer()->getNode()] = mHero;
 
 #if USE_SHADOW
   mShadowNode = Node::create();
@@ -199,8 +198,8 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact &contact,
     }
   }
 
-  auto phyPosPush = pushObject->getSprite()->getPhysicsBody()->getPosition();
-  auto phyPosPushed = pushedObject->getSprite()->getPhysicsBody()->getPosition();
+  auto phyPosPush = pushObject->getRenderer()->getPhysicsBody()->getPosition();
+  auto phyPosPushed = pushedObject->getRenderer()->getPhysicsBody()->getPosition();
   auto pushedSize = pushedObject->getSize();
   Size pushSize = pushObject == mHero ? mHero->mRestoreSize : pushObject->getSize();
 
@@ -254,7 +253,7 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact &contact,
       return false;
     }
     if (normal.y > 0.9) {
-      auto p = pushObject->getSprite()->getPhysicsBody()->getPosition();
+      auto p = pushObject->getRenderer()->getPhysicsBody()->getPosition();
       if (otherBlock->mMovementThisFrame != Vec2::ZERO) {
         p += otherBlock->mMovementThisFrame;
         onMovingPlatform = true;
@@ -335,7 +334,7 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact &contact,
     pushObject->forceUpdatePhysicsPosition();
   }
 
-  pushObject->getSprite()->getPhysicsBody()->getShapes().at(0)->_forceUpdateShape();
+  pushObject->getRenderer()->getPhysicsBody()->getShapes().at(0)->_forceUpdateShape();
   return false;
 }
 
@@ -388,7 +387,7 @@ void GameLogic::createFixedBlocks() {
     block->mCanDelete = false;
     block->create(Rect(0, -BORDER_FRAME_SIZE, width, BORDER_FRAME_SIZE));
     block->addToScene(mParentLayer);
-    mBlockTable[block->getSprite()] = block;
+    mBlockTable[block->getRenderer()->getNode()] = block;
     mBlocks[block->mID] = block;
   }
   {
@@ -397,7 +396,7 @@ void GameLogic::createFixedBlocks() {
     block->mCanDelete = false;
     block->create(Rect(0, height, width, BORDER_FRAME_SIZE));
     block->addToScene(mParentLayer);
-    mBlockTable[block->getSprite()] = block;
+    mBlockTable[block->getRenderer()->getNode()] = block;
     mBlocks[block->mID] = block;
   }
   {
@@ -407,7 +406,7 @@ void GameLogic::createFixedBlocks() {
     block->create(Rect(-BORDER_FRAME_SIZE, -BORDER_FRAME_SIZE,
                        BORDER_FRAME_SIZE, height + BORDER_FRAME_SIZE * 2));
     block->addToScene(mParentLayer);
-    mBlockTable[block->getSprite()] = block;
+    mBlockTable[block->getRenderer()->getNode()] = block;
     mBlocks[block->mID] = block;
   }
   {
@@ -417,7 +416,7 @@ void GameLogic::createFixedBlocks() {
     block->create(Rect(width, -BORDER_FRAME_SIZE,
                        BORDER_FRAME_SIZE, height + BORDER_FRAME_SIZE * 2));
     block->addToScene(mParentLayer);
-    mBlockTable[block->getSprite()] = block;
+    mBlockTable[block->getRenderer()->getNode()] = block;
     mBlocks[block->mID] = block;
   }
 }
@@ -460,7 +459,7 @@ void GameLogic::die() {
 
   mHero->mRestorePosition = mSpawnPos;
   mHero->setPosition(mSpawnPos);
-  mHero->getSprite()->setOpacity(255);
+  mHero->getRenderer()->setOpacity(255);
   mDeadFlag = false;
 }
 
@@ -487,9 +486,9 @@ void GameLogic::updateGame(float dt) {
 #endif
 
     mRejectInput = true;
-    mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2, 0.1, 0.1),
+    mHero->getRenderer()->getNode()->runAction(Sequence::create(ScaleTo::create(0.2, 0.1, 0.1),
                                                    CallFunc::create([this] {
-                                                       mHero->getSprite()->setVisible(false);
+                                                       mHero->getRenderer()->setVisible(false);
                                                    }), NULL));
 
     mParentLayer->runAction(Sequence::create(DelayTime::create(0.4), CallFunc::create([this] {
@@ -587,7 +586,7 @@ void GameLogic::deleteBlock(BlockBase *sel) {
       break;
 
   if (it != mBlocks.end()) {
-    auto tableit = mBlockTable.find(sel->getSprite());
+    auto tableit = mBlockTable.find(sel->getRenderer()->getNode());
     mBlockTable.erase(tableit);
     if (sel == mSelectionHead)
       mSelectionHead = nullptr;
@@ -645,7 +644,7 @@ void GameLogic::enableGame(bool val, bool force) {
 
   for (int i = 1; i <= 4; ++i) {
     if (mBlocks[i]) {
-      mBlocks[i]->getSprite()->setVisible(!val);
+      mBlocks[i]->getRenderer()->setVisible(!val);
     }
   }
   mGameTimer = 0;
@@ -663,7 +662,7 @@ BlockBase *GameLogic::createBlock(const cocos2d::Vec2 &pos, BlockKind kind) {
   block->create(pos);
   block->setKind(kind, true);
   block->addToScene(mParentLayer);
-  mBlockTable[block->getSprite()] = block;
+  mBlockTable[block->getRenderer()->getNode()] = block;
   mBlocks[block->mID] = block;
   return block;
 }

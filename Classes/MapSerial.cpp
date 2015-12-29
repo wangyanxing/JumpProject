@@ -19,6 +19,7 @@
 #include "Palette.h"
 #include "Hero.h"
 #include "ControlPad.h"
+#include "BlockRenderer.h"
 
 #include "MapSerialUtils.inl"
 
@@ -726,7 +727,7 @@ void MapSerial::loadMap(const char *filename) {
 
       if (CHECK_BOOL(var, "removable")) {
         removable = var["removable"].GetBool();
-      } SHOW_WARNING
+      }
 
       if (var["pickable"].IsBool()) {
         pickable = var["pickable"].GetBool();
@@ -837,7 +838,7 @@ void MapSerial::loadMap(const char *filename) {
 #endif
       block->reset();
 
-      GameLogic::Game->mBlockTable[block->getSprite()] = block;
+      GameLogic::Game->mBlockTable[block->getRenderer()->getNode()] = block;
       GameLogic::Game->mBlocks[block->mID] = block;
 
       if (kind == KIND_BUTTON) {

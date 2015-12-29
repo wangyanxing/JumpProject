@@ -12,10 +12,7 @@
 #include "PathLib.h"
 #include "Blocks.h"
 #include "Hero.h"
-
-#include <string>
-#include <map>
-#include <functional>
+#include "BlockRenderer.h"
 
 namespace JE {
 
@@ -106,7 +103,7 @@ void initEvents() {
           GameLogic::Game->mWinFlag = true;
           block->mTriggerEventContinueTime = 0.0f;
         } else {
-          GameLogic::Game->mHero->getSprite()->setOpacity(
+          GameLogic::Game->mHero->getRenderer()->setOpacity(
               255.0f * (1.0f - block->mTriggerEventContinueTime) / 1.0f);
           block->mHeroOpacityChanged = true;
         }
@@ -136,7 +133,7 @@ void initEvents() {
         }
 
         targetBlock->setVisible(true);
-        targetBlock->getSprite()->getPhysicsBody()->setEnabled(true);
+        targetBlock->getRenderer()->getPhysicsBody()->setEnabled(true);
     };
     EventLists[e.command] = e;
   }
@@ -154,7 +151,7 @@ void initEvents() {
         }
 
         targetBlock->setVisible(false);
-        targetBlock->getSprite()->getPhysicsBody()->setEnabled(false);
+        targetBlock->getRenderer()->getPhysicsBody()->setEnabled(false);
     };
     EventLists[e.command] = e;
   }

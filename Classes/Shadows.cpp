@@ -12,6 +12,7 @@
 #include "EditorScene.h"
 #include "LogicManager.h"
 #include "Hero.h"
+#include "BlockRenderer.h"
 
 #if EDITOR_MODE
 
@@ -117,7 +118,7 @@ void ShadowManager::updateBlock(BlockBase *block,
     return;
   }
 
-  if (block->getSprite()->getBoundingBox().containsPoint(mLightPos)) {
+  if (block->getRenderer()->getBoundingBox().containsPoint(mLightPos)) {
     return;
   }
 

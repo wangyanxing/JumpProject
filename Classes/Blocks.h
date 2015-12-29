@@ -16,6 +16,7 @@
 #include "SpriteUV.h"
 
 class Button;
+class BlockRenderer;
 
 class BlockBase {
 public:
@@ -51,7 +52,7 @@ public:
 
   void normalizeUV();
 
-  cocos2d::Point getPosition() { return mSprite->getPosition(); }
+  cocos2d::Point getPosition();
 
   virtual void create(const cocos2d::Point &pt);
 
@@ -103,7 +104,7 @@ public:
 
   virtual int pushPriority();
 
-  bool isVisible() { return mSprite->isVisible(); };
+  bool isVisible();
 
   virtual void setKind(BlockKind kind, bool forceSet = false);
 
@@ -112,7 +113,7 @@ public:
   virtual void getPointsForShadow(const cocos2d::Vec2 &source,
                                   std::vector <cocos2d::Vec2> &out);
 
-  SpriteUV *getSprite() { return mSprite; }
+  BlockRenderer *getRenderer() { return mRenderer; }
 
   void setColor(int index);
 
@@ -239,7 +240,7 @@ public:
 #endif
 
 protected:
-  SpriteUV *mSprite{nullptr};
+  BlockRenderer* mRenderer{nullptr};
 };
 
 #endif /* defined(__JumpEdt__Blocks__) */

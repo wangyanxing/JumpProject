@@ -22,6 +22,8 @@ class LightBeam;
 
 class TimeEvent;
 
+class BlockRenderer;
+
 class GameLogic {
 public:
   static GameLogic *Game;

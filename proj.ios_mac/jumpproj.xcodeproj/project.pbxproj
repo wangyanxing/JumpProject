@@ -124,6 +124,8 @@
 		BC3CEA911C1F20F700738B33 /* Palette.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CEA8E1C1F20F700738B33 /* Palette.cpp */; };
 		BC3CEA941C1F475F00738B33 /* Hero.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CEA921C1F475F00738B33 /* Hero.cpp */; };
 		BC3CEA951C1F475F00738B33 /* Hero.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CEA921C1F475F00738B33 /* Hero.cpp */; };
+		BCDFFFFB1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */; };
+		BCDFFFFC1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -279,6 +281,9 @@
 		BC3CEA8F1C1F20F700738B33 /* Palette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Palette.h; sourceTree = "<group>"; };
 		BC3CEA921C1F475F00738B33 /* Hero.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hero.cpp; sourceTree = "<group>"; };
 		BC3CEA931C1F475F00738B33 /* Hero.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hero.h; sourceTree = "<group>"; };
+		BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlockRenderer.cpp; sourceTree = "<group>"; };
+		BCDFFFFA1C32ECED006E8A59 /* BlockRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockRenderer.h; sourceTree = "<group>"; };
+		BCDFFFFD1C32F062006E8A59 /* Any.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Any.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -487,6 +492,9 @@
 				B5A55AA51C2B8B7200E02C60 /* ControlPad.cpp */,
 				B5A55AA61C2B8B7200E02C60 /* ControlPad.h */,
 				B5A55AA91C2B8C6F00E02C60 /* MapSerialUtils.inl */,
+				BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */,
+				BCDFFFFA1C32ECED006E8A59 /* BlockRenderer.h */,
+				BCDFFFFD1C32F062006E8A59 /* Any.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -712,6 +720,7 @@
 				BC3CEA2D1C1B86B400738B33 /* TimeEvent.cpp in Sources */,
 				BC3CEA941C1F475F00738B33 /* Hero.cpp in Sources */,
 				BC3CEA311C1B86B400738B33 /* UILayer.cpp in Sources */,
+				BCDFFFFB1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */,
 				BC3CEA191C1B86B400738B33 /* Path.cpp in Sources */,
 				BC3CEA0B1C1B86B400738B33 /* HttpHelper.cpp in Sources */,
 				BC3CEA171C1B86B400738B33 /* MapSerial.cpp in Sources */,
@@ -732,6 +741,7 @@
 				BC3CEA061C1B86B400738B33 /* Events.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
+				BCDFFFFC1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */,
 				BC3CEA1C1C1B86B400738B33 /* PathLib.cpp in Sources */,
 				BC3CEA141C1B86B400738B33 /* LightBeam.cpp in Sources */,
 				BC3CEA041C1B86B400738B33 /* EffectSprite.cpp in Sources */,

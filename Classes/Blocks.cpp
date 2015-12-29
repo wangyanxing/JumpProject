@@ -15,6 +15,7 @@
 #include "EditorScene.h"
 #include "VisibleRect.h"
 #include "Events.h"
+#include "BlockRenderer.h"
 
 USING_NS_CC;
 
@@ -27,9 +28,12 @@ BlockBase::BlockBase() {
 
 BlockBase::~BlockBase() {
 #if EDITOR_MODE
-  mSprite->removeFromParent();
   mIDLabel->removeFromParent();
 #endif
+  if (mRenderer) {
+    delete mRenderer;
+    mRenderer = nullptr;
+  }
   if (mButton) {
     delete mButton;
     mButton = nullptr;
@@ -43,8 +47,12 @@ void BlockBase::create(const cocos2d::Point &pt) {
   r.origin = Point::ZERO;
   r.size.width = width / 2;
   r.size.height = thick / 2;
-  mSprite = GameUtils::createRect(r, getColor());
-  mSprite->setPosition(pt);
+
+  BlockRenderer::InitParams param =
+    {{BlockRenderer::PARAM_RECT, Any(r)}, {BlockRenderer::PARAM_COLOR, Any(getColor())}};
+  mRenderer = new RectRenderer();
+  mRenderer->init(param);
+  mRenderer->setPosition(pt);
 
 #if EDITOR_MODE
   initIDLabel();
@@ -58,7 +66,10 @@ void BlockBase::create(const cocos2d::Point &pt) {
 }
 
 void BlockBase::create(const cocos2d::Rect &rect) {
-  mSprite = GameUtils::createRect(rect, getColor());
+  BlockRenderer::InitParams param =
+    {{BlockRenderer::PARAM_RECT, Any(rect)}, {BlockRenderer::PARAM_COLOR, Any(getColor())}};
+  mRenderer = new RectRenderer();
+  mRenderer->init(param);
 
 #if EDITOR_MODE
   initIDLabel();
@@ -72,7 +83,11 @@ void BlockBase::create(const cocos2d::Rect &rect) {
 
 void BlockBase::create(const cocos2d::Point &pt, const cocos2d::Size &size) {
   Rect r(pt, size);
-  mSprite = GameUtils::createRect(r, getColor());
+  BlockRenderer::InitParams param =
+    {{BlockRenderer::PARAM_RECT, Any(r)}, {BlockRenderer::PARAM_COLOR, Any(getColor())}};
+  mRenderer = new RectRenderer();
+  mRenderer->init(param);
+
   setPosition(pt);
 
 #if EDITOR_MODE
@@ -87,70 +102,62 @@ void BlockBase::create(const cocos2d::Point &pt, const cocos2d::Size &size) {
 }
 
 void BlockBase::initShader() {
-#if EDITOR_MODE == 0
-  // Load shader
-  auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/normal_vig.fsh");
-  auto shaderContent = FileUtils::getInstance()->getStringFromFile(shaderfile);
-  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert,
-                                                 shaderContent.c_str());
-  auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
-
-  float screenWidth = VisibleRect::getFrameSize().width;
-  float screenHeight = VisibleRect::getFrameSize().height;
-
-  mSprite->setGLProgramState(glProgramState);
-  glProgramState->setUniformVec3("resolution", Vec3(screenWidth, screenHeight, 1.3));
-#endif
 }
 
 void BlockBase::setPosition(const cocos2d::Point &pt) {
-  mSprite->setPosition(pt);
+  mRenderer->setPosition(pt);
   if (mButton) {
     mButton->updatePosition();
   }
 }
 
 void BlockBase::normalizeUV() {
+  if (!mRenderer || mRenderer->getType() != BlockRenderer::TYPE_RECT) {
+    return;
+  }
+  CC_ASSERT(dynamic_cast<RectRenderer*>(mRenderer) != nullptr);
+  auto rectRenderer = static_cast<RectRenderer*>(mRenderer);
+  auto sprite = rectRenderer->getSprite();
+
   if (mTextureName != "images/saw.png" && mTextureName != "images/saw_r.png") {
-    mSprite->resetUV();
+    sprite->resetUV();
     return;
   }
 
-  //Change uv
+  //Change UV
   auto w = getWidth();
   auto h = getThickness();
-  mSprite->resetUV();
+  sprite->resetUV();
   if (w >= h) {
     if (mTextureName != "images/saw.png") {
       mTextureName = "images/saw.png";
       Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
-      mSprite->setTexture(texture);
+      sprite->setTexture(texture);
     }
 
     Texture2D::TexParams params = {GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_CLAMP_TO_EDGE};
-    mSprite->getTexture()->setTexParameters(params);
+    sprite->getTexture()->setTexParameters(params);
 
     float l = w / h;
-    mSprite->setUVWidth(l);
+    sprite->setUVWidth(l);
     if (mUVFlipped) {
-      mSprite->flipUVY();
+      sprite->flipUVY();
     }
-
   } else {
     if (mTextureName != "images/saw_r.png") {
       mTextureName = "images/saw_r.png";
       Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
-      mSprite->setTexture(texture);
+      sprite->setTexture(texture);
     }
 
     Texture2D::TexParams params = {GL_LINEAR, GL_LINEAR, GL_CLAMP_TO_EDGE, GL_REPEAT};
-    mSprite->getTexture()->setTexParameters(params);
+    sprite->getTexture()->setTexParameters(params);
 
     float l = h / w;
-    mSprite->setUVHeight(l);
+    sprite->setUVHeight(l);
 
     if (mUVFlipped) {
-      mSprite->flipUVX();
+      sprite->flipUVX();
     }
   }
 }
@@ -204,7 +211,7 @@ void BlockBase::reset() {
     mButton->reset();
   }
 
-  mSprite->setRotation(0);
+  mRenderer->setRotation(0);
 
   callInitEvent();
 }
@@ -265,19 +272,19 @@ void BlockBase::updateOpenClose(float dt) {
 
 void BlockBase::postUpdate(float dt) {
   if (mKind == KIND_PUSHABLE || mKind == KIND_HERO) {
-    getSprite()->getPhysicsBody()->setVelocityLimit(1000);
+    getRenderer()->getPhysicsBody()->setVelocityLimit(1000);
   }
 }
 
 void BlockBase::updateMovement(float dt) {
-  auto lastpos = mSprite->getPosition();
+  auto lastpos = mRenderer->getPosition();
   auto newpos = mKind == KIND_PUSHABLE ? lastpos : mRestorePosition + mMovementToRestore;
 
   newpos.y += mVelocity.y * dt;
   newpos.x += mVelocity.x * dt;
 
-  mSprite->setPosition(newpos);
-  mMovementThisFrame = mSprite->getPosition() - lastpos;
+  mRenderer->setPosition(newpos);
+  mMovementThisFrame = mRenderer->getPosition() - lastpos;
 }
 
 void BlockBase::preUpdate() {
@@ -303,7 +310,7 @@ void BlockBase::update(float dt) {
     float newRot = rot;
     Vec2 outsize(1, 1);
     mRotator.update(dt, newRot, outsize);
-    mSprite->setRotation(newRot);
+    mRenderer->setRotation(newRot);
   }
 
   if (!mPath.empty()) {
@@ -314,7 +321,7 @@ void BlockBase::update(float dt) {
     Vec2 outsize(1, 1);
     mPath.update(dt, newPos, outsize);
 
-    mSprite->setScale(outsize.x * mRestoreSize.width / mImageSize,
+    mRenderer->setScale(outsize.x * mRestoreSize.width / mImageSize,
                       outsize.y * mRestoreSize.height / mImageSize);
 
     auto newSize = getSize();
@@ -356,10 +363,12 @@ void BlockBase::update(float dt) {
   }
 
   if (mRotationSpeed > 0) {
-    auto r = mSprite->getRotation();
+    auto r = mRenderer->getRotation();
     r += mRotationSpeed * dt;
-    if (r > 360) r -= 360;
-    mSprite->setRotation(r);
+    if (r > 360) {
+      r -= 360;
+    }
+    mRenderer->setRotation(r);
   }
 
   /**
@@ -371,7 +380,7 @@ void BlockBase::update(float dt) {
   } else {
     mTriggerEventContinueTime = 0.0f;
     if (mHeroOpacityChanged) {
-      GameLogic::Game->mHero->getSprite()->setOpacity(255);
+      GameLogic::Game->mHero->getRenderer()->setOpacity(255);
       mHeroOpacityChanged = false;
     }
   }
@@ -380,7 +389,7 @@ void BlockBase::update(float dt) {
   if (mIDLabel) {
     if (mShowIDLabel) {
       mIDLabel->setVisible(true);
-      mIDLabel->setPosition(mSprite->getPosition() -
+      mIDLabel->setPosition(mRenderer->getPosition() -
                             Vec2(mIDLabel->getBoundingBox().size.width / 2,
                                  mIDLabel->getBoundingBox().size.height / 2));
     } else {
@@ -391,7 +400,7 @@ void BlockBase::update(float dt) {
 }
 
 void BlockBase::setVisible(bool val) {
-  mSprite->setVisible(val);
+  mRenderer->setVisible(val);
 }
 
 #if EDITOR_MODE
@@ -403,7 +412,7 @@ void BlockBase::initIDLabel() {
   mIDLabel->setScale(0.3);
   auto size = mIDLabel->getBoundingBox().size;
   EditorScene::Scene->addChild(mIDLabel, 800);
-  mIDLabel->setPosition(mSprite->getPosition() - Vec2(size.width / 2, size.height / 2));
+  mIDLabel->setPosition(mRenderer->getPosition() - Vec2(size.width / 2, size.height / 2));
   mShowIDLabel = EditorScene::Scene->mShowGrid;
   mIDLabel->setVisible(mShowIDLabel);
   mIDLabel->setCameraMask((unsigned short) CameraFlag::USER2);
@@ -418,11 +427,9 @@ void BlockBase::updateIDLabel() {
 #endif
 
 void BlockBase::initPhysics() {
-  if (mSprite->getPhysicsBody()) {
-    mSprite->removeComponent(mSprite->getPhysicsBody());
-  }
+  mRenderer->removePhysicsBody();
 
-  auto size = mSprite->getContentSize();
+  auto size = mRenderer->getContentSize();
 
   PhysicsBody *pbody = nullptr;
   if (mKind != KIND_DEATH_CIRCLE && mKind != KIND_FORCEFIELD) {
@@ -442,7 +449,7 @@ void BlockBase::initPhysics() {
   } else {
     pbody->setDynamic(false);
   }
-  mSprite->setPhysicsBody(pbody);
+  mRenderer->setPhysicsBody(pbody);
 }
 
 void BlockBase::setKind(BlockKind kind, bool forceSet) {
@@ -479,8 +486,8 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
   mKind = kind;
   mCastShadow = castShadow[kind];
 
-  mSprite->setZOrder(kindZOrder[kind]);
-  mSprite->setColor(mColor);
+  mRenderer->setZOrder(kindZOrder[kind]);
+  mRenderer->setColor(mColor);
 
   if (kind == KIND_BUTTON) {
     mButton = new Button(this);
@@ -491,7 +498,7 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
 
   initPhysics();
 
-  mSprite->setRotation(0);
+  mRenderer->setRotation(0);
 
   if (kind == KIND_DEATH || kind == KIND_DEATH_CIRCLE) {
     if (mTriggerEvents.empty()) {
@@ -500,8 +507,8 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
   }
 
   if (kind == KIND_DEATH_CIRCLE || kind == KIND_FORCEFIELD) {
-    auto s = Size(mSprite->getScaleX() * mImageSize,
-                  mSprite->getScaleY() * mImageSize);
+    auto s = Size(mRenderer->getScaleX() * mImageSize,
+                  mRenderer->getScaleY() * mImageSize);
     auto size = std::max(s.width, s.height);
 
     if (kind == KIND_DEATH_CIRCLE) {
@@ -513,7 +520,7 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
 
     mTextureName = DEATH_CIRCLE_IMAGE;
     Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
-    mSprite->setTexture(texture);
+    mRenderer->setTexture(texture);
 
     setWidth(size);
     setHeight(size);
@@ -524,7 +531,7 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
     }
 
     Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
-    mSprite->setTexture(texture);
+    mRenderer->setTexture(texture);
 
     normalizeUV();
   } else {
@@ -532,9 +539,9 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
     mRotationSpeed = 0;
 
     mTextureName = BLOCK_IMAGE;
-    mSprite->setTexture(BLOCK_IMAGE);
+    mRenderer->setTexture(BLOCK_IMAGE);
 
-    setSize(Size(mSprite->getScaleX() * mImageSize, mSprite->getScaleY() * mImageSize));
+    setSize(Size(mRenderer->getScaleX() * mImageSize, mRenderer->getScaleY() * mImageSize));
   }
 }
 
@@ -546,11 +553,11 @@ void BlockBase::setColor(int index) {
     Color3B color = Palette::getInstance()->getColorFromPalette(index);
     mColor = color;
   }
-  getSprite()->setColor(mColor);
+  getRenderer()->setColor(mColor);
 }
 
 void BlockBase::moveX(float val) {
-  setPositionX(val + mSprite->getPositionX());
+  setPositionX(val + mRenderer->getPosition().x);
   if (!mPath.empty()) {
     mPath.translatePoints(Vec2(val, 0));
 #if EDITOR_MODE
@@ -561,7 +568,7 @@ void BlockBase::moveX(float val) {
 }
 
 void BlockBase::moveY(float val) {
-  setPositionY(val + mSprite->getPositionY());
+  setPositionY(val + mRenderer->getPosition().y);
   if (!mPath.empty()) {
     mPath.translatePoints(Vec2(0, val));
 #if EDITOR_MODE
@@ -576,13 +583,13 @@ void BlockBase::addThickness(int val) {
   t = std::min<int>(t, VisibleRect::top().y * 1.3);
 
   if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
-    mSprite->setScale(t / mImageSize);
+    mRenderer->setScale(t / mImageSize);
   } else {
-    mSprite->setScale(mSprite->getScaleX(), t / mImageSize);
+    mRenderer->setScale(mRenderer->getScaleX(), t / mImageSize);
   }
 
-  mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
-                      mSprite->getScaleY() * mImageSize);
+  mRestoreSize = Size(mRenderer->getScaleX() * mImageSize,
+                      mRenderer->getScaleY() * mImageSize);
   normalizeUV();
 }
 
@@ -591,13 +598,13 @@ void BlockBase::subThickness(int val) {
   t = std::max<int>(t, 5);
 
   if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
-    mSprite->setScale(t / mImageSize);
+    mRenderer->setScale(t / mImageSize);
   } else {
-    mSprite->setScale(mSprite->getScaleX(), t / mImageSize);
+    mRenderer->setScale(mRenderer->getScaleX(), t / mImageSize);
   }
 
-  mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
-                      mSprite->getScaleY() * mImageSize);
+  mRestoreSize = Size(mRenderer->getScaleX() * mImageSize,
+                      mRenderer->getScaleY() * mImageSize);
   normalizeUV();
 }
 
@@ -605,13 +612,14 @@ void BlockBase::addWidth(int val) {
   auto w = getWidth() + val;
   w = std::min<int>(w, VisibleRect::right().x * 1.3);
 
-  if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD)
-    mSprite->setScale(w / mImageSize);
-  else
-    mSprite->setScale(w / mImageSize, mSprite->getScaleY());
+  if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
+    mRenderer->setScale(w / mImageSize);
+  } else {
+    mRenderer->setScale(w / mImageSize, getRenderer()->getScaleY());
+  }
 
-  mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
-                      mSprite->getScaleY() * mImageSize);
+  mRestoreSize = Size(mRenderer->getScaleX() * mImageSize,
+                      mRenderer->getScaleY() * mImageSize);
 
   normalizeUV();
 }
@@ -621,63 +629,63 @@ void BlockBase::subWidth(int val) {
   w = std::max<int>(w, 5);
 
   if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
-    mSprite->setScale(w / mImageSize);
+    mRenderer->setScale(w / mImageSize);
   } else {
-    mSprite->setScale(w / mImageSize, mSprite->getScaleY());
+    mRenderer->setScale(w / mImageSize, mRenderer->getScaleY());
   }
-  mRestoreSize = Size(mSprite->getScaleX() * mImageSize,
-                      mSprite->getScaleY() * mImageSize);
+  mRestoreSize = Size(mRenderer->getScaleX() * mImageSize,
+                      mRenderer->getScaleY() * mImageSize);
   normalizeUV();
 }
 
 void BlockBase::setWidth(float val) {
   if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
-    mSprite->setScale(val / mImageSize);
+    mRenderer->setScale(val / mImageSize);
   } else {
-    mSprite->setScale(val / mImageSize, mSprite->getScaleY());
+    mRenderer->setScale(val / mImageSize, mRenderer->getScaleY());
   }
   normalizeUV();
 }
 
 void BlockBase::setHeight(float val) {
   if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
-    mSprite->setScale(val / mImageSize);
+    mRenderer->setScale(val / mImageSize);
   } else {
-    mSprite->setScale(mSprite->getScaleX(), val / mImageSize);
+    mRenderer->setScale(mRenderer->getScaleX(), val / mImageSize);
   }
   normalizeUV();
 }
 
 float BlockBase::getWidth() {
-  auto scaleX = mSprite->getScaleX();
+  auto scaleX = mRenderer->getScaleX();
   return scaleX * mImageSize;
 }
 
 float BlockBase::getThickness() {
-  auto scaleY = mSprite->getScaleY();
+  auto scaleY = mRenderer->getScaleY();
   return scaleY * mImageSize;
 }
 
 void BlockBase::setSize(Size size) {
-  mSprite->setScale(size.width / mImageSize, size.height / mImageSize);
+  mRenderer->setScale(size.width / mImageSize, size.height / mImageSize);
   mRestoreSize = size;
   normalizeUV();
 }
 
 cocos2d::Size BlockBase::getSize() {
-  return Size(mSprite->getScaleX() * mImageSize, mSprite->getScaleY() * mImageSize);
+  return Size(mRenderer->getScaleX() * mImageSize, mRenderer->getScaleY() * mImageSize);
 }
 
 void BlockBase::switchToNormalImage() {
-  mSprite->setColor(getColor());
+  mRenderer->setColor(getColor());
 }
 
 void BlockBase::switchToSelectionImage() {
-  mSprite->setColor(Color3B(0, 0, 255));
+  mRenderer->setColor(Color3B(0, 0, 255));
 }
 
 void BlockBase::addToScene(cocos2d::Node *parent) {
-  parent->addChild(mSprite, mZOrder);
+  mRenderer->addToParent(parent, mZOrder);
 #if EDITOR_MODE
   parent->addChild(mPath.mHelperNode, mZOrder + 1);
 #endif
@@ -686,7 +694,7 @@ void BlockBase::addToScene(cocos2d::Node *parent) {
 void BlockBase::getPointsForShadow(const cocos2d::Vec2 &source,
                                    std::vector<cocos2d::Vec2> &out) {
   auto size = getSize();
-  auto p = mSprite->getPosition();
+  auto p = mRenderer->getPosition();
   out.resize(4);
   out[0] = p + Vec2(-size.width / 2, size.height / 2);
   out[2] = p + Vec2(-size.width / 2, -size.height / 2);
@@ -714,17 +722,26 @@ void BlockBase::callInitEvent() {
 }
 
 void BlockBase::forceUpdatePhysicsPosition() {
-  auto body = mSprite->getPhysicsBody();
+  auto body = mRenderer->getPhysicsBody();
   if (!body) {
     return;
   }
 
-  Vec2 pos = mSprite->getPosition();
-  auto scene = mSprite->getScene();
+  Vec2 pos = mRenderer->getPosition();
+  auto node = mRenderer->getNode();
+  auto scene = node->getScene();
   if (scene && scene->getPhysicsWorld()) {
-    pos = mSprite->getParent() == scene ? mSprite->getPosition() :
-          scene->convertToNodeSpace(mSprite->getParent()->convertToWorldSpace(getPosition()));
+    pos = node->getParent() == scene ? mRenderer->getPosition() :
+          scene->convertToNodeSpace(node->getParent()->convertToWorldSpace(getPosition()));
   }
 
   body->setPosition(pos.x, pos.y);
+}
+
+cocos2d::Point BlockBase::getPosition() {
+  return mRenderer->getPosition();
+}
+
+bool BlockBase::isVisible() {
+  return mRenderer->isVisible();
 }

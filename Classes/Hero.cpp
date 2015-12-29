@@ -8,6 +8,7 @@
 
 #include "Hero.h"
 #include "LogicManager.h"
+#include "BlockRenderer.h"
 
 USING_NS_CC;
 
@@ -35,14 +36,12 @@ void Hero::updateMovement(float dt) {
   float damping = 5;
   mVelocity.x *= std::min(std::max(1.0f - dt * damping, 0.0f), 1.0f);
 
-  auto lastpos = mSprite->getPosition() + mVelocity * dt + linkMove;
-  mSprite->setPosition(lastpos);
+  auto lastpos = getRenderer()->getPosition() + mVelocity * dt + linkMove;
+  getRenderer()->setPosition(lastpos);
 }
 
 void Hero::initPhysics() {
-  if (mSprite->getPhysicsBody()) {
-    mSprite->removeComponent(mSprite->getPhysicsBody());
-  }
+  getRenderer()->removePhysicsBody();
 
   PhysicsBody *pbody = nullptr;
   pbody = PhysicsBody::createBox(getSize());
@@ -54,7 +53,7 @@ void Hero::initPhysics() {
   pbody->setGroup(1);
   pbody->setGravityEnable(false);
   pbody->setScaleEnabled(false);
-  mSprite->setPhysicsBody(pbody);
+  getRenderer()->setPhysicsBody(pbody);
 
   mEnableGravity = true;
   mEnableForceField = true;

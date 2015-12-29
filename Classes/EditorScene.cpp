@@ -10,6 +10,7 @@
 #include "EffectSprite.h"
 #include "Hero.h"
 #include "Defines.h"
+#include "BlockRenderer.h"
 
 #include "cocos-ext.h"
 
@@ -178,7 +179,7 @@ void EditorScene::mouseDown(cocos2d::Event *event) {
 
     mGame->blockTraversal([&](BlockBase *bl) {
         bl->switchToNormalImage();
-        auto box = bl->getSprite()->getBoundingBox();
+        auto box = bl->getRenderer()->getBoundingBox();
         if (box.containsPoint(pt) && bl->mCanPickup) {
           mSelections.insert(bl);
           mMovingBlock = bl;
@@ -192,7 +193,7 @@ void EditorScene::mouseDown(cocos2d::Event *event) {
       sel->switchToSelectionImage();
     }
     if (mSelectionHead) {
-      mSelectionHead->getSprite()->setColor(Color3B(200, 0, 255));
+      mSelectionHead->getRenderer()->setColor(Color3B(200, 0, 255));
     }
   }
 }
@@ -679,14 +680,14 @@ void EditorScene::duplicate() {
     block->mRestoreSize = block->getSize();
     block->mRestorePosition = block->getPosition();
 
-    mGame->mBlockTable[block->getSprite()] = block;
+    mGame->mBlockTable[block->getRenderer()->getNode()] = block;
     mGame->mBlocks[block->mID] = block;
 
     duplicated.insert(block);
   }
 
   for (auto sel : mSelections) {
-    sel->getSprite()->setColor(sel->getColor());
+    sel->getRenderer()->setColor(sel->getColor());
   }
 
   mSelections.clear();

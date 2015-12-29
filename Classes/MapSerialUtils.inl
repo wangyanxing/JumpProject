@@ -38,7 +38,7 @@
 #define CHECK_STRING(doc, member) (doc.HasMember(member) && doc[member].IsString())
 
 static void pushwarning() {
-  CCLOG("Invalid map file!");
+  CCLOGWARN("Invalid map file!");
 }
 
 #define SHOW_WARNING else{pushwarning();}
