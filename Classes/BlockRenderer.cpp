@@ -16,6 +16,88 @@ USING_NS_CC;
 #define CHECK_PARAM(p) CC_ASSERT(param.find(p) != param.end())
 #define GET_PARAM(p, T) any_cast<T>(param[p])
 
+void BlockRenderer::setPosition(const cocos2d::Vec2& pos) {
+  getNode()->setPosition(pos);
+}
+
+cocos2d::Vec2 BlockRenderer::getPosition() const {
+  return getNode()->getPosition();
+}
+
+void BlockRenderer::setRotation(float val) {
+  getNode()->setRotation(val);
+}
+
+float BlockRenderer::getRotation() const {
+  return getNode()->getRotation();
+}
+
+void BlockRenderer::setScale(float x, float y) {
+  getNode()->setScale(x, y);
+}
+
+void BlockRenderer::setVisible(bool val) {
+  getNode()->setVisible(val);
+}
+
+bool BlockRenderer::isVisible() const {
+  return getNode()->isVisible();
+}
+
+cocos2d::Size BlockRenderer::getContentSize() const {
+  return getNode()->getContentSize();
+}
+
+void BlockRenderer::removePhysicsBody() {
+  if (getNode()->getPhysicsBody()) {
+    getNode()->removeComponent(getNode()->getPhysicsBody());
+  }
+}
+
+void BlockRenderer::setPhysicsBody(cocos2d::PhysicsBody* body) {
+  getNode()->setPhysicsBody(body);
+}
+
+cocos2d::PhysicsBody* BlockRenderer::getPhysicsBody() {
+  return getNode()->getPhysicsBody();
+}
+
+void BlockRenderer::setColor(const cocos2d::Color3B& color) {
+  getNode()->setColor(color);
+}
+
+cocos2d::Color3B BlockRenderer::getColor() const {
+  return getNode()->getColor();
+}
+
+void BlockRenderer::setZOrder(int val) {
+  getNode()->setLocalZOrder(val);
+}
+
+float BlockRenderer::getScaleX() const {
+  return getNode()->getScaleX();
+}
+
+float BlockRenderer::getScaleY() const {
+  return getNode()->getScaleY();
+}
+
+void BlockRenderer::setOpacity(GLubyte val) {
+  getNode()->setOpacity(val);
+}
+
+GLubyte BlockRenderer::getOpacity() const {
+  return getNode()->getOpacity();
+}
+
+void BlockRenderer::addToParent(cocos2d::Node* parent, int zorder) {
+  parent->addChild(getNode(), zorder);
+}
+
+cocos2d::Rect BlockRenderer::getBoundingBox() const {
+  return getNode()->getBoundingBox();
+}
+
 RectRenderer::RectRenderer() {
 }
 
@@ -34,64 +116,6 @@ void RectRenderer::init(InitParams& param) {
   mSprite = GameUtils::createRect(rect, color);
 }
 
-void RectRenderer::setPosition(const cocos2d::Vec2& pos) {
-  mSprite->setPosition(pos);
-}
-
-cocos2d::Vec2 RectRenderer::getPosition() const {
-  return mSprite->getPosition();
-}
-
-void RectRenderer::setRotation(float val) {
-  mSprite->setRotation(val);
-}
-
-float RectRenderer::getRotation() const {
-  return mSprite->getRotation();
-}
-
-void RectRenderer::setScale(float x, float y) {
-  mSprite->setScale(x, y);
-}
-
-void RectRenderer::setVisible(bool val) {
-  mSprite->setVisible(val);
-}
-
-bool RectRenderer::isVisible() const {
-  return mSprite->isVisible();
-}
-
-cocos2d::Size RectRenderer::getContentSize() const {
-  return mSprite->getContentSize();
-}
-
-void RectRenderer::removePhysicsBody() {
-  if (mSprite->getPhysicsBody()) {
-    mSprite->removeComponent(mSprite->getPhysicsBody());
-  }
-}
-
-void RectRenderer::setPhysicsBody(cocos2d::PhysicsBody* body) {
-  mSprite->setPhysicsBody(body);
-}
-
-cocos2d::PhysicsBody* RectRenderer::getPhysicsBody() {
-  return mSprite->getPhysicsBody();
-}
-
-void RectRenderer::setColor(const cocos2d::Color3B& color) {
-  mSprite->setColor(color);
-}
-
-cocos2d::Color3B RectRenderer::getColor() const {
-  return mSprite->getColor();
-}
-
-void RectRenderer::setZOrder(int val) {
-  mSprite->setLocalZOrder(val);
-}
-
 void RectRenderer::setTexture(cocos2d::Texture2D* tex) {
   mSprite->setTexture(tex);
 }
@@ -100,30 +124,10 @@ void RectRenderer::setTexture(const std::string& texName) {
   mSprite->setTexture(texName);
 }
 
-float RectRenderer::getScaleX() const {
-  return mSprite->getScaleX();
-}
-
-float RectRenderer::getScaleY() const {
-  return mSprite->getScaleY();
-}
-
-void RectRenderer::setOpacity(GLubyte val) {
-  mSprite->setOpacity(val);
-}
-
-GLubyte RectRenderer::getOpacity() const {
-  return mSprite->getOpacity();
-}
-
-void RectRenderer::addToParent(cocos2d::Node* parent, int zorder) {
-  parent->addChild(mSprite, zorder);
-}
-
 cocos2d::Node* RectRenderer::getNode() {
   return mSprite;
 }
 
-cocos2d::Rect RectRenderer::getBoundingBox() const {
-  return mSprite->getBoundingBox();
+cocos2d::Node* RectRenderer::getNode() const {
+  return mSprite;
 }

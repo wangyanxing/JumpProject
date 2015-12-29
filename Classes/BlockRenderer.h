@@ -38,56 +38,58 @@ public:
 
   virtual cocos2d::Node* getNode() = 0;
 
-  virtual void addToParent(cocos2d::Node* parent, int zorder) = 0;
+  virtual cocos2d::Node* getNode() const = 0;
 
-  virtual void setZOrder(int val) = 0;
+  virtual void addToParent(cocos2d::Node* parent, int zorder);
 
-  virtual void setPosition(const cocos2d::Vec2& pos) = 0;
+  virtual void setZOrder(int val);
 
-  virtual cocos2d::Vec2 getPosition() const = 0;
+  virtual void setPosition(const cocos2d::Vec2& pos);
 
-  virtual void setColor(const cocos2d::Color3B& color) = 0;
+  virtual cocos2d::Vec2 getPosition() const;
 
-  virtual cocos2d::Color3B getColor() const = 0;
+  virtual void setColor(const cocos2d::Color3B& color);
 
-  virtual void setVisible(bool val) = 0;
+  virtual cocos2d::Color3B getColor() const;
 
-  virtual bool isVisible() const = 0;
+  virtual void setVisible(bool val);
 
-  virtual void setRotation(float val) = 0;
+  virtual bool isVisible() const;
 
-  virtual float getRotation() const = 0;
+  virtual void setRotation(float val);
 
-  virtual void setScale(float x, float y) = 0;
+  virtual float getRotation() const;
+
+  virtual void setScale(float x, float y);
 
   virtual void setScale(float scale) {
     setScale(scale, scale);
   }
 
-  virtual float getScaleX() const = 0;
+  virtual float getScaleX() const;
 
-  virtual float getScaleY() const = 0;
+  virtual float getScaleY() const;
 
-  virtual cocos2d::Size getContentSize() const = 0;
+  virtual cocos2d::Size getContentSize() const;
 
-  virtual void removePhysicsBody() = 0;
+  virtual void removePhysicsBody();
 
-  virtual void setPhysicsBody(cocos2d::PhysicsBody* body) = 0;
+  virtual void setPhysicsBody(cocos2d::PhysicsBody* body);
 
-  virtual cocos2d::PhysicsBody* getPhysicsBody() = 0;
+  virtual cocos2d::PhysicsBody* getPhysicsBody();
 
   virtual void setTexture(cocos2d::Texture2D* tex) = 0;
 
   virtual void setTexture(const std::string& texName) = 0;
 
-  virtual cocos2d::Rect getBoundingBox() const = 0;
+  virtual cocos2d::Rect getBoundingBox() const;
 
-  virtual void setOpacity(GLubyte val) = 0;
+  virtual void setOpacity(GLubyte val);
 
-  virtual GLubyte getOpacity() const = 0;
+  virtual GLubyte getOpacity() const;
 };
 
-/////////////////////
+///////////////////////////////////////////////////////////////
 
 class RectRenderer : public BlockRenderer {
 public:
@@ -95,61 +97,23 @@ public:
 
   ~RectRenderer();
 
-  RendererType getType() const {
+  RendererType getType() const override {
     return BlockRenderer::TYPE_RECT;
   }
 
-  void init(InitParams& param);
+  void init(InitParams& param) override;
 
-  void setZOrder(int val);
+  void setTexture(cocos2d::Texture2D* tex) override;
 
-  void setPosition(const cocos2d::Vec2& pos);
+  void setTexture(const std::string& texName) override;
 
-  cocos2d::Vec2 getPosition() const;
+  cocos2d::Node* getNode() override;
+
+  cocos2d::Node* getNode() const override;
 
   SpriteUV* getSprite() {
     return mSprite;
   }
-
-  void setRotation(float val);
-
-  float getRotation() const;
-
-  void setScale(float x, float y);
-
-  float getScaleX() const;
-
-  float getScaleY() const;
-
-  void setVisible(bool val);
-
-  bool isVisible() const;
-
-  cocos2d::Size getContentSize() const;
-
-  void setColor(const cocos2d::Color3B& color);
-
-  cocos2d::Color3B getColor() const;
-
-  void removePhysicsBody();
-
-  void setPhysicsBody(cocos2d::PhysicsBody* body);
-
-  cocos2d::PhysicsBody* getPhysicsBody();
-
-  void setTexture(cocos2d::Texture2D* tex);
-
-  void setTexture(const std::string& texName);
-
-  void setOpacity(GLubyte val);
-
-  GLubyte getOpacity() const;
-
-  void addToParent(cocos2d::Node* parent, int zorder);
-
-  cocos2d::Rect getBoundingBox() const;
-
-  cocos2d::Node* getNode();
 
 private:
   SpriteUV* mSprite{nullptr};
