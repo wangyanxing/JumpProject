@@ -292,12 +292,6 @@ void MapSerial::saveMap(const char *file) {
       RT_LINE
     }
 
-    if (b->mKind == KIND_FORCEFIELD) {
-      INDENT_3
-      ss << "\"forcefieldIntensity\": " << b->mForceFieldIntensity;
-      RT_LINE
-    }
-
     // group
     auto ig = GameLogic::Game->mGroups.find(b);
     if (ig != GameLogic::Game->mGroups.end() && !ig->second.empty()) {
@@ -864,10 +858,6 @@ void MapSerial::loadMap(const char *filename) {
         }
         if (CHECK_STRING(var, "pushingEvent")) {
           block->mButton->mPushingEvent = var["pushingEvent"].GetString();
-        }
-      } else if (kind == KIND_FORCEFIELD) {
-        if (CHECK_NUMBER(var, "forcefieldIntensity")) {
-          block->mForceFieldIntensity = var["forcefieldIntensity"].GetDouble();
         }
       }
 

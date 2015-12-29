@@ -209,27 +209,7 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact &contact,
     }
     return false;
   }
-  if (otherBlock->mKind == KIND_FORCEFIELD) {
-    if (thisBlock->mEnableForceField) {
-      float radius = otherBlock->getSize().width / 2;
-      float radHero = thisBlock->getSize().width / 2;
-      Vec2 dir = otherBlock->getPosition() - thisBlock->getPosition();
-      float len = dir.length();
-      float ratio = len / (radius + radHero);
-      if (otherBlock->mForceFieldIntensity < 0) {
-        ratio = 1 - ratio;
-      }
-      dir = dir / len;
-      dir.y *= otherBlock->mForceFieldIntensity * ratio;
-      dir.x *= otherBlock->mForceFieldIntensity * ratio * 0.5f;
-      thisBlock->mForceFieldVelocity += dir;
-
-      if (thisBlock == mHero && otherBlock->mForceFieldIntensity < 0) {
-        mHero->mCanJump = true;
-      }
-    }
-    return false;
-  } else if (otherBlock->mKind == KIND_BLOCK) {
+  if (otherBlock->mKind == KIND_BLOCK) {
     auto p = phyPosPush;
     auto mv = otherBlock->mMovementThisFrame;
     if (normal.y > 0.9) {

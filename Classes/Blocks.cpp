@@ -432,7 +432,7 @@ void BlockBase::initPhysics() {
   auto size = mRenderer->getContentSize();
 
   PhysicsBody *pbody = nullptr;
-  if (mKind != KIND_DEATH_CIRCLE && mKind != KIND_FORCEFIELD) {
+  if (mKind != KIND_DEATH_CIRCLE) {
     pbody = PhysicsBody::createBox(size);
   } else {
     pbody = PhysicsBody::createCircle(std::max(size.height / 2, size.width / 2));
@@ -463,8 +463,7 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
       15,
       15,
       15,
-      20,
-      12
+      20
   };
 
   static bool castShadow[KIND_MAX] = {
@@ -473,8 +472,7 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
       false,
       false,
       false,
-      true,
-      false
+      true
   };
 
   if (mPaletteIndex == -1) {
@@ -506,7 +504,7 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
     }
   }
 
-  if (kind == KIND_DEATH_CIRCLE || kind == KIND_FORCEFIELD) {
+  if (kind == KIND_DEATH_CIRCLE) {
     auto s = Size(mRenderer->getScaleX() * mImageSize,
                   mRenderer->getScaleY() * mImageSize);
     auto size = std::max(s.width, s.height);
@@ -582,7 +580,7 @@ void BlockBase::addThickness(int val) {
   auto t = getThickness() + val;
   t = std::min<int>(t, VisibleRect::top().y * 1.3);
 
-  if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
+  if (mKind == KIND_DEATH_CIRCLE) {
     mRenderer->setScale(t / mImageSize);
   } else {
     mRenderer->setScale(mRenderer->getScaleX(), t / mImageSize);
@@ -597,7 +595,7 @@ void BlockBase::subThickness(int val) {
   auto t = getThickness() - val;
   t = std::max<int>(t, 5);
 
-  if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
+  if (mKind == KIND_DEATH_CIRCLE) {
     mRenderer->setScale(t / mImageSize);
   } else {
     mRenderer->setScale(mRenderer->getScaleX(), t / mImageSize);
@@ -612,7 +610,7 @@ void BlockBase::addWidth(int val) {
   auto w = getWidth() + val;
   w = std::min<int>(w, VisibleRect::right().x * 1.3);
 
-  if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
+  if (mKind == KIND_DEATH_CIRCLE) {
     mRenderer->setScale(w / mImageSize);
   } else {
     mRenderer->setScale(w / mImageSize, getRenderer()->getScaleY());
@@ -628,7 +626,7 @@ void BlockBase::subWidth(int val) {
   auto w = getWidth() - val;
   w = std::max<int>(w, 5);
 
-  if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
+  if (mKind == KIND_DEATH_CIRCLE) {
     mRenderer->setScale(w / mImageSize);
   } else {
     mRenderer->setScale(w / mImageSize, mRenderer->getScaleY());
@@ -639,7 +637,7 @@ void BlockBase::subWidth(int val) {
 }
 
 void BlockBase::setWidth(float val) {
-  if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
+  if (mKind == KIND_DEATH_CIRCLE) {
     mRenderer->setScale(val / mImageSize);
   } else {
     mRenderer->setScale(val / mImageSize, mRenderer->getScaleY());
@@ -648,7 +646,7 @@ void BlockBase::setWidth(float val) {
 }
 
 void BlockBase::setHeight(float val) {
-  if (mKind == KIND_DEATH_CIRCLE || mKind == KIND_FORCEFIELD) {
+  if (mKind == KIND_DEATH_CIRCLE) {
     mRenderer->setScale(val / mImageSize);
   } else {
     mRenderer->setScale(mRenderer->getScaleX(), val / mImageSize);

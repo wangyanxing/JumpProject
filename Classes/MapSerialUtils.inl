@@ -183,8 +183,7 @@ BlockKind str2Kind(const string &v) {
     {"DEATH",        KIND_DEATH},
     {"DEATH_CIRCLE", KIND_DEATH_CIRCLE},
     {"BUTTON",       KIND_BUTTON},
-    {"PUSHABLE",     KIND_PUSHABLE},
-    {"FORCEFIELD",   KIND_FORCEFIELD}
+    {"PUSHABLE",     KIND_PUSHABLE}
   };
   
   if (!kinds.count(v)) {

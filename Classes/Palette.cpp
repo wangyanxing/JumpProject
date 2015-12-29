@@ -19,7 +19,6 @@ Palette::Palette() {
   mDefaultBlockColors[KIND_DEATH_CIRCLE] = Color3B::BLACK;
   mDefaultBlockColors[KIND_BUTTON] = Color3B(254, 225, 50);
   mDefaultBlockColors[KIND_PUSHABLE] = Color3B(220, 150, 168);
-  mDefaultBlockColors[KIND_FORCEFIELD] = Color3B(84, 194, 123);
 
   mPalette.insert(std::pair<int, Color3B>(1, Color3B(0xFF, 0xFF, 0xFF)));
   mPalette.insert(std::pair<int, Color3B>(2, Color3B(0xFF, 0x00, 0x00)));
