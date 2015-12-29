@@ -42,13 +42,12 @@ GameLogic::GameLogic(cocos2d::Layer *parent) {
   mSpawnPos = VisibleRect::center();
 
   mHero = new Hero();
-  mHero->create(VisibleRect::center(), Size(30, 30));
-  mHero->setVisible(false);
+  mHero->mRestoreSize.setSize(30, 30);
+  mHero->mRestorePosition = VisibleRect::center();
   mHero->setKind(KIND_HERO);
+  mHero->setVisible(false);
   mHeroShape = mHero->getRenderer()->getPhysicsBody()->getShapes().front();
-  mHero->addToScene(mParentLayer);
   mHero->mShadowLayerID = 1;
-  mBlockTable[mHero->getRenderer()->getNode()] = mHero;
 
 #if USE_SHADOW
   mShadowNode = Node::create();
@@ -365,38 +364,34 @@ void GameLogic::createFixedBlocks() {
     // Bottom
     BlockBase *block = new BlockBase();
     block->mCanDelete = false;
-    block->create(Rect(0, -BORDER_FRAME_SIZE, width, BORDER_FRAME_SIZE));
-    block->addToScene(mParentLayer);
-    mBlockTable[block->getRenderer()->getNode()] = block;
+    block->setRestoreRect(Rect(0, -BORDER_FRAME_SIZE, width, BORDER_FRAME_SIZE));
+    block->setKind(BlockKind::KIND_BLOCK);
     mBlocks[block->mID] = block;
   }
   {
     // Top
     BlockBase *block = new BlockBase();
     block->mCanDelete = false;
-    block->create(Rect(0, height, width, BORDER_FRAME_SIZE));
-    block->addToScene(mParentLayer);
-    mBlockTable[block->getRenderer()->getNode()] = block;
+    block->setRestoreRect(Rect(0, height, width, BORDER_FRAME_SIZE));
+    block->setKind(BlockKind::KIND_BLOCK);
     mBlocks[block->mID] = block;
   }
   {
     // Left
     BlockBase *block = new BlockBase();
     block->mCanDelete = false;
-    block->create(Rect(-BORDER_FRAME_SIZE, -BORDER_FRAME_SIZE,
+    block->setRestoreRect(Rect(-BORDER_FRAME_SIZE, -BORDER_FRAME_SIZE,
                        BORDER_FRAME_SIZE, height + BORDER_FRAME_SIZE * 2));
-    block->addToScene(mParentLayer);
-    mBlockTable[block->getRenderer()->getNode()] = block;
+    block->setKind(BlockKind::KIND_BLOCK);
     mBlocks[block->mID] = block;
   }
   {
     // Right
     BlockBase *block = new BlockBase();
     block->mCanDelete = false;
-    block->create(Rect(width, -BORDER_FRAME_SIZE,
+    block->setRestoreRect(Rect(width, -BORDER_FRAME_SIZE,
                        BORDER_FRAME_SIZE, height + BORDER_FRAME_SIZE * 2));
-    block->addToScene(mParentLayer);
-    mBlockTable[block->getRenderer()->getNode()] = block;
+    block->setKind(BlockKind::KIND_BLOCK);
     mBlocks[block->mID] = block;
   }
 }
@@ -639,10 +634,9 @@ void GameLogic::setBackgroundColor(const cocos2d::Color3B &color) {
 
 BlockBase *GameLogic::createBlock(const cocos2d::Vec2 &pos, BlockKind kind) {
   BlockBase *block = new BlockBase();
-  block->create(pos);
+  block->mRestorePosition = pos;
+  block->mRestoreSize.setSize(100, 15);
   block->setKind(kind, true);
-  block->addToScene(mParentLayer);
-  mBlockTable[block->getRenderer()->getNode()] = block;
   mBlocks[block->mID] = block;
   return block;
 }

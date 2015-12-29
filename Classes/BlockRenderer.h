@@ -12,6 +12,7 @@
 #include "Any.h"
 
 class SpriteUV;
+class BlockBase;
 
 class BlockRenderer {
 public:
@@ -28,7 +29,7 @@ public:
 
   typedef std::map<InitParamType, Any> InitParams;
 
-  BlockRenderer() = default;
+  BlockRenderer(BlockBase *parent) : mParentBlock(parent) {}
 
   virtual ~BlockRenderer() = default;
 
@@ -87,13 +88,16 @@ public:
   virtual void setOpacity(GLubyte val);
 
   virtual GLubyte getOpacity() const;
+
+protected:
+  BlockBase *mParentBlock{nullptr};
 };
 
 ///////////////////////////////////////////////////////////////
 
 class RectRenderer : public BlockRenderer {
 public:
-  RectRenderer();
+  RectRenderer(BlockBase *parent);
 
   ~RectRenderer();
 
@@ -119,11 +123,11 @@ private:
   SpriteUV* mSprite{nullptr};
 };
 
-/////////////////////
+///////////////////////////////////////////////////////////////
 
 class ImageRenderer : public BlockRenderer {
 public:
-  ImageRenderer();
+  ImageRenderer(BlockBase *parent);
 
   ~ImageRenderer();
 

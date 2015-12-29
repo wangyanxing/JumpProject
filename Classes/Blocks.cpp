@@ -30,62 +30,16 @@ BlockBase::~BlockBase() {
 #if EDITOR_MODE
   mIDLabel->removeFromParent();
 #endif
-  if (mRenderer) {
-    delete mRenderer;
-    mRenderer = nullptr;
-  }
-  if (mButton) {
-    delete mButton;
-    mButton = nullptr;
-  }
-}
-
-void BlockBase::create(const cocos2d::Point &pt) {
-  auto thick = 30;
-  auto width = 200;
-  Rect r;
-  r.origin = Point::ZERO;
-  r.size.width = width / 2;
-  r.size.height = thick / 2;
-
-  BlockRenderer::InitParams param =
-    {{BlockRenderer::PARAM_RECT, Any(r)}, {BlockRenderer::PARAM_COLOR, Any(getColor())}};
-  mRenderer = new RectRenderer();
-  mRenderer->init(param);
-  mRenderer->setPosition(pt);
-
-#if EDITOR_MODE
-  initIDLabel();
-#endif
-
-  mRestoreSize = r.size;
-  mRestorePosition = getPosition();
-
-  initShader();
-  initPhysics();
-}
-
-void BlockBase::create(const cocos2d::Rect &rect) {
-  BlockRenderer::InitParams param =
-    {{BlockRenderer::PARAM_RECT, Any(rect)}, {BlockRenderer::PARAM_COLOR, Any(getColor())}};
-  mRenderer = new RectRenderer();
-  mRenderer->init(param);
-
-#if EDITOR_MODE
-  initIDLabel();
-#endif
-  mRestoreSize = rect.size;
-  mRestorePosition = getPosition();
-
-  initShader();
-  initPhysics();
+  CC_SAFE_DELETE(mRenderer);
+  CC_SAFE_DELETE(mButton);
 }
 
 void BlockBase::create(const cocos2d::Point &pt, const cocos2d::Size &size) {
   Rect r(pt, size);
   BlockRenderer::InitParams param =
     {{BlockRenderer::PARAM_RECT, Any(r)}, {BlockRenderer::PARAM_COLOR, Any(getColor())}};
-  mRenderer = new RectRenderer();
+  CC_SAFE_DELETE(mRenderer);
+  mRenderer = new RectRenderer(this);
   mRenderer->init(param);
 
   setPosition(pt);
@@ -99,6 +53,12 @@ void BlockBase::create(const cocos2d::Point &pt, const cocos2d::Size &size) {
 
   initShader();
   initPhysics();
+
+#if EDITOR_MODE
+  addToScene(EditorScene::Scene);
+#else
+  addToScene(GameScene::Scene);
+#endif
 }
 
 void BlockBase::initShader() {
@@ -288,11 +248,11 @@ void BlockBase::updateMovement(float dt) {
 }
 
 void BlockBase::preUpdate() {
-  mMovementToRestore = Vec2::ZERO;
-  mUpSideMovement = Vec2::ZERO;
-  mDownSideMovement = Vec2::ZERO;
-  mRightSideMovement = Vec2::ZERO;
-  mLeftSideMovement = Vec2::ZERO;
+  mMovementToRestore.setZero();
+  mUpSideMovement.setZero();
+  mDownSideMovement.setZero();
+  mRightSideMovement.setZero();
+  mLeftSideMovement.setZero();
 }
 
 void BlockBase::update(float dt) {
@@ -300,8 +260,8 @@ void BlockBase::update(float dt) {
   if (mEnableGravity) {
     float gy = GRAVITY_VAL;
     mVelocity.y += dt * gy;
-    mVelocity.y = MIN(mVelocity.y, 1000);
-    mVelocity.x = MIN(mVelocity.x, 600);
+    mVelocity.y = std::min(mVelocity.y, 1000.0f);
+    mVelocity.x = std::min(mVelocity.x, 600.0f);
   }
 
   if (!mRotator.empty()) {
@@ -363,17 +323,15 @@ void BlockBase::update(float dt) {
   }
 
   if (mRotationSpeed > 0) {
-    auto r = mRenderer->getRotation();
-    r += mRotationSpeed * dt;
-    if (r > 360) {
-      r -= 360;
+    auto rotation = mRenderer->getRotation();
+    rotation += mRotationSpeed * dt;
+    if (rotation > 360) {
+      rotation -= 360;
     }
-    mRenderer->setRotation(r);
+    mRenderer->setRotation(rotation);
   }
 
-  /**
-   * event continue time
-   */
+  // Event continue time
   if (mTriggerEventsCalled) {
     mTriggerEventContinueTime += dt;
     mTriggerEventsCalled = false;
@@ -484,6 +442,8 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
   mKind = kind;
   mCastShadow = castShadow[kind];
 
+  create(mRestorePosition, mRestoreSize);
+
   mRenderer->setZOrder(kindZOrder[kind]);
   mRenderer->setColor(mColor);
 
@@ -505,8 +465,7 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
   }
 
   if (kind == KIND_DEATH_CIRCLE) {
-    auto s = Size(mRenderer->getScaleX() * mImageSize,
-                  mRenderer->getScaleY() * mImageSize);
+    auto s = Size(mRenderer->getScaleX() * mImageSize, mRenderer->getScaleY() * mImageSize);
     auto size = std::max(s.width, s.height);
 
     if (kind == KIND_DEATH_CIRCLE) {
@@ -684,9 +643,6 @@ void BlockBase::switchToSelectionImage() {
 
 void BlockBase::addToScene(cocos2d::Node *parent) {
   mRenderer->addToParent(parent, mZOrder);
-#if EDITOR_MODE
-  parent->addChild(mPath.mHelperNode, mZOrder + 1);
-#endif
 }
 
 void BlockBase::getPointsForShadow(const cocos2d::Vec2 &source,
@@ -742,4 +698,9 @@ cocos2d::Point BlockBase::getPosition() {
 
 bool BlockBase::isVisible() {
   return mRenderer->isVisible();
+}
+
+void BlockBase::setRestoreRect(const cocos2d::Rect &rect) {
+  mRestorePosition = rect.origin;
+  mRestoreSize = rect.size;
 }

@@ -10,6 +10,7 @@
 #include "Defines.h"
 #include "SpriteUV.h"
 #include "GameUtils.h"
+#include "LogicManager.h"
 
 USING_NS_CC;
 
@@ -98,13 +99,14 @@ cocos2d::Rect BlockRenderer::getBoundingBox() const {
   return getNode()->getBoundingBox();
 }
 
-RectRenderer::RectRenderer() {
+RectRenderer::RectRenderer(BlockBase *parent) : BlockRenderer(parent) {
 }
 
 RectRenderer::~RectRenderer() {
 #if EDITOR_MODE
   mSprite->removeFromParent();
 #endif
+  GameLogic::Game->mBlockTable.erase(mSprite);
 }
 
 void RectRenderer::init(InitParams& param) {
@@ -114,6 +116,7 @@ void RectRenderer::init(InitParams& param) {
   Rect rect = GET_PARAM(PARAM_RECT, Rect);
   Color3B color = GET_PARAM(PARAM_COLOR, Color3B);
   mSprite = GameUtils::createRect(rect, color);
+  GameLogic::Game->mBlockTable[mSprite] = mParentBlock;
 }
 
 void RectRenderer::setTexture(cocos2d::Texture2D* tex) {

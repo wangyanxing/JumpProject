@@ -671,8 +671,8 @@ void EditorScene::duplicate() {
   for (auto sel : mSelections) {
     BlockBase *block = new BlockBase();
     auto pos = sel->getPosition() + bias;
-    block->create(pos, sel->getSize());
-    block->addToScene(this);
+    block->mRestorePosition = pos;
+    block->mRestoreSize = sel->getSize();
     block->setKind(sel->mKind);
     block->setColor(sel->mPaletteIndex);
     block->mPath.cloneFrom(sel->mPath, bias);
@@ -680,7 +680,6 @@ void EditorScene::duplicate() {
     block->mRestoreSize = block->getSize();
     block->mRestorePosition = block->getPosition();
 
-    mGame->mBlockTable[block->getRenderer()->getNode()] = block;
     mGame->mBlocks[block->mID] = block;
 
     duplicated.insert(block);

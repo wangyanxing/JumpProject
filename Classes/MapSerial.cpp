@@ -786,22 +786,14 @@ void MapSerial::loadMap(const char *filename) {
 #endif
 
       BlockBase *block = new BlockBase();
-      block->create(pos, size);
-#if EDITOR_MODE
-      block->addToScene(EditorScene::Scene);
-#else
-      block->addToScene(GameScene::Scene);
-#endif
+      block->mID = id;
+      block->mRestorePosition = pos;
+      block->mRestoreSize = size;
       block->mTextureName = textureName;
-
-      if (paletteIndex != -1) {
-        block->setColor(paletteIndex);
-      }
 
       if (kind == KIND_DEATH_CIRCLE || kind == KIND_DEATH) {
         if (CHECK_ARRAY(var, "triggerEvents")) {
           auto triggerEventSize = var["triggerEvents"].Size();
-
           for (auto i = 0; i < triggerEventSize; i++) {
             std::string triggerEvent = var["triggerEvents"][i].GetString();
             block->mTriggerEvents.push_back(triggerEvent);
@@ -817,8 +809,11 @@ void MapSerial::loadMap(const char *filename) {
         }
       }
 
-      block->mID = id;
       block->setKind(kind, true);
+      if (paletteIndex != -1) {
+        block->setColor(paletteIndex);
+      }
+
       block->mCanPickup = pickable;
       block->mCanDelete = id > 4 ? removable : false;
       block->mRotationSpeed = rotSpeed;
@@ -832,7 +827,6 @@ void MapSerial::loadMap(const char *filename) {
 #endif
       block->reset();
 
-      GameLogic::Game->mBlockTable[block->getRenderer()->getNode()] = block;
       GameLogic::Game->mBlocks[block->mID] = block;
 
       if (kind == KIND_BUTTON) {

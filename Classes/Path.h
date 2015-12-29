@@ -14,23 +14,9 @@
 
 class Path {
 public:
-  Path() {
-#if EDITOR_MODE
-    mHelperNode = cocos2d::Node::create();
-    mHelperNode->setPosition(0, 0);
-    mSegmentNode = cocos2d::DrawNode::create();
-    mHelperNode->addChild(mSegmentNode, 90);
-    mHelperNode->setCameraMask((unsigned short) cocos2d::CameraFlag::USER2);
-#endif
-  }
+  Path();
 
-  virtual ~Path() {
-    clear();
-#if EDITOR_MODE
-    mSegmentNode->removeFromParent();
-    mHelperNode->removeFromParent();
-#endif
-  }
+  ~Path();
 
   struct PathPoint {
     PathPoint(const cocos2d::Vec2 &p, float wt, float w, float h) {

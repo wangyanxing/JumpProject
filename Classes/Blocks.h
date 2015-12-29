@@ -54,14 +54,6 @@ public:
 
   cocos2d::Point getPosition();
 
-  virtual void create(const cocos2d::Point &pt);
-
-  virtual void create(const cocos2d::Point &pt, const cocos2d::Size &size);
-
-  virtual void create(const cocos2d::Rect &rect);
-
-  virtual void addToScene(cocos2d::Node *parent);
-
   virtual void addThickness(int val);
 
   virtual void subThickness(int val);
@@ -133,6 +125,8 @@ public:
 
   void updateOpenClose(float dt);
 
+  void setRestoreRect(const cocos2d::Rect &rect);
+
   bool mCastShadow{true};
 
   int mShadowLayerID{0};
@@ -143,7 +137,7 @@ public:
 
   int mShadowFadeSegments{20};
 
-  BlockKind mKind{KIND_BLOCK};
+  BlockKind mKind{KIND_MAX};
 
   int mZOrder{20};
 
@@ -240,6 +234,10 @@ public:
 #endif
 
 protected:
+  virtual void create(const cocos2d::Point &pt, const cocos2d::Size &size);
+
+  virtual void addToScene(cocos2d::Node *parent);  
+
   BlockRenderer* mRenderer{nullptr};
 };
 

@@ -7,8 +7,28 @@
 //
 
 #include "Path.h"
+#include "EditorScene.h"
 
 USING_NS_CC;
+
+Path::Path() {
+#if EDITOR_MODE
+  mHelperNode = cocos2d::Node::create();
+  mHelperNode->setPosition(0, 0);
+  mSegmentNode = cocos2d::DrawNode::create();
+  mHelperNode->addChild(mSegmentNode, 90);
+  mHelperNode->setCameraMask((unsigned short) cocos2d::CameraFlag::USER2);
+  EditorScene::Scene->addChild(mHelperNode, 25);
+#endif
+}
+
+Path::~Path() {
+  clear();
+#if EDITOR_MODE
+  mSegmentNode->removeFromParent();
+  mHelperNode->removeFromParent();
+#endif
+}
 
 void Path::update(float dt, cocos2d::Vec2 &out, cocos2d::Vec2 &outsize) {
   if (mPoints.empty() || mPoints.size() == 1) {

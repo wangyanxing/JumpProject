@@ -269,7 +269,7 @@ Button::Button(BlockBase *parent) : mParent(parent) {
 #if EDITOR_MODE
   mHelperNode = DrawNode::create();
   mHelperNode->setCameraMask((unsigned short) CameraFlag::USER2);
-  mParent->getRenderer()->getNode()->getParent()->addChild(mHelperNode, 1000);
+  EditorScene::Scene->addChild(mHelperNode, 1000);
   updateHelper();
 #endif
 }
