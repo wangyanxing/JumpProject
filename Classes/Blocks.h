@@ -197,8 +197,6 @@ public:
 
   static int mIDCounter;
 
-  std::string mTextureName = "images/saw3.png";
-
   std::string mUserData;
 
   std::vector <std::string> mTriggerEvents;

@@ -79,8 +79,6 @@ public:
 
   virtual cocos2d::PhysicsBody* getPhysicsBody();
 
-  virtual void setTexture(cocos2d::Texture2D* tex) = 0;
-
   virtual void setTexture(const std::string& texName) = 0;
 
   virtual cocos2d::Rect getBoundingBox() const;
@@ -88,6 +86,9 @@ public:
   virtual void setOpacity(GLubyte val);
 
   virtual GLubyte getOpacity() const;
+
+public:
+  std::string TextureName = "images/saw3.png";
 
 protected:
   BlockBase *mParentBlock{nullptr};
@@ -107,8 +108,6 @@ public:
 
   void init(InitParams& param) override;
 
-  void setTexture(cocos2d::Texture2D* tex) override;
-
   void setTexture(const std::string& texName) override;
 
   cocos2d::Node* getNode() override;
@@ -118,6 +117,8 @@ public:
   SpriteUV* getSprite() {
     return mSprite;
   }
+
+  void normalizeUV();
 
 private:
   SpriteUV* mSprite{nullptr};

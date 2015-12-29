@@ -245,7 +245,7 @@ void MapSerial::saveMap(const char *file) {
     ss << "\"flipUV\": " << bool2Str(b->mUVFlipped);
     RT_LINE
     INDENT_3
-    ss << "\"textureName\": \"" << b->mTextureName << "\"";
+    ss << "\"textureName\": \"" << b->getRenderer()->TextureName << "\"";
     RT_LINE
     if (!b->mUserData.empty()) {
       INDENT_3
@@ -789,7 +789,6 @@ void MapSerial::loadMap(const char *filename) {
       block->mID = id;
       block->mRestorePosition = pos;
       block->mRestoreSize = size;
-      block->mTextureName = textureName;
 
       if (kind == KIND_DEATH_CIRCLE || kind == KIND_DEATH) {
         if (CHECK_ARRAY(var, "triggerEvents")) {
@@ -814,6 +813,7 @@ void MapSerial::loadMap(const char *filename) {
         block->setColor(paletteIndex);
       }
 
+      block->getRenderer()->TextureName = textureName;
       block->mCanPickup = pickable;
       block->mCanDelete = id > 4 ? removable : false;
       block->mRotationSpeed = rotSpeed;

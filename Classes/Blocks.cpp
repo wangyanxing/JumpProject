@@ -35,11 +35,20 @@ BlockBase::~BlockBase() {
 }
 
 void BlockBase::create(const cocos2d::Point &pt, const cocos2d::Size &size) {
-  Rect r(pt, size);
-  BlockRenderer::InitParams param =
-    {{BlockRenderer::PARAM_RECT, Any(r)}, {BlockRenderer::PARAM_COLOR, Any(getColor())}};
+  CC_ASSERT(mKind != KIND_MAX);
   CC_SAFE_DELETE(mRenderer);
-  mRenderer = new RectRenderer(this);
+
+  Rect r(pt, size);
+  BlockRenderer::InitParams param = {
+    {BlockRenderer::PARAM_RECT, Any(r)},
+    {BlockRenderer::PARAM_COLOR, Any(getColor())}
+  };
+
+  if (mKind == KIND_DEATH_CIRCLE) {
+    mRenderer = new RectRenderer(this);
+  } else {
+    mRenderer = new RectRenderer(this);
+  }
   mRenderer->init(param);
 
   setPosition(pt);
@@ -77,49 +86,7 @@ void BlockBase::normalizeUV() {
   }
   CC_ASSERT(dynamic_cast<RectRenderer*>(mRenderer) != nullptr);
   auto rectRenderer = static_cast<RectRenderer*>(mRenderer);
-  auto sprite = rectRenderer->getSprite();
-
-  if (mTextureName != "images/saw.png" && mTextureName != "images/saw_r.png") {
-    sprite->resetUV();
-    return;
-  }
-
-  //Change UV
-  auto w = getWidth();
-  auto h = getThickness();
-  sprite->resetUV();
-  if (w >= h) {
-    if (mTextureName != "images/saw.png") {
-      mTextureName = "images/saw.png";
-      Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
-      sprite->setTexture(texture);
-    }
-
-    Texture2D::TexParams params = {GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_CLAMP_TO_EDGE};
-    sprite->getTexture()->setTexParameters(params);
-
-    float l = w / h;
-    sprite->setUVWidth(l);
-    if (mUVFlipped) {
-      sprite->flipUVY();
-    }
-  } else {
-    if (mTextureName != "images/saw_r.png") {
-      mTextureName = "images/saw_r.png";
-      Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
-      sprite->setTexture(texture);
-    }
-
-    Texture2D::TexParams params = {GL_LINEAR, GL_LINEAR, GL_CLAMP_TO_EDGE, GL_REPEAT};
-    sprite->getTexture()->setTexParameters(params);
-
-    float l = h / w;
-    sprite->setUVHeight(l);
-
-    if (mUVFlipped) {
-      sprite->flipUVX();
-    }
-  }
+  rectRenderer->normalizeUV();
 }
 
 void BlockBase::rotate() {
@@ -450,53 +417,42 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
   if (kind == KIND_BUTTON) {
     mButton = new Button(this);
   } else {
-    delete mButton;
-    mButton = nullptr;
+    CC_SAFE_DELETE(mButton);
   }
 
   initPhysics();
 
   mRenderer->setRotation(0);
 
-  if (kind == KIND_DEATH || kind == KIND_DEATH_CIRCLE) {
-    if (mTriggerEvents.empty()) {
-      mTriggerEvents.push_back("die");
-    }
+  if ((kind == KIND_DEATH || kind == KIND_DEATH_CIRCLE) && mTriggerEvents.empty()) {
+    mTriggerEvents.push_back("die");
   }
 
   if (kind == KIND_DEATH_CIRCLE) {
     auto s = Size(mRenderer->getScaleX() * mImageSize, mRenderer->getScaleY() * mImageSize);
     auto size = std::max(s.width, s.height);
-
-    if (kind == KIND_DEATH_CIRCLE) {
-      mRotationSpeed = 50;
-    }
+    mRotationSpeed = 50;
 
     // Update image
     mImageSize = 8;
-
-    mTextureName = DEATH_CIRCLE_IMAGE;
-    Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
-    mRenderer->setTexture(texture);
+    mRenderer->setTexture(DEATH_CIRCLE_IMAGE);
 
     setWidth(size);
     setHeight(size);
     mRestoreSize = Size(size, size);
   } else if (kind == KIND_DEATH) {
     if (mTriggerEvents.size() == 1 && mTriggerEvents.at(0) == "die") {
-      mTextureName = DEATH_IMAGE;
+      mRenderer->TextureName = DEATH_IMAGE;
     }
-
-    Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(mTextureName);
-    mRenderer->setTexture(texture);
+    mRenderer->setTexture(mRenderer->TextureName);
 
     normalizeUV();
   } else {
     mImageSize = 8;
     mRotationSpeed = 0;
 
-    mTextureName = BLOCK_IMAGE;
-    mRenderer->setTexture(BLOCK_IMAGE);
+    mRenderer->TextureName = BLOCK_IMAGE;
+    mRenderer->setTexture(mRenderer->TextureName);
 
     setSize(Size(mRenderer->getScaleX() * mImageSize, mRenderer->getScaleY() * mImageSize));
   }

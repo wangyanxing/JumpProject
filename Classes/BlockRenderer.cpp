@@ -7,6 +7,7 @@
 //
 
 #include "BlockRenderer.h"
+#include "Blocks.h"
 #include "Defines.h"
 #include "SpriteUV.h"
 #include "GameUtils.h"
@@ -119,12 +120,10 @@ void RectRenderer::init(InitParams& param) {
   GameLogic::Game->mBlockTable[mSprite] = mParentBlock;
 }
 
-void RectRenderer::setTexture(cocos2d::Texture2D* tex) {
-  mSprite->setTexture(tex);
-}
-
 void RectRenderer::setTexture(const std::string& texName) {
-  mSprite->setTexture(texName);
+  TextureName = texName;
+  Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(texName);
+  mSprite->setTexture(texture);
 }
 
 cocos2d::Node* RectRenderer::getNode() {
@@ -133,4 +132,44 @@ cocos2d::Node* RectRenderer::getNode() {
 
 cocos2d::Node* RectRenderer::getNode() const {
   return mSprite;
+}
+
+void RectRenderer::normalizeUV() {
+  if (TextureName != "images/saw.png" && TextureName != "images/saw_r.png") {
+    mSprite->resetUV();
+    return;
+  }
+
+  auto w = mParentBlock->getWidth();
+  auto h = mParentBlock->getThickness();
+  mSprite->resetUV();
+  if (w >= h) {
+    if (TextureName != "images/saw.png") {
+      TextureName = "images/saw.png";
+      Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(TextureName);
+      mSprite->setTexture(texture);
+    }
+
+    Texture2D::TexParams params = {GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_CLAMP_TO_EDGE};
+    mSprite->getTexture()->setTexParameters(params);
+
+    mSprite->setUVWidth(w / h);
+    if (mParentBlock->mUVFlipped) {
+      mSprite->flipUVY();
+    }
+  } else {
+    if (TextureName != "images/saw_r.png") {
+      TextureName = "images/saw_r.png";
+      Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(TextureName);
+      mSprite->setTexture(texture);
+    }
+
+    Texture2D::TexParams params = {GL_LINEAR, GL_LINEAR, GL_CLAMP_TO_EDGE, GL_REPEAT};
+    mSprite->getTexture()->setTexParameters(params);
+
+    mSprite->setUVHeight(h / w);
+    if (mParentBlock->mUVFlipped) {
+      mSprite->flipUVX();
+    }
+  }
 }
