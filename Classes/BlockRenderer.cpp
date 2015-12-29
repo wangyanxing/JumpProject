@@ -173,3 +173,39 @@ void RectRenderer::normalizeUV() {
     }
   }
 }
+
+DirthCircleRenderer::DirthCircleRenderer(BlockBase *parent) : RectRenderer(parent) {
+}
+
+DirthCircleRenderer::~DirthCircleRenderer() {
+#if EDITOR_MODE
+  mChild->removeFromParent();
+#endif
+}
+
+void DirthCircleRenderer::init(InitParams& param) {
+  RectRenderer::init(param);
+
+  Rect rect = GET_PARAM(PARAM_RECT, Rect);
+  mChild = GameUtils::createRect(rect, mSprite->getColor());
+}
+
+void DirthCircleRenderer::addToParent(cocos2d::Node* parent, int zorder) {
+  BlockRenderer::addToParent(parent, zorder);
+  parent->addChild(mChild, zorder);
+}
+
+void DirthCircleRenderer::setPosition(const cocos2d::Vec2& pos) {
+  BlockRenderer::setPosition(pos);
+  mChild->setPosition(pos);
+}
+
+void DirthCircleRenderer::setRotation(float val) {
+  BlockRenderer::setRotation(val);
+  mChild->setRotation(45 - val);
+}
+
+void DirthCircleRenderer::setScale(float x, float y) {
+  BlockRenderer::setScale(x, y);
+  mChild->setScale(x, y);
+}

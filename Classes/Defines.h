@@ -26,6 +26,7 @@
 #define GLOW_NODE_TAG 2000
 
 #define ORG_RECT_SIZE 8.0
+#define ROTATION_SPEED 80
 
 #define GRAVITY_VAL -1100
 #define JUMP_VOL 450

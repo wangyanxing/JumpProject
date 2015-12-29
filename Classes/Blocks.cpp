@@ -45,7 +45,7 @@ void BlockBase::create(const cocos2d::Point &pt, const cocos2d::Size &size) {
   };
 
   if (mKind == KIND_DEATH_CIRCLE) {
-    mRenderer = new RectRenderer(this);
+    mRenderer = new DirthCircleRenderer(this);
   } else {
     mRenderer = new RectRenderer(this);
   }
@@ -354,13 +354,14 @@ void BlockBase::updateIDLabel() {
 void BlockBase::initPhysics() {
   mRenderer->removePhysicsBody();
 
-  auto size = mRenderer->getContentSize();
-
   PhysicsBody *pbody = nullptr;
-  if (mKind != KIND_DEATH_CIRCLE) {
-    pbody = PhysicsBody::createBox(size);
+  auto size = mRenderer->getContentSize();
+  if (mKind == KIND_DEATH_CIRCLE) {
+    float diagonal = std::max(size.height / 2, size.width / 2);
+    diagonal = sqrt(diagonal * diagonal + diagonal * diagonal);
+    pbody = PhysicsBody::createCircle(diagonal);
   } else {
-    pbody = PhysicsBody::createCircle(std::max(size.height / 2, size.width / 2));
+    pbody = PhysicsBody::createBox(size);
   }
   pbody->setContactTestBitmask(1);
   pbody->setGroup(1);
@@ -431,11 +432,11 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
   if (kind == KIND_DEATH_CIRCLE) {
     auto s = Size(mRenderer->getScaleX() * mImageSize, mRenderer->getScaleY() * mImageSize);
     auto size = std::max(s.width, s.height);
-    mRotationSpeed = 50;
+    mRotationSpeed = ROTATION_SPEED;
 
     // Update image
-    mImageSize = 8;
-    mRenderer->setTexture(DEATH_CIRCLE_IMAGE);
+    mImageSize = ORG_RECT_SIZE;
+    mRenderer->setTexture(BLOCK_IMAGE);
 
     setWidth(size);
     setHeight(size);
@@ -445,10 +446,9 @@ void BlockBase::setKind(BlockKind kind, bool forceSet) {
       mRenderer->TextureName = DEATH_IMAGE;
     }
     mRenderer->setTexture(mRenderer->TextureName);
-
     normalizeUV();
   } else {
-    mImageSize = 8;
+    mImageSize = ORG_RECT_SIZE;
     mRotationSpeed = 0;
 
     mRenderer->TextureName = BLOCK_IMAGE;

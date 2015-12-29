@@ -18,6 +18,7 @@ class BlockRenderer {
 public:
   enum RendererType {
     TYPE_RECT,
+    TYPE_DEATH_CIRCLE,
     TYPE_IMAGE
   };
 
@@ -100,13 +101,13 @@ class RectRenderer : public BlockRenderer {
 public:
   RectRenderer(BlockBase *parent);
 
-  ~RectRenderer();
+  virtual ~RectRenderer();
 
   RendererType getType() const override {
     return BlockRenderer::TYPE_RECT;
   }
 
-  void init(InitParams& param) override;
+  virtual void init(InitParams& param) override;
 
   void setTexture(const std::string& texName) override;
 
@@ -120,8 +121,34 @@ public:
 
   void normalizeUV();
 
-private:
+protected:
   SpriteUV* mSprite{nullptr};
+};
+
+///////////////////////////////////////////////////////////////
+
+class DirthCircleRenderer : public RectRenderer {
+public:
+  DirthCircleRenderer(BlockBase *parent);
+
+  ~DirthCircleRenderer();
+
+  RendererType getType() const override {
+    return BlockRenderer::TYPE_DEATH_CIRCLE;
+  }
+
+  void init(InitParams& param) override;
+
+  void addToParent(cocos2d::Node* parent, int zorder) override;
+
+  void setPosition(const cocos2d::Vec2& pos) override;
+
+  void setRotation(float val) override;
+
+  void setScale(float x, float y) override;
+
+private:
+  cocos2d::Sprite* mChild{nullptr};
 };
 
 ///////////////////////////////////////////////////////////////
