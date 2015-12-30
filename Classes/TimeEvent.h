@@ -9,8 +9,6 @@
 #ifndef __JumpEdt__TimeEvent__
 #define __JumpEdt__TimeEvent__
 
-#include "cocos2d.h"
-
 class TimeEvent {
 public:
   TimeEvent();
@@ -33,6 +31,7 @@ public:
     }
 
     float waitTime{-1};
+
     std::vector <std::string> mEvents;
   };
 
@@ -41,12 +40,15 @@ public:
   void update(float dt);
 
   bool mLoop{false};
+
   bool mEnalbe{true};
+
   float mInitDelay{-1};
 
-
   int mCurEventIndex{0};
+
   float mWaitingTimer{0};
+
   float mEventWaitingTimer{0};
 
   std::vector <TimeEventPoint> mEventPoints;
