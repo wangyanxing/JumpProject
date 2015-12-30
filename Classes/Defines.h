@@ -47,13 +47,14 @@ enum FollowMode {
   F_UP, F_DOWN, F_LEFT, F_RIGHT
 };
 
+#define USE_SHADER_LAYER 0
+#define USE_SHADOW 1
+#define USE_JUMP_EFFECT 1
+
 #define UI_LAYER_HIGHT 100
 
 #define ZORDER_SHADOW_1 2
 #define ZORDER_SHADOW_2 3
-
-#define USE_SHADER_LAYER 0
-#define USE_SHADOW 1
 
 #define BORDER_BLOCK_LEFT 3
 #define BORDER_BLOCK_RIGHT 4
@@ -68,5 +69,6 @@ enum FollowMode {
 #define BLOCK_IMAGE "images/rect.png"
 #define DEATH_IMAGE "images/saw.png"
 #define DEATH_CIRCLE_IMAGE "images/saw3.png"
+#define EXIT_IMAGE "images/exit.png"
 
 #endif /* defined(__JumpEdt__Defines__) */

@@ -408,11 +408,12 @@ BlockBase *GameLogic::findBlock(int id) {
 void GameLogic::jump() {
   if (mHero->mCanJump && !mRejectInput) {
     mHero->mJumpVelocity.y += JUMP_VOL;
-#if 0
-    float scale = mHero->getSprite()->getScaleX();
-    if(mHero->getSprite()->getNumberOfRunningActions() == 0) {
-      mHero->getSprite()->runAction(Sequence::create(ScaleTo::create(0.2,scale*0.6,scale*1.4),
-                                                     ScaleTo::create(0.2,scale,scale), NULL));
+#if USE_JUMP_EFFECT
+    float scale = mHero->getRenderer()->getScaleX();
+    auto node = mHero->getRenderer()->getNode();
+    if(node->getNumberOfRunningActions() == 0) {
+      node->runAction(Sequence::create(ScaleTo::create(0.2, scale*0.6, scale*1.4),
+                                                     ScaleTo::create(0.2, scale, scale), NULL));
     }
 #endif
     mHero->mCanJump = false;
@@ -456,9 +457,6 @@ void GameLogic::updateGame(float dt) {
     batch0->setPosition(mHero->getPosition());
     batch0->setCameraMask((unsigned short) CameraFlag::USER2);
     mParentLayer->addChild(batch0, 15, DIE_FX_TAG);
-#if 0
-    mParentLayer->runAction(CCShake::create(0.3, 3));
-#endif
 
     mRejectInput = true;
     mHero->getRenderer()->getNode()->runAction(Sequence::create(ScaleTo::create(0.2, 0.1, 0.1),

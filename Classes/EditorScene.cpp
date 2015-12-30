@@ -287,11 +287,20 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
   }
 
   if (keyCode >= EventKeyboard::KeyCode::KEY_1 &&
-      keyCode <= EventKeyboard::KeyCode::KEY_9) {
+      keyCode <= EventKeyboard::KeyCode::KEY_7) {
     if (mPressingShift) {
       setShadowLayer((int) keyCode - (int) EventKeyboard::KeyCode::KEY_1);
     } else {
       setKind((int) keyCode - (int) EventKeyboard::KeyCode::KEY_1 + 1);
+    }
+  }
+
+  // Set as exit door
+  if (keyCode == EventKeyboard::KeyCode::KEY_0) {
+    for (auto sel : mSelections) {
+      sel->setKind(KIND_DEATH);
+      sel->getRenderer()->setTexture(EXIT_IMAGE);
+      sel->mTriggerEvents = {"exit"};
     }
   }
 

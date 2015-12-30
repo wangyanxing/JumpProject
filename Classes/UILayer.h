@@ -22,7 +22,6 @@ public:
   static UILayer *Layer;
 
 public:
-
   cocos2d::Layer *mLayer{nullptr};
 
   cocos2d::Label *mFileNameLabel{nullptr};

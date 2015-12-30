@@ -810,8 +810,7 @@ void MapSerial::loadMap(const char *filename) {
 
       block->setKind(kind, true);
       block->setColor(paletteIndex);
-
-      block->getRenderer()->TextureName = textureName;
+      block->getRenderer()->setTexture(textureName);
       block->mCanPickup = pickable;
       block->mCanDelete = id > 4 ? removable : false;
       block->mRotationSpeed = rotSpeed;
