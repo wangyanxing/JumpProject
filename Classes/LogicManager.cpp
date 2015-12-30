@@ -364,34 +364,38 @@ void GameLogic::createFixedBlocks() {
     // Bottom
     BlockBase *block = new BlockBase();
     block->mCanDelete = false;
-    block->setRestoreRect(Rect(0, -BORDER_FRAME_SIZE, width, BORDER_FRAME_SIZE));
+    block->setRestoreRect(Rect(width / 2, -BORDER_FRAME_SIZE / 2, width, BORDER_FRAME_SIZE));
     block->setKind(BlockKind::KIND_BLOCK);
+    block->mCastShadow = false;
     mBlocks[block->mID] = block;
   }
   {
     // Top
     BlockBase *block = new BlockBase();
     block->mCanDelete = false;
-    block->setRestoreRect(Rect(0, height, width, BORDER_FRAME_SIZE));
+    block->setRestoreRect(Rect(width / 2, height + BORDER_FRAME_SIZE / 2, width, BORDER_FRAME_SIZE));
     block->setKind(BlockKind::KIND_BLOCK);
+    block->mCastShadow = false;
     mBlocks[block->mID] = block;
   }
   {
     // Left
     BlockBase *block = new BlockBase();
     block->mCanDelete = false;
-    block->setRestoreRect(Rect(-BORDER_FRAME_SIZE, -BORDER_FRAME_SIZE,
+    block->setRestoreRect(Rect(-BORDER_FRAME_SIZE / 2, height / 2,
                        BORDER_FRAME_SIZE, height + BORDER_FRAME_SIZE * 2));
     block->setKind(BlockKind::KIND_BLOCK);
+    block->mCastShadow = false;
     mBlocks[block->mID] = block;
   }
   {
     // Right
     BlockBase *block = new BlockBase();
     block->mCanDelete = false;
-    block->setRestoreRect(Rect(width, -BORDER_FRAME_SIZE,
+    block->setRestoreRect(Rect(width + BORDER_FRAME_SIZE / 2, height / 2,
                        BORDER_FRAME_SIZE, height + BORDER_FRAME_SIZE * 2));
     block->setKind(BlockKind::KIND_BLOCK);
+    block->mCastShadow = false;
     mBlocks[block->mID] = block;
   }
 }
