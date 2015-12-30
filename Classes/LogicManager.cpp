@@ -697,11 +697,12 @@ void GameLogic::loadFxFromList() {
   mFxNodes.clear();
 
   for (auto i : mFxList) {
-    ParticleSystem *m_emitter0 = ParticleSystemQuad::create(i);
-    ParticleBatchNode *batch0 = ParticleBatchNode::createWithTexture(m_emitter0->getTexture());
-    batch0->addChild(m_emitter0);
-    mParentLayer->addChild(batch0, 5);
-    mFxNodes.push_back(batch0);
+    ParticleSystem *ps = ParticleSystemQuad::create(i);
+    ParticleBatchNode *batch = ParticleBatchNode::createWithTexture(ps->getTexture());
+    batch->addChild(ps);
+    mParentLayer->addChild(batch, 5);
+    batch->setCameraMask((unsigned short) CameraFlag::USER2);
+    mFxNodes.push_back(batch);
   }
 }
 
