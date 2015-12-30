@@ -121,6 +121,13 @@ void initEvents() {
   }
   {
     Event e;
+    e.command = "dummy";
+    
+    e.func = [&](const std::vector<Arg> &args, BlockBase *block) {};
+    EventLists[e.command] = e;
+  }
+  {
+    Event e;
     e.command = "show";
     e.args = {
         {"", false},    // ID
