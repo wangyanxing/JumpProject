@@ -75,45 +75,82 @@ ShadowManager::ShadowEntry ShadowManager::getShadowEntry(const std::vector<Vec2>
                                                          const cocos2d::Vec2 &lightPos) {
   ShadowEntry ret;
   CC_ASSERT(pts.size() == 4);
-  if (lightPos.x >= pts[0].x && lightPos.x <= pts[1].x) {
-    if (lightPos.y >= pts[0].y) {
-      ret.pt1 = pts[0];
-      ret.pt2 = pts[1];
-    } else if (lightPos.y <= pts[2].y) {
-      ret.pt1 = pts[2];
-      ret.pt2 = pts[3];
-    } else {
-      ret.noShadow = true;
+  if (mLightType == LIGHT_POINT) {
+    if (lightPos.x >= pts[0].x && lightPos.x <= pts[1].x) {
+      if (lightPos.y >= pts[0].y) {
+        ret.pt1 = pts[0];
+        ret.pt2 = pts[1];
+      } else if (lightPos.y <= pts[2].y) {
+        ret.pt1 = pts[2];
+        ret.pt2 = pts[3];
+      } else {
+        ret.noShadow = true;
+      }
+    } else if (lightPos.x < pts[0].x) {
+      if (lightPos.y >= pts[0].y) {
+        ret.pt1 = pts[2];
+        ret.pt2 = pts[1];
+        ret.needMakeUp = true;
+        ret.makeUpPt = pts[0];
+      } else if (lightPos.y <= pts[2].y) {
+        ret.pt1 = pts[0];
+        ret.pt2 = pts[3];
+        ret.needMakeUp = true;
+        ret.makeUpPt = pts[2];
+      } else {
+        ret.pt1 = pts[0];
+        ret.pt2 = pts[2];
+      }
+    } else if (lightPos.x > pts[1].x) {
+      if (lightPos.y >= pts[1].y) {
+        ret.pt1 = pts[0];
+        ret.pt2 = pts[3];
+        ret.needMakeUp = true;
+        ret.makeUpPt = pts[1];
+      } else if (lightPos.y <= pts[3].y) {
+        ret.pt1 = pts[1];
+        ret.pt2 = pts[2];
+        ret.needMakeUp = true;
+        ret.makeUpPt = pts[3];
+      } else {
+        ret.pt1 = pts[1];
+        ret.pt2 = pts[3];
+      }
     }
-  } else if (lightPos.x < pts[0].x) {
-    if (lightPos.y >= pts[0].y) {
+  } else if (mLightType == LIGHT_DIR) {
+    int degree = mLightDirDegree; // Floor to integer
+    if (degree == 0) {
+      ret.pt1 = pts[1];
+      ret.pt2 = pts[3];
+    } else if (degree > 0 && degree < 90) {
       ret.pt1 = pts[2];
       ret.pt2 = pts[1];
       ret.needMakeUp = true;
       ret.makeUpPt = pts[0];
-    } else if (lightPos.y <= pts[2].y) {
-      ret.pt1 = pts[0];
+    } else if (degree == 90) {
+      ret.pt1 = pts[2];
       ret.pt2 = pts[3];
-      ret.needMakeUp = true;
-      ret.makeUpPt = pts[2];
-    } else {
-      ret.pt1 = pts[0];
-      ret.pt2 = pts[2];
-    }
-  } else if (lightPos.x > pts[1].x) {
-    if (lightPos.y >= pts[1].y) {
+    } else if (degree > 90 && degree < 180) {
       ret.pt1 = pts[0];
       ret.pt2 = pts[3];
       ret.needMakeUp = true;
       ret.makeUpPt = pts[1];
-    } else if (lightPos.y <= pts[3].y) {
+    } else if (degree == 180) {
+      ret.pt1 = pts[0];
+      ret.pt2 = pts[2];
+    } else if (degree > 180 && degree < 270) {
       ret.pt1 = pts[1];
       ret.pt2 = pts[2];
       ret.needMakeUp = true;
       ret.makeUpPt = pts[3];
-    } else {
-      ret.pt1 = pts[1];
+    } else if (degree == 270) {
+      ret.pt1 = pts[0];
+      ret.pt2 = pts[1];
+    } else if (degree > 270 && degree < 360) {
+      ret.pt1 = pts[0];
       ret.pt2 = pts[3];
+      ret.needMakeUp = true;
+      ret.makeUpPt = pts[2];
     }
   }
   return ret;
@@ -298,6 +335,11 @@ void ShadowManager::reset() {
 }
 
 void ShadowManager::updateLightDir() {
+  if (mLightDirDegree < 0) {
+    mLightDirDegree += 360;
+  } else if (mLightDirDegree >= 360) {
+    mLightDirDegree -= 360;
+  }
   mLightDir = Vec2(1, 0);
   mLightDir.rotate(Vec2::ZERO, MATH_DEG_TO_RAD(-mLightDirDegree));
 }
