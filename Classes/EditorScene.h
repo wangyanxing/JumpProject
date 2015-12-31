@@ -74,6 +74,8 @@ public:
   void updateCamera();
 
   void updateLightHelper();
+  
+  void updateMousePosLabel(const cocos2d::Point &pt);
 
   void enableGame(bool val, bool force = false);
 
@@ -128,6 +130,8 @@ public:
   cocos2d::Sprite *mLightArraw{nullptr};
 
   cocos2d::Sprite *mGradientCenterPoint{nullptr};
+  
+  cocos2d::Label *mMousePosLabel{nullptr};
 
   std::set<BlockBase *> mSelections;
 

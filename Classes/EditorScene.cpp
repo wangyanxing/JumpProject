@@ -251,6 +251,8 @@ void EditorScene::mouseMove(cocos2d::Event *event) {
     auto camPos = mCamera->getPosition();
     mCamera->setPosition(camPos - Vec2(delta.x, delta.y));
   }
+  
+  updateMousePosLabel(ptInView);
 }
 
 void EditorScene::convertMouse(cocos2d::Point &pt, bool cameraRelative) {
@@ -468,13 +470,12 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
   if (keyCode == EventKeyboard::KeyCode::KEY_G) {
     mShowGrid = !mShowGrid;
     mGridNode->setVisible(mShowGrid);
-#if EDITOR_MODE
+    mMousePosLabel->setVisible(mShowGrid);
     // Also show or hide ID labels
     mGame->blockTraversal([&](BlockBase *b) {
         b->mIDLabel->setVisible(mShowGrid);
         b->mShowIDLabel = mShowGrid;
     });
-#endif
   }
 
   // Path mode
@@ -635,6 +636,9 @@ void EditorScene::enableGame(bool val, bool force) {
   }
   if (mGroupNode) {
     mGroupNode->setVisible(!val);
+  }
+  if (mMousePosLabel) {
+    mMousePosLabel->setVisible(!val);
   }
   if (val) {
     mPressingV = mPressingB = mPressingN = mPressingM = false;
@@ -863,6 +867,15 @@ void EditorScene::initDrawNodes() {
   addChild(mBorderNode, 50);
 
   mGridNode->setVisible(false);
+  
+  TTFConfig config("fonts/Square.ttf", 25);
+  mMousePosLabel = Label::createWithTTF(config, "0,0");
+  mMousePosLabel->setPosition(-100, -100);
+  mMousePosLabel->setScale(0.7f);
+  mMousePosLabel->setOpacity(200);
+  mMousePosLabel->setCameraMask((unsigned short) CameraFlag::USER2);
+  mMousePosLabel->setVisible(false);
+  addChild(mMousePosLabel, 50);
 }
 
 void EditorScene::updateGroupDrawNode() {
@@ -905,6 +918,18 @@ void EditorScene::updateLightHelper() {
     mLightArraw->setVisible(!mGame->mGameMode);
     mLightArraw->setRotation(mGame->mShadows->mLightDirDegree);
   }
+}
+
+void EditorScene::updateMousePosLabel(const cocos2d::Point &pt) {
+  if (mGame->mGameMode || !mShowGrid) {
+    mMousePosLabel->setVisible(false);
+    return;
+  }
+  char posBuffer[32];
+  sprintf(posBuffer, "(%.1f, %.1f)", pt.x, pt.y);
+  mMousePosLabel->setVisible(true);
+  mMousePosLabel->setPosition(pt.x, pt.y + 10);
+  mMousePosLabel->setString(posBuffer);
 }
 
 #endif
