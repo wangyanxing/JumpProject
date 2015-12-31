@@ -1,0 +1,164 @@
+{
+  "author": "karas",
+  "time": "Tue Oct 21 05:35:37 2014",
+  "backgroundColor": "#1EB5C7",
+  "heroColor": "#000000",
+  "normalBlockColor": "#FFFFFF",
+  "deathBlockColor": "#000000",
+  "deathCircleColor": "#000000",
+  "buttonColor": "#FEE132",
+  "pushableBlockColor": "#DC96A8",
+  "spawnPosition": "287,287",
+  "blocks": [ 
+    { 
+      "id": 1,
+      "size": "960,20",
+      "position": "480,10",
+      "pickable": false,
+      "rotatespeed": 0,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 2,
+      "size": "960,20",
+      "position": "480,529.993",
+      "pickable": false,
+      "rotatespeed": 0,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 3,
+      "size": "20,539.993",
+      "position": "10,269.997",
+      "pickable": false,
+      "rotatespeed": 0,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 4,
+      "size": "20,539.993",
+      "position": "950,269.997",
+      "pickable": false,
+      "rotatespeed": 0,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 7,
+      "size": "100,155",
+      "position": "448,198",
+      "pickable": true,
+      "rotatespeed": 0,
+      "groupFollowMode": "CENTER",
+      "groupMembers": [14, 10, 8, 16, 9, 11, 17],
+      "pathSpeed": 50,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "448,198",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        },
+        { 
+          "position": "638,198",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        },
+        { 
+          "position": "638,78",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        },
+        { 
+          "position": "268,78",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        },
+        { 
+          "position": "268,198",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        },
+        { 
+          "position": "447,198",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 8,
+      "size": "135,85",
+      "position": "448,323",
+      "pickable": true,
+      "rotatespeed": 0,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 9,
+      "size": "60,15",
+      "position": "410.5,368",
+      "pickable": true,
+      "rotatespeed": 0,
+      "direction": "DOWN",
+      "canRestore": true,
+      "pushedEvent": "",
+      "restoredEvent": "",
+      "pushingEvent": "",
+      "kind": "BUTTON"
+    },
+    { 
+      "id": 10,
+      "size": "60,15",
+      "position": "485.5,369",
+      "pickable": true,
+      "rotatespeed": 0,
+      "direction": "DOWN",
+      "canRestore": true,
+      "pushedEvent": "",
+      "restoredEvent": "",
+      "pushingEvent": "",
+      "kind": "BUTTON"
+    },
+    { 
+      "id": 11,
+      "size": "100,25",
+      "position": "626,249",
+      "pickable": true,
+      "rotatespeed": 0,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 14,
+      "size": "100,25",
+      "position": "549,169",
+      "pickable": true,
+      "rotatespeed": 0,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 16,
+      "size": "100,25",
+      "position": "287,249",
+      "pickable": true,
+      "rotatespeed": 0,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 17,
+      "size": "100,25",
+      "position": "348,169",
+      "pickable": true,
+      "rotatespeed": 0,
+      "kind": "BLOCK"
+    }
+  ]
+}
