@@ -17,4 +17,6 @@ struct GameUtils {
                               cocos2d::Color3B col, bool setCameraMask = true);
 };
 
+#define LOG_VEC(v) GameUtils::logVec2(v)
+
 #endif

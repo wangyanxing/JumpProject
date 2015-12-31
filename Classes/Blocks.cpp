@@ -604,7 +604,7 @@ void BlockBase::addToScene(cocos2d::Node *parent) {
 
 void BlockBase::getPointsForShadow(const cocos2d::Vec2 &source,
                                    std::vector<cocos2d::Vec2> &out) {
-  auto size = getSize();
+  auto size = mRenderer->getBoundingBox().size;
   auto p = mRenderer->getPosition();
   out.resize(4);
   out[0] = p + Vec2(-size.width / 2, size.height / 2);
