@@ -29,6 +29,14 @@ public:
     SHADOW_LAYER_HERO = SHADOW_LAYER_1,
   };
 
+  struct ShadowEntry {
+    bool noShadow{false};
+    cocos2d::Vec2 pt1;
+    cocos2d::Vec2 pt2;
+    bool needMakeUp{false};
+    cocos2d::Vec2 makeUpPt;
+  };
+
   ShadowManager(cocos2d::Node *parentNode);
 
   ~ShadowManager();
@@ -41,8 +49,7 @@ public:
                    std::vector <cocos2d::V2F_C4B_T2F_Triangle> &triangles,
                    bool clipX = false);
 
-  std::pair <cocos2d::Vec2, cocos2d::Vec2> getShadowEntry(const std::vector <cocos2d::Vec2> &pts,
-                                                          const cocos2d::Vec2 &lightPos);
+  ShadowEntry getShadowEntry(const std::vector <cocos2d::Vec2> &pts, const cocos2d::Vec2 &lightPos);
 
   cocos2d::Vec2 mLightPos;
 

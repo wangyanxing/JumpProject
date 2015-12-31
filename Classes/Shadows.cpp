@@ -71,44 +71,52 @@ ShadowManager::~ShadowManager() {
   }
 }
 
-std::pair<Vec2, Vec2> ShadowManager::getShadowEntry(const std::vector<Vec2> &pts,
-                                                    const cocos2d::Vec2 &lightPos) {
-  Vec2 minPt, maxPt;
-
+ShadowManager::ShadowEntry ShadowManager::getShadowEntry(const std::vector<Vec2> &pts,
+                                                         const cocos2d::Vec2 &lightPos) {
+  ShadowEntry ret;
   CC_ASSERT(pts.size() == 4);
   if (lightPos.x >= pts[0].x && lightPos.x <= pts[1].x) {
     if (lightPos.y >= pts[0].y) {
-      minPt = pts[0];
-      maxPt = pts[1];
+      ret.pt1 = pts[0];
+      ret.pt2 = pts[1];
     } else if (lightPos.y <= pts[2].y) {
-      minPt = pts[2];
-      maxPt = pts[3];
+      ret.pt1 = pts[2];
+      ret.pt2 = pts[3];
+    } else {
+      ret.noShadow = true;
     }
   } else if (lightPos.x < pts[0].x) {
     if (lightPos.y >= pts[0].y) {
-      minPt = pts[2];
-      maxPt = pts[1];
+      ret.pt1 = pts[2];
+      ret.pt2 = pts[1];
+      ret.needMakeUp = true;
+      ret.makeUpPt = pts[0];
     } else if (lightPos.y <= pts[2].y) {
-      minPt = pts[0];
-      maxPt = pts[3];
+      ret.pt1 = pts[0];
+      ret.pt2 = pts[3];
+      ret.needMakeUp = true;
+      ret.makeUpPt = pts[2];
     } else {
-      minPt = pts[0];
-      maxPt = pts[2];
+      ret.pt1 = pts[0];
+      ret.pt2 = pts[2];
     }
   } else if (lightPos.x > pts[1].x) {
     if (lightPos.y >= pts[1].y) {
-      minPt = pts[0];
-      maxPt = pts[3];
+      ret.pt1 = pts[0];
+      ret.pt2 = pts[3];
+      ret.needMakeUp = true;
+      ret.makeUpPt = pts[1];
     } else if (lightPos.y <= pts[3].y) {
-      minPt = pts[1];
-      maxPt = pts[2];
+      ret.pt1 = pts[1];
+      ret.pt2 = pts[2];
+      ret.needMakeUp = true;
+      ret.makeUpPt = pts[3];
     } else {
-      minPt = pts[1];
-      maxPt = pts[3];
+      ret.pt1 = pts[1];
+      ret.pt2 = pts[3];
     }
   }
-
-  return std::make_pair(minPt, maxPt);
+  return ret;
 }
 
 void ShadowManager::updateBlock(BlockBase *block,
@@ -141,17 +149,20 @@ void ShadowManager::updateBlock(BlockBase *block,
     p -= camRelative;
   }
   auto entries = getShadowEntry(pts, lightPos);
+  if (entries.noShadow) {
+    return;
+  }
 
   Color4B colorBase = Color4B::BLACK;
   const float LENGTH = 1500;
 
-  Vec2 dir0 = entries.first - lightPos;
+  Vec2 dir0 = entries.pt1 - lightPos;
   dir0.normalize();
-  Vec2 dir1 = entries.second - lightPos;
+  Vec2 dir1 = entries.pt2 - lightPos;
   dir1.normalize();
 
-  Vec2 f0 = entries.first + dir0 * LENGTH;
-  Vec2 f1 = entries.second + dir1 * LENGTH;
+  Vec2 f0 = entries.pt1 + dir0 * LENGTH;
+  Vec2 f1 = entries.pt2 + dir1 * LENGTH;
 
   if (clipX) {
     Vec2 leftupper(0, 2000);
@@ -160,22 +171,22 @@ void ShadowManager::updateBlock(BlockBase *block,
     Vec2 rightupper(bounds.size.width, 2000);
     Vec2 rightlower(bounds.size.width, -1000);
 
-    if (Vec2::isSegmentIntersect(leftlower, leftupper, entries.first, f0)) {
-      f0 = Vec2::getIntersectPoint(leftlower, leftupper, entries.first, f0);
+    if (Vec2::isSegmentIntersect(leftlower, leftupper, entries.pt1, f0)) {
+      f0 = Vec2::getIntersectPoint(leftlower, leftupper, entries.pt1, f0);
     }
-    if (Vec2::isSegmentIntersect(leftlower, leftupper, entries.second, f1)) {
-      f1 = Vec2::getIntersectPoint(leftlower, leftupper, entries.second, f1);
+    if (Vec2::isSegmentIntersect(leftlower, leftupper, entries.pt2, f1)) {
+      f1 = Vec2::getIntersectPoint(leftlower, leftupper, entries.pt2, f1);
     }
-    if (Vec2::isSegmentIntersect(rightlower, rightupper, entries.first, f0)) {
-      f0 = Vec2::getIntersectPoint(rightlower, rightupper, entries.first, f0);
+    if (Vec2::isSegmentIntersect(rightlower, rightupper, entries.pt1, f0)) {
+      f0 = Vec2::getIntersectPoint(rightlower, rightupper, entries.pt1, f0);
     }
-    if (Vec2::isSegmentIntersect(rightlower, rightupper, entries.second, f1)) {
-      f1 = Vec2::getIntersectPoint(rightlower, rightupper, entries.second, f1);
+    if (Vec2::isSegmentIntersect(rightlower, rightupper, entries.pt2, f1)) {
+      f1 = Vec2::getIntersectPoint(rightlower, rightupper, entries.pt2, f1);
     }
   }
 
   V2F_C4B_T2F_Triangle t;
-  t.a.vertices = entries.first;
+  t.a.vertices = entries.pt1;
   t.a.colors = colorBase;
 
   t.b.vertices = f1;
@@ -186,16 +197,29 @@ void ShadowManager::updateBlock(BlockBase *block,
 
   triangles.push_back(t);
 
-  t.a.vertices = entries.first;
+  t.a.vertices = entries.pt1;
   t.a.colors = colorBase;
 
-  t.b.vertices = entries.second;
+  t.b.vertices = entries.pt2;
   t.b.colors = colorBase;
 
   t.c.vertices = f1;
   t.c.colors = colorBase;
 
   triangles.push_back(t);
+
+  if (entries.needMakeUp) {
+    t.a.vertices = entries.pt1;
+    t.a.colors = colorBase;
+
+    t.b.vertices = entries.pt2;
+    t.b.colors = colorBase;
+
+    t.c.vertices = entries.makeUpPt;
+    t.c.colors = colorBase;
+
+    triangles.push_back(t);
+  }
 }
 
 void ShadowManager::update(float dt) {
