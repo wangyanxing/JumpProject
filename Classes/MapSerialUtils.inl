@@ -37,10 +37,6 @@
 #define CHECK_INT(doc, member) (doc.HasMember(member) && doc[member].IsInt())
 #define CHECK_STRING(doc, member) (doc.HasMember(member) && doc[member].IsString())
 
-static void pushwarning() {
-  CCLOGWARN("Invalid map file!");
-}
-
 #define SHOW_WARNING else{pushwarning();}
 
 using namespace std;
@@ -49,9 +45,11 @@ using namespace rapidjson;
 #include <regex>
 #include <iostream>
 
-using namespace cocos2d;
+USING_NS_CC;
 
-std::string MapSerial::CurrentEditingFile;
+static void pushwarning() {
+  CCLOGWARN("Invalid map file!");
+}
 
 static const char *getLevelSuffix() {
   static std::string suffix;

@@ -657,6 +657,13 @@ void GameLogic::clearFx() {
   mFxList.clear();
 }
 
+void GameLogic::clearSprites() {
+  for (auto &p : mSpriteList) {
+    p.clean();
+  }
+  mSpriteList.clear();
+}
+
 void GameLogic::clean() {
   mTimeEvents.clear();
   mGroups.clear();
@@ -668,6 +675,7 @@ void GameLogic::clean() {
 
   clearStars();
   clearFx();
+  clearSprites();
 
   enableGame(false);
   BlockBase::mIDCounter = 1;
@@ -676,6 +684,13 @@ void GameLogic::clean() {
 void GameLogic::blockTraversal(const std::function<void(BlockBase *)> &func) {
   for (auto b : mBlocks) {
     func(b.second);
+  }
+}
+
+void GameLogic::loadSpritesFromList() {
+  for (auto &p : mSpriteList) {
+    p.create();
+    mParentLayer->addChild(p.getSprite(), p.ZOrder);
   }
 }
 

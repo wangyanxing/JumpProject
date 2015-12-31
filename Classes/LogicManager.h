@@ -11,6 +11,7 @@
 
 #include "cocos2d.h"
 #include "Defines.h"
+#include "SceneSprite.h"
 
 class BlockBase;
 
@@ -76,10 +77,14 @@ public:
   void loadFxFromList();
 
   void loadStarFromList();
+  
+  void loadSpritesFromList();
 
   void clearFx();
 
   void clearStars();
+  
+  void clearSprites();
 
   void updateCamera(cocos2d::Camera *cam);
 
@@ -140,9 +145,11 @@ public:
 
   std::vector <std::string> mFxList;
 
-  std::vector<cocos2d::ParticleBatchNode *> mFxNodes;
+  std::vector <cocos2d::ParticleBatchNode *> mFxNodes;
 
   std::vector <cocos2d::Vec2> mStarList;
+  
+  std::vector <SceneSprite> mSpriteList;
 
   std::vector<cocos2d::Node *> mStarNodes;
 

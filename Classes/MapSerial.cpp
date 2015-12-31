@@ -20,8 +20,12 @@
 #include "Hero.h"
 #include "ControlPad.h"
 #include "BlockRenderer.h"
+#include "SceneSprite.h"
 
 #include "MapSerialUtils.inl"
+#include "SceneSpriteSerial.inl"
+
+std::string MapSerial::CurrentEditingFile;
 
 void MapSerial::savePalette(const char *file) {
   time_t rawtime;
@@ -196,6 +200,23 @@ void MapSerial::saveMap(const char *file) {
     INDENT_2
     ss << vec2Str(GameLogic::Game->mStarList[fi]);
     if (fi != GameLogic::Game->mStarList.size() - 1) {
+      ss << ",";
+    }
+    ss << "\n";
+  }
+  INDENT_1
+  ss << "]";
+  RT_LINE
+  
+  INDENT_1
+  ss << "\"sprites\": [ \n";
+  for (size_t fi = 0; fi < GameLogic::Game->mSpriteList.size(); ++fi) {
+    INDENT_2
+    ss << "{\n";
+    saveSceneSprite(ss, GameLogic::Game->mSpriteList[fi]);
+    INDENT_2
+    ss << "}";
+    if (fi != GameLogic::Game->mSpriteList.size() - 1) {
       ss << ",";
     }
     ss << "\n";
@@ -604,6 +625,16 @@ void MapSerial::loadMap(const char *filename) {
     }
   }
   GameLogic::Game->loadStarFromList();
+  
+  if (CHECK_ARRAY(d, "sprites")) {
+    auto size = d["sprites"].Size();
+    GameLogic::Game->mSpriteList.clear();
+    for (auto fi = 0; fi < size; ++fi) {
+      Document::ValueType &var = d["sprites"][fi];
+      GameLogic::Game->mSpriteList.push_back(loadSceneSprite(var));
+    }
+  }
+  GameLogic::Game->loadSpritesFromList();
 
   std::string paletteFileName = Palette::getInstance()->getPaletteFileName();
   if (CHECK_STRING(d, "paletteFile")) {

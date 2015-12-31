@@ -869,8 +869,7 @@ void EditorScene::initDrawNodes() {
   mGridNode->setVisible(false);
   
   TTFConfig config("fonts/Square.ttf", 25);
-  mMousePosLabel = Label::createWithTTF(config, "0,0");
-  mMousePosLabel->setPosition(-100, -100);
+  mMousePosLabel = Label::createWithTTF(config, "");
   mMousePosLabel->setScale(0.7f);
   mMousePosLabel->setOpacity(200);
   mMousePosLabel->setCameraMask((unsigned short) CameraFlag::USER2);
