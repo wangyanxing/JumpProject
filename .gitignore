@@ -23,7 +23,7 @@
 *.out
 *.app
 
-[Rr]esources/maps/*
+[Rr]esources/maps/local/*
 cocos2d/cocos/network/proj.win32/*
 cocos2d/cocos/platform/android/*
 bin/debug/*
