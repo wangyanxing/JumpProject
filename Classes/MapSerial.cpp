@@ -552,6 +552,8 @@ void MapSerial::loadMap(const char *filename) {
     GameLogic::Game->mShadows->mLightType = str2lightType(d["lightType"].GetString());
     GameLogic::Game->mShadows->mLightDirDegree = d["lightDir"].GetDouble();
     GameLogic::Game->mShadows->updateLightDir();
+  } else {
+    GameLogic::Game->mShadows->mLightType = ShadowManager::LIGHT_POINT;
   }
 
   if (CHECK_STRING(d, "lightPosition")) {
