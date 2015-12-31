@@ -218,5 +218,25 @@ Button::PushDir str2Direction(const string &v) {
   return kinds[v];
 }
 
+std::string lightType2Str(ShadowManager::LightType v) {
+  static std::string names[] = {
+    "\"POINT\"",
+    "\"DIR\""
+  };
+  return names[v];
+}
+
+ShadowManager::LightType str2lightType(const string &v) {
+  static std::map<std::string, ShadowManager::LightType> kinds = {
+    {"POINT", ShadowManager::LIGHT_POINT},
+    {"DIR", ShadowManager::LIGHT_DIR}
+  };
+
+  if (!kinds.count(v)) {
+    CCLOGWARN("Invalid light type: %s", v.c_str());
+    return ShadowManager::LIGHT_POINT;
+  }
+  return kinds[v];
+}
 
 #endif /* MapSerialUtils_inl */

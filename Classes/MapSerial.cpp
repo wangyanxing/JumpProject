@@ -147,6 +147,12 @@ void MapSerial::saveMap(const char *file) {
 
 #if USE_SHADOW
   INDENT_1
+  ss << "\"lightType\": " << lightType2Str(GameLogic::Game->mShadows->mLightType);
+  RT_LINE
+  INDENT_1
+  ss << "\"lightDir\": " << GameLogic::Game->mShadows->mLightDirDegree;
+  RT_LINE
+  INDENT_1
   ss << "\"lightPosition\": " << vec2Str(GameLogic::Game->mShadows->mOriginLightPos);
   RT_LINE
   INDENT_1
@@ -542,6 +548,12 @@ void MapSerial::loadMap(const char *filename) {
   } SHOW_WARNING
 
 #if USE_SHADOW
+  if (CHECK_STRING(d, "lightType")) {
+    GameLogic::Game->mShadows->mLightType = str2lightType(d["lightType"].GetString());
+    GameLogic::Game->mShadows->mLightDirDegree = d["lightDir"].GetDouble();
+    GameLogic::Game->mShadows->updateLightDir();
+  }
+
   if (CHECK_STRING(d, "lightPosition")) {
     GameLogic::Game->mShadows->mLightPos = str2Vec(d["lightPosition"].GetString());
     GameLogic::Game->mShadows->mOriginLightPos = GameLogic::Game->mShadows->mLightPos;
@@ -940,7 +952,7 @@ void MapSerial::loadMap(const char *filename) {
   EditorScene::Scene->mCurFileName = fixedfilename;
   EditorScene::Scene->mSpawnPoint->setPosition(GameLogic::Game->mSpawnPos);
 #if USE_SHADOW
-  EditorScene::Scene->mLightPoint->setPosition(GameLogic::Game->mShadows->mOriginLightPos);
+  EditorScene::Scene->updateLightHelper();
 #endif
   EditorScene::Scene->mGradientCenterPoint->setPosition(GameLogic::Game->mGradientCenter);
 

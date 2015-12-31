@@ -88,6 +88,14 @@ bool EditorScene::init() {
   mLightPoint = Sprite::create("images/sun.png");
   addChild(mLightPoint, 100);
   mLightPoint->setPosition(300, 520);
+
+  mLightArraw = Sprite::create("images/arraw.png");
+  addChild(mLightArraw, 100);
+  mLightArraw->setPosition(35, 35);
+  mLightArraw->setScale(0.1f);
+  mLightArraw->setVisible(false);
+  mLightArraw->setOpacity(128);
+
 #if USE_SHADOW
   mGame->mShadows->mLightPos = mLightPoint->getPosition();
   mGame->mShadows->mOriginLightPos = mGame->mShadows->mLightPos;
@@ -515,6 +523,12 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
   if (keyCode == EventKeyboard::KeyCode::KEY_V) {
     mPressingV = true;
   }
+  if (keyCode == EventKeyboard::KeyCode::KEY_COMMA) {
+    mPressingComma = true;
+  }
+  if (keyCode == EventKeyboard::KeyCode::KEY_PERIOD) {
+    mPressingPeriod = true;
+  }
 
   if (keyCode == EventKeyboard::KeyCode::KEY_J) {
     group();
@@ -592,6 +606,14 @@ void EditorScene::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
     mPressingV = false;
   }
 
+  if (keyCode == EventKeyboard::KeyCode::KEY_COMMA) {
+    mPressingComma = false;
+  }
+
+  if (keyCode == EventKeyboard::KeyCode::KEY_PERIOD) {
+    mPressingPeriod = false;
+  }
+
   if (mGame->mGameMode) {
     if (keyCode == EventKeyboard::KeyCode::KEY_A) {
       mGame->mMoveLeft = false;
@@ -605,7 +627,7 @@ void EditorScene::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 void EditorScene::enableGame(bool val, bool force) {
   mGame->enableGame(val, force);
   mSpawnPoint->setVisible(!val);
-  mLightPoint->setVisible(!val);
+  updateLightHelper();
   mGradientCenterPoint->setVisible(!val);
 
   if (mBorderNode) {
@@ -644,6 +666,14 @@ void EditorScene::update(float dt) {
   updateGroupDrawNode();
   if (mBorderNode->isVisible()) {
     drawBorder();
+  }
+
+  if (!mGame->mGameMode && mPressingCtrl) {
+    if (mPressingComma || mPressingPeriod) {
+      mGame->mShadows->mLightDirDegree += dt * 100 * (mPressingComma ? 1 : -1);
+      mGame->mShadows->updateLightDir();
+      updateLightHelper();
+    }
   }
 }
 
@@ -863,6 +893,18 @@ void EditorScene::drawBorder() {
   mBorderNode->drawSegment(Vec2(right, top), Vec2(right, bottom), 1, Color4F::RED);
   mBorderNode->drawSegment(Vec2(left, top), Vec2(right, top), 1, Color4F::RED);
   mBorderNode->drawSegment(Vec2(left, bottom), Vec2(right, bottom), 1, Color4F::RED);
+}
+
+void EditorScene::updateLightHelper() {
+  if (mGame->mShadows->mLightType == ShadowManager::LIGHT_POINT) {
+    mLightPoint->setVisible(!mGame->mGameMode);
+    mLightArraw->setVisible(false);
+    mLightPoint->setPosition(GameLogic::Game->mShadows->mOriginLightPos);
+  } else if (mGame->mShadows->mLightType == ShadowManager::LIGHT_DIR) {
+    mLightPoint->setVisible(false);
+    mLightArraw->setVisible(!mGame->mGameMode);
+    mLightArraw->setRotation(mGame->mShadows->mLightDirDegree);
+  }
 }
 
 #endif

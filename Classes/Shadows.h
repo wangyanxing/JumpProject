@@ -29,6 +29,11 @@ public:
     SHADOW_LAYER_HERO = SHADOW_LAYER_1,
   };
 
+  enum LightType {
+    LIGHT_POINT,
+    LIGHT_DIR,
+  };
+
   struct ShadowEntry {
     bool noShadow{false};
     cocos2d::Vec2 pt1;
@@ -45,15 +50,23 @@ public:
 
   void update(float dt);
 
+  void updateLightDir();
+
   void updateBlock(BlockBase *block,
                    std::vector <cocos2d::V2F_C4B_T2F_Triangle> &triangles,
                    bool clipX = false);
 
   ShadowEntry getShadowEntry(const std::vector <cocos2d::Vec2> &pts, const cocos2d::Vec2 &lightPos);
 
+  LightType mLightType{LIGHT_POINT};
+
   cocos2d::Vec2 mLightPos;
 
   cocos2d::Vec2 mOriginLightPos;
+
+  float mLightDirDegree{ 45 };
+
+  cocos2d::Vec2 mLightDir;
 
   cocos2d::DrawNodeEx *mShadowDrawers[NUM_SHADOW_LAYERS];
 

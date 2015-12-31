@@ -15,7 +15,6 @@
 #include "Shake.h"
 #include "VisibleRect.h"
 #include "SpriteSoft.h"
-#include "LightBeam.h"
 #include "TimeEvent.h"
 #include "BlockRenderer.h"
 
@@ -535,9 +534,6 @@ void GameLogic::update(float dt) {
     updateGame(dt);
   }
 
-  for (auto l : mLightBeams) {
-    l->update(dt);
-  }
 #if USE_SHADOW
   mShadows->update(dt);
 #endif

@@ -156,10 +156,15 @@ void ShadowManager::updateBlock(BlockBase *block,
   Color4B colorBase = Color4B::BLACK;
   const float LENGTH = 1500;
 
-  Vec2 dir0 = entries.pt1 - lightPos;
-  dir0.normalize();
-  Vec2 dir1 = entries.pt2 - lightPos;
-  dir1.normalize();
+  Vec2 dir0, dir1;
+  if (mLightType == LIGHT_POINT) {
+    dir0 = entries.pt1 - lightPos;
+    dir0.normalize();
+    dir1 = entries.pt2 - lightPos;
+    dir1.normalize();
+  } else if (mLightType == LIGHT_DIR) {
+    dir0 = dir1 = mLightDir;
+  }
 
   Vec2 f0 = entries.pt1 + dir0 * LENGTH;
   Vec2 f1 = entries.pt2 + dir1 * LENGTH;
@@ -290,6 +295,11 @@ void ShadowManager::reset() {
   mMoving = false;
   mMoveTarget = 0;
   mMovingSpeed = 0;
+}
+
+void ShadowManager::updateLightDir() {
+  mLightDir = Vec2(1, 0);
+  mLightDir.rotate(Vec2::ZERO, MATH_DEG_TO_RAD(-mLightDirDegree));
 }
 
 #endif

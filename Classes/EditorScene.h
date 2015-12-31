@@ -73,6 +73,8 @@ public:
 
   void updateCamera();
 
+  void updateLightHelper();
+
   void enableGame(bool val, bool force = false);
 
   void setKind(int kind);
@@ -109,6 +111,10 @@ public:
 
   bool mPressingV{false};
 
+  bool mPressingComma{false};
+
+  bool mPressingPeriod{false};
+
   BlockBase *mMovingBlock{nullptr};
 
   cocos2d::Point mLastPoint;
@@ -118,6 +124,8 @@ public:
   cocos2d::Sprite *mSpawnPoint{nullptr};
 
   cocos2d::Sprite *mLightPoint{nullptr};
+
+  cocos2d::Sprite *mLightArraw{nullptr};
 
   cocos2d::Sprite *mGradientCenterPoint{nullptr};
 

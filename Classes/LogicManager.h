@@ -148,8 +148,6 @@ public:
 
   bool mRejectInput{false};
 
-  std::vector<LightBeam *> mLightBeams;
-
   bool mJumpFlag{false};
 
   cocos2d::Rect mBounds;
