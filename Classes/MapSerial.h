@@ -14,9 +14,7 @@
 class MapSerial {
 public:
 #if EDITOR_MODE
-
   static void saveMap();
-
 #endif
 
   static void saveMap(const char *file);
@@ -24,9 +22,7 @@ public:
   static void savePalette(const char *file);
 
 #if EDITOR_MODE
-
   static void loadMap(bool local = true);
-
 #endif
 
   static void loadMap(const char *file);
