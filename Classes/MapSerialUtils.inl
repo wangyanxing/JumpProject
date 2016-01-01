@@ -80,6 +80,10 @@ static const char *getLevelSuffix() {
   return suffix.c_str();
 }
 
+static bool floatEqual(float a, float b) {
+  return fabs(a - b) < FLT_EPSILON;
+}
+
 std::string colorStr(const Color3B &color) {
   char temp[100];
   sprintf(temp, "\"#%02X%02X%02X\"", color.r, color.g, color.b);

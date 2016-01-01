@@ -247,38 +247,67 @@ void MapSerial::saveMap(const char *file) {
     INDENT_3
     ss << "\"position\": " << vec2Str(b->mRestorePosition);
     RT_LINE
-    INDENT_3
-    ss << "\"pickable\": " << bool2Str(b->mCanPickup);
-    RT_LINE
-    INDENT_3
-    ss << "\"removable\": " << bool2Str(b->mCanDelete);
-    RT_LINE
+
+    if (!b->mCanPickup) {
+      INDENT_3
+      ss << "\"pickable\": " << bool2Str(b->mCanPickup);
+      RT_LINE
+    }
+    
+    if (!b->mCanDelete) {
+      INDENT_3
+      ss << "\"removable\": " << bool2Str(b->mCanDelete);
+      RT_LINE
+    }
+    
     if (b->mDisableMovement) {
       INDENT_3
       ss << "\"noMovement\": " << bool2Str(b->mDisableMovement);
       RT_LINE
     }
-    INDENT_3
-    ss << "\"rotatespeed\": " << b->mRotationSpeed;
-    RT_LINE
-    INDENT_3
-    ss << "\"shadowLength\": " << b->mShadowLength;
-    RT_LINE
-    INDENT_3
-    ss << "\"shadowEnable\": " << bool2Str(b->mCastShadow);
-    RT_LINE
-    INDENT_3
-    ss << "\"shadowLayer\": " << b->mShadowLayerID;
-    RT_LINE
-    INDENT_3
-    ss << "\"paletteIndex\": " << b->mPaletteIndex;
-    RT_LINE
-    INDENT_3
-    ss << "\"flipUV\": " << bool2Str(b->mUVFlipped);
-    RT_LINE
-    INDENT_3
-    ss << "\"textureName\": \"" << b->getRenderer()->TextureName << "\"";
-    RT_LINE
+    
+    if (b->mRotationSpeed != DEFAULT_ROTATE_SPEED) {
+      INDENT_3
+      ss << "\"rotatespeed\": " << b->mRotationSpeed;
+      RT_LINE
+    }
+    
+    if (!floatEqual(b->mShadowLength, DEFAULT_SHADOW_LENGTH)) {
+      INDENT_3
+      ss << "\"shadowLength\": " << b->mShadowLength;
+      RT_LINE
+    }
+    
+    if (!b->mCastShadow) {
+      INDENT_3
+      ss << "\"shadowEnable\": " << bool2Str(b->mCastShadow);
+      RT_LINE
+    }
+    
+    if (b->mShadowLayerID != 0) {
+      INDENT_3
+      ss << "\"shadowLayer\": " << b->mShadowLayerID;
+      RT_LINE
+    }
+    
+    if (b->mPaletteIndex != DEFAULT_PALETTE_INDEX) {
+      INDENT_3
+      ss << "\"paletteIndex\": " << b->mPaletteIndex;
+      RT_LINE
+    }
+    
+    if (b->mUVFlipped) {
+      INDENT_3
+      ss << "\"flipUV\": " << bool2Str(b->mUVFlipped);
+      RT_LINE
+    }
+    
+    if (b->getRenderer()->TextureName != DEFAULT_BLOCK_TEXTURE) {
+      INDENT_3
+      ss << "\"textureName\": \"" << b->getRenderer()->TextureName << "\"";
+      RT_LINE
+    }
+    
     if (!b->mUserData.empty()) {
       INDENT_3
       ss << "\"userData\": \"" << b->mUserData << "\"";
@@ -295,15 +324,17 @@ void MapSerial::saveMap(const char *file) {
       ss << "],\n";
     }
 
-    INDENT_3
-    ss << "\"initEvents\": [";
-    for (size_t i = 0; i < b->mInitialEvents.size(); i++) {
-      ss << "\"" + b->mInitialEvents[i] + "\"";
-      if (i != b->mInitialEvents.size() - 1) {
-        ss << ", ";
+    if (!b->mInitialEvents.empty()) {
+      INDENT_3
+      ss << "\"initEvents\": [";
+      for (size_t i = 0; i < b->mInitialEvents.size(); i++) {
+        ss << "\"" + b->mInitialEvents[i] + "\"";
+        if (i != b->mInitialEvents.size() - 1) {
+          ss << ", ";
+        }
       }
+      ss << "],\n";
     }
-    ss << "],\n";
 
     if (b->mKind == KIND_BUTTON) {
       INDENT_3
@@ -744,14 +775,14 @@ void MapSerial::loadMap(const char *filename) {
       bool pickable = true;
       bool noMovement = false;
       bool removable = true;
-      int rotSpeed = 0;
+      int rotSpeed = DEFAULT_ROTATE_SPEED;
       BlockKind kind = KIND_BLOCK;
-      std::string textureName = "images/saw3.png";
+      std::string textureName = DEFAULT_BLOCK_TEXTURE;
       std::string userData;
-      int paletteIndex = -1;
+      int paletteIndex = DEFAULT_PALETTE_INDEX;
       bool flipuv = false;
       std::string triggerEvent = "";
-      float shadowLeng = 100;
+      float shadowLeng = DEFAULT_SHADOW_LENGTH;
       bool shadowEnable = true;
       int shadowLayer = 0;
 
@@ -774,9 +805,9 @@ void MapSerial::loadMap(const char *filename) {
         removable = var["removable"].GetBool();
       }
 
-      if (var["pickable"].IsBool()) {
+      if (CHECK_BOOL(var, "pickable")) {
         pickable = var["pickable"].GetBool();
-      } SHOW_WARNING
+      }
       
       if (CHECK_BOOL(var, "noMovement")) {
         noMovement = var["noMovement"].GetBool();

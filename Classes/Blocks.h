@@ -131,7 +131,7 @@ public:
 
   int mShadowLayerID{0};
 
-  float mShadowLength{100};
+  float mShadowLength{DEFAULT_SHADOW_LENGTH};
 
   float mShadowFadeRatio{0.4};
 
@@ -141,7 +141,7 @@ public:
 
   int mZOrder{20};
 
-  int mPaletteIndex{-1};
+  int mPaletteIndex{DEFAULT_PALETTE_INDEX};
 
   cocos2d::Color3B mColor{cocos2d::Color3B::WHITE};
 
@@ -185,7 +185,7 @@ public:
 
   float mOpenCloseSpeed{100};
 
-  int mRotationSpeed{0};
+  int mRotationSpeed{DEFAULT_ROTATE_SPEED};
 
   bool mDownDirDoor{true};
 

@@ -71,4 +71,10 @@ enum FollowMode {
 #define DEATH_CIRCLE_IMAGE "images/saw3.png"
 #define EXIT_IMAGE "images/exit.png"
 
+// Block default attributes
+#define DEFAULT_SHADOW_LENGTH 100
+#define DEFAULT_ROTATE_SPEED 0
+#define DEFAULT_BLOCK_TEXTURE BLOCK_IMAGE
+#define DEFAULT_PALETTE_INDEX -1
+
 #endif /* defined(__JumpEdt__Defines__) */
