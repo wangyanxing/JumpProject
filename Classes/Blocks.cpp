@@ -140,6 +140,7 @@ void BlockBase::reset() {
   }
 
   mRenderer->setRotation(0);
+  mRenderer->setOpacity(255);
 
   callInitEvent();
 }
