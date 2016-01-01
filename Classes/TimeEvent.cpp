@@ -15,7 +15,7 @@ void TimeEvent::TimeEventPoint::trigger() {
   }
 
   for (auto it = mEvents.begin(); it != mEvents.end(); ++it) {
-    Events::callEvent(it->c_str(), nullptr);
+    Events::callSingleEvent(it->c_str(), nullptr);
   }
 }
 

@@ -619,7 +619,7 @@ void BlockBase::callTriggerEvent() {
   }
   mTriggerEventsCalled = true;
   for (size_t i = 0; i < mTriggerEvents.size(); ++i) {
-    Events::callEvent(mTriggerEvents[i].c_str(), this);
+    Events::callSingleEvent(mTriggerEvents[i].c_str(), this);
   }
 }
 
@@ -628,7 +628,7 @@ void BlockBase::callInitEvent() {
     return;
   }
   for (size_t i = 0; i < mInitialEvents.size(); ++i) {
-    Events::callEvent(mInitialEvents[i].c_str(), this);
+    Events::callSingleEvent(mInitialEvents[i].c_str(), this);
   }
 }
 

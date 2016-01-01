@@ -51,6 +51,19 @@ static void pushwarning() {
   CCLOGWARN("Invalid map file!");
 }
 
+static std::string toJsonArray(const std::vector<std::string> &array) {
+  std::ostringstream stream;
+  stream << "[";
+  for (size_t i = 0; i < array.size(); ++i) {
+    if (i != 0) {
+      stream << ',';
+    }
+    stream << '\"' << array[i] << '\"';
+  }
+  stream << "]";
+  return stream.str();
+}
+
 static const char *getLevelSuffix() {
   static std::string suffix;
   auto framesize = VisibleRect::getFrameSize();

@@ -60,11 +60,11 @@ public:
 
   BlockBase* mParent{ nullptr };
 
-  std::string mPushedEvent;
+  std::vector<std::string> mPushedEvents;
 
-  std::string mRestoredEvent;
+  std::vector<std::string> mRestoredEvents;
 
-  std::string mPushingEvent;
+  std::vector<std::string> mPushingEvents;
 
   bool mPushedEventCalled{ false };
 

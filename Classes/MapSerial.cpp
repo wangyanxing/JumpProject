@@ -309,17 +309,17 @@ void MapSerial::saveMap(const char *file) {
       RT_LINE
 
       INDENT_3
-      ss << "\"pushedEvent\": " << "\"" << b->mButton->mPushedEvent << "\"";
+      ss << "\"pushedEvent\": " << toJsonArray(b->mButton->mPushedEvents);
       RT_LINE
       INDENT_3
-      ss << "\"restoredEvent\": " << "\"" << b->mButton->mRestoredEvent << "\"";
+      ss << "\"restoredEvent\": " << toJsonArray(b->mButton->mRestoredEvents);
       RT_LINE
       INDENT_3
-      ss << "\"pushingEvent\": " << "\"" << b->mButton->mPushingEvent << "\"";
+      ss << "\"pushingEvent\": " << toJsonArray(b->mButton->mPushingEvents);
       RT_LINE
     }
 
-    // group
+    // Group
     auto ig = GameLogic::Game->mGroups.find(b);
     if (ig != GameLogic::Game->mGroups.end() && !ig->second.empty()) {
       INDENT_3
@@ -886,14 +886,40 @@ void MapSerial::loadMap(const char *filename) {
 #endif
         }
 
-        if (CHECK_STRING(var, "pushedEvent")) {
-          block->mButton->mPushedEvent = var["pushedEvent"].GetString();
+        if (var.HasMember("pushedEvent")) {
+          if (var["pushedEvent"].IsString()) {
+            block->mButton->mPushedEvents = {var["pushedEvent"].GetString()};
+          } else {
+            CC_ASSERT(var["pushedEvent"].IsArray());
+            auto size = var["pushedEvent"].Size();
+            for (auto j = 0; j < size; ++j) {
+              block->mButton->mPushedEvents.push_back(var["pushedEvent"][j].GetString());
+            }
+          }
         }
-        if (CHECK_STRING(var, "restoredEvent")) {
-          block->mButton->mRestoredEvent = var["restoredEvent"].GetString();
+        
+        if (var.HasMember("restoredEvent")) {
+          if (var["restoredEvent"].IsString()) {
+            block->mButton->mRestoredEvents = {var["restoredEvent"].GetString()};
+          } else {
+            CC_ASSERT(var["restoredEvent"].IsArray());
+            auto size = var["restoredEvent"].Size();
+            for (auto j = 0; j < size; ++j) {
+              block->mButton->mRestoredEvents.push_back(var["restoredEvent"][j].GetString());
+            }
+          }
         }
-        if (CHECK_STRING(var, "pushingEvent")) {
-          block->mButton->mPushingEvent = var["pushingEvent"].GetString();
+        
+        if (var.HasMember("pushingEvent")) {
+          if (var["pushingEvent"].IsString()) {
+            block->mButton->mPushingEvents = {var["pushingEvent"].GetString()};
+          } else {
+            CC_ASSERT(var["pushingEvent"].IsArray());
+            auto size = var["pushingEvent"].Size();
+            for (auto j = 0; j < size; ++j) {
+              block->mButton->mPushingEvents.push_back(var["pushingEvent"][j].GetString());
+            }
+          }
         }
       }
 

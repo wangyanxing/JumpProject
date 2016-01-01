@@ -13,7 +13,9 @@ class BlockBase;
 
 class Events {
 public:
-  static void callEvent(const char *event, BlockBase *block);
+  static void callEvents(std::vector<std::string>& events, BlockBase *caller);
+  
+  static void callSingleEvent(const char *event, BlockBase *caller);
 };
 
 #endif /* defined(__JumpEdt__Events__) */

@@ -99,7 +99,7 @@ void initEvents() {
     e.command = "exit";
 
     e.func = [&](const std::vector<Arg> &args, BlockBase *block) {
-        if (block->mTriggerEventContinueTime > 0.9f) {
+        if (block->mTriggerEventContinueTime > 0.4f) {
           GameLogic::Game->mWinFlag = true;
           block->mTriggerEventContinueTime = 0.0f;
         } else {
@@ -167,8 +167,8 @@ void initEvents() {
     Event e;
     e.command = "move";
     e.args = {
-      { "", false },    // ID
-      { "100", true },  // SPEED
+      { "", false },   // ID
+      { "100", true }, // SPEED
       { "100", true }, // DIR
     };
     e.func = [&](const std::vector<Arg>& args, BlockBase* block){
@@ -233,9 +233,51 @@ void initEvents() {
     };
     EventLists[e.command] = e;
   }
+  {
+    Event e;
+    e.command = "fade_in";
+    e.args = {
+      { "", false },   // ID
+      { "0.5", true }, // TIME
+    };
+    e.func = [&](const std::vector<Arg>& args, BlockBase* block){
+      auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
+      if (!targetBlock) {
+        CCLOGWARN("Bad ID: %d", args[0].getInt());
+        return;
+      }
+      targetBlock->getRenderer()->getNode()->runAction(FadeIn::create(args[1].getFloat()));
+    };
+    EventLists[e.command] = e;
+  }
+  {
+    Event e;
+    e.command = "fade_out";
+    e.args = {
+      { "", false },   // ID
+      { "0.5", true }, // TIME
+    };
+    e.func = [&](const std::vector<Arg>& args, BlockBase* block){
+      auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
+      if (!targetBlock) {
+        CCLOGWARN("Bad ID: %d", args[0].getInt());
+        return;
+      }
+      targetBlock->getRenderer()->getNode()->runAction(FadeOut::create(args[1].getFloat()));
+    };
+    EventLists[e.command] = e;
+  }
 }
 
-void Events::callEvent(const char *event, BlockBase *block = NULL) {
+void Events::callEvents(std::vector<std::string>& events, BlockBase *caller) {
+  for (auto& e : events) {
+    if (!e.empty()) {
+      callSingleEvent(e.c_str(), caller);
+    }
+  }
+}
+
+void Events::callSingleEvent(const char *event, BlockBase *caller = NULL) {
   initEvents();
 
   if (!event) {
@@ -276,6 +318,6 @@ void Events::callEvent(const char *event, BlockBase *block = NULL) {
   }
 
   // call
-  eit->second.func(args, block);
+  eit->second.func(args, caller);
 }
 
