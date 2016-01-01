@@ -15,7 +15,6 @@
 #include "BlockRenderer.h"
 
 namespace JE {
-
   struct Arg {
     Arg(const std::string &defaultVal, bool opt) : value(defaultVal), optional(opt) { }
 
@@ -52,12 +51,13 @@ namespace JE {
 
 static std::map<std::string, JE::Event> EventLists;
 
-void initEvents() {
-
+static void initEvents() {
   using JE::Event;
   using JE::Arg;
 
-  if (!EventLists.empty()) return;
+  if (!EventLists.empty()) {
+    return;
+  }
   {
     Event e;
     e.command = "open_door";
@@ -267,6 +267,28 @@ void initEvents() {
     };
     EventLists[e.command] = e;
   }
+  {
+    Event e;
+    e.command = "anim_up_down";
+    e.args = {
+      { "20", true },  // DISTANCE
+      { "0.3", true }, // MOVE TIME
+      { "1", true },   // STOP TIME
+    };
+    e.func = [&](const std::vector<Arg>& args, BlockBase* block) {
+      float moveTime = args[1].getFloat();
+      Vec2 delta(0, args[0].getFloat());
+      float stopTime = args[2].getFloat();
+      auto action = RepeatForever::create(Sequence::create(DelayTime::create(stopTime),
+                                                           MoveBy::create(moveTime, delta),
+                                                           MoveBy::create(moveTime, -delta),
+                                                           MoveBy::create(moveTime, delta),
+                                                           MoveBy::create(moveTime, -delta),
+                                                           NULL));
+      block->getRenderer()->getNode()->runAction(action);
+    };
+    EventLists[e.command] = e;
+  }
 }
 
 void Events::callEvents(std::vector<std::string>& events, BlockBase *caller) {
@@ -317,7 +339,7 @@ void Events::callSingleEvent(const char *event, BlockBase *caller = NULL) {
     args.push_back(arg);
   }
 
-  // call
+  // Call
   eit->second.func(args, caller);
 }
 

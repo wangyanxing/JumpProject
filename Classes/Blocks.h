@@ -172,6 +172,8 @@ public:
   bool mCanPickup{true};
 
   bool mCanDelete{true};
+  
+  bool mDisableMovement{false};
 
   int mID{0};
 
@@ -214,12 +216,6 @@ public:
   cocos2d::Vec2 mJumpVelocity{0, 0};
 
   bool mEnableGravity{false};
-
-  bool mEnableForceField{false};
-
-  float mForceFieldIntensity{30};
-
-  cocos2d::Vec2 mForceFieldVelocity{0, 0};
 
 #if EDITOR_MODE
   bool mShowIDLabel{false};

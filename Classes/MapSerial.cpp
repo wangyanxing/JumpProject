@@ -253,6 +253,11 @@ void MapSerial::saveMap(const char *file) {
     INDENT_3
     ss << "\"removable\": " << bool2Str(b->mCanDelete);
     RT_LINE
+    if (b->mDisableMovement) {
+      INDENT_3
+      ss << "\"noMovement\": " << bool2Str(b->mDisableMovement);
+      RT_LINE
+    }
     INDENT_3
     ss << "\"rotatespeed\": " << b->mRotationSpeed;
     RT_LINE
@@ -737,6 +742,7 @@ void MapSerial::loadMap(const char *filename) {
       Size size;
       Vec2 pos;
       bool pickable = true;
+      bool noMovement = false;
       bool removable = true;
       int rotSpeed = 0;
       BlockKind kind = KIND_BLOCK;
@@ -771,6 +777,10 @@ void MapSerial::loadMap(const char *filename) {
       if (var["pickable"].IsBool()) {
         pickable = var["pickable"].GetBool();
       } SHOW_WARNING
+      
+      if (CHECK_BOOL(var, "noMovement")) {
+        noMovement = var["noMovement"].GetBool();
+      }
 
       if (CHECK_NUMBER(var, "rotatespeed")) {
         rotSpeed = var["rotatespeed"].GetInt();
@@ -858,6 +868,7 @@ void MapSerial::loadMap(const char *filename) {
       block->getRenderer()->setTexture(textureName);
       block->mCanPickup = pickable;
       block->mCanDelete = id > 4 ? removable : false;
+      block->mDisableMovement = noMovement;
       block->mRotationSpeed = rotSpeed;
       block->mShadowLength = shadowLeng;
       block->mCastShadow = shadowEnable;

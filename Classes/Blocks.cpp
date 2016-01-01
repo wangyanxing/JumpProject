@@ -141,6 +141,7 @@ void BlockBase::reset() {
 
   mRenderer->setRotation(0);
   mRenderer->setOpacity(255);
+  mRenderer->getNode()->stopAllActions();
 
   callInitEvent();
 }
@@ -206,6 +207,9 @@ void BlockBase::postUpdate(float dt) {
 }
 
 void BlockBase::updateMovement(float dt) {
+  if (mDisableMovement) {
+    return;
+  }
   auto lastpos = mRenderer->getPosition();
   auto newpos = mKind == KIND_PUSHABLE ? lastpos : mRestorePosition + mMovementToRestore;
 

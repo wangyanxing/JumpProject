@@ -29,9 +29,6 @@ void Hero::updateMovement(float dt) {
   mVelocity += mJumpVelocity;
   mJumpVelocity.set(0, 0);
 
-  mVelocity += mForceFieldVelocity;
-  mForceFieldVelocity.set(0, 0);
-
   // Linear damping
   float damping = 5;
   mVelocity.x *= std::min(std::max(1.0f - dt * damping, 0.0f), 1.0f);
@@ -56,5 +53,4 @@ void Hero::initPhysics() {
   getRenderer()->setPhysicsBody(pbody);
 
   mEnableGravity = true;
-  mEnableForceField = true;
 }
