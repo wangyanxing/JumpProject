@@ -640,7 +640,7 @@ BlockBase *GameLogic::createBlock(const cocos2d::Vec2 &pos, BlockKind kind) {
 }
 
 void GameLogic::clearStars() {
-#if 0
+#if EDITOR_MODE
   for(auto f : mStarNodes) {
     f->removeFromParent();
   }
@@ -650,9 +650,11 @@ void GameLogic::clearStars() {
 }
 
 void GameLogic::clearFx() {
+#if EDITOR_MODE
   for (auto f : mFxNodes) {
     f->removeFromParent();
   }
+#endif
   mFxNodes.clear();
   mFxList.clear();
 }

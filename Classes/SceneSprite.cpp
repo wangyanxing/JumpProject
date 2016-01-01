@@ -21,7 +21,9 @@ void SceneSprite::create() {
 
 void SceneSprite::clean() {
   if (mSprite) {
+#if EDITOR_MODE
     mSprite->removeFromParent();
+#endif
     mSprite = nullptr;
   }
 }

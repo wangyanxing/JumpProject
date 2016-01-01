@@ -1,0 +1,419 @@
+{
+  "author": "redkaras",
+  "time": "Mon Oct 20 15:16:26 2014",
+  "backgroundColor": "#1EB5C7",
+  "heroColor": "#000000",
+  "normalBlockColor": "#FFFFFF",
+  "deathBlockColor": "#000000",
+  "deathCircleColor": "#000000",
+  "buttonColor": "#FEE132",
+  "pushableBlockColor": "#DC96A8",
+  "spawnPosition": "250,474",
+  "blocks": [ 
+    { 
+      "id": 1,
+      "size": "960,20",
+      "position": "480,10",
+      "pickable": false,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 2,
+      "size": "960,20",
+      "position": "480,529.993",
+      "pickable": false,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 3,
+      "size": "20,539.993",
+      "position": "10,269.997",
+      "pickable": false,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 4,
+      "size": "20,539.993",
+      "position": "950,269.997",
+      "pickable": false,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 5,
+      "size": "90,430",
+      "position": "225,235",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 6,
+      "size": "60,45",
+      "position": "49.9896,100",
+      "pickable": true,
+      "pathSpeed": 200,
+      "pingpong": false,
+      "pause": false,
+      "pathes": [ 
+        { 
+          "position": "-10,100",
+          "waittime": 1
+        },
+        { 
+          "position": "50,100",
+          "waittime": 3
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 7,
+      "size": "60,45",
+      "position": "49.9876,200",
+      "pickable": true,
+      "pathSpeed": 200,
+      "pingpong": false,
+      "pause": false,
+      "pathes": [ 
+        { 
+          "position": "-10,200",
+          "waittime": 2
+        },
+        { 
+          "position": "50,200",
+          "waittime": 2
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 8,
+      "size": "60,45",
+      "position": "49.9888,300",
+      "pickable": true,
+      "pathSpeed": 200,
+      "pingpong": false,
+      "pause": false,
+      "pathes": [ 
+        { 
+          "position": "-10,300",
+          "waittime": 3
+        },
+        { 
+          "position": "50,300",
+          "waittime": 1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 9,
+      "size": "60,45",
+      "position": "209.991,368",
+      "pickable": true,
+      "pathSpeed": 180,
+      "pingpong": false,
+      "pause": false,
+      "pathes": [ 
+        { 
+          "position": "210,368",
+          "waittime": 3.2
+        },
+        { 
+          "position": "150,368",
+          "waittime": 0.8
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 11,
+      "size": "90,360",
+      "position": "482,271",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 12,
+      "size": "15,75",
+      "position": "481,58",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 13,
+      "size": "60,30",
+      "position": "254.975,346",
+      "pickable": true,
+      "pathSpeed": 60,
+      "pingpong": false,
+      "pause": false,
+      "pathes": [ 
+        { 
+          "position": "300,346",
+          "waittime": 1
+        },
+        { 
+          "position": "240,346",
+          "waittime": 1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 14,
+      "size": "90,430",
+      "position": "735,305",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 15,
+      "size": "60,30",
+      "position": "810,435",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 16,
+      "size": "60,30",
+      "position": "421.975,346",
+      "pickable": true,
+      "pathSpeed": 60,
+      "pingpong": false,
+      "pause": false,
+      "pathes": [ 
+        { 
+          "position": "467,346",
+          "waittime": 1
+        },
+        { 
+          "position": "407,346",
+          "waittime": 1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 19,
+      "size": "60,30",
+      "position": "285.025,226",
+      "pickable": true,
+      "pathSpeed": 60,
+      "pingpong": true,
+      "pause": false,
+      "pathes": [ 
+        { 
+          "position": "240,226",
+          "waittime": 1
+        },
+        { 
+          "position": "300,226",
+          "waittime": 1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 20,
+      "size": "60,30",
+      "position": "452.025,226",
+      "pickable": true,
+      "pathSpeed": 60,
+      "pingpong": true,
+      "pause": false,
+      "pathes": [ 
+        { 
+          "position": "407,226",
+          "waittime": 1
+        },
+        { 
+          "position": "467,226",
+          "waittime": 1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 21,
+      "size": "60,30",
+      "position": "421.975,106",
+      "pickable": true,
+      "pathSpeed": 60,
+      "pingpong": true,
+      "pause": false,
+      "pathes": [ 
+        { 
+          "position": "467,106",
+          "waittime": 1
+        },
+        { 
+          "position": "407,106",
+          "waittime": 1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 22,
+      "size": "60,30",
+      "position": "254.975,106",
+      "pickable": true,
+      "pathSpeed": 60,
+      "pingpong": true,
+      "pause": false,
+      "pathes": [ 
+        { 
+          "position": "300,106",
+          "waittime": 1
+        },
+        { 
+          "position": "240,106",
+          "waittime": 1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 23,
+      "size": "35,35",
+      "position": "254.975,286",
+      "pickable": true,
+      "pathSpeed": 60,
+      "pingpong": true,
+      "pause": false,
+      "pathes": [ 
+        { 
+          "position": "300,286",
+          "waittime": 1
+        },
+        { 
+          "position": "240,286",
+          "waittime": 1
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 24,
+      "size": "35,35",
+      "position": "421.975,285",
+      "pickable": true,
+      "pathSpeed": 60,
+      "pingpong": true,
+      "pause": false,
+      "pathes": [ 
+        { 
+          "position": "467,285",
+          "waittime": 1
+        },
+        { 
+          "position": "407,285",
+          "waittime": 1
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 25,
+      "size": "35,35",
+      "position": "254.975,165",
+      "pickable": true,
+      "pathSpeed": 60,
+      "pingpong": true,
+      "pause": false,
+      "pathes": [ 
+        { 
+          "position": "300,165",
+          "waittime": 1
+        },
+        { 
+          "position": "240,165",
+          "waittime": 1
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 26,
+      "size": "35,35",
+      "position": "419.975,165",
+      "pickable": true,
+      "pathSpeed": 60,
+      "pingpong": true,
+      "pause": false,
+      "pathes": [ 
+        { 
+          "position": "465,165",
+          "waittime": 1
+        },
+        { 
+          "position": "405,165",
+          "waittime": 1
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    },
+    { 
+      "id": 27,
+      "size": "60,30",
+      "position": "660,256",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 28,
+      "size": "60,30",
+      "position": "660,136",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 29,
+      "size": "60,30",
+      "position": "660,376",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 30,
+      "size": "60,30",
+      "position": "810,220",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 31,
+      "size": "60,30",
+      "position": "910,105",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 32,
+      "size": "60,30",
+      "position": "910,326",
+      "pickable": true,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 33,
+      "size": "35,35",
+      "position": "356,330.945",
+      "pickable": true,
+      "pathSpeed": 100,
+      "pingpong": false,
+      "pause": false,
+      "pathes": [ 
+        { 
+          "position": "356,306",
+          "waittime": -1
+        },
+        { 
+          "position": "356,406",
+          "waittime": -1
+        }
+      ],
+      "kind": "DEATH_CIRCLE"
+    }
+  ]
+}

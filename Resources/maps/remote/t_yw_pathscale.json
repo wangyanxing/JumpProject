@@ -1,0 +1,160 @@
+{
+  "author": "karas",
+  "time": "Tue Oct 21 09:42:36 2014",
+  "backgroundColor": "#1EB5C7",
+  "heroColor": "#000000",
+  "normalBlockColor": "#FFFFFF",
+  "deathBlockColor": "#000000",
+  "deathCircleColor": "#000000",
+  "buttonColor": "#FEE132",
+  "pushableBlockColor": "#DC96A8",
+  "spawnPosition": "119,31",
+  "blocks": [ 
+    { 
+      "id": 1,
+      "size": "960,20",
+      "position": "480,10",
+      "pickable": false,
+      "rotatespeed": 0,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 2,
+      "size": "960,20",
+      "position": "480,529.993",
+      "pickable": false,
+      "rotatespeed": 0,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 3,
+      "size": "20,539.993",
+      "position": "10,269.997",
+      "pickable": false,
+      "rotatespeed": 0,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 4,
+      "size": "20,539.993",
+      "position": "950,269.997",
+      "pickable": false,
+      "rotatespeed": 0,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 7,
+      "size": "25,71",
+      "position": "386.391,97.4141",
+      "pickable": true,
+      "rotatespeed": 0,
+      "groupFollowMode": "DOWN",
+      "groupMembers": [9],
+      "pathSpeed": 50,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "386.391,97.4141",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        },
+        { 
+          "position": "386.391,153.414",
+          "width": 1,
+          "height": 0,
+          "waittime": -1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 8,
+      "size": "380,15",
+      "position": "388.102,138.754",
+      "pickable": true,
+      "rotatespeed": 0,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 9,
+      "size": "20,10",
+      "position": "386.68,56.346",
+      "pickable": true,
+      "rotatespeed": 0,
+      "kind": "DEATH"
+    },
+    { 
+      "id": 11,
+      "size": "17.8953,100",
+      "position": "724.316,67.9102",
+      "pickable": true,
+      "rotatespeed": 0,
+      "groupFollowMode": "LEFT",
+      "groupMembers": [14],
+      "pathSpeed": 50,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "724.316,67.9102",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        },
+        { 
+          "position": "761.316,67.9102",
+          "width": 0,
+          "height": 1,
+          "waittime": -1
+        }
+      ],
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 12,
+      "size": "10,140",
+      "position": "764.043,83.2109",
+      "pickable": true,
+      "rotatespeed": 0,
+      "kind": "BLOCK"
+    },
+    { 
+      "id": 14,
+      "size": "15,100",
+      "position": "710.575,67.9102",
+      "pickable": true,
+      "rotatespeed": 0,
+      "kind": "DEATH"
+    },
+    { 
+      "id": 15,
+      "size": "100,165",
+      "position": "489,369",
+      "pickable": true,
+      "rotatespeed": 0,
+      "pathSpeed": 50,
+      "pingpong": true,
+      "pause": false,
+      "pathWaitTime": -1,
+      "pathes": [ 
+        { 
+          "position": "489,369",
+          "width": 1,
+          "height": 1,
+          "waittime": -1
+        },
+        { 
+          "position": "489,289",
+          "width": 1,
+          "height": 0,
+          "waittime": -1
+        }
+      ],
+      "kind": "BLOCK"
+    }
+  ]
+}
