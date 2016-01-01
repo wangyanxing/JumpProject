@@ -26,6 +26,8 @@ public:
 #endif
 
   static void loadMap(const char *file);
+  
+  static void loadPalette(const char *file);
 
   static void loadLastEdit();
 

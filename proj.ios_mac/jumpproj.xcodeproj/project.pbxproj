@@ -52,6 +52,8 @@
 		B52188241C34F08300E04587 /* SceneSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B52188211C34F08300E04587 /* SceneSprite.cpp */; };
 		B52188261C34F37400E04587 /* SceneSpriteSerial.inl in Resources */ = {isa = PBXBuildFile; fileRef = B52188251C34F37400E04587 /* SceneSpriteSerial.inl */; };
 		B52188271C34F37400E04587 /* SceneSpriteSerial.inl in Resources */ = {isa = PBXBuildFile; fileRef = B52188251C34F37400E04587 /* SceneSpriteSerial.inl */; };
+		B52188291C37439600E04587 /* PaletteSerial.inl in Resources */ = {isa = PBXBuildFile; fileRef = B52188281C37439600E04587 /* PaletteSerial.inl */; };
+		B521882A1C37439600E04587 /* PaletteSerial.inl in Resources */ = {isa = PBXBuildFile; fileRef = B52188281C37439600E04587 /* PaletteSerial.inl */; };
 		B5A55AA71C2B8B7200E02C60 /* ControlPad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A55AA51C2B8B7200E02C60 /* ControlPad.cpp */; };
 		B5A55AA81C2B8B7200E02C60 /* ControlPad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A55AA51C2B8B7200E02C60 /* ControlPad.cpp */; };
 		BC3CE9FB1C1B86B400738B33 /* Blocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C01C1B86B400738B33 /* Blocks.cpp */; };
@@ -218,6 +220,7 @@
 		B52188211C34F08300E04587 /* SceneSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneSprite.cpp; sourceTree = "<group>"; };
 		B52188221C34F08300E04587 /* SceneSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneSprite.h; sourceTree = "<group>"; };
 		B52188251C34F37400E04587 /* SceneSpriteSerial.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SceneSpriteSerial.inl; sourceTree = "<group>"; };
+		B52188281C37439600E04587 /* PaletteSerial.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PaletteSerial.inl; sourceTree = "<group>"; };
 		B5A55AA51C2B8B7200E02C60 /* ControlPad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControlPad.cpp; sourceTree = "<group>"; };
 		B5A55AA61C2B8B7200E02C60 /* ControlPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlPad.h; sourceTree = "<group>"; };
 		B5A55AA91C2B8C6F00E02C60 /* MapSerialUtils.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MapSerialUtils.inl; sourceTree = "<group>"; };
@@ -499,6 +502,7 @@
 				B52188211C34F08300E04587 /* SceneSprite.cpp */,
 				B52188221C34F08300E04587 /* SceneSprite.h */,
 				B52188251C34F37400E04587 /* SceneSpriteSerial.inl */,
+				B52188281C37439600E04587 /* PaletteSerial.inl */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -666,6 +670,7 @@
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
+				B52188291C37439600E04587 /* PaletteSerial.inl in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
 				BC3CEA451C1B879100738B33 /* fx in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
@@ -690,6 +695,7 @@
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
 				BC3CEA421C1B879100738B33 /* extensions in Resources */,
 				BC3CEA461C1B879100738B33 /* fx in Resources */,
+				B521882A1C37439600E04587 /* PaletteSerial.inl in Resources */,
 				BC3CEA4A1C1B879100738B33 /* maps in Resources */,
 				BC3CEA481C1B879100738B33 /* images in Resources */,
 			);
