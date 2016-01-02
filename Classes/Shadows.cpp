@@ -15,9 +15,7 @@
 #include "BlockRenderer.h"
 
 #if EDITOR_MODE
-
 # include "EditorScene.h"
-
 #else
 # include "GameScene.h"
 #endif

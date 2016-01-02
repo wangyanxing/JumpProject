@@ -6,7 +6,6 @@
 //
 //
 
-
 void MapSerial::saveMap(const char *file) {
   time_t rawtime;
   struct tm *ptm;
@@ -16,7 +15,6 @@ void MapSerial::saveMap(const char *file) {
   timestr.resize(timestr.size() - 1);
   
   std::string author = "unknown";
-  
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
   TCHAR username[UNLEN + 1];
   DWORD size = UNLEN + 1;

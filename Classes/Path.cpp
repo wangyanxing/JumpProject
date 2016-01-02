@@ -18,7 +18,7 @@ Path::Path() {
   mSegmentNode = cocos2d::DrawNode::create();
   mHelperNode->addChild(mSegmentNode, 90);
   mHelperNode->setCameraMask((unsigned short) cocos2d::CameraFlag::USER2);
-  EditorScene::Scene->addChild(mHelperNode, 25);
+  EditorScene::Scene->addChild(mHelperNode, ZORDER_EDT_PATH_HELPER);
 #endif
 }
 

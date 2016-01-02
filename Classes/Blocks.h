@@ -139,7 +139,7 @@ public:
 
   BlockKind mKind{KIND_MAX};
 
-  int mZOrder{20};
+  int mZOrder{ZORDER_BLOCK};
 
   int mPaletteIndex{DEFAULT_PALETTE_INDEX};
 

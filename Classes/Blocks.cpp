@@ -335,14 +335,13 @@ void BlockBase::setVisible(bool val) {
 }
 
 #if EDITOR_MODE
-
 void BlockBase::initIDLabel() {
   char buffer[10];
   sprintf(buffer, "%d", mID);
   mIDLabel = LabelAtlas::create(buffer, "images/numbers.png", 37, 60, '0');
   mIDLabel->setScale(0.3);
   auto size = mIDLabel->getBoundingBox().size;
-  EditorScene::Scene->addChild(mIDLabel, 800);
+  EditorScene::Scene->addChild(mIDLabel, ZORDER_EDT_ID_LABEL);
   mIDLabel->setPosition(mRenderer->getPosition() - Vec2(size.width / 2, size.height / 2));
   mShowIDLabel = EditorScene::Scene->mShowGrid;
   mIDLabel->setVisible(mShowIDLabel);

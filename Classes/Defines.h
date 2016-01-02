@@ -53,9 +53,6 @@ enum FollowMode {
 
 #define UI_LAYER_HIGHT 100
 
-#define ZORDER_SHADOW_1 2
-#define ZORDER_SHADOW_2 3
-
 #define BORDER_BLOCK_LEFT 3
 #define BORDER_BLOCK_RIGHT 4
 #define BORDER_BLOCK_TOP 2
@@ -63,7 +60,6 @@ enum FollowMode {
 #define BORDER_FRAME_SIZE 10
 
 #define EDT_UI_YBIAS (VisibleRect::getFrameSize().height - UI_LAYER_HIGHT)
-
 
 // Art resource
 #define BLOCK_IMAGE "images/rect.png"
@@ -76,5 +72,18 @@ enum FollowMode {
 #define DEFAULT_ROTATE_SPEED 0
 #define DEFAULT_BLOCK_TEXTURE BLOCK_IMAGE
 #define DEFAULT_PALETTE_INDEX -1
+
+// Z order
+#define ZORDER_BACK 0
+#define ZORDER_SHADOW_1 2
+#define ZORDER_SHADOW_2 3
+#define ZORDER_PARTICLE 15
+#define ZORDER_PARTICLE_STAR 16
+#define ZORDER_DIE_FX 18
+#define ZORDER_BLOCK 20
+
+#define ZORDER_EDT_PATH_HELPER 30
+#define ZORDER_EDT_BUTTON_HELPER 35
+#define ZORDER_EDT_ID_LABEL 40
 
 #endif /* defined(__JumpEdt__Defines__) */

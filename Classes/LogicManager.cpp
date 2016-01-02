@@ -85,7 +85,7 @@ GameLogic::GameLogic(cocos2d::Layer *parent) {
 #else
   mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(30,181,199));
 #endif
-  mParentLayer->addChild(mBack, 0);
+  mParentLayer->addChild(mBack, ZORDER_BACK);
 
 #if EDITOR_MODE
   createFixedBlocks();
@@ -117,7 +117,7 @@ Node *GameLogic::createParticle(const Vec2 &pos) {
   parent->setPosition(pos);
 
   parent->setCameraMask((unsigned short) CameraFlag::USER2);
-  mParentLayer->addChild(parent, 15);
+  mParentLayer->addChild(parent, ZORDER_PARTICLE_STAR);
   return parent;
 }
 
@@ -459,7 +459,7 @@ void GameLogic::updateGame(float dt) {
     batch0->addChild(m_emitter0);
     batch0->setPosition(mHero->getPosition());
     batch0->setCameraMask((unsigned short) CameraFlag::USER2);
-    mParentLayer->addChild(batch0, 15, DIE_FX_TAG);
+    mParentLayer->addChild(batch0, ZORDER_DIE_FX, DIE_FX_TAG);
 
     mRejectInput = true;
     mHero->getRenderer()->getNode()->runAction(Sequence::create(ScaleTo::create(0.2, 0.1, 0.1),
@@ -717,7 +717,7 @@ void GameLogic::loadFxFromList() {
     ParticleSystem *ps = ParticleSystemQuad::create(i);
     ParticleBatchNode *batch = ParticleBatchNode::createWithTexture(ps->getTexture());
     batch->addChild(ps);
-    mParentLayer->addChild(batch, 5);
+    mParentLayer->addChild(batch, ZORDER_PARTICLE);
     batch->setCameraMask((unsigned short) CameraFlag::USER2);
     mFxNodes.push_back(batch);
   }
