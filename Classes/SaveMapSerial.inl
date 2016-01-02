@@ -183,6 +183,12 @@ void MapSerial::saveMap(const char *file) {
       RT_LINE
     }
     
+    if (b->mPreciseTrigger) {
+      INDENT_3
+      ss << "\"preciseTrigger\": " << bool2Str(b->mPreciseTrigger);
+      RT_LINE
+    }
+    
     if (b->mRotationSpeed != DEFAULT_ROTATE_SPEED) {
       INDENT_3
       ss << "\"rotatespeed\": " << b->mRotationSpeed;

@@ -84,6 +84,6 @@ enum FollowMode {
 
 #define ZORDER_EDT_PATH_HELPER 30
 #define ZORDER_EDT_BUTTON_HELPER 35
-#define ZORDER_EDT_ID_LABEL 40
+#define ZORDER_EDT_ID_LABEL 100
 
 #endif /* defined(__JumpEdt__Defines__) */

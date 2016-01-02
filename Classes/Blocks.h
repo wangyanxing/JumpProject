@@ -154,7 +154,7 @@ public:
   Button *mButton{nullptr};
 
   cocos2d::Vec2 mMovementThisFrame{0, 0};
-
+  
   cocos2d::Vec2 mMovementToRestore{0, 0};
 
   cocos2d::Vec2 mUpSideMovement{0, 0};
@@ -174,6 +174,8 @@ public:
   bool mCanDelete{true};
   
   bool mDisableMovement{false};
+  
+  bool mPreciseTrigger{false};
 
   int mID{0};
 
@@ -207,10 +209,6 @@ public:
 
   bool mTriggerEventsCalled{false};
 
-  bool mHeroOpacityChanged{false};
-
-  float mTriggerEventContinueTime{0.0};
-
   cocos2d::Vec2 mVelocity{0, 0};
 
   cocos2d::Vec2 mJumpVelocity{0, 0};
@@ -226,6 +224,8 @@ public:
 
   cocos2d::LabelAtlas *mIDLabel{nullptr};
 #endif
+  
+  bool mOnPlatform{false};
 
 protected:
   virtual void create(const cocos2d::Point &pt, const cocos2d::Size &size);

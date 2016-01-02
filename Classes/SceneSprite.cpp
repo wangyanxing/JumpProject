@@ -8,6 +8,7 @@
 
 #include "SceneSprite.h"
 #include "GameUtils.h"
+#include "Defines.h"
 
 USING_NS_CC;
 

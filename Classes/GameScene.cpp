@@ -103,9 +103,7 @@ bool GameScene::init() {
 
   mCamera = Camera::create();
 
-  if (GameLogic::Game) {
-    delete GameLogic::Game;
-  }
+  CC_SAFE_DELETE(GameLogic::Game);
   mGame = new GameLogic(this);
   mGame->mWinGameEvent = [this] { onWinGame(); };
 

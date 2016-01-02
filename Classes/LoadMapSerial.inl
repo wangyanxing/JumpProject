@@ -202,6 +202,7 @@ void MapSerial::loadMap(const char *filename) {
       bool pickable = true;
       bool noMovement = false;
       bool removable = true;
+      bool preciseTrigger = false;
       int rotSpeed = DEFAULT_ROTATE_SPEED;
       BlockKind kind = KIND_BLOCK;
       std::string textureName = DEFAULT_BLOCK_TEXTURE;
@@ -238,6 +239,10 @@ void MapSerial::loadMap(const char *filename) {
       
       if (CHECK_BOOL(var, "noMovement")) {
         noMovement = var["noMovement"].GetBool();
+      }
+      
+      if (CHECK_BOOL(var, "preciseTrigger")) {
+        preciseTrigger = var["preciseTrigger"].GetBool();
       }
       
       if (CHECK_NUMBER(var, "rotatespeed")) {
@@ -327,6 +332,7 @@ void MapSerial::loadMap(const char *filename) {
       block->mCanPickup = pickable;
       block->mCanDelete = id > 4 ? removable : false;
       block->mDisableMovement = noMovement;
+      block->mPreciseTrigger = preciseTrigger;
       block->mRotationSpeed = rotSpeed;
       block->mShadowLength = shadowLeng;
       block->mCastShadow = shadowEnable;

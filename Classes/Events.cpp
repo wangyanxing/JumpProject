@@ -99,14 +99,7 @@ static void initEvents() {
     e.command = "exit";
 
     e.func = [&](const std::vector<Arg> &args, BlockBase *block) {
-        if (block->mTriggerEventContinueTime > 0.4f) {
-          GameLogic::Game->mWinFlag = true;
-          block->mTriggerEventContinueTime = 0.0f;
-        } else {
-          GameLogic::Game->mHero->getRenderer()->setOpacity(
-              255.0f * (1.0f - block->mTriggerEventContinueTime) / 1.0f);
-          block->mHeroOpacityChanged = true;
-        }
+        GameLogic::Game->mWinFlag = true;
     };
     EventLists[e.command] = e;
   }

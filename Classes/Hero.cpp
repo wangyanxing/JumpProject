@@ -34,7 +34,8 @@ void Hero::updateMovement(float dt) {
   mVelocity.x *= std::min(std::max(1.0f - dt * damping, 0.0f), 1.0f);
 
   auto lastpos = getRenderer()->getPosition() + mVelocity * dt + linkMove;
-  getRenderer()->setPosition(lastpos);
+  mMovementThisFrame = mRenderer->getPosition() - lastpos;
+  mRenderer->setPosition(lastpos);
 }
 
 void Hero::initPhysics() {

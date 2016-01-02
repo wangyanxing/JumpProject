@@ -84,6 +84,7 @@ bool EditorScene::init() {
   _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
   mGame = new GameLogic(this);
+  mGame->mWinGameEvent = [this] { enableGame(false); };
 
   mLightPoint = Sprite::create("images/sun.png");
   addChild(mLightPoint, 100);

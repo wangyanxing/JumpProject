@@ -203,7 +203,15 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact &contact,
 
   if (otherBlock->mKind == KIND_DEATH || otherBlock->mKind == KIND_DEATH_CIRCLE) {
     if (thisBlock == mHero) {
-      otherBlock->callTriggerEvent();
+      if (otherBlock->mPreciseTrigger) {
+        float disX = fabs(thisBlock->getPosition().x - otherBlock->getPosition().x);
+        float disY = fabs(thisBlock->getPosition().y - otherBlock->getPosition().y);
+        if (disX < 10 && disY < 12) {
+          otherBlock->callTriggerEvent();
+        }
+      } else {
+        otherBlock->callTriggerEvent();
+      }
     }
     return false;
   }
@@ -425,6 +433,9 @@ void GameLogic::jump() {
 }
 
 void GameLogic::win() {
+#if EDITOR_MODE
+  CCLOG("Win event triggered");
+#endif
   mWinFlag = false;
   if (mWinGameEvent) {
     mWinGameEvent();

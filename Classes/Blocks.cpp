@@ -215,7 +215,7 @@ void BlockBase::updateMovement(float dt) {
 
   newpos.y += mVelocity.y * dt;
   newpos.x += mVelocity.x * dt;
-
+  
   mRenderer->setPosition(newpos);
   mMovementThisFrame = mRenderer->getPosition() - lastpos;
 }
@@ -306,14 +306,7 @@ void BlockBase::update(float dt) {
 
   // Event continue time
   if (mTriggerEventsCalled) {
-    mTriggerEventContinueTime += dt;
     mTriggerEventsCalled = false;
-  } else {
-    mTriggerEventContinueTime = 0.0f;
-    if (mHeroOpacityChanged) {
-      GameLogic::Game->mHero->getRenderer()->setOpacity(255);
-      mHeroOpacityChanged = false;
-    }
   }
 
 #if EDITOR_MODE
