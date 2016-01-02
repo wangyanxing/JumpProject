@@ -17,6 +17,7 @@
 #include "SpriteSoft.h"
 #include "TimeEvent.h"
 #include "BlockRenderer.h"
+#include "Palette.h"
 
 #if EDITOR_MODE
 #   include "EditorScene.h"
@@ -202,11 +203,11 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact &contact,
   Size pushSize = pushObject == mHero ? mHero->mRestoreSize : pushObject->getSize();
 
   if (otherBlock->mKind == KIND_DEATH || otherBlock->mKind == KIND_DEATH_CIRCLE) {
-    if (thisBlock == mHero) {
+    if (thisBlock == mHero && !mWinFlag) {
       if (otherBlock->mPreciseTrigger) {
         float disX = fabs(thisBlock->getPosition().x - otherBlock->getPosition().x);
         float disY = fabs(thisBlock->getPosition().y - otherBlock->getPosition().y);
-        if (disX < 10 && disY < 12) {
+        if (disX < 10 && disY < 18) {
           otherBlock->callTriggerEvent();
         }
       } else {
@@ -436,10 +437,7 @@ void GameLogic::win() {
 #if EDITOR_MODE
   CCLOG("Win event triggered");
 #endif
-  mWinFlag = false;
-  if (mWinGameEvent) {
-    mWinGameEvent();
-  }
+  showWinGame();
 }
 
 void GameLogic::die() {
@@ -779,4 +777,26 @@ void GameLogic::restoreBackgroundPos() {
     EditorScene::Scene->mGridNode->setPosition(0, 0);
   }
 #endif
+}
+
+void GameLogic::showWinGame() {
+  float screenHeight = VisibleRect::getVisibleRect().size.height;
+  if (mCurtain) {
+    mCurtain->setVisible(true);
+  } else {
+    mCurtain = DrawNode::create();
+    auto color = Palette::getInstance()->getDefaultBlockColors(KIND_BLOCK);
+    mCurtain->drawSolidRect(Vec2(0, -screenHeight),
+                            Vec2(VisibleRect::right().x, 0), Color4F(color));
+    mCurtain->setCameraMask((unsigned short) CameraFlag::USER2);
+    mParentLayer->addChild(mCurtain, ZORDER_CURTAIN);
+  }
+  mGameMode = false;
+  GAME_CAMERA->runAction(Sequence::create(MoveBy::create(0.8f, Vec2(0, -screenHeight)),
+                                          CallFunc::create([this]() {
+    mWinFlag = false;
+    if (mWinGameEvent) {
+      mWinGameEvent();
+    }
+  }), NULL));
 }

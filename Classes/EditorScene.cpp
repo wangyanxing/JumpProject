@@ -84,7 +84,7 @@ bool EditorScene::init() {
   _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
   mGame = new GameLogic(this);
-  mGame->mWinGameEvent = [this] { enableGame(false); };
+  mGame->mWinGameEvent = [this] { enableGame(false, true); };
 
   mLightPoint = Sprite::create("images/sun.png");
   addChild(mLightPoint, 100);
@@ -642,7 +642,7 @@ void EditorScene::enableGame(bool val, bool force) {
     mMousePosLabel->setVisible(!val);
   }
   if (val) {
-    mPressingV = mPressingB = mPressingN = mPressingM = false;
+    mPressingV = mPressingB = mPressingN = mPressingM = false;    
   } else {
     mCamera->setPosition(VisibleRect::getFrameSize() / 2);
     mGame->restoreBackgroundPos();

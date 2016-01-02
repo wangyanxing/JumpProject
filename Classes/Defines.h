@@ -61,6 +61,12 @@ enum FollowMode {
 
 #define EDT_UI_YBIAS (VisibleRect::getFrameSize().height - UI_LAYER_HIGHT)
 
+#if EDITOR_MODE
+# define GAME_CAMERA EditorScene::Scene->getCamera()
+#else
+# define GAME_CAMERA GameScene::Scene->getCamera()
+#endif
+
 // Art resource
 #define BLOCK_IMAGE "images/rect.png"
 #define DEATH_IMAGE "images/saw.png"
@@ -81,6 +87,7 @@ enum FollowMode {
 #define ZORDER_PARTICLE_STAR 16
 #define ZORDER_DIE_FX 18
 #define ZORDER_BLOCK 20
+#define ZORDER_CURTAIN 30
 
 #define ZORDER_EDT_PATH_HELPER 30
 #define ZORDER_EDT_BUTTON_HELPER 35

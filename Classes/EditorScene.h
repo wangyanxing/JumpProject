@@ -84,6 +84,8 @@ public:
   void setShadowLayer(int layer);
 
   void drawBorder();
+  
+  cocos2d::Camera *getCamera() { return mCamera; }
 
   void alignLeft();
 

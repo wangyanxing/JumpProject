@@ -91,6 +91,8 @@ public:
   void updateBounds();
 
   void restoreBackgroundPos();
+  
+  void showWinGame();
 
 public:
   cocos2d::Layer *mParentLayer{nullptr};
@@ -158,6 +160,8 @@ public:
   bool mJumpFlag{false};
 
   cocos2d::Rect mBounds;
+  
+  cocos2d::DrawNode* mCurtain{nullptr};
 };
 
 #endif /* defined(__JumpEdt__LogicManager__) */
