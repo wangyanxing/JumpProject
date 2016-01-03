@@ -86,13 +86,17 @@ public:
   
   void clearSprites();
 
-  void updateCamera(cocos2d::Camera *cam);
+  void updateCamera(cocos2d::Camera *cam, bool forceUpdate = false);
 
   void updateBounds();
 
   void restoreBackgroundPos();
   
-  void showWinGame();
+  void showWinCurtain();
+
+#if !EDITOR_MODE
+  void showBeginCurtain();
+#endif
 
 public:
   cocos2d::Layer *mParentLayer{nullptr};

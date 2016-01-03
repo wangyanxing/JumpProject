@@ -9,6 +9,8 @@
 #include "cocos-ext.h"
 #include "VisibleRect.h"
 
+#if !EDITOR_MODE
+
 USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace cocos2d::ui;
@@ -106,9 +108,7 @@ void LevelScene::touchEvent(Ref *pSender, Widget::TouchEventType type) {
     auto levelName = n->getName();
     CCLOG("Loading scene: %s", levelName.c_str());
 
-    auto path = FileUtils::getInstance()->getWritablePath();
-    path += levelName;
-
+    auto path = FileUtils::getInstance()->getWritablePath() + levelName;
     if (!FileUtils::getInstance()->isFileExist(path)) {
       CCLOGWARN("Scene not existed!");
       return;
@@ -116,7 +116,8 @@ void LevelScene::touchEvent(Ref *pSender, Widget::TouchEventType type) {
 
     auto s = GameScene::createScene();
     GameScene::Scene->enterGame(path, true);
-    auto trans = TransitionFade::create(0.5, s);
-    Director::getInstance()->replaceScene(trans);
+    Director::getInstance()->replaceScene(s);
   }
 }
+
+#endif

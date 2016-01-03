@@ -16,6 +16,8 @@
 #include "LogicManager.h"
 #include "ControlPad.h"
 
+#if !EDITOR_MODE
+
 #define TRANSPARENT_BUTTON 80
 
 USING_NS_CC;
@@ -79,9 +81,8 @@ void GameScene::onEnter() {
   };
   _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
-  runAction(Sequence::create(DelayTime::create(0.4), CallFunc::create([this] {
-      mGame->enableGame(true, true);
-  }), NULL));
+  mGame->updateCamera(mCamera, true);
+  mGame->showBeginCurtain();
 }
 
 void GameScene::onEnterTransitionDidFinish() {
@@ -212,18 +213,12 @@ void GameScene::enableGame(bool v) {
 
 void GameScene::onWinGame() {
   enableGame(false);
-  if (mTimerLabel->getPositionY() < VisibleRect::top().y) {
-    showHideMenu(true);
-  }
-  this->runAction(Sequence::create(DelayTime::create(0.3), CallFunc::create([this] {
-      toMainMenu();
-  }), NULL));
+  toMainMenu();
 }
 
 void GameScene::toMainMenu() {
   enableGame(false);
-  auto trans = TransitionFade::create(0.5, LevelScene::getInstance());
-  Director::getInstance()->replaceScene(trans);
+  Director::getInstance()->replaceScene(LevelScene::getInstance());
 }
 
 void GameScene::createMenuButtons() {
@@ -318,3 +313,5 @@ void GameScene::createControlPad() {
   addChild(mRightButton, 1000);
   addChild(mJumpButton, 1000);
 }
+
+#endif

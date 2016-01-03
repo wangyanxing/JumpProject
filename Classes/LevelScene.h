@@ -11,6 +11,9 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
+#include "Defines.h"
+
+#if !EDITOR_MODE
 
 class LevelScene : public cocos2d::Scene {
 public:
@@ -28,5 +31,7 @@ public:
 private:
   static LevelScene *instance;
 };
+
+#endif
 
 #endif

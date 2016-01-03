@@ -14,6 +14,8 @@
 #include "LogicManager.h"
 #include "ShaderLayer.h"
 
+#if !EDITOR_MODE
+
 class GameLogic;
 
 class BlockBase;
@@ -57,12 +59,15 @@ public:
 
   void showDieFullScreenAnim();
 
+  void showHideMenu(bool force = false);
+
+  cocos2d::Label *getTimerLabel() { return mTimerLabel; }
+
   cocos2d::Camera *getCamera() { return mCamera; }
 
   CREATE_FUNC(GameScene);
 
 private:
-
   void onTouch(const cocos2d::Vec2 &pos);
 
   void onEndTouch(const cocos2d::Vec2 &pos);
@@ -75,10 +80,7 @@ private:
 
   void onWinGame();
 
-  void showHideMenu(bool force = false);
-
 private:
-
   GameLogic *mGame{nullptr};
 
   PostUpdater mPostUpdater;
@@ -99,5 +101,7 @@ private:
 
   bool mCanJump{true};
 };
+
+#endif
 
 #endif /* defined(__JumpEdt__GameScene__) */
