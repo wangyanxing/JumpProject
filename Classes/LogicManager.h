@@ -59,6 +59,8 @@ public:
 
   void setBackgroundColor(const cocos2d::Color3B &color);
 
+  void updateHeroSpawnPos();
+
   BlockBase *findBlock(int id);
 
   void jump();
@@ -166,6 +168,9 @@ public:
   cocos2d::Rect mBounds;
   
   cocos2d::DrawNode* mCurtain{nullptr};
+
+private:
+  void initCurtainPos();
 };
 
 #endif /* defined(__JumpEdt__LogicManager__) */

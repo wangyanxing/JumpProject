@@ -17,7 +17,6 @@
 
 class LevelScene : public cocos2d::Scene {
 public:
-
   virtual bool init();
 
   virtual void onEnter();

@@ -779,24 +779,12 @@ void GameLogic::restoreBackgroundPos() {
 
 #if !EDITOR_MODE
 void GameLogic::showBeginCurtain() {
-  float screenHeight = VisibleRect::getVisibleRect().size.height;
-  auto color = Palette::getInstance()->getDefaultBlockColors(KIND_BLOCK);
+  updateCamera(GAME_CAMERA, true);
+  initCurtainPos();
 
-  if (mCurtain) {
-    mCurtain->setVisible(true);
-    mCurtain->clear();
-    mCurtain->drawSolidRect(Vec2(0, -screenHeight),
-                            Vec2(VisibleRect::right().x, 0), Color4F(color));
-  } else {
-    mCurtain = DrawNode::create();
-    mCurtain->drawSolidRect(Vec2(0, -screenHeight),
-                            Vec2(VisibleRect::right().x, 0), Color4F(color));
-    mCurtain->setCameraMask((unsigned short) CameraFlag::USER2);
-    mParentLayer->addChild(mCurtain, ZORDER_CURTAIN);
-  }
-
-  GAME_CAMERA->setPositionY(GAME_CAMERA->getPositionY() - screenHeight);
-  GAME_CAMERA->runAction(Sequence::create(MoveBy::create(CURTAIN_MOVE_TIME, Vec2(0, screenHeight)),
+  GAME_CAMERA->setPositionY(GAME_CAMERA->getPositionY() - VIS_RECT_HEIGHT);
+  GAME_CAMERA->runAction(Sequence::create(MoveBy::create(CURTAIN_MOVE_TIME,
+                                                         Vec2(0, VIS_RECT_HEIGHT)),
                                           CallFunc::create([this]() {
     enableGame(true, true);
   }), NULL));
@@ -804,21 +792,7 @@ void GameLogic::showBeginCurtain() {
 #endif
 
 void GameLogic::showWinCurtain() {
-  float screenHeight = VisibleRect::getVisibleRect().size.height;
-  auto color = Palette::getInstance()->getDefaultBlockColors(KIND_BLOCK);
-
-  if (mCurtain) {
-    mCurtain->setVisible(true);
-    mCurtain->clear();
-    mCurtain->drawSolidRect(Vec2(0, -screenHeight),
-                            Vec2(VisibleRect::right().x, 0), Color4F(color));
-  } else {
-    mCurtain = DrawNode::create();
-    mCurtain->drawSolidRect(Vec2(0, -screenHeight),
-                            Vec2(VisibleRect::right().x, 0), Color4F(color));
-    mCurtain->setCameraMask((unsigned short) CameraFlag::USER2);
-    mParentLayer->addChild(mCurtain, ZORDER_CURTAIN);
-  }
+  initCurtainPos();
   mGameMode = false;
 
 #if !EDITOR_MODE
@@ -827,11 +801,39 @@ void GameLogic::showWinCurtain() {
   }
 #endif
 
-  GAME_CAMERA->runAction(Sequence::create(MoveBy::create(CURTAIN_MOVE_TIME, Vec2(0, -screenHeight)),
+  GAME_CAMERA->runAction(Sequence::create(MoveBy::create(CURTAIN_MOVE_TIME,
+                                                         Vec2(0, -VIS_RECT_HEIGHT)),
                                           CallFunc::create([this]() {
     mWinFlag = false;
     if (mWinGameEvent) {
       mWinGameEvent();
     }
   }), NULL));
+}
+
+void GameLogic::updateHeroSpawnPos() {
+  GameLogic::Game->mHero->mRestorePosition = mSpawnPos;
+  GameLogic::Game->mHero->setPosition(mSpawnPos);
+}
+
+void GameLogic::initCurtainPos() {
+  float screenHeight = VisibleRect::getVisibleRect().size.height;
+  float screenWidth = VisibleRect::getVisibleRect().size.width;
+  auto color = Palette::getInstance()->getDefaultBlockColors(KIND_BLOCK);
+  auto camPos = GAME_CAMERA->getPosition();
+
+  if (mCurtain) {
+    mCurtain->setVisible(true);
+    mCurtain->clear();
+    mCurtain->drawSolidRect(Vec2(camPos.x - screenWidth / 2, camPos.y - screenHeight * 1.5f),
+                            Vec2(camPos.x + screenWidth / 2, camPos.y - screenHeight / 2),
+                            Color4F(color));
+  } else {
+    mCurtain = DrawNode::create();
+    mCurtain->drawSolidRect(Vec2(camPos.x - screenWidth / 2, camPos.y - screenHeight * 1.5f),
+                            Vec2(camPos.x + screenWidth / 2, camPos.y - screenHeight / 2),
+                            Color4F(color));
+    mCurtain->setCameraMask((unsigned short) CameraFlag::USER2);
+    mParentLayer->addChild(mCurtain, ZORDER_CURTAIN);
+  }
 }

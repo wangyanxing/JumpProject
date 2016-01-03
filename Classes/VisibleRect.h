@@ -33,4 +33,9 @@ private:
   static cocos2d::Rect s_visibleRect;
 };
 
+#define VIS_RECT VisibleRect::getVisibleRect()
+#define VIS_RECT_SIZE VisibleRect::getVisibleRect().size
+#define VIS_RECT_HEIGHT VisibleRect::getVisibleRect().size.height
+#define VIS_RECT_WIDTH VisibleRect::getVisibleRect().size.width
+
 #endif /* __VISIBLERECT_H__ */

@@ -6,6 +6,27 @@
 //
 //
 
+#define READ_INT(name, key, var, def) int name = def; \
+  if (CHECK_INT(var, key)) name = var[key].GetInt();
+
+#define READ_SIZE(name, key, var) Size name; \
+  if (CHECK_STRING(var, key)) name = str2Size(var[key].GetString());
+
+#define READ_VEC(name, key, var) Vec2 name; \
+  if (CHECK_STRING(var, key)) name = str2Vec(var[key].GetString());
+
+#define READ_BOOL(name, key, var, def) bool name = def; \
+  if (CHECK_BOOL(var, key)) name = var[key].GetBool();
+
+#define READ_KIND(name, key, var) BlockKind name = KIND_BLOCK; \
+  if (CHECK_STRING(var, key)) name = str2Kind(var[key].GetString());
+
+#define READ_STR(name, key, var, def) std::string name = def; \
+  if (CHECK_STRING(var, key)) name = var[key].GetString();
+
+#define READ_FLT(name, key, var, def) float name = def; \
+  if (CHECK_NUMBER(var, key)) name = var[key].GetDouble();
+
 void MapSerial::loadLastEdit() {
   auto file = UserDefault::getInstance()->getStringForKey("lastedit");
   if (file.empty()) {
@@ -68,6 +89,7 @@ void MapSerial::loadMap(const char *filename) {
   
   if (d["spawnPosition"].IsString()) {
     GameLogic::Game->mSpawnPos = str2Vec(d["spawnPosition"].GetString());
+    GameLogic::Game->updateHeroSpawnPos();
   } SHOW_WARNING
   
 #if USE_SHADOW
@@ -195,92 +217,28 @@ void MapSerial::loadMap(const char *filename) {
     
     for (auto i = 0; i < size; ++i) {
       auto &var = d["blocks"][i];
-      
-      int id = 0;
-      Size size;
-      Vec2 pos;
-      bool pickable = true;
-      bool noMovement = false;
-      bool removable = true;
-      bool preciseTrigger = false;
-      int rotSpeed = DEFAULT_ROTATE_SPEED;
-      BlockKind kind = KIND_BLOCK;
-      std::string textureName = DEFAULT_BLOCK_TEXTURE;
-      std::string userData;
-      int paletteIndex = DEFAULT_PALETTE_INDEX;
-      bool flipuv = false;
-      std::string triggerEvent = "";
-      float shadowLeng = DEFAULT_SHADOW_LENGTH;
-      bool shadowEnable = true;
-      int shadowLayer = 0;
-      
-      if (var["id"].IsInt()) {
-        id = var["id"].GetInt();
-        maxID = std::max(id, maxID);
-      } SHOW_WARNING
-      
-      if (var["size"].IsString()) {
-        size = str2Size(var["size"].GetString());
-        size.width = std::max(size.width, 0.5f);
-        size.height = std::max(size.height, 0.5f);
-      } SHOW_WARNING
-      
-      if (CHECK_STRING(var, "position")) {
-        pos = str2Vec(var["position"].GetString());
-      } SHOW_WARNING
-      
-      if (CHECK_BOOL(var, "removable")) {
-        removable = var["removable"].GetBool();
-      }
-      
-      if (CHECK_BOOL(var, "pickable")) {
-        pickable = var["pickable"].GetBool();
-      }
-      
-      if (CHECK_BOOL(var, "noMovement")) {
-        noMovement = var["noMovement"].GetBool();
-      }
-      
-      if (CHECK_BOOL(var, "preciseTrigger")) {
-        preciseTrigger = var["preciseTrigger"].GetBool();
-      }
-      
-      if (CHECK_NUMBER(var, "rotatespeed")) {
-        rotSpeed = var["rotatespeed"].GetInt();
-      }
-      
-      if (var["kind"].IsString()) {
-        kind = str2Kind(var["kind"].GetString());
-      } SHOW_WARNING
-      
-      if (CHECK_BOOL(var, "flipUV")) {
-        flipuv = var["flipUV"].GetBool();
-      }
-      
-      if (CHECK_STRING(var, "textureName")) {
-        textureName = var["textureName"].GetString();
-      }
-      
-      if (var.HasMember("timeEvents") && var["userData"].IsString()) {
-        userData = var["userData"].GetString();
-      }
-      
-      if (CHECK_NUMBER(var, "paletteIndex")) {
-        paletteIndex = var["paletteIndex"].GetInt();
-      }
-      
-      if (CHECK_NUMBER(var, "shadowLength")) {
-        shadowLeng = var["shadowLength"].GetDouble();
-      }
-      
-      if (CHECK_BOOL(var, "shadowEnable")) {
-        shadowEnable = var["shadowEnable"].GetBool();
-      }
-      
-      if (CHECK_INT(var, "shadowLayer")) {
-        shadowLayer = var["shadowLayer"].GetInt();
-      }
-      
+
+      READ_INT(id, "id", var, 0);
+      READ_SIZE(size, "size", var);
+      READ_VEC(pos, "position", var);
+      READ_BOOL(removable, "removable", var, true);
+      READ_BOOL(pickable, "pickable", var, true)
+      READ_BOOL(noMovement, "noMovement", var, false)
+      READ_BOOL(preciseTrigger, "preciseTrigger", var, false)
+      READ_INT(rotSpeed, "rotatespeed", var, DEFAULT_ROTATE_SPEED);
+      READ_KIND(kind, "kind", var);
+      READ_BOOL(flipuv, "flipUV", var, false);
+      READ_STR(textureName, "textureName", var, DEFAULT_BLOCK_TEXTURE);
+      READ_STR(userData, "userData", var, "");
+      READ_INT(paletteIndex, "paletteIndex", var, DEFAULT_PALETTE_INDEX);
+      READ_FLT(shadowLeng, "shadowLength", var, DEFAULT_SHADOW_LENGTH);
+      READ_BOOL(shadowEnable, "shadowEnable", var, true);
+      READ_INT(shadowLayer, "shadowLayer", var, 0);
+
+      maxID = std::max(id, maxID);
+      size.width = std::max(size.width, 0.5f);
+      size.height = std::max(size.height, 0.5f);
+
 #if EDITOR_MODE
       if (!pickable) {
         float width = VisibleRect::right().x;
@@ -552,3 +510,11 @@ void MapSerial::afterLoadRemoteMaps() {
     fclose(fp);
   }
 }
+
+#undef READ_INT
+#undef READ_SIZE
+#undef READ_VEC
+#undef READ_BOOL
+#undef READ_KIND
+#undef READ_STR
+#undef READ_FLT
