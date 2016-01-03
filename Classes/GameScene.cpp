@@ -18,8 +18,6 @@
 
 #if !EDITOR_MODE
 
-#define TRANSPARENT_BUTTON 80
-
 USING_NS_CC;
 
 cocos2d::Scene *GameScene::createScene() {
@@ -204,13 +202,13 @@ void GameScene::onEndTouch(const cocos2d::Vec2 &pos) {
     showHideMenu();
   } else {
     if (pos.x < VisibleRect::center().x) {
-      mLeftButton->setOpacity(TRANSPARENT_BUTTON);
-      mRightButton->setOpacity(TRANSPARENT_BUTTON);
+      mLeftButton->setOpacity(CONTROL_BUTTON_OPACITY);
+      mRightButton->setOpacity(CONTROL_BUTTON_OPACITY);
       mGame->mMoveLeft = false;
       mGame->mMoveRight = false;
     } else {
       mCanJump = true;
-      mJumpButton->setOpacity(TRANSPARENT_BUTTON);
+      mJumpButton->setOpacity(CONTROL_BUTTON_OPACITY);
     }
   }
 }
@@ -316,9 +314,9 @@ void GameScene::createControlPad() {
   mRightButton->setScale(scale);
   mJumpButton->setScale(scale);
 
-  mLeftButton->setOpacity(TRANSPARENT_BUTTON);
-  mRightButton->setOpacity(TRANSPARENT_BUTTON);
-  mJumpButton->setOpacity(TRANSPARENT_BUTTON);
+  mLeftButton->setOpacity(CONTROL_BUTTON_OPACITY);
+  mRightButton->setOpacity(CONTROL_BUTTON_OPACITY);
+  mJumpButton->setOpacity(CONTROL_BUTTON_OPACITY);
 
   addChild(mLeftButton, ZORDER_GAME_CONTROLPAD);
   addChild(mRightButton, ZORDER_GAME_CONTROLPAD);

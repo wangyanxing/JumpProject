@@ -73,6 +73,7 @@ enum FollowMode {
 #if !EDITOR_MODE
 # define CONTROL_BUTTON_WIDTH 300
 # define CONTROL_BUTTON_HEIGHT 200
+# define CONTROL_BUTTON_OPACITY 80
 #endif
 
 // Art resource
