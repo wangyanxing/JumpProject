@@ -65,10 +65,7 @@ void MapSerial::saveControlConfig(const char *file) {
 }
 
 void MapSerial::loadControlConfig(const char *file) {
-  std::string fullPath = getConfigDir();
-  fullPath += "/";
-  fullPath += file;
-  
+  std::string fullPath = std::string(getConfigDir()) + "/" + file;
   auto buffer = FileUtils::getInstance()->getStringFromFile(fullPath);
   Document d;
   d.Parse<kParseDefaultFlags>(buffer.c_str());

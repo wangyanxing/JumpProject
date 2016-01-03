@@ -34,7 +34,7 @@ std::string MapSerial::CurrentEditingFile;
 const char *MapSerial::getMapDir() {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
   static std::string fullpath;
-  auto env = getenv("XCODE_PROJ_DIR"); // manually added
+  auto env = getenv("XCODE_PROJ_DIR");
   if (env) {
     fullpath = env;
     fullpath += "/../Resources/maps";
@@ -52,7 +52,7 @@ const char *MapSerial::getMapDir() {
 const char *MapSerial::getConfigDir() {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
   static std::string fullpath;
-  auto env = getenv("XCODE_PROJ_DIR"); // manually added
+  auto env = getenv("XCODE_PROJ_DIR");
   if (env) {
     fullpath = env;
     fullpath += "/../Resources/configs";

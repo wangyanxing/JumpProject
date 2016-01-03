@@ -69,6 +69,12 @@ enum FollowMode {
 # define GAME_CAMERA GameScene::Scene->getCamera()
 #endif
 
+// Control pad
+#if !EDITOR_MODE
+# define CONTROL_BUTTON_WIDTH 300
+# define CONTROL_BUTTON_HEIGHT 200
+#endif
+
 // Art resource
 #define BLOCK_IMAGE "images/rect.png"
 #define DEATH_IMAGE "images/saw.png"
@@ -94,5 +100,7 @@ enum FollowMode {
 #define ZORDER_EDT_PATH_HELPER 30
 #define ZORDER_EDT_BUTTON_HELPER 35
 #define ZORDER_EDT_ID_LABEL 100
+
+#define ZORDER_GAME_CONTROLPAD 100
 
 #endif /* defined(__JumpEdt__Defines__) */

@@ -146,21 +146,32 @@ bool GameScene::onContactPreSolve(cocos2d::PhysicsContact &contact,
 }
 
 void GameScene::onTouch(const cocos2d::Vec2 &pos) {
-  auto leftBound = mLeftButton->getBoundingBox();
-  auto rightBound = mRightButton->getBoundingBox();
-  auto jumpBound = mJumpButton->getBoundingBox();
+  auto midPoint = mLeftButton->getPosition().getMidpoint(mRightButton->getPosition());
+  auto jumpPoint = mJumpButton->getPosition();
+  Rect boundLeft(midPoint.x - CONTROL_BUTTON_WIDTH,
+                 midPoint.y - CONTROL_BUTTON_HEIGHT / 2,
+                 CONTROL_BUTTON_WIDTH,
+                 CONTROL_BUTTON_HEIGHT);
+  Rect boundRight(midPoint.x,
+                 midPoint.y - CONTROL_BUTTON_HEIGHT / 2,
+                 CONTROL_BUTTON_WIDTH,
+                 CONTROL_BUTTON_HEIGHT);
+  Rect boundJump(jumpPoint.x - CONTROL_BUTTON_WIDTH / 2,
+                 jumpPoint.y - CONTROL_BUTTON_HEIGHT / 2,
+                 CONTROL_BUTTON_WIDTH,
+                 CONTROL_BUTTON_HEIGHT);
 
-  if (leftBound.containsPoint(pos)) {
+  if (boundLeft.containsPoint(pos)) {
     mLeftButton->setOpacity(255);
     mGame->mMoveLeft = true;
     mGame->mMoveRight = false;
-  } else if (rightBound.containsPoint(pos)) {
+  } else if (boundRight.containsPoint(pos)) {
     mRightButton->setOpacity(255);
     mGame->mMoveLeft = false;
     mGame->mMoveRight = true;
   }
 
-  if (mCanJump && jumpBound.containsPoint(pos)) {
+  if (mCanJump && boundJump.containsPoint(pos)) {
     mJumpButton->setOpacity(255);
     mGame->mJumpFlag = true;
     mCanJump = false;
@@ -285,9 +296,9 @@ void GameScene::createMenuButtons() {
 }
 
 void GameScene::createControlPad() {
-  mLeftButton = Sprite::create("images/left_arrow.png");
-  mRightButton = Sprite::create("images/right_arrow.png");
-  mJumpButton = Sprite::create("images/jump_arrow_sel.png");
+  mLeftButton = Sprite::create("images/button_left.png");
+  mRightButton = Sprite::create("images/button_right.png");
+  mJumpButton = Sprite::create("images/button_jump.png");
 
   MapSerial::loadControlConfig();
   auto config = ControlPad::controlPadConfig->getControlConfig();
@@ -309,9 +320,9 @@ void GameScene::createControlPad() {
   mRightButton->setOpacity(TRANSPARENT_BUTTON);
   mJumpButton->setOpacity(TRANSPARENT_BUTTON);
 
-  addChild(mLeftButton, 1000);
-  addChild(mRightButton, 1000);
-  addChild(mJumpButton, 1000);
+  addChild(mLeftButton, ZORDER_GAME_CONTROLPAD);
+  addChild(mRightButton, ZORDER_GAME_CONTROLPAD);
+  addChild(mJumpButton, ZORDER_GAME_CONTROLPAD);
 }
 
 #endif

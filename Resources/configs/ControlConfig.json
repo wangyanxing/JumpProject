@@ -17,10 +17,10 @@
     } , 
     {
       "desc": "default", 
-      "scale": 0.5,
-      "leftButton": "50,60",
-      "rightButton": "320,60",
-      "jumpButton": "820,60" 
+      "scale": 0.6,
+      "leftButton": "100,70",
+      "rightButton": "290,70",
+      "jumpButton": "840,70"
     } 
   ],
   "ConfigArray_ip4": [ 

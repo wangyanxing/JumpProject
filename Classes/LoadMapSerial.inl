@@ -450,16 +450,13 @@ void MapSerial::loadMap(const char *filename) {
   
   UILayer::Layer->setFileName(fixedfilename.c_str());
   UILayer::Layer->addMessage("File loaded");
-#endif
-  
-#if EDITOR_MODE
+
   EditorScene::Scene->updateGroupDrawNode();
   EditorScene::Scene->enableGame(false, true);
 #endif
 }
 
 #if EDITOR_MODE
-
 void MapSerial::loadMap(bool local) {
   std::string fullpath = getMapDir();
   std::vector<std::string> out;
@@ -472,7 +469,6 @@ void MapSerial::loadMap(bool local) {
   auto filename = out[0];
   loadMap(filename.c_str());
 }
-
 #endif
 
 void MapSerial::afterLoadRemoteMaps() {
