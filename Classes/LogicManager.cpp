@@ -723,6 +723,7 @@ void GameLogic::clean() {
   
   mShadowNode.clear();
   mShadows.clear();
+  mNumShadowGroup = 0;
 #endif
 }
 

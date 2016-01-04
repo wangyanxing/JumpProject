@@ -67,16 +67,25 @@ void ShadowManager::init(cocos2d::Node *parentNode) {
     mShadowDrawers[i]->setGLProgramState(glProgramState);
     
     Size visibleSize = VisibleRect::getVisibleRect().size;
+    Size visibleSizePixel = visibleSize * Director::getInstance()->getContentScaleFactor();
+    
     mRenderTextures[i] = RenderTexture::create(visibleSize.width * mWidth,
                                                visibleSize.height,
                                                Texture2D::PixelFormat::RGBA8888);
-    mRenderTextures[i]->setVirtualViewport(Vec2(0,0),
-                                           Rect(0,0,visibleSize.width, visibleSize.height),
-                                           Rect(0,0,
-                                                visibleSize.width * mWidth,
-                                                visibleSize.height));
+    mRenderTextures[i]->setVirtualViewport(Vec2(0, 0),
+                                           Rect(0, 0,
+                                                visibleSize.width,
+                                                visibleSize.height),
+                                           Rect(0, 0,
+                                                visibleSizePixel.width * mWidth,
+                                                visibleSizePixel.height));
+    
+    if (GameLogic::Game->mNumShadowGroup == 1) {
+      mRenderTextures[i]->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+    } else {
+      mRenderTextures[i]->getSprite()->setPosition((mPosX - 0.375f) * visibleSize.width, 0);
+    }
     mRenderTextures[i]->getSprite()->setOpacity(255 * mShadowDarkness);
-    mRenderTextures[i]->getSprite()->setPosition(mPosX * visibleSize.width, 0);
     mRenderTextures[i]->setCameraMask((unsigned short) CameraFlag::USER2);
     parentNode->addChild(mRenderTextures[i]);
     
@@ -244,38 +253,42 @@ void ShadowManager::updateBlock(BlockBase *block,
       f1 = Vec2::getIntersectPoint(rightlower, rightupper, entries.pt2, f1);
     }
   }
+  
+  Size visibleSize = VisibleRect::getVisibleRect().size;
+  float center = visibleSize.width / 2;
+  Vec2 offset(-center - visibleSize.width * (mPosX - 0.5f), 0);
 
   V2F_C4B_T2F_Triangle t;
-  t.a.vertices = entries.pt1;
+  t.a.vertices = entries.pt1 + offset;
   t.a.colors = colorBase;
 
-  t.b.vertices = f1;
+  t.b.vertices = f1 + offset;
   t.b.colors = colorBase;
 
-  t.c.vertices = f0;
+  t.c.vertices = f0 + offset;
   t.c.colors = colorBase;
 
   triangles.push_back(t);
 
-  t.a.vertices = entries.pt1;
+  t.a.vertices = entries.pt1 + offset;
   t.a.colors = colorBase;
 
-  t.b.vertices = entries.pt2;
+  t.b.vertices = entries.pt2 + offset;
   t.b.colors = colorBase;
 
-  t.c.vertices = f1;
+  t.c.vertices = f1 + offset;
   t.c.colors = colorBase;
 
   triangles.push_back(t);
 
   if (entries.needMakeUp) {
-    t.a.vertices = entries.pt1;
+    t.a.vertices = entries.pt1 + offset;
     t.a.colors = colorBase;
 
-    t.b.vertices = entries.pt2;
+    t.b.vertices = entries.pt2 + offset;
     t.b.colors = colorBase;
 
-    t.c.vertices = entries.makeUpPt;
+    t.c.vertices = entries.makeUpPt + offset;
     t.c.colors = colorBase;
 
     triangles.push_back(t);
@@ -298,6 +311,7 @@ void ShadowManager::update(float dt) {
 #else
     mRenderTextures[i]->setPosition(GameScene::Scene->getCamera()->getPosition());
 #endif
+    
     mShadowDrawers[i]->clear();
     if (!triangles[i].empty()) {
       mShadowDrawers[i]->drawTriangles(triangles[i]);

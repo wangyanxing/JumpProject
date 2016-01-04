@@ -126,6 +126,8 @@ public:
   std::map<cocos2d::Node *, BlockBase *> mBlockTable;
 
 #if USE_SHADOW
+  int mNumShadowGroup{0};
+  
   std::vector<ShadowManager*> mShadows;
 
   std::vector<cocos2d::Node*> mShadowNode;

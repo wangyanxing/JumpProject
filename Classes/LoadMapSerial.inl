@@ -97,6 +97,8 @@ void MapSerial::loadMap(const char *filename) {
 #if USE_SHADOW
   if (CHECK_ARRAY(d, "shadowGroup")) {
     auto size = d["shadowGroup"].Size();
+    GameLogic::Game->mNumShadowGroup = size;
+    
     for (auto si = 0; si < size; ++si) {
       Document::ValueType &var = d["shadowGroup"][si];
       GameLogic::Game->addShadowGroup();
@@ -134,6 +136,8 @@ void MapSerial::loadMap(const char *filename) {
       GameLogic::Game->initShadowGroup(si);
     }
   } else {
+    GameLogic::Game->mNumShadowGroup = 1;
+    GameLogic::Game->addShadowGroup();
     if (CHECK_STRING(d, "lightType")) {
       GameLogic::Game->mShadows[0]->mLightType = str2lightType(d["lightType"].GetString());
       GameLogic::Game->mShadows[0]->mLightDirDegree = d["lightDir"].GetDouble();
@@ -154,6 +158,7 @@ void MapSerial::loadMap(const char *filename) {
     if (CHECK_NUMBER(d, "shadowDarkness")) {
       GameLogic::Game->mShadows[0]->mShadowDarkness = d["shadowDarkness"].GetDouble();
     }
+    GameLogic::Game->initShadowGroup(0);
   }
 #endif
   
