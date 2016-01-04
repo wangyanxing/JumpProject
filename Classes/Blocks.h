@@ -215,6 +215,8 @@ public:
 
   bool mEnableGravity{false};
 
+  int mShadowGroup{0};
+
 #if EDITOR_MODE
   bool mShowIDLabel{false};
 

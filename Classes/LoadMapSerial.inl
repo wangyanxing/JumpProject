@@ -234,6 +234,7 @@ void MapSerial::loadMap(const char *filename) {
       READ_FLT(shadowLeng, "shadowLength", var, DEFAULT_SHADOW_LENGTH);
       READ_BOOL(shadowEnable, "shadowEnable", var, true);
       READ_INT(shadowLayer, "shadowLayer", var, 0);
+      READ_INT(shadowGroup, "shadowGroup", var, 0);
 
       maxID = std::max(id, maxID);
       size.width = std::max(size.width, 0.5f);
@@ -293,6 +294,7 @@ void MapSerial::loadMap(const char *filename) {
       block->mPreciseTrigger = preciseTrigger;
       block->mRotationSpeed = rotSpeed;
       block->mShadowLength = shadowLeng;
+      block->mShadowGroup = shadowGroup;
       block->mCastShadow = shadowEnable;
       block->mShadowLayerID = shadowLayer;
       block->mUVFlipped = flipuv;

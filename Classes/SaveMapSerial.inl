@@ -206,6 +206,12 @@ void MapSerial::saveMap(const char *file) {
       ss << "\"shadowEnable\": " << bool2Str(b->mCastShadow);
       RT_LINE
     }
+
+    if (b->mShadowGroup != 0) {
+      INDENT_3
+      ss << "\"shadowGroup\": " << b->mShadowGroup;
+      RT_LINE
+    }
     
     if (b->mShadowLayerID != 0) {
       INDENT_3
