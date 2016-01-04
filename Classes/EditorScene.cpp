@@ -99,15 +99,17 @@ bool EditorScene::init() {
 
 #if USE_SHADOW
   // Default shadow group: 0
-  mGame->mShadows[0]->mLightPos = mLightPoint->getPosition();
-  mGame->mShadows[0]->mOriginLightPos = mGame->mShadows[0]->mLightPos;
+//  mGame->mShadows[0]->mLightPos = mLightPoint->getPosition();
+//  mGame->mShadows[0]->mOriginLightPos = mGame->mShadows[0]->mLightPos;
 #endif
 
+#if USE_GRADIENT
   mGradientCenterPoint = Sprite::create("images/daisy.png");
   addChild(mGradientCenterPoint, 100);
   mGradientCenterPoint->setPosition(100, 50);
   mGradientCenterPoint->setScale(0.3);
   mGame->setBackGradientCenter(mGradientCenterPoint->getPosition());
+#endif
 
   mSpawnPoint = Sprite::create("images/cross.png");
   addChild(mSpawnPoint, 100);
@@ -161,11 +163,15 @@ void EditorScene::mouseDown(cocos2d::Event *event) {
     return;
   }
 #endif
+  
+#if USE_GRADIENT
   if (mPressingB && !mGame->mGameMode) {
     mGradientCenterPoint->setPosition(pt);
     mGame->setBackGradientCenter(mGradientCenterPoint->getPosition());
     return;
   }
+#endif
+  
   if (mPressingV) {
     mGame->createParticle(pt);
     mGame->mStarList.push_back(pt);
@@ -631,7 +637,10 @@ void EditorScene::enableGame(bool val, bool force) {
   mGame->enableGame(val, force);
   mSpawnPoint->setVisible(!val);
   updateLightHelper();
+  
+#if USE_GRADIENT
   mGradientCenterPoint->setVisible(!val);
+#endif
 
   if (mBorderNode) {
     mBorderNode->setVisible(!val);

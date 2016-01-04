@@ -31,34 +31,16 @@ void colorMix(const Color4B &src, const Color4B &dst, float r, Color4B &out) {
   out.a = dst.a * r + src.a * (1 - r);
 }
 
-ShadowManager::ShadowManager(cocos2d::Node *parentNode) {
-  // Load shaders
-  auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/normal_shadow.fsh");
-  auto shaderContent = FileUtils::getInstance()->getStringFromFile(shaderfile);
-  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_vert,
-                                                 shaderContent.c_str());
-  auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
-
-  for (int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
-    mShadowDrawers[i] = DrawNodeEx::create();
-    mShadowDrawers[i]->setGLProgramState(glProgramState);
-
-    Size visibleSize = VisibleRect::getVisibleRect().size;
-    mRenderTextures[i] = RenderTexture::create(visibleSize.width,
-                                               visibleSize.height,
-                                               Texture2D::PixelFormat::RGBA8888);
-    mRenderTextures[i]->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
-    mRenderTextures[i]->getSprite()->setOpacity(255 * mShadowDarkness);
-    parentNode->addChild(mRenderTextures[i]);
-
-    mRenderTextures[i]->retain();
-    mShadowDrawers[i]->retain();
-  }
-
+ShadowManager::ShadowManager() {
   mLightPos = VisibleRect::center();
   mLightPos.x = 300;
   mLightPos.y = VisibleRect::top().y - 10;
   mOriginLightPos = mLightPos;
+  
+  for (int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
+    mShadowDrawers[i] = nullptr;
+    mRenderTextures[i] = nullptr;
+  }
 }
 
 ShadowManager::~ShadowManager() {
@@ -66,6 +48,40 @@ ShadowManager::~ShadowManager() {
     mShadowDrawers[i]->release();
     mRenderTextures[i]->removeFromParent();
     mRenderTextures[i]->release();
+  }
+}
+
+void ShadowManager::init(cocos2d::Node *parentNode) {
+  if (mShadowDrawers[0]) {
+    return;
+  }
+  
+  auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/normal_shadow.fsh");
+  auto shaderContent = FileUtils::getInstance()->getStringFromFile(shaderfile);
+  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_vert,
+                                                 shaderContent.c_str());
+  auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
+  
+  for (int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
+    mShadowDrawers[i] = DrawNodeEx::create();
+    mShadowDrawers[i]->setGLProgramState(glProgramState);
+    
+    Size visibleSize = VisibleRect::getVisibleRect().size;
+    mRenderTextures[i] = RenderTexture::create(visibleSize.width * mWidth,
+                                               visibleSize.height,
+                                               Texture2D::PixelFormat::RGBA8888);
+    mRenderTextures[i]->setVirtualViewport(Vec2(0,0),
+                                           Rect(0,0,visibleSize.width, visibleSize.height),
+                                           Rect(0,0,
+                                                visibleSize.width * mWidth,
+                                                visibleSize.height));
+    mRenderTextures[i]->getSprite()->setOpacity(255 * mShadowDarkness);
+    mRenderTextures[i]->getSprite()->setPosition(mPosX * visibleSize.width, 0);
+    mRenderTextures[i]->setCameraMask((unsigned short) CameraFlag::USER2);
+    parentNode->addChild(mRenderTextures[i]);
+    
+    mRenderTextures[i]->retain();
+    mShadowDrawers[i]->retain();
   }
 }
 

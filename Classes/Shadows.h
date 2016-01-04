@@ -42,9 +42,11 @@ public:
     cocos2d::Vec2 makeUpPt;
   };
 
-  ShadowManager(cocos2d::Node *parentNode);
+  ShadowManager();
 
   ~ShadowManager();
+  
+  void init(cocos2d::Node *parentNode);
 
   void reset();
 
@@ -85,6 +87,10 @@ public:
   float mShadowDarkness{0.098f};
   
   int mShadowGroup{0};
+  
+  float mPosX{0}; // Relative position (0 ~ 1)
+  
+  float mWidth{1}; // Relative size (0 ~ 1)
 };
 
 #endif

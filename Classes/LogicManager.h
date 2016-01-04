@@ -94,6 +94,10 @@ public:
 
   void restoreBackgroundPos();
   
+  void initBackground();
+  
+  void cleanBackground();
+  
   void showWinCurtain();
 
 #if !EDITOR_MODE
@@ -127,11 +131,15 @@ public:
   std::vector<cocos2d::Node*> mShadowNode;
   
   void addShadowGroup();
+  
+  void initShadowGroup(int groupId);
 #endif
 
   cocos2d::Color3B mBackgroundColor;
 
+#if USE_BACKGROUND
   cocos2d::Sprite *mBack{nullptr};
+#endif
 
   bool mDeadFlag{false};
 

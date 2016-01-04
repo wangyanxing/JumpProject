@@ -61,6 +61,8 @@ void MapSerial::loadMap(const char *filename) {
   GameLogic::Game->clean();
 #endif
   
+  GameLogic::Game->initBackground();
+  
   if (CHECK_STRING(d, "backgroundColor")) {
     GameLogic::Game->setBackgroundColor(str2Color(d["backgroundColor"].GetString()));
   } SHOW_WARNING
@@ -97,9 +99,8 @@ void MapSerial::loadMap(const char *filename) {
     auto size = d["shadowGroup"].Size();
     for (auto si = 0; si < size; ++si) {
       Document::ValueType &var = d["shadowGroup"][si];
-      if (si >= GameLogic::Game->mShadows.size()) {
-        GameLogic::Game->addShadowGroup();
-      }
+      GameLogic::Game->addShadowGroup();
+      GameLogic::Game->mShadows[si]->mShadowGroup = si;
       
       if (CHECK_STRING(var, "lightType")) {
         GameLogic::Game->mShadows[si]->mLightType = str2lightType(var["lightType"].GetString());
@@ -121,6 +122,16 @@ void MapSerial::loadMap(const char *filename) {
       if (CHECK_NUMBER(var, "shadowDarkness")) {
         GameLogic::Game->mShadows[si]->mShadowDarkness =var["shadowDarkness"].GetDouble();
       }
+      
+      if (CHECK_NUMBER(var, "posx")) {
+        GameLogic::Game->mShadows[si]->mPosX = var["posx"].GetDouble();
+      }
+      
+      if (CHECK_NUMBER(var, "width")) {
+        GameLogic::Game->mShadows[si]->mWidth =var["width"].GetDouble();
+      }
+      
+      GameLogic::Game->initShadowGroup(si);
     }
   } else {
     if (CHECK_STRING(d, "lightType")) {
@@ -479,7 +490,10 @@ void MapSerial::loadMap(const char *filename) {
 #if USE_SHADOW
   EditorScene::Scene->updateLightHelper();
 #endif
+  
+#if USE_GRADIENT
   EditorScene::Scene->mGradientCenterPoint->setPosition(GameLogic::Game->mGradientCenter);
+#endif
   
   UILayer::Layer->setFileName(fixedfilename.c_str());
   UILayer::Layer->addMessage("File loaded");

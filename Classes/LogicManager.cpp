@@ -48,49 +48,55 @@ GameLogic::GameLogic(cocos2d::Layer *parent) {
   mHero->setVisible(false);
   mHeroShape = mHero->getRenderer()->getPhysicsBody()->getShapes().front();
   mHero->mShadowLayerID = 1;
-
-#if USE_SHADOW
-  addShadowGroup();
-#endif
-
-  // Background
-#if GRADIENT
-  mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(255, 255, 255));
-
-#if EDITOR_MODE
-  auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/back_editor.fsh");
-#else
-  auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/back.fsh");
-#endif
-
-  // Load shaders
-  auto shaderContent = FileUtils::getInstance()->getStringFromFile(shaderfile);
-  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert,
-                                                 shaderContent.c_str());
-  auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
-
-  float screenWidth = VisibleRect::getFrameSize().width;
-  float screenHeight = VisibleRect::getFrameSize().height;
-
-  mGradientColorSrc = Color3B(50, 201, 219);
-  mGradientColorDst = Color3B(30, 181, 199);
-
-  mBack->setGLProgramState(glProgramState);
-  glProgramState->setUniformVec4("data", Vec4(screenWidth, screenHeight, 0, 0));
-  glProgramState->setUniformVec4("color", Vec4(50.0 / 255.0, 201.0 / 255.0, 219.0 / 255.0, 0.4));
-  glProgramState->setUniformVec4("colorDest",
-                                 Vec4(30.0 / 255.0, 181.0 / 255.0, 199.0 / 255.0, 0.4));
-
-#else
-  mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(30,181,199));
-#endif
-  mParentLayer->addChild(mBack, ZORDER_BACK);
-
+  
 #if EDITOR_MODE
   createFixedBlocks();
 #endif
 
   enableGame(false);
+}
+
+void GameLogic::cleanBackground() {
+#if USE_BACKGROUND && EDITOR_MODE
+  if (mBack) {
+    mBack->removeFromParent();
+  }
+#endif
+}
+
+void GameLogic::initBackground() {
+#if USE_BACKGROUND
+#if GRADIENT
+  mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(255, 255, 255));
+  
+#if EDITOR_MODE
+  auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/back_editor.fsh");
+#else
+  auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/back.fsh");
+#endif
+  
+  // Load shaders
+  auto shaderContent = FileUtils::getInstance()->getStringFromFile(shaderfile);
+  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert,
+                                                 shaderContent.c_str());
+  auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
+  
+  float screenWidth = VisibleRect::getFrameSize().width;
+  float screenHeight = VisibleRect::getFrameSize().height;
+  
+  mGradientColorSrc = Color3B(50, 201, 219);
+  mGradientColorDst = Color3B(30, 181, 199);
+  
+  mBack->setGLProgramState(glProgramState);
+  glProgramState->setUniformVec4("data", Vec4(screenWidth, screenHeight, 0, 0));
+  glProgramState->setUniformVec4("color", Vec4(50.0 / 255.0, 201.0 / 255.0, 219.0 / 255.0, 0.4));
+  glProgramState->setUniformVec4("colorDest",
+                                 Vec4(30.0 / 255.0, 181.0 / 255.0, 199.0 / 255.0, 0.4));
+#else
+  mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(30, 181, 199));
+#endif
+  mParentLayer->addChild(mBack, ZORDER_BACK);
+#endif
 }
 
 Node *GameLogic::createParticle(const Vec2 &pos) {
@@ -122,23 +128,20 @@ Node *GameLogic::createParticle(const Vec2 &pos) {
 
 GameLogic::~GameLogic() {
   clean();
-
-  delete mHero;
-  mHero = nullptr;
-
-#if USE_SHADOW
-  for (auto& s : mShadows) {
-    CC_SAFE_DELETE(s);
-  }
-  mShadows.clear();
-#endif
+  CC_SAFE_DELETE(mHero);
 }
 
 #if USE_SHADOW
 void GameLogic::addShadowGroup() {
   mShadowNode.push_back(Node::create());
-  mShadows.push_back(new ShadowManager(mShadowNode.back()));
-  mParentLayer->addChild(mShadowNode.back(), ZORDER_SHADOW_1);
+  mShadows.push_back(new ShadowManager());
+  if (!mShadowNode.back()->getParent()) {
+    mParentLayer->addChild(mShadowNode.back(), ZORDER_SHADOW_1);
+  }
+}
+
+void GameLogic::initShadowGroup(int groupId) {
+  mShadows[groupId]->init(mShadowNode[groupId]);
 }
 #endif
 
@@ -337,7 +340,7 @@ void GameLogic::setBackGradientColor(const cocos2d::Color3B &colorSrc,
                                      const cocos2d::Color3B &colorDst) {
   mGradientColorDst = colorDst;
   mGradientColorSrc = colorSrc;
-
+#if USE_BACKGROUND
   auto glProgramState = mBack->getGLProgramState();
   glProgramState->setUniformVec4("color",
                                  Vec4(mGradientColorSrc.r / 255.0,
@@ -349,9 +352,11 @@ void GameLogic::setBackGradientColor(const cocos2d::Color3B &colorSrc,
                                       mGradientColorDst.g / 255.0,
                                       mGradientColorDst.b / 255.0,
                                       0.4));
+#endif
 }
 
 void GameLogic::setBackGradientCenter(const cocos2d::Vec2 &pos) {
+#if USE_BACKGROUND
   Vec2 p = pos;
   p.x -= VisibleRect::center().x;
   p.x *= -1;
@@ -367,10 +372,13 @@ void GameLogic::setBackGradientCenter(const cocos2d::Vec2 &pos) {
   mGradientCenter = pos;
   mBack->getGLProgramState()->setUniformVec4("data",
                                              Vec4(screenWidth, screenHeight, p.x, p.y));
+#endif
 }
 
 void GameLogic::showGameScene(bool val) {
+#if USE_BACKGROUND
   mBack->setVisible(val);
+#endif
 }
 
 void GameLogic::createFixedBlocks() {
@@ -550,7 +558,7 @@ void GameLogic::update(float dt) {
   }
 
 #if USE_SHADOW
-  for (auto& s : mShadows) {
+  for (auto &s : mShadows) {
     s->update(dt);
   }
 #endif
@@ -689,17 +697,33 @@ void GameLogic::clean() {
   mTimeEvents.clear();
   mGroups.clear();
 
-  for (auto b : mBlocks) {
-    delete b.second;
+  for (auto &b : mBlocks) {
+    CC_SAFE_DELETE(b.second);
   }
   mBlocks.clear();
 
+  cleanBackground();
   clearStars();
   clearFx();
   clearSprites();
 
   enableGame(false);
   BlockBase::mIDCounter = 1;
+  
+#if USE_SHADOW
+  for (auto &s : mShadows) {
+    CC_SAFE_DELETE(s);
+  }
+  
+#if EDITOR_MODE
+  for (auto &n : mShadowNode) {
+    n->removeFromParent();
+  }
+#endif
+  
+  mShadowNode.clear();
+  mShadows.clear();
+#endif
 }
 
 void GameLogic::blockTraversal(const std::function<void(BlockBase *)> &func) {
@@ -763,7 +787,11 @@ void GameLogic::updateCamera(cocos2d::Camera *cam, bool forceUpdate) {
   newPos.y = std::min(newPos.y, mBounds.size.height - center.y);
   auto camRelative = newPos - VisibleRect::getVisibleRect().size / 2;
 #endif
+  
+#if USE_BACKGROUND
   mBack->setPosition(VisibleRect::center() + camRelative);
+#endif
+  
 #if EDITOR_MODE
   EditorScene::Scene->mGridNode->setPosition(camRelative);
 #endif
@@ -781,7 +809,10 @@ void GameLogic::updateBounds() {
 
 void GameLogic::restoreBackgroundPos() {
   auto visRect = VisibleRect::getVisibleRect();
+#if USE_BACKGROUND
   mBack->setPosition(visRect.size.width / 2, visRect.size.height / 2);
+#endif
+  
 #if EDITOR_MODE
   if (EditorScene::Scene->mGridNode) {
     EditorScene::Scene->mGridNode->setPosition(0, 0);

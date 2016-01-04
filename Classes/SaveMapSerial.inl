@@ -72,7 +72,13 @@ void MapSerial::saveMap(const char *file) {
   for (size_t fi = 0; fi < GameLogic::Game->mShadows.size(); ++fi) {
     INDENT_2
     ss << "{\n";
-    
+
+    INDENT_3
+    ss << "\"posx\": " << GameLogic::Game->mShadows[fi]->mPosX;
+    RT_LINE
+    INDENT_3
+    ss << "\"width\": " << GameLogic::Game->mShadows[fi]->mWidth;
+    RT_LINE
     INDENT_3
     ss << "\"lightType\": " << lightType2Str(GameLogic::Game->mShadows[fi]->mLightType);
     RT_LINE
