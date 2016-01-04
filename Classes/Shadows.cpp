@@ -164,6 +164,10 @@ void ShadowManager::updateBlock(BlockBase *block,
   if (block->getRenderer()->getBoundingBox().containsPoint(mLightPos)) {
     return;
   }
+  
+  if (block->mShadowGroup != mShadowGroup) {
+    return;
+  }
 
   auto bounds = GameLogic::Game->mBounds;
 

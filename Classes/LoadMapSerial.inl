@@ -93,25 +93,56 @@ void MapSerial::loadMap(const char *filename) {
   } SHOW_WARNING
   
 #if USE_SHADOW
-  if (CHECK_STRING(d, "lightType")) {
-    GameLogic::Game->mShadows->mLightType = str2lightType(d["lightType"].GetString());
-    GameLogic::Game->mShadows->mLightDirDegree = d["lightDir"].GetDouble();
-    GameLogic::Game->mShadows->updateLightDir();
+  if (CHECK_ARRAY(d, "shadowGroup")) {
+    auto size = d["shadowGroup"].Size();
+    for (auto si = 0; si < size; ++si) {
+      Document::ValueType &var = d["shadowGroup"][si];
+      if (si >= GameLogic::Game->mShadows.size()) {
+        GameLogic::Game->addShadowGroup();
+      }
+      
+      if (CHECK_STRING(var, "lightType")) {
+        GameLogic::Game->mShadows[si]->mLightType = str2lightType(var["lightType"].GetString());
+        GameLogic::Game->mShadows[si]->mLightDirDegree = var["lightDir"].GetDouble();
+        GameLogic::Game->mShadows[si]->updateLightDir();
+      } else {
+        GameLogic::Game->mShadows[si]->mLightType = ShadowManager::LIGHT_POINT;
+      }
+      
+      if (CHECK_STRING(var, "lightPosition")) {
+        GameLogic::Game->mShadows[si]->mLightPos = str2Vec(var["lightPosition"].GetString());
+        GameLogic::Game->mShadows[si]->mOriginLightPos = GameLogic::Game->mShadows[si]->mLightPos;
+      }
+      
+      if (CHECK_BOOL(var, "lightMoving")) {
+        GameLogic::Game->mShadows[si]->mShadowMovingEnable = var["lightMoving"].GetBool();
+      }
+      
+      if (CHECK_NUMBER(var, "shadowDarkness")) {
+        GameLogic::Game->mShadows[si]->mShadowDarkness =var["shadowDarkness"].GetDouble();
+      }
+    }
   } else {
-    GameLogic::Game->mShadows->mLightType = ShadowManager::LIGHT_POINT;
-  }
-  
-  if (CHECK_STRING(d, "lightPosition")) {
-    GameLogic::Game->mShadows->mLightPos = str2Vec(d["lightPosition"].GetString());
-    GameLogic::Game->mShadows->mOriginLightPos = GameLogic::Game->mShadows->mLightPos;
-  }
-  
-  if (CHECK_BOOL(d, "lightMoving")) {
-    GameLogic::Game->mShadows->mShadowMovingEnable = d["lightMoving"].GetBool();
-  }
-  
-  if (CHECK_NUMBER(d, "shadowDarkness")) {
-    GameLogic::Game->mShadows->mShadowDarkness = d["shadowDarkness"].GetDouble();
+    if (CHECK_STRING(d, "lightType")) {
+      GameLogic::Game->mShadows[0]->mLightType = str2lightType(d["lightType"].GetString());
+      GameLogic::Game->mShadows[0]->mLightDirDegree = d["lightDir"].GetDouble();
+      GameLogic::Game->mShadows[0]->updateLightDir();
+    } else {
+      GameLogic::Game->mShadows[0]->mLightType = ShadowManager::LIGHT_POINT;
+    }
+    
+    if (CHECK_STRING(d, "lightPosition")) {
+      GameLogic::Game->mShadows[0]->mLightPos = str2Vec(d["lightPosition"].GetString());
+      GameLogic::Game->mShadows[0]->mOriginLightPos = GameLogic::Game->mShadows[0]->mLightPos;
+    }
+    
+    if (CHECK_BOOL(d, "lightMoving")) {
+      GameLogic::Game->mShadows[0]->mShadowMovingEnable = d["lightMoving"].GetBool();
+    }
+    
+    if (CHECK_NUMBER(d, "shadowDarkness")) {
+      GameLogic::Game->mShadows[0]->mShadowDarkness = d["shadowDarkness"].GetDouble();
+    }
   }
 #endif
   

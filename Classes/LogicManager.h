@@ -122,9 +122,11 @@ public:
   std::map<cocos2d::Node *, BlockBase *> mBlockTable;
 
 #if USE_SHADOW
-  ShadowManager *mShadows{nullptr};
+  std::vector<ShadowManager*> mShadows;
 
-  cocos2d::Node *mShadowNode{nullptr};
+  std::vector<cocos2d::Node*> mShadowNode;
+  
+  void addShadowGroup();
 #endif
 
   cocos2d::Color3B mBackgroundColor;

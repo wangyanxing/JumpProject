@@ -83,6 +83,8 @@ public:
   bool mShadowMovingEnable{true};
 
   float mShadowDarkness{0.098f};
+  
+  int mShadowGroup{0};
 };
 
 #endif

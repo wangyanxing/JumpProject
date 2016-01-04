@@ -98,8 +98,9 @@ bool EditorScene::init() {
   mLightArraw->setOpacity(128);
 
 #if USE_SHADOW
-  mGame->mShadows->mLightPos = mLightPoint->getPosition();
-  mGame->mShadows->mOriginLightPos = mGame->mShadows->mLightPos;
+  // Default shadow group: 0
+  mGame->mShadows[0]->mLightPos = mLightPoint->getPosition();
+  mGame->mShadows[0]->mOriginLightPos = mGame->mShadows[0]->mLightPos;
 #endif
 
   mGradientCenterPoint = Sprite::create("images/daisy.png");
@@ -155,8 +156,8 @@ void EditorScene::mouseDown(cocos2d::Event *event) {
 #if USE_SHADOW
   if (mPressingN && !mGame->mGameMode) {
     mLightPoint->setPosition(pt);
-    mGame->mShadows->mLightPos = mLightPoint->getPosition();
-    mGame->mShadows->mOriginLightPos = mLightPoint->getPosition();
+    mGame->mShadows[0]->mLightPos = mLightPoint->getPosition();
+    mGame->mShadows[0]->mOriginLightPos = mLightPoint->getPosition();
     return;
   }
 #endif
@@ -675,8 +676,8 @@ void EditorScene::update(float dt) {
 
   if (!mGame->mGameMode && mPressingCtrl) {
     if (mPressingComma || mPressingPeriod) {
-      mGame->mShadows->mLightDirDegree += dt * 100 * (mPressingComma ? 1 : -1);
-      mGame->mShadows->updateLightDir();
+      mGame->mShadows[0]->mLightDirDegree += dt * 100 * (mPressingComma ? 1 : -1);
+      mGame->mShadows[0]->updateLightDir();
       updateLightHelper();
     }
   }
@@ -909,14 +910,14 @@ void EditorScene::drawBorder() {
 }
 
 void EditorScene::updateLightHelper() {
-  if (mGame->mShadows->mLightType == ShadowManager::LIGHT_POINT) {
+  if (mGame->mShadows[0]->mLightType == ShadowManager::LIGHT_POINT) {
     mLightPoint->setVisible(!mGame->mGameMode);
     mLightArraw->setVisible(false);
-    mLightPoint->setPosition(GameLogic::Game->mShadows->mOriginLightPos);
-  } else if (mGame->mShadows->mLightType == ShadowManager::LIGHT_DIR) {
+    mLightPoint->setPosition(GameLogic::Game->mShadows[0]->mOriginLightPos);
+  } else if (mGame->mShadows[0]->mLightType == ShadowManager::LIGHT_DIR) {
     mLightPoint->setVisible(false);
     mLightArraw->setVisible(!mGame->mGameMode);
-    mLightArraw->setRotation(mGame->mShadows->mLightDirDegree);
+    mLightArraw->setRotation(mGame->mShadows[0]->mLightDirDegree);
   }
 }
 

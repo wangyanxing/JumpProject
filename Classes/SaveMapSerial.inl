@@ -68,19 +68,36 @@ void MapSerial::saveMap(const char *file) {
   
 #if USE_SHADOW
   INDENT_1
-  ss << "\"lightType\": " << lightType2Str(GameLogic::Game->mShadows->mLightType);
-  RT_LINE
+  ss << "\"shadowGroup\": [ \n";
+  for (size_t fi = 0; fi < GameLogic::Game->mShadows.size(); ++fi) {
+    INDENT_2
+    ss << "{\n";
+    
+    INDENT_3
+    ss << "\"lightType\": " << lightType2Str(GameLogic::Game->mShadows[fi]->mLightType);
+    RT_LINE
+    INDENT_3
+    ss << "\"lightDir\": " << GameLogic::Game->mShadows[fi]->mLightDirDegree;
+    RT_LINE
+    INDENT_3
+    ss << "\"lightPosition\": " << vec2Str(GameLogic::Game->mShadows[fi]->mOriginLightPos);
+    RT_LINE
+    INDENT_3
+    ss << "\"lightMoving\": " << bool2Str(GameLogic::Game->mShadows[fi]->mShadowMovingEnable);
+    RT_LINE
+    INDENT_3
+    ss << "\"shadowDarkness\": " << GameLogic::Game->mShadows[fi]->mShadowDarkness;
+    ss << std::endl;
+
+    INDENT_2
+    ss << "}";
+    if (fi != GameLogic::Game->mShadows.size() - 1) {
+      ss << ",";
+    }
+    ss << "\n";
+  }
   INDENT_1
-  ss << "\"lightDir\": " << GameLogic::Game->mShadows->mLightDirDegree;
-  RT_LINE
-  INDENT_1
-  ss << "\"lightPosition\": " << vec2Str(GameLogic::Game->mShadows->mOriginLightPos);
-  RT_LINE
-  INDENT_1
-  ss << "\"lightMoving\": " << bool2Str(GameLogic::Game->mShadows->mShadowMovingEnable);
-  RT_LINE
-  INDENT_1
-  ss << "\"shadowDarkness\": " << GameLogic::Game->mShadows->mShadowDarkness;
+  ss << "]";
   RT_LINE
 #endif
   

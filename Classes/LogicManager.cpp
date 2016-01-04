@@ -50,9 +50,7 @@ GameLogic::GameLogic(cocos2d::Layer *parent) {
   mHero->mShadowLayerID = 1;
 
 #if USE_SHADOW
-  mShadowNode = Node::create();
-  mShadows = new ShadowManager(mShadowNode);
-  mParentLayer->addChild(mShadowNode, ZORDER_SHADOW_1);
+  addShadowGroup();
 #endif
 
   // Background
@@ -129,10 +127,20 @@ GameLogic::~GameLogic() {
   mHero = nullptr;
 
 #if USE_SHADOW
-  delete mShadows;
-  mShadows = nullptr;
+  for (auto& s : mShadows) {
+    CC_SAFE_DELETE(s);
+  }
+  mShadows.clear();
 #endif
 }
+
+#if USE_SHADOW
+void GameLogic::addShadowGroup() {
+  mShadowNode.push_back(Node::create());
+  mShadows.push_back(new ShadowManager(mShadowNode.back()));
+  mParentLayer->addChild(mShadowNode.back(), ZORDER_SHADOW_1);
+}
+#endif
 
 bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact &contact,
                                   cocos2d::PhysicsContactPreSolve &solve) {
@@ -542,7 +550,9 @@ void GameLogic::update(float dt) {
   }
 
 #if USE_SHADOW
-  mShadows->update(dt);
+  for (auto& s : mShadows) {
+    s->update(dt);
+  }
 #endif
 }
 
@@ -591,7 +601,9 @@ void GameLogic::enableGame(bool val, bool force) {
   mMoveRight = false;
 
 #if USE_SHADOW
-  mShadows->reset();
+  for (auto& s : mShadows) {
+    s->reset();
+  }
 #endif
 
   die();
