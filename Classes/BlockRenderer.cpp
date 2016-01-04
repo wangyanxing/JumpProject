@@ -185,7 +185,6 @@ DirthCircleRenderer::~DirthCircleRenderer() {
 
 void DirthCircleRenderer::init(InitParams& param) {
   RectRenderer::init(param);
-
   Rect rect = GET_PARAM(PARAM_RECT, Rect);
   mChild = GameUtils::createRect(rect, mSprite->getColor());
 }
@@ -208,4 +207,9 @@ void DirthCircleRenderer::setRotation(float val) {
 void DirthCircleRenderer::setScale(float x, float y) {
   BlockRenderer::setScale(x, y);
   mChild->setScale(x, y);
+}
+
+void DirthCircleRenderer::setColor(const cocos2d::Color3B& color) {
+  BlockRenderer::setColor(color);
+  mChild->setColor(color);
 }

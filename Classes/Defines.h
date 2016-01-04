@@ -74,6 +74,7 @@ enum FollowMode {
 # define CONTROL_BUTTON_WIDTH 300
 # define CONTROL_BUTTON_HEIGHT 200
 # define CONTROL_BUTTON_OPACITY 80
+# define CONTROL_BUTTON_COLOR Color3B(200, 200, 200)
 #endif
 
 // Art resource
@@ -90,8 +91,8 @@ enum FollowMode {
 
 // Z order
 #define ZORDER_BACK 0
-#define ZORDER_SHADOW_1 2
-#define ZORDER_SHADOW_2 3
+#define ZORDER_SHADOW_1 5
+#define ZORDER_SHADOW_2 6
 #define ZORDER_PARTICLE 15
 #define ZORDER_PARTICLE_STAR 16
 #define ZORDER_DIE_FX 18

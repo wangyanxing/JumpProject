@@ -147,6 +147,8 @@ public:
 
   void setScale(float x, float y) override;
 
+  void setColor(const cocos2d::Color3B& color) override;
+
 private:
   cocos2d::Sprite* mChild{nullptr};
 };

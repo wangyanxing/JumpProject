@@ -305,9 +305,9 @@ void GameScene::createControlPad() {
   mRightButton->setPosition(config->mRightButtonPos);
   mJumpButton->setPosition(config->mJumpButtonPos);
 
-  mLeftButton->setColor(Color3B(200, 200, 200));
-  mRightButton->setColor(Color3B(200, 200, 200));
-  mJumpButton->setColor(Color3B(200, 200, 200));
+  mLeftButton->setColor(CONTROL_BUTTON_COLOR);
+  mRightButton->setColor(CONTROL_BUTTON_COLOR);
+  mJumpButton->setColor(CONTROL_BUTTON_COLOR);
 
   float scale = config->mScale;
   mLeftButton->setScale(scale);

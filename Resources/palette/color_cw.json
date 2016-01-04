@@ -1,0 +1,86 @@
+{
+  "author": "redkaras",
+  "time": "Sat Nov 01 09:05:30 2014",
+  "palette": [ 
+    {
+      "index": 1, 
+      "color": "#1D213E"
+    }, 
+    {
+      "index": 2, 
+      "color": "#D42451"
+    }, 
+    {
+      "index": 3, 
+      "color": "#FFDB32"
+    }, 
+    {
+      "index": 4, 
+      "color": "#2465D4"
+    }, 
+    {
+      "index": 5, 
+      "color": "#284531"
+    }, 
+    {
+      "index": 6, 
+      "color": "#2B9493"
+    }, 
+    {
+      "index": 7, 
+      "color": "#2F241F"
+    }, 
+    {
+      "index": 8, 
+      "color": "#4FC235"
+    }, 
+    {
+      "index": 9, 
+      "color": "#C6622C"
+    }, 
+    {
+      "index": 10, 
+      "color": "#3A3A3A"
+    }, 
+    {
+      "index": 11, 
+      "color": "#FFFFFF"
+    }, 
+    {
+      "index": 12, 
+      "color": "#292929"
+    }, 
+    {
+      "index": 13, 
+      "color": "#CA224D"
+    }, 
+    {
+      "index": 14, 
+      "color": "#660000" 
+    }, 
+    {
+      "index": 15, 
+      "color": "#006600" 
+    }, 
+    {
+      "index": 16, 
+      "color": "#000066" 
+    }, 
+    {
+      "index": 17, 
+      "color": "#333333" 
+    }, 
+    {
+      "index": 18, 
+      "color": "#330000" 
+    }, 
+    {
+      "index": 19, 
+      "color": "#003300" 
+    }, 
+    {
+      "index": 20, 
+      "color": "#D1AB14"
+    }
+  ]
+}
