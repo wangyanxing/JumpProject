@@ -864,8 +864,8 @@ void EditorScene::initDrawNodes() {
   mGridNode->setCameraMask((unsigned short) CameraFlag::USER2);
   mBorderNode->setCameraMask((unsigned short) CameraFlag::USER2);
 
-  addChild(mGridNode);
-  addChild(mBorderNode, 50);
+  addChild(mGridNode, ZORDER_EDT_GRID);
+  addChild(mBorderNode, ZORDER_EDT_BORDER);
 
   mGridNode->setVisible(false);
   
