@@ -162,23 +162,6 @@ void MapSerial::loadMap(const char *filename) {
   }
 #endif
   
-  Vec2 gradientCenter(0, 0);
-  Color3B colorSrc(50, 201, 219);
-  Color3B colorDst(30, 181, 199);
-  
-  if (CHECK_STRING(d, "gradientCenter")) {
-    gradientCenter = str2Vec(d["gradientCenter"].GetString());
-  }
-  if (CHECK_STRING(d, "gradientColorSrc")) {
-    colorSrc = str2Color(d["gradientColorSrc"].GetString());
-  }
-  if (CHECK_STRING(d, "gradientColorDst")) {
-    colorDst = str2Color(d["gradientColorDst"].GetString());
-  }
-  
-  GameLogic::Game->setBackGradientCenter(gradientCenter);
-  GameLogic::Game->setBackGradientColor(colorSrc, colorDst);
-  
   if (CHECK_ARRAY(d, "fx")) {
     auto fxsize = d["fx"].Size();
     for (auto fi = 0; fi < fxsize; ++fi) {
@@ -494,10 +477,6 @@ void MapSerial::loadMap(const char *filename) {
   EditorScene::Scene->mSpawnPoint->setPosition(GameLogic::Game->mSpawnPos);
 #if USE_SHADOW
   EditorScene::Scene->updateLightHelper();
-#endif
-  
-#if USE_GRADIENT
-  EditorScene::Scene->mGradientCenterPoint->setPosition(GameLogic::Game->mGradientCenter);
 #endif
   
   UILayer::Layer->setFileName(fixedfilename.c_str());

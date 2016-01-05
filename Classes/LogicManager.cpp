@@ -25,7 +25,6 @@
 #   include "GameScene.h"
 #endif
 
-#define GRADIENT 1
 #define DIE_FX_TAG 1001
 
 USING_NS_CC;
@@ -66,35 +65,7 @@ void GameLogic::cleanBackground() {
 
 void GameLogic::initBackground() {
 #if USE_BACKGROUND
-#if GRADIENT
-  mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(255, 255, 255));
-  
-#if EDITOR_MODE
-  auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/back_editor.fsh");
-#else
-  auto shaderfile = FileUtils::getInstance()->fullPathForFilename("shaders/back.fsh");
-#endif
-  
-  // Load shaders
-  auto shaderContent = FileUtils::getInstance()->getStringFromFile(shaderfile);
-  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert,
-                                                 shaderContent.c_str());
-  auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
-  
-  float screenWidth = VisibleRect::getFrameSize().width;
-  float screenHeight = VisibleRect::getFrameSize().height;
-  
-  mGradientColorSrc = Color3B(50, 201, 219);
-  mGradientColorDst = Color3B(30, 181, 199);
-  
-  mBack->setGLProgramState(glProgramState);
-  glProgramState->setUniformVec4("data", Vec4(screenWidth, screenHeight, 0, 0));
-  glProgramState->setUniformVec4("color", Vec4(50.0 / 255.0, 201.0 / 255.0, 219.0 / 255.0, 0.4));
-  glProgramState->setUniformVec4("colorDest",
-                                 Vec4(30.0 / 255.0, 181.0 / 255.0, 199.0 / 255.0, 0.4));
-#else
   mBack = GameUtils::createRect(VisibleRect::getVisibleRect(), Color3B(30, 181, 199));
-#endif
   mParentLayer->addChild(mBack, ZORDER_BACK);
 #endif
 }
@@ -334,45 +305,6 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact &contact,
 
   pushObject->getRenderer()->getPhysicsBody()->getShapes().at(0)->_forceUpdateShape();
   return false;
-}
-
-void GameLogic::setBackGradientColor(const cocos2d::Color3B &colorSrc,
-                                     const cocos2d::Color3B &colorDst) {
-  mGradientColorDst = colorDst;
-  mGradientColorSrc = colorSrc;
-#if USE_BACKGROUND
-  auto glProgramState = mBack->getGLProgramState();
-  glProgramState->setUniformVec4("color",
-                                 Vec4(mGradientColorSrc.r / 255.0,
-                                      mGradientColorSrc.g / 255.0,
-                                      mGradientColorSrc.b / 255.0,
-                                      0.4));
-  glProgramState->setUniformVec4("colorDest",
-                                 Vec4(mGradientColorDst.r / 255.0,
-                                      mGradientColorDst.g / 255.0,
-                                      mGradientColorDst.b / 255.0,
-                                      0.4));
-#endif
-}
-
-void GameLogic::setBackGradientCenter(const cocos2d::Vec2 &pos) {
-#if USE_BACKGROUND
-  Vec2 p = pos;
-  p.x -= VisibleRect::center().x;
-  p.x *= -1;
-  p.x /= VisibleRect::center().x;
-
-  p.y -= VisibleRect::center().y;
-  p.y *= -1;
-  p.y /= VisibleRect::center().x;
-
-  float screenWidth = VisibleRect::getFrameSize().width;
-  float screenHeight = VisibleRect::getFrameSize().height;
-
-  mGradientCenter = pos;
-  mBack->getGLProgramState()->setUniformVec4("data",
-                                             Vec4(screenWidth, screenHeight, p.x, p.y));
-#endif
 }
 
 void GameLogic::showGameScene(bool val) {
@@ -652,7 +584,7 @@ void GameLogic::enableGame(bool val, bool force) {
 
 void GameLogic::setBackgroundColor(const cocos2d::Color3B &color) {
   mBackgroundColor = color;
-#if GRADIENT == 0
+#if USE_BACKGROUND
   mBack->setColor(mBackgroundColor);
 #endif
 }

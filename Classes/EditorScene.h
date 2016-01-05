@@ -130,10 +130,6 @@ public:
   cocos2d::Sprite *mLightPoint{nullptr};
 
   cocos2d::Sprite *mLightArraw{nullptr};
-
-#if USE_GRADIENT
-  cocos2d::Sprite *mGradientCenterPoint{nullptr};
-#endif
   
   cocos2d::Label *mMousePosLabel{nullptr};
 

@@ -7,147 +7,58 @@
 //
 
 void MapSerial::saveMap(const char *file) {
-  time_t rawtime;
-  struct tm *ptm;
-  time(&rawtime);
-  ptm = gmtime(&rawtime);
-  std::string timestr = asctime(ptm);
-  timestr.resize(timestr.size() - 1);
-  
-  std::string author = "unknown";
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
-  TCHAR username[UNLEN + 1];
-  DWORD size = UNLEN + 1;
-  GetUserName((TCHAR *) username, &size);
-  author = username;
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
-  author = getlogin();
-#endif
-  
   stringstream ss;
-  ss << "{\n";
-  
+  auto Game = GameLogic::Game;
   auto palette = Palette::getInstance();
-  
-  INDENT_1
-  ss << "\"author\": " << "\"" << author << "\"";
-  RT_LINE
-  INDENT_1
-  ss << "\"time\": " << "\"" << timestr << "\"";
-  RT_LINE
-  float ratio = VisibleRect::right().x / VisibleRect::top().y;
-  INDENT_1
-  ss << "\"ratio\": " << ratio;
-  RT_LINE
-  
-  INDENT_1
-  ss << "\"backgroundColor\": " << colorStr(GameLogic::Game->mBackgroundColor);
-  RT_LINE
-  
-  INDENT_1
-  ss << "\"heroColorIndex\": " << GameLogic::Game->mHero->mPaletteIndex;
-  RT_LINE
-  INDENT_1
-  ss << "\"normalBlockColor\": " << colorStr(palette->getDefaultBlockColors(KIND_BLOCK));
-  RT_LINE
-  INDENT_1
-  ss << "\"deathBlockColor\": " << colorStr(palette->getDefaultBlockColors(KIND_DEATH));
-  RT_LINE
-  INDENT_1
-  ss << "\"deathCircleColor\": " << colorStr(palette->getDefaultBlockColors(KIND_DEATH_CIRCLE));
-  RT_LINE
-  INDENT_1
-  ss << "\"buttonColor\": " << colorStr(palette->getDefaultBlockColors(KIND_BUTTON));
-  RT_LINE
-  INDENT_1
-  ss << "\"pushableBlockColor\": " << colorStr(palette->getDefaultBlockColors(KIND_PUSHABLE));
-  RT_LINE
-  INDENT_1
-  ss << "\"spawnPosition\": " << vec2Str(GameLogic::Game->mSpawnPos);
-  RT_LINE
-  
+  auto timestr = getTimeStr();
+  auto author = getComputerUser();
+
+  BEGIN_OBJECT(0)
+
+  WRITE_STR_E(1, "author", author);
+  WRITE_STR_E(1, "time", timestr);
+  WRITE_NUM_E(1, "ratio", VisibleRect::right().x / VisibleRect::top().y);
+  WRITE_COL_E(1, "backgroundColor", Game->mBackgroundColor);
+  WRITE_NUM_E(1, "heroColorIndex", Game->mHero->mPaletteIndex);
+  WRITE_COL_E(1, "normalBlockColor", palette->getDefaultBlockColors(KIND_BLOCK));
+  WRITE_COL_E(1, "deathBlockColor", palette->getDefaultBlockColors(KIND_DEATH));
+  WRITE_COL_E(1, "deathCircleColor", palette->getDefaultBlockColors(KIND_DEATH_CIRCLE));
+  WRITE_COL_E(1, "buttonColor", palette->getDefaultBlockColors(KIND_BUTTON));
+  WRITE_COL_E(1, "pushableBlockColor", palette->getDefaultBlockColors(KIND_PUSHABLE));
+  WRITE_VEC_E(1, "spawnPosition", Game->mSpawnPos);
+  WRITE_STR_E(1, "paletteFile", palette->getPaletteFileName());
+
 #if USE_SHADOW
-  INDENT_1
-  ss << "\"shadowGroup\": [ \n";
-  for (size_t fi = 0; fi < GameLogic::Game->mShadows.size(); ++fi) {
-    INDENT_2
-    ss << "{\n";
+  BEGIN_ARRAY(1, "shadowGroup");
+  for (auto it = Game->mShadows.begin(); it != Game->mShadows.end(); ++it) {
+    BEGIN_OBJECT(2)
 
-    INDENT_3
-    ss << "\"posx\": " << GameLogic::Game->mShadows[fi]->mPosX;
-    RT_LINE
-    INDENT_3
-    ss << "\"width\": " << GameLogic::Game->mShadows[fi]->mWidth;
-    RT_LINE
-    INDENT_3
-    ss << "\"lightType\": " << lightType2Str(GameLogic::Game->mShadows[fi]->mLightType);
-    RT_LINE
-    INDENT_3
-    ss << "\"lightDir\": " << GameLogic::Game->mShadows[fi]->mLightDirDegree;
-    RT_LINE
-    INDENT_3
-    ss << "\"lightPosition\": " << vec2Str(GameLogic::Game->mShadows[fi]->mOriginLightPos);
-    RT_LINE
-    INDENT_3
-    ss << "\"lightMoving\": " << bool2Str(GameLogic::Game->mShadows[fi]->mShadowMovingEnable);
-    RT_LINE
-    INDENT_3
-    ss << "\"shadowDarkness\": " << GameLogic::Game->mShadows[fi]->mShadowDarkness;
-    ss << std::endl;
+    auto shadow = *it;
+    WRITE_NUM_E(3, "posx", shadow->mPosX);
+    WRITE_NUM_E(3, "width", shadow->mWidth);
+    WRITE_GEN_E(3, "lightType", lightType2Str(shadow->mLightType));
+    WRITE_NUM_E(3, "lightDir", shadow->mLightDirDegree);
+    WRITE_VEC_E(3, "lightPosition", shadow->mOriginLightPos);
+    WRITE_BOL_E(3, "lightMoving", shadow->mShadowMovingEnable);
+    WRITE_NUM_R(3, "shadowDarkness", shadow->mShadowDarkness);
 
-    INDENT_2
-    ss << "}";
-    if (fi != GameLogic::Game->mShadows.size() - 1) {
-      ss << ",";
-    }
-    ss << "\n";
+    END_OBJECT(2, it + 1 != Game->mShadows.end());
   }
-  INDENT_1
-  ss << "]";
-  RT_LINE
+  END_ARRAY(1, WITH_COMMA);
 #endif
-  
-  INDENT_1
-  ss << "\"gradientCenter\": " << vec2Str(GameLogic::Game->mGradientCenter);
-  RT_LINE
-  INDENT_1
-  ss << "\"gradientColorSrc\": " << colorStr(GameLogic::Game->mGradientColorSrc);
-  RT_LINE
-  INDENT_1
-  ss << "\"gradientColorDst\": " << colorStr(GameLogic::Game->mGradientColorDst);
-  RT_LINE
-  INDENT_1
-  ss << "\"paletteFile\": \"" << palette->getPaletteFileName() << "\"";
-  RT_LINE
-  
-  INDENT_1
-  ss << "\"fx\": [ \n";
-  for (size_t fi = 0; fi < GameLogic::Game->mFxList.size(); ++fi) {
-    INDENT_2
-    ss << "\"" << GameLogic::Game->mFxList[fi] << "\"";
-    if (fi != GameLogic::Game->mFxList.size() - 1) {
-      ss << ",";
-    }
-    ss << "\n";
+
+  BEGIN_ARRAY(1, "fx");
+  for (auto it = Game->mFxList.begin(); it != Game->mFxList.end(); ++it) {
+    WRITE_ARR_STR(2, *it, it + 1 != Game->mFxList.end());
   }
-  INDENT_1
-  ss << "]";
-  RT_LINE
-  
-  INDENT_1
-  ss << "\"stars\": [ \n";
-  for (size_t fi = 0; fi < GameLogic::Game->mStarList.size(); ++fi) {
-    INDENT_2
-    ss << vec2Str(GameLogic::Game->mStarList[fi]);
-    if (fi != GameLogic::Game->mStarList.size() - 1) {
-      ss << ",";
-    }
-    ss << "\n";
+  END_ARRAY(1, WITH_COMMA);
+
+  BEGIN_ARRAY(1, "stars");
+  for (auto it = Game->mStarList.begin(); it != Game->mStarList.end(); ++it) {
+    WRITE_ARR_VEC(2, *it, it + 1 != Game->mStarList.end());
   }
-  INDENT_1
-  ss << "]";
-  RT_LINE
-  
+  END_ARRAY(1, WITH_COMMA);
+
   INDENT_1
   ss << "\"sprites\": [ \n";
   for (size_t fi = 0; fi < GameLogic::Game->mSpriteList.size(); ++fi) {

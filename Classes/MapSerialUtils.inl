@@ -24,12 +24,43 @@
 #include <fstream>
 #include <streambuf>
 
+#define WITH_COMMA true
+
 #define INDENT_1 ss<<"  ";
 #define INDENT_2 ss<<"    ";
 #define INDENT_3 ss<<"      ";
 #define INDENT_4 ss<<"        ";
 #define INDENT_5 ss<<"          ";
 #define RT_LINE ss<<","<<std::endl;
+#define RT_LINE_NOCOM ss<<std::endl;
+
+#define BEGIN_OBJECT(ind) indent(ss,ind);ss<<"{\n";
+#define BEGIN_ARRAY(ind,key) indent(ss,ind);ss<<'"'<<key<<"\": [\n";
+#define END_ARRAY(ind,comma) indent(ss,ind);endObject(ss,']',comma);
+#define END_OBJECT(ind,comma) indent(ss,ind);endObject(ss,'}',comma);
+
+#define WRITE_STR(ind,key,val) indent(ss,ind);ss<<'"'<<key<<"\": "<<'"'<<val<<'"';
+#define WRITE_NUM(ind,key,val) indent(ss,ind);ss<<'"'<<key<<"\": "<<val;
+#define WRITE_COL(ind,key,val) indent(ss,ind);ss<<'"'<<key<<"\": "<<colorStr(val);
+#define WRITE_VEC(ind,key,val) indent(ss,ind);ss<<'"'<<key<<"\": "<<vec2Str(val);
+#define WRITE_BOL(ind,key,val) indent(ss,ind);ss<<'"'<<key<<"\": "<<bool2Str(val);
+
+#define WRITE_GEN_E(ind,key,val) WRITE_NUM(ind,key,val) RT_LINE
+#define WRITE_STR_E(ind,key,val) WRITE_STR(ind,key,val) RT_LINE
+#define WRITE_NUM_E(ind,key,val) WRITE_NUM(ind,key,val) RT_LINE
+#define WRITE_COL_E(ind,key,val) WRITE_COL(ind,key,val) RT_LINE
+#define WRITE_VEC_E(ind,key,val) WRITE_VEC(ind,key,val) RT_LINE
+#define WRITE_BOL_E(ind,key,val) WRITE_BOL(ind,key,val) RT_LINE
+
+#define WRITE_GEN_R(ind,key,val) WRITE_NUM(ind,key,val) RT_LINE_NOCOM
+#define WRITE_STR_R(ind,key,val) WRITE_STR(ind,key,val) RT_LINE_NOCOM
+#define WRITE_NUM_R(ind,key,val) WRITE_NUM(ind,key,val) RT_LINE_NOCOM
+#define WRITE_COL_R(ind,key,val) WRITE_COL(ind,key,val) RT_LINE_NOCOM
+#define WRITE_VEC_R(ind,key,val) WRITE_VEC(ind,key,val) RT_LINE_NOCOM
+#define WRITE_BOL_R(ind,key,val) WRITE_BOL(ind,key,val) RT_LINE_NOCOM
+
+#define WRITE_ARR_STR(ind,val,comma) indent(ss,ind);ss<<'"'<<val<<'"'; endObject(ss,0,comma);
+#define WRITE_ARR_VEC(ind,val,comma) indent(ss,ind);ss<<vec2Str(val); endObject(ss,0,comma);
 
 #define CHECK_ARRAY(doc, member) (doc.HasMember(member) && doc[member].IsArray())
 #define CHECK_NUMBER(doc, member) (doc.HasMember(member) && doc[member].IsNumber())
@@ -49,6 +80,22 @@ USING_NS_CC;
 
 static void pushwarning() {
   CCLOGWARN("Invalid map file!");
+}
+
+static void indent(stringstream &ss, int level) {
+  if (level > 0) {
+    ss << std::string(level * 2, ' ');
+  }
+}
+
+static void endObject(stringstream &ss, char c, bool comma) {
+  if (c != 0) {
+    ss << c;
+  }
+  if (comma) {
+    ss << ",";
+  }
+  ss << "\n";
 }
 
 static std::string toJsonArray(const std::vector<std::string> &array) {
@@ -149,6 +196,29 @@ Size str2Size(const std::string &str) {
 
 std::string bool2Str(bool v) {
   return v ? "true" : "false";
+}
+
+std::string getComputerUser() {
+  std::string author = "unknown";
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+  TCHAR username[UNLEN + 1];
+  DWORD size = UNLEN + 1;
+  GetUserName((TCHAR *) username, &size);
+  author = username;
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+  author = getlogin();
+#endif
+  return author;
+}
+
+std::string getTimeStr() {
+  time_t rawtime;
+  struct tm *ptm;
+  time(&rawtime);
+  ptm = gmtime(&rawtime);
+  std::string timestr = asctime(ptm);
+  timestr.resize(timestr.size() - 1);
+  return timestr;
 }
 
 std::string followMode2Str(FollowMode v) {

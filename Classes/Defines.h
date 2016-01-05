@@ -51,7 +51,6 @@ enum FollowMode {
 #define USE_SHADOW 1
 #define USE_JUMP_EFFECT 1
 #define USE_BACKGROUND 1
-#define USE_GRADIENT 0
 
 #define UI_LAYER_HIGHT 100
 
