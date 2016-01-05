@@ -6,24 +6,11 @@
 //
 //
 
+#if EDITOR_MODE
+
 void MapSerial::savePalette(const char *file) {
-  time_t rawtime;
-  struct tm *ptm;
-  time(&rawtime);
-  ptm = gmtime(&rawtime);
-  std::string timestr = asctime(ptm);
-  timestr.resize(timestr.size() - 1);
-  
-  std::string author = "unknown";
-  
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
-  TCHAR username[UNLEN + 1];
-  DWORD size = UNLEN + 1;
-  GetUserName((TCHAR *) username, &size);
-  author = username;
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
-  author = getlogin();
-#endif
+  std::string timestr = getTimeStr();
+  std::string author = getComputerUser();
   
   stringstream ss;
   ss << "{\n";
@@ -57,15 +44,10 @@ void MapSerial::savePalette(const char *file) {
   ss << "] \n";
   
   ss << "}";
-  
-  auto fp = fopen(file, "w+");
-  if (!fp) {
-    CCLOGWARN("Warning: cannot write the map file : %s", file);
-    return;
-  }
-  fprintf(fp, "%s", ss.str().c_str());
-  fclose(fp);
+
+  saveToFile(file, ss);
 }
+#endif
 
 void MapSerial::loadPalette(const char *file) {
   std::ifstream paletteFileStream(file);

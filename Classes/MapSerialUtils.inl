@@ -25,6 +25,7 @@
 #include <streambuf>
 
 #define WITH_COMMA true
+#define NO_COMMA false
 
 #define INDENT_1 ss<<"  ";
 #define INDENT_2 ss<<"    ";
@@ -39,6 +40,8 @@
 #define END_ARRAY(ind,comma) indent(ss,ind);endObject(ss,']',comma);
 #define END_OBJECT(ind,comma) indent(ss,ind);endObject(ss,'}',comma);
 
+#define CHECK_DEFAULT(cond,def) if(!checkEqual(cond,def))
+
 /**
  * Write a key value pair.
  */
@@ -46,6 +49,7 @@
 #define WRITE_NUM(ind,key,val) indent(ss,ind);ss<<'"'<<key<<"\": "<<val;
 #define WRITE_COL(ind,key,val) indent(ss,ind);ss<<'"'<<key<<"\": "<<colorStr(val);
 #define WRITE_VEC(ind,key,val) indent(ss,ind);ss<<'"'<<key<<"\": "<<vec2Str(val);
+#define WRITE_SIZ(ind,key,val) indent(ss,ind);ss<<'"'<<key<<"\": "<<size2Str(val);
 #define WRITE_BOL(ind,key,val) indent(ss,ind);ss<<'"'<<key<<"\": "<<bool2Str(val);
 
 /**
@@ -56,6 +60,7 @@
 #define WRITE_NUM_E(ind,key,val) WRITE_NUM(ind,key,val) RT_LINE
 #define WRITE_COL_E(ind,key,val) WRITE_COL(ind,key,val) RT_LINE
 #define WRITE_VEC_E(ind,key,val) WRITE_VEC(ind,key,val) RT_LINE
+#define WRITE_SIZ_E(ind,key,val) WRITE_VEC(ind,key,val) RT_LINE
 #define WRITE_BOL_E(ind,key,val) WRITE_BOL(ind,key,val) RT_LINE
 
 /**
@@ -66,6 +71,7 @@
 #define WRITE_NUM_R(ind,key,val) WRITE_NUM(ind,key,val) RT_LINE_NOCOM
 #define WRITE_COL_R(ind,key,val) WRITE_COL(ind,key,val) RT_LINE_NOCOM
 #define WRITE_VEC_R(ind,key,val) WRITE_VEC(ind,key,val) RT_LINE_NOCOM
+#define WRITE_SIZ_R(ind,key,val) WRITE_VEC(ind,key,val) RT_LINE_NOCOM
 #define WRITE_BOL_R(ind,key,val) WRITE_BOL(ind,key,val) RT_LINE_NOCOM
 
 /**
@@ -96,6 +102,16 @@ using namespace rapidjson;
 
 USING_NS_CC;
 
+template<typename T>
+bool checkEqual(const T &a, const T &b) {
+  return a == b;
+}
+
+template<>
+bool checkEqual(const float &a, const float &b) {
+  return fabs(a - b) < FLT_EPSILON;
+}
+
 static void indent(stringstream &ss, int level) {
   if (level > 0) {
     ss << std::string(level * 2, ' ');
@@ -112,7 +128,18 @@ static void endObject(stringstream &ss, char c, bool comma) {
   ss << "\n";
 }
 
-static std::string toJsonArray(const std::vector<std::string> &array) {
+static void saveToFile(const char *file, const stringstream &ss) {
+  auto fp = fopen(file, "w+");
+  if (!fp) {
+    CCLOG("Warning: cannot access the file : %s", file);
+    return;
+  }
+  fprintf(fp, "%s", ss.str().c_str());
+  fclose(fp);
+}
+
+template<typename T>
+std::string toJsonArray(const std::vector<T> &array) {
   std::ostringstream stream;
   stream << "[";
   for (size_t i = 0; i < array.size(); ++i) {
@@ -139,10 +166,6 @@ static const char *getLevelSuffix() {
     suffix = "_ip4";
   }
   return suffix.c_str();
-}
-
-static bool floatEqual(float a, float b) {
-  return fabs(a - b) < FLT_EPSILON;
 }
 
 /**
