@@ -39,12 +39,18 @@
 #define END_ARRAY(ind,comma) indent(ss,ind);endObject(ss,']',comma);
 #define END_OBJECT(ind,comma) indent(ss,ind);endObject(ss,'}',comma);
 
+/**
+ * Write a key value pair.
+ */
 #define WRITE_STR(ind,key,val) indent(ss,ind);ss<<'"'<<key<<"\": "<<'"'<<val<<'"';
 #define WRITE_NUM(ind,key,val) indent(ss,ind);ss<<'"'<<key<<"\": "<<val;
 #define WRITE_COL(ind,key,val) indent(ss,ind);ss<<'"'<<key<<"\": "<<colorStr(val);
 #define WRITE_VEC(ind,key,val) indent(ss,ind);ss<<'"'<<key<<"\": "<<vec2Str(val);
 #define WRITE_BOL(ind,key,val) indent(ss,ind);ss<<'"'<<key<<"\": "<<bool2Str(val);
 
+/**
+ * Write a key value pair with ending comma.
+ */
 #define WRITE_GEN_E(ind,key,val) WRITE_NUM(ind,key,val) RT_LINE
 #define WRITE_STR_E(ind,key,val) WRITE_STR(ind,key,val) RT_LINE
 #define WRITE_NUM_E(ind,key,val) WRITE_NUM(ind,key,val) RT_LINE
@@ -52,6 +58,9 @@
 #define WRITE_VEC_E(ind,key,val) WRITE_VEC(ind,key,val) RT_LINE
 #define WRITE_BOL_E(ind,key,val) WRITE_BOL(ind,key,val) RT_LINE
 
+/**
+ * Write a key value pair without ending comma.
+ */
 #define WRITE_GEN_R(ind,key,val) WRITE_NUM(ind,key,val) RT_LINE_NOCOM
 #define WRITE_STR_R(ind,key,val) WRITE_STR(ind,key,val) RT_LINE_NOCOM
 #define WRITE_NUM_R(ind,key,val) WRITE_NUM(ind,key,val) RT_LINE_NOCOM
@@ -59,16 +68,25 @@
 #define WRITE_VEC_R(ind,key,val) WRITE_VEC(ind,key,val) RT_LINE_NOCOM
 #define WRITE_BOL_R(ind,key,val) WRITE_BOL(ind,key,val) RT_LINE_NOCOM
 
+/**
+ * Wirte as an array element(no key).
+ */
 #define WRITE_ARR_STR(ind,val,comma) indent(ss,ind);ss<<'"'<<val<<'"'; endObject(ss,0,comma);
 #define WRITE_ARR_VEC(ind,val,comma) indent(ss,ind);ss<<vec2Str(val); endObject(ss,0,comma);
 
+/**
+ * Check a given key name is existed in the Json document.
+ */
 #define CHECK_ARRAY(doc, member) (doc.HasMember(member) && doc[member].IsArray())
 #define CHECK_NUMBER(doc, member) (doc.HasMember(member) && doc[member].IsNumber())
 #define CHECK_BOOL(doc, member) (doc.HasMember(member) && doc[member].IsBool())
 #define CHECK_INT(doc, member) (doc.HasMember(member) && doc[member].IsInt())
 #define CHECK_STRING(doc, member) (doc.HasMember(member) && doc[member].IsString())
 
-#define SHOW_WARNING else{pushwarning();}
+/**
+ * If can't locate the key, show a warning messasge.
+ */
+#define SHOW_WARNING else {CCLOGWARN("Invalid map file!");}
 
 using namespace std;
 using namespace rapidjson;
@@ -77,10 +95,6 @@ using namespace rapidjson;
 #include <iostream>
 
 USING_NS_CC;
-
-static void pushwarning() {
-  CCLOGWARN("Invalid map file!");
-}
 
 static void indent(stringstream &ss, int level) {
   if (level > 0) {
@@ -131,12 +145,18 @@ static bool floatEqual(float a, float b) {
   return fabs(a - b) < FLT_EPSILON;
 }
 
+/**
+ * Convert to hex color string.
+ */
 std::string colorStr(const Color3B &color) {
   char temp[100];
   sprintf(temp, "\"#%02X%02X%02X\"", color.r, color.g, color.b);
   return temp;
 }
 
+/**
+ * Convert a hex color string back to Color3B object.
+ */
 Color3B str2Color(std::string hex) {
   int rgb[3];
   stringstream ss;
@@ -164,6 +184,9 @@ Color3B str2Color(std::string hex) {
   return Color3B(rgb[0], rgb[1], rgb[2]);
 }
 
+/**
+ * Convert a vec2 to string.
+ */
 std::string vec2Str(const Vec2 &v) {
   char temp[100];
   sprintf(temp, "\"%g,%g\"", v.x, v.y);
@@ -198,6 +221,9 @@ std::string bool2Str(bool v) {
   return v ? "true" : "false";
 }
 
+/**
+ * Get the user name.
+ */
 std::string getComputerUser() {
   std::string author = "unknown";
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
@@ -211,6 +237,9 @@ std::string getComputerUser() {
   return author;
 }
 
+/**
+ * Get current time as a string.
+ */
 std::string getTimeStr() {
   time_t rawtime;
   struct tm *ptm;

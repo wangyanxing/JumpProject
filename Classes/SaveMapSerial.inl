@@ -15,6 +15,9 @@ void MapSerial::saveMap(const char *file) {
 
   BEGIN_OBJECT(0)
 
+  /**
+   * Level information
+   */
   WRITE_STR_E(1, "author", author);
   WRITE_STR_E(1, "time", timestr);
   WRITE_NUM_E(1, "ratio", VisibleRect::right().x / VisibleRect::top().y);
@@ -29,6 +32,9 @@ void MapSerial::saveMap(const char *file) {
   WRITE_STR_E(1, "paletteFile", palette->getPaletteFileName());
 
 #if USE_SHADOW
+  /**
+   * Shadow groups, usually only have one group.
+   */
   BEGIN_ARRAY(1, "shadowGroup");
   for (auto it = Game->mShadows.begin(); it != Game->mShadows.end(); ++it) {
     BEGIN_OBJECT(2)
@@ -47,35 +53,35 @@ void MapSerial::saveMap(const char *file) {
   END_ARRAY(1, WITH_COMMA);
 #endif
 
+  /**
+   * Particle effects.
+   */
   BEGIN_ARRAY(1, "fx");
   for (auto it = Game->mFxList.begin(); it != Game->mFxList.end(); ++it) {
     WRITE_ARR_STR(2, *it, it + 1 != Game->mFxList.end());
   }
   END_ARRAY(1, WITH_COMMA);
 
+  /**
+   * Star effects (deprecated).
+   */
   BEGIN_ARRAY(1, "stars");
   for (auto it = Game->mStarList.begin(); it != Game->mStarList.end(); ++it) {
     WRITE_ARR_VEC(2, *it, it + 1 != Game->mStarList.end());
   }
   END_ARRAY(1, WITH_COMMA);
 
-  INDENT_1
-  ss << "\"sprites\": [ \n";
-  for (size_t fi = 0; fi < GameLogic::Game->mSpriteList.size(); ++fi) {
-    INDENT_2
-    ss << "{\n";
-    saveSceneSprite(ss, GameLogic::Game->mSpriteList[fi]);
-    INDENT_2
-    ss << "}";
-    if (fi != GameLogic::Game->mSpriteList.size() - 1) {
-      ss << ",";
-    }
-    ss << "\n";
+  /**
+   * Simple sprite images.
+   */
+  BEGIN_ARRAY(1, "sprites");
+  for (auto it = Game->mSpriteList.begin(); it != Game->mSpriteList.end(); ++it) {
+    BEGIN_OBJECT(2)
+    saveSceneSprite(ss, *it);
+    END_OBJECT(2, it + 1 != Game->mSpriteList.end());
   }
-  INDENT_1
-  ss << "]";
-  RT_LINE
-  
+  END_ARRAY(1, WITH_COMMA);
+
   INDENT_1
   ss << "\"blocks\": [ \n";
   

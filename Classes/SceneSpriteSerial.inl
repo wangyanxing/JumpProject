@@ -7,30 +7,12 @@
 //
 
 void saveSceneSprite(stringstream& ss, const SceneSprite& sprite) {
-  INDENT_3
-  ss << "\"image\": " << "\"" << sprite.Image << "\"";
-  RT_LINE
-  
-  INDENT_3
-  ss << "\"size\": " << size2Str(sprite.Size);
-  RT_LINE
-  
-  INDENT_3
-  ss << "\"position\": " << vec2Str(sprite.Position);
-  RT_LINE
-  
-  INDENT_3
-  ss << "\"zorder\": " << sprite.ZOrder;
-  RT_LINE
-  
-  INDENT_3
-  ss << "\"opacity\": " << int(sprite.Opacity);
-  RT_LINE
-  
-  INDENT_3
-  ss << "\"color\": " << colorStr(sprite.Color);
-
-  ss << std::endl;
+  WRITE_STR_E(3, "image", sprite.Image);
+  WRITE_VEC_E(3, "size", sprite.Size);
+  WRITE_VEC_E(3, "position", sprite.Position);
+  WRITE_NUM_E(3, "zorder", sprite.ZOrder);
+  WRITE_NUM_E(3, "opacity", int(sprite.Opacity));
+  WRITE_COL_R(3, "color", sprite.Color);
 }
 
 SceneSprite loadSceneSprite(Document::ValueType &var) {
