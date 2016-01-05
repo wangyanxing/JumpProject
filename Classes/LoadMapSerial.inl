@@ -6,27 +6,6 @@
 //
 //
 
-#define READ_INT(name, key, var, def) int name = def; \
-  if (CHECK_INT(var, key)) name = var[key].GetInt();
-
-#define READ_SIZE(name, key, var) Size name; \
-  if (CHECK_STRING(var, key)) name = str2Size(var[key].GetString());
-
-#define READ_VEC(name, key, var) Vec2 name; \
-  if (CHECK_STRING(var, key)) name = str2Vec(var[key].GetString());
-
-#define READ_BOOL(name, key, var, def) bool name = def; \
-  if (CHECK_BOOL(var, key)) name = var[key].GetBool();
-
-#define READ_KIND(name, key, var) BlockKind name = KIND_BLOCK; \
-  if (CHECK_STRING(var, key)) name = str2Kind(var[key].GetString());
-
-#define READ_STR(name, key, var, def) std::string name = def; \
-  if (CHECK_STRING(var, key)) name = var[key].GetString();
-
-#define READ_FLT(name, key, var, def) float name = def; \
-  if (CHECK_NUMBER(var, key)) name = var[key].GetDouble();
-
 void MapSerial::loadLastEdit() {
   auto file = UserDefault::getInstance()->getStringForKey("lastedit");
   if (file.empty()) {
@@ -136,6 +115,7 @@ void MapSerial::loadMap(const char *filename) {
       GameLogic::Game->initShadowGroup(si);
     }
   } else {
+    // Double write now, should be deprecated soon.
     GameLogic::Game->mNumShadowGroup = 1;
     GameLogic::Game->addShadowGroup();
     if (CHECK_STRING(d, "lightType")) {
@@ -161,23 +141,11 @@ void MapSerial::loadMap(const char *filename) {
     GameLogic::Game->initShadowGroup(0);
   }
 #endif
-  
-  if (CHECK_ARRAY(d, "fx")) {
-    auto fxsize = d["fx"].Size();
-    for (auto fi = 0; fi < fxsize; ++fi) {
-      auto fxname = d["fx"][fi].GetString();
-      GameLogic::Game->mFxList.push_back(fxname);
-    }
-  }
+
+  GameLogic::Game->mFxList = parseJsonStrArray("fx", d);
   GameLogic::Game->loadFxFromList();
-  
-  if (CHECK_ARRAY(d, "stars")) {
-    auto fxsize = d["stars"].Size();
-    for (auto fi = 0; fi < fxsize; ++fi) {
-      auto fxname = d["stars"][fi].GetString();
-      GameLogic::Game->mStarList.push_back(str2Vec(fxname));
-    }
-  }
+
+  GameLogic::Game->mFxList = parseJsonStrArray("stars", d);
   GameLogic::Game->loadStarFromList();
   
   if (CHECK_ARRAY(d, "sprites")) {
@@ -270,51 +238,12 @@ void MapSerial::loadMap(const char *filename) {
       size.width = std::max(size.width, 0.5f);
       size.height = std::max(size.height, 0.5f);
 
-#if EDITOR_MODE
-      if (!pickable) {
-        float width = VisibleRect::right().x;
-        float height = VisibleRect::top().y;
-        float frameSize = 10;
-        
-        if (id == 1) {
-          pos = Vec2(width / 2, frameSize / 2);
-          size = Size(width, frameSize);
-        } else if (id == 2) {
-          pos = Vec2(width / 2, height - frameSize / 2);
-          size = Size(width, frameSize);
-        } else if (id == 3) {
-          pos = Vec2(frameSize / 2, height / 2);
-          size = Size(frameSize, height);
-        } else if (id == 4) {
-          pos = Vec2(width - frameSize / 2, height / 2);
-          size = Size(frameSize, height);
-        }
-      }
-#endif
-      
       BlockBase *block = new BlockBase();
       block->mID = id;
       block->mRestorePosition = pos;
       block->mRestoreSize = size;
-      
-      if (kind == KIND_DEATH_CIRCLE || kind == KIND_DEATH) {
-        if (CHECK_ARRAY(var, "triggerEvents")) {
-          auto triggerEventSize = var["triggerEvents"].Size();
-          for (auto i = 0; i < triggerEventSize; i++) {
-            std::string triggerEvent = var["triggerEvents"][i].GetString();
-            block->mTriggerEvents.push_back(triggerEvent);
-          }
-        }
-      }
-      
-      if (CHECK_ARRAY(var, "initEvents")) {
-        auto initEventSize = var["initEvents"].Size();
-        for (auto i = 0; i < initEventSize; i++) {
-          std::string initEvent = var["initEvents"][i].GetString();
-          block->mInitialEvents.push_back(initEvent);
-        }
-      }
-      
+      block->mTriggerEvents = parseJsonStrArray("triggerEvents", var);
+      block->mInitialEvents = parseJsonStrArray("initEvents", var);
       block->setKind(kind, true);
       block->setColor(paletteIndex);
       block->getRenderer()->setTexture(textureName);
@@ -337,7 +266,7 @@ void MapSerial::loadMap(const char *filename) {
       GameLogic::Game->mBlocks[block->mID] = block;
       
       if (kind == KIND_BUTTON) {
-        if (var["direction"].IsString()) {
+        if (CHECK_STRING(var, "direction")) {
           block->mButton->mDir = str2Direction(var["direction"].GetString());
 #if EDITOR_MODE
           block->mButton->updateHelper();
@@ -350,42 +279,9 @@ void MapSerial::loadMap(const char *filename) {
           block->mButton->updateHelper();
 #endif
         }
-        
-        if (var.HasMember("pushedEvent")) {
-          if (var["pushedEvent"].IsString()) {
-            block->mButton->mPushedEvents = {var["pushedEvent"].GetString()};
-          } else {
-            CC_ASSERT(var["pushedEvent"].IsArray());
-            auto size = var["pushedEvent"].Size();
-            for (auto j = 0; j < size; ++j) {
-              block->mButton->mPushedEvents.push_back(var["pushedEvent"][j].GetString());
-            }
-          }
-        }
-        
-        if (var.HasMember("restoredEvent")) {
-          if (var["restoredEvent"].IsString()) {
-            block->mButton->mRestoredEvents = {var["restoredEvent"].GetString()};
-          } else {
-            CC_ASSERT(var["restoredEvent"].IsArray());
-            auto size = var["restoredEvent"].Size();
-            for (auto j = 0; j < size; ++j) {
-              block->mButton->mRestoredEvents.push_back(var["restoredEvent"][j].GetString());
-            }
-          }
-        }
-        
-        if (var.HasMember("pushingEvent")) {
-          if (var["pushingEvent"].IsString()) {
-            block->mButton->mPushingEvents = {var["pushingEvent"].GetString()};
-          } else {
-            CC_ASSERT(var["pushingEvent"].IsArray());
-            auto size = var["pushingEvent"].Size();
-            for (auto j = 0; j < size; ++j) {
-              block->mButton->mPushingEvents.push_back(var["pushingEvent"][j].GetString());
-            }
-          }
-        }
+        block->mButton->mPushedEvents = parseJsonStrArray("pushedEvent", var);
+        block->mButton->mRestoredEvents = parseJsonStrArray("restoredEvent", var);
+        block->mButton->mPushingEvents = parseJsonStrArray("pushingEvent", var);
       }
       
       if (CHECK_NUMBER(var, "pathSpeed")) {
@@ -437,14 +333,7 @@ void MapSerial::loadMap(const char *filename) {
         if (var["groupFollowMode"].IsString()) {
           block->mFollowMode = str2FollowMode(var["groupFollowMode"].GetString());
         } SHOW_WARNING
-        
-        auto memberSize = var["groupMembers"].Size();
-        for (auto j = 0; j < memberSize; ++j) {
-          if (var["groupMembers"][j].IsNumber()) {
-            auto id = var["groupMembers"][j].GetInt();
-            pregroups[block].push_back(id);
-          } SHOW_WARNING
-        }
+        pregroups[block] = parseJsonIntArray("groupMembers", var);
       }
     }
   } SHOW_WARNING
@@ -513,35 +402,16 @@ void MapSerial::afterLoadRemoteMaps() {
     }
     
     std::string fullpath = getMapDir();
-    
     if (fullpath.size() == 0) {
       CCLOGWARN("Warning: cannot locate the maps folder!");
       continue;
     }
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    fullpath = FileUtils::getInstance()->getWritablePath();
-    fullpath += m.name;
+    fullpath = FileUtils::getInstance()->getWritablePath() + m.name;
 #else
-    fullpath += "/remote/";
-    fullpath += m.name;
+    fullpath += "/remote/" + m.name;
 #endif
-    auto fp = fopen(fullpath.c_str(), "w+");
-    
-    if (!fp) {
-      CCLOGWARN("Warning: cannot save the map file : %s", fullpath.c_str());
-      continue;
-    }
-    
-    fprintf(fp, "%s", m.content.c_str());
-    fclose(fp);
+    saveToFile(fullpath.c_str(), m.content.c_str());
   }
 }
-
-#undef READ_INT
-#undef READ_SIZE
-#undef READ_VEC
-#undef READ_BOOL
-#undef READ_KIND
-#undef READ_STR
-#undef READ_FLT

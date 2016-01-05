@@ -90,6 +90,24 @@
 #define CHECK_STRING(doc, member) (doc.HasMember(member) && doc[member].IsString())
 
 /**
+ * Read types and assigned to a new local variabl.
+ */
+#define READ_INT(name, key, var, def) int name = def; \
+  if (CHECK_INT(var, key)) name = var[key].GetInt();
+#define READ_SIZE(name, key, var) Size name; \
+  if (CHECK_STRING(var, key)) name = str2Size(var[key].GetString());
+#define READ_VEC(name, key, var) Vec2 name; \
+  if (CHECK_STRING(var, key)) name = str2Vec(var[key].GetString());
+#define READ_BOOL(name, key, var, def) bool name = def; \
+  if (CHECK_BOOL(var, key)) name = var[key].GetBool();
+#define READ_KIND(name, key, var) BlockKind name = KIND_BLOCK; \
+  if (CHECK_STRING(var, key)) name = str2Kind(var[key].GetString());
+#define READ_STR(name, key, var, def) std::string name = def; \
+  if (CHECK_STRING(var, key)) name = var[key].GetString();
+#define READ_FLT(name, key, var, def) float name = def; \
+  if (CHECK_NUMBER(var, key)) name = var[key].GetDouble();
+
+/**
  * If can't locate the key, show a warning messasge.
  */
 #define SHOW_WARNING else {CCLOGWARN("Invalid map file!");}
@@ -128,14 +146,18 @@ static void endObject(stringstream &ss, char c, bool comma) {
   ss << "\n";
 }
 
-static void saveToFile(const char *file, const stringstream &ss) {
+static void saveToFile(const char *file, const char* content) {
   auto fp = fopen(file, "w+");
   if (!fp) {
     CCLOG("Warning: cannot access the file : %s", file);
     return;
   }
-  fprintf(fp, "%s", ss.str().c_str());
+  fprintf(fp, "%s", content);
   fclose(fp);
+}
+
+static void saveToFile(const char *file, const stringstream &ss) {
+  saveToFile(file, ss.str().c_str());
 }
 
 template<typename T>
@@ -242,6 +264,34 @@ Size str2Size(const std::string &str) {
 
 std::string bool2Str(bool v) {
   return v ? "true" : "false";
+}
+
+vector<string> parseJsonStrArray(const char *key, Document::ValueType &var) {
+  vector<string> ret;
+  if (CHECK_ARRAY(var, key)) {
+    auto fxsize = var[key].Size();
+    for (auto fi = 0; fi < fxsize; ++fi) {
+      auto fxname = var[key][fi].GetString();
+      ret.push_back(fxname);
+    }
+  } else if (CHECK_STRING(var, key)) {
+    ret.push_back(var[key].GetString());
+  }
+  return ret;
+}
+
+vector<int> parseJsonIntArray(const char *key, Document::ValueType &var) {
+  vector<int> ret;
+  if (CHECK_ARRAY(var, key)) {
+    auto fxsize = var[key].Size();
+    for (auto fi = 0; fi < fxsize; ++fi) {
+      auto fxname = var[key][fi].GetInt();
+      ret.push_back(fxname);
+    }
+  } else if (CHECK_INT(var, key)) {
+    ret.push_back(var[key].GetInt());
+  }
+  return ret;
 }
 
 /**

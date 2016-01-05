@@ -13,7 +13,6 @@
 #include <time.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
-
 #   include <windows.h>
 #   include <Lmcons.h>
 
@@ -39,14 +38,11 @@ std::vector<MapResource> HttpHelper::sAllMaps;
 void HttpHelper::getAllMaps() {
   cocos2d::network::HttpRequest *request = new cocos2d::network::HttpRequest();
   request->setUrl(GET_URL);
-
   request->setRequestType(cocos2d::network::HttpRequest::Type::GET);
-
   request->setResponseCallback([&](cocos2d::network::HttpClient *client,
                                    cocos2d::network::HttpResponse *response) {
-
       if (response->isSucceed() && response->getResponseCode() == 200) {
-        CCLOG("Got reponse from server: HTTP 200 OK");
+        CCLOG("[HTTP] Got reponse from server: HTTP 200 OK");
 
         std::vector<char> *buf = response->getResponseData();
         char *buffer = new char[buf->size() + 1];
@@ -80,25 +76,34 @@ void HttpHelper::getAllMaps() {
         delete[] buffer;
         MapSerial::afterLoadRemoteMaps();
       } else {
-        CCLOG("HTTP GET ERROR(code %ld): %s", response->getResponseCode(),
+        CCLOG("[HTTP] GET ERROR(code %ld): %s",
+              response->getResponseCode(),
               response->getErrorBuffer());
       }
   });
 
   request->setTag("GET get_maps");
   cocos2d::network::HttpClient::getInstance()->send(request);
-  CCLOG("Querying all maps from remote server..");
+  CCLOG("[HTTP] Downloading all level files from server..");
   request->release();
 }
 
-void HttpHelper::updateMap(const std::string &name, const std::string &author,
-                           const std::string &time, const std::string &content) {
-
+void HttpHelper::updateMap(const std::string &name,
+                           const std::string &author,
+                           const std::string &time,
+                           const std::string &content) {
   cocos2d::network::HttpRequest *request = new cocos2d::network::HttpRequest();
   request->setUrl(PUSH_URL);
   request->setRequestType(cocos2d::network::HttpRequest::Type::POST);
   request->setResponseCallback([&](cocos2d::network::HttpClient *client,
                                    cocos2d::network::HttpResponse *response) {
+    if (response->isSucceed()) {
+      CCLOG("[HTTP] Map uploaded");
+    } else {
+      CCLOG("[HTTP] POST ERROR(code %ld): %s",
+            response->getResponseCode(),
+            response->getErrorBuffer());
+    }
   });
 
   std::string t = "map[name]=";
@@ -112,9 +117,8 @@ void HttpHelper::updateMap(const std::string &name, const std::string &author,
   t += "&commit=Create+Map";
 
   request->setRequestData(t.c_str(), t.size());
-
   request->setTag("POST upload_map");
+  CCLOG("[HTTP] Uploading level file (%s) to server..", name.c_str());
   cocos2d::network::HttpClient::getInstance()->send(request);
-  CCLOG("Uploading maps to remote server..");
   request->release();
 }
