@@ -384,6 +384,7 @@ void GameLogic::jump() {
 
 void GameLogic::win() {
   CCLOG("Win event triggered");
+  GAME_LAYER->preWinGame();
   showWinCurtain();
 }
 
@@ -770,12 +771,6 @@ void GameLogic::showBeginCurtain() {
 void GameLogic::showWinCurtain() {
   initCurtainPos();
   mGameMode = false;
-
-#if !EDITOR_MODE
-  if (GameScene::Scene->getTimerLabel()->getPositionY() < VisibleRect::top().y) {
-    GameScene::Scene->showHideMenu(true);
-  }
-#endif
 
   GAME_CAMERA->runAction(Sequence::create(MoveBy::create(CURTAIN_MOVE_TIME,
                                                          Vec2(0, -VIS_RECT_HEIGHT)),

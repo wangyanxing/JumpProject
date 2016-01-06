@@ -20,14 +20,6 @@
 
 USING_NS_CC;
 
-cocos2d::Scene *GameScene::createScene() {
-  auto scene = GameLayerContainer::createPhysicsScene();
-  scene->addChild(GameScene::create());
-  return scene;
-}
-
-GameScene *GameScene::Scene = nullptr;
-
 GameScene::GameScene() : GameLayerContainer() {
 }
 
@@ -69,7 +61,6 @@ void GameScene::onEnterTransitionDidFinish() {
 }
 
 bool GameScene::init() {
-  Scene = this;
   GameLayerContainer::init();
 
   createControlPad();
@@ -174,6 +165,12 @@ void GameScene::enableGame(bool v) {
   mLeftButton->setVisible(v);
   mRightButton->setVisible(v);
   mJumpButton->setVisible(v);
+}
+
+void GameScene::preWinGame() {
+  if (mBackMenu->getPositionY() < VisibleRect::top().y) {
+    showHideMenu(true);
+  }
 }
 
 void GameScene::onWinGame() {

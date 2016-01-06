@@ -111,9 +111,11 @@ void LevelScene::touchEvent(Ref *pSender, Widget::TouchEventType type) {
       return;
     }
 
-    auto s = GameScene::createScene();
-    GameScene::Scene->enterGame(path, true);
-    Director::getInstance()->replaceScene(s);
+    auto scene = GameLayerContainer::createPhysicsScene();
+    auto game = GameScene::create();
+    scene->addChild(game);
+    game->enterGame(path, true);
+    Director::getInstance()->replaceScene(scene);
   }
 }
 

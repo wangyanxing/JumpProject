@@ -25,10 +25,6 @@ public:
 
   virtual ~GameScene();
 
-  static GameScene *Scene;
-
-  static cocos2d::Scene *createScene();
-
   virtual void onEnter() override;
 
   virtual void onEnterTransitionDidFinish() override;
@@ -42,10 +38,6 @@ public:
   void loadChooseLevel(const std::string &name);
 
   void enterGame(const std::string &name, bool absPath);
-
-  void showHideMenu(bool force = false);
-
-  cocos2d::Label *getTimerLabel() { return mTimerLabel; }
 
   CREATE_FUNC(GameScene);
 
@@ -61,6 +53,10 @@ private:
   void toMainMenu();
 
   void onWinGame() override;
+
+  void preWinGame() override;
+
+  void showHideMenu(bool force = false);
 
 private:
   cocos2d::Sprite *mLeftButton{nullptr};

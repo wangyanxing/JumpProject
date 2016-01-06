@@ -40,6 +40,8 @@ public:
 
   virtual void onWinGame() = 0;
 
+  virtual void preWinGame() {}
+
   virtual int8_t getCameraDepth() {
     return -10;
   }
