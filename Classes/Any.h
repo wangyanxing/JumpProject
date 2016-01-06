@@ -58,7 +58,7 @@ public:
 
   void destroy() {
     delete mContent;
-    mContent = NULL;
+    mContent = nullptr;
   }
 
 protected:
@@ -103,7 +103,7 @@ public:
   template<typename ValueType>
   ValueType operator()() const {
     if (!mContent) {
-      CCLOGERROR("Any::operator() content is NULL");
+      CCLOGERROR("Any::operator() content is null");
     } else if(getType() == typeid(ValueType)) {
       return static_cast<Any::holder<ValueType> *>(mContent)->held;
     } else {
@@ -128,7 +128,7 @@ template<typename ValueType>
 ValueType any_cast(const Any & operand) {
   const ValueType * result = any_cast<ValueType>(&operand);
   if(!result) {
-    CCLOG("any_cast failed");
+    CCLOGERROR("any_cast failed");
   }
   return *result;
 }

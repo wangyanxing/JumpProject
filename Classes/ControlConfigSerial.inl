@@ -6,14 +6,18 @@
 //
 //
 
+#if EDITOR_MODE
+
 void MapSerial::saveControlConfig(const char *file) {
   if (ControlPad::controlPadConfig->mControlConfig.empty()) {
     auto config1 = new ControlPadConfig();
     ControlPad::controlPadConfig->mControlConfig.push_back(config1);
+
     auto config2 = new ControlPadConfig();
     config2->mRightButtonPos = Vec2(300, 60);
     config2->mScale = 0.3f;
     ControlPad::controlPadConfig->mControlConfig.push_back(config2);
+
     auto config3 = new ControlPadConfig();
     config2->mRightButtonPos = Vec2(320, 60);
     config2->mScale = 0.4f;
@@ -21,48 +25,30 @@ void MapSerial::saveControlConfig(const char *file) {
   }
   
   stringstream ss;
-  ss << "{\n";
-  
-  INDENT_1
-  ss << "\"ConfigIndex\" : " << ControlPad::controlPadConfig->mSelectedConfig << ",\n ";
-  
-  INDENT_1
-  ss << "\"ConfigArray\": [ \n";
+
+  BEGIN_OBJECT(0);
+  WRITE_NUM_E(1, "ConfigIndex", ControlPad::controlPadConfig->mSelectedConfig);
+  BEGIN_ARRAY(1, "ConfigArray");
+
   for (auto it = ControlPad::controlPadConfig->mControlConfig.begin();
        it != ControlPad::controlPadConfig->mControlConfig.end(); ++it) {
-    if (it != ControlPad::controlPadConfig->mControlConfig.begin()) {
-      ss << ", \n";
-    }
-    INDENT_2
-    ss << "{\n";
-    INDENT_3
-    ss << "\"desc\": \"" << (*it)->mDescription << "\", \n";
-    INDENT_3
-    ss << "\"scale\": " << (*it)->mScale << ", \n";
-    INDENT_3
-    ss << "\"leftButton\": " << vec2Str((*it)->mLeftButtonPos) << ", \n";
-    INDENT_3
-    ss << "\"rightButton\": " << vec2Str((*it)->mRightButtonPos) << ", \n";
-    INDENT_3
-    ss << "\"jumpButton\": " << vec2Str((*it)->mJumpButtonPos) << " \n";
-    INDENT_2
-    ss << "} ";
+    BEGIN_OBJECT(2)
+
+    WRITE_STR_E(3, "desc", (*it)->mDescription);
+    WRITE_NUM_E(3, "scale", (*it)->mScale);
+    WRITE_VEC_E(3, "leftButton", (*it)->mLeftButtonPos);
+    WRITE_VEC_E(3, "rightButton", (*it)->mRightButtonPos);
+    WRITE_VEC_E(3, "jumpButton", (*it)->mJumpButtonPos);
+
+    END_OBJECT(2, next(it) != ControlPad::controlPadConfig->mControlConfig.end());
   }
-  
-  ss << "\n";
-  INDENT_1
-  ss << "] \n";
-  
-  ss << "}";
-  
-  auto fp = fopen(file, "w+");
-  if (!fp) {
-    CCLOGWARN("Warning: cannot access the map file : %s", file);
-    return;
-  }
-  fprintf(fp, "%s", ss.str().c_str());
-  fclose(fp);
+
+  END_ARRAY(1, NO_COMMA);
+  END_OBJECT(0, NO_COMMA);
+
+  saveToFile(file, ss);
 }
+#endif
 
 void MapSerial::loadControlConfig(const char *file) {
   std::string fullPath = std::string(getConfigDir()) + "/" + file;

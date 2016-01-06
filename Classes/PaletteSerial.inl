@@ -6,49 +6,6 @@
 //
 //
 
-#if EDITOR_MODE
-
-void MapSerial::savePalette(const char *file) {
-  std::string timestr = getTimeStr();
-  std::string author = getComputerUser();
-  
-  stringstream ss;
-  ss << "{\n";
-  
-  INDENT_1
-  ss << "\"author\": " << "\"" << author << "\"";
-  RT_LINE
-  INDENT_1
-  ss << "\"time\": " << "\"" << timestr << "\"";
-  RT_LINE
-  
-  INDENT_1
-  ss << "\"palette\": [ \n";
-  
-  const auto &palette = Palette::getInstance()->getPalette();
-  for (auto it = palette.begin(); it != palette.end(); ++it) {
-    if (it != palette.begin()) {
-      ss << ", \n";
-    }
-    INDENT_2
-    ss << "{\n";
-    INDENT_3
-    ss << "\"index\": " << it->first << ", \n";
-    INDENT_3
-    ss << "\"color\": " << colorStr(it->second) << " \n";
-    INDENT_2
-    ss << "}";
-  }
-  
-  INDENT_1
-  ss << "] \n";
-  
-  ss << "}";
-
-  saveToFile(file, ss);
-}
-#endif
-
 void MapSerial::loadPalette(const char *file) {
   std::ifstream paletteFileStream(file);
   

@@ -27,11 +27,6 @@
 #define WITH_COMMA true
 #define NO_COMMA false
 
-#define INDENT_1 ss<<"  ";
-#define INDENT_2 ss<<"    ";
-#define INDENT_3 ss<<"      ";
-#define INDENT_4 ss<<"        ";
-#define INDENT_5 ss<<"          ";
 #define RT_LINE ss<<","<<std::endl;
 #define RT_LINE_NOCOM ss<<std::endl;
 

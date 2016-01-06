@@ -21,6 +21,8 @@ public:
   static void savePalette(const char *file);
 
   static void loadMap(bool local = true);
+
+  static void saveControlConfig(const char *file);
 #endif
 
   static void loadMap(const char *file);
@@ -36,8 +38,6 @@ public:
   static const char *getMapDir();
 
   static const char *getConfigDir();
-
-  static void saveControlConfig(const char *file);
 
   static void loadControlConfig(const char *file);
 
