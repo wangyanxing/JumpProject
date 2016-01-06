@@ -33,13 +33,9 @@ void MapSerial::loadMap(const char *filename) {
   }
   
   std::map<BlockBase *, std::vector<int>> pregroups;
-  
-#if EDITOR_MODE
-  EditorScene::Scene->clean(false);
-#else
-  GameLogic::Game->clean();
-#endif
-  
+
+  GAME_LAYER->clean();
+
   GameLogic::Game->initBackground();
   
   if (CHECK_STRING(d, "backgroundColor")) {
@@ -118,6 +114,7 @@ void MapSerial::loadMap(const char *filename) {
     // Double write now, should be deprecated soon.
     GameLogic::Game->mNumShadowGroup = 1;
     GameLogic::Game->addShadowGroup();
+
     if (CHECK_STRING(d, "lightType")) {
       GameLogic::Game->mShadows[0]->mLightType = str2lightType(d["lightType"].GetString());
       GameLogic::Game->mShadows[0]->mLightDirDegree = d["lightDir"].GetDouble();
@@ -138,6 +135,7 @@ void MapSerial::loadMap(const char *filename) {
     if (CHECK_NUMBER(d, "shadowDarkness")) {
       GameLogic::Game->mShadows[0]->mShadowDarkness = d["shadowDarkness"].GetDouble();
     }
+
     GameLogic::Game->initShadowGroup(0);
   }
 #endif
@@ -172,7 +170,6 @@ void MapSerial::loadMap(const char *filename) {
   
   if (CHECK_ARRAY(d, "timeEvents")) {
     auto size = d["timeEvents"].Size();
-    
     for (auto i = 0; i < size; ++i) {
       auto &var = d["timeEvents"][i];
       

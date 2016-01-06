@@ -44,11 +44,13 @@ ShadowManager::ShadowManager() {
 }
 
 ShadowManager::~ShadowManager() {
+  #if EDITOR_MODE
   for (int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
     mShadowDrawers[i]->release();
     mRenderTextures[i]->removeFromParent();
     mRenderTextures[i]->release();
   }
+  #endif
 }
 
 void ShadowManager::init(cocos2d::Node *parentNode) {
@@ -196,12 +198,11 @@ void ShadowManager::updateBlock(BlockBase *block,
 
   auto bounds = GameLogic::Game->mBounds;
 
+  auto camera = GAME_CAMERA;
 #if EDITOR_MODE
-  auto camera = EditorScene::Scene->mCamera;
   auto camRelative = camera->getPosition() - VisibleRect::getVisibleRect().size / 2 -
                      Vec2(0, UI_LAYER_HIGHT / 2);
 #else
-  auto camera = GameScene::Scene->getCamera();
   auto camRelative = camera->getPosition() - VisibleRect::getVisibleRect().size / 2;
 #endif
 
@@ -306,10 +307,10 @@ void ShadowManager::update(float dt) {
 
   for (int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
 #if EDITOR_MODE
-    mRenderTextures[i]->setPosition(EditorScene::Scene->mCamera->getPosition() -
+    mRenderTextures[i]->setPosition(GAME_CAMERA->getPosition() -
                                     Vec2(0, UI_LAYER_HIGHT / 2));
 #else
-    mRenderTextures[i]->setPosition(GameScene::Scene->getCamera()->getPosition());
+    mRenderTextures[i]->setPosition(GAME_CAMERA->getPosition());
 #endif
     
     mShadowDrawers[i]->clear();

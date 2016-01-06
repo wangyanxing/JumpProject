@@ -2,44 +2,30 @@
 #define __JumpEdt__EditorScene__
 
 #include "cocos2d.h"
+#include "GameLayerContainer.h"
 #include "DrawNodeEx.h"
 #include "Defines.h"
 #include "Path.h"
 #include "Button.h"
 #include "Blocks.h"
 #include "LogicManager.h"
-#include "ShaderLayer.h"
 
 #if EDITOR_MODE
 
 class BlockBase;
-
 class ShadowManager;
-
 class Hero;
-
 class GameLogic;
 
-#if USE_SHADER_LAYER
-class EditorScene : public ShaderLayer {
-#else
-
-class EditorScene : public cocos2d::Layer {
-#endif
+class EditorScene : public GameLayerContainer {
 public:
-  EditorScene() = default;
+  EditorScene();
 
   virtual ~EditorScene();
 
-  struct PostUpdater {
-    void update(float dt) {
-      GameLogic::Game->postUpdate(dt);
-    }
-  };
-
   static EditorScene *Scene;
 
-  virtual bool init();
+  virtual bool init() override;
 
   void keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
 
@@ -53,7 +39,7 @@ public:
 
   void convertMouse(cocos2d::Point &pt, bool cameraRelative = true);
 
-  bool onContactPreSolve(cocos2d::PhysicsContact &contact, cocos2d::PhysicsContactPreSolve &solve);
+  void onWinGame() override;
 
   CREATE_FUNC(EditorScene);
 
@@ -63,13 +49,13 @@ public:
 
   void updateGroupDrawNode();
 
-  void draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags);
+  void draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags) override;
 
   void onDrawPrimitive(const cocos2d::Mat4 &transform, uint32_t flags);
 
   void duplicate();
 
-  void update(float dt);
+  void update(float dt) override;
 
   void updateCamera();
 
@@ -84,8 +70,6 @@ public:
   void setShadowLayer(int layer);
 
   void drawBorder();
-  
-  cocos2d::Camera *getCamera() { return mCamera; }
 
   void alignLeft();
 
@@ -95,11 +79,11 @@ public:
 
   void alignDown();
 
-  void clean(bool save);
+  void clean() override;
+
+  void save();
 
   void group();
-
-  void showDieFullScreenAnim();
 
   bool mPressingShift{false};
 
@@ -145,17 +129,11 @@ public:
 
   std::string mCurFileName;
 
-  PostUpdater mPostUpdater;
-
-  GameLogic *mGame{nullptr};
-
   cocos2d::DrawNode *mGridNode{nullptr};
 
   cocos2d::DrawNode *mGroupNode{nullptr};
 
   cocos2d::DrawNode *mBorderNode{nullptr};
-
-  cocos2d::Camera *mCamera{nullptr};
 };
 
 #endif

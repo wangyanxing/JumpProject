@@ -4,13 +4,12 @@
 #include "LogicManager.h"
 
 #if EDITOR_MODE
-
 #   include "EditorScene.h"
 #   include "UILayer.h"
-
 #else
 #   include "GameScene.h"
 #   include "LevelScene.h"
+#   include "ChooseWorldScene.h"
 #endif
 
 USING_NS_CC;
@@ -50,14 +49,23 @@ Scene *createScene() {
 
   return scene;
 #else
+
+#if GAME_DEBUG_MODE
   auto levels = LevelScene::create();
   levels->retain();
   return levels;
+#else
+  auto scene = Scene::createWithPhysics();
+  scene->getPhysicsWorld()->setGravity(Vec2(0, 0));
+  GameLogic::PhysicsWorld = scene->getPhysicsWorld();
+  scene->addChild(ChooseWorldScene::create());
+  return scene;
+#endif
 #endif
 }
 
 AppDelegate::AppDelegate() {
-
+  srand((unsigned) time(nullptr));
 }
 
 AppDelegate::~AppDelegate() {

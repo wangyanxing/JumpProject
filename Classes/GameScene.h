@@ -12,34 +12,22 @@
 #include "cocos2d.h"
 #include "Defines.h"
 #include "LogicManager.h"
-#include "ShaderLayer.h"
+#include "GameLayerContainer.h"
 
 #if !EDITOR_MODE
 
 class GameLogic;
-
 class BlockBase;
 
-#if USE_SHADER_LAYER
-class GameScene : public ShaderLayer {
-#else
-
-class GameScene : public cocos2d::Layer {
-#endif
+class GameScene : public GameLayerContainer {
 public:
-  GameScene() = default;
+  GameScene();
 
   virtual ~GameScene();
 
   static GameScene *Scene;
 
   static cocos2d::Scene *createScene();
-
-  struct PostUpdater {
-    void update(float dt) {
-      GameLogic::Game->postUpdate(dt);
-    }
-  };
 
   virtual void onEnter() override;
 
@@ -49,21 +37,15 @@ public:
 
   void update(float dt) override;
 
-  bool onContactPreSolve(cocos2d::PhysicsContact &contact, cocos2d::PhysicsContactPreSolve &solve);
-
   void enableGame(bool v);
 
   void loadChooseLevel(const std::string &name);
 
   void enterGame(const std::string &name, bool absPath);
 
-  void showDieFullScreenAnim();
-
   void showHideMenu(bool force = false);
 
   cocos2d::Label *getTimerLabel() { return mTimerLabel; }
-
-  cocos2d::Camera *getCamera() { return mCamera; }
 
   CREATE_FUNC(GameScene);
 
@@ -78,13 +60,9 @@ private:
 
   void toMainMenu();
 
-  void onWinGame();
+  void onWinGame() override;
 
 private:
-  GameLogic *mGame{nullptr};
-
-  PostUpdater mPostUpdater;
-
   cocos2d::Sprite *mLeftButton{nullptr};
 
   cocos2d::Sprite *mRightButton{nullptr};
@@ -96,8 +74,6 @@ private:
   cocos2d::MenuItemImage *mBackMenu{nullptr};
 
   cocos2d::MenuItemImage *mRestartMenu{nullptr};
-
-  cocos2d::Camera *mCamera{nullptr};
 
   bool mCanJump{true};
 };

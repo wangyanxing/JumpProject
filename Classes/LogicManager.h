@@ -14,16 +14,12 @@
 #include "SceneSprite.h"
 
 class BlockBase;
-
 class Hero;
-
 class ShadowManager;
-
 class LightBeam;
-
 class TimeEvent;
-
 class BlockRenderer;
+class GameLayerContainer;
 
 class GameLogic {
 public:
@@ -31,7 +27,7 @@ public:
 
   static cocos2d::PhysicsWorld *PhysicsWorld;
 
-  GameLogic(cocos2d::Layer *parent);
+  GameLogic(GameLayerContainer *parent);
 
   ~GameLogic();
 
@@ -99,9 +95,11 @@ public:
   void showBeginCurtain();
 #endif
 
-public:
-  cocos2d::Layer *mParentLayer{nullptr};
+  GameLayerContainer *getGameLayer() {
+    return mParentLayer;
+  }
 
+public:
   std::map<BlockBase *, std::vector<BlockBase *>> mGroups;
 
   Hero *mHero{nullptr};
@@ -172,6 +170,8 @@ public:
 
 private:
   void initCurtainPos();
+
+  GameLayerContainer *mParentLayer{nullptr};
 };
 
 #endif /* defined(__JumpEdt__LogicManager__) */

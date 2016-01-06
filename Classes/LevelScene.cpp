@@ -22,13 +22,10 @@ using namespace cocos2d::ui;
 
 using namespace CocosDenshion;
 
-LevelScene *LevelScene::instance;
+LevelScene *LevelScene::instance = nullptr;
 
 LevelScene *LevelScene::getInstance() {
-  if (instance != NULL) {
-    return instance;
-  }
-  return NULL;
+  return instance;
 }
 
 void LevelScene::onEnter() {

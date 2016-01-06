@@ -64,11 +64,7 @@ void BlockBase::create(const cocos2d::Point &pt, const cocos2d::Size &size) {
   initShader();
   initPhysics();
 
-#if EDITOR_MODE
-  addToScene(EditorScene::Scene);
-#else
-  addToScene(GameScene::Scene);
-#endif
+  addToScene(GAME_LAYER);
 }
 
 void BlockBase::initShader() {
@@ -334,7 +330,7 @@ void BlockBase::initIDLabel() {
   mIDLabel = LabelAtlas::create(buffer, "images/numbers.png", 37, 60, '0');
   mIDLabel->setScale(0.3);
   auto size = mIDLabel->getBoundingBox().size;
-  EditorScene::Scene->addChild(mIDLabel, ZORDER_EDT_ID_LABEL);
+  GAME_LAYER->addChild(mIDLabel, ZORDER_EDT_ID_LABEL);
   mIDLabel->setPosition(mRenderer->getPosition() - Vec2(size.width / 2, size.height / 2));
   mShowIDLabel = EditorScene::Scene->mShowGrid;
   mIDLabel->setVisible(mShowIDLabel);

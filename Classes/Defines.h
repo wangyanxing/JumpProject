@@ -17,6 +17,8 @@
 #   define EDITOR_MODE 0
 #endif
 
+#define GAME_DEBUG_MODE 1
+
 #define EDITOR_IPAD_MODE 1
 #define EDITOR_IP5_MODE  2
 #define EDITOR_IP4_MODE  3
@@ -47,7 +49,6 @@ enum FollowMode {
   F_UP, F_DOWN, F_LEFT, F_RIGHT
 };
 
-#define USE_SHADER_LAYER 0
 #define USE_SHADOW 1
 #define USE_JUMP_EFFECT 1
 #define USE_BACKGROUND 1
@@ -64,11 +65,8 @@ enum FollowMode {
 
 #define EDT_UI_YBIAS (VisibleRect::getFrameSize().height - UI_LAYER_HIGHT)
 
-#if EDITOR_MODE
-# define GAME_CAMERA EditorScene::Scene->getCamera()
-#else
-# define GAME_CAMERA GameScene::Scene->getCamera()
-#endif
+#define GAME_CAMERA GameLogic::Game->getGameLayer()->getCamera()
+#define GAME_LAYER GameLogic::Game->getGameLayer()
 
 // Control pad
 #if !EDITOR_MODE

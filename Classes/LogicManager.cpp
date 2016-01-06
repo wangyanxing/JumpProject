@@ -32,7 +32,7 @@ USING_NS_CC;
 GameLogic *GameLogic::Game = nullptr;
 PhysicsWorld *GameLogic::PhysicsWorld = nullptr;
 
-GameLogic::GameLogic(cocos2d::Layer *parent) {
+GameLogic::GameLogic(GameLayerContainer *parent) {
   mParentLayer = parent;
   Game = this;
 
@@ -100,6 +100,7 @@ Node *GameLogic::createParticle(const Vec2 &pos) {
 GameLogic::~GameLogic() {
   clean();
   CC_SAFE_DELETE(mHero);
+  Game = nullptr;
 }
 
 #if USE_SHADOW
@@ -409,12 +410,12 @@ void GameLogic::postUpdate(float dt) {
 void GameLogic::updateGame(float dt) {
   if (mDeadFlag && !mRejectInput) {
     // Play dead effect
-    ParticleSystem *m_emitter0 = ParticleSystemQuad::create("fx/diefx.plist");
-    ParticleBatchNode *batch0 = ParticleBatchNode::createWithTexture(m_emitter0->getTexture());
-    batch0->addChild(m_emitter0);
-    batch0->setPosition(mHero->getPosition());
-    batch0->setCameraMask((unsigned short) CameraFlag::USER2);
-    mParentLayer->addChild(batch0, ZORDER_DIE_FX, DIE_FX_TAG);
+    ParticleSystem *ps = ParticleSystemQuad::create("fx/diefx.plist");
+    ParticleBatchNode *batch = ParticleBatchNode::createWithTexture(ps->getTexture());
+    batch->addChild(ps);
+    batch->setPosition(mHero->getPosition());
+    batch->setCameraMask((unsigned short) CameraFlag::USER2);
+    mParentLayer->addChild(batch, ZORDER_DIE_FX, DIE_FX_TAG);
 
     mRejectInput = true;
     mHero->getRenderer()->getNode()->runAction(Sequence::create(ScaleTo::create(0.2, 0.1, 0.1),
@@ -423,11 +424,6 @@ void GameLogic::updateGame(float dt) {
                                                    }), NULL));
 
     mParentLayer->runAction(Sequence::create(DelayTime::create(0.4), CallFunc::create([this] {
-#if EDITOR_MODE
-        EditorScene::Scene->showDieFullScreenAnim();
-#else
-        GameScene::Scene->showDieFullScreenAnim();
-#endif
         enableGame(true, true);
     }), NULL));
 
@@ -673,9 +669,11 @@ void GameLogic::loadSpritesFromList() {
 }
 
 void GameLogic::loadStarFromList() {
+#if EDITOR_MODE
   for (auto f : mStarNodes) {
     f->removeFromParent();
   }
+#endif
   mStarNodes.clear();
 
   for (auto p : mStarList) {
@@ -684,9 +682,11 @@ void GameLogic::loadStarFromList() {
 }
 
 void GameLogic::loadFxFromList() {
+#if EDITOR_MODE
   for (auto f : mFxNodes) {
     f->removeFromParent();
   }
+#endif
   mFxNodes.clear();
 
   for (auto i : mFxList) {
@@ -741,8 +741,8 @@ void GameLogic::updateBounds() {
 }
 
 void GameLogic::restoreBackgroundPos() {
-  auto visRect = VisibleRect::getVisibleRect();
 #if USE_BACKGROUND
+  auto visRect = VisibleRect::getVisibleRect();
   mBack->setPosition(visRect.size.width / 2, visRect.size.height / 2);
 #endif
   

@@ -23,50 +23,19 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
+EditorScene::EditorScene() : GameLayerContainer() {
+}
+
 EditorScene::~EditorScene() {
-  if (mGame) {
-    delete mGame;
-    mGame = nullptr;
-  }
 }
 
 EditorScene *EditorScene::Scene = nullptr;
 
 bool EditorScene::init() {
   Scene = this;
+  GameLayerContainer::init();
 
-#if USE_SHADER_LAYER
-#if VIG
-  if ( !ShaderLayer::init("shaders/vignette.glsl") ) {
-    return false;
-  }
-#else
-  if ( !ShaderLayer::init("shaders/post_down4_p.glsl", "shaders/post_down4_v.glsl") ) {
-    return false;
-  }
-#endif
-
-#if VIG
-  rendTexSprite->getGLProgramState()->setUniformVec2("darkness", Vec2(1.3,1));
-#else
-  auto v = VisibleRect::getVisibleRect();
-  rendTexSprite->getGLProgramState()->setUniformVec4("g_viewportSize",
-                                                     Vec4(v.size.width,
-                                                          v.size.height,
-                                                          1.0/v.size.width,
-                                                          1.0/v.size.height));
-#endif
-#else
-  if (!Layer::init()) {
-    return false;
-  }
-#endif
-
-  mCamera = Camera::create();
   MapSerial::saveRemoteMaps();
-
-  getScheduler()->scheduleUpdate(this, -2, false);
-  getScheduler()->scheduleUpdate(&mPostUpdater, 100, false);
 
   auto keyboardListener = EventListenerKeyboard::create();
   keyboardListener->onKeyPressed = CC_CALLBACK_2(EditorScene::keyPressed, this);
@@ -79,18 +48,13 @@ bool EditorScene::init() {
   mouseListener->onMouseMove = CC_CALLBACK_1(EditorScene::mouseMove, this);
   _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
 
-  auto contactListener = EventListenerPhysicsContact::create();
-  contactListener->onContactPreSolve = CC_CALLBACK_2(EditorScene::onContactPreSolve, this);
-  _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
-
-  mGame = new GameLogic(this);
-  mGame->mWinGameEvent = [this] { enableGame(false, true); };
-
   mLightPoint = Sprite::create("images/sun.png");
+  mLightPoint->setCameraMask((unsigned short) CameraFlag::USER2);
   addChild(mLightPoint, 100);
   mLightPoint->setPosition(300, 520);
 
   mLightArraw = Sprite::create("images/arraw.png");
+  mLightArraw->setCameraMask((unsigned short) CameraFlag::USER2);
   addChild(mLightArraw, 100);
   mLightArraw->setPosition(35, 35);
   mLightArraw->setScale(0.1f);
@@ -98,9 +62,10 @@ bool EditorScene::init() {
   mLightArraw->setOpacity(128);
 
   mSpawnPoint = Sprite::create("images/cross.png");
+  mSpawnPoint->setCameraMask((unsigned short) CameraFlag::USER2);
   addChild(mSpawnPoint, 100);
   mSpawnPoint->setPosition(50, 100);
-  mGame->mSpawnPos = mSpawnPoint->getPosition();
+  getGame()->mSpawnPos = mSpawnPoint->getPosition();
   mSpawnPoint->setScale(0.3);
 
   MapSerial::loadLastEdit();
@@ -111,16 +76,12 @@ bool EditorScene::init() {
       }
   };
 
-  mCamera->setCameraFlag(CameraFlag::USER2);
-  addChild(mCamera);
-  setCameraMask((unsigned short) CameraFlag::USER2);
-
   initDrawNodes();
   return true;
 }
 
-bool EditorScene::onContactPreSolve(PhysicsContact &contact, PhysicsContactPreSolve &solve) {
-  return mGame->onContactPreSolve(contact, solve);
+void EditorScene::onWinGame() {
+  enableGame(false, true);
 }
 
 void EditorScene::mouseDown(cocos2d::Event *event) {
@@ -130,35 +91,35 @@ void EditorScene::mouseDown(cocos2d::Event *event) {
   convertMouse(pt);
   convertMouse(ptInView, false);
 
-  auto bounds = mGame->mBounds;
+  auto bounds = getGame()->mBounds;
   Rect rect = Rect(0, 0, bounds.size.width, bounds.size.height);
   if (!rect.containsPoint(ptInView)) {
     return;
   }
 
-  if (mPressingM && !mGame->mGameMode) {
+  if (mPressingM && !getGame()->mGameMode) {
     mSpawnPoint->setPosition(pt);
-    mGame->mSpawnPos = mSpawnPoint->getPosition();
+    getGame()->mSpawnPos = mSpawnPoint->getPosition();
     return;
   }
 #if USE_SHADOW
-  if (mPressingN && !mGame->mGameMode) {
+  if (mPressingN && !getGame()->mGameMode) {
     mLightPoint->setPosition(pt);
-    mGame->mShadows[0]->mLightPos = mLightPoint->getPosition();
-    mGame->mShadows[0]->mOriginLightPos = mLightPoint->getPosition();
+    getGame()->mShadows[0]->mLightPos = mLightPoint->getPosition();
+    getGame()->mShadows[0]->mOriginLightPos = mLightPoint->getPosition();
     return;
   }
 #endif
   
   if (mPressingV) {
-    mGame->createParticle(pt);
-    mGame->mStarList.push_back(pt);
+    getGame()->createParticle(pt);
+    getGame()->mStarList.push_back(pt);
     return;
   }
 
   if (mPressingShift) {
     // Create block
-    mGame->createBlock(pt, KIND_BLOCK);
+    getGame()->createBlock(pt, KIND_BLOCK);
     mMovingBlock = nullptr;
   } else if (mPressingAlt) {
     // Move camrea
@@ -171,7 +132,7 @@ void EditorScene::mouseDown(cocos2d::Event *event) {
       mSelectionHead = nullptr;
     }
 
-    mGame->blockTraversal([&](BlockBase *bl) {
+    getGame()->blockTraversal([&](BlockBase *bl) {
         bl->switchToNormalImage();
         auto box = bl->getRenderer()->getBoundingBox();
         if (box.containsPoint(pt) && bl->mCanPickup) {
@@ -199,7 +160,7 @@ void EditorScene::mouseUp(cocos2d::Event *event) {
   convertMouse(pt);
   convertMouse(ptInView, false);
 
-  auto bounds = mGame->mBounds;
+  auto bounds = getGame()->mBounds;
   Rect rect = Rect(0, 0, bounds.size.width, bounds.size.height);
   if (!rect.containsPoint(ptInView)) {
     return;
@@ -222,7 +183,7 @@ void EditorScene::mouseMove(cocos2d::Event *event) {
   Point dt = pt - mLastPoint;
   mLastPoint = pt;
 
-  auto bounds = mGame->mBounds;
+  auto bounds = getGame()->mBounds;
   Rect rect = Rect(0, 0, bounds.size.width, bounds.size.height);
   if (!rect.containsPoint(ptInView)) {
     return;
@@ -234,8 +195,8 @@ void EditorScene::mouseMove(cocos2d::Event *event) {
       sel->moveY(dt.y);
     }
   } else if (mMovingCamera) {
-    auto camPos = mCamera->getPosition();
-    mCamera->setPosition(camPos - Vec2(delta.x, delta.y));
+    auto camPos = getCamera()->getPosition();
+    getCamera()->setPosition(camPos - Vec2(delta.x, delta.y));
   }
   
   updateMousePosLabel(ptInView);
@@ -248,7 +209,7 @@ void EditorScene::convertMouse(cocos2d::Point &pt, bool cameraRelative) {
   pt.y = height + pt.y;
   pt = convertToNodeSpace(pt);
   if (cameraRelative) {
-    auto camRelative = mCamera->getPosition() - visRect.size / 2;
+    auto camRelative = getCamera()->getPosition() - visRect.size / 2;
     pt += camRelative;
   }
 }
@@ -405,8 +366,9 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
 
   if (keyCode == EventKeyboard::KeyCode::KEY_N) {
     if (mPressingCtrl) {
-      clean(true);
-      mGame->createFixedBlocks();
+      save();
+      clean();
+      getGame()->createFixedBlocks();
     }
   }
 
@@ -440,8 +402,8 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
   }
 
   if (keyCode == EventKeyboard::KeyCode::KEY_R) {
-    if (!mGame->mGameMode) {
-      mCamera->setPosition(VisibleRect::getFrameSize() / 2);
+    if (!getGame()->mGameMode) {
+      getCamera()->setPosition(VisibleRect::getFrameSize() / 2);
     }
   }
 
@@ -458,14 +420,14 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
     mGridNode->setVisible(mShowGrid);
     mMousePosLabel->setVisible(mShowGrid);
     // Also show or hide ID labels
-    mGame->blockTraversal([&](BlockBase *b) {
+    getGame()->blockTraversal([&](BlockBase *b) {
         b->mIDLabel->setVisible(mShowGrid);
         b->mShowIDLabel = mShowGrid;
     });
   }
 
   // Path mode
-  if (keyCode == EventKeyboard::KeyCode::KEY_F && mSelectionHead && !mGame->mGameMode) {
+  if (keyCode == EventKeyboard::KeyCode::KEY_F && mSelectionHead && !getGame()->mGameMode) {
     // Only work for one selection
     mPathMode = true;
 
@@ -487,15 +449,15 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
   }
 
   if (keyCode == EventKeyboard::KeyCode::KEY_SPACE) {
-    if (mGame->mGameMode) {
-      mGame->mJumpFlag = true;
+    if (getGame()->mGameMode) {
+      getGame()->mJumpFlag = true;
     }
   }
 
   if (keyCode == EventKeyboard::KeyCode::KEY_RETURN ||
       keyCode == EventKeyboard::KeyCode::KEY_ENTER ||
       keyCode == EventKeyboard::KeyCode::KEY_L) {
-    enableGame(!mGame->mGameMode);
+    enableGame(!getGame()->mGameMode);
   }
 
   if (keyCode == EventKeyboard::KeyCode::KEY_M) {
@@ -531,24 +493,24 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
     } else {
       for (auto sel : mSelections) {
         if (sel->mCanDelete) {
-          mGame->deleteBlock(sel);
+          getGame()->deleteBlock(sel);
         }
       }
     }
     mSelections.clear();
   }
 
-  if (mGame->mGameMode) {
+  if (getGame()->mGameMode) {
     if (keyCode == EventKeyboard::KeyCode::KEY_A) {
-      mGame->mMoveLeft = true;
+      getGame()->mMoveLeft = true;
     }
     if (keyCode == EventKeyboard::KeyCode::KEY_D) {
-      mGame->mMoveRight = true;
+      getGame()->mMoveRight = true;
     }
   } else {
     if (keyCode == EventKeyboard::KeyCode::KEY_A && mPressingCtrl) {
       mSelections.clear();
-      for (auto b : mGame->mBlocks) {
+      for (auto b : getGame()->mBlocks) {
         if (!b.second->mCanPickup) continue;
         mSelections.insert(b.second);
         mSelectionHead = b.second;
@@ -601,18 +563,18 @@ void EditorScene::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
     mPressingPeriod = false;
   }
 
-  if (mGame->mGameMode) {
+  if (getGame()->mGameMode) {
     if (keyCode == EventKeyboard::KeyCode::KEY_A) {
-      mGame->mMoveLeft = false;
+      getGame()->mMoveLeft = false;
     }
     if (keyCode == EventKeyboard::KeyCode::KEY_D) {
-      mGame->mMoveRight = false;
+      getGame()->mMoveRight = false;
     }
   }
 }
 
 void EditorScene::enableGame(bool val, bool force) {
-  mGame->enableGame(val, force);
+  getGame()->enableGame(val, force);
   mSpawnPoint->setVisible(!val);
   updateLightHelper();
 
@@ -628,8 +590,8 @@ void EditorScene::enableGame(bool val, bool force) {
   if (val) {
     mPressingV = mPressingB = mPressingN = mPressingM = false;    
   } else {
-    mCamera->setPosition(VisibleRect::getFrameSize() / 2);
-    mGame->restoreBackgroundPos();
+    getCamera()->setPosition(VisibleRect::getFrameSize() / 2);
+    getGame()->restoreBackgroundPos();
   }
 }
 
@@ -650,24 +612,25 @@ void EditorScene::onDrawPrimitive(const Mat4 &transform, uint32_t flags) {
 }
 
 void EditorScene::update(float dt) {
-  mGame->update(dt);
+  GameLayerContainer::update(dt);
+
   updateCamera();
   updateGroupDrawNode();
   if (mBorderNode->isVisible()) {
     drawBorder();
   }
 
-  if (!mGame->mGameMode && mPressingCtrl) {
+  if (!getGame()->mGameMode && mPressingCtrl) {
     if (mPressingComma || mPressingPeriod) {
-      mGame->mShadows[0]->mLightDirDegree += dt * 100 * (mPressingComma ? 1 : -1);
-      mGame->mShadows[0]->updateLightDir();
+      getGame()->mShadows[0]->mLightDirDegree += dt * 100 * (mPressingComma ? 1 : -1);
+      getGame()->mShadows[0]->updateLightDir();
       updateLightHelper();
     }
   }
 }
 
 void EditorScene::updateCamera() {
-  mGame->updateCamera(mCamera);
+  getGame()->updateCamera(getCamera());
 }
 
 void EditorScene::setShadowLayer(int layer) {
@@ -708,7 +671,7 @@ void EditorScene::duplicate() {
     block->mRestoreSize = block->getSize();
     block->mRestorePosition = block->getPosition();
 
-    mGame->mBlocks[block->mID] = block;
+    getGame()->mBlocks[block->mID] = block;
 
     duplicated.insert(block);
   }
@@ -786,47 +749,43 @@ void EditorScene::group() {
     return;
   }
 
-  auto it = mGame->mGroups.find(mSelectionHead);
-  if (it != mGame->mGroups.end()) {
+  auto it = getGame()->mGroups.find(mSelectionHead);
+  if (it != getGame()->mGroups.end()) {
     for (auto s : it->second) {
       s->reset();
     }
-    mGame->mGroups.erase(it);
+    getGame()->mGroups.erase(it);
     UILayer::Layer->addMessage("Ungroup");
   } else {
-    mGame->mGroups[mSelectionHead].clear();
+    getGame()->mGroups[mSelectionHead].clear();
     for (auto s : mSelections) {
       if (s == mSelectionHead) {
         continue;
       }
-      mGame->mGroups[mSelectionHead].push_back(s);
+      getGame()->mGroups[mSelectionHead].push_back(s);
     }
     UILayer::Layer->addMessage("Group");
   }
 }
 
-void EditorScene::showDieFullScreenAnim() {
-#if USE_SHADER_LAYER
-  enableShaderLayer = true;
-  paramBlending = 2;
-#endif
+void EditorScene::save() {
+  if (!mCurFileName.empty()) {
+    MapSerial::saveMap(mCurFileName.c_str());
+  }
 }
 
-void EditorScene::clean(bool save) {
-  if (save && !mCurFileName.empty())
-    MapSerial::saveMap(mCurFileName.c_str());
-
+void EditorScene::clean() {
   mSelectionHead = nullptr;
   mSelections.clear();
 
-  mGame->clean();
+  GameLayerContainer::clean();
 
   mCurFileName = "";
-  UILayer::Layer->setFileName("untitled");
+  UILayer::Layer->setFileName("Untitled");
 }
 
 void EditorScene::initDrawNodes() {
-  auto size = mGame->mHero->getSize();
+  auto size = getGame()->mHero->getSize();
   Color4F gridColor(0.8f, 0.8f, 0.8f, 1);
 
   mGridNode = DrawNode::create();
@@ -870,7 +829,7 @@ void EditorScene::updateGroupDrawNode() {
   }
   mGroupNode->clear();
   Color4F lineColor(0.06f, 0.18f, 0.96f, 1);
-  for (auto g : mGame->mGroups) {
+  for (auto g : getGame()->mGroups) {
     auto head = g.first;
     for (auto m : g.second) {
       auto headPos = head->getPosition();
@@ -881,8 +840,8 @@ void EditorScene::updateGroupDrawNode() {
 }
 
 void EditorScene::drawBorder() {
-  mGame->updateBounds();
-  auto bounds = mGame->mBounds;
+  getGame()->updateBounds();
+  auto bounds = getGame()->mBounds;
   float left = bounds.origin.x, bottom = bounds.origin.y;
   float right = left + bounds.size.width, top = bottom + bounds.size.height;
   mBorderNode->clear();
@@ -893,19 +852,19 @@ void EditorScene::drawBorder() {
 }
 
 void EditorScene::updateLightHelper() {
-  if (mGame->mShadows[0]->mLightType == ShadowManager::LIGHT_POINT) {
-    mLightPoint->setVisible(!mGame->mGameMode);
+  if (getGame()->mShadows[0]->mLightType == ShadowManager::LIGHT_POINT) {
+    mLightPoint->setVisible(!getGame()->mGameMode);
     mLightArraw->setVisible(false);
     mLightPoint->setPosition(GameLogic::Game->mShadows[0]->mOriginLightPos);
-  } else if (mGame->mShadows[0]->mLightType == ShadowManager::LIGHT_DIR) {
+  } else if (getGame()->mShadows[0]->mLightType == ShadowManager::LIGHT_DIR) {
     mLightPoint->setVisible(false);
-    mLightArraw->setVisible(!mGame->mGameMode);
-    mLightArraw->setRotation(mGame->mShadows[0]->mLightDirDegree);
+    mLightArraw->setVisible(!getGame()->mGameMode);
+    mLightArraw->setRotation(getGame()->mShadows[0]->mLightDirDegree);
   }
 }
 
 void EditorScene::updateMousePosLabel(const cocos2d::Point &pt) {
-  if (mGame->mGameMode || !mShowGrid) {
+  if (getGame()->mGameMode || !mShowGrid) {
     mMousePosLabel->setVisible(false);
     return;
   }

@@ -21,40 +21,21 @@
 USING_NS_CC;
 
 cocos2d::Scene *GameScene::createScene() {
-  srand((unsigned) time(nullptr));
-
-  auto scene = Scene::createWithPhysics();
-  scene->getPhysicsWorld()->setGravity(Vec2(0, 0));
-  GameLogic::PhysicsWorld = scene->getPhysicsWorld();
-
-  auto game = GameScene::create();
-  scene->addChild(game);
-
+  auto scene = GameLayerContainer::createPhysicsScene();
+  scene->addChild(GameScene::create());
   return scene;
 }
 
 GameScene *GameScene::Scene = nullptr;
 
-GameScene::~GameScene() {
-  getScheduler()->unscheduleAllForTarget(&mPostUpdater);
+GameScene::GameScene() : GameLayerContainer() {
 }
 
-void GameScene::showDieFullScreenAnim() {
-#if USE_SHADER_LAYER
-  enableShaderLayer = true;
-  paramBlending = 2;
-#endif
+GameScene::~GameScene() {
 }
 
 void GameScene::onEnter() {
-  Layer::onEnter();
-
-  getScheduler()->scheduleUpdate(this, -2, false);
-  getScheduler()->scheduleUpdate(&mPostUpdater, 100, false);
-
-  auto contactListener = EventListenerPhysicsContact::create();
-  contactListener->onContactPreSolve = CC_CALLBACK_2(GameScene::onContactPreSolve, this);
-  _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
+  GameLayerContainer::onEnter();
 
   auto touchListener = EventListenerTouchAllAtOnce::create();
   touchListener->onTouchesBegan = [&](const std::vector<Touch *> &touches, Event *event) {
@@ -79,37 +60,17 @@ void GameScene::onEnter() {
   };
   _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
-  mGame->updateCamera(mCamera, true);
-  mGame->showBeginCurtain();
+  getGame()->updateCamera(getCamera(), true);
+  getGame()->showBeginCurtain();
 }
 
 void GameScene::onEnterTransitionDidFinish() {
-#if USE_SHADER_LAYER
-  ShaderLayer::onEnterTransitionDidFinish();
-#else
   Layer::onEnterTransitionDidFinish();
-#endif
 }
 
 bool GameScene::init() {
   Scene = this;
-#if USE_SHADER_LAYER
-  ShaderLayer::init("shaders/vignette.glsl");
-  rendTexSprite->getGLProgramState()->setUniformVec2("darkness", Vec2(1,1));
-#else
-  Layer::init();
-#endif
-
-  mCamera = Camera::create();
-
-  CC_SAFE_DELETE(GameLogic::Game);
-  mGame = new GameLogic(this);
-  mGame->mWinGameEvent = [this] { onWinGame(); };
-
-  mCamera->setCameraFlag(CameraFlag::USER2);
-  mCamera->setDepth(-10);
-  addChild(mCamera);
-  setCameraMask((unsigned short) CameraFlag::USER2);
+  GameLayerContainer::init();
 
   createControlPad();
   createMenuButtons();
@@ -117,12 +78,12 @@ bool GameScene::init() {
 }
 
 void GameScene::update(float dt) {
+  GameLayerContainer::update(dt);
+
   // Update timer
   char time[10];
-  sprintf(time, "%.1f", mGame->mGameTimer);
+  sprintf(time, "%.1f", getGame()->mGameTimer);
   mTimerLabel->setString(time);
-  mGame->update(1.0f / 60.0f);
-  mGame->updateCamera(mCamera);
 }
 
 void GameScene::enterGame(const std::string &name, bool absPath) {
@@ -132,15 +93,10 @@ void GameScene::enterGame(const std::string &name, bool absPath) {
     auto str = FileUtils::getInstance()->fullPathForFilename(name);
     MapSerial::loadMap(str.c_str());
   }
-  mGame->enableGame(false);
+  getGame()->enableGame(false);
   mLeftButton->setVisible(true);
   mRightButton->setVisible(true);
   mJumpButton->setVisible(true);
-}
-
-bool GameScene::onContactPreSolve(cocos2d::PhysicsContact &contact,
-                                  cocos2d::PhysicsContactPreSolve &solve) {
-  return mGame->onContactPreSolve(contact, solve);
 }
 
 void GameScene::onTouch(const cocos2d::Vec2 &pos) {
@@ -161,17 +117,17 @@ void GameScene::onTouch(const cocos2d::Vec2 &pos) {
 
   if (boundLeft.containsPoint(pos)) {
     mLeftButton->setOpacity(255);
-    mGame->mMoveLeft = true;
-    mGame->mMoveRight = false;
+    getGame()->mMoveLeft = true;
+    getGame()->mMoveRight = false;
   } else if (boundRight.containsPoint(pos)) {
     mRightButton->setOpacity(255);
-    mGame->mMoveLeft = false;
-    mGame->mMoveRight = true;
+    getGame()->mMoveLeft = false;
+    getGame()->mMoveRight = true;
   }
 
   if (mCanJump && boundJump.containsPoint(pos)) {
     mJumpButton->setOpacity(255);
-    mGame->mJumpFlag = true;
+    getGame()->mJumpFlag = true;
     mCanJump = false;
   }
 }
@@ -204,8 +160,8 @@ void GameScene::onEndTouch(const cocos2d::Vec2 &pos) {
     if (pos.x < VisibleRect::center().x) {
       mLeftButton->setOpacity(CONTROL_BUTTON_OPACITY);
       mRightButton->setOpacity(CONTROL_BUTTON_OPACITY);
-      mGame->mMoveLeft = false;
-      mGame->mMoveRight = false;
+      getGame()->mMoveLeft = false;
+      getGame()->mMoveRight = false;
     } else {
       mCanJump = true;
       mJumpButton->setOpacity(CONTROL_BUTTON_OPACITY);
@@ -214,7 +170,7 @@ void GameScene::onEndTouch(const cocos2d::Vec2 &pos) {
 }
 
 void GameScene::enableGame(bool v) {
-  mGame->enableGame(v);
+  getGame()->enableGame(v);
   mLeftButton->setVisible(v);
   mRightButton->setVisible(v);
   mJumpButton->setVisible(v);
@@ -273,8 +229,8 @@ void GameScene::createMenuButtons() {
               Sequence::create(DelayTime::create(0.2),
                                CallFunc::create(
                                    [this] {
-                                       mGame->enableGame(false);
-                                       mGame->enableGame(true);
+                                       getGame()->enableGame(false);
+                                       getGame()->enableGame(true);
                                    }), NULL));
       });
 

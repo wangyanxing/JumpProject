@@ -57,20 +57,21 @@ void HttpHelper::getAllMaps() {
           auto &v = d[i];
           sAllMaps.push_back(MapResource());
 
-          if (v["id"].IsInt())
+          if (v["id"].IsInt()) {
             sAllMaps.back().id = v["id"].GetInt();
-
-          if (v["name"].IsString())
+          }
+          if (v["name"].IsString()) {
             sAllMaps.back().name = v["name"].GetString();
-
-          if (v["author"].IsString())
+          }
+          if (v["author"].IsString()) {
             sAllMaps.back().author = v["author"].GetString();
-
-          if (v["time"].IsString())
+          }
+          if (v["time"].IsString()) {
             sAllMaps.back().time = v["time"].GetString();
-
-          if (v["content"].IsString())
+          }
+          if (v["content"].IsString()) {
             sAllMaps.back().content = v["content"].GetString();
+          }
         }
 
         delete[] buffer;

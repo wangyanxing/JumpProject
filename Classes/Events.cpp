@@ -14,6 +14,8 @@
 #include "Hero.h"
 #include "BlockRenderer.h"
 
+USING_NS_CC;
+
 namespace JE {
   struct Arg {
     Arg(const std::string &defaultVal, bool opt) : value(defaultVal), optional(opt) { }
