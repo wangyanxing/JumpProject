@@ -66,7 +66,7 @@ bool EditorScene::init() {
   addChild(mSpawnPoint, 100);
   mSpawnPoint->setPosition(50, 100);
   getGame()->mSpawnPos = mSpawnPoint->getPosition();
-  mSpawnPoint->setScale(0.3);
+  mSpawnPoint->setScale(0.3f);
 
   MapSerial::loadLastEdit();
 
@@ -102,6 +102,7 @@ void EditorScene::mouseDown(cocos2d::Event *event) {
     getGame()->mSpawnPos = mSpawnPoint->getPosition();
     return;
   }
+
 #if USE_SHADOW
   if (mPressingN && !getGame()->mGameMode) {
     mLightPoint->setPosition(pt);

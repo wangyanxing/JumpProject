@@ -45,7 +45,7 @@ bool GameLayerContainer::init() {
   mGame->mWinGameEvent = [this] { onWinGame(); };
 
   mCamera->setCameraFlag(CameraFlag::USER2);
-  mCamera->setDepth(-10);
+  mCamera->setDepth(getCameraDepth());
   addChild(mCamera);
   setCameraMask((unsigned short) CameraFlag::USER2);
   return true;

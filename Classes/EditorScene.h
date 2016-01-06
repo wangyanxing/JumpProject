@@ -41,6 +41,10 @@ public:
 
   void onWinGame() override;
 
+  virtual int8_t getCameraDepth() override {
+    return 0;
+  }
+
   CREATE_FUNC(EditorScene);
 
 public:
