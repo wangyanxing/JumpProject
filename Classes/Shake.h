@@ -3,15 +3,15 @@
 
 #include "cocos2d.h"
 
-class CCShake : public cocos2d::ActionInterval {
+class CameraShake : public cocos2d::ActionInterval {
 public:
-  CCShake();
+  CameraShake();
 
   // Create the action with a time and a strength (same in x and y)
-  static CCShake *create(float d, float strength);
+  static CameraShake *create(float d, float strength);
 
   // Create the action with a time and strengths (different in x and y)
-  static CCShake *createWithStrength(float d, float strength_x, float strength_y);
+  static CameraShake *createWithStrength(float d, float strength_x, float strength_y);
 
   bool initWithDuration(float d, float strength_x, float strength_y);
 
@@ -30,7 +30,9 @@ protected:
   cocos2d::Point m_StartPosition;
 
   // Strength of the action
-  float m_strength_x, m_strength_y;
+  float m_strength_x{0};
+
+  float m_strength_y{0};
 };
 
 #endif

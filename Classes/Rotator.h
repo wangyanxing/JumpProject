@@ -85,14 +85,23 @@ public:
   void push(float r, float waitTime = -1, float width = 1, float height = 1);
 
   bool mPingPong{true};
+
   float mSpeed{1};
+
   float mPathWaitTime{-1};
+
   bool mDirection{true};
+
   int mCurPt{0};
+
   float mCurDist{0};
+
   float mWaitingTimer{0};
+
   float mPathWaitingTimer{0};
+
   bool mDisable{true};
+
   bool mPause{false};
 
 private:

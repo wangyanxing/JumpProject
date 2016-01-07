@@ -98,8 +98,6 @@
 		BC3CEA261C1B86B400738B33 /* Shadows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9E91C1B86B400738B33 /* Shadows.cpp */; };
 		BC3CEA271C1B86B400738B33 /* Shake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9EB1C1B86B400738B33 /* Shake.cpp */; };
 		BC3CEA281C1B86B400738B33 /* Shake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9EB1C1B86B400738B33 /* Shake.cpp */; };
-		BC3CEA291C1B86B400738B33 /* SpriteSoft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9ED1C1B86B400738B33 /* SpriteSoft.cpp */; };
-		BC3CEA2A1C1B86B400738B33 /* SpriteSoft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9ED1C1B86B400738B33 /* SpriteSoft.cpp */; };
 		BC3CEA2B1C1B86B400738B33 /* SpriteUV.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9EF1C1B86B400738B33 /* SpriteUV.cpp */; };
 		BC3CEA2C1C1B86B400738B33 /* SpriteUV.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9EF1C1B86B400738B33 /* SpriteUV.cpp */; };
 		BC3CEA2D1C1B86B400738B33 /* TimeEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9F11C1B86B400738B33 /* TimeEvent.cpp */; };
@@ -271,8 +269,6 @@
 		BC3CE9EA1C1B86B400738B33 /* Shadows.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shadows.h; sourceTree = "<group>"; };
 		BC3CE9EB1C1B86B400738B33 /* Shake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shake.cpp; sourceTree = "<group>"; };
 		BC3CE9EC1C1B86B400738B33 /* Shake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shake.h; sourceTree = "<group>"; };
-		BC3CE9ED1C1B86B400738B33 /* SpriteSoft.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteSoft.cpp; sourceTree = "<group>"; };
-		BC3CE9EE1C1B86B400738B33 /* SpriteSoft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteSoft.h; sourceTree = "<group>"; };
 		BC3CE9EF1C1B86B400738B33 /* SpriteUV.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteUV.cpp; sourceTree = "<group>"; };
 		BC3CE9F01C1B86B400738B33 /* SpriteUV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteUV.h; sourceTree = "<group>"; };
 		BC3CE9F11C1B86B400738B33 /* TimeEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimeEvent.cpp; sourceTree = "<group>"; };
@@ -486,8 +482,6 @@
 				BC3CE9EA1C1B86B400738B33 /* Shadows.h */,
 				BC3CE9EB1C1B86B400738B33 /* Shake.cpp */,
 				BC3CE9EC1C1B86B400738B33 /* Shake.h */,
-				BC3CE9ED1C1B86B400738B33 /* SpriteSoft.cpp */,
-				BC3CE9EE1C1B86B400738B33 /* SpriteSoft.h */,
 				BC3CE9EF1C1B86B400738B33 /* SpriteUV.cpp */,
 				BC3CE9F01C1B86B400738B33 /* SpriteUV.h */,
 				BC3CE9F11C1B86B400738B33 /* TimeEvent.cpp */,
@@ -750,7 +744,6 @@
 				BC3CEA011C1B86B400738B33 /* EditorScene.cpp in Sources */,
 				BC3CEA151C1B86B400738B33 /* LogicManager.cpp in Sources */,
 				BC6420001C3C88BB0018F96F /* GameLayerContainer.cpp in Sources */,
-				BC3CEA291C1B86B400738B33 /* SpriteSoft.cpp in Sources */,
 				BC3CEA1B1C1B86B400738B33 /* PathLib.cpp in Sources */,
 				BC3CE9FD1C1B86B400738B33 /* Button.cpp in Sources */,
 				BC3CEA071C1B86B400738B33 /* GameScene.cpp in Sources */,
@@ -792,7 +785,6 @@
 				BC3CEA281C1B86B400738B33 /* Shake.cpp in Sources */,
 				BC3CEA181C1B86B400738B33 /* MapSerial.cpp in Sources */,
 				BC3CE9FE1C1B86B400738B33 /* Button.cpp in Sources */,
-				BC3CEA2A1C1B86B400738B33 /* SpriteSoft.cpp in Sources */,
 				BC3CEA0A1C1B86B400738B33 /* GameUtils.cpp in Sources */,
 				BC3CEA081C1B86B400738B33 /* GameScene.cpp in Sources */,
 				BC3CEA2E1C1B86B400738B33 /* TimeEvent.cpp in Sources */,

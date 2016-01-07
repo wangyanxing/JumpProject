@@ -19,10 +19,8 @@ void Rotator::update(float dt, float &out, cocos2d::Vec2 &outsize) {
 
   if (mDisable) {
     out = mPoints[0].rotation;
-
   } else {
-
-    // process path timer
+    // Process path timer.
     if (mPathWaitingTimer > mPathWaitTime) {
       int nextPt = nextPoint();
 
@@ -33,7 +31,7 @@ void Rotator::update(float dt, float &out, cocos2d::Vec2 &outsize) {
 
         mCurDist += mSpeed * dt;
         if (mCurDist >= dist) {
-          // move to next point
+          // Move to next point.
           mCurDist -= dist;
           mWaitingTimer = 0;
 
@@ -59,11 +57,9 @@ void Rotator::update(float dt, float &out, cocos2d::Vec2 &outsize) {
         float ratio = mCurDist / dist;
         outsize.x = pt.width * (1 - ratio) + ptNext.width * ratio;
         outsize.y = pt.height * (1 - ratio) + ptNext.height * ratio;
-
       } else {
         mWaitingTimer += dt;
       }
-
     } else {
       mPathWaitingTimer += dt;
     }
@@ -71,7 +67,9 @@ void Rotator::update(float dt, float &out, cocos2d::Vec2 &outsize) {
 }
 
 void Rotator::pop() {
-  if (empty()) return;
+  if (empty()) {
+    return;
+  }
   mPoints.pop_back();
 }
 

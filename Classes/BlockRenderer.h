@@ -153,17 +153,4 @@ private:
   cocos2d::Sprite* mChild{nullptr};
 };
 
-///////////////////////////////////////////////////////////////
-
-class ImageRenderer : public BlockRenderer {
-public:
-  ImageRenderer(BlockBase *parent);
-
-  ~ImageRenderer();
-
-  RendererType getType() const {
-    return BlockRenderer::TYPE_IMAGE;
-  }
-};
-
 #endif /* BlockRenderer_h */

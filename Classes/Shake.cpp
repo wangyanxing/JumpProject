@@ -2,17 +2,15 @@
 
 USING_NS_CC;
 
-// not really useful, but I like clean default constructors
-CCShake::CCShake() : m_strength_x(0), m_strength_y(0) {
+CameraShake::CameraShake() {
 }
 
-CCShake *CCShake::create(float d, float strength) {
-  // call other construction method with twice the same strength
+CameraShake *CameraShake::create(float d, float strength) {
   return createWithStrength(d, strength, strength);
 }
 
-CCShake *CCShake::createWithStrength(float duration, float strength_x, float strength_y) {
-  CCShake *pRet = new CCShake();
+CameraShake *CameraShake::createWithStrength(float duration, float strength_x, float strength_y) {
+  CameraShake *pRet = new CameraShake();
 
   if (pRet && pRet->initWithDuration(duration, strength_x, strength_y)) {
     pRet->autorelease();
@@ -22,15 +20,15 @@ CCShake *CCShake::createWithStrength(float duration, float strength_x, float str
   return pRet;
 }
 
-ActionInterval *CCShake::reverse() const {
+ActionInterval *CameraShake::reverse() const {
   return nullptr;
 }
 
-ActionInterval *CCShake::clone() const {
+ActionInterval *CameraShake::clone() const {
   return nullptr;
 }
 
-bool CCShake::initWithDuration(float duration, float strength_x, float strength_y) {
+bool CameraShake::initWithDuration(float duration, float strength_x, float strength_y) {
   if (ActionInterval::initWithDuration(duration)) {
     m_strength_x = strength_x;
     m_strength_y = strength_y;
@@ -46,7 +44,7 @@ static float fgRangeRand(float min, float max) {
   return rnd * (max - min) + min;
 }
 
-void CCShake::update(float dt) {
+void CameraShake::update(float dt) {
   float randx = fgRangeRand(-m_strength_x, m_strength_x) * dt;
   float randy = fgRangeRand(-m_strength_y, m_strength_y) * dt;
 
@@ -54,14 +52,14 @@ void CCShake::update(float dt) {
   _target->setPosition(m_StartPosition + Vec2(randx, randy));
 }
 
-void CCShake::startWithTarget(Node *pTarget) {
+void CameraShake::startWithTarget(Node *pTarget) {
   ActionInterval::startWithTarget(pTarget);
 
   // save the initial position
   m_StartPosition = pTarget->getPosition();
 }
 
-void CCShake::stop(void) {
+void CameraShake::stop(void) {
   // Action is done, reset clip position
   this->getTarget()->setPosition(m_StartPosition);
 

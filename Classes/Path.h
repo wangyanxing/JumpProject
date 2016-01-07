@@ -95,7 +95,6 @@ public:
   void push(const cocos2d::Vec2 &pos, float waitTime = -1, float width = 1, float height = 1);
 
 #if EDITOR_MODE
-
   void setSegmentNodeScale(float scale) {
     for (size_t i = 0; i < mPoints.size(); ++i) {
       auto node = mHelperNode->getChildByTag(i);
@@ -104,7 +103,6 @@ public:
   }
 
   void updateHelper();
-
 #endif
 
   bool mPingPong{true};
@@ -135,7 +133,6 @@ public:
   cocos2d::Node *mHelperNode{nullptr};
 #endif
 private:
-
   std::vector <PathPoint> mPoints;
 };
 

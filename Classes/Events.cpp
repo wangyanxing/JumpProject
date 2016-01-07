@@ -18,7 +18,7 @@ USING_NS_CC;
 
 namespace JE {
   struct Arg {
-    Arg(const std::string &defaultVal, bool opt) : value(defaultVal), optional(opt) { }
+    Arg(const std::string &defaultVal, bool opt) : value(defaultVal), optional(opt) {}
 
     std::string value;
     bool optional{false};
@@ -157,29 +157,6 @@ static void initEvents() {
     };
     EventLists[e.command] = e;
   }
-#if 0
-  {
-    Event e;
-    e.command = "move";
-    e.args = {
-      { "", false },   // ID
-      { "100", true }, // SPEED
-      { "100", true }, // DIR
-    };
-    e.func = [&](const std::vector<Arg>& args, BlockBase* block){
-      auto targetBlock = GameLogic::Game->findBlock(args[0].getInt());
-      if (!targetBlock) {
-        CCLOGWARN("Bad ID: %d", args[0].getInt());
-        return;
-      }
-
-      auto pos = targetBlock->getPosition();
-      targetBlock->setPosition(args[1].getFloat()+ pos.x, args[2].getFloat()+pos.y);
-      targetBlock->getSprite()->getPhysicsBody()->setPositionOffset(cocos2d::Vec2(args[1].getFloat(), args[2].getFloat()));
-    };
-    EventLists[e.command] = e;
-  }
-#endif
   {
     Event e;
     e.command = "pause_path";

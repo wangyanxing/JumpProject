@@ -14,7 +14,6 @@
 #include "Button.h"
 #include "Shake.h"
 #include "VisibleRect.h"
-#include "SpriteSoft.h"
 #include "TimeEvent.h"
 #include "BlockRenderer.h"
 #include "Palette.h"
