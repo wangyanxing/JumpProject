@@ -68,8 +68,6 @@
 		BC3CE9FE1C1B86B400738B33 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C21C1B86B400738B33 /* Button.cpp */; };
 		BC3CE9FF1C1B86B400738B33 /* DrawNodeEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C51C1B86B400738B33 /* DrawNodeEx.cpp */; };
 		BC3CEA001C1B86B400738B33 /* DrawNodeEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C51C1B86B400738B33 /* DrawNodeEx.cpp */; };
-		BC3CEA031C1B86B400738B33 /* EffectSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C91C1B86B400738B33 /* EffectSprite.cpp */; };
-		BC3CEA041C1B86B400738B33 /* EffectSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C91C1B86B400738B33 /* EffectSprite.cpp */; };
 		BC3CEA051C1B86B400738B33 /* Events.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9CB1C1B86B400738B33 /* Events.cpp */; };
 		BC3CEA061C1B86B400738B33 /* Events.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9CB1C1B86B400738B33 /* Events.cpp */; };
 		BC3CEA071C1B86B400738B33 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9CD1C1B86B400738B33 /* GameScene.cpp */; };
@@ -136,6 +134,8 @@
 		BC64236B1C3F4FA20018F96F /* RectRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC6423681C3F4FA20018F96F /* RectRenderer.cpp */; };
 		BC64236E1C3F4FB40018F96F /* DeathCircleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC64236C1C3F4FB40018F96F /* DeathCircleRenderer.cpp */; };
 		BC64236F1C3F4FB40018F96F /* DeathCircleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC64236C1C3F4FB40018F96F /* DeathCircleRenderer.cpp */; };
+		BC6423711C3F5D3B0018F96F /* EditorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC6423701C3F5D3B0018F96F /* EditorScene.cpp */; };
+		BC6423721C3F5D3B0018F96F /* EditorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC6423701C3F5D3B0018F96F /* EditorScene.cpp */; };
 		BCDFFFFB1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */; };
 		BCDFFFFC1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
@@ -243,7 +243,6 @@
 		BC3CE9C51C1B86B400738B33 /* DrawNodeEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawNodeEx.cpp; sourceTree = "<group>"; };
 		BC3CE9C61C1B86B400738B33 /* DrawNodeEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawNodeEx.h; sourceTree = "<group>"; };
 		BC3CE9C81C1B86B400738B33 /* EditorScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorScene.h; sourceTree = "<group>"; };
-		BC3CE9C91C1B86B400738B33 /* EffectSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EffectSprite.cpp; sourceTree = "<group>"; };
 		BC3CE9CB1C1B86B400738B33 /* Events.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Events.cpp; sourceTree = "<group>"; };
 		BC3CE9CC1C1B86B400738B33 /* Events.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Events.h; sourceTree = "<group>"; };
 		BC3CE9CD1C1B86B400738B33 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
@@ -300,6 +299,7 @@
 		BC6423691C3F4FA20018F96F /* RectRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RectRenderer.h; sourceTree = "<group>"; };
 		BC64236C1C3F4FB40018F96F /* DeathCircleRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeathCircleRenderer.cpp; sourceTree = "<group>"; };
 		BC64236D1C3F4FB40018F96F /* DeathCircleRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeathCircleRenderer.h; sourceTree = "<group>"; };
+		BC6423701C3F5D3B0018F96F /* EditorScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorScene.cpp; sourceTree = "<group>"; };
 		BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlockRenderer.cpp; sourceTree = "<group>"; };
 		BCDFFFFA1C32ECED006E8A59 /* BlockRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockRenderer.h; sourceTree = "<group>"; };
 		BCDFFFFD1C32F062006E8A59 /* Any.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Any.h; sourceTree = "<group>"; };
@@ -458,7 +458,7 @@
 				BC3CE9C51C1B86B400738B33 /* DrawNodeEx.cpp */,
 				BC3CE9C61C1B86B400738B33 /* DrawNodeEx.h */,
 				BC3CE9C81C1B86B400738B33 /* EditorScene.h */,
-				BC3CE9C91C1B86B400738B33 /* EffectSprite.cpp */,
+				BC6423701C3F5D3B0018F96F /* EditorScene.cpp */,
 				BC3CE9CB1C1B86B400738B33 /* Events.cpp */,
 				BC3CE9CC1C1B86B400738B33 /* Events.h */,
 				BC3CE9CD1C1B86B400738B33 /* GameScene.cpp */,
@@ -747,12 +747,12 @@
 				BC641FFC1C3C7F730018F96F /* ChooseWorldScene.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
-				BC3CEA031C1B86B400738B33 /* EffectSprite.cpp in Sources */,
 				BC3CEA151C1B86B400738B33 /* LogicManager.cpp in Sources */,
 				BC6420001C3C88BB0018F96F /* GameLayerContainer.cpp in Sources */,
 				BC3CEA1B1C1B86B400738B33 /* PathLib.cpp in Sources */,
 				BC64236A1C3F4FA20018F96F /* RectRenderer.cpp in Sources */,
 				BC3CE9FD1C1B86B400738B33 /* Button.cpp in Sources */,
+				BC6423711C3F5D3B0018F96F /* EditorScene.cpp in Sources */,
 				BC3CEA071C1B86B400738B33 /* GameScene.cpp in Sources */,
 				BC3CEA051C1B86B400738B33 /* Events.cpp in Sources */,
 				BC3CEA2D1C1B86B400738B33 /* TimeEvent.cpp in Sources */,
@@ -782,7 +782,6 @@
 				BC64236B1C3F4FA20018F96F /* RectRenderer.cpp in Sources */,
 				B52188241C34F08300E04587 /* SceneSprite.cpp in Sources */,
 				BC3CEA1C1C1B86B400738B33 /* PathLib.cpp in Sources */,
-				BC3CEA041C1B86B400738B33 /* EffectSprite.cpp in Sources */,
 				BC3CE9FC1C1B86B400738B33 /* Blocks.cpp in Sources */,
 				B5A55AA81C2B8B7200E02C60 /* ControlPad.cpp in Sources */,
 				BC3CEA911C1F20F700738B33 /* Palette.cpp in Sources */,
@@ -805,6 +804,7 @@
 				BC3CEA2C1C1B86B400738B33 /* SpriteUV.cpp in Sources */,
 				BC3CEA261C1B86B400738B33 /* Shadows.cpp in Sources */,
 				BC3CEA301C1B86B400738B33 /* UIColorEditor.cpp in Sources */,
+				BC6423721C3F5D3B0018F96F /* EditorScene.cpp in Sources */,
 				BC3CEA321C1B86B400738B33 /* UILayer.cpp in Sources */,
 				BC3CEA221C1B86B400738B33 /* Rotator.cpp in Sources */,
 			);
