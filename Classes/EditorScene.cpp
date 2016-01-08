@@ -111,12 +111,6 @@ void EditorScene::mouseDown(cocos2d::Event *event) {
     return;
   }
 #endif
-  
-  if (mPressingV) {
-    getGame()->createParticle(pt);
-    getGame()->mStarList.push_back(pt);
-    return;
-  }
 
   if (mPressingShift) {
     // Create block

@@ -66,15 +66,11 @@ public:
   cocos2d::Node *createParticle(const cocos2d::Vec2 &pos);
 
   void loadFxFromList();
-
-  void loadStarFromList();
   
   void loadSpritesFromList();
 
   void clearFx();
 
-  void clearStars();
-  
   void clearSprites();
 
   void updateCamera(cocos2d::Camera *cam, bool forceUpdate = false);
@@ -151,12 +147,8 @@ public:
   std::vector <std::string> mFxList;
 
   std::vector <cocos2d::ParticleBatchNode *> mFxNodes;
-
-  std::vector <cocos2d::Vec2> mStarList;
   
   std::vector <SceneSprite> mSpriteList;
-
-  std::vector<cocos2d::Node *> mStarNodes;
 
   bool mRejectInput{false};
 

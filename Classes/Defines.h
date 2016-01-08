@@ -96,7 +96,6 @@ enum FollowMode {
 #define ZORDER_SHADOW_1 5
 #define ZORDER_SHADOW_2 6
 #define ZORDER_PARTICLE 15
-#define ZORDER_PARTICLE_STAR 16
 #define ZORDER_DIE_FX 18
 #define ZORDER_BLOCK 20
 #define ZORDER_CURTAIN 30

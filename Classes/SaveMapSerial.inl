@@ -65,15 +65,6 @@ void MapSerial::saveMap(const char *file) {
   END_ARRAY(1, WITH_COMMA);
 
   /**
-   * Star effects (deprecated).
-   */
-  BEGIN_ARRAY(1, "stars");
-  for (auto it = Game->mStarList.begin(); it != Game->mStarList.end(); ++it) {
-    WRITE_ARR_VEC(2, *it, next(it) != Game->mStarList.end());
-  }
-  END_ARRAY(1, WITH_COMMA);
-
-  /**
    * Simple sprite images.
    */
   BEGIN_ARRAY(1, "sprites");

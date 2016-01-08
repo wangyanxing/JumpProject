@@ -144,9 +144,6 @@ void MapSerial::loadMap(const char *filename) {
   GameLogic::Game->mFxList = parseJsonStrArray("fx", d);
   GameLogic::Game->loadFxFromList();
 
-  GameLogic::Game->mFxList = parseJsonStrArray("stars", d);
-  GameLogic::Game->loadStarFromList();
-  
   if (CHECK_ARRAY(d, "sprites")) {
     auto size = d["sprites"].Size();
     GameLogic::Game->mSpriteList.clear();

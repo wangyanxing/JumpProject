@@ -65,33 +65,6 @@ void GameLogic::initBackground() {
 #endif
 }
 
-Node *GameLogic::createParticle(const Vec2 &pos) {
-  auto parent = Node::create();
-  auto pg = Sprite::create("images/glow.png");
-  auto p = Sprite::create("images/particle.png");
-
-  float fadeTime = 10 + rand() % 10;
-  fadeTime /= 10;
-
-  pg->runAction(RepeatForever::create(Sequence::create(FadeOut::create(fadeTime),
-                                                       FadeIn::create(fadeTime),
-                                                       NULL)));
-  p->setScale(0.5);
-
-  parent->addChild(pg, 0);
-  parent->addChild(p, 1);
-
-  float scale = 3 + rand() % 2;
-  scale /= 10;
-
-  parent->setScale(scale);
-  parent->setPosition(pos);
-
-  parent->setCameraMask((unsigned short) CameraFlag::USER2);
-  mParentLayer->addChild(parent, ZORDER_PARTICLE_STAR);
-  return parent;
-}
-
 GameLogic::~GameLogic() {
   clean();
   CC_SAFE_DELETE(mHero);
@@ -547,16 +520,6 @@ BlockBase *GameLogic::createBlock(const cocos2d::Vec2 &pos, BlockKind kind) {
   return block;
 }
 
-void GameLogic::clearStars() {
-#if EDITOR_MODE
-  for(auto f : mStarNodes) {
-    f->removeFromParent();
-  }
-#endif
-  mStarNodes.clear();
-  mStarList.clear();
-}
-
 void GameLogic::clearFx() {
 #if EDITOR_MODE
   for (auto f : mFxNodes) {
@@ -584,7 +547,6 @@ void GameLogic::clean() {
   mBlocks.clear();
 
   cleanBackground();
-  clearStars();
   clearFx();
   clearSprites();
 
@@ -618,19 +580,6 @@ void GameLogic::loadSpritesFromList() {
   for (auto &p : mSpriteList) {
     p.create();
     mParentLayer->addChild(p.getSprite(), p.ZOrder);
-  }
-}
-
-void GameLogic::loadStarFromList() {
-#if EDITOR_MODE
-  for (auto f : mStarNodes) {
-    f->removeFromParent();
-  }
-#endif
-  mStarNodes.clear();
-
-  for (auto p : mStarList) {
-    mStarNodes.push_back(createParticle(p));
   }
 }
 
