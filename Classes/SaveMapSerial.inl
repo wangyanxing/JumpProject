@@ -213,10 +213,8 @@ void MapSerial::saveMap(const char *file) {
     auto event = *it;
 
     BEGIN_OBJECT(2)
-
     WRITE_NUM_E(3, "initDelay", event.mInitDelay);
     WRITE_NUM_E(3, "loop", event.mLoop);
-
     BEGIN_ARRAY(3, "events")
     
     for (auto eit = event.mEventPoints.begin(); eit != event.mEventPoints.end(); ++eit) {
@@ -257,12 +255,12 @@ void MapSerial::saveMap(const char *file) {
   if (std::string::npos != last_slash_idx) {
     filename.erase(0, last_slash_idx + 1);
   }
-  HttpHelper::updateMap(filename, author, timestr, ss.str());
+  HttpHelper::uploadMap(filename, author, timestr, ss.str());
 }
 
 void MapSerial::saveMap() {
   std::string fullpath = getMapDir();
-  
+
   std::vector<std::string> out;
   auto filter = "JSON file(json)|*.json|All files (*.*)|*.*";
   PathLib::saveFileDialog(nullptr, "Save map", fullpath + "/local", "", filter, 0, out);

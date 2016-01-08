@@ -89,7 +89,7 @@ void HttpHelper::getAllMaps() {
   request->release();
 }
 
-void HttpHelper::updateMap(const std::string &name,
+void HttpHelper::uploadMap(const std::string &name,
                            const std::string &author,
                            const std::string &time,
                            const std::string &content) {

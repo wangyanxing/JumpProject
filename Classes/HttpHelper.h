@@ -27,8 +27,10 @@ class HttpHelper {
 public:
   static void getAllMaps();
 
-  static void updateMap(const std::string &name, const std::string &author,
-                        const std::string &time, const std::string &content);
+  static void uploadMap(const std::string &name,
+                        const std::string &author,
+                        const std::string &time,
+                        const std::string &content);
 
   static std::vector<MapResource> sAllMaps;
 };

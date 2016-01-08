@@ -14,6 +14,9 @@
 class SpriteUV;
 class BlockBase;
 
+#define CHECK_PARAM(p) CC_ASSERT(param.find(p) != param.end())
+#define GET_PARAM(p, T) any_cast<T>(param[p])
+
 class BlockRenderer {
 public:
   enum RendererType {
@@ -93,64 +96,6 @@ public:
 
 protected:
   BlockBase *mParentBlock{nullptr};
-};
-
-///////////////////////////////////////////////////////////////
-
-class RectRenderer : public BlockRenderer {
-public:
-  RectRenderer(BlockBase *parent);
-
-  virtual ~RectRenderer();
-
-  RendererType getType() const override {
-    return BlockRenderer::TYPE_RECT;
-  }
-
-  virtual void init(InitParams& param) override;
-
-  void setTexture(const std::string& texName) override;
-
-  cocos2d::Node* getNode() override;
-
-  cocos2d::Node* getNode() const override;
-
-  SpriteUV* getSprite() {
-    return mSprite;
-  }
-
-  void normalizeUV();
-
-protected:
-  SpriteUV* mSprite{nullptr};
-};
-
-///////////////////////////////////////////////////////////////
-
-class DirthCircleRenderer : public RectRenderer {
-public:
-  DirthCircleRenderer(BlockBase *parent);
-
-  ~DirthCircleRenderer();
-
-  RendererType getType() const override {
-    return BlockRenderer::TYPE_DEATH_CIRCLE;
-  }
-
-  void init(InitParams& param) override;
-
-  void addToParent(cocos2d::Node* parent, int zorder) override;
-
-  void setPosition(const cocos2d::Vec2& pos) override;
-
-  void setRotation(float val) override;
-
-  void setScale(float x, float y) override;
-
-  void setColor(const cocos2d::Color3B& color) override;
-
-private:
-  cocos2d::Sprite* mChild{nullptr};
 };
 
 #endif /* BlockRenderer_h */

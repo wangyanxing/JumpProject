@@ -17,6 +17,8 @@
 #include "VisibleRect.h"
 #include "Events.h"
 #include "BlockRenderer.h"
+#include "RectRenderer.h"
+#include "DeathCircleRenderer.h"
 
 USING_NS_CC;
 
@@ -46,7 +48,7 @@ void BlockBase::create(const cocos2d::Point &pt, const cocos2d::Size &size) {
   };
 
   if (mKind == KIND_DEATH_CIRCLE) {
-    mRenderer = new DirthCircleRenderer(this);
+    mRenderer = new DeathCircleRenderer(this);
   } else {
     mRenderer = new RectRenderer(this);
   }
