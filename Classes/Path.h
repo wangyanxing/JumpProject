@@ -10,7 +10,6 @@
 #define __JumpEdt__Path__
 
 #include "Defines.h"
-#include "cocos2d.h"
 
 class Path {
 public:

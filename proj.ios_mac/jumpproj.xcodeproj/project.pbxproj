@@ -68,8 +68,6 @@
 		BC3CE9FE1C1B86B400738B33 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C21C1B86B400738B33 /* Button.cpp */; };
 		BC3CE9FF1C1B86B400738B33 /* DrawNodeEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C51C1B86B400738B33 /* DrawNodeEx.cpp */; };
 		BC3CEA001C1B86B400738B33 /* DrawNodeEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C51C1B86B400738B33 /* DrawNodeEx.cpp */; };
-		BC3CEA011C1B86B400738B33 /* EditorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C71C1B86B400738B33 /* EditorScene.cpp */; };
-		BC3CEA021C1B86B400738B33 /* EditorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C71C1B86B400738B33 /* EditorScene.cpp */; };
 		BC3CEA031C1B86B400738B33 /* EffectSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C91C1B86B400738B33 /* EffectSprite.cpp */; };
 		BC3CEA041C1B86B400738B33 /* EffectSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C91C1B86B400738B33 /* EffectSprite.cpp */; };
 		BC3CEA051C1B86B400738B33 /* Events.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9CB1C1B86B400738B33 /* Events.cpp */; };
@@ -244,10 +242,8 @@
 		BC3CE9C41C1B86B400738B33 /* Defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Defines.h; sourceTree = "<group>"; };
 		BC3CE9C51C1B86B400738B33 /* DrawNodeEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawNodeEx.cpp; sourceTree = "<group>"; };
 		BC3CE9C61C1B86B400738B33 /* DrawNodeEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawNodeEx.h; sourceTree = "<group>"; };
-		BC3CE9C71C1B86B400738B33 /* EditorScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorScene.cpp; sourceTree = "<group>"; };
 		BC3CE9C81C1B86B400738B33 /* EditorScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorScene.h; sourceTree = "<group>"; };
 		BC3CE9C91C1B86B400738B33 /* EffectSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EffectSprite.cpp; sourceTree = "<group>"; };
-		BC3CE9CA1C1B86B400738B33 /* EffectSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EffectSprite.h; sourceTree = "<group>"; };
 		BC3CE9CB1C1B86B400738B33 /* Events.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Events.cpp; sourceTree = "<group>"; };
 		BC3CE9CC1C1B86B400738B33 /* Events.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Events.h; sourceTree = "<group>"; };
 		BC3CE9CD1C1B86B400738B33 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
@@ -461,10 +457,8 @@
 				BC3CE9C41C1B86B400738B33 /* Defines.h */,
 				BC3CE9C51C1B86B400738B33 /* DrawNodeEx.cpp */,
 				BC3CE9C61C1B86B400738B33 /* DrawNodeEx.h */,
-				BC3CE9C71C1B86B400738B33 /* EditorScene.cpp */,
 				BC3CE9C81C1B86B400738B33 /* EditorScene.h */,
 				BC3CE9C91C1B86B400738B33 /* EffectSprite.cpp */,
-				BC3CE9CA1C1B86B400738B33 /* EffectSprite.h */,
 				BC3CE9CB1C1B86B400738B33 /* Events.cpp */,
 				BC3CE9CC1C1B86B400738B33 /* Events.h */,
 				BC3CE9CD1C1B86B400738B33 /* GameScene.cpp */,
@@ -754,7 +748,6 @@
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				BC3CEA031C1B86B400738B33 /* EffectSprite.cpp in Sources */,
-				BC3CEA011C1B86B400738B33 /* EditorScene.cpp in Sources */,
 				BC3CEA151C1B86B400738B33 /* LogicManager.cpp in Sources */,
 				BC6420001C3C88BB0018F96F /* GameLayerContainer.cpp in Sources */,
 				BC3CEA1B1C1B86B400738B33 /* PathLib.cpp in Sources */,
@@ -794,7 +787,6 @@
 				B5A55AA81C2B8B7200E02C60 /* ControlPad.cpp in Sources */,
 				BC3CEA911C1F20F700738B33 /* Palette.cpp in Sources */,
 				BC3CEA0C1C1B86B400738B33 /* HttpHelper.cpp in Sources */,
-				BC3CEA021C1B86B400738B33 /* EditorScene.cpp in Sources */,
 				BC3CEA161C1B86B400738B33 /* LogicManager.cpp in Sources */,
 				BC3CEA341C1B86B400738B33 /* VisibleRect.cpp in Sources */,
 				BC3CEA281C1B86B400738B33 /* Shake.cpp in Sources */,

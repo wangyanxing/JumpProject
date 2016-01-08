@@ -12,7 +12,6 @@
 #include "Blocks.h"
 #include "Shadows.h"
 #include "LevelScene.h"
-#include "EffectSprite.h"
 #include "LogicManager.h"
 #include "ControlPad.h"
 
