@@ -47,10 +47,6 @@ GameLogic::GameLogic(GameLayerContainer *parent) {
   mHeroShape = mHero->getRenderer()->getPhysicsBody()->getShapes().front();
   mHero->mShadowLayerID = 1;
   
-#if EDITOR_MODE
-  createFixedBlocks();
-#endif
-
   enableGame(false);
 }
 
@@ -311,49 +307,6 @@ void GameLogic::showGameScene(bool val) {
 #if USE_BACKGROUND
   mBack->setVisible(val);
 #endif
-}
-
-void GameLogic::createFixedBlocks() {
-  auto width = VisibleRect::right().x;
-  auto height = VisibleRect::top().y;
-  {
-    // Bottom
-    BlockBase *block = new BlockBase();
-    block->mCanDelete = false;
-    block->setRestoreRect(Rect(width / 2, -BORDER_FRAME_SIZE / 2, width, BORDER_FRAME_SIZE));
-    block->setKind(BlockKind::KIND_BLOCK);
-    block->mCastShadow = false;
-    mBlocks[block->mID] = block;
-  }
-  {
-    // Top
-    BlockBase *block = new BlockBase();
-    block->mCanDelete = false;
-    block->setRestoreRect(Rect(width / 2, height + BORDER_FRAME_SIZE / 2, width, BORDER_FRAME_SIZE));
-    block->setKind(BlockKind::KIND_BLOCK);
-    block->mCastShadow = false;
-    mBlocks[block->mID] = block;
-  }
-  {
-    // Left
-    BlockBase *block = new BlockBase();
-    block->mCanDelete = false;
-    block->setRestoreRect(Rect(-BORDER_FRAME_SIZE / 2, height / 2,
-                       BORDER_FRAME_SIZE, height + BORDER_FRAME_SIZE * 2));
-    block->setKind(BlockKind::KIND_BLOCK);
-    block->mCastShadow = false;
-    mBlocks[block->mID] = block;
-  }
-  {
-    // Right
-    BlockBase *block = new BlockBase();
-    block->mCanDelete = false;
-    block->setRestoreRect(Rect(width + BORDER_FRAME_SIZE / 2, height / 2,
-                       BORDER_FRAME_SIZE, height + BORDER_FRAME_SIZE * 2));
-    block->setKind(BlockKind::KIND_BLOCK);
-    block->mCastShadow = false;
-    mBlocks[block->mID] = block;
-  }
 }
 
 BlockBase *GameLogic::findBlock(int id) {

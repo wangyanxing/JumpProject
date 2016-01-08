@@ -9,9 +9,10 @@
 void MapSerial::loadLastEdit() {
   auto file = UserDefault::getInstance()->getStringForKey("lastedit");
   if (file.empty()) {
-    return;
+    loadMap(TEMPLATE_MAP);
+  } else {
+    loadMap(file.c_str());
   }
-  loadMap(file.c_str());
 }
 
 void MapSerial::loadMap(const char *filename) {

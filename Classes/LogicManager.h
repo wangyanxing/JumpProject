@@ -37,8 +37,6 @@ public:
 
   void blockTraversal(const std::function<void(BlockBase *)> &func);
 
-  void createFixedBlocks();
-
   void deleteBlock(BlockBase *b);
 
   bool onContactPreSolve(cocos2d::PhysicsContact &contact, cocos2d::PhysicsContactPreSolve &solve);

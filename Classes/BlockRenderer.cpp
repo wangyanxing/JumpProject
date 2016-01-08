@@ -8,7 +8,6 @@
 
 #include "BlockRenderer.h"
 #include "Blocks.h"
-#include "Defines.h"
 #include "SpriteUV.h"
 #include "GameUtils.h"
 #include "LogicManager.h"

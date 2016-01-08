@@ -49,6 +49,7 @@ enum FollowMode {
   F_UP, F_DOWN, F_LEFT, F_RIGHT
 };
 
+// These macros are used for debug.
 #define USE_SHADOW 1
 #define USE_JUMP_EFFECT 1
 #define USE_BACKGROUND 1
@@ -81,6 +82,8 @@ enum FollowMode {
 #define DEATH_IMAGE "images/saw.png"
 #define DEATH_CIRCLE_IMAGE "images/saw3.png"
 #define EXIT_IMAGE "images/exit.png"
+
+#define TEMPLATE_MAP "maps/blank_map.json"
 
 // Block default attributes
 #define DEFAULT_SHADOW_LENGTH 100.0f

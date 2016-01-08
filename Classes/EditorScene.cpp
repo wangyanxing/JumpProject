@@ -368,8 +368,7 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
   if (keyCode == EventKeyboard::KeyCode::KEY_N) {
     if (mPressingCtrl) {
       save();
-      clean();
-      getGame()->createFixedBlocks();
+      MapSerial::loadMap(TEMPLATE_MAP);
     }
   }
 

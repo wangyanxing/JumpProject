@@ -9,6 +9,7 @@
 #ifndef BlockRenderer_h
 #define BlockRenderer_h
 
+#include "Defines.h"
 #include "Any.h"
 
 class SpriteUV;
