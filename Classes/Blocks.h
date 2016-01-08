@@ -9,7 +9,6 @@
 #ifndef __JumpEdt__Blocks__
 #define __JumpEdt__Blocks__
 
-#include "cocos2d.h"
 #include "Defines.h"
 #include "Path.h"
 #include "Rotator.h"

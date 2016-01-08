@@ -9,7 +9,6 @@
 #ifndef __JumpEdt__Button__
 #define __JumpEdt__Button__
 
-#include "cocos2d.h"
 #include "Defines.h"
 
 class BlockBase;
