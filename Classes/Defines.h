@@ -93,6 +93,8 @@ enum FollowMode {
 
 // Z order
 #define ZORDER_BACK 0
+#define ZORDER_BLOCK_ROOT 10
+
 #define ZORDER_SHADOW_1 5
 #define ZORDER_SHADOW_2 6
 #define ZORDER_PARTICLE 15

@@ -38,6 +38,8 @@ GameLayerContainer::~GameLayerContainer() {
 bool GameLayerContainer::init() {
   Layer::init();
 
+  mBlockRoot = Node::create();
+  mBlockRoot->setCameraMask((unsigned short) CameraFlag::USER2);
   mCamera = Camera::create();
 
   CC_SAFE_DELETE(GameLogic::Game);
@@ -47,6 +49,7 @@ bool GameLayerContainer::init() {
   mCamera->setCameraFlag(CameraFlag::USER2);
   mCamera->setDepth(getCameraDepth());
   addChild(mCamera);
+  addChild(mBlockRoot, ZORDER_BLOCK_ROOT);
   setCameraMask((unsigned short) CameraFlag::USER2);
   return true;
 }
