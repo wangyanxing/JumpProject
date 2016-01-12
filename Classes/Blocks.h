@@ -129,6 +129,10 @@ public:
 
   virtual void reset();
 
+  void callTriggerEvent();
+
+  void callInitEvent();
+
   void updateOpenClose(float dt);
 
   void setRestoreRect(const cocos2d::Rect &rect);
@@ -196,10 +200,6 @@ public:
   int mRotationSpeed{DEFAULT_ROTATE_SPEED};
 
   bool mDownDirDoor{true};
-
-  void callTriggerEvent();
-
-  void callInitEvent();
 
   Status mStatus{IDLE};
 
