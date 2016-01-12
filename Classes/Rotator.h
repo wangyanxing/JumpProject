@@ -62,7 +62,9 @@ public:
   }
 
   void clear() {
-    while (!empty()) pop();
+    while (!empty()) {
+      pop();
+    }
   }
 
   void pop();

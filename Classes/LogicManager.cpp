@@ -12,11 +12,11 @@
 #include "GameUtils.h"
 #include "Shadows.h"
 #include "Button.h"
-#include "Shake.h"
 #include "VisibleRect.h"
 #include "TimeEvent.h"
 #include "BlockRenderer.h"
 #include "Palette.h"
+#include "CameraShake.h"
 
 #if EDITOR_MODE
 #   include "EditorScene.h"
@@ -76,7 +76,7 @@ void GameLogic::addShadowGroup() {
   mShadowNode.push_back(Node::create());
   mShadows.push_back(new ShadowManager());
   if (!mShadowNode.back()->getParent()) {
-    mParentLayer->addChild(mShadowNode.back(), ZORDER_SHADOW_1);
+    mParentLayer->getBlockRoot()->addChild(mShadowNode.back(), ZORDER_SHADOW_1);
   }
 }
 
@@ -309,7 +309,7 @@ void GameLogic::jump() {
 
 void GameLogic::win() {
   CCLOG("Win event triggered");
-  GAME_LAYER->preWinGame();
+  getGameLayer()->preWinGame();
   showWinCurtain();
 }
 
@@ -335,7 +335,10 @@ void GameLogic::postUpdate(float dt) {
 
 void GameLogic::updateGame(float dt) {
   if (mDeadFlag && !mRejectInput) {
-    // Play dead effect
+    // Camera effect.
+    getGameLayer()->getBlockRoot()->runAction(CameraShake::create(0.3f, 10));
+
+    // Particle effect.
     ParticleSystem *ps = ParticleSystemQuad::create("fx/diefx.plist");
     ParticleBatchNode *batch = ParticleBatchNode::createWithTexture(ps->getTexture());
     batch->addChild(ps);
@@ -347,11 +350,11 @@ void GameLogic::updateGame(float dt) {
     mHero->getRenderer()->getNode()->runAction(Sequence::create(ScaleTo::create(0.2, 0.1, 0.1),
                                                    CallFunc::create([this] {
                                                        mHero->getRenderer()->setVisible(false);
-                                                   }), NULL));
+                                                   }), nullptr));
 
     mParentLayer->runAction(Sequence::create(DelayTime::create(0.4), CallFunc::create([this] {
         enableGame(true, true);
-    }), NULL));
+    }), nullptr));
 
     return;
   }
@@ -390,7 +393,7 @@ void GameLogic::updateGame(float dt) {
 void GameLogic::update(float dt) {
   if (mGameMode) {
     for (auto it = mTimeEvents.begin(); it != mTimeEvents.end(); ++it) {
-      (*it).update(dt);
+      it->update(dt);
     }
 
     for (auto b : mBlocks) {
@@ -434,15 +437,17 @@ void GameLogic::deleteBlock(BlockBase *sel) {
 
   auto it = mBlocks.begin();
   for (; it != mBlocks.end(); ++it)
-    if (it->second == sel)
+    if (it->second == sel) {
       break;
+    }
 
   if (it != mBlocks.end()) {
     auto tableit = mBlockTable.find(sel->getRenderer()->getNode());
     mBlockTable.erase(tableit);
-    if (sel == mSelectionHead)
+    if (sel == mSelectionHead) {
       mSelectionHead = nullptr;
-    delete sel;
+    }
+    CC_SAFE_DELETE(sel);
     mBlocks.erase(it);
   }
 
@@ -468,6 +473,8 @@ void GameLogic::enableGame(bool val, bool force) {
   }
 #endif
 
+  getGameLayer()->getBlockRoot()->setPosition(Vec2::ZERO);
+
   die();
 
   mHero->setVisible(mGameMode);
@@ -476,7 +483,7 @@ void GameLogic::enableGame(bool val, bool force) {
   mHero->reset();
 
   for (auto it = mTimeEvents.begin(); it != mTimeEvents.end(); ++it) {
-    (*it).reset();
+    it->reset();
   }
 
   for (auto bc : mBlocks) {

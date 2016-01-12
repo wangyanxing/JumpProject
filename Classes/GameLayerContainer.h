@@ -9,8 +9,6 @@
 #ifndef GameLayerContainer_h
 #define GameLayerContainer_h
 
-#include "cocos2d.h"
-
 class GameLogic;
 class GameLayerContainer;
 
@@ -54,6 +52,10 @@ public:
     return mGame;
   }
 
+  cocos2d::Node *getBlockRoot() {
+    return mBlockRoot;
+  }
+
 protected:
   bool onCollisionDetected(cocos2d::PhysicsContact &contact,
                            cocos2d::PhysicsContactPreSolve &solve);
@@ -61,10 +63,11 @@ protected:
 private:
   GameLogic *mGame{nullptr};
 
+  cocos2d::Node *mBlockRoot{nullptr};
+
   cocos2d::Camera *mCamera{nullptr};
 
   GamePostUpdater mPostUpdater;
 };
-
 
 #endif /* GameLayerContainer_h */

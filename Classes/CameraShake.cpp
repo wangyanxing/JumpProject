@@ -1,4 +1,4 @@
-#include "Shake.h"
+#include "CameraShake.h"
 
 USING_NS_CC;
 

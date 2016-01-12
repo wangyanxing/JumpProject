@@ -9,7 +9,6 @@
 #ifndef __JumpEdt__GameScene__
 #define __JumpEdt__GameScene__
 
-#include "cocos2d.h"
 #include "Defines.h"
 #include "LogicManager.h"
 #include "GameLayerContainer.h"

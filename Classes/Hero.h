@@ -50,6 +50,4 @@ public:
   float mCurrentMovingSpeed{0};
 };
 
-#include <stdio.h>
-
 #endif /* Hero_hpp */

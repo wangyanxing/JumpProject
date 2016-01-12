@@ -1,8 +1,6 @@
 #ifndef __SHAKE_H__
 #define __SHAKE_H__
 
-#include "cocos2d.h"
-
 class CameraShake : public cocos2d::ActionInterval {
 public:
   CameraShake();

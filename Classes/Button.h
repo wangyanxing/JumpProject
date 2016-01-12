@@ -30,7 +30,7 @@ public:
 
   void setParentWidth(float v);
 
-  // Call in case collsion detected
+  // Call when collsion detected
   bool push(const cocos2d::Vec2& normal, BlockBase* hero);
 
   void doPush();
@@ -76,11 +76,12 @@ public:
 #if EDITOR_MODE
   void updateHelper();
 
-  void showHelper(bool val) {mHelperNode->setVisible(val);}
+  void showHelper(bool val) {
+    mHelperNode->setVisible(val);
+  }
 
   cocos2d::DrawNode* mHelperNode{ nullptr };
 #endif
 };
-
 
 #endif /* defined(__JumpEdt__Button__) */

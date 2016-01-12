@@ -9,7 +9,6 @@
 #ifndef __JumpEdt__LogicManager__
 #define __JumpEdt__LogicManager__
 
-#include "cocos2d.h"
 #include "Defines.h"
 #include "SceneSprite.h"
 
