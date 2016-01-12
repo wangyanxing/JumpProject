@@ -1,8 +1,6 @@
 #ifndef __JumpEdt__UIColorEditor__
 #define __JumpEdt__UIColorEditor__
 
-#include "cocos2d.h"
-
 class SpriteUV;
 
 class UIColorEditor {

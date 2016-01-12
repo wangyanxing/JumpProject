@@ -1,8 +1,6 @@
 #ifndef __SpriteUV_H__
 #define __SpriteUV_H__
 
-#include "cocos2d.h"
-
 //Sprite class where you can set a texture offset. Helps if you do UV animation on CCSprite's
 //by @hermanjakobi, 2013 Jan
 

@@ -3,9 +3,6 @@
 
 #include "Defines.h"
 
-#include <string>
-#include <vector>
-
 class PathLib {
 public:
   static std::vector<std::string> stringSplit(const std::string &source,

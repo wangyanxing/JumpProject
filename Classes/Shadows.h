@@ -9,7 +9,6 @@
 #ifndef __JumpEdt__Shadows__
 #define __JumpEdt__Shadows__
 
-#include "cocos2d.h"
 #include "Defines.h"
 
 #if USE_SHADOW

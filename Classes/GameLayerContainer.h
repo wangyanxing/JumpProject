@@ -9,8 +9,6 @@
 #ifndef GameLayerContainer_h
 #define GameLayerContainer_h
 
-#include "cocos2d.h"
-
 class GameLogic;
 class GameLayerContainer;
 
@@ -65,6 +63,5 @@ private:
 
   GamePostUpdater mPostUpdater;
 };
-
 
 #endif /* GameLayerContainer_h */

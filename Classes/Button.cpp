@@ -219,7 +219,6 @@ void Button::update(float dt) {
     bool callrestore = false;
     if (mDir == DIR_LEFT || mDir == DIR_RIGHT) {
       callrestore = newLength >= mParent->mRestoreSize.width / 2;
-
     } else if (mDir == DIR_UP || mDir == DIR_DOWN) {
       callrestore = newLength >= mParent->mRestoreSize.height / 2;
     }
@@ -231,7 +230,7 @@ void Button::update(float dt) {
       }
     }
 
-    if (newLength > 0.05) {
+    if (newLength > 0.05f) {
       mEnable = true;
     }
   }
@@ -239,17 +238,19 @@ void Button::update(float dt) {
 }
 
 void Button::setParentWidth(float v) {
-  if (mParent->getRenderer()->getRotation() > 1)
+  if (mParent->getRenderer()->getRotation() > 1) {
     mParent->setHeight(v);
-  else
+  } else {
     mParent->setWidth(v);
+  }
 }
 
 void Button::setParentHeight(float v) {
-  if (mParent->getRenderer()->getRotation() > 1)
+  if (mParent->getRenderer()->getRotation() > 1) {
     mParent->setWidth(v);
-  else
+  } else {
     mParent->setHeight(v);
+  }
 }
 
 void Button::updatePosition() {
@@ -277,7 +278,7 @@ Button::~Button() {
 #if EDITOR_MODE
 
 void Button::updateHelper() {
-  Color4F color(123 / 255., 221 / 255., 45 / 255., 1.0);
+  Color4F color(123 / 255.0f, 221 / 255.0f, 45 / 255.0f, 1.0);
   auto p = mParent->getPosition();
   auto size = mParent->getSize();
   float arrawH = 20;

@@ -1,7 +1,6 @@
 #ifndef __JumpEdt__EditorScene__
 #define __JumpEdt__EditorScene__
 
-#include "cocos2d.h"
 #include "GameLayerContainer.h"
 #include "DrawNodeEx.h"
 #include "Defines.h"

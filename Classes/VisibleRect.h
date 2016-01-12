@@ -1,8 +1,6 @@
 #ifndef __VISIBLERECT_H__
 #define __VISIBLERECT_H__
 
-#include "cocos2d.h"
-
 class VisibleRect {
 public:
   static cocos2d::Rect getVisibleRect();

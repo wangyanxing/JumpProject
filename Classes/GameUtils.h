@@ -1,7 +1,6 @@
 #ifndef __GAME_UTILS_H__
 #define __GAME_UTILS_H__
 
-#include "cocos2d.h"
 #include "cocos-ext.h"
 
 class SpriteUV;

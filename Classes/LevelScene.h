@@ -9,7 +9,6 @@
 #define __JumpEdt__LevelScene__
 
 #include <iostream>
-#include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "Defines.h"
 

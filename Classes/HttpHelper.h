@@ -9,10 +9,6 @@
 #ifndef __JumpEdt__HttpHelper__
 #define __JumpEdt__HttpHelper__
 
-#include <stdio.h>
-#include <string>
-#include <vector>
-
 #include "HttpClient.h"
 
 struct MapResource {
