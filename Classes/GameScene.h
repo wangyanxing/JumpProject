@@ -53,9 +53,7 @@ private:
 
   void onWinGame() override;
 
-  void preWinGame() override;
-
-  void showHideMenu(bool force = false);
+  void showPauseUI(bool val);
 
 private:
   cocos2d::Sprite *mLeftButton{nullptr};
@@ -64,11 +62,7 @@ private:
 
   cocos2d::Sprite *mJumpButton{nullptr};
 
-  cocos2d::MenuItemImage *mBackMenu{nullptr};
-
-  cocos2d::MenuItemImage *mRestartMenu{nullptr};
-
-  cocos2d::LayerColor *mPasueUILayer{nullptr};
+  cocos2d::LayerColor *mPauseUILayer{nullptr};
 
   bool mCanJump{true};
 };

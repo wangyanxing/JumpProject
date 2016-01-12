@@ -46,6 +46,8 @@ public:
 
   void enableGame(bool val, bool force = false);
 
+  void restartGame();
+
   void postUpdate(float dt);
 
   void updateGame(float dt);

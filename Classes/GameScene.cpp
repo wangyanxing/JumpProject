@@ -64,10 +64,6 @@ bool GameScene::init() {
 
   createControlPad();
   createMenuButtons();
-
-  mPasueUILayer = LayerColor::create(Color4B(30, 30, 30, 0));
-  mPasueUILayer->setVisible(false);
-  addChild(mPasueUILayer, ZORDER_GAME_PAUSELAYER);
   return true;
 }
 
@@ -85,7 +81,7 @@ void GameScene::enterGame(const std::string &name, bool absPath) {
 }
 
 void GameScene::onTouch(const cocos2d::Vec2 &pos) {
-  if(mPasueUILayer->isVisible()) {
+  if(mPauseUILayer->isVisible()) {
     return;
   }
   auto midPoint = mLeftButton->getPosition().getMidpoint(mRightButton->getPosition());
@@ -120,25 +116,8 @@ void GameScene::onTouch(const cocos2d::Vec2 &pos) {
   }
 }
 
-void GameScene::showHideMenu(bool force) {
-  if (force || mBackMenu->getNumberOfRunningActions() == 0) {
-    auto down = Vec2(50, VisibleRect::top().y - 50);
-    auto up = Vec2(50, VisibleRect::top().y + 50);
-    bool out = mBackMenu->getPositionY() > VisibleRect::top().y;
-    mBackMenu->runAction(MoveTo::create(0.3, out ? down : up));
-  }
-  if (force || mRestartMenu->getNumberOfRunningActions() == 0) {
-    auto down = Vec2(VisibleRect::right().x - 50, VisibleRect::top().y - 50);
-    auto up = Vec2(VisibleRect::right().x - 50, VisibleRect::top().y + 50);
-    bool out = mRestartMenu->getPositionY() > VisibleRect::top().y;
-    mRestartMenu->runAction(MoveTo::create(0.3, out ? down : up));
-  }
-}
-
 void GameScene::onEndTouch(const cocos2d::Vec2 &pos) {
-  if (pos.y > VisibleRect::top().y * 0.3 && pos.y < VisibleRect::top().y - 100) {
-    showHideMenu();
-  } else {
+  if (pos.y < VisibleRect::top().y * 0.3 || pos.y > VisibleRect::top().y - 100) {
     if (pos.x < VisibleRect::center().x) {
       mLeftButton->setOpacity(CONTROL_BUTTON_OPACITY);
       mRightButton->setOpacity(CONTROL_BUTTON_OPACITY);
@@ -158,12 +137,6 @@ void GameScene::enableGame(bool v) {
   mJumpButton->setVisible(v);
 }
 
-void GameScene::preWinGame() {
-  if (mBackMenu->getPositionY() < VisibleRect::top().y) {
-    showHideMenu(true);
-  }
-}
-
 void GameScene::onWinGame() {
   enableGame(false);
   toMainMenu();
@@ -174,51 +147,64 @@ void GameScene::toMainMenu() {
   Director::getInstance()->replaceScene(LevelScene::getInstance());
 }
 
+void GameScene::showPauseUI(bool val) {
+  if (val) {
+    mPauseUILayer->setVisible(true);
+    mPauseUILayer->runAction(Sequence::create(FadeTo::create(0.3f, 200), nullptr));
+  } else {
+    mPauseUILayer->runAction(Sequence::create(FadeTo::create(0.3f, 0),
+                                              CallFunc::create([this](){
+        mPauseUILayer->setVisible(false);
+    }), nullptr));
+  }
+}
+
 void GameScene::createMenuButtons() {
-  mBackMenu = MenuItemImage::create(
-      "images/menu_icon.png",
-      "images/menu_icon.png",
+  auto pauseButton = MenuItemImage::create(
+      "images/button_pause.png",
+      "images/button_pause.png",
       [&](Ref *) {
-          mBackMenu->runAction(
-              Sequence::create(ScaleTo::create(0.1, 0.5),
-                               ScaleTo::create(0.1, 0.4), NULL));
-          showHideMenu(true);
-          this->runAction(
-              Sequence::create(DelayTime::create(0.2),
-                               CallFunc::create([this] {
-                                   toMainMenu();
-                               }), NULL));
+        showPauseUI(true);
       });
 
-  mRestartMenu = MenuItemImage::create(
-      "images/restart_icon.png",
-      "images/restart_icon.png",
-      [&](Ref *) {
-          mRestartMenu->runAction(
-              Sequence::create(ScaleTo::create(0.1, 0.6),
-                               ScaleTo::create(0.1, 0.5), NULL));
-          showHideMenu(true);
-          this->runAction(
-              Sequence::create(DelayTime::create(0.2),
-                               CallFunc::create(
-                                   [this] {
-                                       getGame()->enableGame(false);
-                                       getGame()->enableGame(true);
-                                   }), NULL));
-      });
+  pauseButton->setColor(Color3B(200, 200, 200));
+  pauseButton->setPosition(VisibleRect::right().x - 50, VisibleRect::top().y - 50);
+  pauseButton->setScale(0.7f);
 
-  mBackMenu->setColor(Color3B(200, 200, 200));
-  mRestartMenu->setColor(Color3B(200, 200, 200));
-
-  mBackMenu->setPosition(50, VisibleRect::top().y + 50);
-  mRestartMenu->setPosition(VisibleRect::right().x - 50, VisibleRect::top().y + 50);
-
-  mBackMenu->setScale(0.4);
-  mRestartMenu->setScale(0.5);
-
-  auto menu = Menu::create(mBackMenu, mRestartMenu, NULL);
+  auto menu = Menu::create(pauseButton, nullptr);
   menu->setPosition(Vec2::ZERO);
-  addChild(menu, 1000);
+  addChild(menu, ZORDER_GAME_CONTROLPAD);
+
+  mPauseUILayer = LayerColor::create(Color4B(30, 30, 30, 0));
+  mPauseUILayer->setVisible(false);
+  addChild(mPauseUILayer, ZORDER_GAME_PAUSELAYER);
+  auto resumeButton = MenuItemImage::create(
+                                            "images/button_resume.png",
+                                            "images/button_resume.png",
+                                            [&](Ref *) {
+                                            });
+  auto replayButton = MenuItemImage::create(
+                                            "images/button_replay.png",
+                                            "images/button_replay.png",
+                                            [&](Ref *) {
+                                            });
+  auto returnButton = MenuItemImage::create(
+                                            "images/button_main_menu.png",
+                                            "images/button_main_menu.png",
+                                            [&](Ref *) {
+                                            });
+
+  resumeButton->setScale(0.7f);
+  replayButton->setScale(0.7f);
+  returnButton->setScale(0.7f);
+
+  resumeButton->setPosition(VisibleRect::right().x / 4 - 50, VisibleRect::top().y / 2);
+  replayButton->setPosition(VisibleRect::right().x / 2, VisibleRect::top().y / 2);
+  returnButton->setPosition(VisibleRect::right().x / 4 * 3 + 50, VisibleRect::top().y / 2);
+
+  auto pauseMenu = Menu::create(resumeButton, replayButton, returnButton, nullptr);
+  pauseMenu->setPosition(Vec2::ZERO);
+  mPauseUILayer->addChild(pauseMenu);
 }
 
 void GameScene::createControlPad() {
