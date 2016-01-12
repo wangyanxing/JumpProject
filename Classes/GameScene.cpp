@@ -148,10 +148,15 @@ void GameScene::toMainMenu() {
 }
 
 void GameScene::showPauseUI(bool val) {
+  Node *buttons = mPauseUILayer->getChildByName("Buttons");
+  CC_ASSERT(buttons);
+
   if (val) {
     mPauseUILayer->setVisible(true);
     mPauseUILayer->runAction(Sequence::create(FadeTo::create(0.3f, 200), nullptr));
+    buttons->runAction(Sequence::create(FadeTo::create(0.3f, 255), nullptr));
   } else {
+    buttons->runAction(FadeTo::create(0.3f, 0));
     mPauseUILayer->runAction(Sequence::create(FadeTo::create(0.3f, 0),
                                               CallFunc::create([this](){
         mPauseUILayer->setVisible(false);
@@ -164,6 +169,7 @@ void GameScene::createMenuButtons() {
       "images/button_pause.png",
       "images/button_pause.png",
       [&](Ref *) {
+        getGame()->pauseGame(true);
         showPauseUI(true);
       });
 
@@ -175,28 +181,49 @@ void GameScene::createMenuButtons() {
   menu->setPosition(Vec2::ZERO);
   addChild(menu, ZORDER_GAME_CONTROLPAD);
 
+  static float buttonScale = 0.7f;
   mPauseUILayer = LayerColor::create(Color4B(30, 30, 30, 0));
   mPauseUILayer->setVisible(false);
   addChild(mPauseUILayer, ZORDER_GAME_PAUSELAYER);
   auto resumeButton = MenuItemImage::create(
-                                            "images/button_resume.png",
-                                            "images/button_resume.png",
-                                            [&](Ref *) {
-                                            });
+    "images/button_resume.png",
+    "images/button_resume.png",
+    [&](Ref *ref) {
+      dynamic_cast<cocos2d::Node*>(ref)->runAction(Sequence::create(
+                                         ScaleTo::create(0.1f, buttonScale + 0.05f),
+                                         ScaleTo::create(0.1f, buttonScale),
+                                         CallFunc::create([&](){
+          showPauseUI(false);
+          getGame()->pauseGame(false);
+      }), nullptr));
+    });
   auto replayButton = MenuItemImage::create(
-                                            "images/button_replay.png",
-                                            "images/button_replay.png",
-                                            [&](Ref *) {
-                                            });
+    "images/button_replay.png",
+    "images/button_replay.png",
+    [&](Ref *ref) {
+      dynamic_cast<cocos2d::Node*>(ref)->runAction(Sequence::create(
+                                          ScaleTo::create(0.1f, buttonScale + 0.05f),
+                                          ScaleTo::create(0.1f, buttonScale),
+                                          CallFunc::create([&](){
+          showPauseUI(false);
+          getGame()->restartGame();
+      }), nullptr));
+    });
   auto returnButton = MenuItemImage::create(
-                                            "images/button_main_menu.png",
-                                            "images/button_main_menu.png",
-                                            [&](Ref *) {
-                                            });
+    "images/button_main_menu.png",
+    "images/button_main_menu.png",
+    [&](Ref *ref) {
+      dynamic_cast<cocos2d::Node*>(ref)->runAction(Sequence::create(
+                                          ScaleTo::create(0.1f, buttonScale + 0.05f),
+                                          ScaleTo::create(0.1f, buttonScale),
+                                          CallFunc::create([&](){
+          toMainMenu();
+      }), nullptr));
+    });
 
-  resumeButton->setScale(0.7f);
-  replayButton->setScale(0.7f);
-  returnButton->setScale(0.7f);
+  resumeButton->setScale(buttonScale);
+  replayButton->setScale(buttonScale);
+  returnButton->setScale(buttonScale);
 
   resumeButton->setPosition(VisibleRect::right().x / 4 - 50, VisibleRect::top().y / 2);
   replayButton->setPosition(VisibleRect::right().x / 2, VisibleRect::top().y / 2);
@@ -204,7 +231,8 @@ void GameScene::createMenuButtons() {
 
   auto pauseMenu = Menu::create(resumeButton, replayButton, returnButton, nullptr);
   pauseMenu->setPosition(Vec2::ZERO);
-  mPauseUILayer->addChild(pauseMenu);
+  pauseMenu->setOpacity(0);
+  mPauseUILayer->addChild(pauseMenu, 0, "Buttons");
 }
 
 void GameScene::createControlPad() {

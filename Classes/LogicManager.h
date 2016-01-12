@@ -48,6 +48,8 @@ public:
 
   void restartGame();
 
+  void pauseGame(bool val);
+
   void postUpdate(float dt);
 
   void updateGame(float dt);
@@ -136,6 +138,8 @@ public:
   bool mWinFlag{false};
 
   bool mGameMode{false};
+
+  bool mPause{false};
 
   cocos2d::Vec2 mSpawnPos;
 

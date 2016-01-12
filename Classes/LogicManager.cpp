@@ -325,7 +325,7 @@ void GameLogic::die() {
 }
 
 void GameLogic::postUpdate(float dt) {
-  if (mGameMode) {
+  if (mGameMode && !mPause) {
     for (auto b : mBlocks) {
       b.second->postUpdate(dt);
     }
@@ -391,6 +391,10 @@ void GameLogic::updateGame(float dt) {
 }
 
 void GameLogic::update(float dt) {
+  if (mPause) {
+    return;
+  }
+
   if (mGameMode) {
     for (auto it = mTimeEvents.begin(); it != mTimeEvents.end(); ++it) {
       it->update(dt);
@@ -458,6 +462,10 @@ void GameLogic::restartGame() {
   enableGame(true);
 }
 
+void GameLogic::pauseGame(bool val) {
+  mPause = val;
+}
+
 void GameLogic::enableGame(bool val, bool force) {
   if (mGameMode == val && !force) {
     return;
@@ -469,6 +477,7 @@ void GameLogic::enableGame(bool val, bool force) {
 
   mGameMode = val;
 
+  mPause = false;
   mMoveLeft = false;
   mMoveRight = false;
 
