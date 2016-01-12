@@ -77,7 +77,9 @@ public:
 
   virtual void switchToNormalImage();
 
-  virtual int getZOrder() { return mZOrder; }
+  virtual int getZOrder() {
+    return mZOrder;
+  }
 
   virtual float getWidth();
 
@@ -91,7 +93,9 @@ public:
 
   virtual bool canPush();
 
-  virtual bool pushable() { return mKind == KIND_PUSHABLE; }
+  virtual bool pushable() {
+    return mKind == KIND_PUSHABLE;
+  }
 
   virtual int pushPriority();
 
@@ -99,12 +103,15 @@ public:
 
   virtual void setKind(BlockKind kind, bool forceSet = false);
 
-  virtual cocos2d::Color3B getColor() { return mColor; }
+  virtual cocos2d::Color3B getColor() {
+    return mColor;
+  }
 
-  virtual void getPointsForShadow(const cocos2d::Vec2 &source,
-                                  std::vector <cocos2d::Vec2> &out);
+  virtual void getPointsForShadow(const cocos2d::Vec2 &source, std::vector <cocos2d::Vec2> &out);
 
-  BlockRenderer *getRenderer() { return mRenderer; }
+  BlockRenderer *getRenderer() {
+    return mRenderer;
+  }
 
   void setColor(int index);
 

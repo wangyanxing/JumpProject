@@ -92,8 +92,8 @@
 		BC3CEA221C1B86B400738B33 /* Rotator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9E51C1B86B400738B33 /* Rotator.cpp */; };
 		BC3CEA251C1B86B400738B33 /* Shadows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9E91C1B86B400738B33 /* Shadows.cpp */; };
 		BC3CEA261C1B86B400738B33 /* Shadows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9E91C1B86B400738B33 /* Shadows.cpp */; };
-		BC3CEA271C1B86B400738B33 /* Shake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9EB1C1B86B400738B33 /* Shake.cpp */; };
-		BC3CEA281C1B86B400738B33 /* Shake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9EB1C1B86B400738B33 /* Shake.cpp */; };
+		BC3CEA271C1B86B400738B33 /* CameraShake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9EB1C1B86B400738B33 /* CameraShake.cpp */; };
+		BC3CEA281C1B86B400738B33 /* CameraShake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9EB1C1B86B400738B33 /* CameraShake.cpp */; };
 		BC3CEA2B1C1B86B400738B33 /* SpriteUV.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9EF1C1B86B400738B33 /* SpriteUV.cpp */; };
 		BC3CEA2C1C1B86B400738B33 /* SpriteUV.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9EF1C1B86B400738B33 /* SpriteUV.cpp */; };
 		BC3CEA2D1C1B86B400738B33 /* TimeEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9F11C1B86B400738B33 /* TimeEvent.cpp */; };
@@ -266,8 +266,8 @@
 		BC3CE9E61C1B86B400738B33 /* Rotator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rotator.h; sourceTree = "<group>"; };
 		BC3CE9E91C1B86B400738B33 /* Shadows.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shadows.cpp; sourceTree = "<group>"; };
 		BC3CE9EA1C1B86B400738B33 /* Shadows.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shadows.h; sourceTree = "<group>"; };
-		BC3CE9EB1C1B86B400738B33 /* Shake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shake.cpp; sourceTree = "<group>"; };
-		BC3CE9EC1C1B86B400738B33 /* Shake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shake.h; sourceTree = "<group>"; };
+		BC3CE9EB1C1B86B400738B33 /* CameraShake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CameraShake.cpp; sourceTree = "<group>"; };
+		BC3CE9EC1C1B86B400738B33 /* CameraShake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraShake.h; sourceTree = "<group>"; };
 		BC3CE9EF1C1B86B400738B33 /* SpriteUV.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteUV.cpp; sourceTree = "<group>"; };
 		BC3CE9F01C1B86B400738B33 /* SpriteUV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteUV.h; sourceTree = "<group>"; };
 		BC3CE9F11C1B86B400738B33 /* TimeEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimeEvent.cpp; sourceTree = "<group>"; };
@@ -482,8 +482,8 @@
 				BC3CE9E61C1B86B400738B33 /* Rotator.h */,
 				BC3CE9E91C1B86B400738B33 /* Shadows.cpp */,
 				BC3CE9EA1C1B86B400738B33 /* Shadows.h */,
-				BC3CE9EB1C1B86B400738B33 /* Shake.cpp */,
-				BC3CE9EC1C1B86B400738B33 /* Shake.h */,
+				BC3CE9EB1C1B86B400738B33 /* CameraShake.cpp */,
+				BC3CE9EC1C1B86B400738B33 /* CameraShake.h */,
 				BC3CE9EF1C1B86B400738B33 /* SpriteUV.cpp */,
 				BC3CE9F01C1B86B400738B33 /* SpriteUV.h */,
 				BC3CE9F11C1B86B400738B33 /* TimeEvent.cpp */,
@@ -619,6 +619,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0710;
+				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = EQHXZ8M8AV;
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "jumpproj" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -743,7 +748,7 @@
 				BC64236E1C3F4FB40018F96F /* DeathCircleRenderer.cpp in Sources */,
 				BC3CE9FB1C1B86B400738B33 /* Blocks.cpp in Sources */,
 				BC3CEA211C1B86B400738B33 /* Rotator.cpp in Sources */,
-				BC3CEA271C1B86B400738B33 /* Shake.cpp in Sources */,
+				BC3CEA271C1B86B400738B33 /* CameraShake.cpp in Sources */,
 				BC641FFC1C3C7F730018F96F /* ChooseWorldScene.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
@@ -788,7 +793,7 @@
 				BC3CEA0C1C1B86B400738B33 /* HttpHelper.cpp in Sources */,
 				BC3CEA161C1B86B400738B33 /* LogicManager.cpp in Sources */,
 				BC3CEA341C1B86B400738B33 /* VisibleRect.cpp in Sources */,
-				BC3CEA281C1B86B400738B33 /* Shake.cpp in Sources */,
+				BC3CEA281C1B86B400738B33 /* CameraShake.cpp in Sources */,
 				BC3CEA181C1B86B400738B33 /* MapSerial.cpp in Sources */,
 				BC3CE9FE1C1B86B400738B33 /* Button.cpp in Sources */,
 				BC3CEA0A1C1B86B400738B33 /* GameUtils.cpp in Sources */,

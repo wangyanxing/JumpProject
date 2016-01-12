@@ -13,10 +13,8 @@ public:
   void setupTexParameters();
 
 public:
-
   static SpriteUV *create(const std::string &filename);
 
-  // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
   virtual bool initWithFile(const char *pszFilename);
 
   virtual bool initWithSpriteFrameName(const char *framename);
@@ -37,7 +35,6 @@ public:
 
   void rotateUV();
 
-  // implement the "static node()" method manually
   CREATE_FUNC(SpriteUV);
 };
 

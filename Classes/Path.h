@@ -69,8 +69,7 @@ public:
   void pop();
 
   cocos2d::Vec2 getBackPos() {
-    auto back = mPoints.back();
-    return back.pt;
+    return mPoints.back().pt;
   }
 
   void setBackPos(const cocos2d::Vec2 &pos) {

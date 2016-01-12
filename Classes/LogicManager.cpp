@@ -12,7 +12,7 @@
 #include "GameUtils.h"
 #include "Shadows.h"
 #include "Button.h"
-#include "Shake.h"
+#include "CameraShake.h"
 #include "VisibleRect.h"
 #include "TimeEvent.h"
 #include "BlockRenderer.h"
