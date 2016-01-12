@@ -64,11 +64,11 @@ private:
 
   cocos2d::Sprite *mJumpButton{nullptr};
 
-  cocos2d::Label *mTimerLabel{nullptr};
-
   cocos2d::MenuItemImage *mBackMenu{nullptr};
 
   cocos2d::MenuItemImage *mRestartMenu{nullptr};
+
+  cocos2d::LayerColor *mPasueUILayer{nullptr};
 
   bool mCanJump{true};
 };

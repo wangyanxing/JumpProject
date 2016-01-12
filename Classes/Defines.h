@@ -109,5 +109,6 @@ enum FollowMode {
 #define ZORDER_EDT_ID_LABEL 100
 
 #define ZORDER_GAME_CONTROLPAD 100
+#define ZORDER_GAME_PAUSELAYER 200
 
 #endif /* defined(__JumpEdt__Defines__) */

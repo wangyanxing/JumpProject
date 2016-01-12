@@ -64,25 +64,20 @@ bool GameScene::init() {
 
   createControlPad();
   createMenuButtons();
+
+  mPasueUILayer = LayerColor::create(Color4B(30, 30, 30, 0));
+  mPasueUILayer->setVisible(false);
+  addChild(mPasueUILayer, ZORDER_GAME_PAUSELAYER);
   return true;
 }
 
 void GameScene::update(float dt) {
   GameLayerContainer::update(dt);
-
-  // Update timer
-  char time[10];
-  sprintf(time, "%.1f", getGame()->mGameTimer);
-  mTimerLabel->setString(time);
 }
 
 void GameScene::enterGame(const std::string &name, bool absPath) {
-  if (absPath) {
-    MapSerial::loadMap(name.c_str());
-  } else {
-    auto str = FileUtils::getInstance()->fullPathForFilename(name);
-    MapSerial::loadMap(str.c_str());
-  }
+  MapSerial::loadMap(absPath ? name : FileUtils::getInstance()->fullPathForFilename(name));
+
   getGame()->enableGame(false);
   mLeftButton->setVisible(true);
   mRightButton->setVisible(true);
@@ -90,6 +85,9 @@ void GameScene::enterGame(const std::string &name, bool absPath) {
 }
 
 void GameScene::onTouch(const cocos2d::Vec2 &pos) {
+  if(mPasueUILayer->isVisible()) {
+    return;
+  }
   auto midPoint = mLeftButton->getPosition().getMidpoint(mRightButton->getPosition());
   auto jumpPoint = mJumpButton->getPosition();
   Rect boundLeft(midPoint.x - CONTROL_BUTTON_WIDTH,
@@ -123,12 +121,6 @@ void GameScene::onTouch(const cocos2d::Vec2 &pos) {
 }
 
 void GameScene::showHideMenu(bool force) {
-  if (force || mTimerLabel->getNumberOfRunningActions() == 0) {
-    auto down = Vec2(VisibleRect::center().x, VisibleRect::top().y - 50);
-    auto up = Vec2(VisibleRect::center().x, VisibleRect::top().y + 50);
-    bool out = mTimerLabel->getPositionY() > VisibleRect::top().y;
-    mTimerLabel->runAction(MoveTo::create(0.3, out ? down : up));
-  }
   if (force || mBackMenu->getNumberOfRunningActions() == 0) {
     auto down = Vec2(50, VisibleRect::top().y - 50);
     auto up = Vec2(50, VisibleRect::top().y + 50);
@@ -183,21 +175,6 @@ void GameScene::toMainMenu() {
 }
 
 void GameScene::createMenuButtons() {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
-  mTimerLabel = Label::createWithSystemFont("0.0",
-                                            "Heiti TC",
-                                            50,
-                                            Size::ZERO,
-                                            TextHAlignment::CENTER,
-                                            TextVAlignment::CENTER);
-#else
-  TTFConfig config("fonts/Montserra.ttf",50);
-  mTimerLabel = Label::createWithTTF(config,"0.0");
-#endif
-
-  addChild(mTimerLabel, 1000);
-  mTimerLabel->setPosition(VisibleRect::center().x, VisibleRect::top().y + 50);
-
   mBackMenu = MenuItemImage::create(
       "images/menu_icon.png",
       "images/menu_icon.png",
@@ -232,7 +209,6 @@ void GameScene::createMenuButtons() {
 
   mBackMenu->setColor(Color3B(200, 200, 200));
   mRestartMenu->setColor(Color3B(200, 200, 200));
-  mTimerLabel->setColor(Color3B(200, 200, 200));
 
   mBackMenu->setPosition(50, VisibleRect::top().y + 50);
   mRestartMenu->setPosition(VisibleRect::right().x - 50, VisibleRect::top().y + 50);

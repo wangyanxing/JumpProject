@@ -15,9 +15,9 @@ void MapSerial::loadLastEdit() {
   }
 }
 
-void MapSerial::loadMap(const char *filename) {
+void MapSerial::loadMap(const std::string &filename) {
   if (!FileUtils::getInstance()->isFileExist(filename)) {
-    CCLOGWARN("Failed to load map file: %s", filename);
+    CCLOGWARN("Failed to load map file: %s", filename.c_str());
     loadMap(TEMPLATE_MAP);
     return;
   }
