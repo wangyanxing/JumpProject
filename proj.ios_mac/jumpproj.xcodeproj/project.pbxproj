@@ -450,50 +450,31 @@
 			isa = PBXGroup;
 			children = (
 				BC3CEA871C1CD47000738B33 /* rapidjson */,
-				BC3CE9C01C1B86B400738B33 /* Blocks.cpp */,
-				BC3CE9C11C1B86B400738B33 /* Blocks.h */,
-				BC3CE9C21C1B86B400738B33 /* Button.cpp */,
+				BCB85EEF1C45BA6300CB8383 /* Utilities */,
+				BCB85EEE1C45BA3900CB8383 /* Serialization */,
+				BCB85EF11C45BB3C00CB8383 /* Graphics */,
+				BCB85EF21C45BB8000CB8383 /* GUI */,
 				BC3CE9C31C1B86B400738B33 /* Button.h */,
+				BC3CE9C21C1B86B400738B33 /* Button.cpp */,
+				BC3CE9C11C1B86B400738B33 /* Blocks.h */,
+				BC3CE9C01C1B86B400738B33 /* Blocks.cpp */,
 				BC3CE9C41C1B86B400738B33 /* Defines.h */,
-				BC3CE9C51C1B86B400738B33 /* DrawNodeEx.cpp */,
-				BC3CE9C61C1B86B400738B33 /* DrawNodeEx.h */,
 				BC3CE9C81C1B86B400738B33 /* EditorScene.h */,
 				BC6423701C3F5D3B0018F96F /* EditorScene.cpp */,
 				BC3CE9CB1C1B86B400738B33 /* Events.cpp */,
 				BC3CE9CC1C1B86B400738B33 /* Events.h */,
 				BC3CE9CD1C1B86B400738B33 /* GameScene.cpp */,
 				BC3CE9CE1C1B86B400738B33 /* GameScene.h */,
-				BC3CE9CF1C1B86B400738B33 /* GameUtils.cpp */,
-				BC3CE9D01C1B86B400738B33 /* GameUtils.h */,
-				BC3CE9D11C1B86B400738B33 /* HttpHelper.cpp */,
-				BC3CE9D21C1B86B400738B33 /* HttpHelper.h */,
-				BC3CE9D51C1B86B400738B33 /* LevelScene.cpp */,
-				BC3CE9D61C1B86B400738B33 /* LevelScene.h */,
 				BC3CE9DB1C1B86B400738B33 /* LogicManager.cpp */,
 				BC3CE9DC1C1B86B400738B33 /* LogicManager.h */,
-				BC3CE9DD1C1B86B400738B33 /* MapSerial.cpp */,
-				BC3CE9DE1C1B86B400738B33 /* MapSerial.h */,
 				BC3CE9DF1C1B86B400738B33 /* Path.cpp */,
 				BC3CE9E01C1B86B400738B33 /* Path.h */,
-				BC3CE9E11C1B86B400738B33 /* PathLib.cpp */,
-				BC3CE9E21C1B86B400738B33 /* PathLib.h */,
-				BC3CE9E31C1B86B400738B33 /* PathLibOSX.mm */,
 				BC3CE9E51C1B86B400738B33 /* Rotator.cpp */,
 				BC3CE9E61C1B86B400738B33 /* Rotator.h */,
 				BC3CE9E91C1B86B400738B33 /* Shadows.cpp */,
 				BC3CE9EA1C1B86B400738B33 /* Shadows.h */,
-				BC3CE9EB1C1B86B400738B33 /* CameraShake.cpp */,
-				BC3CE9EC1C1B86B400738B33 /* CameraShake.h */,
-				BC3CE9EF1C1B86B400738B33 /* SpriteUV.cpp */,
-				BC3CE9F01C1B86B400738B33 /* SpriteUV.h */,
 				BC3CE9F11C1B86B400738B33 /* TimeEvent.cpp */,
 				BC3CE9F21C1B86B400738B33 /* TimeEvent.h */,
-				BC3CE9F31C1B86B400738B33 /* UIColorEditor.cpp */,
-				BC3CE9F41C1B86B400738B33 /* UIColorEditor.h */,
-				BC3CE9F51C1B86B400738B33 /* UILayer.cpp */,
-				BC3CE9F61C1B86B400738B33 /* UILayer.h */,
-				BC3CE9F71C1B86B400738B33 /* VisibleRect.cpp */,
-				BC3CE9F81C1B86B400738B33 /* VisibleRect.h */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
 				BC3CEA8E1C1F20F700738B33 /* Palette.cpp */,
@@ -504,17 +485,8 @@
 				B5A55AA61C2B8B7200E02C60 /* ControlPad.h */,
 				BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */,
 				BCDFFFFA1C32ECED006E8A59 /* BlockRenderer.h */,
-				BCDFFFFD1C32F062006E8A59 /* Any.h */,
 				B52188211C34F08300E04587 /* SceneSprite.cpp */,
 				B52188221C34F08300E04587 /* SceneSprite.h */,
-				B5A55AA91C2B8C6F00E02C60 /* MapSerialUtils.inl */,
-				B52188251C34F37400E04587 /* SceneSpriteSerial.inl */,
-				B52188281C37439600E04587 /* PaletteSerial.inl */,
-				B521882B1C37442600E04587 /* ControlConfigSerial.inl */,
-				B521882E1C37447900E04587 /* SaveMapSerial.inl */,
-				B52188311C3744C400E04587 /* LoadMapSerial.inl */,
-				BC641FFA1C3C7F730018F96F /* ChooseWorldScene.cpp */,
-				BC641FFB1C3C7F730018F96F /* ChooseWorldScene.h */,
 				BC641FFE1C3C88BB0018F96F /* GameLayerContainer.cpp */,
 				BC641FFF1C3C88BB0018F96F /* GameLayerContainer.h */,
 				BC6423681C3F4FA20018F96F /* RectRenderer.cpp */,
@@ -572,6 +544,66 @@
 			name = Icons;
 			path = ios;
 			sourceTree = SOURCE_ROOT;
+		};
+		BCB85EEE1C45BA3900CB8383 /* Serialization */ = {
+			isa = PBXGroup;
+			children = (
+				BC3CE9DD1C1B86B400738B33 /* MapSerial.cpp */,
+				BC3CE9DE1C1B86B400738B33 /* MapSerial.h */,
+				B5A55AA91C2B8C6F00E02C60 /* MapSerialUtils.inl */,
+				B52188251C34F37400E04587 /* SceneSpriteSerial.inl */,
+				B52188281C37439600E04587 /* PaletteSerial.inl */,
+				B521882B1C37442600E04587 /* ControlConfigSerial.inl */,
+				B521882E1C37447900E04587 /* SaveMapSerial.inl */,
+				B52188311C3744C400E04587 /* LoadMapSerial.inl */,
+			);
+			name = Serialization;
+			sourceTree = "<group>";
+		};
+		BCB85EEF1C45BA6300CB8383 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				BCDFFFFD1C32F062006E8A59 /* Any.h */,
+				BC3CE9CF1C1B86B400738B33 /* GameUtils.cpp */,
+				BC3CE9D01C1B86B400738B33 /* GameUtils.h */,
+				BC3CE9E11C1B86B400738B33 /* PathLib.cpp */,
+				BC3CE9E21C1B86B400738B33 /* PathLib.h */,
+				BC3CE9E31C1B86B400738B33 /* PathLibOSX.mm */,
+				BC3CE9F71C1B86B400738B33 /* VisibleRect.cpp */,
+				BC3CE9F81C1B86B400738B33 /* VisibleRect.h */,
+				BC3CE9D11C1B86B400738B33 /* HttpHelper.cpp */,
+				BC3CE9D21C1B86B400738B33 /* HttpHelper.h */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		BCB85EF11C45BB3C00CB8383 /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				BC3CE9C51C1B86B400738B33 /* DrawNodeEx.cpp */,
+				BC3CE9C61C1B86B400738B33 /* DrawNodeEx.h */,
+				BC3CE9EB1C1B86B400738B33 /* CameraShake.cpp */,
+				BC3CE9EC1C1B86B400738B33 /* CameraShake.h */,
+				BC3CE9EF1C1B86B400738B33 /* SpriteUV.cpp */,
+				BC3CE9F01C1B86B400738B33 /* SpriteUV.h */,
+			);
+			name = Graphics;
+			sourceTree = "<group>";
+		};
+		BCB85EF21C45BB8000CB8383 /* GUI */ = {
+			isa = PBXGroup;
+			children = (
+				BC3CE9D51C1B86B400738B33 /* LevelScene.cpp */,
+				BC3CE9D61C1B86B400738B33 /* LevelScene.h */,
+				BC3CE9F31C1B86B400738B33 /* UIColorEditor.cpp */,
+				BC3CE9F41C1B86B400738B33 /* UIColorEditor.h */,
+				BC3CE9F51C1B86B400738B33 /* UILayer.cpp */,
+				BC3CE9F61C1B86B400738B33 /* UILayer.h */,
+				BC641FFA1C3C7F730018F96F /* ChooseWorldScene.cpp */,
+				BC641FFB1C3C7F730018F96F /* ChooseWorldScene.h */,
+			);
+			name = GUI;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
