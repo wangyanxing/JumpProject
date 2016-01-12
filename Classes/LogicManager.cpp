@@ -453,6 +453,11 @@ void GameLogic::deleteBlock(BlockBase *sel) {
 
 }
 
+void GameLogic::restartGame() {
+  enableGame(false);
+  enableGame(true);
+}
+
 void GameLogic::enableGame(bool val, bool force) {
   if (mGameMode == val && !force) {
     return;

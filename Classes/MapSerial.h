@@ -25,7 +25,7 @@ public:
   static void saveControlConfig(const char *file);
 #endif
 
-  static void loadMap(const char *file);
+  static void loadMap(const std::string &file);
   
   static void loadPalette(const char *file);
 
