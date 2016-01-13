@@ -20,6 +20,7 @@ public:\
   } \
 private: \
   S() {}; \
+  ~S() {release();}\
 public: \
   S(S const&) = delete; \
   void operator=(S const&) = delete;

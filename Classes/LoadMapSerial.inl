@@ -11,7 +11,7 @@ void MapSerial::loadLastEdit() {
   if (file.empty()) {
     loadMap(TEMPLATE_MAP);
   } else {
-    loadMap(file.c_str());
+    loadMap(file);
   }
 }
 

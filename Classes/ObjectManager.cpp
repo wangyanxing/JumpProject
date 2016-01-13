@@ -9,8 +9,16 @@
 #include "ObjectManager.h"
 #include "GameObject.h"
 #include "SimpleRenderer.h"
+#include "GameLevel.h"
+#include "GameLayerContainer.h"
 
 USING_NS_CC;
+
+ObjectManager::ObjectManager(GameLevel *level) : mParentLevel(level) {
+}
+
+ObjectManager::~ObjectManager() {
+}
 
 void ObjectManager::cleanUp() {
   mIDCounter = 0;
@@ -38,7 +46,7 @@ GameObject *ObjectManager::createObject(Parameter& param) {
   obj->mID = mIDCounter++;
   obj->setRenderer(rendererType);
   obj->getRenderer()->init(param);
-
+  obj->getRenderer()->addToParent(mParentLevel->getGameLayer()->getBlockRoot(), ZORDER_BLOCK);
   return obj;
 }
 

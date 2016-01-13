@@ -14,7 +14,7 @@
 #define CHECK_PARAM(p) CC_ASSERT(param.find(p) != param.end())
 #define GET_PARAM(p, T) any_cast<T>(param[p])
 
-enum ParamType{
+enum ParamType {
   PARAM_POS,     // cocos2d::Vec2
   PARAM_SIZE,    // cocos2d::Rect
   PARAM_COLOR,   // cocos2d::Color3B

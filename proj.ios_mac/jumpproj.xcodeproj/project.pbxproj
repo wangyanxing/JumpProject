@@ -148,6 +148,8 @@
 		BCB85F081C46AE9500CB8383 /* ObjectManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85F051C46AE9500CB8383 /* ObjectManager.cpp */; };
 		BCB85F0C1C46B35F00CB8383 /* SimpleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85F0A1C46B35F00CB8383 /* SimpleRenderer.cpp */; };
 		BCB85F0D1C46B35F00CB8383 /* SimpleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85F0A1C46B35F00CB8383 /* SimpleRenderer.cpp */; };
+		BCB862A21C4710F700CB8383 /* GameLevel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB862A01C4710F700CB8383 /* GameLevel.cpp */; };
+		BCB862A31C4710F700CB8383 /* GameLevel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB862A01C4710F700CB8383 /* GameLevel.cpp */; };
 		BCDFFFFB1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */; };
 		BCDFFFFC1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
@@ -326,6 +328,8 @@
 		BCB85F091C46AF5F00CB8383 /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
 		BCB85F0A1C46B35F00CB8383 /* SimpleRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleRenderer.cpp; sourceTree = "<group>"; };
 		BCB85F0B1C46B35F00CB8383 /* SimpleRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleRenderer.h; sourceTree = "<group>"; };
+		BCB862A01C4710F700CB8383 /* GameLevel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameLevel.cpp; sourceTree = "<group>"; };
+		BCB862A11C4710F700CB8383 /* GameLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLevel.h; sourceTree = "<group>"; };
 		BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlockRenderer.cpp; sourceTree = "<group>"; };
 		BCDFFFFA1C32ECED006E8A59 /* BlockRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockRenderer.h; sourceTree = "<group>"; };
 		BCDFFFFD1C32F062006E8A59 /* Any.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Any.h; sourceTree = "<group>"; };
@@ -649,6 +653,8 @@
 				BCB85F091C46AF5F00CB8383 /* Singleton.h */,
 				BCB85F0A1C46B35F00CB8383 /* SimpleRenderer.cpp */,
 				BCB85F0B1C46B35F00CB8383 /* SimpleRenderer.h */,
+				BCB862A01C4710F700CB8383 /* GameLevel.cpp */,
+				BCB862A11C4710F700CB8383 /* GameLevel.h */,
 			);
 			name = Refactor;
 			sourceTree = "<group>";
@@ -829,6 +835,7 @@
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				BCB85EFE1C45EE6200CB8383 /* GameRenderer.cpp in Sources */,
 				BC3CEA901C1F20F700738B33 /* Palette.cpp in Sources */,
+				BCB862A21C4710F700CB8383 /* GameLevel.cpp in Sources */,
 				BCB85EF61C45ED2C00CB8383 /* GameObject.cpp in Sources */,
 				BC64236E1C3F4FB40018F96F /* DeathCircleRenderer.cpp in Sources */,
 				BC3CE9FB1C1B86B400738B33 /* Blocks.cpp in Sources */,
@@ -865,6 +872,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCB862A31C4710F700CB8383 /* GameLevel.cpp in Sources */,
 				BC3CEA1A1C1B86B400738B33 /* Path.cpp in Sources */,
 				BC3CEA061C1B86B400738B33 /* Events.cpp in Sources */,
 				BCB85EF71C45ED2C00CB8383 /* GameObject.cpp in Sources */,

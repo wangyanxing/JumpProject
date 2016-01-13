@@ -13,14 +13,18 @@
 #include "Parameter.h"
 #include "GameTypes.h"
 
+class GameLevel;
 class GameObject;
 class GameRenderer;
 
 class ObjectManager {
-  DECL_SINGLETON(ObjectManager)
-
 public:
+  friend class GameLevel;
   typedef std::map<int, GameObject*> ObjectMap;
+
+  ObjectManager(GameLevel *level);
+
+  ~ObjectManager();
 
   void cleanUp();
 
@@ -32,6 +36,8 @@ private:
   GameRenderer *createRenderer(GameObject *parent, RendererType type);
 
 private:
+  GameLevel *mParentLevel{nullptr};
+
   int mIDCounter{0};
 
   ObjectMap mObjects;
