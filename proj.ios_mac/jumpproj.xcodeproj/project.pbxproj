@@ -136,6 +136,12 @@
 		BC64236F1C3F4FB40018F96F /* DeathCircleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC64236C1C3F4FB40018F96F /* DeathCircleRenderer.cpp */; };
 		BC6423711C3F5D3B0018F96F /* EditorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC6423701C3F5D3B0018F96F /* EditorScene.cpp */; };
 		BC6423721C3F5D3B0018F96F /* EditorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC6423701C3F5D3B0018F96F /* EditorScene.cpp */; };
+		BCB85EF61C45ED2C00CB8383 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85EF41C45ED2C00CB8383 /* GameObject.cpp */; };
+		BCB85EF71C45ED2C00CB8383 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85EF41C45ED2C00CB8383 /* GameObject.cpp */; };
+		BCB85EFA1C45EDE900CB8383 /* GameComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85EF81C45EDE900CB8383 /* GameComponent.cpp */; };
+		BCB85EFB1C45EDE900CB8383 /* GameComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85EF81C45EDE900CB8383 /* GameComponent.cpp */; };
+		BCB85EFE1C45EE6200CB8383 /* GameRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85EFC1C45EE6200CB8383 /* GameRenderer.cpp */; };
+		BCB85EFF1C45EE6200CB8383 /* GameRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85EFC1C45EE6200CB8383 /* GameRenderer.cpp */; };
 		BCDFFFFB1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */; };
 		BCDFFFFC1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
@@ -300,6 +306,14 @@
 		BC64236C1C3F4FB40018F96F /* DeathCircleRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeathCircleRenderer.cpp; sourceTree = "<group>"; };
 		BC64236D1C3F4FB40018F96F /* DeathCircleRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeathCircleRenderer.h; sourceTree = "<group>"; };
 		BC6423701C3F5D3B0018F96F /* EditorScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorScene.cpp; sourceTree = "<group>"; };
+		BCB85EF41C45ED2C00CB8383 /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameObject.cpp; sourceTree = "<group>"; };
+		BCB85EF51C45ED2C00CB8383 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
+		BCB85EF81C45EDE900CB8383 /* GameComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameComponent.cpp; sourceTree = "<group>"; };
+		BCB85EF91C45EDE900CB8383 /* GameComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameComponent.h; sourceTree = "<group>"; };
+		BCB85EFC1C45EE6200CB8383 /* GameRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameRenderer.cpp; sourceTree = "<group>"; };
+		BCB85EFD1C45EE6200CB8383 /* GameRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameRenderer.h; sourceTree = "<group>"; };
+		BCB85F001C45EF0B00CB8383 /* Parameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parameter.h; sourceTree = "<group>"; };
+		BCB85F011C45F24900CB8383 /* GameTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameTypes.h; sourceTree = "<group>"; };
 		BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlockRenderer.cpp; sourceTree = "<group>"; };
 		BCDFFFFA1C32ECED006E8A59 /* BlockRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockRenderer.h; sourceTree = "<group>"; };
 		BCDFFFFD1C32F062006E8A59 /* Any.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Any.h; sourceTree = "<group>"; };
@@ -449,6 +463,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				BCB85EF31C45EB2F00CB8383 /* Refactor */,
 				BC3CEA871C1CD47000738B33 /* rapidjson */,
 				BCB85EEF1C45BA6300CB8383 /* Utilities */,
 				BCB85EEE1C45BA3900CB8383 /* Serialization */,
@@ -603,6 +618,21 @@
 				BC641FFB1C3C7F730018F96F /* ChooseWorldScene.h */,
 			);
 			name = GUI;
+			sourceTree = "<group>";
+		};
+		BCB85EF31C45EB2F00CB8383 /* Refactor */ = {
+			isa = PBXGroup;
+			children = (
+				BCB85EF41C45ED2C00CB8383 /* GameObject.cpp */,
+				BCB85EF51C45ED2C00CB8383 /* GameObject.h */,
+				BCB85EF81C45EDE900CB8383 /* GameComponent.cpp */,
+				BCB85EF91C45EDE900CB8383 /* GameComponent.h */,
+				BCB85EFC1C45EE6200CB8383 /* GameRenderer.cpp */,
+				BCB85EFD1C45EE6200CB8383 /* GameRenderer.h */,
+				BCB85F001C45EF0B00CB8383 /* Parameter.h */,
+				BCB85F011C45F24900CB8383 /* GameTypes.h */,
+			);
+			name = Refactor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -775,8 +805,11 @@
 				B5A55AA71C2B8B7200E02C60 /* ControlPad.cpp in Sources */,
 				BC3CEA1D1C1B86B400738B33 /* PathLibOSX.mm in Sources */,
 				BC3CEA091C1B86B400738B33 /* GameUtils.cpp in Sources */,
+				BCB85EFA1C45EDE900CB8383 /* GameComponent.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				BCB85EFE1C45EE6200CB8383 /* GameRenderer.cpp in Sources */,
 				BC3CEA901C1F20F700738B33 /* Palette.cpp in Sources */,
+				BCB85EF61C45ED2C00CB8383 /* GameObject.cpp in Sources */,
 				BC64236E1C3F4FB40018F96F /* DeathCircleRenderer.cpp in Sources */,
 				BC3CE9FB1C1B86B400738B33 /* Blocks.cpp in Sources */,
 				BC3CEA211C1B86B400738B33 /* Rotator.cpp in Sources */,
@@ -813,12 +846,15 @@
 			files = (
 				BC3CEA1A1C1B86B400738B33 /* Path.cpp in Sources */,
 				BC3CEA061C1B86B400738B33 /* Events.cpp in Sources */,
+				BCB85EF71C45ED2C00CB8383 /* GameObject.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
+				BCB85EFB1C45EDE900CB8383 /* GameComponent.cpp in Sources */,
 				BCDFFFFC1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */,
 				BC64236B1C3F4FA20018F96F /* RectRenderer.cpp in Sources */,
 				B52188241C34F08300E04587 /* SceneSprite.cpp in Sources */,
 				BC3CEA1C1C1B86B400738B33 /* PathLib.cpp in Sources */,
+				BCB85EFF1C45EE6200CB8383 /* GameRenderer.cpp in Sources */,
 				BC3CE9FC1C1B86B400738B33 /* Blocks.cpp in Sources */,
 				B5A55AA81C2B8B7200E02C60 /* ControlPad.cpp in Sources */,
 				BC3CEA911C1F20F700738B33 /* Palette.cpp in Sources */,
