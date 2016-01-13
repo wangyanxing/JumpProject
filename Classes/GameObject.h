@@ -15,6 +15,8 @@ class GameRenderer;
 
 class GameObject {
 public:
+  friend class ObjectManager;
+
   GameObject();
 
   ~GameObject();
@@ -23,7 +25,17 @@ public:
 
   GameRenderer *setRenderer(RendererType type);
 
+  GameRenderer *getRenderer() {
+    return mRenderer;
+  }
+
+  int getID() {
+    return mID;
+  }
+
 private:
+  int mID{0};
+
   GameRenderer *mRenderer{nullptr};
 };
 

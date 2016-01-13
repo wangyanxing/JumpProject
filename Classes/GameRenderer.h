@@ -13,7 +13,6 @@
 #include "Parameter.h"
 #include "GameTypes.h"
 
-class SpriteUV;
 class GameObject;
 
 class GameRenderer {
@@ -64,7 +63,7 @@ public:
 
   virtual cocos2d::Size getContentSize() const;
 
-  virtual void setTexture(const std::string& texName) = 0;
+  virtual void setTexture(const std::string& texName) {}
 
   virtual cocos2d::Rect getBoundingBox() const;
 
