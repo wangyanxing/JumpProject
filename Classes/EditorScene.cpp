@@ -10,6 +10,10 @@
 #include "Hero.h"
 #include "Defines.h"
 #include "BlockRenderer.h"
+#include "ObjectManager.h"
+#include "GameLevel.h"
+#include "GameTypes.h"
+#include "Palette.h"
 
 #include "cocos-ext.h"
 
@@ -33,6 +37,8 @@ EditorScene *EditorScene::Scene = nullptr;
 bool EditorScene::init() {
   Scene = this;
   GameLayerContainer::init();
+
+  GameLevel::instance().setGameLayer(this);
 
   MapSerial::saveRemoteMaps();
 
@@ -114,6 +120,14 @@ void EditorScene::mouseDown(cocos2d::Event *event) {
   if (mPressingShift) {
     // Create block
     getGame()->createBlock(pt, KIND_BLOCK);
+
+//    Parameter param;
+//    param[PARAM_RENDERER] = RENDERER_RECT;
+//    param[PARAM_POS] = pt;
+//    param[PARAM_SIZE] = Size(100, 15);
+//    param[PARAM_COLOR] = Palette::getInstance()->getDefaultBlockColors(KIND_BLOCK);
+//    GameLevel::instance().getObjectManager()->createObject(param);
+
     mMovingBlock = nullptr;
   } else if (mPressingAlt) {
     // Move camrea

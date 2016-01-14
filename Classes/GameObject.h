@@ -23,7 +23,7 @@ public:
 
   void update(float dt);
 
-  GameRenderer *setRenderer(RendererType type);
+  void setRenderer(GameRenderer *renderer);
 
   GameRenderer *getRenderer() {
     return mRenderer;

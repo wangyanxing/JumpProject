@@ -17,8 +17,9 @@ GameObject::~GameObject() {
   
 }
 
-GameRenderer *GameObject::setRenderer(RendererType type) {
-  return nullptr;
+void GameObject::setRenderer(GameRenderer *renderer) {
+  CC_SAFE_DELETE(mRenderer);
+  mRenderer = renderer;
 }
 
 void GameObject::update(float dt) {

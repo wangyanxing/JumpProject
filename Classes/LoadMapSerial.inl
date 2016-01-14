@@ -8,11 +8,7 @@
 
 void MapSerial::loadLastEdit() {
   auto file = UserDefault::getInstance()->getStringForKey("lastedit");
-  if (file.empty()) {
-    loadMap(TEMPLATE_MAP);
-  } else {
-    loadMap(file);
-  }
+  file.empty() ? loadMap(TEMPLATE_MAP) : loadMap(file);
 }
 
 void MapSerial::loadMap(const std::string &filename) {

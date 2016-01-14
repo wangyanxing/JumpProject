@@ -16,7 +16,7 @@
 
 enum ParamType {
   PARAM_POS,     // cocos2d::Vec2
-  PARAM_SIZE,    // cocos2d::Rect
+  PARAM_SIZE,    // cocos2d::Size
   PARAM_COLOR,   // cocos2d::Color3B
   PARAM_IMAGE,   // std::string
   PARAM_RENDERER // RendererType
