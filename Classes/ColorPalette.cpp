@@ -7,7 +7,6 @@
 //
 
 #include "ColorPalette.h"
-#include "Defines.h"
 #include "SerializationUtils.h"
 
 #if EDITOR_MODE
@@ -28,12 +27,22 @@ void ColorPalette::load() {
     CCLOGERROR("Cannot load the palette file: %s", mFileName.c_str());
   }
 
+  auto &doc = serialUtil.getCurrentDocument();
+  mBackgroundColor = serialUtil.parseColor(doc["backgroundColor"]);
+  
+  mDefaultColors[KIND_HERO] = serialUtil.parseColor(doc["heroColor"]);
+  mDefaultColors[KIND_BLOCK] = serialUtil.parseColor(doc["normalBlockColor"]);
+  mDefaultColors[KIND_DEATH] = serialUtil.parseColor(doc["deathBlockColor"]);
+  mDefaultColors[KIND_DEATH_CIRCLE] = serialUtil.parseColor(doc["deathCircleColor"]);
+  mDefaultColors[KIND_BUTTON] = serialUtil.parseColor(doc["buttonColor"]);
+  mDefaultColors[KIND_PUSHABLE] = serialUtil.parseColor(doc["pushableBlockColor"]);
+
 #if EDITOR_MODE
     UIColorEditor::colorEditor->cleanColors();
 #endif
   mPalette.clear();
 
-  serialUtil.parseArray("palette", [&](JsonSizeT i, JsonValueT& val) {
+  serialUtil.parseArray(doc, "palette", [&](JsonSizeT i, JsonValueT& val) {
     int id = val["index"].GetInt();
     auto color = serialUtil.parseColor(val["color"]);
     mPalette[id] = color;
