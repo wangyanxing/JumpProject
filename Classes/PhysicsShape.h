@@ -22,6 +22,27 @@ public:
   virtual PhysicsShapeType getType() = 0;
 
   virtual void updateShape(PhysicsComponent *component) = 0;
+
+  virtual void debugDraw(cocos2d::DrawNode *node) = 0;
+
+  cocos2d::Vec2 getPosition() {
+    return mPosition;
+  }
+
+  virtual void onPositionSet(const cocos2d::Vec2 &position);
+
+  virtual void onRotationSet(float rotation);
+
+  virtual void onSizeSet(const cocos2d::Size &size) = 0;
+
+  float getRotation() {
+    return mRotation;
+  }
+
+protected:
+  cocos2d::Vec2 mPosition;
+
+  float mRotation{0};
 };
 
 /**
@@ -30,7 +51,7 @@ public:
 class RectPhysicsShape : public BasePhysicsShape {
 public:
   PhysicsShapeType getType() override {
-    return PHYSICS_SHAPE_CIRCLE;
+    return PHYSICS_SHAPE_RECT;
   }
 
   cocos2d::Vec2 getScale() {
@@ -41,16 +62,20 @@ public:
     mScale = scale;
   }
 
-  cocos2d::Rect getRect() {
-    return mRect;
+  cocos2d::Size getSize() {
+    return mSize;
   }
 
+  void onSizeSet(const cocos2d::Size &size) override;
+
   void updateShape(PhysicsComponent *component) override;
+
+  void debugDraw(cocos2d::DrawNode *node) override;
 
 protected:
   cocos2d::Vec2 mScale{1, 1};
 
-  cocos2d::Rect mRect;
+  cocos2d::Size mSize;
 };
 
 /**
@@ -59,7 +84,7 @@ protected:
 class CirclePhysicsShape : public BasePhysicsShape {
 public:
   PhysicsShapeType getType() override {
-    return PHYSICS_SHAPE_RECT;
+    return PHYSICS_SHAPE_CIRCLE;
   }
 
   float getScale() {
@@ -74,18 +99,16 @@ public:
     return mRadius;
   }
 
-  cocos2d::Vec2 getOrigin() {
-    return mOrigin;
-  }
+  void onSizeSet(const cocos2d::Size &size) override;
 
   void updateShape(PhysicsComponent *component) override;
+
+  void debugDraw(cocos2d::DrawNode *node) override;  
 
 protected:
   float mScale{1};
 
   float mRadius{0};
-
-  cocos2d::Vec2 mOrigin;
 };
 
 #endif /* PhysicsShape_h */

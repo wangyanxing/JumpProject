@@ -11,6 +11,7 @@
 
 class GameComponent;
 class PhysicsComponent;
+class GameLayerContainer;
 class GameLevel;
 class GameRenderer;
 class GameObject;
@@ -18,6 +19,8 @@ class SimpleRenderer;
 class BasePhysicsShape;
 class CirclePhysicsShape;
 class RectPhysicsShape;
+class ObjectManager;
+class PhysicsManager;
 
 #include "GameTypes.h"
 

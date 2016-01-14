@@ -61,6 +61,8 @@ public:
 
   virtual float getScaleY() const;
 
+  virtual cocos2d::Size getSize() const;
+
   virtual cocos2d::Size getContentSize() const;
 
   virtual void setTexture(const std::string& texName) {}

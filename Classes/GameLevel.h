@@ -9,10 +9,8 @@
 #ifndef GameLevel_h
 #define GameLevel_h
 
+#include "Prerequisites.h"
 #include "Singleton.h"
-
-class ObjectManager;
-class GameLayerContainer;
 
 class GameLevel {
   DECL_SINGLETON(GameLevel)
@@ -28,6 +26,10 @@ public:
     return mObjectManager;
   }
 
+  PhysicsManager *getPhysicsManager() {
+    return mPhysicsManager;
+  }
+
   void setGameLayer(GameLayerContainer *layer) {
     mGameLayer = layer;
   }
@@ -36,20 +38,12 @@ public:
     return mGameLayer;
   }
 
-  void setPhysicsDebugDraw(bool enable) {
-    mPhysicsDebugDraw = enable;
-  }
-
-  bool getPhysicsDebugDraw() {
-    return mPhysicsDebugDraw;
-  }
-
 private:
   ObjectManager *mObjectManager{nullptr};
 
   GameLayerContainer *mGameLayer{nullptr};
 
-  bool mPhysicsDebugDraw{false};
+  PhysicsManager *mPhysicsManager{nullptr};
 };
 
 #endif /* GameLevel_h */

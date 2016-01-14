@@ -15,7 +15,7 @@
 
 USING_NS_CC;
 
-ObjectManager::ObjectManager(GameLevel *level) : mParentLevel(level) {
+ObjectManager::ObjectManager() {
 }
 
 ObjectManager::~ObjectManager() {
@@ -43,11 +43,13 @@ GameObject *ObjectManager::createObject(Parameter& param) {
   CHECK_PARAM(PARAM_RENDERER);
   RendererType rendererType = GET_PARAM(PARAM_RENDERER, RendererType);
 
+  auto &gameLevel = GameLevel::instance();
+
   GameObject *obj = new GameObject();
   obj->mID = mIDCounter++;
   obj->setRenderer(createRenderer(obj, rendererType));
   obj->getRenderer()->init(param);
-  obj->getRenderer()->addToParent(mParentLevel->getGameLayer()->getBlockRoot(), ZORDER_BLOCK);
+  obj->getRenderer()->addToParent(gameLevel.getGameLayer()->getBlockRoot(), ZORDER_BLOCK);
   obj->addComponent(COMPONENT_PHYSICS);
   obj->getComponent<PhysicsComponent>()->setShape(PHYSICS_SHAPE_RECT);
   return obj;

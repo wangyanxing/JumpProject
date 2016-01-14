@@ -152,6 +152,8 @@
 		BCB862AC1C47376400CB8383 /* PhysicsComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB862A91C47376400CB8383 /* PhysicsComponent.cpp */; };
 		BCB862B01C473E3500CB8383 /* PhysicsShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB862AE1C473E3500CB8383 /* PhysicsShape.cpp */; };
 		BCB862B11C473E3500CB8383 /* PhysicsShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB862AE1C473E3500CB8383 /* PhysicsShape.cpp */; };
+		BCB862B41C482A9B00CB8383 /* PhysicsManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB862B21C482A9B00CB8383 /* PhysicsManager.cpp */; };
+		BCB862B51C482A9B00CB8383 /* PhysicsManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB862B21C482A9B00CB8383 /* PhysicsManager.cpp */; };
 		BCDFFFFB1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */; };
 		BCDFFFFC1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
@@ -336,6 +338,8 @@
 		BCB862AD1C4737B200CB8383 /* Prerequisites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prerequisites.h; sourceTree = "<group>"; };
 		BCB862AE1C473E3500CB8383 /* PhysicsShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicsShape.cpp; sourceTree = "<group>"; };
 		BCB862AF1C473E3500CB8383 /* PhysicsShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsShape.h; sourceTree = "<group>"; };
+		BCB862B21C482A9B00CB8383 /* PhysicsManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicsManager.cpp; sourceTree = "<group>"; };
+		BCB862B31C482A9B00CB8383 /* PhysicsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsManager.h; sourceTree = "<group>"; };
 		BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlockRenderer.cpp; sourceTree = "<group>"; };
 		BCDFFFFA1C32ECED006E8A59 /* BlockRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockRenderer.h; sourceTree = "<group>"; };
 		BCDFFFFD1C32F062006E8A59 /* Any.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Any.h; sourceTree = "<group>"; };
@@ -665,6 +669,8 @@
 				BCB862AA1C47376400CB8383 /* PhysicsComponent.h */,
 				BCB862AE1C473E3500CB8383 /* PhysicsShape.cpp */,
 				BCB862AF1C473E3500CB8383 /* PhysicsShape.h */,
+				BCB862B21C482A9B00CB8383 /* PhysicsManager.cpp */,
+				BCB862B31C482A9B00CB8383 /* PhysicsManager.h */,
 			);
 			name = Refactor;
 			sourceTree = "<group>";
@@ -842,6 +848,7 @@
 				BC3CEA1D1C1B86B400738B33 /* PathLibOSX.mm in Sources */,
 				BC3CEA091C1B86B400738B33 /* GameUtils.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				BCB862B41C482A9B00CB8383 /* PhysicsManager.cpp in Sources */,
 				BCB85EFE1C45EE6200CB8383 /* GameRenderer.cpp in Sources */,
 				BC3CEA901C1F20F700738B33 /* Palette.cpp in Sources */,
 				BCB862A21C4710F700CB8383 /* GameLevel.cpp in Sources */,
@@ -898,6 +905,7 @@
 				BCB85F041C46ABE300CB8383 /* GameTypes.cpp in Sources */,
 				BC3CE9FC1C1B86B400738B33 /* Blocks.cpp in Sources */,
 				B5A55AA81C2B8B7200E02C60 /* ControlPad.cpp in Sources */,
+				BCB862B51C482A9B00CB8383 /* PhysicsManager.cpp in Sources */,
 				BC3CEA911C1F20F700738B33 /* Palette.cpp in Sources */,
 				BC3CEA0C1C1B86B400738B33 /* HttpHelper.cpp in Sources */,
 				BC3CEA161C1B86B400738B33 /* LogicManager.cpp in Sources */,

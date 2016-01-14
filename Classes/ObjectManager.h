@@ -18,7 +18,7 @@ public:
   friend class GameLevel;
   typedef std::map<int, GameObject*> ObjectMap;
 
-  ObjectManager(GameLevel *level);
+  ObjectManager();
 
   ~ObjectManager();
 
@@ -32,8 +32,6 @@ private:
   GameRenderer *createRenderer(GameObject *parent, RendererType type);
 
 private:
-  GameLevel *mParentLevel{nullptr};
-
   int mIDCounter{0};
 
   ObjectMap mObjects;

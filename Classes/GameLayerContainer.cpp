@@ -8,6 +8,7 @@
 
 #include "GameLayerContainer.h"
 #include "LogicManager.h"
+#include "GameLevel.h"
 
 USING_NS_CC;
 
@@ -70,6 +71,8 @@ bool GameLayerContainer::onCollisionDetected(cocos2d::PhysicsContact &contact,
 }
 
 void GameLayerContainer::update(float dt) {
+  GameLevel::instance().update(dt);
+
   mGame->update(UPDATE_DT);
   mGame->updateCamera(mCamera);
 }

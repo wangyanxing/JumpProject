@@ -46,11 +46,12 @@ GameComponent* GameObject::addComponent(ComponentType type) {
   switch (type) {
     case COMPONENT_PHYSICS:
       component = new PhysicsComponent(this);
+      break;
     case COMPONENT_PATH:
     case COMPONENT_BUTTON:
     case COMPONENT_ROTATOR:
     default:
-      CCLOGWARN("Invalid component type");
+      CCLOGERROR("Invalid component type");
   }
   mComponents[type] = component;
   return component;

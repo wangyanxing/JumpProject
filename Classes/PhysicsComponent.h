@@ -35,14 +35,9 @@ public:
   }
 
 protected:
-  void updatePhysicsDebugDraw();
-
-protected:
   PhysicsType mPhysicsType{PHYSICS_NONE};
 
   BasePhysicsShape *mShape{nullptr};
-
-  cocos2d::DrawNode* mDebugDrawNode{nullptr};
 };
 
 #endif /* PhysicsComponent_h */
