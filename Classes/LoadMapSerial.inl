@@ -353,15 +353,16 @@ void MapSerial::loadMap(const std::string &filename) {
   if(!PathLib::endsWith(fixedfilename, "_ip4.json"))
     PathLib::replaceString(fixedfilename, ".json", "_ip4.json");
 #   endif
-  
-  EditorScene::Scene->mCurFileName = fixedfilename;
+
+  if (fixedfilename != TEMPLATE_MAP) {
+    EditorScene::Scene->mCurFileName = fixedfilename;
+    UILayer::Layer->setFileName(fixedfilename.c_str());
+    UILayer::Layer->addMessage("File loaded");
+  }
   EditorScene::Scene->mSpawnPoint->setPosition(GameLogic::Game->mSpawnPos);
 #if USE_SHADOW
   EditorScene::Scene->updateLightHelper();
 #endif
-  
-  UILayer::Layer->setFileName(fixedfilename.c_str());
-  UILayer::Layer->addMessage("File loaded");
 
   EditorScene::Scene->updateGroupDrawNode();
   EditorScene::Scene->enableGame(false, true);
@@ -369,7 +370,7 @@ void MapSerial::loadMap(const std::string &filename) {
 }
 
 #if EDITOR_MODE
-void MapSerial::loadMap(bool local) {
+void MapSerial::openMap(bool local) {
   std::string fullpath = getMapDir();
   std::vector<std::string> out;
   auto filter = "JSON file(json)|*.json|All files (*.*)|*.*";

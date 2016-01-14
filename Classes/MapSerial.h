@@ -20,7 +20,7 @@ public:
 
   static void savePalette(const char *file);
 
-  static void loadMap(bool local = true);
+  static void openMap(bool local = true);
 
   static void saveControlConfig(const char *file);
 #endif

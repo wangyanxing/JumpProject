@@ -23,6 +23,11 @@ PhysicsManager::PhysicsManager() {
 PhysicsManager::~PhysicsManager() {
   mDebugDrawNode->removeFromParent();
   mDebugDrawNode->release();
+
+  for (auto shape : mShapes) {
+    CC_SAFE_DELETE(shape);
+  }
+  mShapes.clear();
 }
 
 void PhysicsManager::updatePhysicsDebugDraw() {

@@ -61,7 +61,7 @@ void CirclePhysicsShape::updateShape(PhysicsComponent *component) {
 }
 
 void CirclePhysicsShape::onSizeSet(const cocos2d::Size &size) {
-  mRadius = sqrtf(size.width * size.width + size.height * size.height);
+  mRadius = sqrtf(size.width * size.width + size.height * size.height) * 0.5f;
 }
 
 void CirclePhysicsShape::debugDraw(cocos2d::DrawNode *node) {

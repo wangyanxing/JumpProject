@@ -39,7 +39,7 @@ void UILayer::init(cocos2d::Node *parent) {
   mFileNameLabel = Label::createWithTTF(config, "");
   mLayer->addChild(mFileNameLabel);
 
-  setFileName("untitled");
+  setFileName("Untitled");
 
   auto camera = Camera::create();
   camera->setCameraFlag(CameraFlag::USER1);

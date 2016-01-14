@@ -388,7 +388,7 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
 
   if (keyCode == EventKeyboard::KeyCode::KEY_O) {
     if (mPressingCtrl) {
-      MapSerial::loadMap();
+      MapSerial::openMap();
     } else {
       for (auto sel : mSelections) {
         if (sel->mButton) {
@@ -401,10 +401,11 @@ void EditorScene::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
   if (keyCode == EventKeyboard::KeyCode::KEY_S) {
     if (mPressingCtrl) {
       // Save map
-      if (!mCurFileName.empty())
+      if (!mCurFileName.empty()) {
         MapSerial::saveMap(mCurFileName.c_str());
-      else
+      } else {
         MapSerial::saveMap();
+      }
     }
   }
 
@@ -787,7 +788,7 @@ void EditorScene::clean() {
 
   GameLayerContainer::clean();
 
-  mCurFileName = "";
+  mCurFileName.clear();
   UILayer::Layer->setFileName("Untitled");
 }
 

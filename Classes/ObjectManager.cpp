@@ -51,7 +51,7 @@ GameObject *ObjectManager::createObject(Parameter& param) {
   obj->getRenderer()->init(param);
   obj->getRenderer()->addToParent(gameLevel.getGameLayer()->getBlockRoot(), ZORDER_BLOCK);
   obj->addComponent(COMPONENT_PHYSICS);
-  obj->getComponent<PhysicsComponent>()->setShape(PHYSICS_SHAPE_RECT);
+  obj->getComponent<PhysicsComponent>()->setShape(PHYSICS_SHAPE_CIRCLE);
   return obj;
 }
 
