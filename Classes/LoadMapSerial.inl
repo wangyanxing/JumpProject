@@ -347,11 +347,13 @@ void MapSerial::loadMap(const std::string &filename) {
   std::string fixedfilename = filename;
   
 #   if EDITOR_RATIO == EDITOR_IPAD_MODE
-  if(!PathLib::endsWith(fixedfilename, "_pad.json"))
+  if(!PathLib::endsWith(fixedfilename, "_pad.json")) {
     PathLib::replaceString(fixedfilename, ".json", "_pad.json");
+  }
 #   elif EDITOR_RATIO == EDITOR_IP4_MODE
-  if(!PathLib::endsWith(fixedfilename, "_ip4.json"))
+  if(!PathLib::endsWith(fixedfilename, "_ip4.json")) {
     PathLib::replaceString(fixedfilename, ".json", "_ip4.json");
+  }
 #   endif
 
   if (fixedfilename != TEMPLATE_MAP) {

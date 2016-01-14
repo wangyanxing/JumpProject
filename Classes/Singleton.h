@@ -25,4 +25,17 @@ public: \
   S(S const&) = delete; \
   void operator=(S const&) = delete;
 
+#define DECL_SIMPLE_SINGLETON(S) \
+public:\
+  static S& instance() { \
+    static S ins; \
+    return ins; \
+  } \
+private: \
+  S() {}; \
+  ~S() {}\
+public: \
+  S(S const&) = delete; \
+  void operator=(S const&) = delete;
+
 #endif /* Singleton_h */

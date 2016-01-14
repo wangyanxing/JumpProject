@@ -10,6 +10,7 @@
 #include "ObjectManager.h"
 #include "PhysicsManager.h"
 #include "GameObject.h"
+#include "ColorPalette.h"
 
 void GameLevel::init() {
   CC_ASSERT(!mObjectManager);
@@ -20,6 +21,7 @@ void GameLevel::init() {
 void GameLevel::release() {
   CC_SAFE_DELETE(mObjectManager);
   CC_SAFE_DELETE(mPhysicsManager);
+  CC_SAFE_DELETE(mPalette);
 }
 
 void GameLevel::update(float dt) {

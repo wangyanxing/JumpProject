@@ -21,6 +21,7 @@ class CirclePhysicsShape;
 class RectPhysicsShape;
 class ObjectManager;
 class PhysicsManager;
+class ColorPalette;
 
 #include "GameTypes.h"
 

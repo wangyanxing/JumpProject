@@ -30,6 +30,10 @@ public:
     return mPhysicsManager;
   }
 
+  ColorPalette *getPalette() {
+    return mPalette;
+  }
+
   void setGameLayer(GameLayerContainer *layer) {
     mGameLayer = layer;
   }
@@ -44,6 +48,8 @@ private:
   GameLayerContainer *mGameLayer{nullptr};
 
   PhysicsManager *mPhysicsManager{nullptr};
+
+  ColorPalette *mPalette{nullptr};
 };
 
 #endif /* GameLevel_h */
