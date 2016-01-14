@@ -47,6 +47,7 @@ GameObject *ObjectManager::createObject(Parameter& param) {
   obj->setRenderer(createRenderer(obj, rendererType));
   obj->getRenderer()->init(param);
   obj->getRenderer()->addToParent(mParentLevel->getGameLayer()->getBlockRoot(), ZORDER_BLOCK);
+  obj->addComponent(COMPONENT_PHYSICS);
   return obj;
 }
 

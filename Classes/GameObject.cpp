@@ -13,11 +13,10 @@
 USING_NS_CC;
 
 GameObject::GameObject() {
-
 }
 
 GameObject::~GameObject() {
-  
+  release();
 }
 
 void GameObject::setRenderer(GameRenderer *renderer) {
@@ -28,6 +27,10 @@ void GameObject::setRenderer(GameRenderer *renderer) {
 void GameObject::update(float dt) {
   if (mRenderer) {
     mRenderer->update(dt);
+  }
+
+  for (auto component : mComponents) {
+    component.second->update(dt);
   }
 }
 
@@ -48,6 +51,28 @@ GameComponent* GameObject::addComponent(ComponentType type) {
     case COMPONENT_ROTATOR:
     default:
       CCLOGWARN("Invalid component type");
-      return nullptr;
   }
+  mComponents[type] = component;
+  return component;
+}
+
+void GameObject::removeComponent(ComponentType type) {
+  auto it = mComponents.find(type);
+  if (it != mComponents.end()) {
+    CC_SAFE_DELETE(it->second);
+    mComponents.erase(it);
+  }
+}
+
+bool GameObject::hasComponent(ComponentType type) {
+  return mComponents.find(type) != mComponents.end();
+}
+
+void GameObject::release() {
+  CC_SAFE_DELETE(mRenderer);
+
+  for (auto &component : mComponents) {
+    CC_SAFE_DELETE(component.second);
+  }
+  mComponents.clear();
 }

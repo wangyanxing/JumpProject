@@ -8,6 +8,7 @@
 
 #include "GameLevel.h"
 #include "ObjectManager.h"
+#include "GameObject.h"
 
 void GameLevel::init() {
   CC_ASSERT(!mObjectManager);
@@ -19,5 +20,7 @@ void GameLevel::release() {
 }
 
 void GameLevel::update(float dt) {
-
+  for (auto &obj : mObjectManager->mObjects) {
+    obj.second->update(dt);
+  }
 }

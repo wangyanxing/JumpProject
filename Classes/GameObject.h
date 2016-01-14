@@ -37,6 +37,13 @@ public:
 
   GameComponent* addComponent(ComponentType type);
 
+  void removeComponent(ComponentType type);
+
+  bool hasComponent(ComponentType type);
+
+private:
+  void release();
+
 private:
   int mID{0};
 
