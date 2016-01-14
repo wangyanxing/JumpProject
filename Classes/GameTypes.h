@@ -26,6 +26,13 @@ enum ObjectKind {
   OBJ_KIND_MAX
 };
 
+enum ComponentType{
+  COMPONENT_PHYSICS,
+  COMPONENT_PATH,
+  COMPONENT_BUTTON,
+  COMPONENT_ROTATOR
+};
+
 class EnumUtil {
 public:
   static std::string toString(RendererType kind);

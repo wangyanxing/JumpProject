@@ -9,13 +9,9 @@
 #ifndef ObjectManager_h
 #define ObjectManager_h
 
+#include "Prerequisites.h"
 #include "Singleton.h"
 #include "Parameter.h"
-#include "GameTypes.h"
-
-class GameLevel;
-class GameObject;
-class GameRenderer;
 
 class ObjectManager {
 public:
