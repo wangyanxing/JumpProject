@@ -15,7 +15,7 @@ class GameLevel;
 class GameRenderer;
 class GameObject;
 class SimpleRenderer;
-class PhysicsShape;
+class BasePhysicsShape;
 class CirclePhysicsShape;
 class RectPhysicsShape;
 

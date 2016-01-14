@@ -101,6 +101,7 @@ enum FollowMode {
 #define ZORDER_DIE_FX 18
 #define ZORDER_BLOCK 20
 #define ZORDER_CURTAIN 30
+#define ZORDER_PHYSICS_DEBUG 50
 
 #define ZORDER_EDT_GRID 10
 #define ZORDER_EDT_PATH_HELPER 30

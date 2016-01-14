@@ -35,6 +35,12 @@ public:
 
   GameComponent* getComponent(ComponentType type);
 
+  template<typename T>
+  T* getComponent() {
+    auto comp = getComponent(T::getType());
+    return static_cast<T*>(comp);
+  }
+
   GameComponent* addComponent(ComponentType type);
 
   void removeComponent(ComponentType type);

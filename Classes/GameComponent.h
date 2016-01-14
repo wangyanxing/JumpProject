@@ -17,9 +17,11 @@ public:
 
   virtual ~GameComponent() {}
 
-  virtual ComponentType getType() = 0;
-
   virtual void update(float dt) = 0;
+
+  GameObject *getParent() {
+    return mParent;
+  }
 
 protected:
   GameObject *mParent{nullptr};

@@ -11,6 +11,7 @@
 #include "SimpleRenderer.h"
 #include "GameLevel.h"
 #include "GameLayerContainer.h"
+#include "PhysicsComponent.h"
 
 USING_NS_CC;
 
@@ -48,6 +49,7 @@ GameObject *ObjectManager::createObject(Parameter& param) {
   obj->getRenderer()->init(param);
   obj->getRenderer()->addToParent(mParentLevel->getGameLayer()->getBlockRoot(), ZORDER_BLOCK);
   obj->addComponent(COMPONENT_PHYSICS);
+  obj->getComponent<PhysicsComponent>()->setShape(PHYSICS_SHAPE_RECT);
   return obj;
 }
 

@@ -36,10 +36,20 @@ public:
     return mGameLayer;
   }
 
+  void setPhysicsDebugDraw(bool enable) {
+    mPhysicsDebugDraw = enable;
+  }
+
+  bool getPhysicsDebugDraw() {
+    return mPhysicsDebugDraw;
+  }
+
 private:
   ObjectManager *mObjectManager{nullptr};
 
   GameLayerContainer *mGameLayer{nullptr};
+
+  bool mPhysicsDebugDraw{false};
 };
 
 #endif /* GameLevel_h */

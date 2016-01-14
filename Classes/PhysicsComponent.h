@@ -20,13 +20,13 @@ public:
 public:
   virtual void update(float dt) override;
 
-  void setShape(PhysicsShape *shape);
+  BasePhysicsShape *setShape(PhysicsShapeType type);
 
-  ComponentType getType() override {
+  static ComponentType getType() {
     return COMPONENT_PHYSICS;
   }
 
-  PhysicsShape *getShape() {
+  BasePhysicsShape *getShape() {
     return mShape;
   }
 
@@ -35,9 +35,14 @@ public:
   }
 
 protected:
+  void updatePhysicsDebugDraw();
+
+protected:
   PhysicsType mPhysicsType{PHYSICS_NONE};
 
-  PhysicsShape *mShape{nullptr};
+  BasePhysicsShape *mShape{nullptr};
+
+  cocos2d::DrawNode* mDebugDrawNode{nullptr};
 };
 
 #endif /* PhysicsComponent_h */

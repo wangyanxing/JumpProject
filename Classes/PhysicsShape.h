@@ -11,21 +11,25 @@
 
 #include "Prerequisites.h"
 
-class PhysicsShape {
+class BasePhysicsShape {
 public:
-  PhysicsShape() = default;
+  friend class PhysicsComponent;
 
-  virtual ~PhysicsShape() = default;
+  BasePhysicsShape() = default;
+
+  virtual ~BasePhysicsShape() = default;
 
   virtual PhysicsShapeType getType() = 0;
+
+  virtual void updateShape(PhysicsComponent *component) = 0;
 };
 
 /**
  * Rectangle physics shape.
  */
-class RectPhysicsShape : public PhysicsShape {
+class RectPhysicsShape : public BasePhysicsShape {
 public:
-  PhysicsShapeType getType() {
+  PhysicsShapeType getType() override {
     return PHYSICS_SHAPE_CIRCLE;
   }
 
@@ -37,16 +41,24 @@ public:
     mScale = scale;
   }
 
-private:
+  cocos2d::Rect getRect() {
+    return mRect;
+  }
+
+  void updateShape(PhysicsComponent *component) override;
+
+protected:
   cocos2d::Vec2 mScale{1, 1};
+
+  cocos2d::Rect mRect;
 };
 
 /**
  * Circle physics shape.
  */
-class CirclePhysicsShape : public PhysicsShape {
+class CirclePhysicsShape : public BasePhysicsShape {
 public:
-  PhysicsShapeType getType() {
+  PhysicsShapeType getType() override {
     return PHYSICS_SHAPE_RECT;
   }
 
@@ -58,8 +70,22 @@ public:
     mScale = scale;
   }
 
-private:
+  float getRadius() {
+    return mRadius;
+  }
+
+  cocos2d::Vec2 getOrigin() {
+    return mOrigin;
+  }
+
+  void updateShape(PhysicsComponent *component) override;
+
+protected:
   float mScale{1};
+
+  float mRadius{0};
+
+  cocos2d::Vec2 mOrigin;
 };
 
 #endif /* PhysicsShape_h */
