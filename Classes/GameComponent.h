@@ -1,21 +1,28 @@
 //
-//  GameComponent.h
+//  Compoment.h
 //  jumpproj
 //
-//  Created by Yanxing Wang on 1/12/16.
+//  Created by Yanxing Wang on 1/13/16.
 //
 //
 
-#ifndef GameComponent_h
-#define GameComponent_h
+#ifndef Component_h
+#define Component_h
+
+#include "Prerequisites.h"
 
 class GameComponent {
 public:
-  GameComponent();
+  GameComponent(GameObject *parent): mParent(parent) {}
 
-  virtual ~GameComponent();
+  virtual ~GameComponent() {}
+
+  virtual ComponentType getType() = 0;
 
   virtual void update(float dt) = 0;
+
+protected:
+  GameObject *mParent{nullptr};
 };
 
-#endif /* GameComponent_h */
+#endif /* Component_h */

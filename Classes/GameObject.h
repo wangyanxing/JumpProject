@@ -9,13 +9,13 @@
 #ifndef GameObject_h
 #define GameObject_h
 
-#include "GameTypes.h"
-
-class GameRenderer;
+#include "Prerequisites.h"
 
 class GameObject {
 public:
   friend class ObjectManager;
+
+  typedef std::map<ComponentType, GameComponent*> ComponentMap;
 
   GameObject();
 
@@ -33,10 +33,16 @@ public:
     return mID;
   }
 
+  GameComponent* getComponent(ComponentType type);
+
+  GameComponent* addComponent(ComponentType type);
+
 private:
   int mID{0};
 
   GameRenderer *mRenderer{nullptr};
+
+  ComponentMap mComponents;
 };
 
 #endif /* GameObject_h */

@@ -9,13 +9,16 @@
 #ifndef Prerequisites_h
 #define Prerequisites_h
 
-#include "GameTypes.h"
-
-class Component;
+class GameComponent;
 class PhysicsComponent;
 class GameLevel;
 class GameRenderer;
 class GameObject;
 class SimpleRenderer;
+class PhysicsShape;
+class CirclePhysicsShape;
+class RectPhysicsShape;
+
+#include "GameTypes.h"
 
 #endif /* Prerequisites_h */

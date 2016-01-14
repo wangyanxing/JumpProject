@@ -26,11 +26,23 @@ enum ObjectKind {
   OBJ_KIND_MAX
 };
 
-enum ComponentType{
+enum ComponentType {
   COMPONENT_PHYSICS,
   COMPONENT_PATH,
   COMPONENT_BUTTON,
   COMPONENT_ROTATOR
+};
+
+enum PhysicsType {
+  PHYSICS_NONE,
+  PHYSICS_COLLISION_ONLY,
+  PHYSICS_KINEMATIC,
+  PHYSICS_DYNAMIC
+};
+
+enum PhysicsShapeType {
+  PHYSICS_SHAPE_CIRCLE,
+  PHYSICS_SHAPE_RECT
 };
 
 class EnumUtil {

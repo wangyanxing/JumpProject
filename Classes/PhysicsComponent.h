@@ -9,9 +9,9 @@
 #ifndef PhysicsComponent_h
 #define PhysicsComponent_h
 
-#include "Component.h"
+#include "GameComponent.h"
 
-class PhysicsComponent : Component {
+class PhysicsComponent : public GameComponent {
 public:
   PhysicsComponent(GameObject *parent);
 
@@ -19,6 +19,25 @@ public:
 
 public:
   virtual void update(float dt) override;
+
+  void setShape(PhysicsShape *shape);
+
+  ComponentType getType() override {
+    return COMPONENT_PHYSICS;
+  }
+
+  PhysicsShape *getShape() {
+    return mShape;
+  }
+
+  PhysicsType getPhysicsType() {
+    return mPhysicsType;
+  }
+
+protected:
+  PhysicsType mPhysicsType{PHYSICS_NONE};
+
+  PhysicsShape *mShape{nullptr};
 };
 
 #endif /* PhysicsComponent_h */
