@@ -25,13 +25,14 @@ SimpleRenderer::~SimpleRenderer() {
 void SimpleRenderer::init(Parameter &param) {
   CHECK_PARAM(PARAM_POS);
   CHECK_PARAM(PARAM_SIZE);
-  CHECK_PARAM(PARAM_COLOR);
+  CHECK_PARAM(PARAM_COLOR_INDEX);
 
   Size size = GET_PARAM(PARAM_SIZE, Size);
   Vec2 pos = GET_PARAM(PARAM_POS, Vec2);
-  Color3B color = GET_PARAM(PARAM_COLOR, Color3B);
+  int color = GET_PARAM(PARAM_COLOR_INDEX, int);
 
-  mSprite = GameUtils::createRect(size, pos, color);
+  mSprite = GameUtils::createRect(size, pos);
+  setColorIndex(color);
 }
 
 cocos2d::Node* SimpleRenderer::getNode() {

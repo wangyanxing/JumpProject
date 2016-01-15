@@ -10,10 +10,14 @@ struct GameUtils {
 
   static void setPixelStyleTexture(cocos2d::Sprite *sp);
 
-  static SpriteUV *createRect(cocos2d::Rect rect, cocos2d::Color3B col, bool setCameraMask = true);
+  static SpriteUV *createRect(cocos2d::Rect rect,
+                              cocos2d::Color3B col = cocos2d::Color3B::WHITE,
+                              bool setCameraMask = true);
 
-  static SpriteUV *createRect(cocos2d::Size size, cocos2d::Vec2 pos,
-                              cocos2d::Color3B col, bool setCameraMask = true);
+  static SpriteUV *createRect(cocos2d::Size size,
+                              cocos2d::Vec2 pos,
+                              cocos2d::Color3B col = cocos2d::Color3B::WHITE,
+                              bool setCameraMask = true);
 };
 
 #define LOG_VEC(v) GameUtils::logVec2(v)

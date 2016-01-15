@@ -6,8 +6,8 @@
 //
 //
 
-#ifndef SerializationUtils_h
-#define SerializationUtils_h
+#ifndef JsonParser_h
+#define JsonParser_h
 
 #include "Prerequisites.h"
 #include "Singleton.h"
@@ -19,11 +19,11 @@ typedef rapidjson::SizeType JsonSizeT;
 typedef rapidjson::Document::ValueType JsonValueT;
 typedef std::function<void(JsonSizeT, JsonValueT &)> ParseCallback;
 
-class SerializationUtils {
+class JsonParser {
 public:
-  DECL_SIMPLE_SINGLETON(SerializationUtils)
+  JsonParser(const std::string& fileName);
 
-  rapidjson::Document* beginJson(const std::string& fileName);
+  ~JsonParser();
 
   void endJson();
 
@@ -35,12 +35,12 @@ public:
 
   bool parseArray(const std::string &key, ParseCallback func);
 
-  cocos2d::Color3B parseColor(const char *hex);
-
-  cocos2d::Color3B parseColor(JsonValueT& val);
+  operator bool() const {
+    return mCurrentJson != nullptr;
+  }
 
 private:
   rapidjson::Document* mCurrentJson{nullptr};
 };
 
-#endif /* SerializationUtils_h */
+#endif /* JsonParser_h */

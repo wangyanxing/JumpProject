@@ -55,7 +55,6 @@ Scene *createScene() {
 #endif
 
   layer->addChild(EditorScene);
-
   return scene;
 #else
 

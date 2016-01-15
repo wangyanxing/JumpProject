@@ -7,7 +7,7 @@
 //
 
 #include "ColorPalette.h"
-#include "SerializationUtils.h"
+#include "JsonParser.h"
 
 #if EDITOR_MODE
 # include "UIColorEditor.h"
@@ -21,37 +21,37 @@ ColorPalette::~ColorPalette() {
 }
 
 void ColorPalette::load() {
-  auto &serialUtil = SerializationUtils::instance();
+  JsonParser parser(mFileName);
 
-  if (!serialUtil.beginJson(mFileName)) {
+  if (!parser) {
     CCLOGERROR("Cannot load the palette file: %s", mFileName.c_str());
   }
 
-  auto &doc = serialUtil.getCurrentDocument();
-  mBackgroundColor = serialUtil.parseColor(doc["backgroundColor"]);
+  CCLOG("Loading palette file: %s", mFileName.c_str());
+
+  auto &doc = parser.getCurrentDocument();
+  mBackgroundColor = doc["backgroundColor"].GetColor();
   
-  mDefaultColors[KIND_HERO] = serialUtil.parseColor(doc["heroColor"]);
-  mDefaultColors[KIND_BLOCK] = serialUtil.parseColor(doc["normalBlockColor"]);
-  mDefaultColors[KIND_DEATH] = serialUtil.parseColor(doc["deathBlockColor"]);
-  mDefaultColors[KIND_DEATH_CIRCLE] = serialUtil.parseColor(doc["deathCircleColor"]);
-  mDefaultColors[KIND_BUTTON] = serialUtil.parseColor(doc["buttonColor"]);
-  mDefaultColors[KIND_PUSHABLE] = serialUtil.parseColor(doc["pushableBlockColor"]);
+  mDefaultColors[KIND_HERO] = doc["heroColor"].GetColor();
+  mDefaultColors[KIND_BLOCK] = doc["normalBlockColor"].GetColor();
+  mDefaultColors[KIND_DEATH] = doc["deathBlockColor"].GetColor();
+  mDefaultColors[KIND_DEATH_CIRCLE] = doc["deathCircleColor"].GetColor();
+  mDefaultColors[KIND_BUTTON] = doc["buttonColor"].GetColor();;
+  mDefaultColors[KIND_PUSHABLE] = doc["pushableBlockColor"].GetColor();
 
 #if EDITOR_MODE
   UIColorEditor::colorEditor->cleanColors();
 #endif
   mPalette.clear();
 
-  serialUtil.parseArray(doc, "palette", [&](JsonSizeT i, JsonValueT& val) {
+  parser.parseArray(doc, "palette", [&](JsonSizeT i, JsonValueT& val) {
     int id = val["index"].GetInt();
-    auto color = serialUtil.parseColor(val["color"]);
+    auto color = val["color"].GetColor();
     mPalette[id] = color;
 #if EDITOR_MODE
     UIColorEditor::colorEditor->addColor(id, color);
 #endif
   });
-
-  SerializationUtils::instance().endJson();
 
 #if EDITOR_MODE
   UIColorEditor::colorEditor->updateColorButtonDisplay();

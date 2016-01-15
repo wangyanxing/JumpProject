@@ -25,12 +25,18 @@ public:
 
   void setRenderer(GameRenderer *renderer);
 
+  void setRenderer(RendererType renderType);
+
   GameRenderer *getRenderer() {
     return mRenderer;
   }
 
   int getID() {
     return mID;
+  }
+
+  BlockKind getKind() {
+    return mKind;
   }
 
   GameComponent* getComponent(ComponentType type);
@@ -56,6 +62,8 @@ private:
   GameRenderer *mRenderer{nullptr};
 
   ComponentMap mComponents;
+
+  BlockKind mKind{KIND_BLOCK};
 };
 
 #endif /* GameObject_h */

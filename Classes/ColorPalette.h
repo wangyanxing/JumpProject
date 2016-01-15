@@ -10,7 +10,6 @@
 #define ColorPalette_h
 
 #include "Prerequisites.h"
-#include "Defines.h"
 
 class ColorPalette {
 public:
@@ -19,7 +18,12 @@ public:
   ~ColorPalette();
 
   cocos2d::Color3B getColor(int index) {
+    CC_ASSERT(mPalette.count(index));
     return mPalette[index];
+  }
+
+  cocos2d::Color3B getColor(BlockKind kind, int index) {
+    return index == DEFAULT_COLOR_ID ? mDefaultColors[kind] : getColor(index);
   }
 
   void setColor(int index, cocos2d::Color3B color) {

@@ -29,17 +29,33 @@ void ObjectManager::cleanUp() {
   mObjects.clear();
 }
 
-GameRenderer *ObjectManager::createRenderer(GameObject *parent, RendererType type) {
-  switch (type) {
-    case RENDERER_RECT:
-      return new SimpleRenderer(parent);
-    default:
-      CCLOGWARN("Invalid renderer type!");
-      return nullptr;
+GameObject *ObjectManager::createObject(JsonValueT &json) {
+  GameObject *obj = new GameObject();
+
+  Parameter param;
+  param[PARAM_RENDERER] = RENDERER_RECT;
+  param[PARAM_POS] = json["position"].GetVec2();
+  param[PARAM_SIZE] = json["size"].GetSize();
+
+  int colorIndex = DEFAULT_COLOR_ID;
+  if (json.HasMember("paletteIndex")) {
+    colorIndex = json["paletteIndex"].GetInt();
   }
+  param[PARAM_COLOR_INDEX] = colorIndex;
+
+  obj->mID = json["id"].GetInt();
+  obj->setRenderer(RENDERER_RECT);
+  obj->getRenderer()->init(param);
+  obj->getRenderer()->addToParent(GameLevel::instance().getGameLayer()->getBlockRoot(),
+                                  ZORDER_BLOCK);
+  obj->addComponent(COMPONENT_PHYSICS);
+  obj->getComponent<PhysicsComponent>()->setShape(PHYSICS_SHAPE_CIRCLE);
+
+  mIDCounter = std::max(obj->mID, mIDCounter);
+  return obj;
 }
 
-GameObject *ObjectManager::createObject(Parameter& param) {
+GameObject *ObjectManager::createObject(Parameter &param) {
   CHECK_PARAM(PARAM_RENDERER);
   RendererType rendererType = GET_PARAM(PARAM_RENDERER, RendererType);
 
@@ -47,11 +63,11 @@ GameObject *ObjectManager::createObject(Parameter& param) {
 
   GameObject *obj = new GameObject();
   obj->mID = ++mIDCounter;
-  obj->setRenderer(createRenderer(obj, rendererType));
+  obj->setRenderer(rendererType);
   obj->getRenderer()->init(param);
   obj->getRenderer()->addToParent(gameLevel.getGameLayer()->getBlockRoot(), ZORDER_BLOCK);
   obj->addComponent(COMPONENT_PHYSICS);
-  obj->getComponent<PhysicsComponent>()->setShape(PHYSICS_SHAPE_CIRCLE);
+  obj->getComponent<PhysicsComponent>()->setShape(PHYSICS_SHAPE_RECT);
   return obj;
 }
 

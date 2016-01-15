@@ -11,6 +11,8 @@
 #include "PhysicsManager.h"
 #include "GameObject.h"
 #include "ColorPalette.h"
+#include "JsonParser.h"
+#include "ColorPalette.h"
 
 void GameLevel::init() {
   CC_ASSERT(!mObjectManager);
@@ -32,5 +34,21 @@ void GameLevel::update(float dt) {
 }
 
 void GameLevel::load(const std::string &levelFile) {
+  JsonParser parser(levelFile);
+  if (!parser) {
+    CCLOGERROR("Cannot load the level file: %s", levelFile.c_str());
+  }
 
+  CCLOG("Loading level file: %s", levelFile.c_str());
+  auto& doc = parser.getCurrentDocument();
+
+  std::string paletteFile = doc["paletteFile"].GetString();
+  CC_SAFE_DELETE(mPalette);
+  mPalette = new ColorPalette(paletteFile);
+
+  auto spawnPos = doc["spawnPosition"].GetVec2();
+
+  parser.parseArray(doc, "blocks", [&](JsonSizeT i, JsonValueT& val) {
+    mObjectManager->createObject(val);
+  });
 }

@@ -22,6 +22,8 @@
 #include "internal/strfunc.h"
 #include <new>      // placement new
 
+#include "PathLib.h"
+
 #ifdef _MSC_VER
 RAPIDJSON_DIAG_PUSH
 RAPIDJSON_DIAG_OFF(4127) // conditional expression is constant
@@ -1523,6 +1525,57 @@ public:
     GenericValue& SetString(const std::basic_string<Ch>& s, Allocator& allocator) { return SetString(s.data(), SizeType(s.size()), allocator); }
 #endif
 
+    //@}
+
+    //!@name Cocos2D-X stuff
+    //@{
+    cocos2d::Vec2 GetVec2() const {
+      std::string str = GetString();
+      auto v = PathLib::stringSplit(str, ",");
+      if (v.size() != 2) {
+        CCLOGERROR("Invalid vec2: %s", str.c_str());
+        return cocos2d::Vec2::ZERO;
+      }
+      return cocos2d::Vec2(atof(v[0].c_str()), atof(v[1].c_str()));
+    }
+
+    cocos2d::Size GetSize() const {
+      std::string str = GetString();
+      auto v = PathLib::stringSplit(str, ",");
+      if (v.size() != 2) {
+        CCLOGERROR("Invalid vec2: %s", str.c_str());
+        return cocos2d::Size::ZERO;
+      }
+      return cocos2d::Size(atof(v[0].c_str()), atof(v[1].c_str()));
+    }
+
+    cocos2d::Color3B GetColor() const {
+      std::string hex = GetString();
+      int rgb[3];
+      std::stringstream ss;
+      std::string str;
+
+      // Drop a hash if the value has one
+      if (hex[0] == '#') {
+        hex.erase(0, 1);
+      }
+
+      int size = (int) hex.size();
+      for (int i = 0; i < 3; i++) {
+        // Determine 3 or 6 character format.
+        if (size == 3) {
+          str = std::string(2, hex[i]);
+        } else if (size == 6) {
+          str = hex.substr(i * 2, 2);
+        } else {
+          break;
+        }
+        ss << std::hex << str;
+        ss >> rgb[i];
+        ss.clear();
+      }
+      return cocos2d::Color3B(rgb[0], rgb[1], rgb[2]);
+    }
     //@}
 
     //! Generate events of this value to a Handler.

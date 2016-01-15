@@ -12,6 +12,7 @@
 #include "Prerequisites.h"
 #include "Singleton.h"
 #include "Parameter.h"
+#include "JsonParser.h"
 
 class ObjectManager {
 public:
@@ -24,12 +25,11 @@ public:
 
   void cleanUp();
 
-  GameObject *createObject(Parameter& params);
+  GameObject *createObject(Parameter &params);
+
+  GameObject *createObject(JsonValueT &json);
 
   GameObject *getObjectByID(int id);
-
-private:
-  GameRenderer *createRenderer(GameObject *parent, RendererType type);
 
 private:
   int mIDCounter{0};

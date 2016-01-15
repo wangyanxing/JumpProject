@@ -38,8 +38,6 @@ bool EditorScene::init() {
   Scene = this;
   GameLayerContainer::init();
 
-  GameLevel::instance().setGameLayer(this);
-
   MapSerial::saveRemoteMaps();
 
   auto keyboardListener = EventListenerKeyboard::create();
@@ -125,7 +123,7 @@ void EditorScene::mouseDown(cocos2d::Event *event) {
 //    param[PARAM_RENDERER] = RENDERER_RECT;
 //    param[PARAM_POS] = pt;
 //    param[PARAM_SIZE] = Size(100, 15);
-//    param[PARAM_COLOR] = Palette::getInstance()->getDefaultBlockColors(KIND_BLOCK);
+//    param[PARAM_COLOR_INDEX] = DEFAULT_COLOR_ID;
 //    GameLevel::instance().getObjectManager()->createObject(param);
 
     mMovingBlock = nullptr;

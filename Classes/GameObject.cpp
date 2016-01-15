@@ -9,6 +9,7 @@
 #include "GameObject.h"
 #include "GameRenderer.h"
 #include "PhysicsComponent.h"
+#include "SimpleRenderer.h"
 
 USING_NS_CC;
 
@@ -17,6 +18,18 @@ GameObject::GameObject() {
 
 GameObject::~GameObject() {
   release();
+}
+
+void GameObject::setRenderer(RendererType renderType) {
+  GameRenderer *renderer = nullptr;
+  switch (renderType) {
+    case RENDERER_RECT:
+      renderer = new SimpleRenderer(this);
+      break;
+    default:
+      CCLOGWARN("Invalid renderer type!");
+  }
+  setRenderer(renderer);
 }
 
 void GameObject::setRenderer(GameRenderer *renderer) {

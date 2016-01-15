@@ -7,6 +7,7 @@
 //
 
 #include "EditorGameScene.h"
+#include "GameLevel.h"
 
 #if USE_REFACTOR
 
@@ -20,6 +21,10 @@ EditorGameScene::~EditorGameScene() {
 
 bool EditorGameScene::init() {
   GameLayerContainer::init();
+  GameLevel::instance().setGameLayer(this);
+
+  GameLevel::instance().load("maps/local/test_refactor1.json");
+
   return true;
 }
 

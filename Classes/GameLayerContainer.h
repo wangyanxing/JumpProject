@@ -9,8 +9,9 @@
 #ifndef GameLayerContainer_h
 #define GameLayerContainer_h
 
+#include "Prerequisites.h"
+
 class GameLogic;
-class GameLayerContainer;
 
 struct GamePostUpdater {
   GamePostUpdater(GameLayerContainer *ct);

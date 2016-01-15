@@ -21,6 +21,8 @@ public:
   ~EditorGameScene();
 
 public:
+  CREATE_FUNC(EditorGameScene);
+
   bool init() override;
 
   void onEnter() override;

@@ -9,11 +9,8 @@
 #ifndef GameRenderer_h
 #define GameRenderer_h
 
-#include "Defines.h"
+#include "Prerequisites.h"
 #include "Parameter.h"
-#include "GameTypes.h"
-
-class GameObject;
 
 class GameRenderer {
 public:
@@ -42,6 +39,10 @@ public:
   virtual void setColor(const cocos2d::Color3B &color);
 
   virtual cocos2d::Color3B getColor() const;
+
+  virtual void setColorIndex(int id);
+
+  virtual int getColorIndex() const;
 
   virtual void setVisible(bool val);
 
@@ -75,6 +76,8 @@ public:
 
 protected:
   GameObject *mParent{nullptr};
+
+  int mColorIndex{DEFAULT_COLOR_ID};
 };
 
 #endif /* GameRenderer_h */

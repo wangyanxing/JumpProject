@@ -15,7 +15,7 @@
 #   define EDITOR_MODE 0
 #endif
 
-#define USE_REFACTOR 0
+#define USE_REFACTOR 1
 
 #define GAME_DEBUG_MODE 1
 
@@ -111,5 +111,7 @@ enum FollowMode {
 
 #define ZORDER_GAME_CONTROLPAD 100
 #define ZORDER_GAME_PAUSELAYER 200
+
+#define DEFAULT_COLOR_ID -1
 
 #endif /* defined(__JumpEdt__Defines__) */

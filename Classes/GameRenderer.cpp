@@ -8,6 +8,8 @@
 
 #include "GameRenderer.h"
 #include "GameObject.h"
+#include "GameLevel.h"
+#include "ColorPalette.h"
 #include "PhysicsComponent.h"
 #include "PhysicsShape.h"
 
@@ -98,4 +100,13 @@ void GameRenderer::addToParent(cocos2d::Node* parent, int zorder) {
 
 cocos2d::Rect GameRenderer::getBoundingBox() const {
   return getNode()->getBoundingBox();
+}
+
+void GameRenderer::setColorIndex(int id) {
+  mColorIndex = id;
+  setColor(GameLevel::instance().getPalette()->getColor(mParent->getKind(), id));
+}
+
+int GameRenderer::getColorIndex() const {
+  return mColorIndex;
 }
