@@ -9,7 +9,7 @@
 #ifndef __JumpEdt__LogicManager__
 #define __JumpEdt__LogicManager__
 
-#include "Defines.h"
+#include "Prerequisites.h"
 #include "SceneSprite.h"
 
 class BlockBase;

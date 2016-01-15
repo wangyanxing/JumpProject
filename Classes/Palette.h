@@ -9,7 +9,7 @@
 #ifndef Palette_hpp
 #define Palette_hpp
 
-#include "Defines.h"
+#include "Prerequisites.h"
 
 class Palette {
 public:

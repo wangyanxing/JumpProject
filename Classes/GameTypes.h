@@ -9,6 +9,17 @@
 #ifndef GameTypes_h
 #define GameTypes_h
 
+enum BlockKind {
+  KIND_HERO = 0,
+  KIND_BLOCK,
+  KIND_DEATH,
+  KIND_DEATH_CIRCLE,
+  KIND_BUTTON,
+  KIND_PUSHABLE,
+
+  KIND_MAX
+};
+
 enum RendererType {
   RENDERER_RECT,
   RENDERER_DEATH_CIRCLE,
@@ -45,13 +56,45 @@ enum PhysicsShapeType {
   PHYSICS_SHAPE_RECT
 };
 
-class EnumUtil {
+template <typename T>
+class EnumSerial {
 public:
-  static std::string toString(RendererType kind);
+  static std::string toString(T val);
 
-  static RendererType toRendererType(const std::string& str);
+  static T parse(const std::string& str);
+};
 
-  static std::string toString(ObjectKind kind);
+template <>
+class EnumSerial <BlockKind> {
+public:
+  static std::string toString(BlockKind val) {
+    static std::string names[] = {
+      "HERO",
+      "BLOCK",
+      "DEATH",
+      "DEATH_CIRCLE",
+      "BUTTON",
+      "PUSHABLE"
+    };
+    return names[val];
+  }
+
+  static BlockKind parse(const std::string& str) {
+    static std::map<std::string, BlockKind> kinds = {
+      {"HERO",         KIND_HERO},
+      {"BLOCK",        KIND_BLOCK},
+      {"DEATH",        KIND_DEATH},
+      {"DEATH_CIRCLE", KIND_DEATH_CIRCLE},
+      {"BUTTON",       KIND_BUTTON},
+      {"PUSHABLE",     KIND_PUSHABLE}
+    };
+
+    if (!kinds.count(str)) {
+      printf("[Parse Error] Invalid block kind: %s\n", str.c_str());
+      return KIND_BLOCK;
+    }
+    return kinds[str];
+  }
 };
 
 #endif /* GameTypes_h */

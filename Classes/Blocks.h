@@ -9,7 +9,7 @@
 #ifndef __JumpEdt__Blocks__
 #define __JumpEdt__Blocks__
 
-#include "Defines.h"
+#include "Prerequisites.h"
 #include "Path.h"
 #include "Rotator.h"
 #include "SpriteUV.h"

@@ -23,6 +23,7 @@
 #include <new>      // placement new
 
 #include "PathLib.h"
+#include "GameTypes.h"
 
 #ifdef _MSC_VER
 RAPIDJSON_DIAG_PUSH
@@ -1576,6 +1577,12 @@ public:
       }
       return cocos2d::Color3B(rgb[0], rgb[1], rgb[2]);
     }
+
+    template <typename T>
+    T getEnum() {
+      return EnumSerial<T>::parse(GetString());
+    }
+
     //@}
 
     //! Generate events of this value to a Handler.

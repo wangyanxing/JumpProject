@@ -24,6 +24,8 @@ public:
 
   void load(const std::string &levelFile);
 
+  void unload();
+
   ObjectManager *getObjectManager() {
     return mObjectManager;
   }

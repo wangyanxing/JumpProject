@@ -52,3 +52,7 @@ void GameLevel::load(const std::string &levelFile) {
     mObjectManager->createObject(val);
   });
 }
+
+void GameLevel::unload() {
+
+}

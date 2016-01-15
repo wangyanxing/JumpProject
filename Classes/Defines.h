@@ -33,17 +33,6 @@
 #define GRAVITY_VAL -1100
 #define JUMP_VOL 450
 
-enum BlockKind {
-  KIND_HERO = 0,
-  KIND_BLOCK,
-  KIND_DEATH,
-  KIND_DEATH_CIRCLE,
-  KIND_BUTTON,
-  KIND_PUSHABLE,
-
-  KIND_MAX
-};
-
 enum FollowMode {
   F_CENTER,
   F_UP, F_DOWN, F_LEFT, F_RIGHT

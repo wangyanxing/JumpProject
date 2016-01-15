@@ -44,6 +44,8 @@ GameObject *ObjectManager::createObject(JsonValueT &json) {
   param[PARAM_COLOR_INDEX] = colorIndex;
 
   obj->mID = json["id"].GetInt();
+  obj->mKind = json["kind"].getEnum<BlockKind>();
+
   obj->setRenderer(RENDERER_RECT);
   obj->getRenderer()->init(param);
   obj->getRenderer()->addToParent(GameLevel::instance().getGameLayer()->getBlockRoot(),

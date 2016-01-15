@@ -35,7 +35,7 @@ public:
 
   void onWinGame() override;
 
-  virtual int8_t getCameraDepth() override {
+  int8_t getCameraDepth() override {
     return 0;
   }
 };

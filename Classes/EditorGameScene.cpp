@@ -24,7 +24,6 @@ bool EditorGameScene::init() {
   GameLevel::instance().setGameLayer(this);
 
   GameLevel::instance().load("maps/local/test_refactor1.json");
-
   return true;
 }
 
@@ -44,6 +43,7 @@ void EditorGameScene::postUpdate(float dt) {
 
 void EditorGameScene::clean() {
   GameLayerContainer::clean();
+  GameLevel::instance().unload();
 }
 
 void EditorGameScene::onWinGame() {
