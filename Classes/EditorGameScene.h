@@ -34,6 +34,10 @@ public:
   void clean() override;
 
   void onWinGame() override;
+
+  virtual int8_t getCameraDepth() override {
+    return 0;
+  }
 };
 
 #endif

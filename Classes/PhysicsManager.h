@@ -35,7 +35,7 @@ private:
   void updatePhysicsDebugDraw();
 
 private:
-  bool mPhysicsDebugDraw{true};
+  bool mPhysicsDebugDraw{false};
 
   cocos2d::DrawNode* mDebugDrawNode{nullptr};
 

@@ -33,7 +33,10 @@ GameLayerContainer::GameLayerContainer() : mPostUpdater(this) {
 
 GameLayerContainer::~GameLayerContainer() {
   getScheduler()->unscheduleAllForTarget(&mPostUpdater);
+
+#if !USE_REFACTOR
   CC_SAFE_DELETE(mGame);
+#endif
 }
 
 bool GameLayerContainer::init() {

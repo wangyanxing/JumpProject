@@ -49,7 +49,7 @@ GameObject *ObjectManager::createObject(JsonValueT &json) {
   obj->getRenderer()->addToParent(GameLevel::instance().getGameLayer()->getBlockRoot(),
                                   ZORDER_BLOCK);
   obj->addComponent(COMPONENT_PHYSICS);
-  obj->getComponent<PhysicsComponent>()->setShape(PHYSICS_SHAPE_CIRCLE);
+  obj->getComponent<PhysicsComponent>()->setShape(PHYSICS_SHAPE_RECT);
 
   mIDCounter = std::max(obj->mID, mIDCounter);
   return obj;

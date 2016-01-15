@@ -34,6 +34,8 @@ void EditorGameScene::onEnter() {
 
 void EditorGameScene::update(float dt) {
   GameLayerContainer::update(dt);
+
+  GameLevel::instance().update(dt);
 }
 
 void EditorGameScene::postUpdate(float dt) {
