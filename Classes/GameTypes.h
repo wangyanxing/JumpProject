@@ -26,17 +26,6 @@ enum RendererType {
   RENDERER_IMAGE
 };
 
-enum ObjectKind {
-  OBJ_KIND_HERO = 0,
-  OBJ_KIND_BLOCK,
-  OBJ_KIND_DEATH,
-  OBJ_KIND_DEATH_CIRCLE,
-  OBJ_KIND_BUTTON,
-  OBJ_KIND_PUSHABLE,
-
-  OBJ_KIND_MAX
-};
-
 enum ComponentType {
   COMPONENT_PHYSICS,
   COMPONENT_PATH,
