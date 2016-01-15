@@ -13,6 +13,7 @@
 #include "GameLayerContainer.h"
 #include "PhysicsComponent.h"
 #include "BlockKindConfigs.h"
+#include "JsonFormat.h"
 
 USING_NS_CC;
 
@@ -33,18 +34,18 @@ void ObjectManager::cleanUp() {
 GameObject *ObjectManager::createObject(JsonValueT &json) {
   Parameter param;
   param[PARAM_RENDERER] = RENDERER_RECT;
-  param[PARAM_POS] = json["position"].GetVec2();
-  param[PARAM_SIZE] = json["size"].GetSize();
+  param[PARAM_POS] = json[LEVEL_BLOCK_POS].GetVec2();
+  param[PARAM_SIZE] = json[LEVEL_BLOCK_SIZE].GetSize();
 
   int colorIndex = DEFAULT_COLOR_ID;
-  if (json.HasMember("paletteIndex")) {
-    colorIndex = json["paletteIndex"].GetInt();
+  if (json.HasMember(LEVEL_BLOCK_PALETTE_ID)) {
+    colorIndex = json[LEVEL_BLOCK_PALETTE_ID].GetInt();
   }
   param[PARAM_COLOR_INDEX] = colorIndex;
 
   GameObject *obj = new GameObject();
-  obj->mID = json["id"].GetInt();
-  obj->mKind = json["kind"].getEnum<BlockKind>();
+  obj->mID = json[LEVEL_BLOCK_ID].GetInt();
+  obj->mKind = json[LEVEL_BLOCK_KIND].getEnum<BlockKind>();
 
   auto physicsConfig = BlockKindConfigs::getPhysicsConfig(obj->mKind);
   auto rendererConfig = BlockKindConfigs::getRendererConfig(obj->mKind);

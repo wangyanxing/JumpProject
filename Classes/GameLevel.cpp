@@ -12,6 +12,7 @@
 #include "GameObject.h"
 #include "ColorPalette.h"
 #include "JsonParser.h"
+#include "JsonFormat.h"
 #include "ColorPalette.h"
 
 void GameLevel::init() {
@@ -42,13 +43,13 @@ void GameLevel::load(const std::string &levelFile) {
   CCLOG("Loading level file: %s", levelFile.c_str());
   auto& doc = parser.getCurrentDocument();
 
-  std::string paletteFile = doc["paletteFile"].GetString();
+  std::string paletteFile = doc[LEVEL_PALETTE_FILE].GetString();
   CC_SAFE_DELETE(mPalette);
   mPalette = new ColorPalette(paletteFile);
 
-  auto spawnPos = doc["spawnPosition"].GetVec2();
+  auto spawnPos = doc[LEVEL_SPAWN_POS].GetVec2();
 
-  parser.parseArray(doc, "blocks", [&](JsonSizeT i, JsonValueT& val) {
+  parser.parseArray(doc, LEVEL_BLOCK_ARRAY, [&](JsonSizeT i, JsonValueT& val) {
     mObjectManager->createObject(val);
   });
 }

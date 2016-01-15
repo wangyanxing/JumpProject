@@ -356,6 +356,7 @@
 		BCB866541C4957F900CB8383 /* EditorGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorGameScene.h; sourceTree = "<group>"; };
 		BCB8669C1C49A34700CB8383 /* BlockKindConfigs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlockKindConfigs.cpp; sourceTree = "<group>"; };
 		BCB8669D1C49A34700CB8383 /* BlockKindConfigs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockKindConfigs.h; sourceTree = "<group>"; };
+		BCB866A01C49A78F00CB8383 /* JsonFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonFormat.h; sourceTree = "<group>"; };
 		BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlockRenderer.cpp; sourceTree = "<group>"; };
 		BCDFFFFA1C32ECED006E8A59 /* BlockRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockRenderer.h; sourceTree = "<group>"; };
 		BCDFFFFD1C32F062006E8A59 /* Any.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Any.h; sourceTree = "<group>"; };
@@ -695,6 +696,7 @@
 				BCB866541C4957F900CB8383 /* EditorGameScene.h */,
 				BCB8669C1C49A34700CB8383 /* BlockKindConfigs.cpp */,
 				BCB8669D1C49A34700CB8383 /* BlockKindConfigs.h */,
+				BCB866A01C49A78F00CB8383 /* JsonFormat.h */,
 			);
 			name = Refactor;
 			sourceTree = "<group>";

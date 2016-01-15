@@ -8,6 +8,7 @@
 
 #include "ColorPalette.h"
 #include "JsonParser.h"
+#include "JsonFormat.h"
 
 #if EDITOR_MODE
 # include "UIColorEditor.h"
@@ -30,23 +31,23 @@ void ColorPalette::load() {
   CCLOG("Loading palette file: %s", mFileName.c_str());
 
   auto &doc = parser.getCurrentDocument();
-  mBackgroundColor = doc["backgroundColor"].GetColor();
+  mBackgroundColor = doc[PALETTE_BACKGROUND].GetColor();
   
-  mDefaultColors[KIND_HERO] = doc["heroColor"].GetColor();
-  mDefaultColors[KIND_BLOCK] = doc["normalBlockColor"].GetColor();
-  mDefaultColors[KIND_DEATH] = doc["deathBlockColor"].GetColor();
-  mDefaultColors[KIND_DEATH_CIRCLE] = doc["deathCircleColor"].GetColor();
-  mDefaultColors[KIND_BUTTON] = doc["buttonColor"].GetColor();;
-  mDefaultColors[KIND_PUSHABLE] = doc["pushableBlockColor"].GetColor();
+  mDefaultColors[KIND_HERO] = doc[PALETTE_HERO].GetColor();
+  mDefaultColors[KIND_BLOCK] = doc[PALETTE_NORMAL].GetColor();
+  mDefaultColors[KIND_DEATH] = doc[PALETTE_DEATH].GetColor();
+  mDefaultColors[KIND_DEATH_CIRCLE] = doc[PALETTE_DEATH_CIRCLE].GetColor();
+  mDefaultColors[KIND_BUTTON] = doc[PALETTE_BUTTON].GetColor();;
+  mDefaultColors[KIND_PUSHABLE] = doc[PALETTE_PUSHABLE].GetColor();
 
 #if EDITOR_MODE
   UIColorEditor::colorEditor->cleanColors();
 #endif
   mPalette.clear();
 
-  parser.parseArray(doc, "palette", [&](JsonSizeT i, JsonValueT& val) {
-    int id = val["index"].GetInt();
-    auto color = val["color"].GetColor();
+  parser.parseArray(doc, PALETTE_PALETTE_ARRAY, [&](JsonSizeT i, JsonValueT& val) {
+    int id = val[PALETTE_PALETTE_ID].GetInt();
+    auto color = val[PALETTE_PALETTE_COLOR].GetColor();
     mPalette[id] = color;
 #if EDITOR_MODE
     UIColorEditor::colorEditor->addColor(id, color);
