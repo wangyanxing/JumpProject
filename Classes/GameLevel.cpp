@@ -30,3 +30,7 @@ void GameLevel::update(float dt) {
   }
   mPhysicsManager->update(dt);
 }
+
+void GameLevel::load(const std::string &levelFile) {
+
+}

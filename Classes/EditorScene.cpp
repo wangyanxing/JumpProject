@@ -17,7 +17,7 @@
 
 #include "cocos-ext.h"
 
-#if EDITOR_MODE
+#if EDITOR_MODE && !USE_REFACTOR
 
 #include "PathLib.h"
 

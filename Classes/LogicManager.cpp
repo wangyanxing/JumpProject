@@ -648,7 +648,7 @@ void GameLogic::updateCamera(cocos2d::Camera *cam, bool forceUpdate) {
   mBack->setPosition(VisibleRect::center() + camRelative);
 #endif
   
-#if EDITOR_MODE
+#if EDITOR_MODE && !USE_REFACTOR
   EditorScene::Scene->mGridNode->setPosition(camRelative);
 #endif
   cam->setPosition(newPos);
@@ -669,7 +669,7 @@ void GameLogic::restoreBackgroundPos() {
   mBack->setPosition(visRect.size.width / 2, visRect.size.height / 2);
 #endif
   
-#if EDITOR_MODE
+#if EDITOR_MODE && !USE_REFACTOR
   if (EditorScene::Scene->mGridNode) {
     EditorScene::Scene->mGridNode->setPosition(0, 0);
   }

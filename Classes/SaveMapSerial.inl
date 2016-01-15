@@ -232,7 +232,9 @@ void MapSerial::saveMap(const char *file) {
   saveToFile(file, ss);
   
   // Update file.
+#if !USE_REFACTOR
   EditorScene::Scene->mCurFileName = file;
+#endif
   UILayer::Layer->setFileName(file);
   UILayer::Layer->addMessage("File saved");
 

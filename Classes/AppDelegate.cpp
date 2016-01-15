@@ -6,6 +6,7 @@
 
 #if EDITOR_MODE
 #   include "EditorScene.h"
+#   include "EditorGameScene.h"
 #   include "UILayer.h"
 #else
 #   include "GameScene.h"
@@ -47,7 +48,12 @@ Scene *createScene() {
   auto uiLayer = new UILayer();
   uiLayer->init(scene);
 
+#if USE_REFACTOR
+  auto EditorScene = EditorGameScene::create();
+#else
   auto EditorScene = EditorScene::create();
+#endif
+
   layer->addChild(EditorScene);
 
   return scene;

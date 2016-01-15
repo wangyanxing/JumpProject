@@ -24,5 +24,6 @@ class PhysicsManager;
 class ColorPalette;
 
 #include "GameTypes.h"
+#include "Defines.h"
 
 #endif /* Prerequisites_h */

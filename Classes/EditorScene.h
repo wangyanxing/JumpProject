@@ -1,15 +1,15 @@
 #ifndef __JumpEdt__EditorScene__
 #define __JumpEdt__EditorScene__
 
+#include "Prerequisites.h"
 #include "GameLayerContainer.h"
 #include "DrawNodeEx.h"
-#include "Defines.h"
 #include "Path.h"
 #include "Button.h"
 #include "Blocks.h"
 #include "LogicManager.h"
 
-#if EDITOR_MODE
+#if EDITOR_MODE && !USE_REFACTOR
 
 class BlockBase;
 class ShadowManager;

@@ -356,6 +356,7 @@ void MapSerial::loadMap(const std::string &filename) {
   }
 #   endif
 
+#if !USE_REFACTOR
   if (fixedfilename != TEMPLATE_MAP) {
     EditorScene::Scene->mCurFileName = fixedfilename;
     UILayer::Layer->setFileName(fixedfilename.c_str());
@@ -368,6 +369,7 @@ void MapSerial::loadMap(const std::string &filename) {
 
   EditorScene::Scene->updateGroupDrawNode();
   EditorScene::Scene->enableGame(false, true);
+#endif
 #endif
 }
 

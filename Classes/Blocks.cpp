@@ -334,7 +334,11 @@ void BlockBase::initIDLabel() {
   auto size = mIDLabel->getBoundingBox().size;
   GAME_LAYER->getBlockRoot()->addChild(mIDLabel, ZORDER_EDT_ID_LABEL);
   mIDLabel->setPosition(mRenderer->getPosition() - Vec2(size.width / 2, size.height / 2));
+
+#if !USE_REFACTOR
   mShowIDLabel = EditorScene::Scene->mShowGrid;
+#endif
+
   mIDLabel->setVisible(mShowIDLabel);
   mIDLabel->setCameraMask((unsigned short) CameraFlag::USER2);
 }

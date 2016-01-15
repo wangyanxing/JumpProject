@@ -20,7 +20,9 @@ public:
 
   void release();
 
-  void update(float dt);  
+  void update(float dt);
+
+  void load(const std::string &levelFile);
 
   ObjectManager *getObjectManager() {
     return mObjectManager;

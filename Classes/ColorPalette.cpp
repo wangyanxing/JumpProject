@@ -38,7 +38,7 @@ void ColorPalette::load() {
   mDefaultColors[KIND_PUSHABLE] = serialUtil.parseColor(doc["pushableBlockColor"]);
 
 #if EDITOR_MODE
-    UIColorEditor::colorEditor->cleanColors();
+  UIColorEditor::colorEditor->cleanColors();
 #endif
   mPalette.clear();
 

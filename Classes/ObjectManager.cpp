@@ -46,7 +46,7 @@ GameObject *ObjectManager::createObject(Parameter& param) {
   auto &gameLevel = GameLevel::instance();
 
   GameObject *obj = new GameObject();
-  obj->mID = mIDCounter++;
+  obj->mID = ++mIDCounter;
   obj->setRenderer(createRenderer(obj, rendererType));
   obj->getRenderer()->init(param);
   obj->getRenderer()->addToParent(gameLevel.getGameLayer()->getBlockRoot(), ZORDER_BLOCK);
