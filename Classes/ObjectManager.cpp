@@ -64,6 +64,8 @@ GameObject *ObjectManager::createObject(JsonValueT &json) {
     obj->getComponent<PhysicsComponent>()->setShape(physicsConfig.shapeType);
   }
 
+  CC_ASSERT(!mObjects.count(obj->mID));
+  mObjects[obj->mID] = obj;
   mIDCounter = std::max(obj->mID, mIDCounter);
   return obj;
 }
@@ -81,6 +83,9 @@ GameObject *ObjectManager::createObject(Parameter &param) {
 
   obj->addComponent(COMPONENT_PHYSICS);
   obj->getComponent<PhysicsComponent>()->setShape(PHYSICS_SHAPE_RECT);
+
+  CC_ASSERT(!mObjects.count(obj->mID));
+  mObjects[obj->mID] = obj;
   return obj;
 }
 

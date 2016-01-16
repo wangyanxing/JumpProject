@@ -41,7 +41,7 @@ void DeathRotatorRenderer::setPosition(const cocos2d::Vec2& pos) {
 
 void DeathRotatorRenderer::setRotation(float val) {
   GameRenderer::setRotation(val);
-  mChild->setRotation(val);
+  mChild->setRotation(45 - val);
 }
 
 void DeathRotatorRenderer::setScale(float x, float y) {
@@ -52,4 +52,25 @@ void DeathRotatorRenderer::setScale(float x, float y) {
 void DeathRotatorRenderer::setColor(const cocos2d::Color3B& color) {
   GameRenderer::setColor(color);
   mChild->setColor(color);
+}
+
+void DeathRotatorRenderer::setRotationSpeed(int speed) {
+  mRotationSpeed = speed;
+}
+
+int DeathRotatorRenderer::getRotationSpeed() {
+  return mRotationSpeed;
+}
+
+void DeathRotatorRenderer::update(float dt) {
+  SimpleRenderer::update(dt);
+
+  if (mRotationSpeed > 0) {
+    auto rotation = getRotation();
+    rotation += mRotationSpeed * dt;
+    if (rotation > 360) {
+      rotation -= 360;
+    }
+    setRotation(rotation);
+  }
 }

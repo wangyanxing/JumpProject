@@ -103,4 +103,6 @@ enum FollowMode {
 
 #define DEFAULT_COLOR_ID -1
 
+#define UPDATE_DT 1.0f / 60.0f
+
 #endif /* defined(__JumpEdt__Defines__) */

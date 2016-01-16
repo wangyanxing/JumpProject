@@ -25,7 +25,7 @@ RendererConfig BlockKindConfigs::getRendererConfig(BlockKind kind) {
     {RENDERER_RECT, "", 25},
     {RENDERER_RECT, "", 20},
     {RENDERER_DEATH, DEATH_IMAGE, 15},
-    {RENDERER_DEATH_CIRCLE, DEATH_CIRCLE_IMAGE, 15},
+    {RENDERER_DEATH_CIRCLE, "", 15},
     {RENDERER_RECT, "", 15},
     {RENDERER_RECT, "", 20}
   };

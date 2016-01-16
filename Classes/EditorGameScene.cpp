@@ -12,11 +12,9 @@
 #if USE_REFACTOR
 
 EditorGameScene::EditorGameScene() {
-
 }
 
 EditorGameScene::~EditorGameScene() {
-  
 }
 
 bool EditorGameScene::init() {
@@ -33,8 +31,6 @@ void EditorGameScene::onEnter() {
 
 void EditorGameScene::update(float dt) {
   GameLayerContainer::update(dt);
-
-  GameLevel::instance().update(dt);
 }
 
 void EditorGameScene::postUpdate(float dt) {

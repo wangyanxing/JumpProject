@@ -12,8 +12,6 @@
 
 USING_NS_CC;
 
-#define UPDATE_DT 1.0f / 60.0f
-
 GamePostUpdater::GamePostUpdater(GameLayerContainer *ct): container(ct) {
 }
 
@@ -78,7 +76,7 @@ bool GameLayerContainer::onCollisionDetected(cocos2d::PhysicsContact &contact,
 }
 
 void GameLayerContainer::update(float dt) {
-  GameLevel::instance().update(dt);
+  GameLevel::instance().update(UPDATE_DT);
 
 #if !USE_REFACTOR
   mGame->update(UPDATE_DT);
