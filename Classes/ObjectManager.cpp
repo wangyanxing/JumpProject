@@ -33,15 +33,15 @@ void ObjectManager::cleanUp() {
 
 GameObject *ObjectManager::createObject(JsonValueT &json) {
   Parameter param;
-  param[PARAM_RENDERER] = RENDERER_RECT;
-  param[PARAM_POS] = json[LEVEL_BLOCK_POS].GetVec2();
-  param[PARAM_SIZE] = json[LEVEL_BLOCK_SIZE].GetSize();
+  param.set(PARAM_RENDERER, RENDERER_RECT);
+  param.set(PARAM_POS, json[LEVEL_BLOCK_POS].GetVec2());
+  param.set(PARAM_SIZE, json[LEVEL_BLOCK_SIZE].GetSize());
 
   int colorIndex = DEFAULT_COLOR_ID;
   if (json.HasMember(LEVEL_BLOCK_PALETTE_ID)) {
     colorIndex = json[LEVEL_BLOCK_PALETTE_ID].GetInt();
   }
-  param[PARAM_COLOR_INDEX] = colorIndex;
+  param.set(PARAM_COLOR_INDEX, colorIndex);
 
   GameObject *obj = new GameObject();
   obj->mID = json[LEVEL_BLOCK_ID].GetInt();
@@ -51,7 +51,7 @@ GameObject *ObjectManager::createObject(JsonValueT &json) {
   auto rendererConfig = BlockKindConfigs::getRendererConfig(obj->mKind);
 
   if (!rendererConfig.defaultTexture.empty()) {
-    param[PARAM_IMAGE] = rendererConfig.defaultTexture;
+    param.set(PARAM_IMAGE, rendererConfig.defaultTexture);
   }
 
   obj->setRenderer(rendererConfig.type);
@@ -71,8 +71,7 @@ GameObject *ObjectManager::createObject(JsonValueT &json) {
 }
 
 GameObject *ObjectManager::createObject(Parameter &param) {
-  CHECK_PARAM(PARAM_RENDERER);
-  RendererType rendererType = GET_PARAM(PARAM_RENDERER, RendererType);
+  RendererType rendererType = param.get<RendererType>(PARAM_RENDERER);
 
   GameObject *obj = new GameObject();
   obj->mID = ++mIDCounter;

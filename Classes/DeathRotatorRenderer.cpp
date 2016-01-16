@@ -22,8 +22,8 @@ DeathRotatorRenderer::~DeathRotatorRenderer() {
 }
 
 void DeathRotatorRenderer::init(Parameter& param) {
-  Size size = GET_PARAM(PARAM_SIZE, Size);
-  Vec2 pos = GET_PARAM(PARAM_POS, Vec2);
+  Size size = param.get<Size>(PARAM_SIZE);
+  Vec2 pos = param.get<Vec2>(PARAM_POS);
   mChild = GameUtils::createRect(size, pos);
   
   SimpleRenderer::init(param);

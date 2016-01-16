@@ -23,18 +23,10 @@ SimpleRenderer::~SimpleRenderer() {
 }
 
 void SimpleRenderer::init(Parameter &param) {
-  CHECK_PARAM(PARAM_POS);
-  CHECK_PARAM(PARAM_SIZE);
-  CHECK_PARAM(PARAM_COLOR_INDEX);
-
-  Size size = GET_PARAM(PARAM_SIZE, Size);
-  Vec2 pos = GET_PARAM(PARAM_POS, Vec2);
-  int color = GET_PARAM(PARAM_COLOR_INDEX, int);
-  std::string image;
-
-  if (HAS_PARAM(PARAM_IMAGE)) {
-    image = GET_PARAM(PARAM_IMAGE, std::string);
-  }
+  Size size = param.get<Size>(PARAM_SIZE);
+  Vec2 pos = param.get<Vec2>(PARAM_POS);
+  int color = param.get<int>(PARAM_COLOR_INDEX);
+  std::string image = param.getOrDefault<std::string>(PARAM_IMAGE, "");
 
   mSprite = GameUtils::createRect(size, pos);
   setColorIndex(color);

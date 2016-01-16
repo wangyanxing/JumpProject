@@ -11,10 +11,6 @@
 
 #include "Any.h"
 
-#define CHECK_PARAM(p) CC_ASSERT(param.find(p) != param.end())
-#define HAS_PARAM(p) param.find(p) != param.end()
-#define GET_PARAM(p, T) any_cast<T>(param[p])
-
 enum ParamType {
   PARAM_POS,          // cocos2d::Vec2
   PARAM_SIZE,         // cocos2d::Size
@@ -24,6 +20,35 @@ enum ParamType {
   PARAM_RENDERER      // RendererType
 };
 
-typedef std::map<ParamType, Any> Parameter;
+/**
+ * Simple parameter class for object initialization.
+ */
+class Parameter {
+public:
+  typedef std::map<ParamType, Any> MapT;
+
+  bool has(ParamType type) {
+    return mData.count(type);
+  }
+
+  template<typename T>
+  T get(ParamType type) {
+    CC_ASSERT(has(type));
+    return any_cast<T>(mData[type]);
+  }
+
+  template<typename T>
+  T getOrDefault(ParamType type, const T &defaultValue) {
+    return has(type) ? any_cast<T>(mData[type]) : defaultValue;
+  }
+
+  template<typename T>
+  void set(ParamType type, const T &value) {
+    mData[type] = value;
+  }
+
+private:
+  MapT mData;
+};
 
 #endif /* Parameter_h */

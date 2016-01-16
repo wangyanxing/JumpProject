@@ -76,11 +76,11 @@ bool GameLayerContainer::onCollisionDetected(cocos2d::PhysicsContact &contact,
 }
 
 void GameLayerContainer::update(float dt) {
-  GameLevel::instance().update(UPDATE_DT);
-
 #if !USE_REFACTOR
   mGame->update(UPDATE_DT);
   mGame->updateCamera(mCamera);
+#else
+  GameLevel::instance().update(UPDATE_DT);
 #endif
 }
 
