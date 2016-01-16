@@ -32,16 +32,16 @@ void ObjectManager::cleanUp() {
 }
 
 GameObject *ObjectManager::createObject(JsonValueT &json) {
-  Parameter param;
-  param.set(PARAM_RENDERER, RENDERER_RECT);
-  param.set(PARAM_POS, json[LEVEL_BLOCK_POS].GetVec2());
-  param.set(PARAM_SIZE, json[LEVEL_BLOCK_SIZE].GetSize());
-
   int colorIndex = DEFAULT_COLOR_ID;
   if (json.HasMember(LEVEL_BLOCK_PALETTE_ID)) {
     colorIndex = json[LEVEL_BLOCK_PALETTE_ID].GetInt();
   }
-  param.set(PARAM_COLOR_INDEX, colorIndex);
+  
+  Parameter param;
+  param.set(PARAM_RENDERER, RENDERER_RECT)
+       .set(PARAM_POS, json[LEVEL_BLOCK_POS].GetVec2())
+       .set(PARAM_SIZE, json[LEVEL_BLOCK_SIZE].GetSize())
+       .set(PARAM_COLOR_INDEX, colorIndex);
 
   GameObject *obj = new GameObject();
   obj->mID = json[LEVEL_BLOCK_ID].GetInt();
@@ -54,34 +54,39 @@ GameObject *ObjectManager::createObject(JsonValueT &json) {
     param.set(PARAM_IMAGE, rendererConfig.defaultTexture);
   }
 
-  obj->setRenderer(rendererConfig.type);
-  obj->getRenderer()->init(param);
-  obj->getRenderer()->addToParent(GameLevel::instance().getGameLayer()->getBlockRoot(),
-                                  rendererConfig.zorder);
+  obj->setRenderer(rendererConfig.type)
+     ->init(param)
+     ->addToParent(GameLevel::instance().getGameLayer()->getBlockRoot(),
+                   rendererConfig.zorder);
 
   if (physicsConfig.type != PHYSICS_NONE) {
-    obj->addComponent(COMPONENT_PHYSICS);
-    obj->getComponent<PhysicsComponent>()->setShape(physicsConfig.shapeType);
+    obj->addComponent<PhysicsComponent>()
+       ->setPhysicsType(physicsConfig.type)
+       ->setShape(physicsConfig.shapeType);
   }
 
   CC_ASSERT(!mObjects.count(obj->mID));
   mObjects[obj->mID] = obj;
-  mIDCounter = std::max(obj->mID, mIDCounter);
+  mIDCounter = std::max(obj->mID + 1, mIDCounter);
   return obj;
 }
 
 GameObject *ObjectManager::createObject(Parameter &param) {
-  RendererType rendererType = param.get<RendererType>(PARAM_RENDERER);
-
   GameObject *obj = new GameObject();
-  obj->mID = ++mIDCounter;
-  obj->setRenderer(rendererType);
-  obj->getRenderer()->init(param);
-  obj->getRenderer()->addToParent(GameLevel::instance().getGameLayer()->getBlockRoot(),
-                                  ZORDER_BLOCK);
+  obj->mID = mIDCounter++;
+  obj->mKind = param.get<BlockKind>(PARAM_BLOCK_KIND, KIND_BLOCK);
+  
+  auto physicsConfig = BlockKindConfigs::getPhysicsConfig(obj->mKind);
+  auto rendererConfig = BlockKindConfigs::getRendererConfig(obj->mKind);
+  
+  obj->setRenderer(param.get<RendererType>(PARAM_RENDERER, RENDERER_RECT))
+     ->init(param)
+     ->addToParent(GameLevel::instance().getGameLayer()->getBlockRoot(),
+                   rendererConfig.zorder);
 
-  obj->addComponent(COMPONENT_PHYSICS);
-  obj->getComponent<PhysicsComponent>()->setShape(PHYSICS_SHAPE_RECT);
+  obj->addComponent<PhysicsComponent>()
+     ->setPhysicsType(physicsConfig.type)
+     ->setShape(physicsConfig.shapeType);
 
   CC_ASSERT(!mObjects.count(obj->mID));
   mObjects[obj->mID] = obj;

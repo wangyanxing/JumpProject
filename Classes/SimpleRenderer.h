@@ -26,7 +26,7 @@ public:
     return RENDERER_RECT;
   }
 
-  virtual void init(Parameter &param) override;
+  virtual GameRenderer *init(Parameter &param) override;
 
   virtual void setTexture(const std::string& texName) override;
 

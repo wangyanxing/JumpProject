@@ -20,7 +20,7 @@ public:
 
   virtual RendererType getType() const = 0;
 
-  virtual void init(Parameter &param) = 0;
+  virtual GameRenderer *init(Parameter &param) = 0;
 
   virtual cocos2d::Node *getNode() = 0;
 

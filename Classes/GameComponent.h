@@ -11,6 +11,12 @@
 
 #include "Prerequisites.h"
 
+#define DECLARE_COMP_TYPE(t) \
+  static ComponentType getType() {return t;}
+
+/**
+ * Game component, can be dynamically added or removed into an object.
+ */
 class GameComponent {
 public:
   GameComponent(GameObject *parent): mParent(parent) {}

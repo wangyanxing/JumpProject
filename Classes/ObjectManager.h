@@ -25,8 +25,14 @@ public:
 
   void cleanUp();
 
+  /*
+   * Create a default object. Usually called from the editor.
+   */
   GameObject *createObject(Parameter &params);
 
+  /*
+   * Create a object from Json.
+   */
   GameObject *createObject(JsonValueT &json);
 
   GameObject *getObjectByID(int id);

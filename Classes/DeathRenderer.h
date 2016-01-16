@@ -22,7 +22,7 @@ public:
     return RENDERER_DEATH;
   }
 
-  virtual void init(Parameter &param) override;
+  virtual GameRenderer *init(Parameter &param) override;
 
   void normalizeUV();
 

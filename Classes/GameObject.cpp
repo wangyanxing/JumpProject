@@ -22,7 +22,7 @@ GameObject::~GameObject() {
   release();
 }
 
-void GameObject::setRenderer(RendererType renderType) {
+GameRenderer *GameObject::setRenderer(RendererType renderType) {
   GameRenderer *renderer = nullptr;
   switch (renderType) {
     case RENDERER_RECT:
@@ -37,12 +37,13 @@ void GameObject::setRenderer(RendererType renderType) {
     default:
       CCLOGWARN("Invalid renderer type!");
   }
-  setRenderer(renderer);
+  return setRenderer(renderer);
 }
 
-void GameObject::setRenderer(GameRenderer *renderer) {
+GameRenderer *GameObject::setRenderer(GameRenderer *renderer) {
   CC_SAFE_DELETE(mRenderer);
   mRenderer = renderer;
+  return mRenderer;
 }
 
 void GameObject::update(float dt) {

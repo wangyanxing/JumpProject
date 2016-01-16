@@ -15,6 +15,8 @@
 #include "JsonFormat.h"
 #include "ColorPalette.h"
 
+USING_NS_CC;
+
 void GameLevel::init() {
   CC_ASSERT(!mObjectManager);
   mObjectManager = new ObjectManager();
@@ -34,7 +36,25 @@ void GameLevel::update(float dt) {
   mPhysicsManager->update(dt);
 }
 
+GameObject *GameLevel::getHero() {
+  auto hero = getObjectManager()->getObjectByID(0);
+  CC_ASSERT(hero);
+  return hero;
+}
+
+void GameLevel::createHero(const cocos2d::Vec2 &pos) {
+  Parameter param;
+  param.set(PARAM_BLOCK_KIND, KIND_HERO)
+       .set(PARAM_POS, pos)
+       .set(PARAM_SIZE, DEFAULT_HERO_SIZE);
+
+  auto hero = getObjectManager()->createObject(param);
+  CC_ASSERT(hero->getID() == 0);
+}
+
 void GameLevel::load(const std::string &levelFile) {
+  unload();
+  
   JsonParser parser(levelFile);
   if (!parser) {
     CCLOGERROR("Cannot load the level file: %s", levelFile.c_str());
@@ -48,6 +68,7 @@ void GameLevel::load(const std::string &levelFile) {
   mPalette = new ColorPalette(paletteFile);
 
   auto spawnPos = doc[LEVEL_SPAWN_POS].GetVec2();
+  createHero(spawnPos);
 
   parser.parseArray(doc, LEVEL_BLOCK_ARRAY, [&](JsonSizeT i, JsonValueT& val) {
     mObjectManager->createObject(val);
@@ -55,5 +76,5 @@ void GameLevel::load(const std::string &levelFile) {
 }
 
 void GameLevel::unload() {
-
+  mObjectManager->cleanUp();
 }

@@ -23,9 +23,9 @@ public:
 
   void update(float dt);
 
-  void setRenderer(GameRenderer *renderer);
+  GameRenderer *setRenderer(GameRenderer *renderer);
 
-  void setRenderer(RendererType renderType);
+  GameRenderer *setRenderer(RendererType renderType);
 
   GameRenderer *getRenderer() {
     return mRenderer;
@@ -48,6 +48,12 @@ public:
   }
 
   GameComponent* addComponent(ComponentType type);
+  
+  template<typename T>
+  T* addComponent() {
+    auto comp = addComponent(T::getType());
+    return static_cast<T*>(comp);
+  }
 
   void removeComponent(ComponentType type);
 

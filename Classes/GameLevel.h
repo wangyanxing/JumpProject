@@ -45,6 +45,11 @@ public:
   GameLayerContainer *getGameLayer() {
     return mGameLayer;
   }
+  
+  GameObject *getHero();
+  
+private:
+  void createHero(const cocos2d::Vec2 &pos);
 
 private:
   ObjectManager *mObjectManager{nullptr};

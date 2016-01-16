@@ -22,15 +22,16 @@ SimpleRenderer::~SimpleRenderer() {
 #endif
 }
 
-void SimpleRenderer::init(Parameter &param) {
+GameRenderer *SimpleRenderer::init(Parameter &param) {
   Size size = param.get<Size>(PARAM_SIZE);
   Vec2 pos = param.get<Vec2>(PARAM_POS);
-  int color = param.get<int>(PARAM_COLOR_INDEX);
-  std::string image = param.getOrDefault<std::string>(PARAM_IMAGE, "");
+  int color = param.get<int>(PARAM_COLOR_INDEX, DEFAULT_COLOR_ID);
+  std::string image = param.get<std::string>(PARAM_IMAGE, "");
 
   mSprite = GameUtils::createRect(size, pos);
   setColorIndex(color);
   setTexture(image);
+  return this;
 }
 
 void SimpleRenderer::setTexture(const std::string& texName) {

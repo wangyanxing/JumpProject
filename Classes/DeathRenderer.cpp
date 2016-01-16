@@ -20,9 +20,10 @@ DeathRenderer::DeathRenderer(GameObject *parent) : SimpleRenderer(parent) {
 DeathRenderer::~DeathRenderer() {
 }
 
-void DeathRenderer::init(Parameter &param) {
+GameRenderer *DeathRenderer::init(Parameter &param) {
   SimpleRenderer::init(param);
   normalizeUV();
+  return this;
 }
 
 void DeathRenderer::setFlipUV(bool val) {

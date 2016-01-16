@@ -23,7 +23,7 @@ public:
     return RENDERER_DEATH_CIRCLE;
   }
 
-  void init(Parameter& param) override;
+  GameRenderer *init(Parameter& param) override;
 
   void update(float dt) override;
 

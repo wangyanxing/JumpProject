@@ -21,12 +21,12 @@ DeathRotatorRenderer::~DeathRotatorRenderer() {
 #endif
 }
 
-void DeathRotatorRenderer::init(Parameter& param) {
+GameRenderer *DeathRotatorRenderer::init(Parameter& param) {
   Size size = param.get<Size>(PARAM_SIZE);
   Vec2 pos = param.get<Vec2>(PARAM_POS);
   mChild = GameUtils::createRect(size, pos);
   
-  SimpleRenderer::init(param);
+  return SimpleRenderer::init(param);
 }
 
 void DeathRotatorRenderer::addToParent(cocos2d::Node* parent, int zorder) {

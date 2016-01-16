@@ -17,7 +17,10 @@ enum ParamType {
   PARAM_COLOR,        // cocos2d::Color3B
   PARAM_COLOR_INDEX,  // int
   PARAM_IMAGE,        // std::string
-  PARAM_RENDERER      // RendererType
+  PARAM_RENDERER,     // RendererType
+  PARAM_PHYSICS_TYPE, // PhysicsType
+  PARAM_SHAPE_TYPE,   // PhysicsShapeType
+  PARAM_BLOCK_KIND    // BlockKind
 };
 
 /**
@@ -38,13 +41,14 @@ public:
   }
 
   template<typename T>
-  T getOrDefault(ParamType type, const T &defaultValue) {
+  T get(ParamType type, const T &defaultValue) {
     return has(type) ? any_cast<T>(mData[type]) : defaultValue;
   }
 
   template<typename T>
-  void set(ParamType type, const T &value) {
+  Parameter &set(ParamType type, const T &value) {
     mData[type] = value;
+    return *this;
   }
 
 private:
