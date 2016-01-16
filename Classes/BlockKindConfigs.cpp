@@ -24,7 +24,7 @@ RendererConfig BlockKindConfigs::getRendererConfig(BlockKind kind) {
   static RendererConfig configs[KIND_MAX] = {
     {RENDERER_RECT, ""},
     {RENDERER_RECT, ""},
-    {RENDERER_RECT, DEATH_IMAGE},
+    {RENDERER_DEATH, DEATH_IMAGE},
     {RENDERER_DEATH_CIRCLE, DEATH_CIRCLE_IMAGE},
     {RENDERER_RECT, ""},
     {RENDERER_RECT, ""}

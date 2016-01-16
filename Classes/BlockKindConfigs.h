@@ -19,6 +19,7 @@ struct PhysicsConfig {
 struct RendererConfig {
   RendererType type;
   std::string defaultTexture;
+  
 };
 
 class BlockKindConfigs {

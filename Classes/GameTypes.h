@@ -22,6 +22,7 @@ enum BlockKind {
 
 enum RendererType {
   RENDERER_RECT,
+  RENDERER_DEATH,
   RENDERER_DEATH_CIRCLE,
   RENDERER_IMAGE
 };

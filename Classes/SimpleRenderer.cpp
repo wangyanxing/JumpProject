@@ -35,6 +35,12 @@ void SimpleRenderer::init(Parameter &param) {
   setColorIndex(color);
 }
 
+void SimpleRenderer::setTexture(const std::string& texName) {
+  mTextureName = texName;
+  Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(texName);
+  mSprite->setTexture(texture);
+}
+
 cocos2d::Node* SimpleRenderer::getNode() {
   return mSprite;
 }

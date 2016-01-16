@@ -10,6 +10,7 @@
 #include "GameRenderer.h"
 #include "PhysicsComponent.h"
 #include "SimpleRenderer.h"
+#include "DeathRenderer.h"
 
 USING_NS_CC;
 
@@ -25,6 +26,9 @@ void GameObject::setRenderer(RendererType renderType) {
   switch (renderType) {
     case RENDERER_RECT:
       renderer = new SimpleRenderer(this);
+      break;
+    case RENDERER_DEATH:
+      renderer = new DeathRenderer(this);
       break;
     default:
       CCLOGWARN("Invalid renderer type!");

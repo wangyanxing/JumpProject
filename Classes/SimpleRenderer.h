@@ -14,7 +14,7 @@
 class SpriteUV;
 
 /**
- * Simple implementation of the GameRenderer, pure color rectangle without texture.
+ * Simple implementation of the GameRenderer.
  */
 class SimpleRenderer : public GameRenderer {
 public:
@@ -28,6 +28,8 @@ public:
 
   virtual void init(Parameter &param) override;
 
+  virtual void setTexture(const std::string& texName) override;
+
   cocos2d::Node* getNode() override;
 
   cocos2d::Node* getNode() const override;
@@ -38,6 +40,8 @@ public:
 
 protected:
   SpriteUV* mSprite{nullptr};
+
+  std::string mTextureName;  
 };
 
 #endif /* SimpleRenderer_h */
