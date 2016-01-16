@@ -30,12 +30,21 @@ void SimpleRenderer::init(Parameter &param) {
   Size size = GET_PARAM(PARAM_SIZE, Size);
   Vec2 pos = GET_PARAM(PARAM_POS, Vec2);
   int color = GET_PARAM(PARAM_COLOR_INDEX, int);
+  std::string image;
+
+  if (HAS_PARAM(PARAM_IMAGE)) {
+    image = GET_PARAM(PARAM_IMAGE, std::string);
+  }
 
   mSprite = GameUtils::createRect(size, pos);
   setColorIndex(color);
+  setTexture(image);
 }
 
 void SimpleRenderer::setTexture(const std::string& texName) {
+  if (texName.empty()) {
+    return;
+  }
   mTextureName = texName;
   Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(texName);
   mSprite->setTexture(texture);

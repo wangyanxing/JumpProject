@@ -12,6 +12,7 @@
 #include "Any.h"
 
 #define CHECK_PARAM(p) CC_ASSERT(param.find(p) != param.end())
+#define HAS_PARAM(p) param.find(p) != param.end()
 #define GET_PARAM(p, T) any_cast<T>(param[p])
 
 enum ParamType {

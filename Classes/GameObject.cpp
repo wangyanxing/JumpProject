@@ -11,6 +11,7 @@
 #include "PhysicsComponent.h"
 #include "SimpleRenderer.h"
 #include "DeathRenderer.h"
+#include "DeathRotatorRenderer.h"
 
 USING_NS_CC;
 
@@ -29,6 +30,9 @@ void GameObject::setRenderer(RendererType renderType) {
       break;
     case RENDERER_DEATH:
       renderer = new DeathRenderer(this);
+      break;
+    case RENDERER_DEATH_CIRCLE:
+      renderer = new DeathRotatorRenderer(this);
       break;
     default:
       CCLOGWARN("Invalid renderer type!");

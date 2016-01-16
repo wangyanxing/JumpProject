@@ -22,6 +22,7 @@ DeathRenderer::~DeathRenderer() {
 
 void DeathRenderer::init(Parameter &param) {
   SimpleRenderer::init(param);
+  normalizeUV();
 }
 
 void DeathRenderer::setFlipUV(bool val) {
