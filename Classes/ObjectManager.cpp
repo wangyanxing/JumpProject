@@ -57,7 +57,7 @@ GameObject *ObjectManager::createObject(JsonValueT &json) {
   obj->setRenderer(rendererConfig.type);
   obj->getRenderer()->init(param);
   obj->getRenderer()->addToParent(GameLevel::instance().getGameLayer()->getBlockRoot(),
-                                  ZORDER_BLOCK);
+                                  rendererConfig.zorder);
 
   if (physicsConfig.type != PHYSICS_NONE) {
     obj->addComponent(COMPONENT_PHYSICS);
