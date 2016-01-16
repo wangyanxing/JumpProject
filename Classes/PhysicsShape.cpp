@@ -26,38 +26,44 @@ void BasePhysicsShape::onRotationSet(float rotation) {
 }
 
 void RectPhysicsShape::updateShape(PhysicsComponent *component) {
-  auto obj = component->getParent();
-  auto renderer = obj->getRenderer();
-
-//  mRect = renderer->getBoundingBox();
-//  auto newSize = Size(mRect.size.width * mScale.x, mRect.size.height * mScale.y);
-//  mRect.origin.x -= (newSize.width - mRect.size.width) * 0.5f;
-//  mRect.origin.y -= (newSize.height - mRect.size.height) * 0.5f;
-//  mRect.size = newSize;
 }
 
 void RectPhysicsShape::onSizeSet(const cocos2d::Size &size) {
   mSize = size;
 }
 
-void RectPhysicsShape::debugDraw(cocos2d::DrawNode *node) {
+Rect RectPhysicsShape::getRect() const {
   auto size = Size(mSize.width * mScale.x, mSize.height * mScale.y);
+  return Rect(mPosition.x - size.width * 0.5f,
+              mPosition.y - size.height * 0.5f,
+              mSize.width,
+              mSize.height);
+}
+
+void RectPhysicsShape::debugDraw(cocos2d::DrawNode *node) {
+  auto rect = getRect();
   Vec2 seg[4] = {
-    {mPosition.x - size.width * 0.5f, mPosition.y + size.height * 0.5f},
-    {mPosition.x + size.width * 0.5f, mPosition.y + size.height * 0.5f},
-    {mPosition.x + size.width * 0.5f, mPosition.y - size.height * 0.5f},
-    {mPosition.x - size.width * 0.5f, mPosition.y - size.height * 0.5f}
+    {mPosition.x - rect.size.width * 0.5f, mPosition.y + rect.size.height * 0.5f},
+    {mPosition.x + rect.size.width * 0.5f, mPosition.y + rect.size.height * 0.5f},
+    {mPosition.x + rect.size.width * 0.5f, mPosition.y - rect.size.height * 0.5f},
+    {mPosition.x - rect.size.width * 0.5f, mPosition.y - rect.size.height * 0.5f}
   };
   node->drawPolygon(seg, 4, fillColor, 1, outlineColor);
 }
 
-void CirclePhysicsShape::updateShape(PhysicsComponent *component) {
-  auto obj = component->getParent();
-  auto renderer = obj->getRenderer();
+bool RectPhysicsShape::intersectsTest(BasePhysicsShape *other) {
+  return other->intersectsTest(getRect());
+}
 
-//  auto size = renderer->getBoundingBox().size;
-//  mOrigin = renderer->getPosition();
-//  mRadius = sqrtf(size.width * size.width + size.height * size.height) * mScale;
+bool RectPhysicsShape::intersectsTest(const cocos2d::Rect &rect) {
+  return getRect().intersectsRect(rect);
+}
+
+bool RectPhysicsShape::intersectsTest(const cocos2d::Vec2 &pos, float radius) {
+  return getRect().intersectsCircle(pos, radius);
+}
+
+void CirclePhysicsShape::updateShape(PhysicsComponent *component) {
 }
 
 void CirclePhysicsShape::onSizeSet(const cocos2d::Size &size) {
@@ -73,4 +79,16 @@ void CirclePhysicsShape::debugDraw(cocos2d::DrawNode *node) {
     seg[i] = mPosition + d;
   }
   node->drawPolygon(seg, CIRCLE_SEG_NUM, fillColor, 1, outlineColor);
+}
+
+bool CirclePhysicsShape::intersectsTest(BasePhysicsShape *other) {
+  return other->intersectsTest(getPosition(), getRealRadius());
+}
+
+bool CirclePhysicsShape::intersectsTest(const cocos2d::Rect &rect) {
+  return rect.intersectsCircle(getPosition(), getRealRadius());
+}
+
+bool CirclePhysicsShape::intersectsTest(const cocos2d::Vec2 &pos, float radius) {
+  return pos.distance(getPosition()) <= getRealRadius() + radius;
 }

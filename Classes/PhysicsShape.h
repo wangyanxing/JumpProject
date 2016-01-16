@@ -24,6 +24,12 @@ public:
   virtual void updateShape(PhysicsComponent *component) = 0;
 
   virtual void debugDraw(cocos2d::DrawNode *node) = 0;
+  
+  virtual bool intersectsTest(BasePhysicsShape *other) = 0;
+  
+  virtual bool intersectsTest(const cocos2d::Rect &rect) = 0;
+  
+  virtual bool intersectsTest(const cocos2d::Vec2 &pos, float radius) = 0;
 
   cocos2d::Vec2 getPosition() {
     return mPosition;
@@ -62,15 +68,23 @@ public:
     mScale = scale;
   }
 
-  cocos2d::Size getSize() {
+  cocos2d::Size getSize() const {
     return mSize;
   }
+  
+  cocos2d::Rect getRect() const;
 
   void onSizeSet(const cocos2d::Size &size) override;
 
   void updateShape(PhysicsComponent *component) override;
 
   void debugDraw(cocos2d::DrawNode *node) override;
+  
+  bool intersectsTest(BasePhysicsShape *other) override;
+  
+  bool intersectsTest(const cocos2d::Rect &rect) override;
+  
+  bool intersectsTest(const cocos2d::Vec2 &pos, float radius) override;
 
 protected:
   cocos2d::Vec2 mScale{1, 1};
@@ -98,12 +112,22 @@ public:
   float getRadius() {
     return mRadius;
   }
+  
+  float getRealRadius() {
+    return mRadius * mScale;
+  }
 
   void onSizeSet(const cocos2d::Size &size) override;
 
   void updateShape(PhysicsComponent *component) override;
 
-  void debugDraw(cocos2d::DrawNode *node) override;  
+  void debugDraw(cocos2d::DrawNode *node) override;
+  
+  bool intersectsTest(BasePhysicsShape *other) override;
+  
+  bool intersectsTest(const cocos2d::Rect &rect) override;
+  
+  bool intersectsTest(const cocos2d::Vec2 &pos, float radius) override;
 
 protected:
   float mScale{1};

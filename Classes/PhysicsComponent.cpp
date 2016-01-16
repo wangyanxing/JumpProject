@@ -32,13 +32,18 @@ void PhysicsComponent::update(float dt) {
   }
   
   // Adjust the velocity value.
-  static Vec2 maxVelocity{600.0f, 1000.0f};
-  mVelocity.x = std::min(mVelocity.x, maxVelocity.x);
-  mVelocity.y = std::min(mVelocity.y, maxVelocity.y);
+  static Vec2 maxVelocity{600.0f, 1000.0f}, minVelocity{-600.0f, -1000.0f};
+  mVelocity.clamp(minVelocity, maxVelocity);
   
   if (mShape) {
     mShape->updateShape(this);
   }
+  
+  // Set back.
+  auto newpos = mParent->getRenderer()->getPosition();
+  newpos.y += mVelocity.y * dt;
+  newpos.x += mVelocity.x * dt;
+  mParent->getRenderer()->setPosition(newpos);
 }
 
 BasePhysicsShape *PhysicsComponent::setShape(PhysicsShapeType type) {
