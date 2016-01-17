@@ -20,6 +20,7 @@ PhysicsComponent::PhysicsComponent(GameObject *parent) : GameComponent(parent) {
 }
 
 PhysicsComponent::~PhysicsComponent() {
+  GameLevel::instance().getPhysicsManager()->onDeletePhysicsComponent(this);
 }
 
 void PhysicsComponent::update(float dt) {
@@ -39,10 +40,11 @@ void PhysicsComponent::update(float dt) {
     mShape->updateShape(this);
   }
   
-  // Set back.
-  auto newpos = mParent->getRenderer()->getPosition();
+  auto newpos = mShape->getPosition();
   newpos.y += mVelocity.y * dt;
   newpos.x += mVelocity.x * dt;
+  
+  // Set back.
   mParent->getRenderer()->setPosition(newpos);
 }
 
@@ -59,10 +61,20 @@ BasePhysicsShape *PhysicsComponent::setShape(PhysicsShapeType type) {
 }
 
 PhysicsComponent *PhysicsComponent::setPhysicsType(PhysicsType type) {
+  auto oldType = mPhysicsType;
   mPhysicsType = type;
   
-  mVelocity.setZero();
-  mEnableGravity = type == PHYSICS_DYNAMIC;
+  GameLevel::instance().getPhysicsManager()->onSetPhysicsType(this, oldType);
   
+  mVelocity.setZero();
+  if (type == PHYSICS_DYNAMIC) {
+    mEnableGravity = true;
+  } else if (type != PHYSICS_NONE) {
+  }
   return this;
+}
+
+void PhysicsComponent::onCollisionDetected(PhysicsComponent *other) {
+  // CCLOG("Collision detected: %d -> %d", mParent->getID(), other->getParent()->getID());
+  CC_ASSERT(mPhysicsType == PHYSICS_DYNAMIC);
 }

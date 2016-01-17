@@ -84,9 +84,11 @@ GameObject *ObjectManager::createObject(Parameter &param) {
      ->addToParent(GameLevel::instance().getGameLayer()->getBlockRoot(),
                    rendererConfig.zorder);
 
-  obj->addComponent<PhysicsComponent>()
-     ->setPhysicsType(physicsConfig.type)
-     ->setShape(physicsConfig.shapeType);
+  if (physicsConfig.type != PHYSICS_NONE) {
+    obj->addComponent<PhysicsComponent>()
+       ->setPhysicsType(physicsConfig.type)
+       ->setShape(physicsConfig.shapeType);
+  }
 
   CC_ASSERT(!mObjects.count(obj->mID));
   mObjects[obj->mID] = obj;

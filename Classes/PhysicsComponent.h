@@ -40,6 +40,8 @@ public:
   
   PhysicsComponent *setPhysicsType(PhysicsType type);
   
+  void onCollisionDetected(PhysicsComponent *other);
+  
 protected:
 
 

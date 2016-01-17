@@ -30,16 +30,26 @@ public:
   BasePhysicsShape *createShape(PhysicsShapeType type);
 
   void removeShape(BasePhysicsShape *shape);
+  
+  void onSetPhysicsType(PhysicsComponent *component, PhysicsType oldType);
+  
+  void onDeletePhysicsComponent(PhysicsComponent *component);
 
 private:
   void updatePhysicsDebugDraw();
+  
+  void detectCollision();
 
 private:
-  bool mPhysicsDebugDraw{false};
+  bool mPhysicsDebugDraw{true};
 
   cocos2d::DrawNode* mDebugDrawNode{nullptr};
 
   std::set<BasePhysicsShape*> mShapes;
+  
+  std::set<PhysicsComponent*> mStaticPhysicsObjects;
+  
+  std::set<PhysicsComponent*> mDynamicPhysicsObjects;
 };
 
 #endif /* PhysicsManager_h */
