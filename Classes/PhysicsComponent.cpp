@@ -12,6 +12,7 @@
 #include "GameLevel.h"
 #include "GameObject.h"
 #include "GameRenderer.h"
+#include "GameEvents.h"
 
 USING_NS_CC;
 
@@ -92,5 +93,7 @@ void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
 }
 
 void PhysicsComponent::callCollisionEvents(GameObject *other) {
-  // TODO: Load events
+  for (auto &str : mCollisionEvents) {
+    GameEvents::instance().callSingleEvent(str, mParent);
+  }
 }

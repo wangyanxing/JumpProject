@@ -57,6 +57,8 @@ protected:
   float mGravity{DEFAULT_GRAVITY};
   
   bool mEnableGravity{false};
+
+  std::vector<std::string> mCollisionEvents;
 };
 
 #endif /* PhysicsComponent_h */

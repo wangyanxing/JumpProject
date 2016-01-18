@@ -271,7 +271,7 @@ void Events::callEvents(std::vector<std::string>& events, BlockBase *caller) {
   }
 }
 
-void Events::callSingleEvent(const char *event, BlockBase *caller = NULL) {
+void Events::callSingleEvent(const char *event, BlockBase *caller = nullptr) {
   initEvents();
 
   if (!event) {

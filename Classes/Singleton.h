@@ -31,9 +31,6 @@ public:\
     static S ins; \
     return ins; \
   } \
-private: \
-  S() {}; \
-  ~S() {}\
 public: \
   S(S const&) = delete; \
   void operator=(S const&) = delete;

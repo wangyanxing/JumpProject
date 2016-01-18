@@ -166,6 +166,8 @@
 		BCB866A41C49D30900CB8383 /* DeathRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB866A11C49D30900CB8383 /* DeathRenderer.cpp */; };
 		BCB866A71C49D8EE00CB8383 /* DeathRotatorRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB866A51C49D8EE00CB8383 /* DeathRotatorRenderer.cpp */; };
 		BCB866A81C49D8EE00CB8383 /* DeathRotatorRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB866A51C49D8EE00CB8383 /* DeathRotatorRenderer.cpp */; };
+		BCB866AB1C4D495C00CB8383 /* GameEvents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB866A91C4D495C00CB8383 /* GameEvents.cpp */; };
+		BCB866AC1C4D495C00CB8383 /* GameEvents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB866A91C4D495C00CB8383 /* GameEvents.cpp */; };
 		BCDFFFFB1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */; };
 		BCDFFFFC1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
@@ -365,6 +367,8 @@
 		BCB866A21C49D30900CB8383 /* DeathRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeathRenderer.h; sourceTree = "<group>"; };
 		BCB866A51C49D8EE00CB8383 /* DeathRotatorRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeathRotatorRenderer.cpp; sourceTree = "<group>"; };
 		BCB866A61C49D8EE00CB8383 /* DeathRotatorRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeathRotatorRenderer.h; sourceTree = "<group>"; };
+		BCB866A91C4D495C00CB8383 /* GameEvents.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEvents.cpp; sourceTree = "<group>"; };
+		BCB866AA1C4D495C00CB8383 /* GameEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEvents.h; sourceTree = "<group>"; };
 		BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlockRenderer.cpp; sourceTree = "<group>"; };
 		BCDFFFFA1C32ECED006E8A59 /* BlockRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockRenderer.h; sourceTree = "<group>"; };
 		BCDFFFFD1C32F062006E8A59 /* Any.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Any.h; sourceTree = "<group>"; };
@@ -709,6 +713,8 @@
 				BCB866A21C49D30900CB8383 /* DeathRenderer.h */,
 				BCB866A51C49D8EE00CB8383 /* DeathRotatorRenderer.cpp */,
 				BCB866A61C49D8EE00CB8383 /* DeathRotatorRenderer.h */,
+				BCB866A91C4D495C00CB8383 /* GameEvents.cpp */,
+				BCB866AA1C4D495C00CB8383 /* GameEvents.h */,
 			);
 			name = Refactor;
 			sourceTree = "<group>";
@@ -926,6 +932,7 @@
 				BC3CEA331C1B86B400738B33 /* VisibleRect.cpp in Sources */,
 				BC3CEA0F1C1B86B400738B33 /* LevelScene.cpp in Sources */,
 				BC3CEA2B1C1B86B400738B33 /* SpriteUV.cpp in Sources */,
+				BCB866AB1C4D495C00CB8383 /* GameEvents.cpp in Sources */,
 				BCB8669E1C49A34700CB8383 /* BlockKindConfigs.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -974,6 +981,7 @@
 				BCB85F081C46AE9500CB8383 /* ObjectManager.cpp in Sources */,
 				BC64236F1C3F4FB40018F96F /* DeathCircleRenderer.cpp in Sources */,
 				BC3CEA001C1B86B400738B33 /* DrawNodeEx.cpp in Sources */,
+				BCB866AC1C4D495C00CB8383 /* GameEvents.cpp in Sources */,
 				BC3CEA1E1C1B86B400738B33 /* PathLibOSX.mm in Sources */,
 				BC3CEA2C1C1B86B400738B33 /* SpriteUV.cpp in Sources */,
 				BC3CEA261C1B86B400738B33 /* Shadows.cpp in Sources */,
