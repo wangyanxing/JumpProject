@@ -30,10 +30,10 @@ void GameLevel::release() {
 }
 
 void GameLevel::update(float dt) {
+  mPhysicsManager->update(dt);
   for (auto &obj : mObjectManager->mObjects) {
     obj.second->update(dt);
   }
-  mPhysicsManager->update(dt);
 }
 
 GameObject *GameLevel::getHero() {

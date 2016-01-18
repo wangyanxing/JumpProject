@@ -9,6 +9,7 @@
 #ifndef PhysicsComponent_h
 #define PhysicsComponent_h
 
+#include "PhysicsManager.h"
 #include "GameComponent.h"
 
 #define DEFAULT_LINEAR_DAMPING 5.0f
@@ -34,16 +35,15 @@ public:
     return mShape;
   }
 
-  PhysicsType getPhysicsType() {
+  PhysicsType getPhysicsType() const {
     return mPhysicsType;
   }
   
   PhysicsComponent *setPhysicsType(PhysicsType type);
   
-  void onCollisionDetected(PhysicsComponent *other);
+  void onCollisionDetected(const CollisionInfo &info);
   
-protected:
-
+  void callCollisionEvents(GameObject *other);
 
 protected:
   PhysicsType mPhysicsType{PHYSICS_NONE};

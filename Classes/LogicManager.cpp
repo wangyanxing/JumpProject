@@ -102,8 +102,7 @@ bool GameLogic::onContactPreSolve(cocos2d::PhysicsContact &contact,
     pusherShape = blockA->pushable() ? contact.getShapeA() : contact.getShapeB();
   }
 
-  auto data = contact.getContactData();
-  auto normal = data->normal;
+  auto normal = contact.getContactData()->normal;
   auto otherShape = pusherShape == contact.getShapeA() ? contact.getShapeB() : contact.getShapeA();
 
   bool onMovingPlatform = false;

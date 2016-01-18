@@ -34,6 +34,10 @@ public:
   cocos2d::Vec2 getPosition() {
     return mPosition;
   }
+  
+  cocos2d::Vec2 getLastPosition() {
+    return mLastPosition;
+  }
 
   virtual void onPositionSet(const cocos2d::Vec2 &position);
 
@@ -47,6 +51,8 @@ public:
 
 protected:
   cocos2d::Vec2 mPosition;
+  
+  cocos2d::Vec2 mLastPosition;
 
   float mRotation{0};
 };

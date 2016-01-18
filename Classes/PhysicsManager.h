@@ -11,6 +11,14 @@
 
 #include "Prerequisites.h"
 
+struct CollisionInfo {
+  cocos2d::Vec2 normal;
+  PhysicsComponent *component{nullptr};
+};
+
+/**
+ * Physics manager class.
+ */
 class PhysicsManager {
 public:
   PhysicsManager();
@@ -39,6 +47,8 @@ private:
   void updatePhysicsDebugDraw();
   
   void detectCollision();
+  
+  CollisionInfo generateCollisionInfo(PhysicsComponent *objA, PhysicsComponent *objB);
 
 private:
   bool mPhysicsDebugDraw{true};

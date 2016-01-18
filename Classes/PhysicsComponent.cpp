@@ -9,7 +9,6 @@
 #include "Defines.h"
 #include "PhysicsComponent.h"
 #include "PhysicsShape.h"
-#include "PhysicsManager.h"
 #include "GameLevel.h"
 #include "GameObject.h"
 #include "GameRenderer.h"
@@ -40,12 +39,12 @@ void PhysicsComponent::update(float dt) {
     mShape->updateShape(this);
   }
   
-  auto newpos = mShape->getPosition();
-  newpos.y += mVelocity.y * dt;
-  newpos.x += mVelocity.x * dt;
+  mShape->mLastPosition = mShape->mPosition;
+  mShape->mPosition.y += mVelocity.y * dt;
+  mShape->mPosition.x += mVelocity.x * dt;
   
   // Set back.
-  mParent->getRenderer()->setPosition(newpos);
+  mParent->getRenderer()->setPosition(mShape->mPosition);
 }
 
 BasePhysicsShape *PhysicsComponent::setShape(PhysicsShapeType type) {
@@ -70,11 +69,28 @@ PhysicsComponent *PhysicsComponent::setPhysicsType(PhysicsType type) {
   if (type == PHYSICS_DYNAMIC) {
     mEnableGravity = true;
   } else if (type != PHYSICS_NONE) {
+    mEnableGravity = false;
   }
   return this;
 }
 
-void PhysicsComponent::onCollisionDetected(PhysicsComponent *other) {
-  // CCLOG("Collision detected: %d -> %d", mParent->getID(), other->getParent()->getID());
+void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
+  CCLOG("Collision detected: %d -> %d, normal: %g, %g",
+        mParent->getID(),
+        info.component->getParent()->getID(),
+        info.normal.x,
+        info.normal.y);
+  
   CC_ASSERT(mPhysicsType == PHYSICS_DYNAMIC);
+
+  auto other = info.component;
+  // Execute event only.
+  if (other->getPhysicsType() == PHYSICS_COLLISION_ONLY) {
+    callCollisionEvents(other->getParent());
+    return;
+  }
+}
+
+void PhysicsComponent::callCollisionEvents(GameObject *other) {
+  // TODO: Load events
 }

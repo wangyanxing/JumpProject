@@ -49,12 +49,51 @@ void PhysicsManager::update(float dt) {
   updatePhysicsDebugDraw();
 }
 
+CollisionInfo PhysicsManager::generateCollisionInfo(PhysicsComponent *objA,
+                                                    PhysicsComponent *objB) {
+  CollisionInfo info;
+  info.component = objB;
+  
+  auto shapeA = objA->getShape();
+  auto shapeB = objB->getShape();
+  auto posA = shapeA->getPosition();
+  auto posB = shapeB->getPosition();
+  auto lastPosA = shapeA->getLastPosition();
+  auto lastPosB = shapeB->getLastPosition();
+  
+  CC_ASSERT(shapeA->getType() == PHYSICS_SHAPE_RECT);
+  if (shapeB->getType() == PHYSICS_SHAPE_CIRCLE) {
+    info.normal = posB - posA;
+    info.normal.normalize();
+    return info;
+  }
+  
+  // Just assume the size didn't change, works for now.
+  auto sizeA = static_cast<RectPhysicsShape*>(shapeA)->getSize();
+  auto sizeB = static_cast<RectPhysicsShape*>(shapeB)->getSize();
+
+  bool interX = fabs(posA.x - posB.x) < 0.5f * (sizeA.width + sizeB.width);
+  bool interY = fabs(posA.y - posB.y) < 0.5f * (sizeA.height + sizeB.height);
+  bool interXold = fabs(lastPosA.x - lastPosB.x) < 0.5f * (sizeA.width + sizeB.width);
+  bool interYold = fabs(lastPosA.y - lastPosB.y) < 0.5f * (sizeA.height + sizeB.height);
+  
+  if (interXold && interX && interYold && interY) {
+    info.normal = lastPosA - posA;
+    info.normal.normalize();
+  } else if (interXold && interX && !interYold && interY) {
+    info.normal.set(0, posA.y > posB.y ? 1 : -1);
+  } else {
+    info.normal.set(posA.x > posB.x ? 1 : -1, 0);
+  }
+  return info;
+}
+
 void PhysicsManager::detectCollision() {
   // Dynamic with static
   for (auto dynamicA : mDynamicPhysicsObjects) {
     for (auto staticB : mStaticPhysicsObjects) {
       if (dynamicA->getShape()->intersectsTest(staticB->getShape())) {
-        dynamicA->onCollisionDetected(staticB);
+        dynamicA->onCollisionDetected(generateCollisionInfo(dynamicA, staticB));
       }
     }
   }
@@ -67,7 +106,7 @@ void PhysicsManager::detectCollision() {
       
       if (objA->getID() < objB->getID() &&
           dynamicA->getShape()->intersectsTest(dynamicB->getShape())) {
-        dynamicA->onCollisionDetected(dynamicB);
+        dynamicA->onCollisionDetected(generateCollisionInfo(dynamicA, dynamicB));
       }
     }
   }
