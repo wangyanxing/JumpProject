@@ -13,6 +13,7 @@
 #include "GameObject.h"
 #include "GameRenderer.h"
 #include "GameEvents.h"
+#include "GameUtils.h"
 
 USING_NS_CC;
 
@@ -27,9 +28,13 @@ void PhysicsComponent::update(float dt) {
   if (mPhysicsType == PHYSICS_NONE) {
     return;
   }
-  
-  if (mPhysicsType == PHYSICS_DYNAMIC && mEnableGravity) {
-    mVelocity.y += dt * mGravity;
+
+  if (mStatus == ON_PLATFORM) {
+    mVelocity.y = 0;
+  } else if (mStatus == FALLING) {
+    if (mPhysicsType == PHYSICS_DYNAMIC && mEnableGravity) {
+      mVelocity.y += dt * mGravity;
+    }
   }
   
   // Adjust the velocity value.
@@ -76,12 +81,12 @@ PhysicsComponent *PhysicsComponent::setPhysicsType(PhysicsType type) {
 }
 
 void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
-  CCLOG("Collision detected: %d -> %d, normal: %g, %g",
-        mParent->getID(),
-        info.component->getParent()->getID(),
-        info.normal.x,
-        info.normal.y);
-  
+//  CCLOG("Collision detected: %d -> %d, normal: %g, %g",
+//        mParent->getID(),
+//        info.component->getParent()->getID(),
+//        info.normal.x,
+//        info.normal.y);
+
   CC_ASSERT(mPhysicsType == PHYSICS_DYNAMIC);
 
   auto other = info.component;
@@ -89,6 +94,18 @@ void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
   if (other->getPhysicsType() == PHYSICS_COLLISION_ONLY) {
     callCollisionEvents(other->getParent());
     return;
+  }
+
+  if (GameUtils::vec2Equal(Vec2::UNIT_Y, info.normal)) {
+    mStatus = ON_PLATFORM;
+
+    float halfHeight = 0.5f * (mParent->getRenderer()->getSize().height +
+                               info.component->getParent()->getRenderer()->getSize().height);
+    float deltaHeight = fabs(mShape->getPosition().y - info.component->mShape->getPosition().y);
+    mShape->mPosition.y += halfHeight - deltaHeight;
+  } else if (GameUtils::vec2Equal(-Vec2::UNIT_Y, info.normal)){
+    mVelocity.y = 0;
+    mShape->mPosition = mShape->mLastPosition;
   }
 }
 

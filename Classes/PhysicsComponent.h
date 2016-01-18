@@ -26,6 +26,13 @@ public:
   
   DECLARE_COMP_TYPE(COMPONENT_PHYSICS);
 
+  enum Status {
+    STATIC,
+    ON_PLATFORM,
+    JUMPING,
+    FALLING
+  };
+
 public:
   virtual void update(float dt) override;
 
@@ -45,6 +52,10 @@ public:
   
   void callCollisionEvents(GameObject *other);
 
+  Status getStatus() const {
+    return mStatus;
+  }
+
 protected:
   PhysicsType mPhysicsType{PHYSICS_NONE};
 
@@ -59,6 +70,8 @@ protected:
   bool mEnableGravity{false};
 
   std::vector<std::string> mCollisionEvents;
+
+  Status mStatus{FALLING};
 };
 
 #endif /* PhysicsComponent_h */

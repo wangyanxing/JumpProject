@@ -8,6 +8,8 @@ class SpriteUV;
 struct GameUtils {
   static void logVec2(const cocos2d::Vec2 &vec2);
 
+  static bool vec2Equal(const cocos2d::Vec2 &v1, const cocos2d::Vec2 &v2);
+
   static void setPixelStyleTexture(cocos2d::Sprite *sp);
 
   static SpriteUV *createRect(cocos2d::Rect rect,
