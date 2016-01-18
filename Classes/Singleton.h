@@ -32,7 +32,6 @@ public:\
     return ins; \
   } \
 public: \
-  S(S const&) = delete; \
   void operator=(S const&) = delete;
 
 #endif /* Singleton_h */

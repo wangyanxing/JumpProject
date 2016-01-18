@@ -29,7 +29,7 @@ enum ParamType {
  */
 class Parameter {
 public:
-  typedef std::map<ParamType, Any> MapT;
+  typedef std::unordered_map<ParamType, Any, EnumClassHash> MapT;
 
   bool has(ParamType type) const {
     return mData.count(type);

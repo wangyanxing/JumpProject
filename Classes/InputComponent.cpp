@@ -7,6 +7,7 @@
 //
 
 #include "InputComponent.h"
+#include "PhysicsComponent.h"
 #include "GameObject.h"
 
 InputComponent::InputComponent(GameObject *parent) : GameComponent(parent) {
@@ -30,7 +31,7 @@ void InputComponent::runCommand(ComponentCommand type, const Parameter &param) {
 }
 
 void InputComponent::pressLeft() {
-
+  auto physics = mParent->getComponent<PhysicsComponent>();
 }
 
 void InputComponent::pressRight() {

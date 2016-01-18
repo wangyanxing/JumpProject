@@ -31,6 +31,8 @@ public:
 
   void postUpdate(float dt) override;
 
+  void processInput();
+
   void clean() override;
 
   void onWinGame() override;
@@ -38,6 +40,10 @@ public:
   int8_t getCameraDepth() override {
     return 0;
   }
+
+  void keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
+
+  void keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
 };
 
 #endif
