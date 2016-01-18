@@ -168,6 +168,8 @@
 		BCB866A81C49D8EE00CB8383 /* DeathRotatorRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB866A51C49D8EE00CB8383 /* DeathRotatorRenderer.cpp */; };
 		BCB866AB1C4D495C00CB8383 /* GameEvents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB866A91C4D495C00CB8383 /* GameEvents.cpp */; };
 		BCB866AC1C4D495C00CB8383 /* GameEvents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB866A91C4D495C00CB8383 /* GameEvents.cpp */; };
+		BCB866AF1C4D818500CB8383 /* InputComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB866AD1C4D818500CB8383 /* InputComponent.cpp */; };
+		BCB866B01C4D818500CB8383 /* InputComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB866AD1C4D818500CB8383 /* InputComponent.cpp */; };
 		BCDFFFFB1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */; };
 		BCDFFFFC1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
@@ -369,6 +371,8 @@
 		BCB866A61C49D8EE00CB8383 /* DeathRotatorRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeathRotatorRenderer.h; sourceTree = "<group>"; };
 		BCB866A91C4D495C00CB8383 /* GameEvents.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEvents.cpp; sourceTree = "<group>"; };
 		BCB866AA1C4D495C00CB8383 /* GameEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEvents.h; sourceTree = "<group>"; };
+		BCB866AD1C4D818500CB8383 /* InputComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputComponent.cpp; sourceTree = "<group>"; };
+		BCB866AE1C4D818500CB8383 /* InputComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputComponent.h; sourceTree = "<group>"; };
 		BCDFFFF91C32ECED006E8A59 /* BlockRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlockRenderer.cpp; sourceTree = "<group>"; };
 		BCDFFFFA1C32ECED006E8A59 /* BlockRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockRenderer.h; sourceTree = "<group>"; };
 		BCDFFFFD1C32F062006E8A59 /* Any.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Any.h; sourceTree = "<group>"; };
@@ -715,6 +719,8 @@
 				BCB866A61C49D8EE00CB8383 /* DeathRotatorRenderer.h */,
 				BCB866A91C4D495C00CB8383 /* GameEvents.cpp */,
 				BCB866AA1C4D495C00CB8383 /* GameEvents.h */,
+				BCB866AD1C4D818500CB8383 /* InputComponent.cpp */,
+				BCB866AE1C4D818500CB8383 /* InputComponent.h */,
 			);
 			name = Refactor;
 			sourceTree = "<group>";
@@ -909,6 +915,7 @@
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				BC3CEA151C1B86B400738B33 /* LogicManager.cpp in Sources */,
 				BC6420001C3C88BB0018F96F /* GameLayerContainer.cpp in Sources */,
+				BCB866AF1C4D818500CB8383 /* InputComponent.cpp in Sources */,
 				BC3CEA1B1C1B86B400738B33 /* PathLib.cpp in Sources */,
 				BC64236A1C3F4FA20018F96F /* RectRenderer.cpp in Sources */,
 				BC3CE9FD1C1B86B400738B33 /* Button.cpp in Sources */,
@@ -965,6 +972,7 @@
 				BC3CEA341C1B86B400738B33 /* VisibleRect.cpp in Sources */,
 				BC3CEA281C1B86B400738B33 /* CameraShake.cpp in Sources */,
 				BC3CEA181C1B86B400738B33 /* MapSerial.cpp in Sources */,
+				BCB866B01C4D818500CB8383 /* InputComponent.cpp in Sources */,
 				BCB866A41C49D30900CB8383 /* DeathRenderer.cpp in Sources */,
 				BC3CE9FE1C1B86B400738B33 /* Button.cpp in Sources */,
 				BC3CEA0A1C1B86B400738B33 /* GameUtils.cpp in Sources */,

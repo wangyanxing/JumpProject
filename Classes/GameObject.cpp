@@ -22,6 +22,24 @@ GameObject::~GameObject() {
   release();
 }
 
+void GameObject::addComponandCommand(ComponentCommand command, GameComponent *component) {
+  mComponentCommands[command] = component;
+}
+
+void GameObject::removeComponandCommand(ComponentCommand command) {
+  CC_ASSERT(mComponentCommands.count(command));
+  mComponentCommands.erase(command);
+}
+
+void GameObject::runCommand(ComponentCommand command, const Parameter &param) {
+  auto it = mComponentCommands.find(command);
+  if (it == mComponentCommands.end()) {
+    CCLOGERROR("Cannot find the command!");
+    return;
+  }
+  it->second->runCommand(command, param);
+}
+
 GameRenderer *GameObject::setRenderer(RendererType renderType) {
   GameRenderer *renderer = nullptr;
   switch (renderType) {

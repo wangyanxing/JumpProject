@@ -38,7 +38,7 @@ void GameLevel::update(float dt) {
 
 GameObject *GameLevel::getHero() {
   auto hero = getObjectManager()->getObjectByID(0);
-  CC_ASSERT(hero);
+  CC_ASSERT(hero && hero->getKind() == KIND_HERO);
   return hero;
 }
 

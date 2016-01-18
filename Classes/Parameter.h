@@ -20,7 +20,8 @@ enum ParamType {
   PARAM_RENDERER,     // RendererType
   PARAM_PHYSICS_TYPE, // PhysicsType
   PARAM_SHAPE_TYPE,   // PhysicsShapeType
-  PARAM_BLOCK_KIND    // BlockKind
+  PARAM_BLOCK_KIND,   // BlockKind
+  PARAM_INPUT,        // InputType
 };
 
 /**
@@ -30,19 +31,19 @@ class Parameter {
 public:
   typedef std::map<ParamType, Any> MapT;
 
-  bool has(ParamType type) {
+  bool has(ParamType type) const {
     return mData.count(type);
   }
 
   template<typename T>
-  T get(ParamType type) {
+  T get(ParamType type) const {
     CC_ASSERT(has(type));
-    return any_cast<T>(mData[type]);
+    return any_cast<T>(mData.at(type));
   }
 
   template<typename T>
-  T get(ParamType type, const T &defaultValue) {
-    return has(type) ? any_cast<T>(mData[type]) : defaultValue;
+  T get(ParamType type, const T &defaultValue) const {
+    return has(type) ? any_cast<T>(mData.at(type)) : defaultValue;
   }
 
   template<typename T>

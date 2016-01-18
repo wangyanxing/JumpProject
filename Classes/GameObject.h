@@ -10,18 +10,27 @@
 #define GameObject_h
 
 #include "Prerequisites.h"
+#include "Parameter.h"
 
 class GameObject {
 public:
   friend class ObjectManager;
 
-  typedef std::map<ComponentType, GameComponent*> ComponentMap;
+  typedef std::unordered_map<ComponentType, GameComponent*, EnumClassHash> ComponentMap;
+  
+  typedef std::unordered_map<ComponentCommand, GameComponent*, EnumClassHash> ComponentCommandMap;
 
   GameObject();
 
   ~GameObject();
 
   void update(float dt);
+
+  void addComponandCommand(ComponentCommand command, GameComponent *component);
+
+  void removeComponandCommand(ComponentCommand command);
+
+  void runCommand(ComponentCommand command, const Parameter &param);
 
   GameRenderer *setRenderer(GameRenderer *renderer);
 
@@ -68,6 +77,8 @@ private:
   GameRenderer *mRenderer{nullptr};
 
   ComponentMap mComponents;
+
+  ComponentCommandMap mComponentCommands;
 
   BlockKind mKind{KIND_BLOCK};
 };

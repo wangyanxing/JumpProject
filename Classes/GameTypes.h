@@ -34,6 +34,16 @@ enum ComponentType {
   COMPONENT_ROTATOR
 };
 
+enum ComponentCommand {
+  COMMAND_INPUT
+};
+
+enum InputType {
+  INPUT_LEFT,
+  INPUT_RIGHT,
+  INPUT_JUMP
+};
+
 enum PhysicsType {
   PHYSICS_NONE,
   PHYSICS_COLLISION_ONLY,
@@ -84,6 +94,14 @@ public:
       return KIND_BLOCK;
     }
     return kinds[str];
+  }
+};
+
+// For unoredered_map.
+struct EnumClassHash {
+  template <typename T>
+  std::size_t operator()(T t) const {
+    return static_cast<std::size_t>(t);
   }
 };
 
