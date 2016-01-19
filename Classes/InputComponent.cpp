@@ -41,5 +41,6 @@ void InputComponent::pressRight() {
 }
 
 void InputComponent::pressJump() {
-
+  auto physics = mParent->getComponent<PhysicsComponent>();
+  physics->setAccelerationY(DEFAULT_JUMP_ACCEL);
 }

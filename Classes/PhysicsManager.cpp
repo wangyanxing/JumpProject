@@ -82,7 +82,7 @@ CollisionInfo PhysicsManager::generateCollisionInfo(PhysicsComponent *objA,
 }
 
 void PhysicsManager::detectCollision() {
-  // Dynamic with static
+  // Dynamic with static.
   for (auto dynamicA : mDynamicPhysicsObjects) {
     for (auto staticB : mStaticPhysicsObjects) {
       if (dynamicA->getShape()->intersectsTest(staticB->getShape())) {
@@ -91,7 +91,7 @@ void PhysicsManager::detectCollision() {
     }
   }
   
-  // Dynamic with dynamic
+  // Dynamic with dynamic.
   for (auto dynamicA : mDynamicPhysicsObjects) {
     for (auto dynamicB : mDynamicPhysicsObjects) {
       auto objA = dynamicA->getParent();

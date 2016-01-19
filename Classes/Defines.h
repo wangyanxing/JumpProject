@@ -104,6 +104,8 @@ enum FollowMode {
 #define DEFAULT_COLOR_ID -1
 #define DEFAULT_HERO_SIZE cocos2d::Size(30, 30)
 #define DEFAULT_MOVE_ACCEL 1000
+#define DEFAULT_JUMP_ACCEL 25000
+
 #define UPDATE_DT 1.0f / 60.0f
 
 #endif /* defined(__JumpEdt__Defines__) */

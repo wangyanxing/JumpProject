@@ -29,7 +29,6 @@ public:
   enum Status {
     STATIC,
     ON_PLATFORM,
-    JUMPING,
     FALLING
   };
 
@@ -64,8 +63,8 @@ public:
     return mVelocity;
   }
   
-  void setVelocity(const cocos2d::Vec2 &vel) {
-    mVelocity = vel;
+  void addVelocity(const cocos2d::Vec2 &vel) {
+    mVelocity += vel;
   }
   
   cocos2d::Vec2 getAcceleration() {

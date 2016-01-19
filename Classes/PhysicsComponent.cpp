@@ -33,12 +33,13 @@ void PhysicsComponent::update(float dt) {
   if (mStatus == ON_PLATFORM) {
     mVelocity.y = 0;
   } else if (mStatus == FALLING) {
+    mAcceleration.y = 0;
     if (mPhysicsType == PHYSICS_DYNAMIC && mEnableGravity) {
       mVelocity.y += dt * mGravity;
     }
   }
   
-  mVelocity.x += dt * mAcceleration.x;
+  mVelocity += mAcceleration * dt;
   mVelocity.x *= std::min(std::max(1.0f - dt * mDamping, 0.0f), 1.0f);
   
   // Adjust the velocity value.
@@ -59,6 +60,7 @@ void PhysicsComponent::update(float dt) {
 
 void PhysicsComponent::postUpdate(float dt) {
   mAcceleration.setZero();
+  mStatus = FALLING;
 }
 
 void PhysicsComponent::load(JsonValueT &json) {
@@ -110,10 +112,6 @@ void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
     return;
   }
 
-//  if (GameUtils::vec2Equal(Vec2::ZERO, info.normal)) {
-//    return;
-//  }
-
   if (GameUtils::vec2Equal(Vec2::UNIT_Y, info.normal)) {
     mStatus = ON_PLATFORM;
 
@@ -121,13 +119,18 @@ void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
                                info.component->getParent()->getRenderer()->getSize().height);
     float deltaHeight = fabs(mShape->getPosition().y - info.component->mShape->getPosition().y);
     mShape->mPosition.y += halfHeight - deltaHeight;
-  } else if (GameUtils::vec2Equal(-Vec2::UNIT_Y, info.normal)){
+  } else if (GameUtils::vec2Equal(-Vec2::UNIT_Y, info.normal)) {
     mVelocity.y = 0;
     mShape->mPosition = mShape->mLastPosition;
   } else if (GameUtils::vec2Equal(Vec2::UNIT_X, info.normal) ||
              GameUtils::vec2Equal(-Vec2::UNIT_X, info.normal)) {
     mVelocity.x = 0;
     mShape->mPosition = mShape->mLastPosition;
+
+    float halfWidth = 0.5f * (mParent->getRenderer()->getSize().width +
+                               info.component->getParent()->getRenderer()->getSize().width);
+    float deltaWidth = fabs(mShape->getPosition().x - info.component->mShape->getPosition().x);
+    mShape->mPosition.x += halfWidth - deltaWidth;
   }
 }
 
