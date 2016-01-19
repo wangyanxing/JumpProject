@@ -38,7 +38,7 @@ GameLayerContainer::~GameLayerContainer() {
 }
 
 bool GameLayerContainer::init() {
-  Layer::init();
+  LayerColor::initWithColor(Color4B::WHITE);
 
   mBlockRoot = Node::create();
   mBlockRoot->setCameraMask((unsigned short) CameraFlag::USER2);
@@ -59,7 +59,7 @@ bool GameLayerContainer::init() {
 }
 
 void GameLayerContainer::onEnter() {
-  Layer::onEnter();
+  LayerColor::onEnter();
   getScheduler()->scheduleUpdate(this, -2, false);
   getScheduler()->scheduleUpdate(&mPostUpdater, 100, false);
 

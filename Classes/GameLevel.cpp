@@ -14,6 +14,7 @@
 #include "JsonParser.h"
 #include "JsonFormat.h"
 #include "ColorPalette.h"
+#include "GameLayerContainer.h"
 
 USING_NS_CC;
 
@@ -72,6 +73,8 @@ void GameLevel::load(const std::string &levelFile) {
   std::string paletteFile = doc[LEVEL_PALETTE_FILE].GetString();
   CC_SAFE_DELETE(mPalette);
   mPalette = new ColorPalette(paletteFile);
+
+  mGameLayer->setColor(mPalette->getBackgroundColor());
 
   auto spawnPos = doc[LEVEL_SPAWN_POS].GetVec2();
   createHero(spawnPos);

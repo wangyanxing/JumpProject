@@ -38,7 +38,7 @@ public:
     mDefaultColors[kind] = color;
   }
 
-  cocos2d::Color3B getBackgroundColor(BlockKind kind) {
+  cocos2d::Color3B getBackgroundColor() {
     return mBackgroundColor;
   }
 
