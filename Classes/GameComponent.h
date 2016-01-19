@@ -11,6 +11,7 @@
 
 #include "Prerequisites.h"
 #include "Parameter.h"
+#include "JsonParser.h"
 
 #define DECLARE_COMP_TYPE(t) \
   static ComponentType getType() {return t;}
@@ -31,6 +32,8 @@ public:
   GameObject *getParent() {
     return mParent;
   }
+
+  virtual void load(JsonValueT &json) {}
 
   virtual void runCommand(ComponentCommand type, const Parameter &param) {}
 

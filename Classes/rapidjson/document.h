@@ -1583,6 +1583,21 @@ public:
       return EnumSerial<T>::parse(GetString());
     }
 
+    std::vector<std::string> getStringVec() const {
+      std::vector<std::string> ret;
+      if (IsArray()) {
+        for (auto i = 0; i < Size(); ++i) {
+          const auto &child = (*this)[i];
+          RAPIDJSON_ASSERT(child.IsString());
+          ret.push_back(child.GetString());
+        }
+      } else {
+        RAPIDJSON_ASSERT(IsString());
+        ret.push_back(GetString());
+      }
+      return ret;
+    }
+
     //@}
 
     //! Generate events of this value to a Handler.

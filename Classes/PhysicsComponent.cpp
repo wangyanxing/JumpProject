@@ -9,6 +9,7 @@
 #include "Defines.h"
 #include "PhysicsComponent.h"
 #include "PhysicsShape.h"
+#include "JsonFormat.h"
 #include "GameLevel.h"
 #include "GameObject.h"
 #include "GameRenderer.h"
@@ -58,6 +59,12 @@ void PhysicsComponent::update(float dt) {
 
 void PhysicsComponent::postUpdate(float dt) {
   mAcceleration.setZero();
+}
+
+void PhysicsComponent::load(JsonValueT &json) {
+  if (json.HasMember(PHYSICS_EVENTS)) {
+    mCollisionEvents = json[PHYSICS_EVENTS].getStringVec();
+  }
 }
 
 BasePhysicsShape *PhysicsComponent::setShape(PhysicsShapeType type) {

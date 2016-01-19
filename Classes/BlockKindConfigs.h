@@ -20,6 +20,7 @@ struct RendererConfig {
   RendererType type;
   std::string defaultTexture;
   int zorder;
+  bool shadowEnabled;
 };
 
 class BlockKindConfigs {

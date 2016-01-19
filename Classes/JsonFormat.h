@@ -32,4 +32,9 @@
 #define LEVEL_BLOCK_KIND "kind"
 #define LEVEL_BLOCK_PALETTE_ID "paletteIndex"
 
+#define RENDERER_SHADOW "shadowEnable"
+#define RENDERER_ROT_SPEED "rotatespeed"
+
+#define PHYSICS_EVENTS "triggerEvents"
+
 #endif /* JsonFormat_h */

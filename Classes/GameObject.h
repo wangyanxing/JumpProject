@@ -70,6 +70,8 @@ public:
 
   bool hasComponent(ComponentType type);
 
+  void traverseComponents(std::function<void(GameComponent*)> func);
+
 private:
   void release();
 

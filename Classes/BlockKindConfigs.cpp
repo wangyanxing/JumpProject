@@ -22,12 +22,12 @@ PhysicsConfig BlockKindConfigs::getPhysicsConfig(BlockKind kind) {
 
 RendererConfig BlockKindConfigs::getRendererConfig(BlockKind kind) {
   static RendererConfig configs[KIND_MAX] = {
-    {RENDERER_RECT, "", 25},
-    {RENDERER_RECT, "", 20},
-    {RENDERER_DEATH, DEATH_IMAGE, 15},
-    {RENDERER_DEATH_CIRCLE, "", 15},
-    {RENDERER_RECT, "", 15},
-    {RENDERER_RECT, "", 20}
+    {RENDERER_RECT, "", 25, true},
+    {RENDERER_RECT, "", 20, true},
+    {RENDERER_DEATH, DEATH_IMAGE, 15, false},
+    {RENDERER_DEATH_CIRCLE, "", 15, false},
+    {RENDERER_RECT, "", 15, false},
+    {RENDERER_RECT, "", 20, true}
   };
   return configs[kind];
 }

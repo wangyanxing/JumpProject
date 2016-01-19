@@ -12,8 +12,15 @@
 #include "ColorPalette.h"
 #include "PhysicsComponent.h"
 #include "PhysicsShape.h"
+#include "JsonFormat.h"
 
 USING_NS_CC;
+
+void GameRenderer::load(JsonValueT &json) {
+  if (json.HasMember(RENDERER_SHADOW)) {
+    mShadowEnabled = json[RENDERER_SHADOW].GetBool();
+  }
+}
 
 void GameRenderer::setPosition(const cocos2d::Vec2& pos) {
   getNode()->setPosition(pos);

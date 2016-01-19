@@ -9,6 +9,7 @@
 #include "DeathRotatorRenderer.h"
 #include "SpriteUV.h"
 #include "GameUtils.h"
+#include "JsonFormat.h"
 
 USING_NS_CC;
 
@@ -27,6 +28,14 @@ GameRenderer *DeathRotatorRenderer::init(Parameter& param) {
   mChild = GameUtils::createRect(size, pos);
   
   return SimpleRenderer::init(param);
+}
+
+void DeathRotatorRenderer::load(JsonValueT &json) {
+  SimpleRenderer::load(json);
+
+  if (json.HasMember(RENDERER_ROT_SPEED)) {
+    mRotationSpeed = json[RENDERER_ROT_SPEED].GetInt();
+  }
 }
 
 void DeathRotatorRenderer::addToParent(cocos2d::Node* parent, int zorder) {

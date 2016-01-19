@@ -38,6 +38,8 @@ public:
   
   virtual void postUpdate(float dt) override;
 
+  virtual void load(JsonValueT &json) override;
+
   BasePhysicsShape *setShape(PhysicsShapeType type);
 
   BasePhysicsShape *getShape() {

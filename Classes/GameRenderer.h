@@ -11,6 +11,7 @@
 
 #include "Prerequisites.h"
 #include "Parameter.h"
+#include "JsonParser.h"
 
 class GameRenderer {
 public:
@@ -27,6 +28,8 @@ public:
   virtual cocos2d::Node *getNode() const = 0;
 
   virtual void update(float dt) {}
+
+  virtual void load(JsonValueT &json);
 
   virtual void addToParent(cocos2d::Node *parent, int zorder);
 
@@ -74,10 +77,20 @@ public:
   
   virtual GLubyte getOpacity() const;
 
+  bool isShadowEnabled() const {
+    return mShadowEnabled;
+  }
+
+  void setShadowEnabled(bool val) {
+    mShadowEnabled = val;
+  }
+
 protected:
   GameObject *mParent{nullptr};
 
   int mColorIndex{DEFAULT_COLOR_ID};
+
+  bool mShadowEnabled{true};
 };
 
 #endif /* GameRenderer_h */

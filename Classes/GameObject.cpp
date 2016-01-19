@@ -127,3 +127,9 @@ void GameObject::release() {
   }
   mComponents.clear();
 }
+
+void GameObject::traverseComponents(std::function<void(GameComponent*)> func) {
+  for (auto comp : mComponents) {
+    func(comp.second);
+  }
+}

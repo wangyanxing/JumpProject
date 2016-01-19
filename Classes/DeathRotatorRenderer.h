@@ -25,6 +25,8 @@ public:
 
   GameRenderer *init(Parameter& param) override;
 
+  void load(JsonValueT &json) override;
+
   void update(float dt) override;
 
   void addToParent(cocos2d::Node* parent, int zorder) override;

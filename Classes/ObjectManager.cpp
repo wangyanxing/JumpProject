@@ -46,7 +46,12 @@ GameObject *ObjectManager::createObject(JsonValueT &json) {
   int id = json[LEVEL_BLOCK_ID].GetInt();
   mIDCounter = std::max(id + 1, mIDCounter);
 
-  return createObjectImpl(param, id);
+  auto obj = createObjectImpl(param, id);
+  obj->getRenderer()->load(json);
+  obj->traverseComponents([&](GameComponent *comp) {
+    comp->load(json);
+  });
+  return obj;
 }
 
 GameObject *ObjectManager::createObject(Parameter &param) {
