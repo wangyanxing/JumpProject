@@ -115,22 +115,22 @@ void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
   if (GameUtils::vec2Equal(Vec2::UNIT_Y, info.normal)) {
     mStatus = ON_PLATFORM;
 
-    float halfHeight = 0.5f * (mParent->getRenderer()->getSize().height +
-                               info.component->getParent()->getRenderer()->getSize().height);
-    float deltaHeight = fabs(mShape->getPosition().y - info.component->mShape->getPosition().y);
-    mShape->mPosition.y += halfHeight - deltaHeight;
+    float halfHeight = 0.5f * (mShape->getBounds().size.height +
+                               info.component->getShape()->getBounds().size.height);
+    float deltaHeight = fabs(getShape()->getPosition().y -
+                             info.component->getShape()->getPosition().y);
+    mShape->mPosition.y += (halfHeight - deltaHeight) * info.normal.y;
   } else if (GameUtils::vec2Equal(-Vec2::UNIT_Y, info.normal)) {
     mVelocity.y = 0;
     mShape->mPosition = mShape->mLastPosition;
   } else if (GameUtils::vec2Equal(Vec2::UNIT_X, info.normal) ||
              GameUtils::vec2Equal(-Vec2::UNIT_X, info.normal)) {
     mVelocity.x = 0;
-    mShape->mPosition = mShape->mLastPosition;
-
-    float halfWidth = 0.5f * (mParent->getRenderer()->getSize().width +
-                               info.component->getParent()->getRenderer()->getSize().width);
-    float deltaWidth = fabs(mShape->getPosition().x - info.component->mShape->getPosition().x);
-    mShape->mPosition.x += halfWidth - deltaWidth;
+    float halfWidth = 0.5f * (mShape->getBounds().size.width +
+                               info.component->getShape()->getBounds().size.width);
+    float deltaWidth = fabs(getShape()->getPosition().x -
+                            info.component->getShape()->getPosition().x);
+    mShape->mPosition.x += (halfWidth - deltaWidth) * info.normal.x;
   }
 }
 
