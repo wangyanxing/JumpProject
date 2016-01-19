@@ -53,34 +53,27 @@ CollisionInfo PhysicsManager::generateCollisionInfo(PhysicsComponent *objA,
                                                     PhysicsComponent *objB) {
   CollisionInfo info;
   info.component = objB;
-  
-  auto shapeA = objA->getShape();
-  auto shapeB = objB->getShape();
-  auto posA = shapeA->getPosition();
-  auto posB = shapeB->getPosition();
-  auto lastPosA = shapeA->getLastPosition();
-  auto lastPosB = shapeB->getLastPosition();
-  
+
+  auto shapeA = objA->getShape(), shapeB = objB->getShape();
+  auto posA = shapeA->getPosition(), posB = shapeB->getPosition();
+  auto boundsA = shapeA->getBounds(), boundsB = shapeB->getBounds();
+
   CC_ASSERT(shapeA->getType() == PHYSICS_SHAPE_RECT);
   if (shapeB->getType() == PHYSICS_SHAPE_CIRCLE) {
     info.normal = posB - posA;
     info.normal.normalize();
     return info;
   }
-  
-  // Just assume the size didn't change, works for now.
-  auto sizeA = static_cast<RectPhysicsShape*>(shapeA)->getSize();
-  auto sizeB = static_cast<RectPhysicsShape*>(shapeB)->getSize();
 
-  bool interX = fabs(posA.x - posB.x) < 0.5f * (sizeA.width + sizeB.width);
-  bool interY = fabs(posA.y - posB.y) < 0.5f * (sizeA.height + sizeB.height);
-  bool interXold = fabs(lastPosA.x - lastPosB.x) < 0.5f * (sizeA.width + sizeB.width);
-  bool interYold = fabs(lastPosA.y - lastPosB.y) < 0.5f * (sizeA.height + sizeB.height);
-  
-  if (interXold && interX && interYold && interY) {
-    info.normal = lastPosA - posA;
-    info.normal.normalize();
-  } else if (interXold && interX && !interYold && interY) {
+  float x = std::max(boundsA.origin.x, boundsB.origin.x);
+  float num1 = std::min(boundsA.origin.x + boundsA.size.width,
+                        boundsB.origin.x + boundsB.size.width);
+  float y = std::max(boundsA.origin.y, boundsB.origin.y);
+  float num2 = std::min(boundsA.origin.y + boundsA.size.height,
+                        boundsB.origin.y + boundsB.size.height);
+  float intersetsWidth = num1 - x, intersetsHeight = num2 - y;
+
+  if (intersetsWidth > intersetsHeight) {
     info.normal.set(0, posA.y > posB.y ? 1 : -1);
   } else {
     info.normal.set(posA.x > posB.x ? 1 : -1, 0);

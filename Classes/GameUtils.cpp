@@ -9,8 +9,8 @@ using namespace cocos2d;
 using namespace cocos2d::extension;
 
 bool GameUtils::vec2Equal(const cocos2d::Vec2 &v1, const cocos2d::Vec2 &v2) {
-  return fabs(v1.x - v1.x) < std::numeric_limits<float>::epsilon() &&
-    fabs(v1.y - v1.y) < std::numeric_limits<float>::epsilon();
+  return fabs(v1.x - v2.x) < std::numeric_limits<float>::epsilon() &&
+    fabs(v1.y - v2.y) < std::numeric_limits<float>::epsilon();
 }
 
 void GameUtils::logVec2(const cocos2d::Vec2 &vec2) {

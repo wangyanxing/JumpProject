@@ -21,6 +21,8 @@ public:
 
   virtual PhysicsShapeType getType() = 0;
 
+  virtual cocos2d::Rect getBounds() = 0;
+
   virtual void updateShape(PhysicsComponent *component) = 0;
 
   virtual void debugDraw(cocos2d::DrawNode *node) = 0;
@@ -78,7 +80,7 @@ public:
     return mSize;
   }
   
-  cocos2d::Rect getRect() const;
+  cocos2d::Rect getBounds() override;
 
   void onSizeSet(const cocos2d::Size &size) override;
 
@@ -122,6 +124,8 @@ public:
   float getRealRadius() {
     return mRadius * mScale;
   }
+
+  cocos2d::Rect getBounds() override;
 
   void onSizeSet(const cocos2d::Size &size) override;
 

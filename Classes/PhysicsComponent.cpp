@@ -110,6 +110,10 @@ void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
     return;
   }
 
+//  if (GameUtils::vec2Equal(Vec2::ZERO, info.normal)) {
+//    return;
+//  }
+
   if (GameUtils::vec2Equal(Vec2::UNIT_Y, info.normal)) {
     mStatus = ON_PLATFORM;
 
@@ -119,6 +123,10 @@ void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
     mShape->mPosition.y += halfHeight - deltaHeight;
   } else if (GameUtils::vec2Equal(-Vec2::UNIT_Y, info.normal)){
     mVelocity.y = 0;
+    mShape->mPosition = mShape->mLastPosition;
+  } else if (GameUtils::vec2Equal(Vec2::UNIT_X, info.normal) ||
+             GameUtils::vec2Equal(-Vec2::UNIT_X, info.normal)) {
+    mVelocity.x = 0;
     mShape->mPosition = mShape->mLastPosition;
   }
 }

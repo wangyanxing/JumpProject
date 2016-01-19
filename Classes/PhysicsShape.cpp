@@ -32,7 +32,7 @@ void RectPhysicsShape::onSizeSet(const cocos2d::Size &size) {
   mSize = size;
 }
 
-Rect RectPhysicsShape::getRect() const {
+Rect RectPhysicsShape::getBounds() {
   auto size = Size(mSize.width * mScale.x, mSize.height * mScale.y);
   return Rect(mPosition.x - size.width * 0.5f,
               mPosition.y - size.height * 0.5f,
@@ -41,7 +41,7 @@ Rect RectPhysicsShape::getRect() const {
 }
 
 void RectPhysicsShape::debugDraw(cocos2d::DrawNode *node) {
-  auto rect = getRect();
+  auto rect = getBounds();
   Vec2 seg[4] = {
     {mPosition.x - rect.size.width * 0.5f, mPosition.y + rect.size.height * 0.5f},
     {mPosition.x + rect.size.width * 0.5f, mPosition.y + rect.size.height * 0.5f},
@@ -52,15 +52,15 @@ void RectPhysicsShape::debugDraw(cocos2d::DrawNode *node) {
 }
 
 bool RectPhysicsShape::intersectsTest(BasePhysicsShape *other) {
-  return other->intersectsTest(getRect());
+  return other->intersectsTest(getBounds());
 }
 
 bool RectPhysicsShape::intersectsTest(const cocos2d::Rect &rect) {
-  return getRect().intersectsRect(rect);
+  return getBounds().intersectsRect(rect);
 }
 
 bool RectPhysicsShape::intersectsTest(const cocos2d::Vec2 &pos, float radius) {
-  return getRect().intersectsCircle(pos, radius);
+  return getBounds().intersectsCircle(pos, radius);
 }
 
 void CirclePhysicsShape::updateShape(PhysicsComponent *component) {
@@ -91,4 +91,12 @@ bool CirclePhysicsShape::intersectsTest(const cocos2d::Rect &rect) {
 
 bool CirclePhysicsShape::intersectsTest(const cocos2d::Vec2 &pos, float radius) {
   return pos.distance(getPosition()) <= getRealRadius() + radius;
+}
+
+Rect CirclePhysicsShape::getBounds() {
+  float radius = getRealRadius();
+  return Rect(mPosition.x - radius,
+              mPosition.y - radius,
+              radius * 2,
+              radius * 2);
 }
