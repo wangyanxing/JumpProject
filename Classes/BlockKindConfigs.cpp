@@ -31,3 +31,15 @@ RendererConfig BlockKindConfigs::getRendererConfig(BlockKind kind) {
   };
   return configs[kind];
 }
+
+std::vector<ComponentType> BlockKindConfigs::getComponents(BlockKind kind) {
+  static std::vector<ComponentType> components[KIND_MAX] = {
+    {COMPONENT_INPUT},
+    {},
+    {},
+    {},
+    {},
+    {},
+  };
+  return components[kind];
+}

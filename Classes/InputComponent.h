@@ -19,6 +19,10 @@ public:
   InputComponent(GameObject *parent);
 
   ~InputComponent();
+  
+  DECLARE_COMP_TYPE(COMPONENT_INPUT);
+  
+  void update(float dt) override {}
 
   void runCommand(ComponentCommand type, const Parameter &param) override;
 

@@ -36,6 +36,9 @@ public:
   GameObject *createObject(JsonValueT &json);
 
   GameObject *getObjectByID(int id);
+  
+private:
+  GameObject *createObjectImpl(Parameter &params, int id);
 
 private:
   int mIDCounter{0};

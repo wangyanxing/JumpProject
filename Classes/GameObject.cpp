@@ -9,6 +9,7 @@
 #include "GameObject.h"
 #include "GameRenderer.h"
 #include "PhysicsComponent.h"
+#include "InputComponent.h"
 #include "SimpleRenderer.h"
 #include "DeathRenderer.h"
 #include "DeathRotatorRenderer.h"
@@ -86,6 +87,9 @@ GameComponent* GameObject::addComponent(ComponentType type) {
   switch (type) {
     case COMPONENT_PHYSICS:
       component = new PhysicsComponent(this);
+      break;
+    case COMPONENT_INPUT:
+      component = new InputComponent(this);
       break;
     case COMPONENT_PATH:
     case COMPONENT_BUTTON:

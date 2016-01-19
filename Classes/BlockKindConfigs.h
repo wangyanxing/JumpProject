@@ -27,6 +27,11 @@ public:
   static PhysicsConfig getPhysicsConfig(BlockKind kind);
 
   static RendererConfig getRendererConfig(BlockKind kind);
+  
+  /**
+   * Get components for a kind (besides physics component).
+   */
+  static std::vector<ComponentType> getComponents(BlockKind kind);
 };
 
 #endif /* BlockKindConfigs_h */
