@@ -72,8 +72,8 @@ GameObject *ObjectManager::createObjectImpl(Parameter &param, int id) {
   
   if (physicsConfig.type != PHYSICS_NONE) {
     obj->addComponent<PhysicsComponent>()
-    ->setPhysicsType(physicsConfig.type)
-    ->setShape(physicsConfig.shapeType);
+       ->setPhysicsType(physicsConfig.type)
+       ->setShape(physicsConfig.shapeType);
   }
   
   for (auto comp : components) {

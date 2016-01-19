@@ -75,6 +75,12 @@ void GameObject::update(float dt) {
   }
 }
 
+void GameObject::postUpdate(float dt) {
+  for (auto component : mComponents) {
+    component.second->postUpdate(dt);
+  }
+}
+
 GameComponent* GameObject::getComponent(ComponentType type) {
   auto it = mComponents.find(type);
   return it == mComponents.end() ? nullptr : it->second;

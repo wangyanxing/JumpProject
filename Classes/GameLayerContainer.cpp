@@ -87,6 +87,8 @@ void GameLayerContainer::update(float dt) {
 void GameLayerContainer::postUpdate(float dt) {
 #if !USE_REFACTOR
   mGame->postUpdate(UPDATE_DT);
+#else
+  GameLevel::instance().postUpdate(UPDATE_DT);
 #endif
 }
 

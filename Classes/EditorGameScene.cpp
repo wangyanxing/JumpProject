@@ -58,7 +58,7 @@ void EditorGameScene::processInput() {
   if (gameInputs.isPressing(EventKeyboard::KeyCode::KEY_A)) {
     param.set(PARAM_INPUT, INPUT_LEFT);
     hero->runCommand(COMMAND_INPUT, param);
-  } else if (gameInputs.isPressing(EventKeyboard::KeyCode::KEY_S)) {
+  } else if (gameInputs.isPressing(EventKeyboard::KeyCode::KEY_D)) {
     param.set(PARAM_INPUT, INPUT_RIGHT);
     hero->runCommand(COMMAND_INPUT, param);
   } else if (gameInputs.isPressing(EventKeyboard::KeyCode::KEY_SPACE)) {

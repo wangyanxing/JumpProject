@@ -35,6 +35,8 @@ public:
 
 public:
   virtual void update(float dt) override;
+  
+  virtual void postUpdate(float dt) override;
 
   BasePhysicsShape *setShape(PhysicsShapeType type);
 
@@ -55,6 +57,26 @@ public:
   Status getStatus() const {
     return mStatus;
   }
+  
+  cocos2d::Vec2 getVelocity() const {
+    return mVelocity;
+  }
+  
+  void setVelocity(const cocos2d::Vec2 &vel) {
+    mVelocity = vel;
+  }
+  
+  cocos2d::Vec2 getAcceleration() {
+    return mAcceleration;
+  }
+  
+  void setAccelerationX(float val) {
+    mAcceleration.x = val;
+  }
+  
+  void setAccelerationY(float val) {
+    mAcceleration.y = val;
+  }
 
 protected:
   PhysicsType mPhysicsType{PHYSICS_NONE};
@@ -62,6 +84,8 @@ protected:
   BasePhysicsShape *mShape{nullptr};
   
   cocos2d::Vec2 mVelocity;
+  
+  cocos2d::Vec2 mAcceleration;
   
   float mDamping{DEFAULT_LINEAR_DAMPING};
   

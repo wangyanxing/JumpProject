@@ -36,6 +36,12 @@ void GameLevel::update(float dt) {
   }
 }
 
+void GameLevel::postUpdate(float dt) {
+  for (auto &obj : mObjectManager->mObjects) {
+    obj.second->postUpdate(dt);
+  }
+}
+
 GameObject *GameLevel::getHero() {
   auto hero = getObjectManager()->getObjectByID(0);
   CC_ASSERT(hero && hero->getKind() == KIND_HERO);

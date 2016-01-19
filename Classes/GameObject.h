@@ -25,6 +25,8 @@ public:
   ~GameObject();
 
   void update(float dt);
+  
+  void postUpdate(float dt);
 
   void addComponandCommand(ComponentCommand command, GameComponent *component);
 

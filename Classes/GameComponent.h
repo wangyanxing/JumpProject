@@ -25,6 +25,8 @@ public:
   virtual ~GameComponent() {}
 
   virtual void update(float dt) = 0;
+  
+  virtual void postUpdate(float dt) {}
 
   GameObject *getParent() {
     return mParent;
