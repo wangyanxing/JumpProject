@@ -25,6 +25,8 @@ public:
 
   GameRenderer *init(Parameter& param) override;
 
+  void setSize(const cocos2d::Size &size) override;
+
   void load(JsonValueT &json) override;
 
   void update(float dt) override;

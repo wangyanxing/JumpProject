@@ -37,4 +37,14 @@
 
 #define PHYSICS_EVENTS "triggerEvents"
 
+#define PATH_SPEED "pathSpeed"
+#define PATH_PINGPONG "pingpong"
+#define PATH_PAUSE "pause"
+#define PATH_WAIT_TIME "pathWaitTime"
+#define PATH_ARRAY "pathes"
+#define PATH_PT_POSITION "position"
+#define PATH_PT_WAIT_TIME "waittime"
+#define PATH_PT_WIDTH "width"
+#define PATH_PT_HEIGHT "height"
+
 #endif /* JsonFormat_h */

@@ -40,6 +40,12 @@ void DeathRotatorRenderer::addToParent(cocos2d::Node* parent, int zorder) {
   parent->addChild(mChild, zorder);
 }
 
+void DeathRotatorRenderer::setSize(const cocos2d::Size &size) {
+  auto contentSize = getContentSize();
+  float length = std::max(size.width, size.height);
+  getNode()->setScale(length / contentSize.width, length / contentSize.height);
+}
+
 void DeathRotatorRenderer::setPosition(const cocos2d::Vec2& pos) {
   GameRenderer::setPosition(pos);
   mChild->setPosition(pos);

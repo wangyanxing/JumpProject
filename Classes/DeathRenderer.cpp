@@ -26,6 +26,11 @@ GameRenderer *DeathRenderer::init(Parameter &param) {
   return this;
 }
 
+void DeathRenderer::setSize(const cocos2d::Size &size) {
+  GameRenderer::setSize(size);
+  normalizeUV();
+}
+
 void DeathRenderer::setFlipUV(bool val) {
   mUVFlipped = val;
 }

@@ -75,6 +75,12 @@ public:
 
   bool hasComponent(ComponentType type);
 
+  bool isEnabled() const {
+    return mEnabled;
+  }
+
+  void setEnabled(bool val);
+
 private:
   void release();
 
@@ -88,6 +94,8 @@ private:
   ComponentCommandMap mComponentCommands;
 
   BlockKind mKind{KIND_BLOCK};
+
+  bool mEnabled{false};
 };
 
 #endif /* GameObject_h */

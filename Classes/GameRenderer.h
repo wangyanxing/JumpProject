@@ -37,6 +37,11 @@ public:
 
   virtual void setZOrder(int val);
 
+  virtual void setSize(const cocos2d::Size &size);
+
+  /**
+   * This will change the physics part.
+   */
   virtual void setPosition(const cocos2d::Vec2 &pos);
 
   virtual cocos2d::Vec2 getPosition() const;

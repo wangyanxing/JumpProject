@@ -44,7 +44,7 @@ public:
 
   int nextPoint();
 
-  void update(float dt, cocos2d::Vec2 &out, cocos2d::Vec2 &outsize);
+  void update(float dt, cocos2d::Vec2 &out, cocos2d::Vec2 &outScale);
 
   void reset() override;
 
@@ -82,8 +82,6 @@ private:
   float mWaitingTimer{0};
 
   float mPathWaitingTimer{0};
-
-  bool mDisable{true};
 
   bool mPause{false};
 

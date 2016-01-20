@@ -10,9 +10,11 @@
 #include "GameRenderer.h"
 #include "PhysicsComponent.h"
 #include "InputComponent.h"
+#include "PathComponent.h"
 #include "SimpleRenderer.h"
 #include "DeathRenderer.h"
 #include "DeathRotatorRenderer.h"
+#include "JsonFormat.h"
 
 USING_NS_CC;
 
@@ -66,16 +68,21 @@ GameRenderer *GameObject::setRenderer(GameRenderer *renderer) {
 }
 
 void GameObject::update(float dt) {
-  if (mRenderer) {
-    mRenderer->update(dt);
+  if (!mEnabled) {
+    return;
   }
 
+  mRenderer->update(dt);
   for (auto component : mComponents) {
     component.second->update(dt);
   }
 }
 
 void GameObject::beforeRender(float dt) {
+  if (!mEnabled) {
+    return;
+  }
+
   for (auto component : mComponents) {
     component.second->beforeRender(dt);
   }
@@ -83,6 +90,11 @@ void GameObject::beforeRender(float dt) {
 
 void GameObject::load(JsonValueT &json) {
   mRenderer->load(json);
+
+  if (json.HasMember(PATH_ARRAY)) {
+    addComponent(COMPONENT_PATH);
+  }
+
   for (auto comp : mComponents) {
     comp.second->load(json);
   }
@@ -112,6 +124,8 @@ GameComponent* GameObject::addComponent(ComponentType type) {
       component = new InputComponent(this);
       break;
     case COMPONENT_PATH:
+      component = new PathComponent(this);
+      break;
     case COMPONENT_BUTTON:
     case COMPONENT_ROTATOR:
     default:
@@ -140,4 +154,17 @@ void GameObject::release() {
     CC_SAFE_DELETE(component.second);
   }
   mComponents.clear();
+}
+
+void GameObject::setEnabled(bool val) {
+  if (mEnabled == val) {
+    return;
+  }
+  mEnabled = val;
+  if (mEnabled) {
+    mRenderer->reset();
+    for (auto component : mComponents) {
+      component.second->reset();
+    }
+  }
 }

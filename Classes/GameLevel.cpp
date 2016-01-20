@@ -88,8 +88,16 @@ void GameLevel::load(const std::string &levelFile) {
   parser.parseArray(doc, LEVEL_BLOCK_ARRAY, [&](JsonSizeT i, JsonValueT& val) {
     mObjectManager->createObject(val);
   });
+
+  enableGame(true);
 }
 
 void GameLevel::unload() {
   mObjectManager->cleanUp();
+}
+
+void GameLevel::enableGame(bool enable) {
+  for (auto &obj : mObjectManager->mObjects) {
+    obj.second->setEnabled(enable);
+  }
 }

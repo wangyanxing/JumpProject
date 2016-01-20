@@ -28,6 +28,8 @@ public:
 
   void unload();
 
+  void enableGame(bool enable);
+
   ObjectManager *getObjectManager() {
     return mObjectManager;
   }

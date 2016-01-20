@@ -19,6 +19,7 @@ USING_NS_CC;
 void GameRenderer::reset() {
   setPosition(mOriginalPosition);
   setRotation(mOriginalRotation);
+  setSize(mOriginalSize);
 }
 
 void GameRenderer::load(JsonValueT &json) {
@@ -76,6 +77,11 @@ cocos2d::Size GameRenderer::getContentSize() const {
 
 cocos2d::Size GameRenderer::getSize() const {
   return getBoundingBox().size;
+}
+
+void GameRenderer::setSize(const cocos2d::Size &size) {
+  auto contentSize = getContentSize();
+  getNode()->setScale(size.width / contentSize.width, size.height / contentSize.height);
 }
 
 void GameRenderer::setColor(const cocos2d::Color3B& color) {

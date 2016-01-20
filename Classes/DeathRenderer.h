@@ -24,6 +24,8 @@ public:
 
   virtual GameRenderer *init(Parameter &param) override;
 
+  virtual void setSize(const cocos2d::Size &size) override;
+
   void normalizeUV();
 
   void setFlipUV(bool val);
