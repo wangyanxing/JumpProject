@@ -95,12 +95,6 @@ PhysicsComponent *PhysicsComponent::setPhysicsType(PhysicsType type) {
 }
 
 void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
-//  CCLOG("Collision detected: %d -> %d, normal: %g, %g",
-//        mParent->getID(),
-//        info.component->getParent()->getID(),
-//        info.normal.x,
-//        info.normal.y);
-
   CC_ASSERT(mPhysicsType == PHYSICS_DYNAMIC);
 
   auto other = info.component;
@@ -110,24 +104,24 @@ void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
     return;
   }
 
+  float halfHeight = 0.5f * (mShape->getBounds().size.height +
+                             info.component->getShape()->getBounds().size.height);
+  float deltaHeight = fabs(getShape()->getPosition().y -
+                           info.component->getShape()->getPosition().y);
+  float halfWidth = 0.5f * (mShape->getBounds().size.width +
+                            info.component->getShape()->getBounds().size.width);
+  float deltaWidth = fabs(getShape()->getPosition().x -
+                          info.component->getShape()->getPosition().x);
+
   if (GameUtils::vec2Equal(Vec2::UNIT_Y, info.normal)) {
     mStatus = ON_PLATFORM;
-
-    float halfHeight = 0.5f * (mShape->getBounds().size.height +
-                               info.component->getShape()->getBounds().size.height);
-    float deltaHeight = fabs(getShape()->getPosition().y -
-                             info.component->getShape()->getPosition().y);
     mShape->mPosition.y += halfHeight - deltaHeight;
   } else if (GameUtils::vec2Equal(-Vec2::UNIT_Y, info.normal)) {
     mVelocity.y = 0;
-    mShape->mPosition = mShape->mLastPosition;
+    mShape->mPosition.y -= halfHeight - deltaHeight;
   } else if (GameUtils::vec2Equal(Vec2::UNIT_X, info.normal) ||
              GameUtils::vec2Equal(-Vec2::UNIT_X, info.normal)) {
     mVelocity.x = 0;
-    float halfWidth = 0.5f * (mShape->getBounds().size.width +
-                               info.component->getShape()->getBounds().size.width);
-    float deltaWidth = fabs(getShape()->getPosition().x -
-                            info.component->getShape()->getPosition().x);
     mShape->mPosition.x += (halfWidth - deltaWidth) * info.normal.x;
   }
 }
