@@ -75,9 +75,9 @@ void GameObject::update(float dt) {
   }
 }
 
-void GameObject::postUpdate(float dt) {
+void GameObject::beforeRender(float dt) {
   for (auto component : mComponents) {
-    component.second->postUpdate(dt);
+    component.second->beforeRender(dt);
   }
 }
 

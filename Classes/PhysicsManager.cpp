@@ -46,6 +46,9 @@ void PhysicsManager::updatePhysicsDebugDraw() {
 
 void PhysicsManager::update(float dt) {
   detectCollision();
+}
+
+void PhysicsManager::beforeRender(float dt) {
   updatePhysicsDebugDraw();
 }
 

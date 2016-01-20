@@ -27,7 +27,7 @@ public:
 
   virtual void update(float dt) = 0;
   
-  virtual void postUpdate(float dt) {}
+  virtual void beforeRender(float dt) {}
 
   GameObject *getParent() {
     return mParent;

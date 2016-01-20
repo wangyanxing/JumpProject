@@ -26,7 +26,7 @@ public:
 
   void update(float dt);
   
-  void postUpdate(float dt);
+  void beforeRender(float dt);
 
   void addComponandCommand(ComponentCommand command, GameComponent *component);
 

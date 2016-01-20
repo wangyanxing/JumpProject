@@ -60,8 +60,13 @@ bool GameLayerContainer::init() {
 
 void GameLayerContainer::onEnter() {
   LayerColor::onEnter();
-  getScheduler()->scheduleUpdate(this, -2, false);
-  getScheduler()->scheduleUpdate(&mPostUpdater, 100, false);
+  Director::getInstance()->getScheduler()->scheduleUpdate(this, -10, false);
+
+#if USE_REFACTOR
+  Director::getInstance()->getScheduler()->scheduleUpdate(&mPostUpdater, -5, false);
+#else
+  Director::getInstance()->getScheduler()->scheduleUpdate(&mPostUpdater, 100, false);
+#endif
 
 #if !USE_REFACTOR
   auto contactListener = EventListenerPhysicsContact::create();
@@ -88,7 +93,7 @@ void GameLayerContainer::postUpdate(float dt) {
 #if !USE_REFACTOR
   mGame->postUpdate(UPDATE_DT);
 #else
-  GameLevel::instance().postUpdate(UPDATE_DT);
+  GameLevel::instance().beforeRender(UPDATE_DT);
 #endif
 }
 

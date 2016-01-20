@@ -31,16 +31,13 @@ void InputComponent::runCommand(ComponentCommand type, const Parameter &param) {
 }
 
 void InputComponent::pressLeft() {
-  auto physics = mParent->getComponent<PhysicsComponent>();
-  physics->setAccelerationX(-DEFAULT_MOVE_ACCEL);
+  mParent->getComponent<PhysicsComponent>()->setAccelerationX(-DEFAULT_MOVE_ACCEL);
 }
 
 void InputComponent::pressRight() {
-  auto physics = mParent->getComponent<PhysicsComponent>();
-  physics->setAccelerationX(DEFAULT_MOVE_ACCEL);
+  mParent->getComponent<PhysicsComponent>()->setAccelerationX(DEFAULT_MOVE_ACCEL);
 }
 
 void InputComponent::pressJump() {
-  auto physics = mParent->getComponent<PhysicsComponent>();
-  physics->setAccelerationY(DEFAULT_JUMP_ACCEL);
+  mParent->getComponent<PhysicsComponent>()->setAccelerationY(DEFAULT_JUMP_ACCEL);
 }

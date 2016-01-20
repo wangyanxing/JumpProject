@@ -12,7 +12,7 @@
 #include "PhysicsManager.h"
 #include "GameComponent.h"
 
-#define DEFAULT_LINEAR_DAMPING 5.0f
+#define DEFAULT_LINEAR_DAMPING 8.0f
 #define DEFAULT_GRAVITY -1100
 
 /**
@@ -35,7 +35,7 @@ public:
 public:
   virtual void update(float dt) override;
   
-  virtual void postUpdate(float dt) override;
+  virtual void beforeRender(float dt) override;
 
   virtual void load(JsonValueT &json) override;
 

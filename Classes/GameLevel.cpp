@@ -31,15 +31,18 @@ void GameLevel::release() {
 }
 
 void GameLevel::update(float dt) {
-  mPhysicsManager->update(dt);
   for (auto &obj : mObjectManager->mObjects) {
     obj.second->update(dt);
   }
+
+  // Collision detection.
+  mPhysicsManager->update(dt);
 }
 
-void GameLevel::postUpdate(float dt) {
+void GameLevel::beforeRender(float dt) {
+  mPhysicsManager->beforeRender(dt);
   for (auto &obj : mObjectManager->mObjects) {
-    obj.second->postUpdate(dt);
+    obj.second->beforeRender(dt);
   }
 }
 

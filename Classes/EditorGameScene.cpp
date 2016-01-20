@@ -31,6 +31,14 @@ bool EditorGameScene::init() {
   keyboardListener->onKeyReleased = CC_CALLBACK_2(EditorGameScene::keyReleased, this);
   _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
 
+  GameInputs::instance().addKeyboardEvent(EventKeyboard::KeyCode::KEY_SPACE,
+                                          [&](GameInputs::KeyCode key) {
+      auto hero = GameLevel::instance().getHero();
+      Parameter param;
+      param.set(PARAM_INPUT, INPUT_JUMP);
+      hero->runCommand(COMMAND_INPUT, param);
+  });
+
   // Test.
   GameLevel::instance().load("maps/local/test_refactor1.json");
   return true;
@@ -42,7 +50,6 @@ void EditorGameScene::onEnter() {
 
 void EditorGameScene::update(float dt) {
   processInput();
-
   GameLayerContainer::update(dt);
 }
 
@@ -60,10 +67,6 @@ void EditorGameScene::processInput() {
     hero->runCommand(COMMAND_INPUT, param);
   } else if (gameInputs.isPressing(EventKeyboard::KeyCode::KEY_D)) {
     param.set(PARAM_INPUT, INPUT_RIGHT);
-    hero->runCommand(COMMAND_INPUT, param);
-  }
-  if (gameInputs.isPressing(EventKeyboard::KeyCode::KEY_SPACE)) {
-    param.set(PARAM_INPUT, INPUT_JUMP);
     hero->runCommand(COMMAND_INPUT, param);
   }
 }

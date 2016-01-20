@@ -35,6 +35,8 @@ public:
 
   void update(float dt);
 
+  void beforeRender(float dt);
+
   BasePhysicsShape *createShape(PhysicsShapeType type);
 
   void removeShape(BasePhysicsShape *shape);

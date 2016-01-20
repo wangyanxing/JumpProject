@@ -18,6 +18,10 @@ public:
 
   typedef cocos2d::EventKeyboard::KeyCode KeyCode;
 
+  typedef std::function<void(KeyCode)> KeyboardFunc;
+
+  typedef std::unordered_map<KeyCode, KeyboardFunc, EnumClassHash> KeyboardEvents;
+
   void keyPressed(KeyCode key, cocos2d::Event *event);
 
   void keyReleased(KeyCode key, cocos2d::Event *event);
@@ -26,8 +30,14 @@ public:
     return mPressingKeys.count(key);
   }
 
+  void addKeyboardEvent(KeyCode key, KeyboardFunc callback);
+
+  void removeKeyboardEvent(KeyCode key);
+
 private:
   std::set<KeyCode> mPressingKeys;
+
+  KeyboardEvents mKeyboardEvents;
 };
 
 #endif /* GameInputs_h */
