@@ -31,6 +31,10 @@ class Parameter {
 public:
   typedef std::unordered_map<ParamType, Any, EnumClassHash> MapT;
 
+  Parameter() {}
+
+  Parameter(std::initializer_list<MapT::value_type> il) : mData(il) {}
+
   bool has(ParamType type) const {
     return mData.count(type);
   }

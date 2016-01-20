@@ -34,9 +34,7 @@ bool EditorGameScene::init() {
   GameInputs::instance().addKeyboardEvent(EventKeyboard::KeyCode::KEY_SPACE,
                                           [&](GameInputs::KeyCode key) {
       auto hero = GameLevel::instance().getHero();
-      Parameter param;
-      param.set(PARAM_INPUT, INPUT_JUMP);
-      hero->runCommand(COMMAND_INPUT, param);
+      hero->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_JUMP)}});
   });
 
   // Test.
@@ -60,14 +58,11 @@ void EditorGameScene::postUpdate(float dt) {
 void EditorGameScene::processInput() {
   auto &gameInputs = GameInputs::instance();
   auto hero = GameLevel::instance().getHero();
-  Parameter param;
 
   if (gameInputs.isPressing(EventKeyboard::KeyCode::KEY_A)) {
-    param.set(PARAM_INPUT, INPUT_LEFT);
-    hero->runCommand(COMMAND_INPUT, param);
+    hero->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_LEFT)}});
   } else if (gameInputs.isPressing(EventKeyboard::KeyCode::KEY_D)) {
-    param.set(PARAM_INPUT, INPUT_RIGHT);
-    hero->runCommand(COMMAND_INPUT, param);
+    hero->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_RIGHT)}});
   }
 }
 
