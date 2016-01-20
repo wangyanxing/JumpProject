@@ -36,9 +36,9 @@ public:
   cocos2d::Vec2 getPosition() {
     return mPosition;
   }
-  
-  cocos2d::Vec2 getLastPosition() {
-    return mLastPosition;
+
+  cocos2d::Vec2 getMovement() {
+    return mPosition - mLastPosition;
   }
 
   virtual void onPositionSet(const cocos2d::Vec2 &position);

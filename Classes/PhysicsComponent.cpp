@@ -27,10 +27,17 @@ PhysicsComponent::~PhysicsComponent() {
 }
 
 void PhysicsComponent::update(float dt) {
-  if (mPhysicsType != PHYSICS_DYNAMIC) {
-    return;
+  if (mPhysicsType == PHYSICS_DYNAMIC) {
+    updateDynamics(dt);
+    clearStates();
   }
+}
 
+void PhysicsComponent::beforeRender(float dt) {
+  mParent->getRenderer()->setPosition(mShape->mPosition);
+}
+
+void PhysicsComponent::updateDynamics(float dt) {
   if (mStatus == ON_PLATFORM) {
     mVelocity.y = 0;
   } else if (mStatus == FALLING) {
@@ -43,23 +50,15 @@ void PhysicsComponent::update(float dt) {
   mAcceleration.x *= mAccelerationResistance;
   mVelocity += mAcceleration * dt;
   mVelocity.x *= std::min(std::max(1.0f - dt * mDamping, 0.0f), 1.0f);
-  
+
   // Adjust the velocity value.
   static Vec2 maxVelocity{600.0f, 1000.0f}, minVelocity{-600.0f, -1000.0f};
   mVelocity.clamp(minVelocity, maxVelocity);
-  
+
   mShape->updateShape(this);
-  
   mShape->mLastPosition = mShape->mPosition;
   mShape->mPosition.y += mVelocity.y * dt;
   mShape->mPosition.x += mVelocity.x * dt;
-
-  // Clear states.
-  clearStates();
-}
-
-void PhysicsComponent::beforeRender(float dt) {
-  mParent->getRenderer()->setPosition(mShape->mPosition);
 }
 
 void PhysicsComponent::reset() {
@@ -129,6 +128,9 @@ void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
   if (GameUtils::vec2Equal(Vec2::UNIT_Y, info.normal)) {
     mStatus = ON_PLATFORM;
     mShape->mPosition.y += halfHeight - deltaHeight;
+
+    // If the paltform moved in this frame, update it.
+    mShape->mPosition += other->mShape->getMovement();
   } else if (GameUtils::vec2Equal(-Vec2::UNIT_Y, info.normal)) {
     mVelocity.y = 0;
     mShape->mPosition.y -= halfHeight - deltaHeight;

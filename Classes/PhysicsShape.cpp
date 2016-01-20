@@ -18,6 +18,7 @@ static const Color4F outlineColor(1.0f, 0.0f, 0.0f, 1.0f);
 static const int CIRCLE_SEG_NUM = 12;
 
 void BasePhysicsShape::onPositionSet(const cocos2d::Vec2 &position) {
+  mLastPosition = mPosition;
   mPosition = position;
 }
 

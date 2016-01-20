@@ -41,6 +41,8 @@ public:
 
   virtual void load(JsonValueT &json) override;
 
+  void updateDynamics(float dt);
+
   BasePhysicsShape *setShape(PhysicsShapeType type);
 
   BasePhysicsShape *getShape() {
