@@ -16,6 +16,11 @@
 
 USING_NS_CC;
 
+void GameRenderer::reset() {
+  setPosition(mOriginalPosition);
+  setRotation(mOriginalRotation);
+}
+
 void GameRenderer::load(JsonValueT &json) {
   if (json.HasMember(RENDERER_SHADOW)) {
     mShadowEnabled = json[RENDERER_SHADOW].GetBool();

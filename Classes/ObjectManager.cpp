@@ -47,10 +47,7 @@ GameObject *ObjectManager::createObject(JsonValueT &json) {
   mIDCounter = std::max(id + 1, mIDCounter);
 
   auto obj = createObjectImpl(param, id);
-  obj->getRenderer()->load(json);
-  obj->traverseComponents([&](GameComponent *comp) {
-    comp->load(json);
-  });
+  obj->load(json);
   return obj;
 }
 

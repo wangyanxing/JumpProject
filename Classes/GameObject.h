@@ -11,6 +11,7 @@
 
 #include "Prerequisites.h"
 #include "Parameter.h"
+#include "JsonParser.h"
 
 class GameObject {
 public:
@@ -27,6 +28,8 @@ public:
   void update(float dt);
   
   void beforeRender(float dt);
+
+  void reset();
 
   void addComponandCommand(ComponentCommand command, GameComponent *component);
 
@@ -50,6 +53,8 @@ public:
     return mKind;
   }
 
+  void load(JsonValueT &json);
+
   GameComponent* getComponent(ComponentType type);
 
   template<typename T>
@@ -69,8 +74,6 @@ public:
   void removeComponent(ComponentType type);
 
   bool hasComponent(ComponentType type);
-
-  void traverseComponents(std::function<void(GameComponent*)> func);
 
 private:
   void release();

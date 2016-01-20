@@ -62,6 +62,10 @@ void PhysicsComponent::beforeRender(float dt) {
   mParent->getRenderer()->setPosition(mShape->mPosition);
 }
 
+void PhysicsComponent::reset() {
+  clearStates();
+}
+
 void PhysicsComponent::load(JsonValueT &json) {
   if (json.HasMember(PHYSICS_EVENTS)) {
     mCollisionEvents = json[PHYSICS_EVENTS].getStringVec();

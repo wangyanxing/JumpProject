@@ -27,6 +27,8 @@ public:
 
   virtual cocos2d::Node *getNode() const = 0;
 
+  virtual void reset();
+
   virtual void update(float dt) {}
 
   virtual void load(JsonValueT &json);
@@ -91,6 +93,12 @@ protected:
   int mColorIndex{DEFAULT_COLOR_ID};
 
   bool mShadowEnabled{true};
+
+  cocos2d::Size mOriginalSize;
+
+  cocos2d::Vec2 mOriginalPosition;
+
+  float mOriginalRotation{0};
 };
 
 #endif /* GameRenderer_h */

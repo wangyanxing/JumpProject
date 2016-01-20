@@ -37,6 +37,8 @@ public:
   
   virtual void beforeRender(float dt) override;
 
+  virtual void reset() override;
+
   virtual void load(JsonValueT &json) override;
 
   BasePhysicsShape *setShape(PhysicsShapeType type);

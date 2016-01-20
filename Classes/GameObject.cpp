@@ -81,6 +81,20 @@ void GameObject::beforeRender(float dt) {
   }
 }
 
+void GameObject::load(JsonValueT &json) {
+  mRenderer->load(json);
+  for (auto comp : mComponents) {
+    comp.second->load(json);
+  }
+}
+
+void GameObject::reset() {
+  mRenderer->reset();
+  for (auto comp : mComponents) {
+    comp.second->reset();
+  }
+}
+
 GameComponent* GameObject::getComponent(ComponentType type) {
   auto it = mComponents.find(type);
   return it == mComponents.end() ? nullptr : it->second;
@@ -126,10 +140,4 @@ void GameObject::release() {
     CC_SAFE_DELETE(component.second);
   }
   mComponents.clear();
-}
-
-void GameObject::traverseComponents(std::function<void(GameComponent*)> func) {
-  for (auto comp : mComponents) {
-    func(comp.second);
-  }
 }

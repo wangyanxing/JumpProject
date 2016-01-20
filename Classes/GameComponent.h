@@ -35,6 +35,8 @@ public:
 
   virtual void load(JsonValueT &json) {}
 
+  virtual void reset() {}
+
   virtual void runCommand(ComponentCommand type, const Parameter &param) {}
 
 protected:
