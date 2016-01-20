@@ -15,6 +15,7 @@
 #include "GameRenderer.h"
 #include "GameEvents.h"
 #include "GameUtils.h"
+#include "GameConfig.h"
 
 USING_NS_CC;
 
@@ -38,7 +39,8 @@ void PhysicsComponent::update(float dt) {
       mVelocity.y += dt * mGravity;
     }
   }
-  
+
+  mAcceleration.x *= mAccelerationResistance;
   mVelocity += mAcceleration * dt;
   mVelocity.x *= std::min(std::max(1.0f - dt * mDamping, 0.0f), 1.0f);
   
@@ -53,8 +55,7 @@ void PhysicsComponent::update(float dt) {
   mShape->mPosition.x += mVelocity.x * dt;
 
   // Clear states.
-  mAcceleration.setZero();
-  mStatus = FALLING;
+  clearStates();
 }
 
 void PhysicsComponent::beforeRender(float dt) {
@@ -79,6 +80,13 @@ BasePhysicsShape *PhysicsComponent::setShape(PhysicsShapeType type) {
   return mShape;
 }
 
+void PhysicsComponent::clearStates() {
+  mSleep = mPhysicsType != PHYSICS_DYNAMIC;
+  mAcceleration.setZero();
+  mAccelerationResistance = 1;
+  mStatus = FALLING;
+}
+
 PhysicsComponent *PhysicsComponent::setPhysicsType(PhysicsType type) {
   auto oldType = mPhysicsType;
   mPhysicsType = type;
@@ -91,6 +99,7 @@ PhysicsComponent *PhysicsComponent::setPhysicsType(PhysicsType type) {
   } else if (type != PHYSICS_NONE) {
     mEnableGravity = false;
   }
+  clearStates();
   return this;
 }
 
@@ -121,8 +130,15 @@ void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
     mShape->mPosition.y -= halfHeight - deltaHeight;
   } else if (GameUtils::vec2Equal(Vec2::UNIT_X, info.normal) ||
              GameUtils::vec2Equal(-Vec2::UNIT_X, info.normal)) {
-    mVelocity.x = 0;
-    mShape->mPosition.x += (halfWidth - deltaWidth) * info.normal.x;
+    if (other->getPhysicsType() == PHYSICS_DYNAMIC && !other->mSleep) {
+      // Push it.
+      mAccelerationResistance = GameConfig::instance().AccelerationResistance;
+      other->mShape->mPosition.x -= (halfWidth - deltaWidth) * info.normal.x;
+    } else {
+      mSleep = true;
+      mVelocity.x = 0;
+      mShape->mPosition.x += (halfWidth - deltaWidth) * info.normal.x;
+    }
   }
 }
 

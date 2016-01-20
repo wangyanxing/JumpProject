@@ -17,4 +17,5 @@ void GameConfig::load() {
   HeroSize = json["heroSize"].GetDouble();
   MoveAcceleration = json["moveAcceleration"].GetDouble();
   JumpAcceleration = json["jumpAcceleration"].GetDouble();
+  AccelerationResistance = json["accelerationResistance"].GetDouble();
 }

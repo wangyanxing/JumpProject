@@ -80,6 +80,9 @@ public:
   }
 
 protected:
+  void clearStates();
+
+protected:
   PhysicsType mPhysicsType{PHYSICS_NONE};
 
   BasePhysicsShape *mShape{nullptr};
@@ -87,12 +90,16 @@ protected:
   cocos2d::Vec2 mVelocity;
   
   cocos2d::Vec2 mAcceleration;
+
+  float mAccelerationResistance{1};
   
   float mDamping{DEFAULT_LINEAR_DAMPING};
   
   float mGravity{DEFAULT_GRAVITY};
   
   bool mEnableGravity{false};
+
+  bool mSleep{false};
 
   std::vector<std::string> mCollisionEvents;
 

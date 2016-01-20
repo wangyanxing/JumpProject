@@ -23,6 +23,8 @@ public:
   float MoveAcceleration{1500};
   
   float JumpAcceleration{25000};
+
+  float AccelerationResistance{0.3f};
 };
 
 #endif /* GameConfig_h */
