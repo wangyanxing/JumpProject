@@ -9,6 +9,7 @@
 #include "InputComponent.h"
 #include "PhysicsComponent.h"
 #include "GameObject.h"
+#include "GameConfig.h"
 
 InputComponent::InputComponent(GameObject *parent) : GameComponent(parent) {
   mParent->addComponandCommand(COMMAND_INPUT, this);
@@ -21,23 +22,13 @@ InputComponent::~InputComponent() {
 void InputComponent::runCommand(ComponentCommand type, const Parameter &param) {
   CC_ASSERT(type == COMMAND_INPUT);
   auto input = param.get<InputType>(PARAM_INPUT);
+  auto physics = mParent->getComponent<PhysicsComponent>();
+  
   if (input == INPUT_LEFT) {
-    pressLeft();
+    physics->setAccelerationX(-GameConfig::instance().MoveAcceleration);
   } else if (input == INPUT_RIGHT) {
-    pressRight();
+    physics->setAccelerationX(GameConfig::instance().MoveAcceleration);
   } else if (input == INPUT_JUMP) {
-    pressJump();
+    physics->setAccelerationY(GameConfig::instance().JumpAcceleration);
   }
-}
-
-void InputComponent::pressLeft() {
-  mParent->getComponent<PhysicsComponent>()->setAccelerationX(-DEFAULT_MOVE_ACCEL);
-}
-
-void InputComponent::pressRight() {
-  mParent->getComponent<PhysicsComponent>()->setAccelerationX(DEFAULT_MOVE_ACCEL);
-}
-
-void InputComponent::pressJump() {
-  mParent->getComponent<PhysicsComponent>()->setAccelerationY(DEFAULT_JUMP_ACCEL);
 }

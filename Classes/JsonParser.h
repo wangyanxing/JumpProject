@@ -25,8 +25,6 @@ public:
 
   ~JsonParser();
 
-  void endJson();
-
   rapidjson::Document &getCurrentDocument() {
     return *mCurrentJson;
   }

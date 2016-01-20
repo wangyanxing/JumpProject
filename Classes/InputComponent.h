@@ -25,12 +25,6 @@ public:
   void update(float dt) override {}
 
   void runCommand(ComponentCommand type, const Parameter &param) override;
-
-  void pressLeft();
-
-  void pressRight();
-
-  void pressJump();
 };
 
 #endif /* InputComponent_h */

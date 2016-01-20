@@ -15,10 +15,13 @@
 #include "JsonFormat.h"
 #include "ColorPalette.h"
 #include "GameLayerContainer.h"
+#include "GameConfig.h"
 
 USING_NS_CC;
 
 void GameLevel::init() {
+  GameConfig::instance().load();
+  
   CC_ASSERT(!mObjectManager);
   mObjectManager = new ObjectManager();
   mPhysicsManager = new PhysicsManager();
@@ -56,7 +59,7 @@ void GameLevel::createHero(const cocos2d::Vec2 &pos) {
   Parameter param;
   param.set(PARAM_BLOCK_KIND, KIND_HERO)
        .set(PARAM_POS, pos)
-       .set(PARAM_SIZE, DEFAULT_HERO_SIZE);
+       .set(PARAM_SIZE, Size(GameConfig::instance().HeroSize, GameConfig::instance().HeroSize));
 
   auto hero = getObjectManager()->createObject(param);
   CC_ASSERT(hero->getID() == 0);

@@ -102,9 +102,6 @@ enum FollowMode {
 #define ZORDER_GAME_PAUSELAYER 200
 
 #define DEFAULT_COLOR_ID -1
-#define DEFAULT_HERO_SIZE cocos2d::Size(30, 30)
-#define DEFAULT_MOVE_ACCEL 1500
-#define DEFAULT_JUMP_ACCEL 25000
 
 #define UPDATE_DT 1.0f / 60.0f
 

@@ -1,0 +1,5 @@
+{
+  "heroSize" : 30,
+  "moveAcceleration": 1500,
+  "jumpAcceleration": 25000
+}
