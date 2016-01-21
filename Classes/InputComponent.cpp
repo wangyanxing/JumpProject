@@ -12,11 +12,11 @@
 #include "GameConfig.h"
 
 InputComponent::InputComponent(GameObject *parent) : GameComponent(parent) {
-  mParent->addComponandCommand(COMMAND_INPUT, this);
+  mParent->addComponentCommand(COMMAND_INPUT, this);
 }
 
 InputComponent::~InputComponent() {
-  mParent->removeComponandCommand(COMMAND_INPUT);
+  mParent->removeComponentCommand(COMMAND_INPUT);
 }
 
 void InputComponent::runCommand(ComponentCommand type, const Parameter &param) {

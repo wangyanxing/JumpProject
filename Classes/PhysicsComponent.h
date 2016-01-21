@@ -71,6 +71,10 @@ public:
     mVelocity += vel;
   }
   
+  void setVelocity(const cocos2d::Vec2 &vel) {
+    mVelocity = vel;
+  }
+  
   cocos2d::Vec2 getAcceleration() {
     return mAcceleration;
   }
@@ -81,6 +85,10 @@ public:
   
   void setAccelerationY(float val) {
     mAcceleration.y = val;
+  }
+  
+  void markSleep() {
+    mSleep = true;
   }
 
 protected:

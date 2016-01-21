@@ -12,16 +12,17 @@
 #include "Any.h"
 
 enum ParamType {
-  PARAM_POS,          // cocos2d::Vec2
-  PARAM_SIZE,         // cocos2d::Size
-  PARAM_COLOR,        // cocos2d::Color3B
-  PARAM_COLOR_INDEX,  // int
-  PARAM_IMAGE,        // std::string
-  PARAM_RENDERER,     // RendererType
-  PARAM_PHYSICS_TYPE, // PhysicsType
-  PARAM_SHAPE_TYPE,   // PhysicsShapeType
-  PARAM_BLOCK_KIND,   // BlockKind
-  PARAM_INPUT,        // InputType
+  PARAM_POS,            // cocos2d::Vec2
+  PARAM_SIZE,           // cocos2d::Size
+  PARAM_COLOR,          // cocos2d::Color3B
+  PARAM_COLOR_INDEX,    // int
+  PARAM_IMAGE,          // std::string
+  PARAM_RENDERER,       // RendererType
+  PARAM_PHYSICS_TYPE,   // PhysicsType
+  PARAM_SHAPE_TYPE,     // PhysicsShapeType
+  PARAM_BLOCK_KIND,     // BlockKind
+  PARAM_INPUT,          // InputType
+  PARAM_COLLISION_INFO, // CollisionInfo
 };
 
 /**

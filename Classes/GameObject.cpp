@@ -11,6 +11,7 @@
 #include "PhysicsComponent.h"
 #include "InputComponent.h"
 #include "PathComponent.h"
+#include "ButtonComponent.h"
 #include "SimpleRenderer.h"
 #include "DeathRenderer.h"
 #include "DeathRotatorRenderer.h"
@@ -25,11 +26,11 @@ GameObject::~GameObject() {
   release();
 }
 
-void GameObject::addComponandCommand(ComponentCommand command, GameComponent *component) {
+void GameObject::addComponentCommand(ComponentCommand command, GameComponent *component) {
   mComponentCommands[command] = component;
 }
 
-void GameObject::removeComponandCommand(ComponentCommand command) {
+void GameObject::removeComponentCommand(ComponentCommand command) {
   CC_ASSERT(mComponentCommands.count(command));
   mComponentCommands.erase(command);
 }
@@ -41,6 +42,10 @@ void GameObject::runCommand(ComponentCommand command, const Parameter &param) {
     return;
   }
   it->second->runCommand(command, param);
+}
+
+bool GameObject::hasCommand(ComponentCommand command) {
+  return mComponentCommands.count(command);
 }
 
 GameRenderer *GameObject::setRenderer(RendererType renderType) {
@@ -127,6 +132,8 @@ GameComponent* GameObject::addComponent(ComponentType type) {
       component = new PathComponent(this);
       break;
     case COMPONENT_BUTTON:
+      component = new ButtonComponent(this);
+      break;
     case COMPONENT_ROTATOR:
     default:
       CCLOGERROR("Invalid component type");

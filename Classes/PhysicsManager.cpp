@@ -55,7 +55,8 @@ void PhysicsManager::beforeRender(float dt) {
 CollisionInfo PhysicsManager::generateCollisionInfo(PhysicsComponent *objA,
                                                     PhysicsComponent *objB) {
   CollisionInfo info;
-  info.component = objB;
+  info.obj1 = objA;
+  info.obj2 = objB;
 
   auto shapeA = objA->getShape(), shapeB = objB->getShape();
   auto posA = shapeA->getPosition(), posB = shapeB->getPosition();

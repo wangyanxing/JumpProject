@@ -47,9 +47,7 @@ void DeathRenderer::normalizeUV() {
     return;
   }
 
-  auto w = getSize().width;
-  auto h = getSize().height;
-
+  auto w = getSize().width, h = getSize().height;
   if (w >= h) {
     if (mTextureName != sawImage) {
       setTexture(sawImage);

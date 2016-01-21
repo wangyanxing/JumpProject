@@ -38,7 +38,7 @@ std::vector<ComponentType> BlockKindConfigs::getComponents(BlockKind kind) {
     {},
     {},
     {},
-    {},
+    {COMPONENT_BUTTON},
     {},
   };
   return components[kind];

@@ -36,6 +36,7 @@ enum ComponentType {
 };
 
 enum ComponentCommand {
+  COMMAND_COLLISION,
   COMMAND_INPUT
 };
 
@@ -55,6 +56,13 @@ enum PhysicsType {
 enum PhysicsShapeType {
   PHYSICS_SHAPE_CIRCLE,
   PHYSICS_SHAPE_RECT
+};
+
+enum ButtonDirection {
+  BUTTON_UP,
+  BUTTON_DOWN,
+  BUTTON_LEFT,
+  BUTTON_RIGHT
 };
 
 template <typename T>
@@ -95,6 +103,35 @@ public:
       return KIND_BLOCK;
     }
     return kinds[str];
+  }
+};
+
+template <>
+class EnumSerial <ButtonDirection> {
+public:
+  static std::string toString(ButtonDirection val) {
+    static std::string names[] = {
+      "UP",
+      "DOWN",
+      "LEFT",
+      "RIGHT"
+    };
+    return names[val];
+  }
+  
+  static ButtonDirection parse(const std::string& str) {
+    static std::map<std::string, ButtonDirection> dirs = {
+      {"UP",    BUTTON_UP},
+      {"DOWN",  BUTTON_DOWN},
+      {"LEFT",  BUTTON_LEFT},
+      {"RIGHT", BUTTON_RIGHT}
+    };
+    
+    if (!dirs.count(str)) {
+      printf("[Parse Error] Invalid button direction: %s\n", str.c_str());
+      return BUTTON_DOWN;
+    }
+    return dirs[str];
   }
 };
 

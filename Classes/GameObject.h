@@ -31,11 +31,13 @@ public:
 
   void reset();
 
-  void addComponandCommand(ComponentCommand command, GameComponent *component);
+  void addComponentCommand(ComponentCommand command, GameComponent *component);
 
-  void removeComponandCommand(ComponentCommand command);
+  void removeComponentCommand(ComponentCommand command);
 
   void runCommand(ComponentCommand command, const Parameter &param);
+
+  bool hasCommand(ComponentCommand command);
 
   GameRenderer *setRenderer(GameRenderer *renderer);
 

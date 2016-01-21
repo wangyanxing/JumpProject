@@ -47,4 +47,9 @@
 #define PATH_PT_WIDTH "width"
 #define PATH_PT_HEIGHT "height"
 
+#define BUTTON_DIR "direction"
+#define BUTTON_PUSHED_EVENT "pushedEvent"
+#define BUTTON_RESTORED_EVENT "restoredEvent"
+#define BUTTON_PUSHING_EVENT "pushingEvent"
+
 #endif /* JsonFormat_h */

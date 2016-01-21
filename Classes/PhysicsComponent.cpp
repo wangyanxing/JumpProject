@@ -109,21 +109,24 @@ PhysicsComponent *PhysicsComponent::setPhysicsType(PhysicsType type) {
 void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
   CC_ASSERT(mPhysicsType == PHYSICS_DYNAMIC);
 
-  auto other = info.component;
+  auto other = info.obj2;
   // Execute event only.
   if (other->getPhysicsType() == PHYSICS_COLLISION_ONLY) {
-    callCollisionEvents(other->getParent());
+    if (other->getParent()->hasCommand(COMMAND_COLLISION)) {
+      other->getParent()->runCommand(COMMAND_COLLISION, {{PARAM_COLLISION_INFO, Any(&info)}});
+    }
+    other->callCollisionEvents(other->getParent());
     return;
   }
 
-  float halfHeight = 0.5f * (mShape->getBounds().size.height +
-                             info.component->getShape()->getBounds().size.height);
+  float halfHeight = 0.5f * (getShape()->getBounds().size.height +
+                             info.obj2->getShape()->getBounds().size.height);
   float deltaHeight = fabs(getShape()->getPosition().y -
-                           info.component->getShape()->getPosition().y);
-  float halfWidth = 0.5f * (mShape->getBounds().size.width +
-                            info.component->getShape()->getBounds().size.width);
+                           info.obj2->getShape()->getPosition().y);
+  float halfWidth = 0.5f * (getShape()->getBounds().size.width +
+                            info.obj2->getShape()->getBounds().size.width);
   float deltaWidth = fabs(getShape()->getPosition().x -
-                          info.component->getShape()->getPosition().x);
+                          info.obj2->getShape()->getPosition().x);
 
   if (GameUtils::vec2Equal(Vec2::UNIT_Y, info.normal)) {
     mStatus = ON_PLATFORM;

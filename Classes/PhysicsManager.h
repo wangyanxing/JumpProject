@@ -13,7 +13,10 @@
 
 struct CollisionInfo {
   cocos2d::Vec2 normal;
-  PhysicsComponent *component{nullptr};
+  
+  PhysicsComponent *obj1{nullptr};
+  
+  PhysicsComponent *obj2{nullptr};
 };
 
 /**
