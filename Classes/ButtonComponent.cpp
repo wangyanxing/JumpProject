@@ -54,11 +54,12 @@ void ButtonComponent::runCommand(ComponentCommand type, const Parameter &param) 
   auto dirVec = getDirectionVec();
   
   auto shape1 = info->obj1->getShape(), shape2 = info->obj2->getShape();
-  float halfHeight = 0.5f * (shape1->getBounds().size.height + shape2->getBounds().size.height);
-  float deltaHeight = fabs(shape1->getPosition().y - shape2->getPosition().y);
-  float halfWidth = 0.5f * (shape1->getBounds().size.width + shape2->getBounds().size.width);
-  float deltaWidth = fabs(shape1->getPosition().x - shape2->getPosition().x);
-  Vec2 delta(halfWidth - deltaWidth, halfHeight - deltaHeight);
+  
+  float deltaWidth = 0.5f * (shape1->getBounds().size.width + shape2->getBounds().size.width) -
+    fabs(shape1->getPosition().x - shape2->getPosition().x);
+  float deltaHeight = 0.5f * (shape1->getBounds().size.height + shape2->getBounds().size.height) -
+    fabs(shape1->getPosition().y - shape2->getPosition().y);
+  Vec2 delta(deltaWidth, deltaHeight);
   
   if (GameUtils::vec2Equal(dirVec, info->normal)) {
     // Push it.
