@@ -46,6 +46,8 @@ public:
 
   virtual cocos2d::Vec2 getPosition() const;
 
+  virtual cocos2d::Vec2 getOriginalPosition() const;
+
   virtual void setColor(const cocos2d::Color3B &color);
 
   virtual cocos2d::Color3B getColor() const;

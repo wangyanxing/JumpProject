@@ -41,6 +41,10 @@ cocos2d::Vec2 GameRenderer::getPosition() const {
   return getNode()->getPosition();
 }
 
+cocos2d::Vec2 GameRenderer::getOriginalPosition() const {
+  return mOriginalPosition;
+}
+
 void GameRenderer::setRotation(float val) {
   getNode()->setRotation(val);
 
