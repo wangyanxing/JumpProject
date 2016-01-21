@@ -25,6 +25,10 @@ public:
   float JumpAcceleration{25000};
 
   float AccelerationResistance{0.3f};
+  
+  std::string SawImage;
+  
+  std::string SawImageRotation;
 };
 
 #endif /* GameConfig_h */

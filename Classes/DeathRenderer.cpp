@@ -8,11 +8,9 @@
 
 #include "DeathRenderer.h"
 #include "SpriteUV.h"
+#include "GameConfig.h"
 
 USING_NS_CC;
-
-#define SAW_IMAGE "images/saw.png"
-#define SAW_IMAGE_ROT "images/saw_r.png"
 
 DeathRenderer::DeathRenderer(GameObject *parent) : SimpleRenderer(parent) {
 }
@@ -41,8 +39,11 @@ bool DeathRenderer::isFlipUV() {
 
 void DeathRenderer::normalizeUV() {
   mSprite->resetUV();
+  
+  auto sawImage = GameConfig::instance().SawImage;
+  auto sawImageRot = GameConfig::instance().SawImageRotation;
 
-  if (mTextureName != SAW_IMAGE && mTextureName != SAW_IMAGE_ROT) {
+  if (mTextureName != sawImage && mTextureName != sawImageRot) {
     return;
   }
 
@@ -50,14 +51,14 @@ void DeathRenderer::normalizeUV() {
   auto h = getSize().height;
 
   if (w >= h) {
-    if (mTextureName != SAW_IMAGE) {
-      setTexture(SAW_IMAGE);
+    if (mTextureName != sawImage) {
+      setTexture(sawImage);
     }
     mSprite->getTexture()->setTexParameters({GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_CLAMP_TO_EDGE});
     mSprite->setUVWidth(w / h);
   } else {
-    if (mTextureName != SAW_IMAGE_ROT) {
-      setTexture(SAW_IMAGE_ROT);
+    if (mTextureName != sawImageRot) {
+      setTexture(sawImageRot);
     }
     mSprite->getTexture()->setTexParameters({GL_LINEAR, GL_LINEAR, GL_CLAMP_TO_EDGE, GL_REPEAT});
     mSprite->setUVHeight(h / w);
