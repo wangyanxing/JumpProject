@@ -48,6 +48,7 @@
 #define PATH_PT_HEIGHT "height"
 
 #define BUTTON_DIR "direction"
+#define BUTTON_CAN_RESTORE "canRestore"
 #define BUTTON_PUSHED_EVENT "pushedEvent"
 #define BUTTON_RESTORED_EVENT "restoredEvent"
 #define BUTTON_PUSHING_EVENT "pushingEvent"

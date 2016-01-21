@@ -15,10 +15,14 @@
 #include "GameUtils.h"
 #include "GameRenderer.h"
 #include "GameEvents.h"
+#include "RendererActions.h"
 
 USING_NS_CC;
 
 #define PUSH_DISTANCE_THRESHOLD 0.85f
+#define RESTORE_FRAME_INTERVAL 10
+#define RESTORE_ACTION_TAG 5
+#define RESTORE_DURATION 0.2
 
 ButtonComponent::ButtonComponent(GameObject *parent) : GameComponent(parent) {
   mParent->addComponentCommand(COMMAND_COLLISION, this);
@@ -29,7 +33,19 @@ ButtonComponent::~ButtonComponent() {
 }
 
 void ButtonComponent::update(float dt) {
-  
+  if (mState == PUSHED && mCanRestore &&
+      Director::getInstance()->getTotalFrames() - mLastPushFrameNum > RESTORE_FRAME_INTERVAL) {
+    changeState(RESTORING);
+    auto buttonRenderer = getParent()->getRenderer();
+    auto action = Sequence::create(RendererMoveTo::create(buttonRenderer,
+                                                          RESTORE_DURATION,
+                                                          buttonRenderer->getOriginalPosition()),
+                                   CallFunc::create([this]() {
+      changeState(IDLE);
+    }), nullptr);
+    action->setTag(RESTORE_ACTION_TAG);
+    buttonRenderer->getNode()->runAction(action);
+  }
 }
 
 Vec2 ButtonComponent::getDirectionVec() {
@@ -44,6 +60,7 @@ Vec2 ButtonComponent::getDirectionVec() {
 
 void ButtonComponent::load(JsonValueT &json) {
   mDirection = json[BUTTON_DIR].getEnum<ButtonDirection>();
+  mCanRestore = json[BUTTON_CAN_RESTORE].GetBool();
   mPushedEvents = json[BUTTON_PUSHED_EVENT].getStringVec();
   mRestoredEvents = json[BUTTON_RESTORED_EVENT].getStringVec();
   mPushingEvents = json[BUTTON_PUSHING_EVENT].getStringVec();
@@ -61,14 +78,14 @@ void ButtonComponent::callEvents(const std::vector<std::string>& events) {
 
 void ButtonComponent::changeState(ButtonState newState) {
   if (mState != newState) {
-    mState = newState;
-    if (mState == PUSHED) {
+    if (newState == PUSHED) {
       CCLOG("Button pushed: id = %d", mParent->getID());
       callEvents(mPushedEvents);
-    } else if (mState == RESTORED) {
+    } else if (mState == RESTORING && newState == IDLE) {
       CCLOG("Button restored: id = %d", mParent->getID());
       callEvents(mRestoredEvents);
     }
+    mState = newState;
   } else if (mState == PUSHING) {
     callEvents(mPushingEvents);
   }
@@ -76,9 +93,17 @@ void ButtonComponent::changeState(ButtonState newState) {
 
 void ButtonComponent::runCommand(ComponentCommand type, const Parameter &param) {
   CC_ASSERT(type == COMMAND_COLLISION);
+  // Mark the frame number.
+  mLastPushFrameNum = Director::getInstance()->getTotalFrames();
+
   auto info = param.get<const CollisionInfo*>(PARAM_COLLISION_INFO);
   auto dirVec = getDirectionVec();
   auto shape1 = info->obj1->getShape(), shape2 = info->obj2->getShape();
+  auto buttonRenderer = info->obj2->getParent()->getRenderer();
+
+  if (mState == RESTORING) {
+    buttonRenderer->getNode()->stopActionByTag(RESTORE_ACTION_TAG);
+  }
   
   float deltaWidth = 0.5f * (shape1->getBounds().size.width + shape2->getBounds().size.width) -
       fabs(shape1->getPosition().x - shape2->getPosition().x);
@@ -93,7 +118,7 @@ void ButtonComponent::runCommand(ComponentCommand type, const Parameter &param) 
     pos.y -= delta.y * info->normal.y;
     shape2->onPositionSet(pos);
 
-    float disToOrigin = info->obj2->getParent()->getRenderer()->getOriginalPosition().distance(pos);
+    float disToOrigin = buttonRenderer->getOriginalPosition().distance(pos);
     float threshold = PUSH_DISTANCE_THRESHOLD *
         ((mDirection == BUTTON_UP || mDirection == BUTTON_DOWN) ?
          shape2->getBounds().size.height :

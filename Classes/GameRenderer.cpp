@@ -17,6 +17,7 @@
 USING_NS_CC;
 
 void GameRenderer::reset() {
+  getNode()->stopAllActions();
   setPosition(mOriginalPosition);
   setRotation(mOriginalRotation);
   setSize(mOriginalSize);

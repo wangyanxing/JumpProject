@@ -22,8 +22,7 @@ public:
     IDLE,
     PUSHING,
     PUSHED,
-    RESTORING,
-    RESTORED
+    RESTORING
   };
   
   virtual ~ButtonComponent();
@@ -54,6 +53,10 @@ private:
   ButtonDirection mDirection{BUTTON_DOWN};
 
   ButtonState mState{IDLE};
+
+  bool mCanRestore{false};
+
+  unsigned int mLastPushFrameNum{0};
 };
 
 #endif /* ButtonComponent_h */
