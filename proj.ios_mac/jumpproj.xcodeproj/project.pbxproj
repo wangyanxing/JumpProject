@@ -60,6 +60,8 @@
 		B52188301C37447900E04587 /* SaveMapSerial.inl in Resources */ = {isa = PBXBuildFile; fileRef = B521882E1C37447900E04587 /* SaveMapSerial.inl */; };
 		B52188321C3744C400E04587 /* LoadMapSerial.inl in Resources */ = {isa = PBXBuildFile; fileRef = B52188311C3744C400E04587 /* LoadMapSerial.inl */; };
 		B52188331C3744C400E04587 /* LoadMapSerial.inl in Resources */ = {isa = PBXBuildFile; fileRef = B52188311C3744C400E04587 /* LoadMapSerial.inl */; };
+		B5408E6D1C505F8200E4C90E /* ButtonComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5408E6B1C505F8200E4C90E /* ButtonComponent.cpp */; };
+		B5408E6E1C505F8200E4C90E /* ButtonComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5408E6B1C505F8200E4C90E /* ButtonComponent.cpp */; };
 		B55C76661C4F335B0083C9C5 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B55C76641C4F335B0083C9C5 /* GameConfig.cpp */; };
 		B55C76671C4F335B0083C9C5 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B55C76641C4F335B0083C9C5 /* GameConfig.cpp */; };
 		B5A55AA71C2B8B7200E02C60 /* ControlPad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A55AA51C2B8B7200E02C60 /* ControlPad.cpp */; };
@@ -272,6 +274,8 @@
 		B521882B1C37442600E04587 /* ControlConfigSerial.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ControlConfigSerial.inl; sourceTree = "<group>"; };
 		B521882E1C37447900E04587 /* SaveMapSerial.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SaveMapSerial.inl; sourceTree = "<group>"; };
 		B52188311C3744C400E04587 /* LoadMapSerial.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LoadMapSerial.inl; sourceTree = "<group>"; };
+		B5408E6B1C505F8200E4C90E /* ButtonComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ButtonComponent.cpp; sourceTree = "<group>"; };
+		B5408E6C1C505F8200E4C90E /* ButtonComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonComponent.h; sourceTree = "<group>"; };
 		B55C76641C4F335B0083C9C5 /* GameConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameConfig.cpp; sourceTree = "<group>"; };
 		B55C76651C4F335B0083C9C5 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		B5A55AA51C2B8B7200E02C60 /* ControlPad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControlPad.cpp; sourceTree = "<group>"; };
@@ -739,6 +743,8 @@
 				B55C76651C4F335B0083C9C5 /* GameConfig.h */,
 				BCB866B61C50172400CB8383 /* PathComponent.cpp */,
 				BCB866B71C50172400CB8383 /* PathComponent.h */,
+				B5408E6B1C505F8200E4C90E /* ButtonComponent.cpp */,
+				B5408E6C1C505F8200E4C90E /* ButtonComponent.h */,
 			);
 			name = Refactor;
 			sourceTree = "<group>";
@@ -950,6 +956,7 @@
 				BCDFFFFB1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */,
 				BCB866A31C49D30900CB8383 /* DeathRenderer.cpp in Sources */,
 				BCB866A71C49D8EE00CB8383 /* DeathRotatorRenderer.cpp in Sources */,
+				B5408E6D1C505F8200E4C90E /* ButtonComponent.cpp in Sources */,
 				BCB866B81C50172400CB8383 /* PathComponent.cpp in Sources */,
 				BC3CEA191C1B86B400738B33 /* Path.cpp in Sources */,
 				BCB862BC1C4843EC00CB8383 /* JsonParser.cpp in Sources */,
@@ -974,6 +981,7 @@
 				BC3CEA061C1B86B400738B33 /* Events.cpp in Sources */,
 				BCB8669F1C49A34700CB8383 /* BlockKindConfigs.cpp in Sources */,
 				BCB85EF71C45ED2C00CB8383 /* GameObject.cpp in Sources */,
+				B5408E6E1C505F8200E4C90E /* ButtonComponent.cpp in Sources */,
 				BCB866B41C4D8B7800CB8383 /* GameInputs.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
