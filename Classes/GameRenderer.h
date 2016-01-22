@@ -78,6 +78,8 @@ public:
 
   virtual cocos2d::Size getContentSize() const;
 
+  virtual cocos2d::Size getOriginalSize() const;
+
   virtual void setTexture(const std::string& texName) {}
 
   virtual cocos2d::Rect getBoundingBox() const;

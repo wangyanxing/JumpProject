@@ -11,6 +11,8 @@
 #include "GameRenderer.h"
 #include "GameLevel.h"
 #include "ObjectManager.h"
+#include "RendererActions.h"
+#include "GameConfig.h"
 
 USING_NS_CC;
 
@@ -53,8 +55,11 @@ GameEvents::GameEvents() {
         CCLOGWARN("Bad ID: %d", args[0].getInt());
         return;
       }
-      // TODO: Open door.
-      // target->openDoor(args[1].getFloat(), args[2].getBool());
+      auto renderer = target->getRenderer();
+      renderer->getNode()->runAction(OpenCloseDoor::create(renderer,
+                                                           args[1].getFloat() / 1000.0f,
+                                                           OpenCloseDoor::OPEN,
+                                                           args[2].getBool()));
     };
     sEventLists[e.command] = e;
   }
@@ -63,7 +68,7 @@ GameEvents::GameEvents() {
     e.command = "close_door";
     e.args = {
       {"",     false},    // ID
-      {"250",  true},  // SPEED
+      {"250",  true},  // SPEED, in ms
       {"true", true}, // DIR
     };
     e.func = [&](const std::vector<Arg> &args, GameObject *block) {
@@ -72,8 +77,11 @@ GameEvents::GameEvents() {
         CCLOGWARN("Bad ID: %d", args[0].getInt());
         return;
       }
-      // TODO: Close door.
-      // target->closeDoor(args[1].getFloat(), args[2].getBool());
+      auto renderer = target->getRenderer();
+      renderer->getNode()->runAction(OpenCloseDoor::create(renderer,
+                                                           args[1].getFloat() / 1000.0f,
+                                                           OpenCloseDoor::CLOSE,
+                                                           args[2].getBool()));
     };
     sEventLists[e.command] = e;
   }

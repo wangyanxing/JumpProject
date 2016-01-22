@@ -71,4 +71,33 @@ private:
   CC_DISALLOW_COPY_AND_ASSIGN(RendererMoveTo);
 };
 
+class OpenCloseDoor : public cocos2d::ActionInterval {
+public:
+  enum Operation {
+    OPEN,
+    CLOSE
+  };
+  static OpenCloseDoor* create(GameRenderer *renderer,
+                               float duration,
+                               Operation op,
+                               bool reversedDirection);
+
+  virtual OpenCloseDoor* clone() const override;
+
+  virtual OpenCloseDoor* reverse(void) const override;
+
+  virtual void startWithTarget(cocos2d::Node *target) override;
+
+  virtual void update(float time) override;
+
+protected:
+  GameRenderer *_renderer{nullptr};
+
+  bool _reversedDirection{false};
+
+  cocos2d::Size _originalSize;
+
+  Operation _operation;
+};
+
 #endif /* RendererActions_h */

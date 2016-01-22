@@ -46,6 +46,10 @@ cocos2d::Vec2 GameRenderer::getOriginalPosition() const {
   return mOriginalPosition;
 }
 
+cocos2d::Size GameRenderer::getOriginalSize() const {
+  return mOriginalSize;
+}
+
 void GameRenderer::setRotation(float val) {
   getNode()->setRotation(val);
 
@@ -87,6 +91,11 @@ cocos2d::Size GameRenderer::getSize() const {
 void GameRenderer::setSize(const cocos2d::Size &size) {
   auto contentSize = getContentSize();
   getNode()->setScale(size.width / contentSize.width, size.height / contentSize.height);
+
+  auto *physics = mParent->getComponent<PhysicsComponent>();
+  if (physics && physics->getShape()) {
+    physics->getShape()->onSizeSet(size);
+  }
 }
 
 void GameRenderer::setColor(const cocos2d::Color3B& color) {

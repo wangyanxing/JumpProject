@@ -106,3 +106,56 @@ RendererMoveTo* RendererMoveTo::reverse() const {
   CCASSERT(false, "reverse() not supported in MoveTo");
   return nullptr;
 }
+
+OpenCloseDoor* OpenCloseDoor::create(GameRenderer *renderer,
+                                     float duration,
+                                     Operation op,
+                                     bool reversedDirection) {
+  OpenCloseDoor *ret = new (std::nothrow) OpenCloseDoor();
+  if (ret) {
+    ret->_renderer = renderer;
+    ret->_operation = op;
+    ret->_reversedDirection = reversedDirection;
+    if (ret->initWithDuration(duration)) {
+      ret->autorelease();
+    } else {
+      CC_SAFE_DELETE(ret);
+    }
+  }
+  return ret;
+}
+
+OpenCloseDoor* OpenCloseDoor::clone() const {
+  auto a = new (std::nothrow) OpenCloseDoor();
+  a->_operation = _operation;
+  a->_renderer = _renderer;
+  a->_reversedDirection = _reversedDirection;
+  a->initWithDuration(_duration);
+  a->autorelease();
+  return a;
+}
+
+void OpenCloseDoor::startWithTarget(Node *target) {
+  ActionInterval::startWithTarget(target);
+  _originalSize = _renderer->getOriginalSize();
+}
+
+OpenCloseDoor* OpenCloseDoor::reverse() const {
+  CCASSERT(false, "reverse() not supported in MoveTo");
+  return nullptr;
+}
+
+void OpenCloseDoor::update(float time) {
+  if (!_target) {
+    return;
+  }
+  auto size = _originalSize;
+  auto curSize = _renderer->getSize();
+  auto curPos = _renderer->getPosition();
+
+  size.height *= (_operation == CLOSE) ? (1 - time) : time;
+  float deltaHeight = (curSize.height - size.height) / 2;
+  curPos.y += deltaHeight * (_reversedDirection ? -1 : 1);
+  _renderer->setSize(size);
+  _renderer->setPosition(curPos);
+}
