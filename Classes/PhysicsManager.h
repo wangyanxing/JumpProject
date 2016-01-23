@@ -56,7 +56,7 @@ private:
   CollisionInfo generateCollisionInfo(PhysicsComponent *objA, PhysicsComponent *objB);
 
 private:
-  bool mPhysicsDebugDraw{true};
+  bool mPhysicsDebugDraw{false};
 
   cocos2d::DrawNode* mDebugDrawNode{nullptr};
 

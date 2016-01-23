@@ -72,7 +72,6 @@ void EditorGameScene::clean() {
 }
 
 void EditorGameScene::onWinGame() {
-  
 }
 
 void EditorGameScene::keyPressed(EventKeyboard::KeyCode keyCode, cocos2d::Event *event) {
