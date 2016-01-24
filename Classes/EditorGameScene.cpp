@@ -33,9 +33,11 @@ bool EditorGameScene::init() {
 
   GameInputs::instance().addKeyboardEvent(EventKeyboard::KeyCode::KEY_SPACE,
                                           [&](GameInputs::KeyCode key) {
-      auto hero = GameLevel::instance().getHero();
-      hero->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_JUMP)}});
+      GameLevel::instance().getHero()->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_JUMP)}});
   });
+  
+  // Register editor commands.
+  registerCommands();
 
   // Test.
   GameLevel::instance().load("maps/local/test_refactor1.json");
@@ -64,6 +66,15 @@ void EditorGameScene::processInput() {
   } else if (gameInputs.isPressing(EventKeyboard::KeyCode::KEY_D)) {
     hero->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_RIGHT)}});
   }
+}
+
+void EditorGameScene::registerCommands() {
+  auto &gameInputs = GameInputs::instance();
+  
+  // Enter or leave game mode.
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_L, [this](GameInputs::KeyCode key) {
+    GameLevel::instance().enableGame(!GameLevel::instance().isGameEnabled());
+  });
 }
 
 void EditorGameScene::clean() {

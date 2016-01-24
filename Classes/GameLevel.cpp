@@ -16,6 +16,7 @@
 #include "ColorPalette.h"
 #include "GameLayerContainer.h"
 #include "GameConfig.h"
+#include "GameRenderer.h"
 
 USING_NS_CC;
 
@@ -97,7 +98,12 @@ void GameLevel::unload() {
 }
 
 void GameLevel::enableGame(bool enable) {
+  if (mGameEnabled == enable) {
+    return;
+  }
+  mGameEnabled = enable;
   for (auto &obj : mObjectManager->mObjects) {
     obj.second->setEnabled(enable);
   }
+  getHero()->getRenderer()->setVisible(mGameEnabled);
 }

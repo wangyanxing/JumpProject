@@ -40,6 +40,8 @@ public:
   int8_t getCameraDepth() override {
     return 0;
   }
+  
+  void registerCommands();
 
   void keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
 

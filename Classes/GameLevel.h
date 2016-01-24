@@ -29,6 +29,10 @@ public:
   void unload();
 
   void enableGame(bool enable);
+  
+  bool isGameEnabled() const {
+    return mGameEnabled;
+  }
 
   ObjectManager *getObjectManager() {
     return mObjectManager;
@@ -63,6 +67,8 @@ private:
   PhysicsManager *mPhysicsManager{nullptr};
 
   ColorPalette *mPalette{nullptr};
+  
+  bool mGameEnabled{false};
 };
 
 #endif /* GameLevel_h */

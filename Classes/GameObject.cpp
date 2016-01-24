@@ -36,6 +36,9 @@ void GameObject::removeComponentCommand(ComponentCommand command) {
 }
 
 void GameObject::runCommand(ComponentCommand command, const Parameter &param) {
+  if (!mEnabled) {
+    return;
+  }
   auto it = mComponentCommands.find(command);
   if (it == mComponentCommands.end()) {
     CCLOGERROR("Cannot find the command!");
@@ -168,8 +171,8 @@ void GameObject::setEnabled(bool val) {
     return;
   }
   mEnabled = val;
+  mRenderer->reset();
   if (mEnabled) {
-    mRenderer->reset();
     for (auto component : mComponents) {
       component.second->reset();
     }
