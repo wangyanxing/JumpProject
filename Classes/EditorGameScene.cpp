@@ -10,6 +10,7 @@
 #include "GameLevel.h"
 #include "GameInputs.h"
 #include "GameObject.h"
+#include "PhysicsManager.h"
 #include "Parameter.h"
 
 #if USE_REFACTOR
@@ -74,6 +75,12 @@ void EditorGameScene::registerCommands() {
   // Enter or leave game mode.
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_L, [this](GameInputs::KeyCode key) {
     GameLevel::instance().enableGame(!GameLevel::instance().isGameEnabled());
+  });
+  
+  // Show helpers.
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_G, [this](GameInputs::KeyCode key) {
+    auto physicsMgr = GameLevel::instance().getPhysicsManager();
+    physicsMgr->setPhysicsDebugDraw(!physicsMgr->getPhysicsDebugDraw());
   });
 }
 
