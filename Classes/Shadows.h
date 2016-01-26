@@ -59,7 +59,7 @@ public:
 
   ShadowEntry getShadowEntry(const std::vector <cocos2d::Vec2> &pts, const cocos2d::Vec2 &lightPos);
 
-  LightType mLightType{LIGHT_POINT};
+  ShadowLightType mLightType{LIGHT_POINT};
 
   cocos2d::Vec2 mLightPos;
 
@@ -93,6 +93,5 @@ public:
 };
 
 #endif
-
 
 #endif /* defined(__JumpEdt__Shadows__) */

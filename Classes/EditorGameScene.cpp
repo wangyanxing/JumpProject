@@ -74,13 +74,13 @@ void EditorGameScene::registerCommands() {
   
   // Enter or leave game mode.
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_L, [this](GameInputs::KeyCode key) {
-    GameLevel::instance().enableGame(!GameLevel::instance().isGameEnabled());
+      GameLevel::instance().enableGame(!GameLevel::instance().isGameEnabled());
   });
   
   // Show helpers.
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_G, [this](GameInputs::KeyCode key) {
-    auto physicsMgr = GameLevel::instance().getPhysicsManager();
-    physicsMgr->setPhysicsDebugDraw(!physicsMgr->getPhysicsDebugDraw());
+      auto physicsMgr = GameLevel::instance().getPhysicsManager();
+      physicsMgr->setPhysicsDebugDraw(!physicsMgr->getPhysicsDebugDraw());
   });
 }
 

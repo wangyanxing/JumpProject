@@ -96,12 +96,22 @@ public:
     mShadowEnabled = val;
   }
 
+  int getShadowLayer() const {
+    return mShadowLayer;
+  }
+
+  void setShadowLayer(int val) {
+    mShadowLayer = val;
+  }
+
 protected:
   GameObject *mParent{nullptr};
 
   int mColorIndex{DEFAULT_COLOR_ID};
 
   bool mShadowEnabled{true};
+
+  int mShadowLayer{0};
 
   cocos2d::Size mOriginalSize;
 

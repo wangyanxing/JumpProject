@@ -140,6 +140,8 @@
 		BC64236F1C3F4FB40018F96F /* DeathCircleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC64236C1C3F4FB40018F96F /* DeathCircleRenderer.cpp */; };
 		BC6423711C3F5D3B0018F96F /* EditorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC6423701C3F5D3B0018F96F /* EditorScene.cpp */; };
 		BC6423721C3F5D3B0018F96F /* EditorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC6423701C3F5D3B0018F96F /* EditorScene.cpp */; };
+		BCA39E001C56C1F9009C08D4 /* ShadowManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCA39DFE1C56C1F9009C08D4 /* ShadowManager.cpp */; };
+		BCA39E011C56C1F9009C08D4 /* ShadowManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCA39DFE1C56C1F9009C08D4 /* ShadowManager.cpp */; };
 		BCB85EF61C45ED2C00CB8383 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85EF41C45ED2C00CB8383 /* GameObject.cpp */; };
 		BCB85EF71C45ED2C00CB8383 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85EF41C45ED2C00CB8383 /* GameObject.cpp */; };
 		BCB85EFE1C45EE6200CB8383 /* GameRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85EFC1C45EE6200CB8383 /* GameRenderer.cpp */; };
@@ -348,6 +350,8 @@
 		BC64236C1C3F4FB40018F96F /* DeathCircleRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeathCircleRenderer.cpp; sourceTree = "<group>"; };
 		BC64236D1C3F4FB40018F96F /* DeathCircleRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeathCircleRenderer.h; sourceTree = "<group>"; };
 		BC6423701C3F5D3B0018F96F /* EditorScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorScene.cpp; sourceTree = "<group>"; };
+		BCA39DFE1C56C1F9009C08D4 /* ShadowManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShadowManager.cpp; sourceTree = "<group>"; };
+		BCA39DFF1C56C1F9009C08D4 /* ShadowManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShadowManager.h; sourceTree = "<group>"; };
 		BCB85EF41C45ED2C00CB8383 /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameObject.cpp; sourceTree = "<group>"; };
 		BCB85EF51C45ED2C00CB8383 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
 		BCB85EFC1C45EE6200CB8383 /* GameRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameRenderer.cpp; sourceTree = "<group>"; };
@@ -751,6 +755,8 @@
 				B5408E6C1C505F8200E4C90E /* ButtonComponent.h */,
 				BCB866BB1C517F8B00CB8383 /* RendererActions.cpp */,
 				BCB866BC1C517F8B00CB8383 /* RendererActions.h */,
+				BCA39DFE1C56C1F9009C08D4 /* ShadowManager.cpp */,
+				BCA39DFF1C56C1F9009C08D4 /* ShadowManager.h */,
 			);
 			name = Refactor;
 			sourceTree = "<group>";
@@ -954,6 +960,7 @@
 				BC3CE9FD1C1B86B400738B33 /* Button.cpp in Sources */,
 				BCB862B81C4842BA00CB8383 /* ColorPalette.cpp in Sources */,
 				BC6423711C3F5D3B0018F96F /* EditorScene.cpp in Sources */,
+				BCA39E001C56C1F9009C08D4 /* ShadowManager.cpp in Sources */,
 				BC3CEA071C1B86B400738B33 /* GameScene.cpp in Sources */,
 				BC3CEA051C1B86B400738B33 /* Events.cpp in Sources */,
 				BC3CEA2D1C1B86B400738B33 /* TimeEvent.cpp in Sources */,
@@ -1026,6 +1033,7 @@
 				BCB866B91C50172400CB8383 /* PathComponent.cpp in Sources */,
 				BC641FFD1C3C7F730018F96F /* ChooseWorldScene.cpp in Sources */,
 				BCB85F0D1C46B35F00CB8383 /* SimpleRenderer.cpp in Sources */,
+				BCA39E011C56C1F9009C08D4 /* ShadowManager.cpp in Sources */,
 				BCB85F081C46AE9500CB8383 /* ObjectManager.cpp in Sources */,
 				BC64236F1C3F4FB40018F96F /* DeathCircleRenderer.cpp in Sources */,
 				BC3CEA001C1B86B400738B33 /* DrawNodeEx.cpp in Sources */,

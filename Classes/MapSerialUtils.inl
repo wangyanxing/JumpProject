@@ -400,6 +400,8 @@ Button::PushDir str2Direction(const string &v) {
   return kinds[v];
 }
 
+#if USE_SHADOW
+
 std::string lightType2Str(ShadowManager::LightType v) {
   static std::string names[] = {
     "\"POINT\"",
@@ -420,5 +422,7 @@ ShadowManager::LightType str2lightType(const string &v) {
   }
   return kinds[v];
 }
+
+#endif
 
 #endif /* MapSerialUtils_inl */

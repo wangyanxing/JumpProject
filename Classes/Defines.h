@@ -39,7 +39,12 @@ enum FollowMode {
 };
 
 // These macros are used for debug.
-#define USE_SHADOW 1
+#if USE_REFACTOR
+# define USE_SHADOW 0
+#else
+# define USE_SHADOW 1
+#endif
+
 #define USE_JUMP_EFFECT 1
 #define USE_BACKGROUND 1
 

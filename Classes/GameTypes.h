@@ -65,6 +65,11 @@ enum ButtonDirection {
   BUTTON_RIGHT
 };
 
+enum ShadowLightType {
+  LIGHT_POINT,
+  LIGHT_DIR,
+};
+
 template <typename T>
 class EnumSerial {
 public:
@@ -132,6 +137,31 @@ public:
       return BUTTON_DOWN;
     }
     return dirs[str];
+  }
+};
+
+template <>
+class EnumSerial <ShadowLightType> {
+public:
+  static std::string toString(ShadowLightType val) {
+    static std::string names[] = {
+      "POINT",
+      "DIR"
+    };
+    return names[val];
+  }
+
+  static ShadowLightType parse(const std::string& str) {
+    static std::map<std::string, ShadowLightType> types = {
+      {"POINT", LIGHT_POINT},
+      {"DIR",   LIGHT_DIR}
+    };
+
+    if (!types.count(str)) {
+      printf("[Parse Error] Invalid light type: %s\n", str.c_str());
+      return LIGHT_POINT;
+    }
+    return types[str];
   }
 };
 

@@ -27,6 +27,9 @@ void GameRenderer::load(JsonValueT &json) {
   if (json.HasMember(RENDERER_SHADOW)) {
     mShadowEnabled = json[RENDERER_SHADOW].GetBool();
   }
+  if (json.HasMember(RENDERER_SHADOW_LAYER)) {
+    mShadowLayer = json[RENDERER_SHADOW_LAYER].GetInt();
+  }
 }
 
 void GameRenderer::setPosition(const cocos2d::Vec2& pos) {

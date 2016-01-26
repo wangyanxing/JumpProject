@@ -33,7 +33,17 @@
 #define LEVEL_BLOCK_PALETTE_ID "paletteIndex"
 
 #define RENDERER_SHADOW "shadowEnable"
+#define RENDERER_SHADOW_LAYER "shadowLayer"
 #define RENDERER_ROT_SPEED "rotatespeed"
+
+#define SHADOW_GROUP "shadowGroup"
+#define SHADOW_GROUP_POSX "posx"
+#define SHADOW_GROUP_WIDTH "width"
+#define SHADOW_GROUP_LIGHT_TYPE "lightType"
+#define SHADOW_GROUP_LIGHT_DIR "lightDir"
+#define SHADOW_GROUP_LIGHT_POS "lightPosition"
+#define SHADOW_GROUP_LIGHT_MOV "lightMoving"
+#define SHADOW_GROUP_LIGHT_DARKNESS "shadowDarkness"
 
 #define PHYSICS_EVENTS "triggerEvents"
 

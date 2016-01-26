@@ -23,6 +23,10 @@ class ObjectManager;
 class PhysicsManager;
 class ColorPalette;
 
+namespace cocos2d {
+  class DrawNodeEx;
+}
+
 #include "GameTypes.h"
 #include "Defines.h"
 
