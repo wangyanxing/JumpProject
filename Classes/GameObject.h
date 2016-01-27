@@ -83,6 +83,10 @@ public:
 
   void setEnabled(bool val);
 
+  bool isRemovable() const {
+    return mRemovable;
+  }
+
 private:
   void release();
 
@@ -98,6 +102,8 @@ private:
   BlockKind mKind{KIND_BLOCK};
 
   bool mEnabled{false};
+
+  bool mRemovable{true};
 };
 
 #endif /* GameObject_h */

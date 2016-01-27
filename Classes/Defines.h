@@ -110,4 +110,6 @@ enum FollowMode {
 
 #define UPDATE_DT 1.0f / 60.0f
 
+#define DEFAULT_SHADOW_SHADER "shaders/normal_shadow.fsh"
+
 #endif /* defined(__JumpEdt__Defines__) */

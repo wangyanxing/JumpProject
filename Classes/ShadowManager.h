@@ -47,6 +47,12 @@ public:
   void updateLightDir();
 
 private:
+  ShadowEntry getShadowEntry(const std::vector<cocos2d::Vec2> &pts, const cocos2d::Vec2 &lightPos);
+
+  void updateBlock(GameObject *block,
+                   std::vector <cocos2d::V2F_C4B_T2F_Triangle> &triangles,
+                   bool clipX = false);
+private:
   cocos2d::Vec2 mLightPos;
 
   cocos2d::Vec2 mOriginLightPos;

@@ -104,6 +104,14 @@ public:
     mShadowLayer = val;
   }
 
+  int getShadowGroup() const {
+    return mShadowGroup;
+  }
+
+  void setShadowGroup(int val) {
+    mShadowGroup = val;
+  }
+
 protected:
   GameObject *mParent{nullptr};
 
@@ -112,6 +120,8 @@ protected:
   bool mShadowEnabled{true};
 
   int mShadowLayer{0};
+
+  int mShadowGroup{0};
 
   cocos2d::Size mOriginalSize;
 

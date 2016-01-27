@@ -23,6 +23,7 @@ enum ParamType {
   PARAM_BLOCK_KIND,     // BlockKind
   PARAM_INPUT,          // InputType
   PARAM_COLLISION_INFO, // CollisionInfo
+  PARAM_REMOVABLE,      // Removable
 };
 
 /**

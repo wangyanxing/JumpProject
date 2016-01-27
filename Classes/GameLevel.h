@@ -53,6 +53,10 @@ public:
   GameLayerContainer *getGameLayer() {
     return mGameLayer;
   }
+
+  int getNumShadowGroup() const {
+    return mNumShadowGroup;
+  }
   
   GameObject *getHero();
   
@@ -69,6 +73,8 @@ private:
   ColorPalette *mPalette{nullptr};
   
   bool mGameEnabled{false};
+
+  int mNumShadowGroup{0};
 };
 
 #endif /* GameLevel_h */
