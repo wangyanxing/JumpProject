@@ -206,7 +206,7 @@ void ShadowManager::updateBlock(GameObject *block,
     return;
   }
 
-  
+
 }
 
 #endif

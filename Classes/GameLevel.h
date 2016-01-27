@@ -57,11 +57,19 @@ public:
   int getNumShadowGroup() const {
     return mNumShadowGroup;
   }
+
+  cocos2d::Rect getBounds() const {
+    return mBounds;
+  }
   
   GameObject *getHero();
   
 private:
   void createHero(const cocos2d::Vec2 &pos);
+
+  void updateCamera(cocos2d::Camera *cam, bool forceUpdate);
+
+  void updateBounds();
 
 private:
   ObjectManager *mObjectManager{nullptr};
@@ -75,6 +83,8 @@ private:
   bool mGameEnabled{false};
 
   int mNumShadowGroup{0};
+
+  cocos2d::Rect mBounds;
 };
 
 #endif /* GameLevel_h */

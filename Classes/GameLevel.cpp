@@ -17,6 +17,7 @@
 #include "GameLayerContainer.h"
 #include "GameConfig.h"
 #include "GameRenderer.h"
+#include "VisibleRect.h"
 
 USING_NS_CC;
 
@@ -35,6 +36,10 @@ void GameLevel::release() {
 }
 
 void GameLevel::update(float dt) {
+#if EDITOR_MODE
+  updateBounds();
+#endif
+
   for (auto &obj : mObjectManager->mObjects) {
     obj.second->update(dt);
   }
@@ -90,6 +95,7 @@ void GameLevel::load(const std::string &levelFile) {
     mObjectManager->createObject(val);
   });
 
+  
   enableGame(true);
 }
 
@@ -106,4 +112,45 @@ void GameLevel::enableGame(bool enable) {
     obj.second->setEnabled(enable);
   }
   getHero()->getRenderer()->setVisible(mGameEnabled);
+}
+
+void GameLevel::updateBounds() {
+  float halfBorderSize = BORDER_FRAME_SIZE / 2;
+
+  float left = mObjectManager->getObjectByID(BORDER_BLOCK_LEFT)->getRenderer()->getPosition().x;
+  left += halfBorderSize;
+  float right = mObjectManager->getObjectByID(BORDER_BLOCK_RIGHT)->getRenderer()->getPosition().x;
+  right -= halfBorderSize;
+  float top = mObjectManager->getObjectByID(BORDER_BLOCK_TOP)->getRenderer()->getPosition().y;
+  top -= halfBorderSize;
+  float bottom = mObjectManager->getObjectByID(BORDER_BLOCK_BOTTOM)->getRenderer()->getPosition().y;
+  bottom += halfBorderSize;
+
+  mBounds = Rect(left, bottom, right - left, top - bottom);
+}
+
+void GameLevel::updateCamera(cocos2d::Camera *cam, bool forceUpdate) {
+  if (!mGameEnabled && !forceUpdate) {
+    return;
+  }
+  auto halfFrame = VisibleRect::getFrameSize() / 2;
+  auto heroRel = getHero()->getRenderer()->getPosition() - halfFrame;
+  auto newPos = Vec2(halfFrame) + heroRel;
+
+#if EDITOR_MODE
+  newPos.x = std::max(newPos.x, halfFrame.width);
+  newPos.x = std::min(newPos.x, mBounds.size.width - halfFrame.width);
+  newPos.y = std::max(newPos.y, halfFrame.height);
+  newPos.y = std::min(newPos.y, mBounds.size.height + UI_LAYER_HIGHT - halfFrame.height);
+  auto camRelative = newPos - VisibleRect::getVisibleRect().size / 2 - Vec2(0, UI_LAYER_HIGHT / 2);
+#else
+  auto center = VisibleRect::center();
+  newPos.x = std::max(newPos.x, center.x);
+  newPos.x = std::min(newPos.x, mBounds.size.width - center.x);
+  newPos.y = std::max(newPos.y, center.y);
+  newPos.y = std::min(newPos.y, mBounds.size.height - center.y);
+  auto camRelative = newPos - VisibleRect::getVisibleRect().size / 2;
+#endif
+
+  cam->setPosition(newPos);
 }
