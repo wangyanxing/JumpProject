@@ -154,3 +154,12 @@ void GameLevel::updateCamera(cocos2d::Camera *cam, bool forceUpdate) {
 
   cam->setPosition(newPos);
 }
+
+void GameLevel::traverseObjects(std::function<void(GameObject*)> func, bool containsHero) {
+  for (auto &p : mObjectManager->mObjects) {
+    if (!containsHero && p.second->getID() == 0) {
+      continue;
+    }
+    func(p.second);
+  }
+}

@@ -13,6 +13,7 @@
 #include "GameRenderer.h"
 #include "JsonFormat.h"
 #include "DrawNodeEx.h"
+#include "GameLayerContainer.h"
 
 USING_NS_CC;
 
@@ -94,7 +95,29 @@ void ShadowManager::reset() {
 }
 
 void ShadowManager::update(float dt) {
+  std::vector<V2F_C4B_T2F_Triangle> triangles[NUM_SHADOW_LAYERS];
 
+  GameLevel::instance().traverseObjects([&](GameObject* block){
+    updateBlock(block, triangles[block->getRenderer()->getShadowLayer()]);
+  }, true);
+
+  auto camera = GameLevel::instance().getGameLayer()->getCamera();
+  for (int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
+#if EDITOR_MODE
+    mRenderTextures[i]->setPosition(camera->getPosition() -
+                                    Vec2(0, UI_LAYER_HIGHT / 2));
+#else
+    mRenderTextures[i]->setPosition(camera->getPosition());
+#endif
+
+    mShadowDrawers[i]->clear();
+    if (!triangles[i].empty()) {
+      mShadowDrawers[i]->drawTriangles(triangles[i]);
+    }
+    mRenderTextures[i]->beginWithClear(0, 0, 0, 0);
+    mShadowDrawers[i]->visit();
+    mRenderTextures[i]->end();
+  }
 }
 
 void ShadowManager::updateLightDir() {
@@ -206,7 +229,103 @@ void ShadowManager::updateBlock(GameObject *block,
     return;
   }
 
+  auto bounds = GameLevel::instance().getBounds();
+  auto camera = GameLevel::instance().getGameLayer()->getCamera();
+#if EDITOR_MODE
+  auto camRelative = camera->getPosition() - VisibleRect::getVisibleRect().size / 2 -
+  Vec2(0, UI_LAYER_HIGHT / 2);
+#else
+  auto camRelative = camera->getPosition() - VisibleRect::getVisibleRect().size / 2;
+#endif
 
+  auto lightPos = mLightPos - camRelative;
+
+  std::vector<Vec2> pts;
+  block->getRenderer()->getPointsForShadow(lightPos, pts);
+  for (auto &p : pts) {
+    p -= camRelative;
+  }
+  auto entries = getShadowEntry(pts, lightPos);
+  if (entries.noShadow) {
+    return;
+  }
+
+  Color4B colorBase = Color4B::BLACK;
+  const float LENGTH = 1500;
+
+  Vec2 dir0, dir1;
+  if (mLightType == LIGHT_POINT) {
+    dir0 = entries.pt1 - lightPos;
+    dir0.normalize();
+    dir1 = entries.pt2 - lightPos;
+    dir1.normalize();
+  } else if (mLightType == LIGHT_DIR) {
+    dir0 = dir1 = mLightDir;
+  }
+
+  Vec2 f0 = entries.pt1 + dir0 * LENGTH;
+  Vec2 f1 = entries.pt2 + dir1 * LENGTH;
+
+  if (clipX) {
+    Vec2 leftupper(0, 2000);
+    Vec2 leftlower(0, -1000);
+
+    Vec2 rightupper(bounds.size.width, 2000);
+    Vec2 rightlower(bounds.size.width, -1000);
+
+    if (Vec2::isSegmentIntersect(leftlower, leftupper, entries.pt1, f0)) {
+      f0 = Vec2::getIntersectPoint(leftlower, leftupper, entries.pt1, f0);
+    }
+    if (Vec2::isSegmentIntersect(leftlower, leftupper, entries.pt2, f1)) {
+      f1 = Vec2::getIntersectPoint(leftlower, leftupper, entries.pt2, f1);
+    }
+    if (Vec2::isSegmentIntersect(rightlower, rightupper, entries.pt1, f0)) {
+      f0 = Vec2::getIntersectPoint(rightlower, rightupper, entries.pt1, f0);
+    }
+    if (Vec2::isSegmentIntersect(rightlower, rightupper, entries.pt2, f1)) {
+      f1 = Vec2::getIntersectPoint(rightlower, rightupper, entries.pt2, f1);
+    }
+  }
+
+  Size visibleSize = VisibleRect::getVisibleRect().size;
+  float center = visibleSize.width / 2;
+  Vec2 offset(-center - visibleSize.width * (mPosX - 0.5f), 0);
+
+  V2F_C4B_T2F_Triangle t;
+  t.a.vertices = entries.pt1 + offset;
+  t.a.colors = colorBase;
+
+  t.b.vertices = f1 + offset;
+  t.b.colors = colorBase;
+
+  t.c.vertices = f0 + offset;
+  t.c.colors = colorBase;
+
+  triangles.push_back(t);
+
+  t.a.vertices = entries.pt1 + offset;
+  t.a.colors = colorBase;
+
+  t.b.vertices = entries.pt2 + offset;
+  t.b.colors = colorBase;
+
+  t.c.vertices = f1 + offset;
+  t.c.colors = colorBase;
+
+  triangles.push_back(t);
+
+  if (entries.needMakeUp) {
+    t.a.vertices = entries.pt1 + offset;
+    t.a.colors = colorBase;
+
+    t.b.vertices = entries.pt2 + offset;
+    t.b.colors = colorBase;
+
+    t.c.vertices = entries.makeUpPt + offset;
+    t.c.colors = colorBase;
+    
+    triangles.push_back(t);
+  }
 }
 
 #endif

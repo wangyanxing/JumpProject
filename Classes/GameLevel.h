@@ -61,6 +61,8 @@ public:
   cocos2d::Rect getBounds() const {
     return mBounds;
   }
+
+  void traverseObjects(std::function<void(GameObject*)> func, bool containsHero);
   
   GameObject *getHero();
   

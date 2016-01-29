@@ -327,10 +327,8 @@ void ShadowManager::update(float dt) {
   }
 
   mLightMoveTimer += dt;
-
   bool lightLeft = mLightPos.x <= VisibleRect::center().x;
   bool heroLeft = GameLogic::Game->mHero->getPosition().x <= VisibleRect::center().x;
-
   float dis = std::abs(mOriginLightPos.x - VisibleRect::center().x);
 
   if (lightLeft == heroLeft && mLightMoveTimer > 10) {
