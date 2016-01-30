@@ -24,8 +24,8 @@ EditorGameScene::~EditorGameScene() {
 }
 
 bool EditorGameScene::init() {
+  GameLevel::instance().init(this);
   GameLayerContainer::init();
-  GameLevel::instance().setGameLayer(this);
 
   auto keyboardListener = EventListenerKeyboard::create();
   keyboardListener->onKeyPressed = CC_CALLBACK_2(EditorGameScene::keyPressed, this);

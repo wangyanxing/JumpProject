@@ -22,6 +22,7 @@ class RectPhysicsShape;
 class ObjectManager;
 class PhysicsManager;
 class ColorPalette;
+class ShadowManager;
 
 namespace cocos2d {
   class DrawNodeEx;

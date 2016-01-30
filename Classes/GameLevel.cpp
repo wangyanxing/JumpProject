@@ -18,18 +18,24 @@
 #include "GameConfig.h"
 #include "GameRenderer.h"
 #include "VisibleRect.h"
+#include "ShadowManager.h"
 
 USING_NS_CC;
 
-void GameLevel::init() {
+void GameLevel::init(GameLayerContainer *layer) {
+  mGameLayer = layer;
+  
   GameConfig::instance().load();
   
   CC_ASSERT(!mObjectManager);
   mObjectManager = new ObjectManager();
   mPhysicsManager = new PhysicsManager();
+  mShadowManager = new ShadowManager();
+  mShadowManager->init(mGameLayer);
 }
 
 void GameLevel::release() {
+  CC_SAFE_DELETE(mShadowManager);
   CC_SAFE_DELETE(mObjectManager);
   CC_SAFE_DELETE(mPhysicsManager);
   CC_SAFE_DELETE(mPalette);
@@ -39,6 +45,8 @@ void GameLevel::update(float dt) {
 #if EDITOR_MODE
   updateBounds();
 #endif
+
+  mShadowManager->update(dt);
 
   for (auto &obj : mObjectManager->mObjects) {
     obj.second->update(dt);

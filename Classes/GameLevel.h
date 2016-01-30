@@ -16,7 +16,7 @@ class GameLevel {
   DECL_SINGLETON(GameLevel)
 
 public:
-  void init();
+  void init(GameLayerContainer *layer);
 
   void release();
 
@@ -46,10 +46,6 @@ public:
     return mPalette;
   }
 
-  void setGameLayer(GameLayerContainer *layer) {
-    mGameLayer = layer;
-  }
-
   GameLayerContainer *getGameLayer() {
     return mGameLayer;
   }
@@ -77,6 +73,8 @@ private:
   ObjectManager *mObjectManager{nullptr};
 
   GameLayerContainer *mGameLayer{nullptr};
+
+  ShadowManager *mShadowManager{nullptr};
 
   PhysicsManager *mPhysicsManager{nullptr};
 

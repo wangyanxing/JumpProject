@@ -17,8 +17,6 @@
 USING_NS_CC;
 
 Scene *createScene() {
-  GameLevel::instance().init();
-
 #if EDITOR_MODE == 0
   auto framesize = VisibleRect::getFrameSize();
   float ratio = framesize.width / framesize.height;
