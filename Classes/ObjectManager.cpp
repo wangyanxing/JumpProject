@@ -37,7 +37,7 @@ GameObject *ObjectManager::createObject(JsonValueT &json) {
     colorIndex = json[LEVEL_BLOCK_PALETTE_ID].GetInt();
   }
 
-  bool removable = false;
+  bool removable = true;
   if (json.HasMember(LEVEL_BLOCK_REMOVABLE)) {
     removable = json[LEVEL_BLOCK_REMOVABLE].GetBool();
   }
