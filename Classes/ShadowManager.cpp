@@ -42,9 +42,10 @@ void ShadowManager::load(JsonValueT &group) {
   mPosX = group[SHADOW_GROUP_POSX].GetDouble();
   mWidth = group[SHADOW_GROUP_WIDTH].GetDouble();
   mLightType = group[SHADOW_GROUP_LIGHT_TYPE].getEnum<ShadowLightType>();
-  mLightDir = group[SHADOW_GROUP_LIGHT_DIR].GetVec2();
+  mLightDirDegree = group[SHADOW_GROUP_LIGHT_DIR].GetDouble();
   mLightPos = group[SHADOW_GROUP_LIGHT_POS].GetVec2();
   mShadowDarkness = group[SHADOW_GROUP_LIGHT_DARKNESS].GetDouble();
+  updateLightDir();
 }
 
 void ShadowManager::init(cocos2d::Node *parentNode) {
@@ -53,9 +54,8 @@ void ShadowManager::init(cocos2d::Node *parentNode) {
   }
 
   auto shaderfile = FileUtils::getInstance()->fullPathForFilename(DEFAULT_SHADOW_SHADER);
-  auto shaderContent = FileUtils::getInstance()->getStringFromFile(shaderfile);
-  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_vert,
-                                                 shaderContent.c_str());
+  auto content = FileUtils::getInstance()->getStringFromFile(shaderfile);
+  auto program = GLProgram::createWithByteArrays(ccPositionTextureColor_vert, content.c_str());
   auto glProgramState = GLProgramState::getOrCreateWithGLProgram(program);
 
   for (int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
@@ -69,10 +69,12 @@ void ShadowManager::init(cocos2d::Node *parentNode) {
                                                visibleSize.height,
                                                Texture2D::PixelFormat::RGBA8888);
     mRenderTextures[i]->setVirtualViewport(Vec2(0, 0),
-                                           Rect(0, 0,
+                                           Rect(0,
+                                                0,
                                                 visibleSize.width,
                                                 visibleSize.height),
-                                           Rect(0, 0,
+                                           Rect(0,
+                                                0,
                                                 visibleSizePixel.width * mWidth,
                                                 visibleSizePixel.height));
 
@@ -101,13 +103,12 @@ void ShadowManager::update(float dt) {
     updateBlock(block, triangles[block->getRenderer()->getShadowLayer()]);
   }, true);
 
-  auto camera = GameLevel::instance().getGameLayer()->getCamera();
+  auto cameraPos = GameLevel::instance().getGameLayer()->getCamera()->getPosition();
   for (int i = 0; i < NUM_SHADOW_LAYERS; ++i) {
 #if EDITOR_MODE
-    mRenderTextures[i]->setPosition(camera->getPosition() -
-                                    Vec2(0, UI_LAYER_HIGHT / 2));
+    mRenderTextures[i]->setPosition(cameraPos - Vec2(0, UI_LAYER_HIGHT / 2));
 #else
-    mRenderTextures[i]->setPosition(camera->getPosition());
+    mRenderTextures[i]->setPosition(cameraPos);
 #endif
 
     mShadowDrawers[i]->clear();
@@ -233,7 +234,7 @@ void ShadowManager::updateBlock(GameObject *block,
   auto camera = GameLevel::instance().getGameLayer()->getCamera();
 #if EDITOR_MODE
   auto camRelative = camera->getPosition() - VisibleRect::getVisibleRect().size / 2 -
-  Vec2(0, UI_LAYER_HIGHT / 2);
+    Vec2(0, UI_LAYER_HIGHT / 2);
 #else
   auto camRelative = camera->getPosition() - VisibleRect::getVisibleRect().size / 2;
 #endif

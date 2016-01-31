@@ -30,12 +30,13 @@ void GameLevel::init(GameLayerContainer *layer) {
   CC_ASSERT(!mObjectManager);
   mObjectManager = new ObjectManager();
   mPhysicsManager = new PhysicsManager();
-  mShadowManager = new ShadowManager();
-  mShadowManager->init(mGameLayer);
 }
 
 void GameLevel::release() {
-  CC_SAFE_DELETE(mShadowManager);
+  for (auto sm : mShadows) {
+    CC_SAFE_FREE(sm);
+  }
+  mShadows.clear();
   CC_SAFE_DELETE(mObjectManager);
   CC_SAFE_DELETE(mPhysicsManager);
   CC_SAFE_DELETE(mPalette);
@@ -45,8 +46,6 @@ void GameLevel::update(float dt) {
 #if EDITOR_MODE
   updateBounds();
 #endif
-
-  mShadowManager->update(dt);
 
   for (auto &obj : mObjectManager->mObjects) {
     obj.second->update(dt);
@@ -60,6 +59,10 @@ void GameLevel::beforeRender(float dt) {
   mPhysicsManager->beforeRender(dt);
   for (auto &obj : mObjectManager->mObjects) {
     obj.second->beforeRender(dt);
+  }
+  
+  for (auto sm : mShadows) {
+    sm->update(dt);
   }
 }
 
@@ -76,6 +79,7 @@ void GameLevel::createHero(const cocos2d::Vec2 &pos) {
        .set(PARAM_SIZE, Size(GameConfig::instance().HeroSize, GameConfig::instance().HeroSize));
 
   auto hero = getObjectManager()->createObject(param);
+  hero->getRenderer()->setShadowLayer(1);
   CC_ASSERT(hero->getID() == 0);
 }
 
@@ -95,15 +99,23 @@ void GameLevel::load(const std::string &levelFile) {
   mPalette = new ColorPalette(paletteFile);
 
   mGameLayer->setColor(mPalette->getBackgroundColor());
+  
+  // Shadows
+  if (doc.HasMember(SHADOW_GROUP)) {
+    mNumShadowGroup = doc[SHADOW_GROUP].Size();
+    parser.parseArray(doc, SHADOW_GROUP, [&](JsonSizeT i, JsonValueT &val){
+      addShadowGroup();
+      mShadows[i]->load(val);
+      initShadowGroup(i);
+    });
+  }
 
-  auto spawnPos = doc[LEVEL_SPAWN_POS].GetVec2();
-  createHero(spawnPos);
+  createHero(doc[LEVEL_SPAWN_POS].GetVec2());
 
   parser.parseArray(doc, LEVEL_BLOCK_ARRAY, [&](JsonSizeT i, JsonValueT& val) {
     mObjectManager->createObject(val);
   });
 
-  
   enableGame(true);
 }
 
@@ -170,4 +182,16 @@ void GameLevel::traverseObjects(std::function<void(GameObject*)> func, bool cont
     }
     func(p.second);
   }
+}
+
+void GameLevel::addShadowGroup() {
+  mShadowNode.push_back(Node::create());
+  mShadows.push_back(new ShadowManager());
+  if (!mShadowNode.back()->getParent()) {
+    mGameLayer->getBlockRoot()->addChild(mShadowNode.back(), ZORDER_SHADOW_1);
+  }
+}
+
+void GameLevel::initShadowGroup(int groupId) {
+  mShadows[groupId]->init(mShadowNode[groupId]);
 }

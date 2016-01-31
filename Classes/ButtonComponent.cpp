@@ -79,10 +79,8 @@ void ButtonComponent::callEvents(const std::vector<std::string>& events) {
 void ButtonComponent::changeState(ButtonState newState) {
   if (mState != newState) {
     if (newState == PUSHED) {
-      CCLOG("Button pushed: id = %d", mParent->getID());
       callEvents(mPushedEvents);
     } else if (mState == RESTORING && newState == IDLE) {
-      CCLOG("Button restored: id = %d", mParent->getID());
       callEvents(mRestoredEvents);
     }
     mState = newState;

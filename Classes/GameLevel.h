@@ -53,7 +53,7 @@ public:
   int getNumShadowGroup() const {
     return mNumShadowGroup;
   }
-
+  
   cocos2d::Rect getBounds() const {
     return mBounds;
   }
@@ -68,13 +68,15 @@ private:
   void updateCamera(cocos2d::Camera *cam, bool forceUpdate);
 
   void updateBounds();
+  
+  void addShadowGroup();
+  
+  void initShadowGroup(int groupId);
 
 private:
   ObjectManager *mObjectManager{nullptr};
 
   GameLayerContainer *mGameLayer{nullptr};
-
-  ShadowManager *mShadowManager{nullptr};
 
   PhysicsManager *mPhysicsManager{nullptr};
 
@@ -82,7 +84,11 @@ private:
   
   bool mGameEnabled{false};
 
-  int mNumShadowGroup{0};
+  int mNumShadowGroup{1};
+  
+  std::vector<ShadowManager*> mShadows;
+  
+  std::vector<cocos2d::Node*> mShadowNode;
 
   cocos2d::Rect mBounds;
 };
