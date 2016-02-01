@@ -44,6 +44,10 @@ void GameLevel::release() {
 }
 
 void GameLevel::update(float dt) {
+  if (!mGameEnabled) {
+    return;
+  }
+
 #if EDITOR_MODE
   updateBounds();
 #endif
@@ -117,7 +121,8 @@ void GameLevel::load(const std::string &levelFile) {
     parser.parseArray(doc, GAME_SPRITES, [&](JsonSizeT i, JsonValueT &val){
       mSpriteList.push_back(new GameSprite());
       mSpriteList.back()->load(val);
-      mGameLayer->addChild(mSpriteList.back()->getSprite(), mSpriteList.back()->ZOrder);
+      mGameLayer->getBlockRoot()->addChild(mSpriteList.back()->getSprite(),
+                                           mSpriteList.back()->ZOrder);
     });
   }
 
@@ -132,6 +137,21 @@ void GameLevel::load(const std::string &levelFile) {
 
 void GameLevel::unload() {
   mObjectManager->cleanUp();
+
+  for (auto &sprite : mSpriteList) {
+    sprite->clean();
+    CC_SAFE_DELETE(sprite);
+  }
+  mSpriteList.clear();
+
+  mShadowNode.clear();
+  for (auto &shadow : mShadows) {
+    CC_SAFE_DELETE(shadow);
+  }
+  mShadows.clear();
+
+  mGameLayer->getBlockRoot()->removeAllChildren();
+  mGameEnabled = false;
 }
 
 void GameLevel::enableGame(bool enable) {

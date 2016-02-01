@@ -60,12 +60,14 @@ void EditorGameScene::postUpdate(float dt) {
 
 void EditorGameScene::processInput() {
   auto &gameInputs = GameInputs::instance();
-  auto hero = GameLevel::instance().getHero();
 
-  if (gameInputs.isPressing(EventKeyboard::KeyCode::KEY_A)) {
-    hero->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_LEFT)}});
-  } else if (gameInputs.isPressing(EventKeyboard::KeyCode::KEY_D)) {
-    hero->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_RIGHT)}});
+  if (GameLevel::instance().isGameEnabled()) {
+    auto hero = GameLevel::instance().getHero();
+    if (gameInputs.isPressing(EventKeyboard::KeyCode::KEY_A)) {
+      hero->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_LEFT)}});
+    } else if (gameInputs.isPressing(EventKeyboard::KeyCode::KEY_D)) {
+      hero->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_RIGHT)}});
+    }
   }
 }
 
@@ -81,6 +83,16 @@ void EditorGameScene::registerCommands() {
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_G, [this](GameInputs::KeyCode key) {
       auto physicsMgr = GameLevel::instance().getPhysicsManager();
       physicsMgr->setPhysicsDebugDraw(!physicsMgr->getPhysicsDebugDraw());
+  });
+
+  // Reset scene.
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_0, [this](GameInputs::KeyCode key) {
+    GameLevel::instance().unload();
+  });
+
+  // Test.
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_9, [this](GameInputs::KeyCode key) {
+    GameLevel::instance().load("maps/local/test_refactor2.json");
   });
 }
 
