@@ -9,6 +9,7 @@
 #include "DeathRenderer.h"
 #include "SpriteUV.h"
 #include "GameConfig.h"
+#include "JsonFormat.h"
 
 USING_NS_CC;
 
@@ -22,6 +23,17 @@ GameRenderer *DeathRenderer::init(Parameter &param) {
   SimpleRenderer::init(param);
   normalizeUV();
   return this;
+}
+
+void DeathRenderer::load(JsonValueT &json) {
+  SimpleRenderer::load(json);
+
+  if (json.HasMember(RENDERER_FLIP_UV)) {
+    setFlipUV(json[RENDERER_FLIP_UV].GetBool());
+  }
+  if (json.HasMember(RENDERER_TEXTURE)) {
+    setTexture(json[RENDERER_TEXTURE].GetString());
+  }
 }
 
 void DeathRenderer::setSize(const cocos2d::Size &size) {

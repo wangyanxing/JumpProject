@@ -35,6 +35,8 @@
 #define RENDERER_SHADOW "shadowEnable"
 #define RENDERER_SHADOW_LAYER "shadowLayer"
 #define RENDERER_ROT_SPEED "rotatespeed"
+#define RENDERER_FLIP_UV "flipUV"
+#define RENDERER_TEXTURE "textureName"
 
 #define SHADOW_GROUP "shadowGroup"
 #define SHADOW_GROUP_POSX "posx"

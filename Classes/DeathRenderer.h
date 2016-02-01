@@ -26,6 +26,8 @@ public:
 
   virtual void setSize(const cocos2d::Size &size) override;
 
+  void load(JsonValueT &json) override;
+
   void normalizeUV();
 
   void setFlipUV(bool val);
