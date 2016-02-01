@@ -41,15 +41,15 @@ void GameRenderer::setPosition(const cocos2d::Vec2& pos) {
   }
 }
 
-cocos2d::Vec2 GameRenderer::getPosition() const {
+Vec2 GameRenderer::getPosition() const {
   return getNode()->getPosition();
 }
 
-cocos2d::Vec2 GameRenderer::getOriginalPosition() const {
+Vec2 GameRenderer::getOriginalPosition() const {
   return mOriginalPosition;
 }
 
-cocos2d::Size GameRenderer::getOriginalSize() const {
+Size GameRenderer::getOriginalSize() const {
   return mOriginalSize;
 }
 
@@ -83,11 +83,11 @@ bool GameRenderer::isVisible() const {
   return getNode()->isVisible();
 }
 
-cocos2d::Size GameRenderer::getContentSize() const {
+Size GameRenderer::getContentSize() const {
   return getNode()->getContentSize();
 }
 
-cocos2d::Size GameRenderer::getSize() const {
+Size GameRenderer::getSize() const {
   return getBoundingBox().size;
 }
 
@@ -133,7 +133,7 @@ void GameRenderer::addToParent(cocos2d::Node* parent, int zorder) {
   parent->addChild(getNode(), zorder);
 }
 
-cocos2d::Rect GameRenderer::getBoundingBox() const {
+Rect GameRenderer::getBoundingBox() const {
   return getNode()->getBoundingBox();
 }
 

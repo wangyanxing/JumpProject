@@ -25,10 +25,7 @@ PhysicsManager::~PhysicsManager() {
   mDebugDrawNode->removeFromParent();
   mDebugDrawNode->release();
 
-  for (auto shape : mShapes) {
-    CC_SAFE_DELETE(shape);
-  }
-  mShapes.clear();
+  cleanUp();
 }
 
 void PhysicsManager::updatePhysicsDebugDraw() {
@@ -135,6 +132,15 @@ void PhysicsManager::onDeletePhysicsComponent(PhysicsComponent *component) {
     CC_ASSERT(mStaticPhysicsObjects.count(component));
     mStaticPhysicsObjects.erase(component);
   }
+}
+
+void PhysicsManager::cleanUp() {
+  mDebugDrawNode->clear();
+
+  for (auto shape : mShapes) {
+    CC_SAFE_DELETE(shape);
+  }
+  mShapes.clear();
 }
 
 BasePhysicsShape *PhysicsManager::createShape(PhysicsShapeType type) {

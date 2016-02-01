@@ -29,6 +29,8 @@ public:
   void unload();
 
   void enableGame(bool enable);
+
+  void die();
   
   bool isGameEnabled() const {
     return mGameEnabled;
@@ -63,6 +65,8 @@ public:
   GameObject *getHero();
   
 private:
+  void reset();
+
   void createHero(const cocos2d::Vec2 &pos);
 
   void updateCamera(cocos2d::Camera *cam, bool forceUpdate);
@@ -72,6 +76,8 @@ private:
   void addShadowGroup();
   
   void initShadowGroup(int groupId);
+
+  void dieImpl();
 
 private:
   ObjectManager *mObjectManager{nullptr};
@@ -84,6 +90,8 @@ private:
   
   bool mGameEnabled{false};
 
+  bool mDieFlag{false};
+
   int mNumShadowGroup{1};
   
   std::vector<ShadowManager*> mShadows;
@@ -91,6 +99,8 @@ private:
   std::vector<cocos2d::Node*> mShadowNode;
 
   std::vector<GameSprite*> mSpriteList;
+
+  cocos2d::Vec2 mHeroSpawnPos;
 
   cocos2d::Rect mBounds;
 };

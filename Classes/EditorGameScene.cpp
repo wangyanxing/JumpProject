@@ -91,8 +91,14 @@ void EditorGameScene::registerCommands() {
   });
 
   // Test.
-  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_9, [this](GameInputs::KeyCode key) {
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_7, [this](GameInputs::KeyCode key) {
+    GameLevel::instance().load("maps/local/test_refactor1.json");
+  });
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_8, [this](GameInputs::KeyCode key) {
     GameLevel::instance().load("maps/local/test_refactor2.json");
+  });
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_9, [this](GameInputs::KeyCode key) {
+    GameLevel::instance().load("maps/local/test_refactor3.json");
   });
 }
 

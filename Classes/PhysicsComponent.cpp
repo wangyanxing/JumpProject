@@ -62,6 +62,7 @@ void PhysicsComponent::updateDynamics(float dt) {
 }
 
 void PhysicsComponent::reset() {
+  GameComponent::reset();
   clearStates();
 }
 

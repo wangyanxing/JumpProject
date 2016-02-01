@@ -56,7 +56,7 @@ void PathComponent::load(JsonValueT &json) {
 }
 
 void PathComponent::update(float dt, Vec2 &out, Vec2 &outScale) {
-  if (mPoints.size() <= 1) {
+  if (!isEnabled() || mPoints.size() <= 1) {
     return;
   }
 
@@ -111,6 +111,8 @@ void PathComponent::update(float dt, Vec2 &out, Vec2 &outScale) {
 }
 
 void PathComponent::reset() {
+  GameComponent::reset();
+
   mDirection = true;
   mCurPt = 0;
   mCurDist = 0;

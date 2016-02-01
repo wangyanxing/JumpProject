@@ -67,6 +67,7 @@ void ButtonComponent::load(JsonValueT &json) {
 }
 
 void ButtonComponent::reset() {
+  GameComponent::reset();
   mState = IDLE;
 }
 
@@ -90,6 +91,10 @@ void ButtonComponent::changeState(ButtonState newState) {
 }
 
 void ButtonComponent::runCommand(ComponentCommand type, const Parameter &param) {
+  if (!isEnabled()) {
+    return;
+  }
+
   CC_ASSERT(type == COMMAND_COLLISION);
   // Mark the frame number.
   mLastPushFrameNum = Director::getInstance()->getTotalFrames();

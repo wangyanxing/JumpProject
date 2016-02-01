@@ -28,6 +28,8 @@ public:
 
   ~PhysicsManager();
 
+  void cleanUp();
+
   void setPhysicsDebugDraw(bool enable) {
     mPhysicsDebugDraw = enable;
   }

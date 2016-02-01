@@ -20,6 +20,10 @@ InputComponent::~InputComponent() {
 }
 
 void InputComponent::runCommand(ComponentCommand type, const Parameter &param) {
+  if (!isEnabled()) {
+    return;
+  }
+
   CC_ASSERT(type == COMMAND_INPUT);
   auto input = param.get<InputType>(PARAM_INPUT);
   auto physics = mParent->getComponent<PhysicsComponent>();

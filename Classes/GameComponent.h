@@ -35,12 +35,24 @@ public:
 
   virtual void load(JsonValueT &json) {}
 
-  virtual void reset() {}
+  virtual void reset() {
+    setEnabled(true);
+  }
 
   virtual void runCommand(ComponentCommand type, const Parameter &param) {}
 
+  virtual void setEnabled(bool enabled) {
+    mEnable = enabled;
+  }
+
+  bool isEnabled() const {
+    return mEnable;
+  }
+
 protected:
   GameObject *mParent{nullptr};
+
+  bool mEnable{true};
 };
 
 #endif /* Component_h */

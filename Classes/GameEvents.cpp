@@ -99,7 +99,7 @@ GameEvents::GameEvents() {
     e.command = "die";
 
     e.func = [&](const std::vector<Arg> &args, GameObject *block) {
-      // TODO: Die event.
+      GameLevel::instance().die();
     };
     sEventLists[e.command] = e;
   }
@@ -241,6 +241,10 @@ void GameEvents::callEvents(std::vector<std::string>& events, GameObject *caller
 }
 
 void GameEvents::callSingleEvent(const std::string &event, GameObject *caller) {
+  if (!GameLevel::instance().isGameEnabled()) {
+    return;
+  }
+
   std::string e = event;
   auto splits = PathLib::stringSplit(e, " ");
   if (splits.empty()) {

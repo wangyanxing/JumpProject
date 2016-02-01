@@ -20,8 +20,12 @@
 #include "VisibleRect.h"
 #include "ShadowManager.h"
 #include "GameSprite.h"
+#include "InputComponent.h"
+#include "CameraShake.h"
 
 USING_NS_CC;
+
+#define DIE_FX_TAG 1001
 
 void GameLevel::init(GameLayerContainer *layer) {
   mGameLayer = layer;
@@ -45,6 +49,10 @@ void GameLevel::release() {
 
 void GameLevel::update(float dt) {
   if (!mGameEnabled) {
+    return;
+  }
+  if (mDieFlag) {
+    dieImpl();
     return;
   }
 
@@ -127,7 +135,8 @@ void GameLevel::load(const std::string &levelFile) {
   }
 
   // Objects.
-  createHero(doc[LEVEL_SPAWN_POS].GetVec2());
+  mHeroSpawnPos = doc[LEVEL_SPAWN_POS].GetVec2();
+  createHero(mHeroSpawnPos);
   parser.parseArray(doc, LEVEL_BLOCK_ARRAY, [&](JsonSizeT i, JsonValueT& val) {
     mObjectManager->createObject(val);
   });
@@ -137,6 +146,7 @@ void GameLevel::load(const std::string &levelFile) {
 
 void GameLevel::unload() {
   mObjectManager->cleanUp();
+  mPhysicsManager->cleanUp();
 
   for (auto &sprite : mSpriteList) {
     sprite->clean();
@@ -154,15 +164,68 @@ void GameLevel::unload() {
   mGameEnabled = false;
 }
 
+void GameLevel::die() {
+  mDieFlag = true;
+}
+
+void GameLevel::dieImpl() {
+  mDieFlag = false;
+
+  CCLOG("Die!");
+
+  enableGame(false);
+
+  // Camera effect.
+  getGameLayer()->getBlockRoot()->runAction(CameraShake::create(0.3f, 10));
+
+  auto hero = getHero();
+
+  // Particle effect.
+  ParticleSystem *ps = ParticleSystemQuad::create("fx/diefx.plist");
+  ParticleBatchNode *batch = ParticleBatchNode::createWithTexture(ps->getTexture());
+  batch->addChild(ps);
+  batch->setPosition(hero->getRenderer()->getPosition());
+  batch->setCameraMask((unsigned short) CameraFlag::USER2);
+  mGameLayer->getBlockRoot()->addChild(batch, ZORDER_DIE_FX, DIE_FX_TAG);
+
+  hero->getRenderer()->getNode()->runAction(Sequence::create(ScaleTo::create(0.2, 0.1, 0.1),
+                                                             CallFunc::create([this] {
+    getHero()->getRenderer()->setVisible(false);
+  }), nullptr));
+
+  mGameLayer->runAction(Sequence::create(DelayTime::create(0.5), CallFunc::create([this] {
+    enableGame(true);
+  }), nullptr));
+}
+
 void GameLevel::enableGame(bool enable) {
   if (mGameEnabled == enable) {
     return;
   }
+
   mGameEnabled = enable;
+
+  if (mGameEnabled) {
+    reset();
+    getHero()->getRenderer()->setVisible(true);
+  } else {
+    getHero()->getComponent<InputComponent>()->setEnabled(false);
+  }
+
   for (auto &obj : mObjectManager->mObjects) {
     obj.second->setEnabled(enable);
   }
-  getHero()->getRenderer()->setVisible(mGameEnabled);
+}
+
+void GameLevel::reset() {
+  if (mGameLayer->getBlockRoot()->getChildByTag(DIE_FX_TAG)) {
+    mGameLayer->getBlockRoot()->removeChildByTag(DIE_FX_TAG);
+  }
+
+  auto hero = getHero();
+  hero->getRenderer()->setPosition(mHeroSpawnPos);
+  hero->getRenderer()->setOpacity(255);
+  mDieFlag = false;
 }
 
 void GameLevel::updateBounds() {
