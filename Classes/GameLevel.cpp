@@ -141,6 +141,11 @@ void GameLevel::load(const std::string &levelFile) {
     mObjectManager->createObject(val);
   });
 
+  // Update shadow right after loading objects.
+  for (auto sm : mShadows) {
+    sm->update(0);
+  }
+
   enableGame(true);
 }
 
