@@ -11,6 +11,7 @@
 
 #include "Prerequisites.h"
 #include "JsonParser.h"
+#include "JsonWriter.h"
 
 #if USE_REFACTOR
 
@@ -39,6 +40,8 @@ public:
   void init(cocos2d::Node *parentNode);
 
   void load(JsonValueT &json);
+
+  void save(JsWriter &writer);
 
   void reset();
 

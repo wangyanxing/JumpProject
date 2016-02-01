@@ -50,6 +50,10 @@ public:
     mPalette.clear();
   }
 
+  std::string getFileName() const {
+    return mFileName;
+  }
+
 private:
   void load();
 

@@ -26,6 +26,8 @@ public:
 
   void load(const std::string &levelFile);
 
+  void save(const std::string &levelFile);
+
   void unload();
 
   void enableGame(bool enable);

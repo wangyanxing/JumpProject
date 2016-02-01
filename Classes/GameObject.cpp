@@ -115,6 +115,17 @@ void GameObject::reset() {
   }
 }
 
+void GameObject::save(JsWriter &writer) {
+  writer.StartObject();
+
+  writer.String(LEVEL_BLOCK_ID);
+  writer.Int(mID);
+
+  mRenderer->save(writer);
+
+  writer.EndObject();
+}
+
 GameComponent* GameObject::getComponent(ComponentType type) {
   auto it = mComponents.find(type);
   return it == mComponents.end() ? nullptr : it->second;

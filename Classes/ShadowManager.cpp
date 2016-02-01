@@ -48,6 +48,30 @@ void ShadowManager::load(JsonValueT &group) {
   updateLightDir();
 }
 
+void ShadowManager::save(JsWriter &writer) {
+  writer.StartObject();
+
+  writer.String(SHADOW_GROUP_POSX);
+  writer.Float(mPosX);
+
+  writer.String(SHADOW_GROUP_WIDTH);
+  writer.Float(mWidth);
+
+  writer.String(SHADOW_GROUP_LIGHT_TYPE);
+  writer.Enum<ShadowLightType>(mLightType);
+
+  writer.String(SHADOW_GROUP_LIGHT_DIR);
+  writer.Float(mLightDirDegree);
+
+  writer.String(SHADOW_GROUP_LIGHT_POS);
+  writer.Vec2(mLightPos);
+
+  writer.String(SHADOW_GROUP_LIGHT_DARKNESS);
+  writer.Float(mShadowDarkness);
+
+  writer.EndObject();
+}
+
 void ShadowManager::init(cocos2d::Node *parentNode) {
   if (mShadowDrawers[0]) {
     return;

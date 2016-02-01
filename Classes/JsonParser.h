@@ -10,7 +10,6 @@
 #define JsonParser_h
 
 #include "Prerequisites.h"
-#include "Singleton.h"
 
 #include "rapidjson/document.h"
 #include "rapidjson/rapidjson.h"

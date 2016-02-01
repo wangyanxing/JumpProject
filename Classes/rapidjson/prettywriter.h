@@ -138,8 +138,38 @@ public:
     //@{
 
     //! Simpler but slower overload.
+    bool String(const std::string &str) { return String(str.c_str(), str.size()); }
     bool String(const Ch* str) { return String(str, internal::StrLen(str)); }
     bool Key(const Ch* str) { return Key(str, internal::StrLen(str)); }
+
+    bool Float(float val) {
+      char temp[32];
+      sprintf(temp, "%g", val);
+      return String(temp);
+    }
+
+    bool Vec2(const cocos2d::Vec2 &vec) {
+      char temp[64];
+      sprintf(temp, "%g,%g", vec.x, vec.y);
+      return String(temp);
+    }
+
+    bool Size(const cocos2d::Size &size) {
+      char temp[64];
+      sprintf(temp, "%g,%g", size.width, size.height);
+      return String(temp);
+    }
+
+    bool Color(const cocos2d::Color3B &color) {
+      char temp[64];
+      sprintf(temp, "#%02X%02X%02X", color.r, color.g, color.b);
+      return String(temp);
+    }
+
+    template <typename T>
+    bool Enum(T val) {
+      return String(EnumSerial<T>::toString(val));
+    }
 
     //@}
 protected:

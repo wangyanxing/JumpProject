@@ -12,6 +12,7 @@
 #include "Prerequisites.h"
 #include "SpriteUV.h"
 #include "JsonParser.h"
+#include "JsonWriter.h"
 
 class GameSprite {
 public:
@@ -36,6 +37,8 @@ public:
   void clean();
 
   void load(JsonValueT &json);
+
+  void save(JsWriter &writer);
 
 private:
   SpriteUV *mSprite{nullptr};

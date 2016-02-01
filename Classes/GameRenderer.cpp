@@ -32,6 +32,24 @@ void GameRenderer::load(JsonValueT &json) {
   }
 }
 
+void GameRenderer::save(JsWriter &writer) {
+  writer.String(LEVEL_BLOCK_SIZE);
+  writer.Size(mOriginalSize);
+
+  writer.String(LEVEL_BLOCK_POS);
+  writer.Vec2(mOriginalPosition);
+
+  if (!mShadowEnabled) {
+    writer.String(RENDERER_SHADOW);
+    writer.Bool(mShadowEnabled);
+  }
+
+  if (mShadowLayer != 0) {
+    writer.String(RENDERER_SHADOW_LAYER);
+    writer.Int(mShadowLayer);
+  }
+}
+
 void GameRenderer::setPosition(const cocos2d::Vec2& pos) {
   getNode()->setPosition(pos);
 

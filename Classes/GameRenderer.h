@@ -12,6 +12,7 @@
 #include "Prerequisites.h"
 #include "Parameter.h"
 #include "JsonParser.h"
+#include "JsonWriter.h"
 
 class GameRenderer {
 public:
@@ -32,6 +33,8 @@ public:
   virtual void update(float dt) {}
 
   virtual void load(JsonValueT &json);
+
+  virtual void save(JsWriter &writer);
 
   virtual void addToParent(cocos2d::Node *parent, int zorder);
 

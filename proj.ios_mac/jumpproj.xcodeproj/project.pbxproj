@@ -68,6 +68,8 @@
 		B5A55AA81C2B8B7200E02C60 /* ControlPad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A55AA51C2B8B7200E02C60 /* ControlPad.cpp */; };
 		BC1EE9A11C5FFB13003A345B /* GameSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC1EE99F1C5FFB13003A345B /* GameSprite.cpp */; };
 		BC1EE9A21C5FFB13003A345B /* GameSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC1EE99F1C5FFB13003A345B /* GameSprite.cpp */; };
+		BC1EE9A51C6017CA003A345B /* JsonWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC1EE9A31C6017CA003A345B /* JsonWriter.cpp */; };
+		BC1EE9A61C6017CA003A345B /* JsonWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC1EE9A31C6017CA003A345B /* JsonWriter.cpp */; };
 		BC3CE9FB1C1B86B400738B33 /* Blocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C01C1B86B400738B33 /* Blocks.cpp */; };
 		BC3CE9FC1C1B86B400738B33 /* Blocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C01C1B86B400738B33 /* Blocks.cpp */; };
 		BC3CE9FD1C1B86B400738B33 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C21C1B86B400738B33 /* Button.cpp */; };
@@ -289,6 +291,8 @@
 		B5A55AA91C2B8C6F00E02C60 /* MapSerialUtils.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MapSerialUtils.inl; sourceTree = "<group>"; };
 		BC1EE99F1C5FFB13003A345B /* GameSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSprite.cpp; sourceTree = "<group>"; };
 		BC1EE9A01C5FFB13003A345B /* GameSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSprite.h; sourceTree = "<group>"; };
+		BC1EE9A31C6017CA003A345B /* JsonWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JsonWriter.cpp; sourceTree = "<group>"; };
+		BC1EE9A41C6017CA003A345B /* JsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonWriter.h; sourceTree = "<group>"; };
 		BC3CE9C01C1B86B400738B33 /* Blocks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Blocks.cpp; sourceTree = "<group>"; };
 		BC3CE9C11C1B86B400738B33 /* Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blocks.h; sourceTree = "<group>"; };
 		BC3CE9C21C1B86B400738B33 /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
@@ -763,6 +767,8 @@
 				BCA39DFF1C56C1F9009C08D4 /* ShadowManager.h */,
 				BC1EE99F1C5FFB13003A345B /* GameSprite.cpp */,
 				BC1EE9A01C5FFB13003A345B /* GameSprite.h */,
+				BC1EE9A31C6017CA003A345B /* JsonWriter.cpp */,
+				BC1EE9A41C6017CA003A345B /* JsonWriter.h */,
 			);
 			name = Refactor;
 			sourceTree = "<group>";
@@ -933,6 +939,7 @@
 			files = (
 				BC3CEA2F1C1B86B400738B33 /* UIColorEditor.cpp in Sources */,
 				B52188231C34F08300E04587 /* SceneSprite.cpp in Sources */,
+				BC1EE9A51C6017CA003A345B /* JsonWriter.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				BCB866551C4957F900CB8383 /* EditorGameScene.cpp in Sources */,
 				BCB85F031C46ABE300CB8383 /* GameTypes.cpp in Sources */,
@@ -999,6 +1006,7 @@
 			files = (
 				BCB862A31C4710F700CB8383 /* GameLevel.cpp in Sources */,
 				BC3CEA1A1C1B86B400738B33 /* Path.cpp in Sources */,
+				BC1EE9A61C6017CA003A345B /* JsonWriter.cpp in Sources */,
 				BC3CEA061C1B86B400738B33 /* Events.cpp in Sources */,
 				BCB8669F1C49A34700CB8383 /* BlockKindConfigs.cpp in Sources */,
 				BCB85EF71C45ED2C00CB8383 /* GameObject.cpp in Sources */,

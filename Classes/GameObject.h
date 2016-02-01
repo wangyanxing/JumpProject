@@ -12,6 +12,7 @@
 #include "Prerequisites.h"
 #include "Parameter.h"
 #include "JsonParser.h"
+#include "JsonWriter.h"
 
 class GameObject {
 public:
@@ -56,6 +57,8 @@ public:
   }
 
   void load(JsonValueT &json);
+
+  void save(JsWriter &writer);
 
   GameComponent* getComponent(ComponentType type);
 

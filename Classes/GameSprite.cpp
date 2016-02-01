@@ -36,3 +36,27 @@ void GameSprite::load(JsonValueT &var) {
 
   create();
 }
+
+void GameSprite::save(JsWriter &writer) {
+  writer.StartObject();
+
+  writer.String(SPRITE_IMAGE);
+  writer.String(Image);
+
+  writer.String(SPRITE_SIZE);
+  writer.Size(Size);
+
+  writer.String(SPRITE_POSITION);
+  writer.Vec2(Position);
+
+  writer.String(SPRITE_ZORDER);
+  writer.Int(ZOrder);
+
+  writer.String(SPRITE_OPACITY);
+  writer.Int(Opacity);
+
+  writer.String(SPRITE_COLOR);
+  writer.Color(Color);
+
+  writer.EndObject();
+}

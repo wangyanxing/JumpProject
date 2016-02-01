@@ -12,6 +12,7 @@
 #include "GameObject.h"
 #include "ColorPalette.h"
 #include "JsonParser.h"
+#include "JsonWriter.h"
 #include "JsonFormat.h"
 #include "ColorPalette.h"
 #include "GameLayerContainer.h"
@@ -147,6 +148,51 @@ void GameLevel::load(const std::string &levelFile) {
   }
 
   enableGame(true);
+
+  // test
+  save("");
+}
+
+void GameLevel::save(const std::string &levelFile) {
+  JsonWriter jsonWriter;
+  jsonWriter.writeTime();
+  jsonWriter.writeAuthor();
+
+  auto &writer = jsonWriter.getWriter();
+  writer.String(LEVEL_PALETTE_FILE);
+  writer.String(mPalette->getFileName());
+
+  writer.String(LEVEL_SPAWN_POS);
+  writer.Vec2(mHeroSpawnPos);
+
+  // Shadow groups.
+  writer.String(SHADOW_GROUP);
+  writer.StartArray();
+  for (auto sm : mShadows) {
+    sm->save(writer);
+  }
+  writer.EndArray();
+
+  // Sprites.
+  writer.String(GAME_SPRITES);
+  writer.StartArray();
+  for (auto sp : mSpriteList) {
+    sp->save(writer);
+  }
+  writer.EndArray();
+
+  // Blocks.
+  writer.String(LEVEL_BLOCK_ARRAY);
+  writer.StartArray();
+  for (auto &obj : mObjectManager->mObjects) {
+    if (obj.second->getID() == 0) {
+      continue;
+    }
+    obj.second->save(writer);
+  }
+  writer.EndArray();
+
+  jsonWriter.save(levelFile);
 }
 
 void GameLevel::unload() {

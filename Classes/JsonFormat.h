@@ -9,6 +9,9 @@
 #ifndef JsonFormat_h
 #define JsonFormat_h
 
+#define MAP_AUTHOR "author"
+#define MAP_TIME "time"
+
 #define PALETTE_BACKGROUND "backgroundColor"
 #define PALETTE_HERO "heroColor"
 #define PALETTE_NORMAL "normalBlockColor"
