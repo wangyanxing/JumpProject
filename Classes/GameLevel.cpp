@@ -19,6 +19,7 @@
 #include "GameRenderer.h"
 #include "VisibleRect.h"
 #include "ShadowManager.h"
+#include "GameSprite.h"
 
 USING_NS_CC;
 
@@ -100,7 +101,7 @@ void GameLevel::load(const std::string &levelFile) {
 
   mGameLayer->setColor(mPalette->getBackgroundColor());
   
-  // Shadows
+  // Shadows.
   if (doc.HasMember(SHADOW_GROUP)) {
     mNumShadowGroup = doc[SHADOW_GROUP].Size();
     parser.parseArray(doc, SHADOW_GROUP, [&](JsonSizeT i, JsonValueT &val){
@@ -110,8 +111,18 @@ void GameLevel::load(const std::string &levelFile) {
     });
   }
 
-  createHero(doc[LEVEL_SPAWN_POS].GetVec2());
+  // Sprites.
+  CC_ASSERT(mSpriteList.empty());
+  if (doc.HasMember(GAME_SPRITES)) {
+    parser.parseArray(doc, GAME_SPRITES, [&](JsonSizeT i, JsonValueT &val){
+      mSpriteList.push_back(new GameSprite());
+      mSpriteList.back()->load(val);
+      mGameLayer->addChild(mSpriteList.back()->getSprite(), mSpriteList.back()->ZOrder);
+    });
+  }
 
+  // Objects.
+  createHero(doc[LEVEL_SPAWN_POS].GetVec2());
   parser.parseArray(doc, LEVEL_BLOCK_ARRAY, [&](JsonSizeT i, JsonValueT& val) {
     mObjectManager->createObject(val);
   });

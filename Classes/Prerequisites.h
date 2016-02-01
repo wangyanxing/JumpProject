@@ -23,6 +23,7 @@ class ObjectManager;
 class PhysicsManager;
 class ColorPalette;
 class ShadowManager;
+class GameSprite;
 
 namespace cocos2d {
   class DrawNodeEx;

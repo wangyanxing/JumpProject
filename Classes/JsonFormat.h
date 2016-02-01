@@ -45,6 +45,14 @@
 #define SHADOW_GROUP_LIGHT_MOV "lightMoving"
 #define SHADOW_GROUP_LIGHT_DARKNESS "shadowDarkness"
 
+#define GAME_SPRITES "sprites"
+#define SPRITE_IMAGE "image"
+#define SPRITE_SIZE "size"
+#define SPRITE_POSITION "position"
+#define SPRITE_ZORDER "zorder"
+#define SPRITE_OPACITY "opacity"
+#define SPRITE_COLOR "color"
+
 #define PHYSICS_EVENTS "triggerEvents"
 
 #define PATH_SPEED "pathSpeed"

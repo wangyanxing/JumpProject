@@ -90,6 +90,8 @@ private:
   
   std::vector<cocos2d::Node*> mShadowNode;
 
+  std::vector<GameSprite*> mSpriteList;
+
   cocos2d::Rect mBounds;
 };
 
