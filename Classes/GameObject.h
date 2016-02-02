@@ -90,8 +90,16 @@ public:
     return mRemovable;
   }
 
+  cocos2d::Node *getHelperNode() {
+    return mHelperNode;
+  }
+
 private:
   void release();
+
+  void initHelpers();
+
+  void updateHelpers();
 
 private:
   int mID{0};
@@ -107,6 +115,9 @@ private:
   bool mEnabled{false};
 
   bool mRemovable{true};
+
+  // For editor and debugging purpose.
+  cocos2d::Node *mHelperNode{nullptr};
 };
 
 #endif /* GameObject_h */

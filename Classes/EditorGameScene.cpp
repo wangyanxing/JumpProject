@@ -10,8 +10,11 @@
 #include "GameLevel.h"
 #include "GameInputs.h"
 #include "GameObject.h"
+#include "GameRenderer.h"
 #include "PhysicsManager.h"
 #include "Parameter.h"
+#include "VisibleRect.h"
+#include "GameConfig.h"
 
 #if USE_REFACTOR
 
@@ -39,6 +42,9 @@ bool EditorGameScene::init() {
   
   // Register editor commands.
   registerCommands();
+
+  // Helpers.
+  initHelpers();
 
   // Test.
   GameLevel::instance().load("maps/local/test_refactor1.json");
@@ -81,8 +87,7 @@ void EditorGameScene::registerCommands() {
   
   // Show helpers.
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_G, [this](GameInputs::KeyCode key) {
-      auto physicsMgr = GameLevel::instance().getPhysicsManager();
-      physicsMgr->setPhysicsDebugDraw(!physicsMgr->getPhysicsDebugDraw());
+    toggleHelpersVisible();
   });
 
   // Reset scene.
@@ -116,6 +121,35 @@ void EditorGameScene::keyPressed(EventKeyboard::KeyCode keyCode, cocos2d::Event 
 
 void EditorGameScene::keyReleased(EventKeyboard::KeyCode keyCode, cocos2d::Event *event) {
   GameInputs::instance().keyReleased(keyCode, event);
+}
+
+void EditorGameScene::initHelpers() {
+  mGridNode = DrawNode::create();
+  Color4F gridColor(0.8f, 0.8f, 0.8f, 0.3f);
+
+  for (float y = 0; y < VisibleRect::top().y;) {
+    mGridNode->drawLine(Vec2(0, y), Vec2(VisibleRect::right().x, y), gridColor);
+    y += GameConfig::instance().HeroSize;
+  }
+  for (float x = 0; x < VisibleRect::right().x + 50;) {
+    mGridNode->drawLine(Vec2(x, 0), Vec2(x, VisibleRect::top().y), gridColor);
+    x += GameConfig::instance().HeroSize;
+  }
+
+  mGridNode->setCameraMask((unsigned short) CameraFlag::USER2);
+  addChild(mGridNode, ZORDER_EDT_GRID);
+  mGridNode->setVisible(false);
+}
+
+void EditorGameScene::toggleHelpersVisible() {
+  auto physicsMgr = GameLevel::instance().getPhysicsManager();
+  bool visible = physicsMgr->getPhysicsDebugDraw();
+  
+  physicsMgr->setPhysicsDebugDraw(!visible);
+  mGridNode->setVisible(!visible);
+  GameLevel::instance().traverseObjects([&](GameObject* obj) {
+    obj->getHelperNode()->setVisible(!visible);
+  }, true);
 }
 
 #endif

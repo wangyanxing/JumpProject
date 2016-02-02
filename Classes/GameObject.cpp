@@ -14,6 +14,8 @@
 #include "ButtonComponent.h"
 #include "SimpleRenderer.h"
 #include "DeathRenderer.h"
+#include "GameLevel.h"
+#include "GameLayerContainer.h"
 #include "DeathRotatorRenderer.h"
 #include "JsonFormat.h"
 
@@ -87,13 +89,13 @@ void GameObject::update(float dt) {
 }
 
 void GameObject::beforeRender(float dt) {
-  if (!mEnabled) {
-    return;
+  if (mEnabled) {
+    for (auto component : mComponents) {
+      component.second->beforeRender(dt);
+    }
   }
 
-  for (auto component : mComponents) {
-    component.second->beforeRender(dt);
-  }
+  updateHelpers();
 }
 
 void GameObject::load(JsonValueT &json) {
@@ -201,4 +203,33 @@ void GameObject::setEnabled(bool val) {
       component.second->reset();
     }
   }
+}
+
+void GameObject::initHelpers() {
+  CC_ASSERT(!mHelperNode);
+  mHelperNode = Node::create();
+  mHelperNode->setCameraMask((unsigned short) CameraFlag::USER2);
+  mHelperNode->setVisible(false);
+
+  auto root = GameLevel::instance().getGameLayer()->getBlockRoot();
+  root->addChild(mHelperNode, ZORDER_EDT_OBJ_HELPER);
+
+  // Label.
+  if (mKind != KIND_HERO) {
+    std::string label = std::to_string(mID);
+    auto idLabel = Label::createWithSystemFont(label,
+                                               "Arial",
+                                               32,
+                                               Size::ZERO,
+                                               TextHAlignment::CENTER,
+                                               TextVAlignment::CENTER);
+    idLabel->enableShadow(Color4B(50, 50, 50, 200));
+    idLabel->setCameraMask((unsigned short) CameraFlag::USER2);
+    idLabel->setScale(0.5f);
+    mHelperNode->addChild(idLabel);
+  }
+}
+
+void GameObject::updateHelpers() {
+  mHelperNode->setPosition(getRenderer()->getNode()->getPosition());
 }

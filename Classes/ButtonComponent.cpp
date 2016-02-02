@@ -102,7 +102,9 @@ void ButtonComponent::reset() {
 
 void ButtonComponent::callEvents(const std::vector<std::string>& events) {
   for (auto &str : events) {
-    GameEvents::instance().callSingleEvent(str, mParent);
+    if (!str.empty()) {
+      GameEvents::instance().callSingleEvent(str, mParent);
+    }
   }
 }
 

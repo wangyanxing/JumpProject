@@ -46,6 +46,14 @@ public:
   void keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
 
   void keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
+
+private:
+  void initHelpers();
+
+  void toggleHelpersVisible();
+
+private:
+  cocos2d::DrawNode *mGridNode{nullptr};
 };
 
 #endif

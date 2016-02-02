@@ -78,7 +78,7 @@ GameObject *ObjectManager::createObjectImpl(Parameter &param, int id) {
   obj->setRenderer(rendererConfig.type)
      ->init(param)
      ->addToParent(GameLevel::instance().getGameLayer()->getBlockRoot(), rendererConfig.zorder);
-  
+
   if (physicsConfig.type != PHYSICS_NONE) {
     obj->addComponent<PhysicsComponent>()
        ->setPhysicsType(physicsConfig.type)
@@ -91,6 +91,8 @@ GameObject *ObjectManager::createObjectImpl(Parameter &param, int id) {
   
   CC_ASSERT(!mObjects.count(obj->mID));
   mObjects[obj->mID] = obj;
+
+  obj->initHelpers();
   return obj;
 }
 
