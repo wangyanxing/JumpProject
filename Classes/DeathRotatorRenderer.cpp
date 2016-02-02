@@ -35,6 +35,15 @@ void DeathRotatorRenderer::load(JsonValueT &json) {
   }
 }
 
+void DeathRotatorRenderer::save(JsWriter &writer) {
+  SimpleRenderer::save(writer);
+
+  if (mRotationSpeed != DEFAULT_DEATH_ROTATOR_SPEED) {
+    writer.String(RENDERER_ROT_SPEED);
+    writer.Int(mRotationSpeed);
+  }
+}
+
 void DeathRotatorRenderer::addToParent(cocos2d::Node* parent, int zorder) {
   GameRenderer::addToParent(parent, zorder);
   parent->addChild(mChild, zorder);

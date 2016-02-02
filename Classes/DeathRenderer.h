@@ -28,6 +28,8 @@ public:
 
   void load(JsonValueT &json) override;
 
+  void save(JsWriter &writer) override;
+
   void normalizeUV();
 
   void setFlipUV(bool val);

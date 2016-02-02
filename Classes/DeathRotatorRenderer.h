@@ -29,6 +29,8 @@ public:
 
   void load(JsonValueT &json) override;
 
+  void save(JsWriter &writer) override;
+
   void update(float dt) override;
 
   void addToParent(cocos2d::Node* parent, int zorder) override;

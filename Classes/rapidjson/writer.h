@@ -241,6 +241,14 @@ protected:
         return true;
     }
 
+    bool WriteFloat(float d) {
+      char buffer[25];
+      sprintf(buffer, "%g", d);
+      for (char* p = buffer; *p != '\0'; ++p)
+        os_->Put(*p);
+      return true;
+    }
+
     bool WriteString(const Ch* str, SizeType length)  {
         static const char hexDigits[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
         static const char escape[256] = {

@@ -69,6 +69,7 @@ public:
     bool Int64(int64_t i64)     { PrettyPrefix(kNumberType); return Base::WriteInt64(i64); }
     bool Uint64(uint64_t u64)   { PrettyPrefix(kNumberType); return Base::WriteUint64(u64);  }
     bool Double(double d)       { PrettyPrefix(kNumberType); return Base::WriteDouble(d); }
+    bool Float(float d)         { PrettyPrefix(kNumberType); return Base::WriteFloat(d); }
 
     bool String(const Ch* str, SizeType length, bool copy = false) {
         (void)copy;
@@ -141,12 +142,6 @@ public:
     bool String(const std::string &str) { return String(str.c_str(), str.size()); }
     bool String(const Ch* str) { return String(str, internal::StrLen(str)); }
     bool Key(const Ch* str) { return Key(str, internal::StrLen(str)); }
-
-    bool Float(float val) {
-      char temp[32];
-      sprintf(temp, "%g", val);
-      return String(temp);
-    }
 
     bool Vec2(const cocos2d::Vec2 &vec) {
       char temp[64];

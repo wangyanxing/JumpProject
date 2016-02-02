@@ -36,6 +36,19 @@ void DeathRenderer::load(JsonValueT &json) {
   }
 }
 
+void DeathRenderer::save(JsWriter &writer) {
+  SimpleRenderer::save(writer);
+
+  if (mUVFlipped) {
+    writer.String(RENDERER_FLIP_UV);
+    writer.Bool(mUVFlipped);
+  }
+  if (!mTextureName.empty()) {
+    writer.String(RENDERER_TEXTURE);
+    writer.String(mTextureName);
+  }
+}
+
 void DeathRenderer::setSize(const cocos2d::Size &size) {
   GameRenderer::setSize(size);
   normalizeUV();
