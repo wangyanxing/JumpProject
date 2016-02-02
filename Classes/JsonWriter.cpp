@@ -26,9 +26,8 @@ JsonWriter::~JsonWriter() {
 
 void JsonWriter::save(const std::string& fileName) {
   mWriter.EndObject();
-//  std::ofstream file(fileName);
-//  file << mBuffer.GetString();
-  cout << mBuffer.GetString() << endl;
+  std::ofstream file(fileName);
+  file << mBuffer.GetString();
 }
 
 void JsonWriter::writeTime() {

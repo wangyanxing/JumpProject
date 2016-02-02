@@ -58,6 +58,8 @@
 #define SPRITE_OPACITY "opacity"
 #define SPRITE_COLOR "color"
 
+#define GAME_FX "fx"
+
 #define PHYSICS_EVENTS "triggerEvents"
 
 #define PATH_SPEED "pathSpeed"

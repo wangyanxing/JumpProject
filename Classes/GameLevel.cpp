@@ -117,7 +117,7 @@ void GameLevel::load(const std::string &levelFile) {
   // Shadows.
   if (doc.HasMember(SHADOW_GROUP)) {
     mNumShadowGroup = doc[SHADOW_GROUP].Size();
-    parser.parseArray(doc, SHADOW_GROUP, [&](JsonSizeT i, JsonValueT &val){
+    parser.parseArray(doc, SHADOW_GROUP, [&](JsonSizeT i, JsonValueT &val) {
       addShadowGroup();
       mShadows[i]->load(val);
       initShadowGroup(i);
@@ -127,13 +127,22 @@ void GameLevel::load(const std::string &levelFile) {
   // Sprites.
   CC_ASSERT(mSpriteList.empty());
   if (doc.HasMember(GAME_SPRITES)) {
-    parser.parseArray(doc, GAME_SPRITES, [&](JsonSizeT i, JsonValueT &val){
+    parser.parseArray(doc, GAME_SPRITES, [&](JsonSizeT i, JsonValueT &val) {
       mSpriteList.push_back(new GameSprite());
       mSpriteList.back()->load(val);
       mGameLayer->getBlockRoot()->addChild(mSpriteList.back()->getSprite(),
                                            mSpriteList.back()->ZOrder);
     });
   }
+
+  // Effects.
+  CC_ASSERT(mEffects.empty());
+  if (doc.HasMember(GAME_FX)) {
+    parser.parseArray(doc, GAME_FX, [&](JsonSizeT i, JsonValueT &val) {
+      mEffects.push_back(val.GetString());
+    });
+  }
+  loadFx();
 
   // Objects.
   mHeroSpawnPos = doc[LEVEL_SPAWN_POS].GetVec2();
@@ -148,9 +157,6 @@ void GameLevel::load(const std::string &levelFile) {
   }
 
   enableGame(true);
-
-  // test
-  save("");
 }
 
 void GameLevel::save(const std::string &levelFile) {
@@ -181,6 +187,14 @@ void GameLevel::save(const std::string &levelFile) {
   }
   writer.EndArray();
 
+  // Effects.
+  writer.String(GAME_FX);
+  writer.StartArray();
+  for (auto sp : mEffects) {
+    writer.String(sp);
+  }
+  writer.EndArray();
+
   // Blocks.
   writer.String(LEVEL_BLOCK_ARRAY);
   writer.StartArray();
@@ -198,6 +212,8 @@ void GameLevel::save(const std::string &levelFile) {
 void GameLevel::unload() {
   mObjectManager->cleanUp();
   mPhysicsManager->cleanUp();
+
+  unloadFx();
 
   for (auto &sprite : mSpriteList) {
     sprite->clean();
@@ -339,4 +355,20 @@ void GameLevel::addShadowGroup() {
 
 void GameLevel::initShadowGroup(int groupId) {
   mShadows[groupId]->init(mShadowNode[groupId]);
+}
+
+void GameLevel::loadFx() {
+  for (auto i : mEffects) {
+    ParticleSystem *ps = ParticleSystemQuad::create(i);
+    ParticleBatchNode *batch = ParticleBatchNode::createWithTexture(ps->getTexture());
+    batch->addChild(ps);
+    mGameLayer->getBlockRoot()->addChild(batch, ZORDER_PARTICLE);
+    batch->setCameraMask((unsigned short) CameraFlag::USER2);
+    mFxNodes.push_back(batch);
+  }
+}
+
+void GameLevel::unloadFx() {
+  mFxNodes.clear();
+  mEffects.clear();
 }

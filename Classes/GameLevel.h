@@ -81,6 +81,10 @@ private:
 
   void dieImpl();
 
+  void loadFx();
+
+  void unloadFx();
+
 private:
   ObjectManager *mObjectManager{nullptr};
 
@@ -101,6 +105,10 @@ private:
   std::vector<cocos2d::Node*> mShadowNode;
 
   std::vector<GameSprite*> mSpriteList;
+
+  std::vector<std::string> mEffects;
+
+  std::vector<cocos2d::ParticleBatchNode*> mFxNodes;
 
   cocos2d::Vec2 mHeroSpawnPos;
 
