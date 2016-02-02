@@ -198,7 +198,6 @@ void GameObject::setEnabled(bool val) {
   mEnabled = val;
   if (mEnabled) {
     mRenderer->reset();
-    
     for (auto component : mComponents) {
       component.second->reset();
     }
@@ -219,17 +218,28 @@ void GameObject::initHelpers() {
     std::string label = std::to_string(mID);
     auto idLabel = Label::createWithSystemFont(label,
                                                "Arial",
-                                               32,
+                                               28,
                                                Size::ZERO,
                                                TextHAlignment::CENTER,
                                                TextVAlignment::CENTER);
     idLabel->enableShadow(Color4B(50, 50, 50, 200));
     idLabel->setCameraMask((unsigned short) CameraFlag::USER2);
     idLabel->setScale(0.5f);
-    mHelperNode->addChild(idLabel);
+    mHelperNode->addChild(idLabel, ZORDER_EDT_HELPER_LABEL);
+  }
+
+  for (auto component : mComponents) {
+    component.second->initHelpers();
   }
 }
 
 void GameObject::updateHelpers() {
+  if (!mHelperNode->isVisible()) {
+    return;
+  }
+  
   mHelperNode->setPosition(getRenderer()->getNode()->getPosition());
+  for (auto component : mComponents) {
+    component.second->updateHelpers();
+  }
 }

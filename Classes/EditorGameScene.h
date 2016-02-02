@@ -37,6 +37,8 @@ public:
 
   void onWinGame() override;
 
+  void afterLoad() override;
+
   int8_t getCameraDepth() override {
     return 0;
   }

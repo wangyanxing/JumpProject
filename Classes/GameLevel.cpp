@@ -112,6 +112,7 @@ void GameLevel::load(const std::string &levelFile) {
   CC_SAFE_DELETE(mPalette);
   mPalette = new ColorPalette(paletteFile);
 
+  Director::getInstance()->setClearColor(Color4F(mPalette->getBackgroundColor()));
   mGameLayer->setColor(mPalette->getBackgroundColor());
   
   // Shadows.
@@ -156,6 +157,7 @@ void GameLevel::load(const std::string &levelFile) {
     sm->update(0);
   }
 
+  mGameLayer->afterLoad();
   enableGame(true);
 }
 

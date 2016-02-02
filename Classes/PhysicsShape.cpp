@@ -44,10 +44,10 @@ Rect RectPhysicsShape::getBounds() {
 void RectPhysicsShape::debugDraw(cocos2d::DrawNode *node) {
   auto rect = getBounds();
   Vec2 seg[4] = {
-    {mPosition.x - rect.size.width * 0.5f, mPosition.y + rect.size.height * 0.5f},
-    {mPosition.x + rect.size.width * 0.5f, mPosition.y + rect.size.height * 0.5f},
-    {mPosition.x + rect.size.width * 0.5f, mPosition.y - rect.size.height * 0.5f},
-    {mPosition.x - rect.size.width * 0.5f, mPosition.y - rect.size.height * 0.5f}
+    {-rect.size.width * 0.5f,  rect.size.height * 0.5f},
+    { rect.size.width * 0.5f,  rect.size.height * 0.5f},
+    { rect.size.width * 0.5f, -rect.size.height * 0.5f},
+    {-rect.size.width * 0.5f, -rect.size.height * 0.5f}
   };
   node->drawPolygon(seg, 4, fillColor, 1, outlineColor);
 }
@@ -77,7 +77,7 @@ void CirclePhysicsShape::debugDraw(cocos2d::DrawNode *node) {
   for (int i = 0; i < CIRCLE_SEG_NUM; ++i) {
     float angle = (float)i * M_PI / (float)CIRCLE_SEG_NUM * 2.0f;
     Vec2 d(radius * cosf(angle), radius * sinf(angle));
-    seg[i] = mPosition + d;
+    seg[i] = d;
   }
   node->drawPolygon(seg, CIRCLE_SEG_NUM, fillColor, 1, outlineColor);
 }

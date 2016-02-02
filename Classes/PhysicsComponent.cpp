@@ -24,6 +24,7 @@ PhysicsComponent::PhysicsComponent(GameObject *parent) : GameComponent(parent) {
 
 PhysicsComponent::~PhysicsComponent() {
   GameLevel::instance().getPhysicsManager()->onDeletePhysicsComponent(this);
+  CC_SAFE_DELETE(mShape);
 }
 
 void PhysicsComponent::update(float dt) {
@@ -84,7 +85,7 @@ void PhysicsComponent::save(JsWriter &writer) {
 }
 
 BasePhysicsShape *PhysicsComponent::setShape(PhysicsShapeType type) {
-  GameLevel::instance().getPhysicsManager()->removeShape(mShape);
+  CC_SAFE_DELETE(mShape);
   mShape = GameLevel::instance().getPhysicsManager()->createShape(type);
 
   // Force update position and size.
@@ -167,4 +168,17 @@ void PhysicsComponent::callCollisionEvents(GameObject *other) {
   for (auto &str : mCollisionEvents) {
     GameEvents::instance().callSingleEvent(str, mParent);
   }
+}
+
+void PhysicsComponent::updateHelpers() {
+  mHelperNode->clear();
+  if (mShape) {
+    mShape->debugDraw(mHelperNode);
+  }
+}
+
+void PhysicsComponent::initHelpers() {
+  mHelperNode = DrawNode::create();
+  mHelperNode->setCameraMask((unsigned short) CameraFlag::USER2);
+  mParent->getHelperNode()->addChild(mHelperNode, ZORDER_EDT_HELPER_PHYSICS);
 }

@@ -30,6 +30,10 @@ public:
   
   virtual void beforeRender(float dt) {}
 
+  virtual void updateHelpers() {}
+
+  virtual void initHelpers() {}
+
   GameObject *getParent() {
     return mParent;
   }

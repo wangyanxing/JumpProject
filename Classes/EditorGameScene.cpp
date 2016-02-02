@@ -142,14 +142,17 @@ void EditorGameScene::initHelpers() {
 }
 
 void EditorGameScene::toggleHelpersVisible() {
-  auto physicsMgr = GameLevel::instance().getPhysicsManager();
-  bool visible = physicsMgr->getPhysicsDebugDraw();
-  
-  physicsMgr->setPhysicsDebugDraw(!visible);
+  bool visible = mGridNode->isVisible();
   mGridNode->setVisible(!visible);
   GameLevel::instance().traverseObjects([&](GameObject* obj) {
     obj->getHelperNode()->setVisible(!visible);
   }, true);
+}
+
+void EditorGameScene::afterLoad() {
+  if (mGridNode->isVisible()) {
+    toggleHelpersVisible();
+  }
 }
 
 #endif

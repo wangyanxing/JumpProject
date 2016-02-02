@@ -93,6 +93,10 @@ public:
     mSleep = true;
   }
 
+  void updateHelpers() override;
+
+  void initHelpers() override;
+
 protected:
   void clearStates();
 
@@ -118,6 +122,8 @@ protected:
   std::vector<std::string> mCollisionEvents;
 
   Status mStatus{FALLING};
+
+  cocos2d::DrawNode *mHelperNode{nullptr};
 };
 
 #endif /* PhysicsComponent_h */
