@@ -121,7 +121,19 @@ void GameObject::save(JsWriter &writer) {
   writer.String(LEVEL_BLOCK_ID);
   writer.Int(mID);
 
+  writer.String(LEVEL_BLOCK_KIND);
+  writer.Enum<BlockKind>(mKind);
+
+  if (!mRemovable) {
+    writer.String(LEVEL_BLOCK_REMOVABLE);
+    writer.Bool(mRemovable);
+  }
+
   mRenderer->save(writer);
+
+  for (auto comp : mComponents) {
+    comp.second->save(writer);
+  }
 
   writer.EndObject();
 }

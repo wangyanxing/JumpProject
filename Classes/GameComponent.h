@@ -12,6 +12,7 @@
 #include "Prerequisites.h"
 #include "Parameter.h"
 #include "JsonParser.h"
+#include "JsonWriter.h"
 
 #define DECLARE_COMP_TYPE(t) \
   static ComponentType getType() {return t;}
@@ -34,6 +35,8 @@ public:
   }
 
   virtual void load(JsonValueT &json) {}
+
+  virtual void save(JsWriter &writer) {}
 
   virtual void reset() {
     setEnabled(true);

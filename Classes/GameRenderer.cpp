@@ -48,6 +48,11 @@ void GameRenderer::save(JsWriter &writer) {
     writer.String(RENDERER_SHADOW_LAYER);
     writer.Int(mShadowLayer);
   }
+
+  if (mColorIndex != DEFAULT_COLOR_ID) {
+    writer.String(LEVEL_BLOCK_PALETTE_ID);
+    writer.Int(mColorIndex);
+  }
 }
 
 void GameRenderer::setPosition(const cocos2d::Vec2& pos) {

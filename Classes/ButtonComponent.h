@@ -30,6 +30,8 @@ public:
   void update(float dt) override;
   
   void load(JsonValueT &json) override;
+
+  void save(JsWriter &writer) override;
   
   void reset() override;
   

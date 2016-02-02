@@ -66,6 +66,35 @@ void ButtonComponent::load(JsonValueT &json) {
   mPushingEvents = json[BUTTON_PUSHING_EVENT].getStringVec();
 }
 
+void ButtonComponent::save(JsWriter &writer) {
+  writer.String(BUTTON_DIR);
+  writer.Enum<ButtonDirection>(mDirection);
+
+  writer.String(BUTTON_CAN_RESTORE);
+  writer.Bool(mCanRestore);
+
+  writer.String(BUTTON_PUSHED_EVENT);
+  writer.StartArray();
+  for (auto &s : mPushedEvents) {
+    writer.String(s);
+  }
+  writer.EndArray();
+
+  writer.String(BUTTON_RESTORED_EVENT);
+  writer.StartArray();
+  for (auto &s : mRestoredEvents) {
+    writer.String(s);
+  }
+  writer.EndArray();
+
+  writer.String(BUTTON_PUSHING_EVENT);
+  writer.StartArray();
+  for (auto &s : mPushingEvents) {
+    writer.String(s);
+  }
+  writer.EndArray();
+}
+
 void ButtonComponent::reset() {
   GameComponent::reset();
   mState = IDLE;

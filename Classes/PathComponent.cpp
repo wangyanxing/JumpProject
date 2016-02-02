@@ -55,6 +55,39 @@ void PathComponent::load(JsonValueT &json) {
   }
 }
 
+void PathComponent::save(JsWriter &writer) {
+  writer.String(PATH_SPEED);
+  writer.Float(mSpeed);
+
+  writer.String(PATH_PINGPONG);
+  writer.Bool(mPingPong);
+
+  writer.String(PATH_PAUSE);
+  writer.Bool(mOriginalPause);
+
+  writer.String(PATH_WAIT_TIME);
+  writer.Float(mPathWaitTime);
+
+  writer.String(PATH_ARRAY);
+  writer.StartArray();
+  for (auto &p : mPoints) {
+    writer.StartObject();
+    writer.String(PATH_PT_POSITION);
+    writer.Vec2(p.pt);
+
+    writer.String(PATH_PT_WAIT_TIME);
+    writer.Float(p.waitTime);
+
+    writer.String(PATH_PT_WIDTH);
+    writer.Float(p.width);
+
+    writer.String(PATH_PT_HEIGHT);
+    writer.Float(p.height);
+    writer.EndObject();
+  }
+  writer.EndArray();
+}
+
 void PathComponent::update(float dt, Vec2 &out, Vec2 &outScale) {
   if (!isEnabled() || mPoints.size() <= 1) {
     return;

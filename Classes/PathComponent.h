@@ -42,6 +42,8 @@ public:
 
   void load(JsonValueT &json) override;
 
+  void save(JsWriter &writer) override;
+
   int nextPoint();
 
   void update(float dt, cocos2d::Vec2 &out, cocos2d::Vec2 &outScale);

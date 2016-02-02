@@ -72,6 +72,17 @@ void PhysicsComponent::load(JsonValueT &json) {
   }
 }
 
+void PhysicsComponent::save(JsWriter &writer) {
+  if (!mCollisionEvents.empty()) {
+    writer.String(PHYSICS_EVENTS);
+    writer.StartArray();
+    for (auto &str : mCollisionEvents) {
+      writer.String(str);
+    }
+    writer.EndArray();
+  }
+}
+
 BasePhysicsShape *PhysicsComponent::setShape(PhysicsShapeType type) {
   GameLevel::instance().getPhysicsManager()->removeShape(mShape);
   mShape = GameLevel::instance().getPhysicsManager()->createShape(type);
