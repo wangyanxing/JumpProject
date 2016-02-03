@@ -227,10 +227,6 @@ void GameObject::initHelpers() {
     idLabel->setScale(0.5f);
     mHelperNode->addChild(idLabel, ZORDER_EDT_HELPER_LABEL);
   }
-
-  for (auto component : mComponents) {
-    component.second->initHelpers();
-  }
 }
 
 void GameObject::updateHelpers() {

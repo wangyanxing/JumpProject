@@ -44,6 +44,10 @@ public:
 
   void save(JsWriter &writer) override;
 
+  void updateHelpers() override;
+
+  void initHelpers() override;
+
   int nextPoint();
 
   void update(float dt, cocos2d::Vec2 &out, cocos2d::Vec2 &outScale);
@@ -90,6 +94,8 @@ private:
   bool mOriginalPause{false};
 
   std::vector <PathPoint> mPoints;
+
+  cocos2d::DrawNode *mHelperNode{nullptr};
 };
 
 #endif /* PathComponent_h */

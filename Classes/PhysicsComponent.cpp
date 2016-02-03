@@ -171,6 +171,9 @@ void PhysicsComponent::callCollisionEvents(GameObject *other) {
 }
 
 void PhysicsComponent::updateHelpers() {
+  if (!mHelperNode) {
+    initHelpers();
+  }
   mHelperNode->clear();
   if (mShape) {
     mShape->debugDraw(mHelperNode);

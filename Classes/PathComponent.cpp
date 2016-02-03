@@ -208,3 +208,33 @@ int PathComponent::nextPoint() {
   }
   return nextPt;
 }
+
+void PathComponent::updateHelpers() {
+  if (!mHelperNode) {
+    initHelpers();
+  }
+  mHelperNode->clear();
+  if (mPoints.empty()) {
+    return;
+  }
+
+  auto pos = mParent->getRenderer()->getPosition();
+  auto segmentColor = cocos2d::Color4F(0, 1, 0, 1);
+  auto pointColor = cocos2d::Color4F(1, 1, 0, 1);
+
+  for (int i = 1; i < mPoints.size(); ++i) {
+    mHelperNode->drawSegment(mPoints[i - 1].pt - pos,
+                             mPoints[i].pt - pos,
+                             1,
+                             segmentColor);
+  }
+  for (int i = 0; i < mPoints.size(); ++i) {
+    mHelperNode->drawSolidCircle(mPoints[i].pt - pos, 3, 0, 10, pointColor);
+  }
+}
+
+void PathComponent::initHelpers() {
+  mHelperNode = DrawNode::create();
+  mHelperNode->setCameraMask((unsigned short) CameraFlag::USER2);
+  mParent->getHelperNode()->addChild(mHelperNode, ZORDER_EDT_HELPER_PATH);
+}
