@@ -19,7 +19,7 @@ struct GamePostUpdater {
   GameLayerContainer *container;
 };
 
-class GameLayerContainer : public cocos2d::LayerColor {
+class GameLayerContainer : public cocos2d::Layer {
 public:
   static cocos2d::Scene *createPhysicsScene();
 

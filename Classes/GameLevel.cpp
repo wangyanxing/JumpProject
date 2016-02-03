@@ -36,6 +36,10 @@ void GameLevel::init(GameLayerContainer *layer) {
   CC_ASSERT(!mObjectManager);
   mObjectManager = new ObjectManager();
   mPhysicsManager = new PhysicsManager();
+
+  mBackground = DrawNode::create();
+  mBackground->setCameraMask((unsigned short) CameraFlag::USER2);
+  layer->addChild(mBackground, ZORDER_BACK);
 }
 
 void GameLevel::release() {
@@ -112,8 +116,9 @@ void GameLevel::load(const std::string &levelFile) {
   CC_SAFE_DELETE(mPalette);
   mPalette = new ColorPalette(paletteFile);
 
-  Director::getInstance()->setClearColor(Color4F(mPalette->getBackgroundColor()));
-  mGameLayer->setColor(mPalette->getBackgroundColor());
+  mBackground->clear();
+  mBackground->drawSolidRect(Vec2::ZERO, VisibleRect::rightTop(),
+                             Color4F(mPalette->getBackgroundColor()));
   
   // Shadows.
   if (doc.HasMember(SHADOW_GROUP)) {
@@ -295,6 +300,8 @@ void GameLevel::reset() {
   hero->getRenderer()->setPosition(mHeroSpawnPos);
   hero->getRenderer()->setOpacity(255);
   mDieFlag = false;
+
+  mBackground->setPosition(Vec2::ZERO);
 }
 
 void GameLevel::updateBounds() {
@@ -335,6 +342,7 @@ void GameLevel::updateCamera(cocos2d::Camera *cam, bool forceUpdate) {
   auto camRelative = newPos - VisibleRect::getVisibleRect().size / 2;
 #endif
 
+  mBackground->setPosition(Vec2::ZERO + camRelative);
   cam->setPosition(newPos);
 }
 

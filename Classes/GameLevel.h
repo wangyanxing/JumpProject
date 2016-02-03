@@ -24,6 +24,8 @@ public:
   
   void beforeRender(float dt);
 
+  void updateCamera(cocos2d::Camera *cam, bool forceUpdate = false);
+
   void load(const std::string &levelFile);
 
   void save(const std::string &levelFile);
@@ -71,8 +73,6 @@ private:
 
   void createHero(const cocos2d::Vec2 &pos);
 
-  void updateCamera(cocos2d::Camera *cam, bool forceUpdate);
-
   void updateBounds();
   
   void addShadowGroup();
@@ -113,6 +113,8 @@ private:
   cocos2d::Vec2 mHeroSpawnPos;
 
   cocos2d::Rect mBounds;
+
+  cocos2d::DrawNode *mBackground{nullptr};
 };
 
 #endif /* GameLevel_h */
