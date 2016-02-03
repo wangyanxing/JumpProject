@@ -153,9 +153,9 @@ void OpenCloseDoor::update(float time) {
   auto curSize = _renderer->getSize();
   auto curPos = _renderer->getPosition();
 
-  size.height *= (_operation == CLOSE) ? (1 - time) : time;
+  size.height *= (_operation == CLOSE) ? time : (1 - time);
   float deltaHeight = (curSize.height - size.height) / 2;
-  curPos.y += deltaHeight * (_reversedDirection ? -1 : 1);
+  curPos.y += deltaHeight * (_reversedDirection ? 1 : -1);
   _renderer->setSize(size);
   _renderer->setPosition(curPos);
 }
