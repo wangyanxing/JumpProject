@@ -40,7 +40,7 @@ void PhysicsComponent::beforeRender(float dt) {
 
 void PhysicsComponent::updateDynamics(float dt) {
   if (mStatus == ON_PLATFORM) {
-    mVelocity.y = 0;
+    mVelocity.y = std::max(mVelocity.y, 0.0f);
   } else if (mStatus == FALLING) {
     mAcceleration.y = 0;
     if (mPhysicsType == PHYSICS_DYNAMIC && mEnableGravity) {
@@ -143,7 +143,7 @@ void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
 
   if (GameUtils::vec2Equal(Vec2::UNIT_Y, info.normal)) {
     mStatus = ON_PLATFORM;
-    mShape->mPosition.y += halfHeight - deltaHeight - 0.01f; // Apply an offset.
+    mShape->mPosition.y += halfHeight - deltaHeight - 0.01f;
 
     // If the paltform moved in this frame, update it.
     mShape->mPosition += other->mShape->getMovement();
