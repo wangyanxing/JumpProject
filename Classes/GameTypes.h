@@ -33,12 +33,14 @@ enum ComponentType {
   COMPONENT_BUTTON,
   COMPONENT_ROTATOR,
   COMPONENT_INPUT,
+  COMPONENT_EDITOR,
 };
 
 enum ComponentCommand {
   COMMAND_COLLISION,
   COMMAND_INPUT,
-  COMMAND_PATH
+  COMMAND_PATH,
+  COMMAND_EDITOR
 };
 
 enum InputType {
@@ -69,6 +71,11 @@ enum ButtonDirection {
 enum ShadowLightType {
   LIGHT_POINT,
   LIGHT_DIR,
+};
+
+enum EditorCommand {
+  CMD_SELECT,
+  CMD_UNSELECT,
 };
 
 template <typename T>

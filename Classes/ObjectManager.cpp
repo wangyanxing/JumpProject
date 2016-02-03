@@ -88,6 +88,10 @@ GameObject *ObjectManager::createObjectImpl(Parameter &param, int id) {
   for (auto comp : components) {
     obj->addComponent(comp);
   }
+
+#if EDITOR_MODE
+  obj->addComponent(COMPONENT_EDITOR);
+#endif
   
   CC_ASSERT(!mObjects.count(obj->mID));
   mObjects[obj->mID] = obj;

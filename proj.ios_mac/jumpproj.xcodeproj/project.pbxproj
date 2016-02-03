@@ -70,6 +70,10 @@
 		BC1EE9A21C5FFB13003A345B /* GameSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC1EE99F1C5FFB13003A345B /* GameSprite.cpp */; };
 		BC1EE9A51C6017CA003A345B /* JsonWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC1EE9A31C6017CA003A345B /* JsonWriter.cpp */; };
 		BC1EE9A61C6017CA003A345B /* JsonWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC1EE9A31C6017CA003A345B /* JsonWriter.cpp */; };
+		BC1EE9A91C62BA57003A345B /* EditorComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC1EE9A71C62BA57003A345B /* EditorComponent.cpp */; };
+		BC1EE9AA1C62BA57003A345B /* EditorComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC1EE9A71C62BA57003A345B /* EditorComponent.cpp */; };
+		BC1EE9AD1C62BA61003A345B /* EditorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC1EE9AB1C62BA61003A345B /* EditorManager.cpp */; };
+		BC1EE9AE1C62BA61003A345B /* EditorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC1EE9AB1C62BA61003A345B /* EditorManager.cpp */; };
 		BC3CE9FB1C1B86B400738B33 /* Blocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C01C1B86B400738B33 /* Blocks.cpp */; };
 		BC3CE9FC1C1B86B400738B33 /* Blocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C01C1B86B400738B33 /* Blocks.cpp */; };
 		BC3CE9FD1C1B86B400738B33 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C21C1B86B400738B33 /* Button.cpp */; };
@@ -293,6 +297,10 @@
 		BC1EE9A01C5FFB13003A345B /* GameSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSprite.h; sourceTree = "<group>"; };
 		BC1EE9A31C6017CA003A345B /* JsonWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JsonWriter.cpp; sourceTree = "<group>"; };
 		BC1EE9A41C6017CA003A345B /* JsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonWriter.h; sourceTree = "<group>"; };
+		BC1EE9A71C62BA57003A345B /* EditorComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorComponent.cpp; sourceTree = "<group>"; };
+		BC1EE9A81C62BA57003A345B /* EditorComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorComponent.h; sourceTree = "<group>"; };
+		BC1EE9AB1C62BA61003A345B /* EditorManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorManager.cpp; sourceTree = "<group>"; };
+		BC1EE9AC1C62BA61003A345B /* EditorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorManager.h; sourceTree = "<group>"; };
 		BC3CE9C01C1B86B400738B33 /* Blocks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Blocks.cpp; sourceTree = "<group>"; };
 		BC3CE9C11C1B86B400738B33 /* Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blocks.h; sourceTree = "<group>"; };
 		BC3CE9C21C1B86B400738B33 /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
@@ -769,6 +777,10 @@
 				BC1EE9A01C5FFB13003A345B /* GameSprite.h */,
 				BC1EE9A31C6017CA003A345B /* JsonWriter.cpp */,
 				BC1EE9A41C6017CA003A345B /* JsonWriter.h */,
+				BC1EE9A71C62BA57003A345B /* EditorComponent.cpp */,
+				BC1EE9A81C62BA57003A345B /* EditorComponent.h */,
+				BC1EE9AB1C62BA61003A345B /* EditorManager.cpp */,
+				BC1EE9AC1C62BA61003A345B /* EditorManager.h */,
 			);
 			name = Refactor;
 			sourceTree = "<group>";
@@ -987,6 +999,7 @@
 				B5408E6D1C505F8200E4C90E /* ButtonComponent.cpp in Sources */,
 				BCB866B81C50172400CB8383 /* PathComponent.cpp in Sources */,
 				BC3CEA191C1B86B400738B33 /* Path.cpp in Sources */,
+				BC1EE9AD1C62BA61003A345B /* EditorManager.cpp in Sources */,
 				BCB862BC1C4843EC00CB8383 /* JsonParser.cpp in Sources */,
 				BC3CEA0B1C1B86B400738B33 /* HttpHelper.cpp in Sources */,
 				BC3CEA171C1B86B400738B33 /* MapSerial.cpp in Sources */,
@@ -995,6 +1008,7 @@
 				BC3CEA331C1B86B400738B33 /* VisibleRect.cpp in Sources */,
 				BC3CEA0F1C1B86B400738B33 /* LevelScene.cpp in Sources */,
 				BC3CEA2B1C1B86B400738B33 /* SpriteUV.cpp in Sources */,
+				BC1EE9A91C62BA57003A345B /* EditorComponent.cpp in Sources */,
 				BCB866AB1C4D495C00CB8383 /* GameEvents.cpp in Sources */,
 				BCB8669E1C49A34700CB8383 /* BlockKindConfigs.cpp in Sources */,
 			);
@@ -1004,9 +1018,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC1EE9AA1C62BA57003A345B /* EditorComponent.cpp in Sources */,
 				BCB862A31C4710F700CB8383 /* GameLevel.cpp in Sources */,
 				BC3CEA1A1C1B86B400738B33 /* Path.cpp in Sources */,
 				BC1EE9A61C6017CA003A345B /* JsonWriter.cpp in Sources */,
+				BC1EE9AE1C62BA61003A345B /* EditorManager.cpp in Sources */,
 				BC3CEA061C1B86B400738B33 /* Events.cpp in Sources */,
 				BCB8669F1C49A34700CB8383 /* BlockKindConfigs.cpp in Sources */,
 				BCB85EF71C45ED2C00CB8383 /* GameObject.cpp in Sources */,

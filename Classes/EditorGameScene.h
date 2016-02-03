@@ -44,24 +44,10 @@ public:
   int8_t getCameraDepth() override {
     return 0;
   }
-  
-  void registerCommands();
 
   void keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
 
   void keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
-
-private:
-  void initHelpers();
-
-  void toggleHelpersVisible();
-
-  void loadLastEdit();
-
-  void openMapFile();
-
-private:
-  cocos2d::DrawNode *mGridNode{nullptr};
 };
 
 #endif

@@ -12,12 +12,14 @@
 #include "InputComponent.h"
 #include "PathComponent.h"
 #include "ButtonComponent.h"
+#include "EditorComponent.h"
 #include "SimpleRenderer.h"
 #include "DeathRenderer.h"
 #include "GameLevel.h"
 #include "GameLayerContainer.h"
 #include "DeathRotatorRenderer.h"
 #include "JsonFormat.h"
+#include "EditorManager.h"
 
 USING_NS_CC;
 
@@ -162,6 +164,9 @@ GameComponent* GameObject::addComponent(ComponentType type) {
     case COMPONENT_BUTTON:
       component = new ButtonComponent(this);
       break;
+    case COMPONENT_EDITOR:
+      component = new EditorComponent(this);
+      break;
     case COMPONENT_ROTATOR:
     default:
       CCLOGERROR("Invalid component type");
@@ -210,7 +215,7 @@ void GameObject::initHelpers() {
   mHelperNode->setCameraMask((unsigned short) CameraFlag::USER2);
   mHelperNode->setVisible(false);
 
-  auto root = GameLevel::instance().getGameLayer()->getBlockRoot();
+  auto root = EditorManager::instance().getEditorRootNode();
   root->addChild(mHelperNode, ZORDER_EDT_OBJ_HELPER);
 
   // Label.
