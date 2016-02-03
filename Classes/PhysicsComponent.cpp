@@ -143,7 +143,7 @@ void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
 
   if (GameUtils::vec2Equal(Vec2::UNIT_Y, info.normal)) {
     mStatus = ON_PLATFORM;
-    mShape->mPosition.y += halfHeight - deltaHeight;
+    mShape->mPosition.y += halfHeight - deltaHeight - 0.01f; // Apply an offset.
 
     // If the paltform moved in this frame, update it.
     mShape->mPosition += other->mShape->getMovement();
