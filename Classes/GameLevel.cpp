@@ -342,7 +342,9 @@ void GameLevel::updateCamera(cocos2d::Camera *cam, bool forceUpdate) {
   auto camRelative = newPos - VisibleRect::getVisibleRect().size / 2;
 #endif
 
-  mBackground->setPosition(Vec2::ZERO + camRelative);
+  mBackground->setPosition(camRelative);
+  mGameLayer->onCameraUpdate(camRelative);
+
   cam->setPosition(newPos);
 }
 

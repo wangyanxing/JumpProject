@@ -47,7 +47,7 @@ bool EditorGameScene::init() {
   initHelpers();
 
   // Test.
-  GameLevel::instance().load("maps/local/test_refactor1.json");
+  GameLevel::instance().load("maps/local/test_refactor3.json");
   return true;
 }
 
@@ -75,6 +75,10 @@ void EditorGameScene::processInput() {
       hero->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_RIGHT)}});
     }
   }
+}
+
+void EditorGameScene::onCameraUpdate(const cocos2d::Vec2 &relative) {
+  mGridNode->setPosition(relative);
 }
 
 void EditorGameScene::registerCommands() {
@@ -150,6 +154,7 @@ void EditorGameScene::toggleHelpersVisible() {
 }
 
 void EditorGameScene::afterLoad() {
+  mGridNode->setPosition(Vec2::ZERO);
   if (mGridNode->isVisible()) {
     toggleHelpersVisible();
   }

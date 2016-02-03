@@ -43,6 +43,8 @@ public:
 
   virtual void preWinGame() {}
 
+  virtual void onCameraUpdate(const cocos2d::Vec2 &relative) {}
+
   virtual int8_t getCameraDepth() {
     return -10;
   }
