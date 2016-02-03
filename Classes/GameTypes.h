@@ -37,7 +37,8 @@ enum ComponentType {
 
 enum ComponentCommand {
   COMMAND_COLLISION,
-  COMMAND_INPUT
+  COMMAND_INPUT,
+  COMMAND_PATH
 };
 
 enum InputType {

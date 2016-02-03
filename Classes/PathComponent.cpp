@@ -14,9 +14,11 @@
 USING_NS_CC;
 
 PathComponent::PathComponent(GameObject *parent) : GameComponent(parent) {
+  mParent->addComponentCommand(COMMAND_PATH, this);
 }
 
 PathComponent::~PathComponent() {
+  mParent->removeComponentCommand(COMMAND_PATH);
   clear();
 }
 
@@ -207,6 +209,12 @@ int PathComponent::nextPoint() {
     nextPt = (mCurPt + 1) % mPoints.size();
   }
   return nextPt;
+}
+
+void PathComponent::runCommand(ComponentCommand type, const Parameter &param) {
+  CC_ASSERT(type == COMMAND_PATH);
+  bool resume = param.get<bool>(PARAM_RESUME_PATH);
+  mPause = !resume;
 }
 
 void PathComponent::updateHelpers() {

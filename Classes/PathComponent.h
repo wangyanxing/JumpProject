@@ -48,6 +48,8 @@ public:
 
   void initHelpers() override;
 
+  void runCommand(ComponentCommand type, const Parameter &param) override;
+
   int nextPoint();
 
   void update(float dt, cocos2d::Vec2 &out, cocos2d::Vec2 &outScale);

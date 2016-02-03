@@ -45,9 +45,9 @@ GameEvents::GameEvents() {
     Event e;
     e.command = "open_door";
     e.args = {
-      {"",     false},    // ID
+      {"",     false}, // ID
       {"250",  true},  // SPEED
-      {"true", true}, // DIR
+      {"true", true},  // DIR
     };
     e.func = [&](const std::vector<Arg> &args, GameObject *block) {
       auto target = args[0].getGameObject();
@@ -67,9 +67,9 @@ GameEvents::GameEvents() {
     Event e;
     e.command = "close_door";
     e.args = {
-      {"",     false},    // ID
+      {"",     false}, // ID
       {"250",  true},  // SPEED, in ms
-      {"true", true}, // DIR
+      {"true", true},  // DIR
     };
     e.func = [&](const std::vector<Arg> &args, GameObject *block) {
       auto target = args[0].getGameObject();
@@ -170,7 +170,7 @@ GameEvents::GameEvents() {
         CCLOGWARN("Bad ID: %d", args[0].getInt());
         return;
       }
-      // TODO: Resume path.
+      target->runCommand(COMMAND_PATH, {{PARAM_RESUME_PATH, Any(true)}});
     };
     sEventLists[e.command] = e;
   }
