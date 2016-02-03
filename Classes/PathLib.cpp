@@ -2,20 +2,27 @@
 #include "cocos2d.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
-
 #   include <io.h>
 #   include <windows.h>
 #   include <ShlObj.h>
-
 #else
 #   include <sys/types.h>
 #   include <dirent.h>
 #   include <unistd.h>
 #endif
 
+USING_NS_CC;
+
 #if EDITOR_MODE
 
 std::string PathLib::msAppFile;
+
+std::string PathLib::openJsonFile(const std::string &title, const std::string &path) {
+  std::vector<std::string> out;
+  auto filter = "JSON file(json)|*.json|All files (*.*)|*.*";
+  PathLib::openFileDialog(nullptr, title, path, "", filter, 0, out);
+  return out.empty() ? "" : out[0];
+}
 
 void PathLib::openInSystem(const char *file) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
@@ -29,6 +36,24 @@ void PathLib::openInSystem(const char *file) {
 }
 
 #endif
+
+std::string PathLib::getMapDir() {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+  static std::string fullpath;
+  auto env = getenv("XCODE_PROJ_DIR");
+  if (env) {
+    fullpath = env;
+    fullpath += "/../Resources/maps";
+  } else {
+    fullpath = FileUtils::getInstance()->fullPathForFilename("maps");
+  }
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+  static std::string fullpath = FileUtils::getInstance()->fullPathForFilename("assets/maps");
+#else
+  static std::string fullpath = FileUtils::getInstance()->fullPathForFilename("maps");
+#endif
+  return fullpath.c_str();
+}
 
 bool PathLib::endsWith(const std::string &a, const std::string &b) {
   if (b.size() > a.size()) {

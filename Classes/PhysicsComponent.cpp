@@ -58,8 +58,7 @@ void PhysicsComponent::updateDynamics(float dt) {
 
   mShape->updateShape(this);
   mShape->mLastPosition = mShape->mPosition;
-  mShape->mPosition.y += mVelocity.y * dt;
-  mShape->mPosition.x += mVelocity.x * dt;
+  mShape->mPosition += mVelocity * dt;
 }
 
 void PhysicsComponent::reset() {

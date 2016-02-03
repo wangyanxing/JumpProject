@@ -15,6 +15,7 @@
 #include "Parameter.h"
 #include "VisibleRect.h"
 #include "GameConfig.h"
+#include "PathLib.h"
 
 #if USE_REFACTOR
 
@@ -46,8 +47,8 @@ bool EditorGameScene::init() {
   // Helpers.
   initHelpers();
 
-  // Test.
-  GameLevel::instance().load("maps/local/test_refactor3.json");
+  // Load last edited map.
+  loadLastEdit();
   return true;
 }
 
@@ -97,6 +98,12 @@ void EditorGameScene::registerCommands() {
   // Reset scene.
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_0, [this](GameInputs::KeyCode key) {
     GameLevel::instance().unload();
+  });
+
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_O, [this](GameInputs::KeyCode key) {
+    if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_CTRL)) {
+      openMapFile();
+    }
   });
 
   // Test.
@@ -158,6 +165,20 @@ void EditorGameScene::afterLoad() {
   if (mGridNode->isVisible()) {
     toggleHelpersVisible();
   }
+}
+
+void EditorGameScene::openMapFile() {
+  std::string fullpath = PathLib::getMapDir();
+  auto filename = PathLib::openJsonFile("Open Map", fullpath + "/remote");
+  if (filename.empty()) {
+    return;
+  }
+  GameLevel::instance().load(filename);
+}
+
+void EditorGameScene::loadLastEdit() {
+  auto file = UserDefault::getInstance()->getStringForKey("lastedit");
+  GameLevel::instance().load(file.empty() ? TEMPLATE_MAP : file);
 }
 
 #endif

@@ -32,6 +32,10 @@ public:
 
 #if EDITOR_MODE
 
+  static std::string getMapDir();
+
+  static std::string openJsonFile(const std::string &title, const std::string &path);
+
   static void openInSystem(const char *file);
 
   static bool openDirectoryDialog(const void *wndHandle,

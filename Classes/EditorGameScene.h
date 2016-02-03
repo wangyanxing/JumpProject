@@ -56,6 +56,10 @@ private:
 
   void toggleHelpersVisible();
 
+  void loadLastEdit();
+
+  void openMapFile();
+
 private:
   cocos2d::DrawNode *mGridNode{nullptr};
 };
