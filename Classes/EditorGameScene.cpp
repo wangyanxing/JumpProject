@@ -39,9 +39,11 @@ bool EditorGameScene::init() {
 
   auto mouseListener = EventListenerMouse::create();
   mouseListener->onMouseDown = [](EventMouse* event) {
+    GameInputs::instance().setPressingMouse(true);
     EditorManager::instance().onMouseDown(GameInputs::instance().convertMouseEvent(event));
   };
   mouseListener->onMouseUp = [](EventMouse* event) {
+    GameInputs::instance().setPressingMouse(false);
     EditorManager::instance().onMouseUp(GameInputs::instance().convertMouseEvent(event));
   };
   mouseListener->onMouseMove = [](EventMouse* event) {

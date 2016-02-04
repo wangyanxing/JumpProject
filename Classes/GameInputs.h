@@ -26,8 +26,16 @@ public:
 
   void keyReleased(KeyCode key, cocos2d::Event *event);
 
-  bool isPressing(KeyCode key) {
+  bool isPressing(KeyCode key) const {
     return mPressingKeys.count(key);
+  }
+
+  bool isPressingMouse() const {
+    return mPressingMouse;
+  }
+
+  void setPressingMouse(bool val) {
+    mPressingMouse = val;
   }
 
   void setLastMousePosition(const cocos2d::Vec2 &mousePos);
@@ -44,6 +52,8 @@ private:
   KeyboardEvents mKeyboardEvents;
 
   cocos2d::Vec2 mLastMousePosition;
+
+  bool mPressingMouse{false};
 };
 
 #endif /* GameInputs_h */
