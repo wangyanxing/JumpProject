@@ -31,5 +31,6 @@ namespace cocos2d {
 
 #include "GameTypes.h"
 #include "Defines.h"
+#include "DebugTools.h"
 
 #endif /* Prerequisites_h */

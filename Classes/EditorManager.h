@@ -30,6 +30,12 @@ public:
 
   void loadLastEdit();
 
+  void onMouseDown(const MouseEvent &event);
+
+  void onMouseUp(const MouseEvent &event);
+
+  void onMouseMove(const MouseEvent &event);
+
 private:
   void registerInputs();
 

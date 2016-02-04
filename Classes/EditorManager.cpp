@@ -75,6 +75,26 @@ void EditorManager::loadLastEdit() {
   GameLevel::instance().load(file.empty() ? TEMPLATE_MAP : file);
 }
 
+void EditorManager::onMouseDown(const MouseEvent &event) {
+  // Left button only.
+  if (event.button != 0) {
+    return;
+  }
+
+  if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_SHIFT)) {
+  }
+}
+
+void EditorManager::onMouseUp(const MouseEvent &event) {
+  // Left button only.
+  if (event.button != 0) {
+    return;
+  }
+}
+
+void EditorManager::onMouseMove(const MouseEvent &event) {
+}
+
 void EditorManager::registerInputs() {
   auto &gameInputs = GameInputs::instance();
 

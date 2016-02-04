@@ -13,10 +13,6 @@ bool GameUtils::vec2Equal(const cocos2d::Vec2 &v1, const cocos2d::Vec2 &v2) {
     fabs(v1.y - v2.y) < std::numeric_limits<float>::epsilon();
 }
 
-void GameUtils::logVec2(const cocos2d::Vec2 &vec2) {
-  CCLOG("x = %.2f, y = %.2f", vec2.x, vec2.y);
-}
-
 void GameUtils::setPixelStyleTexture(Sprite *sp) {
   static Texture2D::TexParams param;
   param.minFilter = GL_NEAREST;

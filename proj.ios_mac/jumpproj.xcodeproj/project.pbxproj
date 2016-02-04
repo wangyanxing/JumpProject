@@ -74,6 +74,8 @@
 		BC1EE9AA1C62BA57003A345B /* EditorComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC1EE9A71C62BA57003A345B /* EditorComponent.cpp */; };
 		BC1EE9AD1C62BA61003A345B /* EditorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC1EE9AB1C62BA61003A345B /* EditorManager.cpp */; };
 		BC1EE9AE1C62BA61003A345B /* EditorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC1EE9AB1C62BA61003A345B /* EditorManager.cpp */; };
+		BC1EE9B11C63E0C4003A345B /* DebugTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC1EE9AF1C63E0C4003A345B /* DebugTools.cpp */; };
+		BC1EE9B21C63E0C4003A345B /* DebugTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC1EE9AF1C63E0C4003A345B /* DebugTools.cpp */; };
 		BC3CE9FB1C1B86B400738B33 /* Blocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C01C1B86B400738B33 /* Blocks.cpp */; };
 		BC3CE9FC1C1B86B400738B33 /* Blocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C01C1B86B400738B33 /* Blocks.cpp */; };
 		BC3CE9FD1C1B86B400738B33 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC3CE9C21C1B86B400738B33 /* Button.cpp */; };
@@ -301,6 +303,8 @@
 		BC1EE9A81C62BA57003A345B /* EditorComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorComponent.h; sourceTree = "<group>"; };
 		BC1EE9AB1C62BA61003A345B /* EditorManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorManager.cpp; sourceTree = "<group>"; };
 		BC1EE9AC1C62BA61003A345B /* EditorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorManager.h; sourceTree = "<group>"; };
+		BC1EE9AF1C63E0C4003A345B /* DebugTools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugTools.cpp; sourceTree = "<group>"; };
+		BC1EE9B01C63E0C4003A345B /* DebugTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugTools.h; sourceTree = "<group>"; };
 		BC3CE9C01C1B86B400738B33 /* Blocks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Blocks.cpp; sourceTree = "<group>"; };
 		BC3CE9C11C1B86B400738B33 /* Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blocks.h; sourceTree = "<group>"; };
 		BC3CE9C21C1B86B400738B33 /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
@@ -781,6 +785,8 @@
 				BC1EE9A81C62BA57003A345B /* EditorComponent.h */,
 				BC1EE9AB1C62BA61003A345B /* EditorManager.cpp */,
 				BC1EE9AC1C62BA61003A345B /* EditorManager.h */,
+				BC1EE9AF1C63E0C4003A345B /* DebugTools.cpp */,
+				BC1EE9B01C63E0C4003A345B /* DebugTools.h */,
 			);
 			name = Refactor;
 			sourceTree = "<group>";
@@ -994,6 +1000,7 @@
 				BCB85F0C1C46B35F00CB8383 /* SimpleRenderer.cpp in Sources */,
 				BCDFFFFB1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */,
 				BC1EE9A11C5FFB13003A345B /* GameSprite.cpp in Sources */,
+				BC1EE9B11C63E0C4003A345B /* DebugTools.cpp in Sources */,
 				BCB866A31C49D30900CB8383 /* DeathRenderer.cpp in Sources */,
 				BCB866A71C49D8EE00CB8383 /* DeathRotatorRenderer.cpp in Sources */,
 				B5408E6D1C505F8200E4C90E /* ButtonComponent.cpp in Sources */,
@@ -1041,6 +1048,7 @@
 				B55C76671C4F335B0083C9C5 /* GameConfig.cpp in Sources */,
 				BCB85F041C46ABE300CB8383 /* GameTypes.cpp in Sources */,
 				BC3CE9FC1C1B86B400738B33 /* Blocks.cpp in Sources */,
+				BC1EE9B21C63E0C4003A345B /* DebugTools.cpp in Sources */,
 				B5A55AA81C2B8B7200E02C60 /* ControlPad.cpp in Sources */,
 				BCB862B51C482A9B00CB8383 /* PhysicsManager.cpp in Sources */,
 				BC3CEA911C1F20F700738B33 /* Palette.cpp in Sources */,

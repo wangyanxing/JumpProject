@@ -73,6 +73,13 @@ enum ShadowLightType {
   LIGHT_DIR,
 };
 
+struct MouseEvent {
+  int button;
+  cocos2d::Vec2 posInScreen;
+  cocos2d::Vec2 posInMap;
+  cocos2d::Vec2 movement;
+};
+
 enum EditorCommand {
   CMD_SELECT,
   CMD_UNSELECT,

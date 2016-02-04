@@ -30,14 +30,20 @@ public:
     return mPressingKeys.count(key);
   }
 
+  void setLastMousePosition(const cocos2d::Vec2 &mousePos);
+
   void addKeyboardEvent(KeyCode key, KeyboardFunc callback);
 
   void removeKeyboardEvent(KeyCode key);
+
+  MouseEvent convertMouseEvent(cocos2d::EventMouse *event);
 
 private:
   std::set<KeyCode> mPressingKeys;
 
   KeyboardEvents mKeyboardEvents;
+
+  cocos2d::Vec2 mLastMousePosition;
 };
 
 #endif /* GameInputs_h */

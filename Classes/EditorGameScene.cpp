@@ -35,7 +35,20 @@ bool EditorGameScene::init() {
   auto keyboardListener = EventListenerKeyboard::create();
   keyboardListener->onKeyPressed = CC_CALLBACK_2(EditorGameScene::keyPressed, this);
   keyboardListener->onKeyReleased = CC_CALLBACK_2(EditorGameScene::keyReleased, this);
-  _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
+  getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyboardListener, this);
+
+  auto mouseListener = EventListenerMouse::create();
+  mouseListener->onMouseDown = [](EventMouse* event) {
+    EditorManager::instance().onMouseDown(GameInputs::instance().convertMouseEvent(event));
+  };
+  mouseListener->onMouseUp = [](EventMouse* event) {
+    EditorManager::instance().onMouseUp(GameInputs::instance().convertMouseEvent(event));
+  };
+  mouseListener->onMouseMove = [](EventMouse* event) {
+    EditorManager::instance().onMouseMove(GameInputs::instance().convertMouseEvent(event));
+    GameInputs::instance().setLastMousePosition({event->getLocationInView()});
+  };
+  getEventDispatcher()->addEventListenerWithSceneGraphPriority(mouseListener, this);
 
   GameInputs::instance().addKeyboardEvent(EventKeyboard::KeyCode::KEY_SPACE,
                                           [&](GameInputs::KeyCode key) {
