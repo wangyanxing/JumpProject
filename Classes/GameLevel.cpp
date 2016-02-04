@@ -114,10 +114,6 @@ void GameLevel::load(const std::string &levelFile) {
   std::string paletteFile = doc[LEVEL_PALETTE_FILE].GetString();
   CC_SAFE_DELETE(mPalette);
   mPalette = new ColorPalette(paletteFile);
-
-  mBackground->clear();
-  mBackground->drawSolidRect(Vec2::ZERO, VisibleRect::rightTop(),
-                             Color4F(mPalette->getBackgroundColor()));
   
   // Shadows.
   if (doc.HasMember(SHADOW_GROUP)) {
@@ -160,6 +156,12 @@ void GameLevel::load(const std::string &levelFile) {
   for (auto sm : mShadows) {
     sm->update(0);
   }
+
+  updateBounds();
+  mBackground->clear();
+  mBackground->drawSolidRect({mBounds.getMinX(), mBounds.getMinY()},
+                             {mBounds.getMaxX(), mBounds.getMaxY()},
+                             Color4F(mPalette->getBackgroundColor()));
 
   mGameLayer->afterLoad();
   enableGame(true);
@@ -299,8 +301,6 @@ void GameLevel::reset() {
   hero->getRenderer()->setPosition(mHeroSpawnPos);
   hero->getRenderer()->setOpacity(255);
   mDieFlag = false;
-
-  mBackground->setPosition(Vec2::ZERO);
 }
 
 void GameLevel::updateBounds() {
@@ -341,9 +341,7 @@ void GameLevel::updateCamera(cocos2d::Camera *cam, bool forceUpdate) {
   auto camRelative = newPos - VisibleRect::getVisibleRect().size / 2;
 #endif
 
-  mBackground->setPosition(camRelative);
   mGameLayer->onCameraUpdate(camRelative);
-
   cam->setPosition(newPos);
 }
 

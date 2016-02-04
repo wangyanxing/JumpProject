@@ -114,6 +114,8 @@ void EditorManager::onMouseMove(const MouseEvent &event) {
 
   if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_ALT)) {
     // Move camera.
+    auto camera = GameLevel::instance().getGameLayer()->getCamera();
+    camera->setPosition(camera->getPosition() - event.movement);
   } else {
     // Move objects.
     for (auto obj : mSelections) {
