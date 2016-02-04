@@ -61,4 +61,10 @@ void EditorComponent::initHelpers() {
 
 void EditorComponent::runCommand(ComponentCommand type, const Parameter &param) {
   CC_ASSERT(type == COMMAND_EDITOR);
+  auto cmd = param.get<EditorCommand>(PARAM_EDITOR_COMMAND);
+  if (cmd == EDITOR_CMD_SELECT) {
+    mSelectionHelper->setVisible(true);
+  } else if (cmd == EDITOR_CMD_UNSELECT) {
+    mSelectionHelper->setVisible(false);
+  }
 }

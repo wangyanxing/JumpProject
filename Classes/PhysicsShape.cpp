@@ -64,6 +64,10 @@ bool RectPhysicsShape::intersectsTest(const cocos2d::Vec2 &pos, float radius) {
   return getBounds().intersectsCircle(pos, radius);
 }
 
+bool RectPhysicsShape::containsPoint(const cocos2d::Vec2 &pos) {
+  return getBounds().containsPoint(pos);
+}
+
 void CirclePhysicsShape::updateShape(PhysicsComponent *component) {
 }
 
@@ -94,6 +98,10 @@ bool CirclePhysicsShape::intersectsTest(const cocos2d::Rect &rect) {
 
 bool CirclePhysicsShape::intersectsTest(const cocos2d::Vec2 &pos, float radius) {
   return pos.distance(getPosition()) <= getRealRadius() + radius;
+}
+
+bool CirclePhysicsShape::containsPoint(const cocos2d::Vec2 &pos) {
+  return pos.distance(getPosition()) <= getRealRadius();
 }
 
 Rect CirclePhysicsShape::getBounds() {

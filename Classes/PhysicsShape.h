@@ -35,6 +35,8 @@ public:
   
   virtual bool intersectsTest(const cocos2d::Vec2 &pos, float radius) = 0;
 
+  virtual bool containsPoint(const cocos2d::Vec2 &pos) = 0;
+
   cocos2d::Vec2 getPosition() {
     return mPosition;
   }
@@ -98,6 +100,8 @@ public:
   
   bool intersectsTest(const cocos2d::Vec2 &pos, float radius) override;
 
+  bool containsPoint(const cocos2d::Vec2 &pos) override;
+
 protected:
   cocos2d::Vec2 mScale{1, 1};
 
@@ -144,6 +148,8 @@ public:
   bool intersectsTest(const cocos2d::Rect &rect) override;
   
   bool intersectsTest(const cocos2d::Vec2 &pos, float radius) override;
+
+  bool containsPoint(const cocos2d::Vec2 &pos) override;
 
 protected:
   float mScale{1};

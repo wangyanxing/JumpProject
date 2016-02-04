@@ -95,6 +95,8 @@ public:
     return mHelperNode;
   }
 
+  bool containsPoint(const cocos2d::Vec2 &pt);
+
 private:
   void release();
 

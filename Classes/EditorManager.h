@@ -49,6 +49,8 @@ private:
   cocos2d::Node *mEditorRoot{nullptr};
 
   cocos2d::DrawNode *mGridNode{nullptr};
+
+  std::vector<GameObject*> mSelections;
 };
 
 #endif /* EditorManager_h */

@@ -10,6 +10,7 @@
 #include "GameLevel.h"
 #include "GameObject.h"
 #include "GameInputs.h"
+#include "GameRenderer.h"
 #include "GameLayerContainer.h"
 #include "GameConfig.h"
 #include "PathLib.h"
@@ -82,6 +83,21 @@ void EditorManager::onMouseDown(const MouseEvent &event) {
   }
 
   if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_SHIFT)) {
+  } else {
+    // Select objects.
+    bool multiSelect = GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_CTRL);
+    if (!multiSelect) {
+      for (auto sel : mSelections) {
+        sel->runCommand(COMMAND_EDITOR, {{PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_UNSELECT)}});
+      }
+      mSelections.clear();
+    }
+    GameLevel::instance().traverseObjects([&](GameObject *obj){
+      if (obj->isRemovable() && obj->containsPoint(event.posInMap)) {
+        mSelections.push_back(obj);
+        obj->runCommand(COMMAND_EDITOR, {{PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_SELECT)}});
+      }
+    }, false);
   }
 }
 
@@ -93,6 +109,9 @@ void EditorManager::onMouseUp(const MouseEvent &event) {
 }
 
 void EditorManager::onMouseMove(const MouseEvent &event) {
+  if (!GameInputs::instance().isPressingMouse()) {
+    return;
+  }
 }
 
 void EditorManager::registerInputs() {

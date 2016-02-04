@@ -8,6 +8,7 @@
 
 #include "GameObject.h"
 #include "GameRenderer.h"
+#include "PhysicsShape.h"
 #include "PhysicsComponent.h"
 #include "InputComponent.h"
 #include "PathComponent.h"
@@ -206,6 +207,15 @@ void GameObject::setEnabled(bool val) {
     for (auto component : mComponents) {
       component.second->reset();
     }
+  }
+}
+
+bool GameObject::containsPoint(const cocos2d::Vec2 &pt) {
+  auto physics = getComponent<PhysicsComponent>();
+  if (physics) {
+    return physics->getShape()->containsPoint(pt);
+  } else {
+    return getRenderer()->getBoundingBox().containsPoint(pt);
   }
 }
 
