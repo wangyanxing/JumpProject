@@ -78,7 +78,6 @@ void GameLevel::beforeRender(float dt) {
   for (auto &obj : mObjectManager->mObjects) {
     obj.second->beforeRender(dt);
   }
-  
   for (auto sm : mShadows) {
     sm->update(dt);
   }

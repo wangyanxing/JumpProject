@@ -25,10 +25,8 @@ public:
   void beforeRender(float dt) override;
 
   void runCommand(ComponentCommand type, const Parameter &param) override;
-
-  virtual void updateHelpers() override;
-
-  virtual void initHelpers() override;
+  
+  void initHelpers() override;
 
 private:
   cocos2d::DrawNode *mSelectionHelper{nullptr};

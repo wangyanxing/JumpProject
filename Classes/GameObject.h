@@ -18,7 +18,8 @@ class GameObject {
 public:
   friend class ObjectManager;
 
-  typedef std::unordered_map<ComponentType, GameComponent*, EnumClassHash> ComponentMap;
+  // This should be ordered.
+  typedef std::map<ComponentType, GameComponent*> ComponentMap;
   
   typedef std::unordered_map<ComponentCommand, GameComponent*, EnumClassHash> ComponentCommandMap;
 

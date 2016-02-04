@@ -27,10 +27,7 @@ void EditorComponent::update(float dt) {
 }
 
 void EditorComponent::beforeRender(float dt) {
-}
-
-void EditorComponent::updateHelpers() {
-  static const Color4F fillColor(0.92f, 0.95f, 0.1f, 0.3f);
+  static const Color4F fillColor(0.92f, 0.95f, 0.1f, 0.6f);
   static const Color4F outlineColor(0.86f, 0.1f, 0.9f, 1.0f);
 
   if (!mSelectionHelper) {
@@ -57,6 +54,7 @@ void EditorComponent::updateHelpers() {
 void EditorComponent::initHelpers() {
   mSelectionHelper = DrawNode::create();
   mSelectionHelper->setCameraMask((unsigned short) CameraFlag::USER2);
+  mSelectionHelper->setVisible(false);
   EditorManager::instance().getEditorRootNode()->addChild(mSelectionHelper,
                                                           ZORDER_EDT_OBJ_SELECTION);
 }
