@@ -277,13 +277,13 @@ void GameLevel::enableGame(bool enable) {
   if (mGameEnabled == enable) {
     return;
   }
-
   mGameEnabled = enable;
 
-  if (mGameEnabled) {
-    reset();
-    getHero()->getRenderer()->setVisible(true);
-  } else {
+  reset();
+
+  getHero()->getRenderer()->setVisible(mGameEnabled);
+
+  if (!mGameEnabled) {
     getHero()->getComponent<InputComponent>()->setEnabled(false);
   }
 

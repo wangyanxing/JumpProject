@@ -203,11 +203,9 @@ void GameObject::setEnabled(bool val) {
     return;
   }
   mEnabled = val;
-  if (mEnabled) {
-    mRenderer->reset();
-    for (auto component : mComponents) {
-      component.second->reset();
-    }
+  mRenderer->reset();
+  for (auto component : mComponents) {
+    component.second->reset();
   }
 }
 

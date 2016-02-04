@@ -226,7 +226,7 @@ void EditorManager::registerInputs() {
     }
   });
 
-  // Delete
+  // Delete.
   auto deleteCallback = [this](GameInputs::KeyCode key) {
     auto objManager = GameLevel::instance().getObjectManager();
     for (auto obj : mSelections) {

@@ -64,12 +64,13 @@ public:
     return mBounds;
   }
 
+  void reset();
+
   void traverseObjects(std::function<void(GameObject*)> func, bool containsHero);
   
   GameObject *getHero();
   
 private:
-  void reset();
 
   void createHero(const cocos2d::Vec2 &pos);
 
