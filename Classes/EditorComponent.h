@@ -20,7 +20,9 @@ public:
 
   DECLARE_COMP_TYPE(COMPONENT_EDITOR);
 
-  void update(float dt) override {}
+  void update(float dt) override;
+
+  void beforeRender(float dt) override;
 
   void runCommand(ComponentCommand type, const Parameter &param) override;
 

@@ -25,7 +25,9 @@ public:
 
   virtual void updateShape(PhysicsComponent *component) = 0;
 
-  virtual void debugDraw(cocos2d::DrawNode *node) = 0;
+  virtual void debugDraw(cocos2d::DrawNode *node,
+                         const cocos2d::Color4F &fillColor,
+                         const cocos2d::Color4F &lineColor) = 0;
   
   virtual bool intersectsTest(BasePhysicsShape *other) = 0;
   
@@ -86,7 +88,9 @@ public:
 
   void updateShape(PhysicsComponent *component) override;
 
-  void debugDraw(cocos2d::DrawNode *node) override;
+  void debugDraw(cocos2d::DrawNode *node,
+                 const cocos2d::Color4F &fillColor,
+                 const cocos2d::Color4F &lineColor) override;
   
   bool intersectsTest(BasePhysicsShape *other) override;
   
@@ -131,7 +135,9 @@ public:
 
   void updateShape(PhysicsComponent *component) override;
 
-  void debugDraw(cocos2d::DrawNode *node) override;
+  void debugDraw(cocos2d::DrawNode *node,
+                 const cocos2d::Color4F &fillColor,
+                 const cocos2d::Color4F &lineColor) override;
   
   bool intersectsTest(BasePhysicsShape *other) override;
   

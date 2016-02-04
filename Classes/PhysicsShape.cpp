@@ -13,8 +13,6 @@
 
 USING_NS_CC;
 
-static const Color4F fillColor(1.0f, 0.0f, 0.0f, 0.3f);
-static const Color4F outlineColor(1.0f, 0.0f, 0.0f, 1.0f);
 static const int CIRCLE_SEG_NUM = 12;
 
 void BasePhysicsShape::onPositionSet(const cocos2d::Vec2 &position) {
@@ -41,7 +39,9 @@ Rect RectPhysicsShape::getBounds() {
               mSize.height);
 }
 
-void RectPhysicsShape::debugDraw(cocos2d::DrawNode *node) {
+void RectPhysicsShape::debugDraw(cocos2d::DrawNode *node,
+                                 const cocos2d::Color4F &fillColor,
+                                 const cocos2d::Color4F &lineColor) {
   auto rect = getBounds();
   Vec2 seg[4] = {
     {-rect.size.width * 0.5f,  rect.size.height * 0.5f},
@@ -49,7 +49,7 @@ void RectPhysicsShape::debugDraw(cocos2d::DrawNode *node) {
     { rect.size.width * 0.5f, -rect.size.height * 0.5f},
     {-rect.size.width * 0.5f, -rect.size.height * 0.5f}
   };
-  node->drawPolygon(seg, 4, fillColor, 1, outlineColor);
+  node->drawPolygon(seg, 4, fillColor, 1, lineColor);
 }
 
 bool RectPhysicsShape::intersectsTest(BasePhysicsShape *other) {
@@ -71,7 +71,9 @@ void CirclePhysicsShape::onSizeSet(const cocos2d::Size &size) {
   mRadius = sqrtf(size.width * size.width + size.height * size.height) * 0.5f;
 }
 
-void CirclePhysicsShape::debugDraw(cocos2d::DrawNode *node) {
+void CirclePhysicsShape::debugDraw(cocos2d::DrawNode *node,
+                                   const cocos2d::Color4F &fillColor,
+                                   const cocos2d::Color4F &lineColor) {
   Vec2 seg[CIRCLE_SEG_NUM] = {};
   float radius = mRadius * mScale;
   for (int i = 0; i < CIRCLE_SEG_NUM; ++i) {
@@ -79,7 +81,7 @@ void CirclePhysicsShape::debugDraw(cocos2d::DrawNode *node) {
     Vec2 d(radius * cosf(angle), radius * sinf(angle));
     seg[i] = d;
   }
-  node->drawPolygon(seg, CIRCLE_SEG_NUM, fillColor, 1, outlineColor);
+  node->drawPolygon(seg, CIRCLE_SEG_NUM, fillColor, 1, lineColor);
 }
 
 bool CirclePhysicsShape::intersectsTest(BasePhysicsShape *other) {

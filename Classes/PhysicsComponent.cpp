@@ -171,12 +171,15 @@ void PhysicsComponent::callCollisionEvents(GameObject *other) {
 }
 
 void PhysicsComponent::updateHelpers() {
+  static const Color4F fillColor(1.0f, 0.0f, 0.0f, 0.3f);
+  static const Color4F outlineColor(1.0f, 0.0f, 0.0f, 1.0f);
+
   if (!mHelperNode) {
     initHelpers();
   }
   mHelperNode->clear();
   if (mShape) {
-    mShape->debugDraw(mHelperNode);
+    mShape->debugDraw(mHelperNode, fillColor, outlineColor);
   }
 }
 
