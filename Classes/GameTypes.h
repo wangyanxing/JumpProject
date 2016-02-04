@@ -84,6 +84,8 @@ enum EditorCommand {
   EDITOR_CMD_SELECT,
   EDITOR_CMD_UNSELECT,
   EDITOR_CMD_MOVE,
+  EDITOR_CMD_RESIZE,
+  EDITOR_CMD_ROTATE,
 };
 
 template <typename T>

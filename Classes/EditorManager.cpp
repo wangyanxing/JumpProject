@@ -145,7 +145,6 @@ void EditorManager::moveObjects(EventKeyboard::KeyCode key) {
   } else if (key == GameInputs::KeyCode::KEY_RIGHT_ARROW) {
     dir = {1, 0};
   }
-
   float distance = GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_ALT) ? 20 : 1;
   dir *= distance;
 
@@ -153,6 +152,29 @@ void EditorManager::moveObjects(EventKeyboard::KeyCode key) {
     obj->runCommand(COMMAND_EDITOR, {
       {PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_MOVE)},
       {PARAM_MOUSE_MOVEMENT, Any(dir)}
+    });
+  }
+}
+
+void EditorManager::resizeObjects(cocos2d::EventKeyboard::KeyCode key) {
+  Vec2 delta;
+  if (key == GameInputs::KeyCode::KEY_LEFT_BRACKET) {
+    delta = {-1, 0};
+  } else if (key == GameInputs::KeyCode::KEY_RIGHT_BRACKET) {
+    delta = {1, 0};
+  } else if (key == GameInputs::KeyCode::KEY_MINUS) {
+    delta = {0, -1};
+  } else if (key == GameInputs::KeyCode::KEY_EQUAL) {
+    delta = {0, 1};
+  }
+
+  float size = GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_ALT) ? 20 : 5;
+  delta *= size;
+
+  for (auto obj : mSelections) {
+    obj->runCommand(COMMAND_EDITOR, {
+      {PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_RESIZE)},
+      {PARAM_SIZE_DELTA, Any(delta)}
     });
   }
 }
@@ -185,6 +207,23 @@ void EditorManager::registerInputs() {
                               CC_CALLBACK_1(EditorManager::moveObjects, this));
   gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_RIGHT_ARROW,
                               CC_CALLBACK_1(EditorManager::moveObjects, this));
+
+  // Resize.
+  gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_LEFT_BRACKET,
+                              CC_CALLBACK_1(EditorManager::resizeObjects, this));
+  gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_RIGHT_BRACKET,
+                              CC_CALLBACK_1(EditorManager::resizeObjects, this));
+  gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_MINUS,
+                              CC_CALLBACK_1(EditorManager::resizeObjects, this));
+  gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_EQUAL,
+                              CC_CALLBACK_1(EditorManager::resizeObjects, this));
+
+  // Rotate.
+  gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_P, [this](GameInputs::KeyCode key) {
+    for (auto obj : mSelections) {
+      obj->runCommand(COMMAND_EDITOR, {{PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_ROTATE)}});
+    }
+  });
 
   // Test.
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_7, [this](GameInputs::KeyCode key) {

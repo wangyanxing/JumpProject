@@ -42,6 +42,8 @@ public:
 
   virtual void setSize(const cocos2d::Size &size);
 
+  virtual void reSize(const cocos2d::Vec2 &delta);
+
   /**
    * This will change the physics part.
    */

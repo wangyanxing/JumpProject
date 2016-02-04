@@ -76,5 +76,11 @@ void EditorComponent::runCommand(ComponentCommand type, const Parameter &param) 
   } else if (cmd == EDITOR_CMD_MOVE) {
     auto movement = param.get<Vec2>(PARAM_MOUSE_MOVEMENT);
     mParent->getRenderer()->move(movement);
+  } else if (cmd == EDITOR_CMD_RESIZE) {
+    auto delta = param.get<Vec2>(PARAM_SIZE_DELTA);
+    mParent->getRenderer()->reSize(delta);
+  } else if (cmd == EDITOR_CMD_ROTATE) {
+    auto size = mParent->getRenderer()->getSize();
+    mParent->getRenderer()->setSize({size.height, size.width});
   }
 }

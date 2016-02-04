@@ -128,6 +128,13 @@ void GameRenderer::setSize(const cocos2d::Size &size) {
   }
 }
 
+void GameRenderer::reSize(const cocos2d::Vec2 &delta) {
+  auto size = getSize();
+  size.width += delta.x;
+  size.height += delta.y;
+  setSize(size);
+}
+
 void GameRenderer::setColor(const cocos2d::Color3B& color) {
   getNode()->setColor(color);
 }

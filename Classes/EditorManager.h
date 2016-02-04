@@ -49,6 +49,8 @@ private:
 
   void moveObjects(cocos2d::EventKeyboard::KeyCode key);
 
+  void resizeObjects(cocos2d::EventKeyboard::KeyCode key);
+
 private:
   cocos2d::Node *mEditorRoot{nullptr};
 
