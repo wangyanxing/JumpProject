@@ -36,6 +36,8 @@ public:
   GameObject *createObject(JsonValueT &json);
 
   GameObject *getObjectByID(int id);
+
+  void deleteObject(int id);
   
 private:
   GameObject *createObjectImpl(Parameter &params, int id);

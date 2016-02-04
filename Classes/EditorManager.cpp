@@ -13,6 +13,7 @@
 #include "GameRenderer.h"
 #include "GameLayerContainer.h"
 #include "GameConfig.h"
+#include "ObjectManager.h"
 #include "PathLib.h"
 #include "VisibleRect.h"
 
@@ -224,6 +225,17 @@ void EditorManager::registerInputs() {
       obj->runCommand(COMMAND_EDITOR, {{PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_ROTATE)}});
     }
   });
+
+  // Delete
+  auto deleteCallback = [this](GameInputs::KeyCode key) {
+    auto objManager = GameLevel::instance().getObjectManager();
+    for (auto obj : mSelections) {
+      objManager->deleteObject(obj->getID());
+    }
+    mSelections.clear();
+  };
+  gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_DELETE, deleteCallback);
+  gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_BACKSPACE, deleteCallback);
 
   // Test.
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_7, [this](GameInputs::KeyCode key) {

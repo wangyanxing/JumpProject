@@ -104,3 +104,10 @@ GameObject *ObjectManager::getObjectByID(int id) {
   auto it = mObjects.find(id);
   return it == mObjects.end() ? nullptr : it->second;
 }
+
+void ObjectManager::deleteObject(int id) {
+  auto it = mObjects.find(id);
+  CC_ASSERT(it != mObjects.end());
+  CC_SAFE_DELETE(it->second);
+  mObjects.erase(it);
+}
