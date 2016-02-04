@@ -55,6 +55,10 @@ void GameRenderer::save(JsWriter &writer) {
   }
 }
 
+void GameRenderer::setOriginalPosition(const cocos2d::Vec2 &pos) {
+  mOriginalPosition = pos;
+}
+
 void GameRenderer::setPosition(const cocos2d::Vec2& pos) {
   getNode()->setPosition(pos);
 

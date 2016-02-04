@@ -35,6 +35,8 @@ public:
   void enableGame(bool enable);
 
   void die();
+
+  void setHeroSpawnPosition(const cocos2d::Vec2 &pos);
   
   bool isGameEnabled() const {
     return mGameEnabled;

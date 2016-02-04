@@ -26,6 +26,10 @@ void EditorManager::init() {
   loadLastEdit();
 }
 
+void EditorManager::onGameEnabled(bool val) {
+  mHeroSpawnNode->setVisible(!val);
+}
+
 void EditorManager::initHelpers() {
   mEditorRoot = Node::create();
   mEditorRoot->setCameraMask((unsigned short) CameraFlag::USER2);
@@ -46,6 +50,14 @@ void EditorManager::initHelpers() {
   mGridNode->setCameraMask((unsigned short) CameraFlag::USER2);
   mEditorRoot->addChild(mGridNode, ZORDER_EDT_GRID);
   mGridNode->setVisible(false);
+
+  mHeroSpawnNode = DrawNode::create();
+  float spawnSize = 5;
+  mHeroSpawnNode->drawSegment({-spawnSize, -spawnSize}, {spawnSize, spawnSize}, 1, Color4F::YELLOW);
+  mHeroSpawnNode->drawSegment({-spawnSize, spawnSize}, {spawnSize, -spawnSize}, 1, Color4F::YELLOW);
+  mHeroSpawnNode->setCameraMask((unsigned short) CameraFlag::USER2);
+  mHeroSpawnNode->setVisible(false);
+  mEditorRoot->addChild(mHeroSpawnNode, ZORDER_EDT_GRID);
 }
 
 void EditorManager::openMapFile() {
@@ -71,6 +83,7 @@ void EditorManager::afterLoad() {
   if (mGridNode->isVisible()) {
     toggleHelpersVisible();
   }
+  mHeroSpawnNode->setPosition(GameLevel::instance().getHero()->getRenderer()->getPosition());
 }
 
 void EditorManager::loadLastEdit() {
@@ -83,8 +96,11 @@ void EditorManager::onMouseDown(const MouseEvent &event) {
   if (event.button != 0) {
     return;
   }
-
-  if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_SHIFT)) {
+  if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_M)) {
+    // Set spawn position.
+    GameLevel::instance().setHeroSpawnPosition(event.posInMap);
+    mHeroSpawnNode->setPosition(event.posInMap);
+  } else if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_SHIFT)) {
     // Create object.
   } else {
     // Select objects.
@@ -168,7 +184,6 @@ void EditorManager::resizeObjects(cocos2d::EventKeyboard::KeyCode key) {
   } else if (key == GameInputs::KeyCode::KEY_EQUAL) {
     delta = {0, 1};
   }
-
   float size = GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_ALT) ? 20 : 5;
   delta *= size;
 

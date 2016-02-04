@@ -36,6 +36,8 @@ public:
 
   void onMouseMove(const MouseEvent &event);
 
+  void onGameEnabled(bool val);
+
 private:
   void registerInputs();
 
@@ -55,6 +57,8 @@ private:
   cocos2d::Node *mEditorRoot{nullptr};
 
   cocos2d::DrawNode *mGridNode{nullptr};
+
+  cocos2d::DrawNode *mHeroSpawnNode{nullptr};
 
   std::vector<GameObject*> mSelections;
 };

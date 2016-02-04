@@ -43,6 +43,8 @@ public:
 
   virtual void preWinGame() {}
 
+  virtual void onGameEnabled(bool val) {}
+
   virtual void onCameraUpdate(const cocos2d::Vec2 &relative) {}
 
   virtual int8_t getCameraDepth() {

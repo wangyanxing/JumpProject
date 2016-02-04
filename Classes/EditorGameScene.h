@@ -39,6 +39,8 @@ public:
 
   void afterLoad() override;
 
+  void onGameEnabled(bool val) override;
+
   void onCameraUpdate(const cocos2d::Vec2 &relative) override;
 
   int8_t getCameraDepth() override {

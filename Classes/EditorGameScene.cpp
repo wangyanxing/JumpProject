@@ -96,6 +96,10 @@ void EditorGameScene::clean() {
   GameLevel::instance().unload();
 }
 
+void EditorGameScene::onGameEnabled(bool val) {
+  EditorManager::instance().onGameEnabled(val);
+}
+
 void EditorGameScene::onWinGame() {
 }
 

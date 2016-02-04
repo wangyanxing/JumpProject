@@ -290,6 +290,7 @@ void GameLevel::enableGame(bool enable) {
   for (auto &obj : mObjectManager->mObjects) {
     obj.second->setEnabled(enable);
   }
+  mGameLayer->onGameEnabled(mGameEnabled);
 }
 
 void GameLevel::reset() {
@@ -301,6 +302,11 @@ void GameLevel::reset() {
   hero->getRenderer()->setPosition(mHeroSpawnPos);
   hero->getRenderer()->setOpacity(255);
   mDieFlag = false;
+}
+
+void GameLevel::setHeroSpawnPosition(const cocos2d::Vec2 &pos) {
+  mHeroSpawnPos = pos;
+  getHero()->getRenderer()->setOriginalPosition(pos);
 }
 
 void GameLevel::updateBounds() {
