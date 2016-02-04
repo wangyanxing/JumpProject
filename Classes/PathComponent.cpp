@@ -18,6 +18,7 @@ PathComponent::PathComponent(GameObject *parent) : GameComponent(parent) {
 }
 
 PathComponent::~PathComponent() {
+  releaseHelpers();
   mParent->removeComponentCommand(COMMAND_PATH);
   clear();
 }
@@ -238,6 +239,12 @@ void PathComponent::updateHelpers() {
   }
   for (int i = 0; i < mPoints.size(); ++i) {
     mHelperNode->drawSolidCircle(mPoints[i].pt - pos, 3, 0, 10, pointColor);
+  }
+}
+
+void PathComponent::releaseHelpers() {
+  if (mHelperNode) {
+    mHelperNode->removeFromParent();
   }
 }
 

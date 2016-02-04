@@ -28,6 +28,8 @@ public:
   
   void initHelpers() override;
 
+  void releaseHelpers();
+
 private:
   cocos2d::DrawNode *mSelectionHelper{nullptr};
 };

@@ -195,6 +195,7 @@ void GameObject::release() {
     CC_SAFE_DELETE(component.second);
   }
   mComponents.clear();
+  mHelperNode->removeFromParent();
 }
 
 void GameObject::setEnabled(bool val) {

@@ -26,6 +26,7 @@ enum ParamType {
   PARAM_REMOVABLE,      // bool
   PARAM_RESUME_PATH,    // bool
   PARAM_EDITOR_COMMAND, // EditorCommand
+  PARAM_MOUSE_MOVEMENT, // cocos2d::Vec2
 };
 
 /**

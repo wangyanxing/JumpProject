@@ -47,6 +47,8 @@ public:
    */
   virtual void setPosition(const cocos2d::Vec2 &pos);
 
+  virtual void move(const cocos2d::Vec2 &delta);
+
   virtual cocos2d::Vec2 getPosition() const;
 
   virtual cocos2d::Vec2 getOriginalPosition() const;

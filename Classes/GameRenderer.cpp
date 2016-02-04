@@ -64,6 +64,10 @@ void GameRenderer::setPosition(const cocos2d::Vec2& pos) {
   }
 }
 
+void GameRenderer::move(const cocos2d::Vec2 &delta) {
+  setPosition(getPosition() + delta);
+}
+
 Vec2 GameRenderer::getPosition() const {
   return getNode()->getPosition();
 }

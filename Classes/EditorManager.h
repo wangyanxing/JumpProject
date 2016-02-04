@@ -45,6 +45,8 @@ private:
 
   void toggleHelpersVisible();
 
+  void clearSelections();
+
 private:
   cocos2d::Node *mEditorRoot{nullptr};
 

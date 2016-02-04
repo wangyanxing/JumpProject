@@ -23,6 +23,7 @@ PhysicsComponent::PhysicsComponent(GameObject *parent) : GameComponent(parent) {
 }
 
 PhysicsComponent::~PhysicsComponent() {
+  releaseHelpers();
   GameLevel::instance().getPhysicsManager()->onDeletePhysicsComponent(this);
   CC_SAFE_DELETE(mShape);
 }
@@ -167,6 +168,12 @@ void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
 void PhysicsComponent::callCollisionEvents(GameObject *other) {
   for (auto &str : mCollisionEvents) {
     GameEvents::instance().callSingleEvent(str, mParent);
+  }
+}
+
+void PhysicsComponent::releaseHelpers() {
+  if (mHelperNode) {
+    mHelperNode->removeFromParent();
   }
 }
 

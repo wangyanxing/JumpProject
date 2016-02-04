@@ -83,6 +83,7 @@ struct MouseEvent {
 enum EditorCommand {
   EDITOR_CMD_SELECT,
   EDITOR_CMD_UNSELECT,
+  EDITOR_CMD_MOVE,
 };
 
 template <typename T>

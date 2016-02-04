@@ -97,6 +97,8 @@ public:
 
   void initHelpers() override;
 
+  void releaseHelpers();
+
 protected:
   void clearStates();
 

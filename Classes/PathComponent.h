@@ -48,6 +48,8 @@ public:
 
   void initHelpers() override;
 
+  void releaseHelpers();
+
   void runCommand(ComponentCommand type, const Parameter &param) override;
 
   int nextPoint();

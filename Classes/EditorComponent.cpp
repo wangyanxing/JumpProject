@@ -20,6 +20,7 @@ EditorComponent::EditorComponent(GameObject *parent) : GameComponent(parent) {
 }
 
 EditorComponent::~EditorComponent() {
+  releaseHelpers();
   mParent->removeComponentCommand(COMMAND_EDITOR);
 }
 
@@ -59,6 +60,12 @@ void EditorComponent::initHelpers() {
                                                           ZORDER_EDT_OBJ_SELECTION);
 }
 
+void EditorComponent::releaseHelpers() {
+  if (mSelectionHelper) {
+    mSelectionHelper->removeFromParent();
+  }
+}
+
 void EditorComponent::runCommand(ComponentCommand type, const Parameter &param) {
   CC_ASSERT(type == COMMAND_EDITOR);
   auto cmd = param.get<EditorCommand>(PARAM_EDITOR_COMMAND);
@@ -66,5 +73,8 @@ void EditorComponent::runCommand(ComponentCommand type, const Parameter &param) 
     mSelectionHelper->setVisible(true);
   } else if (cmd == EDITOR_CMD_UNSELECT) {
     mSelectionHelper->setVisible(false);
+  } else if (cmd == EDITOR_CMD_MOVE) {
+    auto movement = param.get<Vec2>(PARAM_MOUSE_MOVEMENT);
+    mParent->getRenderer()->move(movement);
   }
 }
