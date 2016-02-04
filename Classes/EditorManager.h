@@ -47,6 +47,8 @@ private:
 
   void clearSelections();
 
+  void moveObjects(cocos2d::EventKeyboard::KeyCode key);
+
 private:
   cocos2d::Node *mEditorRoot{nullptr};
 

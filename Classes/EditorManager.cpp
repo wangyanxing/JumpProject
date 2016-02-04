@@ -134,6 +134,29 @@ void EditorManager::clearSelections() {
   mSelections.clear();
 }
 
+void EditorManager::moveObjects(EventKeyboard::KeyCode key) {
+  Vec2 dir;
+  if (key == GameInputs::KeyCode::KEY_UP_ARROW) {
+    dir = {0, 1};
+  } else if (key == GameInputs::KeyCode::KEY_DOWN_ARROW) {
+    dir = {0, -1};
+  } else if (key == GameInputs::KeyCode::KEY_LEFT_ARROW) {
+    dir = {-1, 0};
+  } else if (key == GameInputs::KeyCode::KEY_RIGHT_ARROW) {
+    dir = {1, 0};
+  }
+
+  float distance = GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_ALT) ? 20 : 1;
+  dir *= distance;
+
+  for (auto obj : mSelections) {
+    obj->runCommand(COMMAND_EDITOR, {
+      {PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_MOVE)},
+      {PARAM_MOUSE_MOVEMENT, Any(dir)}
+    });
+  }
+}
+
 void EditorManager::registerInputs() {
   auto &gameInputs = GameInputs::instance();
 
@@ -152,6 +175,16 @@ void EditorManager::registerInputs() {
       openMapFile();
     }
   });
+
+  // Move.
+  gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_UP_ARROW,
+                              CC_CALLBACK_1(EditorManager::moveObjects, this));
+  gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_DOWN_ARROW,
+                              CC_CALLBACK_1(EditorManager::moveObjects, this));
+  gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_LEFT_ARROW,
+                              CC_CALLBACK_1(EditorManager::moveObjects, this));
+  gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_RIGHT_ARROW,
+                              CC_CALLBACK_1(EditorManager::moveObjects, this));
 
   // Test.
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_7, [this](GameInputs::KeyCode key) {
