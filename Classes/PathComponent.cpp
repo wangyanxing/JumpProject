@@ -42,7 +42,6 @@ void PathComponent::load(JsonValueT &json) {
   mPingPong = json[PATH_PINGPONG].GetBool();
   mPause = json[PATH_PAUSE].GetBool();
   mPathWaitTime = json[PATH_WAIT_TIME].GetDouble();
-
   mOriginalPause = mPause;
 
   auto size = json[PATH_ARRAY].Size();
@@ -55,6 +54,23 @@ void PathComponent::load(JsonValueT &json) {
     float height = pa[PATH_PT_HEIGHT].GetDouble();
 
     push(pos, waittime, width, height);
+  }
+}
+
+void PathComponent::clone(GameComponent *otherComp) {
+  CC_ASSERT(otherComp->getComponentType() == getComponentType());
+  PathComponent *other = static_cast<PathComponent*>(otherComp);
+
+  clear();
+
+  mSpeed = other->mSpeed;
+  mPingPong = other->mPingPong;
+  mPause = other->mPause;
+  mPathWaitTime = other->mPathWaitTime;
+  mOriginalPause = mPause;
+
+  for (auto &pa : other->mPoints) {
+    push(pa.pt, pa.waitTime, pa.width, pa.height);
   }
 }
 

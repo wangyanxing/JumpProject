@@ -66,6 +66,17 @@ void ButtonComponent::load(JsonValueT &json) {
   mPushingEvents = json[BUTTON_PUSHING_EVENT].getStringVec();
 }
 
+void ButtonComponent::clone(GameComponent *otherComp) {
+  CC_ASSERT(otherComp->getComponentType() == getComponentType());
+  ButtonComponent *other = static_cast<ButtonComponent*>(otherComp);
+
+  mDirection = other->mDirection;
+  mCanRestore = other->mCanRestore;
+  mPushedEvents = other->mPushedEvents;
+  mRestoredEvents = other->mRestoredEvents;
+  mPushingEvents = other->mPushingEvents;
+}
+
 void ButtonComponent::save(JsWriter &writer) {
   writer.String(BUTTON_DIR);
   writer.Enum<ButtonDirection>(mDirection);

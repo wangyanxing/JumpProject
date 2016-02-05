@@ -85,6 +85,15 @@ void PhysicsComponent::save(JsWriter &writer) {
   }
 }
 
+void PhysicsComponent::clone(GameComponent *otherComp) {
+  CC_ASSERT(otherComp->getComponentType() == getComponentType());
+  PhysicsComponent *other = static_cast<PhysicsComponent*>(otherComp);
+  mCollisionEvents = other->mCollisionEvents;
+
+  setPhysicsType(other->getPhysicsType());
+  setShape(other->getShape()->getType());
+}
+
 BasePhysicsShape *PhysicsComponent::setShape(PhysicsShapeType type) {
   CC_SAFE_DELETE(mShape);
   mShape = GameLevel::instance().getPhysicsManager()->createShape(type);

@@ -15,7 +15,8 @@
 #include "JsonWriter.h"
 
 #define DECLARE_COMP_TYPE(t) \
-  static ComponentType getType() {return t;}
+  static ComponentType getType() {return t;} \
+  ComponentType getComponentType() const override {return t;}
 
 /**
  * Game component, can be dynamically added or removed into an object.
@@ -25,6 +26,8 @@ public:
   GameComponent(GameObject *parent): mParent(parent) {}
 
   virtual ~GameComponent() {}
+
+  virtual ComponentType getComponentType() const = 0;
 
   virtual void update(float dt) = 0;
   
@@ -42,6 +45,8 @@ public:
 
   virtual void save(JsWriter &writer) {}
 
+  virtual void clone(GameComponent *other) {}
+
   virtual void reset() {
     setEnabled(true);
   }
@@ -54,6 +59,10 @@ public:
 
   bool isEnabled() const {
     return mEnable;
+  }
+
+  virtual bool forceUpdate() const {
+    return false;
   }
 
 protected:

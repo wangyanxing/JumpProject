@@ -32,6 +32,8 @@ public:
   void load(JsonValueT &json) override;
 
   void save(JsWriter &writer) override;
+
+  void clone(GameComponent *other) override;
   
   void reset() override;
   

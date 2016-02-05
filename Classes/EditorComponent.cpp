@@ -12,6 +12,7 @@
 #include "PhysicsShape.h"
 #include "GameObject.h"
 #include "GameRenderer.h"
+#include "GameLevel.h"
 
 USING_NS_CC;
 
@@ -81,6 +82,13 @@ void EditorComponent::runCommand(ComponentCommand type, const Parameter &param) 
   }
   
   auto cmd = param.get<EditorCommand>(PARAM_EDITOR_COMMAND);
+
+  if (GameLevel::instance().isGameEnabled() &&
+      (cmd == EDITOR_CMD_MOVE || cmd == EDITOR_CMD_RESIZE || cmd == EDITOR_CMD_ROTATE) &&
+      mParent->hasComponent(COMPONENT_PATH)) {
+    return;
+  }
+
   if (cmd == EDITOR_CMD_SELECT) {
     mIsFirstSelection = param.get<bool>(PARAM_FIRST_SELECTION);
     mSelectionHelper->setVisible(true);

@@ -77,6 +77,7 @@ void GameRenderer::setPosition(const cocos2d::Vec2& pos) {
 
 void GameRenderer::move(const cocos2d::Vec2 &delta) {
   setPosition(getPosition() + delta);
+  mOriginalPosition = getPosition();
 }
 
 Vec2 GameRenderer::getPosition() const {
@@ -144,6 +145,7 @@ void GameRenderer::reSize(const cocos2d::Vec2 &delta) {
   size.width += delta.x;
   size.height += delta.y;
   setSize(size);
+  mOriginalSize = size;
 }
 
 void GameRenderer::setColor(const cocos2d::Color3B& color) {

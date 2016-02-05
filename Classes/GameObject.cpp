@@ -41,12 +41,13 @@ void GameObject::removeComponentCommand(ComponentCommand command) {
 }
 
 void GameObject::runCommand(ComponentCommand command, const Parameter &param) {
-  if (!mEnabled) {
-    return;
-  }
   auto it = mComponentCommands.find(command);
   if (it == mComponentCommands.end()) {
     CCLOGERROR("Cannot find the command!");
+    return;
+  }
+
+  if (!mEnabled && !it->second->forceUpdate()) {
     return;
   }
   it->second->runCommand(command, param);
@@ -81,23 +82,23 @@ GameRenderer *GameObject::setRenderer(GameRenderer *renderer) {
 }
 
 void GameObject::update(float dt) {
-  if (!mEnabled) {
-    return;
+  if (mEnabled) {
+    mRenderer->update(dt);
   }
 
-  mRenderer->update(dt);
   for (auto component : mComponents) {
-    component.second->update(dt);
+    if (mEnabled || component.second->forceUpdate()) {
+      component.second->update(dt);
+    }
   }
 }
 
 void GameObject::beforeRender(float dt) {
-  if (mEnabled) {
-    for (auto component : mComponents) {
+  for (auto component : mComponents) {
+    if (mEnabled || component.second->forceUpdate()) {
       component.second->beforeRender(dt);
     }
   }
-
   updateHelpers();
 }
 

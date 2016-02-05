@@ -43,6 +43,8 @@ public:
 
   virtual void save(JsWriter &writer) override;
 
+  virtual void clone(GameComponent *other) override;
+
   void updateDynamics(float dt);
 
   BasePhysicsShape *setShape(PhysicsShapeType type);

@@ -44,6 +44,8 @@ public:
 
   void save(JsWriter &writer) override;
 
+  void clone(GameComponent *other) override;
+
   void updateHelpers() override;
 
   void initHelpers() override;

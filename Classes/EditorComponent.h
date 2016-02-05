@@ -30,6 +30,10 @@ public:
 
   void releaseHelpers();
 
+  bool forceUpdate() const override {
+    return true;
+  }
+
 private:
   void drawSelectionHelper();
 

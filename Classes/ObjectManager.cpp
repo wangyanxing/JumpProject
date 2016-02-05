@@ -101,21 +101,22 @@ GameObject *ObjectManager::createObjectImpl(Parameter &param, int id) {
 }
 
 GameObject *ObjectManager::cloneObject(GameObject *object, bool posOffset) {
-  Vec2 positionOffset = posOffset ? Vec2(20, 20) : Vec2::ZERO;
-  auto renderer = object->getRenderer();
-  Parameter param;
-  param.set(PARAM_POS, renderer->getOriginalPosition() + positionOffset)
-       .set(PARAM_SIZE, renderer->getOriginalSize())
-       .set(PARAM_COLOR_INDEX, renderer->getColorIndex())
-       .set(PARAM_BLOCK_KIND, object->getKind())
-       .set(PARAM_REMOVABLE, object->isRemovable());
-
   auto newObj = new GameObject();
   newObj->mID = mIDCounter++;
   newObj->clone(object);
 
-  newObj->setRenderer(object->getRenderer()->getType());
-  newObj->getRenderer()->clone(object->getRenderer());
+  newObj->setRenderer(object->getRenderer()->getType())
+        ->clone(object->getRenderer());
+  newObj->getRenderer()->addToParent(GameLevel::instance().getGameLayer()->getBlockRoot(),
+                                     BlockKindConfigs::getRendererConfig(newObj->mKind).zorder);
+
+  Vec2 positionOffset = posOffset ? Vec2(20, 20) : Vec2::ZERO;
+  newObj->getRenderer()->move(positionOffset);
+
+  for (auto &comp : object->mComponents) {
+    newObj->addComponent(comp.second->getComponentType())
+          ->clone(comp.second);
+  }
 
   newObj->initHelpers();
 

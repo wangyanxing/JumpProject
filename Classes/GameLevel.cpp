@@ -53,10 +53,7 @@ void GameLevel::release() {
 }
 
 void GameLevel::update(float dt) {
-  if (!mGameEnabled) {
-    return;
-  }
-  if (mDieFlag) {
+  if (mGameEnabled && mDieFlag) {
     dieImpl();
     return;
   }
@@ -70,7 +67,9 @@ void GameLevel::update(float dt) {
   }
 
   // Collision detection.
-  mPhysicsManager->update(dt);
+  if (mGameEnabled) {
+    mPhysicsManager->update(dt);
+  }
 }
 
 void GameLevel::beforeRender(float dt) {
