@@ -156,6 +156,10 @@ void EditorManager::clearSelections() {
 }
 
 void EditorManager::moveObjects(EventKeyboard::KeyCode key) {
+  if (mSelections.empty()) {
+    return;
+  }
+
   Vec2 dir;
   if (key == GameInputs::KeyCode::KEY_UP_ARROW) {
     dir = {0, 1};
@@ -166,14 +170,44 @@ void EditorManager::moveObjects(EventKeyboard::KeyCode key) {
   } else if (key == GameInputs::KeyCode::KEY_RIGHT_ARROW) {
     dir = {1, 0};
   }
-  float distance = GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_ALT) ? 20 : 1;
-  dir *= distance;
 
-  for (auto obj : mSelections) {
-    obj->runCommand(COMMAND_EDITOR, {
-      {PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_MOVE)},
-      {PARAM_MOUSE_MOVEMENT, Any(dir)}
-    });
+  if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_SHIFT)) {
+    // Alignment.
+    auto headPos = mSelections.front()->getRenderer()->getPosition();
+    Size halfHeadSize = mSelections.front()->getRenderer()->getSize() / 2;
+    Vec2 offsetHead = {
+      headPos.x + dir.x * halfHeadSize.width,
+      headPos.y + dir.y * halfHeadSize.height
+    };
+
+    for (size_t i = 1; i < mSelections.size(); ++i) {
+      auto pos = mSelections[i]->getRenderer()->getPosition();
+      Size halfSize = mSelections[i]->getRenderer()->getSize() / 2;
+      Vec2 offset = {
+        pos.x + dir.x * halfSize.width,
+        pos.y + dir.y * halfSize.height
+      };
+      Vec2 cof = {fabsf(dir.x), fabsf(dir.y)};
+      Vec2 delta = (offsetHead - offset);
+      delta.x *= cof.x;
+      delta.y *= cof.y;
+
+      mSelections[i]->runCommand(COMMAND_EDITOR, {
+        {PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_MOVE)},
+        {PARAM_MOUSE_MOVEMENT, Any(delta)}
+      });
+    }
+  } else {
+    // Move.
+    float distance = GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_ALT) ? 20 : 1;
+    dir *= distance;
+
+    for (auto obj : mSelections) {
+      obj->runCommand(COMMAND_EDITOR, {
+        {PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_MOVE)},
+        {PARAM_MOUSE_MOVEMENT, Any(dir)}
+      });
+    }
   }
 }
 
