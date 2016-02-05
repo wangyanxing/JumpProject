@@ -54,6 +54,8 @@ public:
 
   void runCommand(ComponentCommand type, const Parameter &param) override;
 
+  void onMove(const cocos2d::Vec2 &delta) override;
+
   int nextPoint();
 
   void update(float dt, cocos2d::Vec2 &out, cocos2d::Vec2 &outScale);

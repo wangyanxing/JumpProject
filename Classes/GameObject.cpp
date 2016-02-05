@@ -149,6 +149,12 @@ void GameObject::save(JsWriter &writer) {
   writer.EndObject();
 }
 
+void GameObject::onMove(const cocos2d::Vec2 &delta) {
+  for (auto comp : mComponents) {
+    comp.second->onMove(delta);
+  }
+}
+
 GameComponent* GameObject::getComponent(ComponentType type) {
   auto it = mComponents.find(type);
   return it == mComponents.end() ? nullptr : it->second;

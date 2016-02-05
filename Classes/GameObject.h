@@ -99,6 +99,8 @@ public:
 
   bool containsPoint(const cocos2d::Vec2 &pt);
 
+  void onMove(const cocos2d::Vec2 &delta);
+
 private:
   void release();
 

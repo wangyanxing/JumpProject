@@ -51,6 +51,8 @@ public:
     setEnabled(true);
   }
 
+  virtual void onMove(const cocos2d::Vec2 &delta) {}
+
   virtual void runCommand(ComponentCommand type, const Parameter &param) {}
 
   virtual void setEnabled(bool enabled) {

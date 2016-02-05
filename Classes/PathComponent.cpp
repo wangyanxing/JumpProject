@@ -234,6 +234,12 @@ void PathComponent::runCommand(ComponentCommand type, const Parameter &param) {
   mPause = !resume;
 }
 
+void PathComponent::onMove(const cocos2d::Vec2 &delta) {
+  for (auto &pa : mPoints) {
+    pa.pt += delta;
+  }
+}
+
 void PathComponent::updateHelpers() {
   if (!mHelperNode) {
     initHelpers();
