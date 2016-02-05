@@ -110,8 +110,12 @@ void EditorManager::onMouseDown(const MouseEvent &event) {
     }
     GameLevel::instance().traverseObjects([&](GameObject *obj) {
       if (obj->isRemovable() && obj->containsPoint(event.posInMap)) {
+        bool first = mSelections.empty();
         mSelections.push_back(obj);
-        obj->runCommand(COMMAND_EDITOR, {{PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_SELECT)}});
+        obj->runCommand(COMMAND_EDITOR, {
+          {PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_SELECT)},
+          {PARAM_FIRST_SELECTION, Any(first)}
+        });
       }
     }, false);
   }

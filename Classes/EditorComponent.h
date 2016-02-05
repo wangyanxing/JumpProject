@@ -31,7 +31,12 @@ public:
   void releaseHelpers();
 
 private:
+  void drawSelectionHelper();
+
+private:
   cocos2d::DrawNode *mSelectionHelper{nullptr};
+
+  bool mIsFirstSelection{false};
 };
 
 #endif /* EditorComponent_h */

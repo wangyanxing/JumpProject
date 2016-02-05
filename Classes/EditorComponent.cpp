@@ -28,28 +28,10 @@ void EditorComponent::update(float dt) {
 }
 
 void EditorComponent::beforeRender(float dt) {
-  static const Color4F fillColor(0.92f, 0.95f, 0.1f, 0.6f);
-  static const Color4F outlineColor(0.86f, 0.1f, 0.9f, 1.0f);
-
   if (!mSelectionHelper) {
     initHelpers();
   }
-
-  mSelectionHelper->clear();
-  PhysicsComponent *physics = mParent->getComponent<PhysicsComponent>();
-  if (physics) {
-    physics->getShape()->debugDraw(mSelectionHelper, fillColor, outlineColor);
-  } else {
-    auto rect = mParent->getRenderer()->getBoundingBox();
-    Vec2 seg[4] = {
-      {-rect.size.width * 0.5f,  rect.size.height * 0.5f},
-      { rect.size.width * 0.5f,  rect.size.height * 0.5f},
-      { rect.size.width * 0.5f, -rect.size.height * 0.5f},
-      {-rect.size.width * 0.5f, -rect.size.height * 0.5f}
-    };
-    mSelectionHelper->drawPolygon(seg, 4, fillColor, 1, outlineColor);
-  }
-  mSelectionHelper->setPosition(mParent->getRenderer()->getPosition());
+  drawSelectionHelper();
 }
 
 void EditorComponent::initHelpers() {
@@ -66,10 +48,37 @@ void EditorComponent::releaseHelpers() {
   }
 }
 
+void EditorComponent::drawSelectionHelper() {
+  static const Color4F fillColor(0.17f, 0.96f, 0.003f, 0.6f);
+  static const Color4F outlineColor(0.86f, 0.1f, 0.9f, 1.0f);
+  static const Color4F fillColorFirst(0.92f, 0.31f, 0.84f, 0.8f);
+  static const Color4F outlineColorFirst(0.96f, 0.51f, 0.13f, 1.0f);
+
+  mSelectionHelper->clear();
+  PhysicsComponent *physics = mParent->getComponent<PhysicsComponent>();
+  if (physics) {
+    physics->getShape()->debugDraw(mSelectionHelper,
+                                   mIsFirstSelection ? fillColorFirst : fillColor,
+                                   mIsFirstSelection ? outlineColorFirst : outlineColor);
+  } else {
+    auto rect = mParent->getRenderer()->getBoundingBox();
+    Vec2 seg[4] = {
+      {-rect.size.width * 0.5f,  rect.size.height * 0.5f},
+      { rect.size.width * 0.5f,  rect.size.height * 0.5f},
+      { rect.size.width * 0.5f, -rect.size.height * 0.5f},
+      {-rect.size.width * 0.5f, -rect.size.height * 0.5f}
+    };
+    mSelectionHelper->drawPolygon(seg, 4, mIsFirstSelection ? fillColorFirst : fillColor, 1,
+                                  mIsFirstSelection ? outlineColorFirst : outlineColor);
+  }
+  mSelectionHelper->setPosition(mParent->getRenderer()->getPosition());
+}
+
 void EditorComponent::runCommand(ComponentCommand type, const Parameter &param) {
   CC_ASSERT(type == COMMAND_EDITOR);
   auto cmd = param.get<EditorCommand>(PARAM_EDITOR_COMMAND);
   if (cmd == EDITOR_CMD_SELECT) {
+    mIsFirstSelection = param.get<bool>(PARAM_FIRST_SELECTION);
     mSelectionHelper->setVisible(true);
   } else if (cmd == EDITOR_CMD_UNSELECT) {
     mSelectionHelper->setVisible(false);
