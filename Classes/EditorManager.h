@@ -53,6 +53,8 @@ private:
 
   void resizeObjects(cocos2d::EventKeyboard::KeyCode key);
 
+  GameObject *createDefaultObject(const cocos2d::Vec2 &pos);
+
 private:
   cocos2d::Node *mEditorRoot{nullptr};
 

@@ -101,6 +101,8 @@ void EditorManager::onMouseDown(const MouseEvent &event) {
     mHeroSpawnNode->setPosition(event.posInMap);
   } else if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_SHIFT)) {
     // Create object.
+    clearSelections();
+    createDefaultObject(event.posInMap);
   } else {
     // Select objects.
     bool multiSelect = GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_CTRL);
@@ -230,6 +232,17 @@ void EditorManager::resizeObjects(cocos2d::EventKeyboard::KeyCode key) {
       {PARAM_SIZE_DELTA, Any(delta)}
     });
   }
+}
+
+GameObject *EditorManager::createDefaultObject(const cocos2d::Vec2 &pos) {
+  Parameter param;
+  param.set(PARAM_POS, pos)
+       .set(PARAM_SIZE, Size(100, 15))
+       .set(PARAM_BLOCK_KIND, KIND_BLOCK);
+  auto obj = GameLevel::instance().getObjectManager()->createObject(param);
+  obj->setEnabled(GameLevel::instance().isGameEnabled());
+  obj->getHelperNode()->setVisible(mGridNode->isVisible());
+  return obj;
 }
 
 void EditorManager::registerInputs() {

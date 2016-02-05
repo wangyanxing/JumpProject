@@ -51,8 +51,8 @@ void ButtonComponent::update(float dt) {
 Vec2 ButtonComponent::getDirectionVec() {
   static Vec2 directions[] = {
     {0, -1},
-    {0, 1},
-    {1, 0},
+    {0,  1},
+    {1,  0},
     {-1, 0}
   };
   return directions[mDirection];
@@ -171,7 +171,6 @@ void ButtonComponent::runCommand(ComponentCommand type, const Parameter &param) 
     changeState(disToOrigin > threshold ? PUSHED : PUSHING);
   } else {
     info->obj1->markSleep();
-    
     auto vel = info->obj2->getVelocity();
     if (info->normal.x != 0) {
       vel.x = 0;
