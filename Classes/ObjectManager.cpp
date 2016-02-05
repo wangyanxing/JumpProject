@@ -110,15 +110,16 @@ GameObject *ObjectManager::cloneObject(GameObject *object, bool posOffset) {
   newObj->getRenderer()->addToParent(GameLevel::instance().getGameLayer()->getBlockRoot(),
                                      BlockKindConfigs::getRendererConfig(newObj->mKind).zorder);
 
-  Vec2 positionOffset = posOffset ? Vec2(20, 20) : Vec2::ZERO;
-  newObj->getRenderer()->move(positionOffset);
-
   for (auto &comp : object->mComponents) {
     newObj->addComponent(comp.second->getComponentType())
           ->clone(comp.second);
   }
 
   newObj->initHelpers();
+  newObj->getHelperNode()->setVisible(object->getHelperNode()->isVisible());
+
+  Vec2 positionOffset = posOffset ? Vec2(20, 20) : Vec2::ZERO;
+  newObj->getRenderer()->move(positionOffset);
 
   CC_ASSERT(!mObjects.count(newObj->mID));
   mObjects[newObj->mID] = newObj;
