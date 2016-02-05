@@ -35,6 +35,15 @@ void DeathRotatorRenderer::load(JsonValueT &json) {
   }
 }
 
+void DeathRotatorRenderer::clone(GameRenderer *renderer) {
+  mChild = GameUtils::createRect(renderer->getOriginalSize(), renderer->getOriginalPosition());
+
+  SimpleRenderer::clone(renderer);
+  DeathRotatorRenderer *other = dynamic_cast<DeathRotatorRenderer*>(renderer);
+  CC_ASSERT(other);
+  mRotationSpeed = other->mRotationSpeed;
+}
+
 void DeathRotatorRenderer::save(JsWriter &writer) {
   SimpleRenderer::save(writer);
 

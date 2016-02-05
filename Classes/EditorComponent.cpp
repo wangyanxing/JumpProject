@@ -76,6 +76,10 @@ void EditorComponent::drawSelectionHelper() {
 
 void EditorComponent::runCommand(ComponentCommand type, const Parameter &param) {
   CC_ASSERT(type == COMMAND_EDITOR);
+  if (!mSelectionHelper) {
+    initHelpers();
+  }
+  
   auto cmd = param.get<EditorCommand>(PARAM_EDITOR_COMMAND);
   if (cmd == EDITOR_CMD_SELECT) {
     mIsFirstSelection = param.get<bool>(PARAM_FIRST_SELECTION);

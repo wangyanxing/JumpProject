@@ -28,7 +28,11 @@ public:
 
   virtual GameRenderer *init(Parameter &param) override;
 
+  virtual void clone(GameRenderer *renderer) override;
+
   virtual void setTexture(const std::string& texName) override;
+
+  virtual std::string getTexture() const override;
 
   cocos2d::Node* getNode() override;
 

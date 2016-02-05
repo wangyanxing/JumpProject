@@ -36,6 +36,14 @@ void DeathRenderer::load(JsonValueT &json) {
   }
 }
 
+void DeathRenderer::clone(GameRenderer *renderer) {
+  SimpleRenderer::clone(renderer);
+  DeathRenderer *other = dynamic_cast<DeathRenderer*>(renderer);
+  CC_ASSERT(other);
+  setFlipUV(other->mUVFlipped);
+  normalizeUV();
+}
+
 void DeathRenderer::save(JsWriter &writer) {
   SimpleRenderer::save(writer);
 

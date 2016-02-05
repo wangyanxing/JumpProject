@@ -35,6 +35,8 @@ public:
    */
   GameObject *createObject(JsonValueT &json);
 
+  GameObject *cloneObject(GameObject *object, bool posOffset = true);
+
   GameObject *getObjectByID(int id);
 
   void deleteObject(int id);

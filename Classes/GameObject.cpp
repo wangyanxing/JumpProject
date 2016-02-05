@@ -113,6 +113,11 @@ void GameObject::load(JsonValueT &json) {
   }
 }
 
+void GameObject::clone(GameObject *obj) {
+  mKind = obj->mKind;
+  mRemovable = obj->mRemovable;
+}
+
 void GameObject::reset() {
   mRenderer->reset();
   for (auto comp : mComponents) {

@@ -92,12 +92,36 @@ GameObject *ObjectManager::createObjectImpl(Parameter &param, int id) {
 #if EDITOR_MODE
   obj->addComponent(COMPONENT_EDITOR);
 #endif
+
+  obj->initHelpers();
   
   CC_ASSERT(!mObjects.count(obj->mID));
   mObjects[obj->mID] = obj;
-
-  obj->initHelpers();
   return obj;
+}
+
+GameObject *ObjectManager::cloneObject(GameObject *object, bool posOffset) {
+  Vec2 positionOffset = posOffset ? Vec2(20, 20) : Vec2::ZERO;
+  auto renderer = object->getRenderer();
+  Parameter param;
+  param.set(PARAM_POS, renderer->getOriginalPosition() + positionOffset)
+       .set(PARAM_SIZE, renderer->getOriginalSize())
+       .set(PARAM_COLOR_INDEX, renderer->getColorIndex())
+       .set(PARAM_BLOCK_KIND, object->getKind())
+       .set(PARAM_REMOVABLE, object->isRemovable());
+
+  auto newObj = new GameObject();
+  newObj->mID = mIDCounter++;
+  newObj->clone(object);
+
+  newObj->setRenderer(object->getRenderer()->getType());
+  newObj->getRenderer()->clone(object->getRenderer());
+
+  newObj->initHelpers();
+
+  CC_ASSERT(!mObjects.count(newObj->mID));
+  mObjects[newObj->mID] = newObj;
+  return newObj;
 }
 
 GameObject *ObjectManager::getObjectByID(int id) {

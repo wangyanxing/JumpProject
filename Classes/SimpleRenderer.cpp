@@ -35,6 +35,14 @@ GameRenderer *SimpleRenderer::init(Parameter &param) {
   return this;
 }
 
+void SimpleRenderer::clone(GameRenderer *renderer) {
+  GameRenderer::clone(renderer);
+
+  mSprite = GameUtils::createRect(mOriginalSize, mOriginalPosition);
+  setColorIndex(renderer->getColorIndex());
+  setTexture(renderer->getTexture());
+}
+
 void SimpleRenderer::setTexture(const std::string& texName) {
   if (texName.empty()) {
     return;
@@ -42,6 +50,10 @@ void SimpleRenderer::setTexture(const std::string& texName) {
   mTextureName = texName;
   Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(texName);
   mSprite->setTexture(texture);
+}
+
+std::string SimpleRenderer::getTexture() const {
+  return mTextureName;
 }
 
 cocos2d::Node* SimpleRenderer::getNode() {

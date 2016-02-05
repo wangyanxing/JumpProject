@@ -81,6 +81,8 @@ public:
 
   bool hasComponent(ComponentType type);
 
+  void clone(GameObject *obj);
+
   bool isEnabled() const {
     return mEnabled;
   }

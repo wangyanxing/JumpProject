@@ -22,7 +22,6 @@ USING_NS_CC;
 void EditorManager::init() {
   initHelpers();
   registerInputs();
-
   loadLastEdit();
 }
 
@@ -289,6 +288,24 @@ void EditorManager::registerInputs() {
   };
   gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_DELETE, deleteCallback);
   gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_BACKSPACE, deleteCallback);
+
+  // Clone.
+  gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_V, [this](GameInputs::KeyCode key) {
+    std::vector<GameObject*> newSelection;
+    for (auto obj : mSelections) {
+      auto newObj = GameLevel::instance().getObjectManager()->cloneObject(obj);
+      newObj->setEnabled(GameLevel::instance().isGameEnabled());
+
+      bool first = newSelection.empty();
+      newSelection.push_back(newObj);
+      newObj->runCommand(COMMAND_EDITOR, {
+        {PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_SELECT)},
+        {PARAM_FIRST_SELECTION, Any(first)}
+      });
+    }
+    clearSelections();
+    mSelections = newSelection;
+  });
 
   // Test.
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_7, [this](GameInputs::KeyCode key) {

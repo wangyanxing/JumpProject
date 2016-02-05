@@ -36,6 +36,8 @@ public:
 
   virtual void save(JsWriter &writer);
 
+  virtual void clone(GameRenderer *renderer);
+
   virtual void addToParent(cocos2d::Node *parent, int zorder);
 
   virtual void setZOrder(int val);
@@ -89,7 +91,9 @@ public:
 
   virtual cocos2d::Size getOriginalSize() const;
 
-  virtual void setTexture(const std::string& texName) {}
+  virtual void setTexture(const std::string& texName) = 0;
+
+  virtual std::string getTexture() const = 0;
 
   virtual cocos2d::Rect getBoundingBox() const;
 

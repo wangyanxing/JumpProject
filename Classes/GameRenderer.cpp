@@ -32,6 +32,13 @@ void GameRenderer::load(JsonValueT &json) {
   }
 }
 
+void GameRenderer::clone(GameRenderer *renderer) {
+  mShadowEnabled = renderer->mShadowEnabled;
+  mShadowLayer = renderer->mShadowLayer;
+  mOriginalPosition = renderer->mOriginalPosition;
+  mOriginalSize = renderer->mOriginalSize;
+}
+
 void GameRenderer::save(JsWriter &writer) {
   writer.String(LEVEL_BLOCK_SIZE);
   writer.Size(mOriginalSize);
