@@ -45,6 +45,8 @@ private:
 
   void saveMapFile();
 
+  void newMapFile();
+
   void initHelpers();
 
   void toggleHelpersVisible();

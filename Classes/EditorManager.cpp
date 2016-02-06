@@ -61,6 +61,16 @@ void EditorManager::initHelpers() {
   mEditorRoot->addChild(mHeroSpawnNode, ZORDER_EDT_GRID);
 }
 
+void EditorManager::newMapFile() {
+  auto current = GameLevel::instance().getCurrentLevelFile();
+  if (!current.empty()) {
+    GameLevel::instance().save(current);
+    UserDefault::getInstance()->setStringForKey("lastedit", current);
+    UserDefault::getInstance()->flush();
+  }
+  GameLevel::instance().load("");
+}
+
 void EditorManager::openMapFile() {
   std::string fullpath = PathLib::getMapDir();
   auto filename = PathLib::openJsonFile("Open Map", fullpath + "/remote");
@@ -319,6 +329,13 @@ void EditorManager::registerInputs() {
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_S, [this](GameInputs::KeyCode key) {
     if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_CTRL)) {
       saveMapFile();
+    }
+  });
+
+  // New.
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_N, [this](GameInputs::KeyCode key) {
+    if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_CTRL)) {
+      newMapFile();
     }
   });
 
