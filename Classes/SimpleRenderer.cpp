@@ -17,9 +17,7 @@ SimpleRenderer::SimpleRenderer(GameObject *parent) : GameRenderer(parent) {
 }
 
 SimpleRenderer::~SimpleRenderer() {
-#if EDITOR_MODE
   mSprite->removeFromParent();
-#endif
 }
 
 GameRenderer *SimpleRenderer::init(Parameter &param) {

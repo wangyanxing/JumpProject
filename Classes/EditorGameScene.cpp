@@ -17,6 +17,7 @@
 #include "GameConfig.h"
 #include "PathLib.h"
 #include "EditorManager.h"
+#include "UILayer.h"
 
 #if USE_REFACTOR
 
@@ -113,6 +114,10 @@ void EditorGameScene::keyReleased(EventKeyboard::KeyCode keyCode, cocos2d::Event
 
 void EditorGameScene::afterLoad() {
   EditorManager::instance().afterLoad();
+
+  auto filename = GameLevel::instance().getCurrentLevelFile();
+  UILayer::Layer->setFileName(filename.empty() ? "Untitled" : filename);
+  UILayer::Layer->addMessage("File loaded");
 }
 
 #endif

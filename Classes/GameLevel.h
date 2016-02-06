@@ -66,6 +66,10 @@ public:
     return mBounds;
   }
 
+  std::string getCurrentLevelFile() const {
+    return mCurrentLevelFile;
+  }
+
   void reset();
 
   void traverseObjects(std::function<void(GameObject*)> func, bool containsHero);
@@ -118,6 +122,8 @@ private:
   cocos2d::Rect mBounds;
 
   cocos2d::DrawNode *mBackground{nullptr};
+
+  std::string mCurrentLevelFile;
 };
 
 #endif /* GameLevel_h */

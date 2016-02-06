@@ -20,9 +20,7 @@ DeathRotatorRenderer::DeathRotatorRenderer(GameObject *parent) : SimpleRenderer(
 }
 
 DeathRotatorRenderer::~DeathRotatorRenderer() {
-#if EDITOR_MODE
   mChild->removeFromParent();
-#endif
 }
 
 GameRenderer *DeathRotatorRenderer::init(Parameter& param) {

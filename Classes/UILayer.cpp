@@ -35,8 +35,9 @@ void UILayer::init(cocos2d::Node *parent) {
   auto uiLayer = new UIColorEditor();
   uiLayer->init(mLayer);
 
-  TTFConfig config("fonts/Montserra.ttf", 15);
+  TTFConfig config("fonts/Montserra.ttf", 30);
   mFileNameLabel = Label::createWithTTF(config, "");
+  mFileNameLabel->setScale(0.5f);
   mLayer->addChild(mFileNameLabel);
 
   setFileName("Untitled");
@@ -48,13 +49,14 @@ void UILayer::init(cocos2d::Node *parent) {
 }
 
 void UILayer::addMessage(const char *message) {
-  TTFConfig config("fonts/Montserra.ttf", 12);
+  TTFConfig config("fonts/Montserra.ttf", 32);
   auto label = Label::createWithTTF(config, message);
   label->setCameraMask((unsigned short) CameraFlag::USER1);
 
   mLayer->addChild(label);
   auto size = label->getBoundingBox().size;
   auto w = mLayer->getBoundingBox().size.width;
+  label->setScale(0.5f);
   label->setPosition(w - size.width / 2 - RIGHT_GAP, VIS_RECT_HEIGHT + size.height / 2);
   label->runAction(Spawn::create(FadeOut::create(0.8),
                                  Sequence::create(MoveBy::create(1, Vec2(0, 50)),
@@ -63,7 +65,7 @@ void UILayer::addMessage(const char *message) {
                                                   }), NULL), NULL));
 }
 
-void UILayer::setFileName(const char *file) {
+void UILayer::setFileName(const std::string &file) {
   std::string rawFile = file;
   std::regex rx("(\\/|\\\\)(local|remote)(\\/|\\\\)(\\w)*.json$", std::regex_constants::icase);
   std::regex rxback("(\\/|\\\\)(\\w)*.json$", std::regex_constants::icase);

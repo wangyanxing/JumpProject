@@ -162,6 +162,8 @@ void GameLevel::load(const std::string &levelFile) {
                              {mBounds.getMaxX(), mBounds.getMaxY()},
                              Color4F(mPalette->getBackgroundColor()));
 
+  mCurrentLevelFile = levelFile == TEMPLATE_MAP ? "" : levelFile;
+
   mGameLayer->afterLoad();
   enableGame(true);
 }
