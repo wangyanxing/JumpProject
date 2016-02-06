@@ -16,6 +16,7 @@
 #include "ObjectManager.h"
 #include "PathLib.h"
 #include "VisibleRect.h"
+#include "UILayer.h"
 
 USING_NS_CC;
 
@@ -66,6 +67,37 @@ void EditorManager::openMapFile() {
     return;
   }
   GameLevel::instance().load(filename);
+}
+
+void EditorManager::saveMapFile() {
+  auto current = GameLevel::instance().getCurrentLevelFile();
+  if (current.empty()) {
+    // Save as.
+    std::string fullpath = PathLib::getMapDir();
+    std::vector<std::string> out;
+    auto filter = "JSON file(json)|*.json|All files (*.*)|*.*";
+    PathLib::saveFileDialog(nullptr, "Save map", fullpath + "/local", "", filter, 0, out);
+    if (out.empty()) {
+      return;
+    }
+    auto filename = out[0];
+#if EDITOR_RATIO == EDITOR_IPAD_MODE
+    if (!PathLib::endsWith(filename, "_pad.json")) {
+      PathLib::replaceString(filename, ".json", "_pad.json");
+    }
+#elif EDITOR_RATIO == EDITOR_IP4_MODE
+    if (!PathLib::endsWith(filename, "_ip4.json")) {
+      PathLib::replaceString(filename, ".json", "_ip4.json");
+    }
+#endif
+    current = filename;
+  }
+  GameLevel::instance().save(current);
+  UserDefault::getInstance()->setStringForKey("lastedit", current);
+  UserDefault::getInstance()->flush();
+
+  UILayer::Layer->setFileName(current);
+  UILayer::Layer->addMessage("File saved");
 }
 
 void EditorManager::toggleHelpersVisible() {
@@ -265,9 +297,17 @@ void EditorManager::registerInputs() {
     toggleHelpersVisible();
   });
 
+  // Load.
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_O, [this](GameInputs::KeyCode key) {
     if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_CTRL)) {
       openMapFile();
+    }
+  });
+
+  // Save.
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_S, [this](GameInputs::KeyCode key) {
+    if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_CTRL)) {
+      saveMapFile();
     }
   });
 
