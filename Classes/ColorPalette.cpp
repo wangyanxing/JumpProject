@@ -22,7 +22,7 @@ ColorPalette::~ColorPalette() {
 }
 
 void ColorPalette::load() {
-  JsonParser parser(mFileName);
+  JsonParser parser(JsonParser::getBuffer(mFileName));
 
   if (!parser) {
     CCLOGERROR("Cannot load the palette file: %s", mFileName.c_str());

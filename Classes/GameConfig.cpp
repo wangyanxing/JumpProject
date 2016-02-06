@@ -11,7 +11,7 @@
 #include "JsonParser.h"
 
 void GameConfig::load() {
-  JsonParser jp("configs/GameConfig.json");
+  JsonParser jp(JsonParser::getBuffer("configs/GameConfig.json"));
   auto &json = jp.getCurrentDocument();
   
   HeroSize = json["heroSize"].GetDouble();

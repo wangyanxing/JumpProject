@@ -23,6 +23,7 @@
 #include "GameSprite.h"
 #include "InputComponent.h"
 #include "CameraShake.h"
+#include "TemplateFile.h"
 
 USING_NS_CC;
 
@@ -101,13 +102,14 @@ void GameLevel::createHero(const cocos2d::Vec2 &pos) {
 
 void GameLevel::load(const std::string &levelFile) {
   unload();
-  
-  JsonParser parser(levelFile);
+
+  std::string buffer = levelFile.empty() ? sTemplateMap : JsonParser::getBuffer(levelFile);
+  JsonParser parser(buffer);
   if (!parser) {
     CCLOGERROR("Cannot load the level file: %s", levelFile.c_str());
   }
 
-  CCLOG("Loading level file: %s", levelFile.c_str());
+  CCLOG("Loading level file: %s", levelFile.empty() ? "Template" : levelFile.c_str());
   auto& doc = parser.getCurrentDocument();
 
   std::string paletteFile = doc[LEVEL_PALETTE_FILE].GetString();
@@ -162,7 +164,7 @@ void GameLevel::load(const std::string &levelFile) {
                              {mBounds.getMaxX(), mBounds.getMaxY()},
                              Color4F(mPalette->getBackgroundColor()));
 
-  mCurrentLevelFile = levelFile == TEMPLATE_MAP ? "" : levelFile;
+  mCurrentLevelFile = levelFile;
 
   mGameLayer->afterLoad();
   enableGame(true);

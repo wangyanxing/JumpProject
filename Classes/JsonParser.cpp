@@ -16,18 +16,10 @@ using namespace std;
 using namespace rapidjson;
 USING_NS_CC;
 
-JsonParser::JsonParser(const std::string& fileName) {
-  std::ifstream fileStream(fileName);
-  if (!fileStream) {
-    return;
-  }
-
-  std::string paletteBuffer((std::istreambuf_iterator<char>(fileStream)),
-                            std::istreambuf_iterator<char>());
-
+JsonParser::JsonParser(const std::string& buffer) {
   CC_ASSERT(!mCurrentJson);
   mCurrentJson = new Document();
-  ParseResult ok = mCurrentJson->Parse<kParseDefaultFlags>(paletteBuffer.c_str());
+  ParseResult ok = mCurrentJson->Parse<kParseDefaultFlags>(buffer.c_str());
   if (!ok) {
     printf("JSON parse error: %d (%lu)\n", ok.Code(), ok.Offset());
     CC_SAFE_DELETE(mCurrentJson);
@@ -36,6 +28,15 @@ JsonParser::JsonParser(const std::string& fileName) {
 
 JsonParser::~JsonParser() {
   CC_SAFE_DELETE(mCurrentJson);
+}
+
+std::string JsonParser::getBuffer(const std::string &file) {
+  std::ifstream fileStream(file);
+  if (!fileStream) {
+    return "";
+  }
+  return std::string((std::istreambuf_iterator<char>(fileStream)),
+                     std::istreambuf_iterator<char>());
 }
 
 bool JsonParser::parseArray(const std::string &key, ParseCallback func) {

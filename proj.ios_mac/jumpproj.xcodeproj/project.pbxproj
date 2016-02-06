@@ -305,6 +305,7 @@
 		BC1EE9AC1C62BA61003A345B /* EditorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorManager.h; sourceTree = "<group>"; };
 		BC1EE9AF1C63E0C4003A345B /* DebugTools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugTools.cpp; sourceTree = "<group>"; };
 		BC1EE9B01C63E0C4003A345B /* DebugTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugTools.h; sourceTree = "<group>"; };
+		BC1EE9B31C669A38003A345B /* TemplateFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateFile.h; sourceTree = "<group>"; };
 		BC3CE9C01C1B86B400738B33 /* Blocks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Blocks.cpp; sourceTree = "<group>"; };
 		BC3CE9C11C1B86B400738B33 /* Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blocks.h; sourceTree = "<group>"; };
 		BC3CE9C21C1B86B400738B33 /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
@@ -787,6 +788,7 @@
 				BC1EE9AC1C62BA61003A345B /* EditorManager.h */,
 				BC1EE9AF1C63E0C4003A345B /* DebugTools.cpp */,
 				BC1EE9B01C63E0C4003A345B /* DebugTools.h */,
+				BC1EE9B31C669A38003A345B /* TemplateFile.h */,
 			);
 			name = Refactor;
 			sourceTree = "<group>";

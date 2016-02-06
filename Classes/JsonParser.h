@@ -20,13 +20,15 @@ typedef std::function<void(JsonSizeT, JsonValueT &)> ParseCallback;
 
 class JsonParser {
 public:
-  JsonParser(const std::string& fileName);
+  JsonParser(const std::string& buffer);
 
   ~JsonParser();
 
   rapidjson::Document &getCurrentDocument() {
     return *mCurrentJson;
   }
+
+  static std::string getBuffer(const std::string &file);
 
   bool parseArray(JsonValueT &var, const std::string &key, ParseCallback func);
 
