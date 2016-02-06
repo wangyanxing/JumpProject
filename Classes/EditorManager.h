@@ -55,7 +55,7 @@ private:
 
   void resizeObjects(cocos2d::EventKeyboard::KeyCode key);
 
-  void changeKind(cocos2d::EventKeyboard::KeyCode key);
+  void changeKindOrShadowLayer(cocos2d::EventKeyboard::KeyCode key);
 
   GameObject *createDefaultObject(const cocos2d::Vec2 &pos);
 

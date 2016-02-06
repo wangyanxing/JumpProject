@@ -17,6 +17,7 @@
 #include "PathLib.h"
 #include "VisibleRect.h"
 #include "UILayer.h"
+#include "ShadowManager.h"
 
 USING_NS_CC;
 
@@ -277,10 +278,20 @@ GameObject *EditorManager::createDefaultObject(const cocos2d::Vec2 &pos) {
   return obj;
 }
 
-void EditorManager::changeKind(cocos2d::EventKeyboard::KeyCode key) {
-  BlockKind kind = (BlockKind)((int) key - (int)GameInputs::KeyCode::KEY_1 + 1);
-  for (auto obj : mSelections) {
-    obj->changeKind(kind);
+void EditorManager::changeKindOrShadowLayer(cocos2d::EventKeyboard::KeyCode key) {
+  if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_SHIFT)) {
+    int layer = (int) key - (int)GameInputs::KeyCode::KEY_1;
+    if (layer >= ShadowManager::NUM_SHADOW_LAYERS) {
+      return;
+    }
+    for (auto obj : mSelections) {
+      obj->getRenderer()->setShadowLayer(layer);
+    }
+  } else {
+    BlockKind kind = (BlockKind)((int) key - (int)GameInputs::KeyCode::KEY_1 + 1);
+    for (auto obj : mSelections) {
+      obj->changeKind(kind);
+    }
   }
 }
 
@@ -315,7 +326,7 @@ void EditorManager::registerInputs() {
   for (int k = (int)GameInputs::KeyCode::KEY_1;
        k <= (int)GameInputs::KeyCode::KEY_1 + KIND_MAX - 1; ++k) {
     gameInputs.addKeyboardEvent((GameInputs::KeyCode) k,
-                                CC_CALLBACK_1(EditorManager::changeKind, this));
+                                CC_CALLBACK_1(EditorManager::changeKindOrShadowLayer, this));
   }
 
   // Move.
