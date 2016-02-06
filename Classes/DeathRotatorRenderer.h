@@ -29,6 +29,8 @@ public:
 
   void setSize(const cocos2d::Size &size) override;
 
+  cocos2d::Size getSize() const override;
+
   void load(JsonValueT &json) override;
 
   void save(JsWriter &writer) override;
@@ -44,6 +46,8 @@ public:
   void setScale(float x, float y) override;
 
   void setColor(const cocos2d::Color3B& color) override;
+
+  void reSize(const cocos2d::Vec2 &delta) override;
 
   void setRotationSpeed(int speed);
 

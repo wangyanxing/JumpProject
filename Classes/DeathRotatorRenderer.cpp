@@ -9,7 +9,10 @@
 #include "DeathRotatorRenderer.h"
 #include "SpriteUV.h"
 #include "GameUtils.h"
+#include "GameObject.h"
 #include "JsonFormat.h"
+#include "PhysicsComponent.h"
+#include "PhysicsShape.h"
 
 USING_NS_CC;
 
@@ -58,10 +61,30 @@ void DeathRotatorRenderer::addToParent(cocos2d::Node* parent, int zorder) {
   parent->addChild(mChild, zorder);
 }
 
+void DeathRotatorRenderer::reSize(const cocos2d::Vec2 &delta) {
+  auto oldSize = getSize();
+  oldSize.width += (delta.x + delta.y);
+  oldSize.height += (delta.x + delta.y);
+  setSize(oldSize);
+  mOriginalSize = oldSize;
+}
+
+Size DeathRotatorRenderer::getSize() const {
+  float size = getNode()->getScale() * getContentSize().width;
+  return Size(size, size);
+}
+
 void DeathRotatorRenderer::setSize(const cocos2d::Size &size) {
   auto contentSize = getContentSize();
   float length = std::max(size.width, size.height);
-  getNode()->setScale(length / contentSize.width, length / contentSize.height);
+  float scale = length / contentSize.width;
+  getNode()->setScale(scale);
+  mChild->setScale(scale);
+
+  auto *physics = mParent->getComponent<PhysicsComponent>();
+  if (physics && physics->getShape()) {
+    physics->getShape()->onSizeSet(size);
+  }
 }
 
 void DeathRotatorRenderer::setPosition(const cocos2d::Vec2& pos) {
