@@ -245,6 +245,13 @@ GameObject *EditorManager::createDefaultObject(const cocos2d::Vec2 &pos) {
   return obj;
 }
 
+void EditorManager::changeKind(cocos2d::EventKeyboard::KeyCode key) {
+  BlockKind kind = (BlockKind)((int) key - (int)GameInputs::KeyCode::KEY_1 + 1);
+  for (auto obj : mSelections) {
+    obj->changeKind(kind);
+  }
+}
+
 void EditorManager::registerInputs() {
   auto &gameInputs = GameInputs::instance();
 
@@ -263,6 +270,13 @@ void EditorManager::registerInputs() {
       openMapFile();
     }
   });
+
+  // Set Kind.
+  for (int k = (int)GameInputs::KeyCode::KEY_1;
+       k <= (int)GameInputs::KeyCode::KEY_1 + KIND_MAX - 1; ++k) {
+    gameInputs.addKeyboardEvent((GameInputs::KeyCode) k,
+                                CC_CALLBACK_1(EditorManager::changeKind, this));
+  }
 
   // Move.
   gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_UP_ARROW,

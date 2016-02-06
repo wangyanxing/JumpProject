@@ -107,6 +107,10 @@ public:
     return mShadowEnabled;
   }
 
+  void setShadowEnabled(bool val) {
+    mShadowEnabled = val;
+  }
+
   int getShadowLayer() const {
     return mShadowLayer;
   }

@@ -101,6 +101,8 @@ public:
 
   void onMove(const cocos2d::Vec2 &delta);
 
+  void changeKind(BlockKind kind);
+
 private:
   void release();
 

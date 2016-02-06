@@ -101,6 +101,10 @@ public:
 
   void releaseHelpers();
 
+  void setCollisionEvents(const std::vector<std::string> &events) {
+    mCollisionEvents = events;
+  }
+
 protected:
   void clearStates();
 

@@ -21,6 +21,7 @@
 #include "DeathRotatorRenderer.h"
 #include "JsonFormat.h"
 #include "EditorManager.h"
+#include "BlockKindConfigs.h"
 
 USING_NS_CC;
 
@@ -124,6 +125,58 @@ void GameObject::reset() {
   for (auto comp : mComponents) {
     comp.second->reset();
   }
+}
+
+void GameObject::changeKind(BlockKind kind) {
+  if (kind == mKind) {
+    return;
+  }
+  mKind = kind;
+
+  auto physicsConfig = BlockKindConfigs::getPhysicsConfig(mKind);
+  auto rendererConfig = BlockKindConfigs::getRendererConfig(mKind);
+  auto components = BlockKindConfigs::getComponents(mKind);
+
+  auto size = mRenderer->getOriginalSize();
+  if (mKind == KIND_DEATH_CIRCLE) {
+    size.width = std::max(size.width, size.height);
+    size.height = size.width;
+  }
+
+  Parameter param;
+  param.set(PARAM_POS, mRenderer->getOriginalPosition())
+       .set(PARAM_SIZE, size)
+       .set(PARAM_COLOR_INDEX, mRenderer->getColorIndex())
+       .set(PARAM_IMAGE, rendererConfig.defaultTexture);
+
+  setRenderer(rendererConfig.type)
+    ->init(param)
+    ->addToParent(GameLevel::instance().getGameLayer()->getBlockRoot(), rendererConfig.zorder);
+
+  getRenderer()->setShadowEnabled(rendererConfig.shadowEnabled);
+
+  for (auto &component : mComponents) {
+    CC_SAFE_DELETE(component.second);
+  }
+  mComponents.clear();
+
+  if (physicsConfig.type != PHYSICS_NONE) {
+    addComponent<PhysicsComponent>()
+       ->setPhysicsType(physicsConfig.type)
+       ->setShape(physicsConfig.shapeType);
+
+    if (mKind == KIND_DEATH || mKind == KIND_DEATH_CIRCLE) {
+      getComponent<PhysicsComponent>()->setCollisionEvents({"die"});
+    }
+  }
+
+  for (auto comp : components) {
+    addComponent(comp);
+  }
+
+#if EDITOR_MODE
+  addComponent(COMPONENT_EDITOR);
+#endif
 }
 
 void GameObject::save(JsWriter &writer) {
