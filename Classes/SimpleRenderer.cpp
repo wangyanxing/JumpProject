@@ -9,7 +9,6 @@
 #include "SimpleRenderer.h"
 #include "SpriteUV.h"
 #include "Defines.h"
-#include "GameUtils.h"
 
 USING_NS_CC;
 
@@ -27,7 +26,7 @@ GameRenderer *SimpleRenderer::init(Parameter &param) {
   int color = param.get<int>(PARAM_COLOR_INDEX, DEFAULT_COLOR_ID);
   std::string image = param.get<std::string>(PARAM_IMAGE, "");
 
-  mSprite = GameUtils::createRect(mOriginalSize, mOriginalPosition);
+  mSprite = createRect(mOriginalSize, mOriginalPosition);
   setColorIndex(color);
   setTexture(image);
   return this;
@@ -36,7 +35,7 @@ GameRenderer *SimpleRenderer::init(Parameter &param) {
 void SimpleRenderer::clone(GameRenderer *renderer) {
   GameRenderer::clone(renderer);
 
-  mSprite = GameUtils::createRect(mOriginalSize, mOriginalPosition);
+  mSprite = createRect(mOriginalSize, mOriginalPosition);
   setColorIndex(renderer->getColorIndex());
   setTexture(renderer->getTexture());
 }

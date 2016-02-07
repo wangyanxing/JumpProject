@@ -12,7 +12,7 @@
 #include "PhysicsComponent.h"
 #include "PhysicsShape.h"
 #include "PhysicsManager.h"
-#include "GameUtils.h"
+#include "MathTools.h"
 #include "GameRenderer.h"
 #include "GameEvents.h"
 #include "RendererActions.h"
@@ -156,7 +156,7 @@ void ButtonComponent::runCommand(ComponentCommand type, const Parameter &param) 
       fabs(shape1->getPosition().y - shape2->getPosition().y);
   Vec2 delta(deltaWidth, deltaHeight);
   
-  if (GameUtils::vec2Equal(dirVec, info->normal)) {
+  if (MathTools::vec2Equal(dirVec, info->normal)) {
     // Push it.
     auto pos = shape2->getPosition();
     pos.x -= delta.x * info->normal.x;

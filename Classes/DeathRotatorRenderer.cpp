@@ -8,7 +8,6 @@
 
 #include "DeathRotatorRenderer.h"
 #include "SpriteUV.h"
-#include "GameUtils.h"
 #include "GameObject.h"
 #include "JsonFormat.h"
 #include "PhysicsComponent.h"
@@ -24,7 +23,7 @@ DeathRotatorRenderer::~DeathRotatorRenderer() {
 }
 
 GameRenderer *DeathRotatorRenderer::init(Parameter& param) {
-  mChild = GameUtils::createRect(param.get<Size>(PARAM_SIZE), param.get<Vec2>(PARAM_POS));
+  mChild = createRect(param.get<Size>(PARAM_SIZE), param.get<Vec2>(PARAM_POS));
   return SimpleRenderer::init(param);
 }
 
@@ -37,7 +36,7 @@ void DeathRotatorRenderer::load(JsonValueT &json) {
 }
 
 void DeathRotatorRenderer::clone(GameRenderer *renderer) {
-  mChild = GameUtils::createRect(renderer->getOriginalSize(), renderer->getOriginalPosition());
+  mChild = createRect(renderer->getOriginalSize(), renderer->getOriginalPosition());
 
   SimpleRenderer::clone(renderer);
   DeathRotatorRenderer *other = dynamic_cast<DeathRotatorRenderer*>(renderer);

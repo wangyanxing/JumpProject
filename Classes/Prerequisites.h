@@ -24,6 +24,7 @@ class PhysicsManager;
 class ColorPalette;
 class ShadowManager;
 class GameSprite;
+class SpriteUV;
 
 namespace cocos2d {
   class DrawNodeEx;

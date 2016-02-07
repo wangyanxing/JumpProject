@@ -13,6 +13,7 @@
 #include "PhysicsComponent.h"
 #include "PhysicsShape.h"
 #include "JsonFormat.h"
+#include "SpriteUV.h"
 
 USING_NS_CC;
 
@@ -203,4 +204,27 @@ void GameRenderer::getPointsForShadow(const cocos2d::Vec2 &source,
   out[2] = p + Vec2(-size.width / 2, -size.height / 2);
   out[1] = p + Vec2(size.width / 2, size.height / 2);
   out[3] = p + Vec2(size.width / 2, -size.height / 2);
+}
+
+SpriteUV *GameRenderer::createRect(cocos2d::Size size,
+                                   cocos2d::Vec2 pos,
+                                   cocos2d::Color3B col,
+                                   bool setCameraMask) {
+  SpriteUV *sprite = SpriteUV::create(BLOCK_IMAGE);
+  
+  Texture2D::TexParams param;
+  param.minFilter = GL_NEAREST;
+  param.magFilter = GL_NEAREST;
+  param.wrapS = GL_REPEAT;
+  param.wrapT = GL_REPEAT;
+  
+  sprite->getTexture()->setTexParameters(param);
+  sprite->setScale(size.width / ORG_RECT_SIZE, size.height / ORG_RECT_SIZE);
+  sprite->setPosition(pos);
+  sprite->setColor(col);
+  sprite->setContentSize(cocos2d::Size(ORG_RECT_SIZE, ORG_RECT_SIZE));
+  if (setCameraMask) {
+    sprite->setCameraMask((unsigned short) CameraFlag::USER2);
+  }
+  return sprite;
 }

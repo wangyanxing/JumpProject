@@ -14,7 +14,7 @@
 #include "GameObject.h"
 #include "GameRenderer.h"
 #include "GameEvents.h"
-#include "GameUtils.h"
+#include "MathTools.h"
 #include "GameConfig.h"
 
 USING_NS_CC;
@@ -151,17 +151,17 @@ void PhysicsComponent::onCollisionDetected(const CollisionInfo &info) {
   float deltaWidth = fabs(getShape()->getPosition().x -
                           info.obj2->getShape()->getPosition().x);
 
-  if (GameUtils::vec2Equal(Vec2::UNIT_Y, info.normal)) {
+  if (MathTools::vec2Equal(Vec2::UNIT_Y, info.normal)) {
     mStatus = ON_PLATFORM;
     mShape->mPosition.y += halfHeight - deltaHeight - 0.01f;
 
     // If the paltform moved in this frame, update it.
     mShape->mPosition += other->mShape->getMovement();
-  } else if (GameUtils::vec2Equal(-Vec2::UNIT_Y, info.normal)) {
+  } else if (MathTools::vec2Equal(-Vec2::UNIT_Y, info.normal)) {
     mVelocity.y = 0;
     mShape->mPosition.y -= halfHeight - deltaHeight;
-  } else if (GameUtils::vec2Equal(Vec2::UNIT_X, info.normal) ||
-             GameUtils::vec2Equal(-Vec2::UNIT_X, info.normal)) {
+  } else if (MathTools::vec2Equal(Vec2::UNIT_X, info.normal) ||
+             MathTools::vec2Equal(-Vec2::UNIT_X, info.normal)) {
     if (other->getPhysicsType() == PHYSICS_DYNAMIC && !other->mSleep) {
       // Push it.
       mAccelerationResistance = GameConfig::instance().AccelerationResistance;

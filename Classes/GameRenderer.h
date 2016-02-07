@@ -126,6 +126,12 @@ public:
   void setShadowGroup(int val) {
     mShadowGroup = val;
   }
+  
+protected:
+  SpriteUV *createRect(cocos2d::Size size,
+                       cocos2d::Vec2 pos,
+                       cocos2d::Color3B col = cocos2d::Color3B::WHITE,
+                       bool setCameraMask = true);
 
 protected:
   GameObject *mParent{nullptr};

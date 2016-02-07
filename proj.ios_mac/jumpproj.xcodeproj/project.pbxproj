@@ -62,6 +62,8 @@
 		B52188331C3744C400E04587 /* LoadMapSerial.inl in Resources */ = {isa = PBXBuildFile; fileRef = B52188311C3744C400E04587 /* LoadMapSerial.inl */; };
 		B5408E6D1C505F8200E4C90E /* ButtonComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5408E6B1C505F8200E4C90E /* ButtonComponent.cpp */; };
 		B5408E6E1C505F8200E4C90E /* ButtonComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5408E6B1C505F8200E4C90E /* ButtonComponent.cpp */; };
+		B542379C1C66FCEA00DA5484 /* MathTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B542379A1C66FCEA00DA5484 /* MathTools.cpp */; };
+		B542379D1C66FCEA00DA5484 /* MathTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B542379A1C66FCEA00DA5484 /* MathTools.cpp */; };
 		B55C76661C4F335B0083C9C5 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B55C76641C4F335B0083C9C5 /* GameConfig.cpp */; };
 		B55C76671C4F335B0083C9C5 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B55C76641C4F335B0083C9C5 /* GameConfig.cpp */; };
 		B5A55AA71C2B8B7200E02C60 /* ControlPad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A55AA51C2B8B7200E02C60 /* ControlPad.cpp */; };
@@ -290,6 +292,8 @@
 		B52188311C3744C400E04587 /* LoadMapSerial.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LoadMapSerial.inl; sourceTree = "<group>"; };
 		B5408E6B1C505F8200E4C90E /* ButtonComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ButtonComponent.cpp; sourceTree = "<group>"; };
 		B5408E6C1C505F8200E4C90E /* ButtonComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonComponent.h; sourceTree = "<group>"; };
+		B542379A1C66FCEA00DA5484 /* MathTools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MathTools.cpp; sourceTree = "<group>"; };
+		B542379B1C66FCEA00DA5484 /* MathTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathTools.h; sourceTree = "<group>"; };
 		B55C76641C4F335B0083C9C5 /* GameConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameConfig.cpp; sourceTree = "<group>"; };
 		B55C76651C4F335B0083C9C5 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		B5A55AA51C2B8B7200E02C60 /* ControlPad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControlPad.cpp; sourceTree = "<group>"; };
@@ -789,6 +793,8 @@
 				BC1EE9AF1C63E0C4003A345B /* DebugTools.cpp */,
 				BC1EE9B01C63E0C4003A345B /* DebugTools.h */,
 				BC1EE9B31C669A38003A345B /* TemplateFile.h */,
+				B542379A1C66FCEA00DA5484 /* MathTools.cpp */,
+				B542379B1C66FCEA00DA5484 /* MathTools.h */,
 			);
 			name = Refactor;
 			sourceTree = "<group>";
@@ -982,6 +988,7 @@
 				BCB862AB1C47376400CB8383 /* PhysicsComponent.cpp in Sources */,
 				BC3CEA271C1B86B400738B33 /* CameraShake.cpp in Sources */,
 				BC641FFC1C3C7F730018F96F /* ChooseWorldScene.cpp in Sources */,
+				B542379C1C66FCEA00DA5484 /* MathTools.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				BCB866B31C4D8B7800CB8383 /* GameInputs.cpp in Sources */,
@@ -1038,6 +1045,7 @@
 				B5408E6E1C505F8200E4C90E /* ButtonComponent.cpp in Sources */,
 				BCB866B41C4D8B7800CB8383 /* GameInputs.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				B542379D1C66FCEA00DA5484 /* MathTools.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				BCB862BD1C4843EC00CB8383 /* JsonParser.cpp in Sources */,
 				BCDFFFFC1C32ECED006E8A59 /* BlockRenderer.cpp in Sources */,
