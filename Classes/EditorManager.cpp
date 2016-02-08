@@ -21,6 +21,7 @@
 #include "ShadowManager.h"
 #include "JsonWriter.h"
 #include "JsonParser.h"
+#include "PathComponent.h"
 
 USING_NS_CC;
 
@@ -221,9 +222,10 @@ void EditorManager::clearSelections() {
     sel->runCommand(COMMAND_EDITOR, {{PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_UNSELECT)}});
   }
   mSelections.clear();
+  pathEditorMode(false);
 }
 
-void EditorManager::moveObjects(EventKeyboard::KeyCode key) {
+void EditorManager::moveThings(EventKeyboard::KeyCode key) {
   if (mSelections.empty()) {
     return;
   }
@@ -239,44 +241,69 @@ void EditorManager::moveObjects(EventKeyboard::KeyCode key) {
     dir = {1, 0};
   }
 
-  if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_SHIFT)) {
-    // Alignment.
-    auto headPos = mSelections.front()->getRenderer()->getPosition();
-    Size halfHeadSize = mSelections.front()->getRenderer()->getSize() / 2;
-    Vec2 offsetHead = {
-      headPos.x + dir.x * halfHeadSize.width,
-      headPos.y + dir.y * halfHeadSize.height
-    };
-
-    for (size_t i = 1; i < mSelections.size(); ++i) {
-      auto pos = mSelections[i]->getRenderer()->getPosition();
-      Size halfSize = mSelections[i]->getRenderer()->getSize() / 2;
-      Vec2 offset = {
-        pos.x + dir.x * halfSize.width,
-        pos.y + dir.y * halfSize.height
-      };
-      Vec2 cof = {fabsf(dir.x), fabsf(dir.y)};
-      Vec2 delta = (offsetHead - offset);
-      delta.x *= cof.x;
-      delta.y *= cof.y;
-
-      mSelections[i]->runCommand(COMMAND_EDITOR, {
-        {PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_MOVE)},
-        {PARAM_MOUSE_MOVEMENT, Any(delta)}
-      });
-    }
+  if (mPathEditMode) {
+    movePathNode(dir);
   } else {
-    // Move.
-    float distance = GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_ALT) ? 20 : 1;
-    dir *= distance;
-
-    for (auto obj : mSelections) {
-      obj->runCommand(COMMAND_EDITOR, {
-        {PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_MOVE)},
-        {PARAM_MOUSE_MOVEMENT, Any(dir)}
-      });
+    if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_SHIFT)) {
+      alignObjects(dir);
+    } else {
+      moveObjects(dir);
     }
   }
+}
+
+void EditorManager::alignObjects(const cocos2d::Vec2 &dir) {
+  auto headPos = mSelections.front()->getRenderer()->getPosition();
+  Size halfHeadSize = mSelections.front()->getRenderer()->getSize() / 2;
+  Vec2 offsetHead = {
+    headPos.x + dir.x * halfHeadSize.width,
+    headPos.y + dir.y * halfHeadSize.height
+  };
+
+  for (size_t i = 1; i < mSelections.size(); ++i) {
+    auto pos = mSelections[i]->getRenderer()->getPosition();
+    Size halfSize = mSelections[i]->getRenderer()->getSize() / 2;
+    Vec2 offset = {
+      pos.x + dir.x * halfSize.width,
+      pos.y + dir.y * halfSize.height
+    };
+    Vec2 cof = {fabsf(dir.x), fabsf(dir.y)};
+    Vec2 delta = (offsetHead - offset);
+    delta.x *= cof.x;
+    delta.y *= cof.y;
+
+    mSelections[i]->runCommand(COMMAND_EDITOR, {
+      {PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_MOVE)},
+      {PARAM_MOUSE_MOVEMENT, Any(delta)}
+    });
+  }
+}
+
+void EditorManager::moveObjects(const cocos2d::Vec2 &dir) {
+  float distance = GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_ALT) ? 20 : 1;
+  Vec2 movement = dir * distance;
+
+  for (auto obj : mSelections) {
+    obj->runCommand(COMMAND_EDITOR, {
+      {PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_MOVE)},
+      {PARAM_MOUSE_MOVEMENT, Any(movement)}
+    });
+  }
+}
+
+void EditorManager::movePathNode(const cocos2d::Vec2 &dir) {
+  auto selection = mSelections.front();
+  if (!selection->hasComponent(COMPONENT_PATH)) {
+    selection->addComponent<PathComponent>();
+  }
+  auto path = selection->getComponent<PathComponent>();
+  if (path->empty()) {
+    return;
+  }
+
+  float distance = GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_ALT) ? 20 : 1;
+  Vec2 movement = dir * distance;
+  path->setBackPos(path->getBackPos() + movement);
 }
 
 void EditorManager::resizeObjects(cocos2d::EventKeyboard::KeyCode key) {
@@ -329,6 +356,47 @@ void EditorManager::changeKindOrShadowLayer(cocos2d::EventKeyboard::KeyCode key)
   }
 }
 
+void EditorManager::pathEditorMode(bool mode) {
+  if (mPathEditMode == mode) {
+    return;
+  }
+  if (mode && mSelections.empty()) {
+    return;
+  }
+
+  mPathEditMode = mode;
+  UILayer::Layer->setEditModeName(mPathEditMode ? "Path Mode" : "");
+
+  if (mPathEditMode) {
+    if (!mGridNode->isVisible()) {
+      toggleHelpersVisible();
+    }
+    addPathPoint();
+  }
+}
+
+void EditorManager::addPathPoint() {
+  CC_ASSERT(mPathEditMode);
+
+  Vec2 move = GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_SHIFT) ?
+    Vec2(0, 50) : Vec2(50, 0);
+
+  auto selection = mSelections.front();
+  if (!selection->hasComponent(COMPONENT_PATH)) {
+    selection->addComponent<PathComponent>();
+  }
+  auto path = selection->getComponent<PathComponent>();
+
+  if (path->empty()) {
+    auto pos = selection->getRenderer()->getPosition();
+    path->push(pos);
+    path->push(pos + move);
+  } else {
+    auto pos = path->getBackPos();
+    path->push(pos + move);
+  }
+}
+
 void EditorManager::registerInputs() {
   auto &gameInputs = GameInputs::instance();
 
@@ -340,6 +408,18 @@ void EditorManager::registerInputs() {
   // Show helpers.
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_G, [this](GameInputs::KeyCode key) {
     toggleHelpersVisible();
+  });
+
+  // Path mode.
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_F, [this](GameInputs::KeyCode key) {
+    if (!mPathEditMode) {
+      pathEditorMode(true);
+    } else {
+      addPathPoint();
+    }
+  });
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_ESCAPE, [this](GameInputs::KeyCode key) {
+    pathEditorMode(false);
   });
 
   // Load.
@@ -382,13 +462,13 @@ void EditorManager::registerInputs() {
 
   // Move.
   gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_UP_ARROW,
-                              CC_CALLBACK_1(EditorManager::moveObjects, this));
+                              CC_CALLBACK_1(EditorManager::moveThings, this));
   gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_DOWN_ARROW,
-                              CC_CALLBACK_1(EditorManager::moveObjects, this));
+                              CC_CALLBACK_1(EditorManager::moveThings, this));
   gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_LEFT_ARROW,
-                              CC_CALLBACK_1(EditorManager::moveObjects, this));
+                              CC_CALLBACK_1(EditorManager::moveThings, this));
   gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_RIGHT_ARROW,
-                              CC_CALLBACK_1(EditorManager::moveObjects, this));
+                              CC_CALLBACK_1(EditorManager::moveThings, this));
 
   // Resize.
   gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_LEFT_BRACKET,
@@ -409,10 +489,25 @@ void EditorManager::registerInputs() {
 
   // Delete.
   auto deleteCallback = [this](GameInputs::KeyCode key) {
-    for (auto obj : mSelections) {
-      GameLevel::instance().getObjectManager()->deleteObject(obj->getID());
+    if (mSelections.empty()) {
+      return;
     }
-    mSelections.clear();
+    if (mPathEditMode) {
+      auto sel = mSelections.front();
+      if (!sel->hasComponent(COMPONENT_PATH)) {
+        return;
+      }
+      auto path = sel->getComponent<PathComponent>();
+      path->pop();
+      if (path->empty()) {
+        pathEditorMode(false);
+      }
+    } else {
+      for (auto obj : mSelections) {
+        GameLevel::instance().getObjectManager()->deleteObject(obj->getID());
+      }
+      mSelections.clear();
+    }
   };
   gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_DELETE, deleteCallback);
   gameInputs.addKeyboardEvent(GameInputs::KeyCode::KEY_BACKSPACE, deleteCallback);

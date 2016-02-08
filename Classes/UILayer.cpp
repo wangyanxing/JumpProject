@@ -40,12 +40,24 @@ void UILayer::init(cocos2d::Node *parent) {
   mFileNameLabel->setScale(0.5f);
   mLayer->addChild(mFileNameLabel);
 
+  mEditModeLebel = Label::createWithTTF(config, "");
+  mEditModeLebel->setScale(0.5f);
+  mLayer->addChild(mEditModeLebel);
+
   setFileName("Untitled");
 
   auto camera = Camera::create();
   camera->setCameraFlag(CameraFlag::USER1);
   mLayer->addChild(camera);
   mLayer->setCameraMask((unsigned short) CameraFlag::USER1);
+}
+
+void UILayer::setEditModeName(const std::string &name) {
+  mEditModeLebel->setString(name);
+  auto size = mEditModeLebel->getBoundingBox().size;
+  auto w = mLayer->getBoundingBox().size.width;
+  mEditModeLebel->setPosition(w - size.width / 2 - RIGHT_GAP,
+                              VisibleRect::getFrameSize().height - size.height / 2 - RIGHT_GAP);
 }
 
 void UILayer::addMessage(const char *message) {
@@ -62,7 +74,7 @@ void UILayer::addMessage(const char *message) {
                                  Sequence::create(MoveBy::create(1, Vec2(0, 50)),
                                                   CallFuncN::create([&](Node *n) {
                                                       n->removeFromParent();
-                                                  }), NULL), NULL));
+                                                  }), nullptr), nullptr));
 }
 
 void UILayer::setFileName(const std::string &file) {

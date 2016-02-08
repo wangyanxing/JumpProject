@@ -17,12 +17,16 @@ public:
 
   void addMessage(const char *message);
 
+  void setEditModeName(const std::string &name);
+
   static UILayer *Layer;
 
 public:
   cocos2d::Layer *mLayer{nullptr};
 
   cocos2d::Label *mFileNameLabel{nullptr};
+
+  cocos2d::Label *mEditModeLebel{nullptr};
 };
 
 #endif /* defined(__JumpEdt__UILayer__) */

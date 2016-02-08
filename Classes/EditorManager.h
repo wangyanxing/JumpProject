@@ -55,7 +55,17 @@ private:
 
   void clearSelections();
 
-  void moveObjects(cocos2d::EventKeyboard::KeyCode key);
+  void pathEditorMode(bool mode);
+
+  void addPathPoint();
+
+  void alignObjects(const cocos2d::Vec2 &dir);
+
+  void moveObjects(const cocos2d::Vec2 &dir);
+
+  void movePathNode(const cocos2d::Vec2 &dir);
+
+  void moveThings(cocos2d::EventKeyboard::KeyCode key);
 
   void resizeObjects(cocos2d::EventKeyboard::KeyCode key);
 
@@ -71,6 +81,8 @@ private:
   cocos2d::DrawNode *mHeroSpawnNode{nullptr};
 
   std::vector<GameObject*> mSelections;
+
+  bool mPathEditMode{false};
 };
 
 #endif /* EditorManager_h */
