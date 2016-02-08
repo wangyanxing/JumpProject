@@ -49,6 +49,8 @@ public:
 
   void updateLightDir();
 
+  void addLightDirDegree(float delta);
+
 private:
   ShadowEntry getShadowEntry(const std::vector<cocos2d::Vec2> &pts, const cocos2d::Vec2 &lightPos);
 

@@ -145,6 +145,11 @@ void ShadowManager::update(float dt) {
   }
 }
 
+void ShadowManager::addLightDirDegree(float delta) {
+  mLightDirDegree += delta;
+  updateLightDir();
+}
+
 void ShadowManager::updateLightDir() {
   if (mLightDirDegree < 0) {
     mLightDirDegree += 360;

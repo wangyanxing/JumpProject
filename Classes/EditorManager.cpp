@@ -147,6 +147,16 @@ void EditorManager::loadLastEdit() {
   GameLevel::instance().load(file.empty() ? TEMPLATE_MAP : file);
 }
 
+void EditorManager::update(float dt) {
+  if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_CTRL)) {
+    if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_COMMA)) {
+      GameLevel::instance().getShadowManager(0)->addLightDirDegree(dt * 100);
+    } else if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_PERIOD)) {
+      GameLevel::instance().getShadowManager(0)->addLightDirDegree(dt * -100);
+    }
+  }
+}
+
 void EditorManager::onMouseDown(const MouseEvent &event) {
   // Left button only.
   if (event.button != 0) {

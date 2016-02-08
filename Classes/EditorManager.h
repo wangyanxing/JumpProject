@@ -26,6 +26,8 @@ public:
     return mGridNode;
   }
 
+  void update(float dt);
+
   void afterLoad();
 
   void loadLastEdit();

@@ -75,6 +75,10 @@ public:
   void traverseObjects(std::function<void(GameObject*)> func, bool containsHero);
   
   GameObject *getHero();
+
+  ShadowManager *getShadowManager(int id) {
+    return mShadows[id];
+  }
   
 private:
 
