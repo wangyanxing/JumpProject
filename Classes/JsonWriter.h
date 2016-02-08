@@ -32,6 +32,10 @@ public:
 
   void writeAuthor();
 
+  static std::string getTimeString();
+
+  static std::string getAuthorString();
+
 private:
   rapidjson::StringBuffer mBuffer;
 

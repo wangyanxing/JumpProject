@@ -19,6 +19,8 @@
 #include "UILayer.h"
 #include "HttpHelper.h"
 #include "ShadowManager.h"
+#include "JsonWriter.h"
+#include "JsonParser.h"
 
 USING_NS_CC;
 
@@ -110,6 +112,17 @@ void EditorManager::saveMapFile() {
 
   UILayer::Layer->setFileName(current);
   UILayer::Layer->addMessage("File saved");
+
+  // Upload to server.
+  std::string filename = current;
+  const size_t last_slash_idx = filename.find_last_of("\\/");
+  if (std::string::npos != last_slash_idx) {
+    filename.erase(0, last_slash_idx + 1);
+  }
+  HttpHelper::uploadMap(filename,
+                        JsonWriter::getAuthorString(),
+                        JsonWriter::getTimeString(),
+                        JsonParser::getBuffer(current));
 }
 
 void EditorManager::toggleHelpersVisible() {
@@ -339,15 +352,15 @@ void EditorManager::registerInputs() {
       newMapFile();
     }
   });
-  
-  // Reload.
-  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_F5, [this](GameInputs::KeyCode key) {
-    GameLevel::instance().load(GameLevel::instance().getCurrentLevelFile());
-  });
 
   // Save remote maps.
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_F4, [this](GameInputs::KeyCode key) {
     HttpHelper::getAllMaps();
+  });
+  
+  // Reload.
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_F5, [this](GameInputs::KeyCode key) {
+    GameLevel::instance().load(GameLevel::instance().getCurrentLevelFile());
   });
 
   // Set Kind.

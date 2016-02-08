@@ -30,19 +30,17 @@ void JsonWriter::save(const std::string& fileName) {
   file << mBuffer.GetString();
 }
 
-void JsonWriter::writeTime() {
+std::string JsonWriter::getTimeString() {
   time_t rawtime;
   struct tm *ptm;
   time(&rawtime);
   ptm = gmtime(&rawtime);
   string timestr = asctime(ptm);
   timestr.resize(timestr.size() - 1);
-
-  mWriter.String(MAP_TIME);
-  mWriter.String(timestr);
+  return timestr;
 }
 
-void JsonWriter::writeAuthor() {
+std::string JsonWriter::getAuthorString() {
   string author = "unknown";
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
   TCHAR username[UNLEN + 1];
@@ -52,7 +50,15 @@ void JsonWriter::writeAuthor() {
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
   author = getlogin();
 #endif
+  return author;
+}
 
+void JsonWriter::writeTime() {
+  mWriter.String(MAP_TIME);
+  mWriter.String(getTimeString());
+}
+
+void JsonWriter::writeAuthor() {
   mWriter.String(MAP_AUTHOR);
-  mWriter.String(author);
+  mWriter.String(getAuthorString());
 }
