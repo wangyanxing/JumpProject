@@ -17,6 +17,7 @@
 #include "PathLib.h"
 #include "VisibleRect.h"
 #include "UILayer.h"
+#include "HttpHelper.h"
 #include "ShadowManager.h"
 
 USING_NS_CC;
@@ -342,6 +343,11 @@ void EditorManager::registerInputs() {
   // Reload.
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_F5, [this](GameInputs::KeyCode key) {
     GameLevel::instance().load(GameLevel::instance().getCurrentLevelFile());
+  });
+
+  // Save remote maps.
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_F4, [this](GameInputs::KeyCode key) {
+    HttpHelper::getAllMaps();
   });
 
   // Set Kind.
