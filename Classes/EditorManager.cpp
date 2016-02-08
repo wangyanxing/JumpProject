@@ -338,6 +338,11 @@ void EditorManager::registerInputs() {
       newMapFile();
     }
   });
+  
+  // Reload.
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_F5, [this](GameInputs::KeyCode key) {
+    GameLevel::instance().load(GameLevel::instance().getCurrentLevelFile());
+  });
 
   // Set Kind.
   for (int k = (int)GameInputs::KeyCode::KEY_1;
