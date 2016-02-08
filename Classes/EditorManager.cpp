@@ -380,9 +380,8 @@ void EditorManager::registerInputs() {
 
   // Delete.
   auto deleteCallback = [this](GameInputs::KeyCode key) {
-    auto objManager = GameLevel::instance().getObjectManager();
     for (auto obj : mSelections) {
-      objManager->deleteObject(obj->getID());
+      GameLevel::instance().getObjectManager()->deleteObject(obj->getID());
     }
     mSelections.clear();
   };
@@ -405,16 +404,5 @@ void EditorManager::registerInputs() {
     }
     clearSelections();
     mSelections = newSelection;
-  });
-
-  // Test.
-  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_7, [this](GameInputs::KeyCode key) {
-    GameLevel::instance().load("maps/local/test_refactor1.json");
-  });
-  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_8, [this](GameInputs::KeyCode key) {
-    GameLevel::instance().load("maps/local/test_refactor2.json");
-  });
-  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_9, [this](GameInputs::KeyCode key) {
-    GameLevel::instance().load("maps/local/test_refactor3.json");
   });
 }
