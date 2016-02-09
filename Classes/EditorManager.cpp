@@ -457,6 +457,13 @@ void EditorManager::registerInputs() {
     }
   });
 
+  // Open in text editor.
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_E, [this](GameInputs::KeyCode key) {
+    if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_CTRL)) {
+      PathLib::openInSystem(GameLevel::instance().getCurrentLevelFile().c_str());
+    }
+  });
+
   // Save remote maps.
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_F4, [this](GameInputs::KeyCode key) {
     HttpHelper::getAllMaps();

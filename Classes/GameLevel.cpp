@@ -380,7 +380,8 @@ void GameLevel::initShadowGroup(int groupId) {
 
 void GameLevel::setCurrentFile(const std::string &file) {
   std::string rawFile = file;
-  std::regex rx("(\\/|\\\\)?(local|remote)(\\/|\\\\)(\\w)*.json$", std::regex_constants::icase);
+  std::regex rx("(\\/|\\\\)?maps(\\/|\\\\)(local|remote)(\\/|\\\\)(\\w)*.json$",
+                std::regex_constants::icase);
   std::regex rxback("(\\/|\\\\)(\\w)*.json$", std::regex_constants::icase);
   std::smatch base_match;
 

@@ -25,15 +25,11 @@ JsonWriter::~JsonWriter() {
 }
 
 void JsonWriter::save(const std::string& name) {
-  auto filename = name;
-  if (filename.find("local/") == 0) {
-    filename.insert(0, "maps/");
-  }
   mWriter.EndObject();
 
-  auto fp = fopen(filename.c_str(), "w+");
+  auto fp = fopen(name.c_str(), "w+");
   if (!fp) {
-    CCLOG("Warning: cannot access the file : %s", filename.c_str());
+    CCLOG("Warning: cannot access the file : %s", name.c_str());
     return;
   }
   fprintf(fp, "%s", mBuffer.GetString());
