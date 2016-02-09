@@ -7,12 +7,10 @@
 #include "cocos-ext.h"
 #include "Defines.h"
 
-#define _COLOR_DEBUG_  1
+#define _COLOR_DEBUG_  0
 
 #if _COLOR_DEBUG_
-
 # include "UILayer.h"
-
 #endif
 
 USING_NS_CC;

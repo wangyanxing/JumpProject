@@ -22,6 +22,7 @@
 #include "JsonWriter.h"
 #include "JsonParser.h"
 #include "PathComponent.h"
+#include "UIColorEditor.h"
 
 USING_NS_CC;
 
@@ -29,6 +30,12 @@ void EditorManager::init() {
   initHelpers();
   registerInputs();
   loadLastEdit();
+
+  UIColorEditor::colorEditor->onSetColorFunc = [&](int index, cocos2d::Color3B color) {
+    for (auto sel : mSelections) {
+      sel->getRenderer()->setColorIndex(index);
+    }
+  };
 }
 
 void EditorManager::onGameEnabled(bool val) {
