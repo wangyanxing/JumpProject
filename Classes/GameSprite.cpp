@@ -21,13 +21,17 @@ void GameSprite::create() {
   mSprite->setOpacity(Opacity);
   mSprite->setTexture(Director::getInstance()->getTextureCache()->addImage(Image));
   mSprite->setCameraMask((unsigned short) CameraFlag::USER2);
-  
-  Texture2D::TexParams param;
-  param.minFilter = GL_NEAREST;
-  param.magFilter = GL_NEAREST;
-  param.wrapS = GL_REPEAT;
-  param.wrapT = GL_REPEAT;
-  mSprite->getTexture()->setTexParameters(param);
+
+  auto pixelWidth = mSprite->getTexture()->getPixelsWide();
+  auto pixelHight = mSprite->getTexture()->getPixelsHigh();
+  if (pixelWidth == ccNextPOT(pixelWidth) && pixelHight == ccNextPOT(pixelHight)) {
+    Texture2D::TexParams param;
+    param.minFilter = GL_NEAREST;
+    param.magFilter = GL_NEAREST;
+    param.wrapS = GL_REPEAT;
+    param.wrapT = GL_REPEAT;
+    mSprite->getTexture()->setTexParameters(param);
+  }
 }
 
 void GameSprite::clean() {

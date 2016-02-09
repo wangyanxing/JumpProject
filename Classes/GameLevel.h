@@ -36,6 +36,8 @@ public:
 
   void die();
 
+  void win();
+
   void setHeroSpawnPosition(const cocos2d::Vec2 &pos);
   
   bool isGameEnabled() const {
@@ -79,9 +81,12 @@ public:
   ShadowManager *getShadowManager(int id) {
     return mShadows[id];
   }
+
+  void setWinEvent(std::function<void()> event) {
+    mWinGameEvent = event;
+  }
   
 private:
-
   void createHero(const cocos2d::Vec2 &pos);
 
   void updateBounds();
@@ -92,11 +97,17 @@ private:
 
   void dieImpl();
 
+  void winImpl();
+
   void loadFx();
 
   void unloadFx();
 
   void setCurrentFile(const std::string &file);
+
+  void initCurtainPos();
+
+  void showWinCurtain();
 
 private:
   ObjectManager *mObjectManager{nullptr};
@@ -130,6 +141,12 @@ private:
   cocos2d::DrawNode *mBackground{nullptr};
 
   std::string mCurrentLevelFile;
+
+  cocos2d::DrawNode* mCurtain{nullptr};
+
+  std::function<void()> mWinGameEvent;
+
+  bool mWinFlag{false};
 };
 
 #endif /* GameLevel_h */

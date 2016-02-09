@@ -90,7 +90,7 @@ GameEvents::GameEvents() {
     e.command = "exit";
 
     e.func = [&](const std::vector<Arg> &args, GameObject *block) {
-      // TODO: Win game event.
+      GameLevel::instance().win();
     };
     sEventLists[e.command] = e;
   }

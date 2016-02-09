@@ -56,9 +56,15 @@ void GameLevel::release() {
 }
 
 void GameLevel::update(float dt) {
-  if (mGameEnabled && mDieFlag) {
-    dieImpl();
-    return;
+  if (mGameEnabled) {
+    if (mDieFlag) {
+      dieImpl();
+      return;
+    }
+    if (mWinFlag) {
+      winImpl();
+      return;
+    }
   }
 
 #if EDITOR_MODE
@@ -308,6 +314,7 @@ void GameLevel::reset() {
   hero->getRenderer()->setPosition(mHeroSpawnPos);
   hero->getRenderer()->setOpacity(255);
   mDieFlag = false;
+  mWinFlag = false;
 }
 
 void GameLevel::setHeroSpawnPosition(const cocos2d::Vec2 &pos) {
@@ -418,4 +425,49 @@ void GameLevel::loadFx() {
 void GameLevel::unloadFx() {
   mFxNodes.clear();
   mEffects.clear();
+}
+
+void GameLevel::showWinCurtain() {
+  initCurtainPos();
+  enableGame(false);
+
+  mGameLayer->getCamera()->runAction(Sequence::create(MoveBy::create(CURTAIN_MOVE_TIME,
+                                                                     Vec2(0, -VIS_RECT_HEIGHT)),
+                                                      CallFunc::create([this]() {
+    mWinFlag = false;
+    if (mWinGameEvent) {
+      mWinGameEvent();
+    }
+  }), nullptr));
+}
+
+void GameLevel::initCurtainPos() {
+  float screenHeight = VisibleRect::getVisibleRect().size.height;
+  float screenWidth = VisibleRect::getVisibleRect().size.width;
+  auto color = mPalette->getDefaultColor(KIND_BLOCK);
+  auto camPos = mGameLayer->getCamera()->getPosition();
+
+  if (mCurtain) {
+    mCurtain->setVisible(true);
+    mCurtain->clear();
+    mCurtain->drawSolidRect(Vec2(camPos.x - screenWidth / 2, camPos.y - screenHeight * 1.5f),
+                            Vec2(camPos.x + screenWidth / 2, camPos.y - screenHeight / 2),
+                            Color4F(color));
+  } else {
+    mCurtain = DrawNode::create();
+    mCurtain->drawSolidRect(Vec2(camPos.x - screenWidth / 2, camPos.y - screenHeight * 1.5f),
+                            Vec2(camPos.x + screenWidth / 2, camPos.y - screenHeight / 2),
+                            Color4F(color));
+    mCurtain->setCameraMask((unsigned short) CameraFlag::USER2);
+    mGameLayer->addChild(mCurtain, ZORDER_CURTAIN);
+  }
+}
+
+void GameLevel::win() {
+  mWinFlag = true;
+}
+
+void GameLevel::winImpl() {
+  mGameLayer->preWinGame();
+  showWinCurtain();
 }

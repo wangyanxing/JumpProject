@@ -7,12 +7,6 @@
 #include "cocos-ext.h"
 #include "Defines.h"
 
-#define _COLOR_DEBUG_  0
-
-#if _COLOR_DEBUG_
-# include "UILayer.h"
-#endif
-
 USING_NS_CC;
 USING_NS_CC_EXT;
 
@@ -24,7 +18,7 @@ USING_NS_CC_EXT;
 
 UIColorEditor *UIColorEditor::colorEditor = nullptr;
 
-int indexData[BUTTON_NUM];
+static int indexData[BUTTON_NUM];
 
 void UIColorEditor::init(cocos2d::Node *parent) {
   colorEditor = this;
@@ -78,13 +72,6 @@ bool UIColorEditor::beginTouchColor(cocos2d::Touch *touch, cocos2d::Event *event
   if (rect.containsPoint(loc)) {
     void *p = target->getUserData();
     int index = *(int *) p;
-
-#if _COLOR_DEBUG_
-    char num[10];
-    sprintf(num, "%d", index);
-    UILayer::Layer->addMessage(num);
-#endif
-
     if (onSetColorFunc) {
       onSetColorFunc(mPaletteIndexArray[index], mPaletteColorArray[index]);
     }
