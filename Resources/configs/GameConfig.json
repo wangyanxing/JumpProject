@@ -4,5 +4,6 @@
   "jumpAcceleration": 30000,
   "accelerationResistance": 0.3,
   "sawImage": "images/saw.png",
-  "sawImageRotation": "images/saw_r.png"
+  "sawImageRotation": "images/saw_r.png",
+  "curtainMoveTime": 0.8
 }

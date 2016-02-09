@@ -20,4 +20,5 @@ void GameConfig::load() {
   AccelerationResistance = json["accelerationResistance"].GetDouble();
   SawImage = json["sawImage"].GetString();
   SawImageRotation = json["sawImageRotation"].GetString();
+  CurtainMoveTime = json["curtainMoveTime"].GetDouble();
 }

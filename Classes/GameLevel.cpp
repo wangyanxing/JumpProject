@@ -338,6 +338,7 @@ void GameLevel::updateBounds() {
 }
 
 void GameLevel::updateCamera(cocos2d::Camera *cam, bool forceUpdate) {
+  auto p = cam->getPosition();
   if (!mGameEnabled && !forceUpdate) {
     return;
   }
@@ -431,8 +432,10 @@ void GameLevel::showWinCurtain() {
   initCurtainPos();
   enableGame(false);
 
-  mGameLayer->getCamera()->runAction(Sequence::create(MoveBy::create(CURTAIN_MOVE_TIME,
-                                                                     Vec2(0, -VIS_RECT_HEIGHT)),
+  auto camPos = mGameLayer->getCamera()->getPosition();
+  float curtainTime = GameConfig::instance().CurtainMoveTime;
+  Vec2 offset(0, -VIS_RECT_HEIGHT);
+  mGameLayer->getCamera()->runAction(Sequence::create(MoveBy::create(curtainTime, offset),
                                                       CallFunc::create([this]() {
     mWinFlag = false;
     if (mWinGameEvent) {
@@ -442,25 +445,22 @@ void GameLevel::showWinCurtain() {
 }
 
 void GameLevel::initCurtainPos() {
-  float screenHeight = VisibleRect::getVisibleRect().size.height;
-  float screenWidth = VisibleRect::getVisibleRect().size.width;
+  float screenHeight = VisibleRect::getFrameSize().height;
+  float screenWidth = VisibleRect::getFrameSize().width;
   auto color = mPalette->getDefaultColor(KIND_BLOCK);
   auto camPos = mGameLayer->getCamera()->getPosition();
 
   if (mCurtain) {
     mCurtain->setVisible(true);
-    mCurtain->clear();
-    mCurtain->drawSolidRect(Vec2(camPos.x - screenWidth / 2, camPos.y - screenHeight * 1.5f),
-                            Vec2(camPos.x + screenWidth / 2, camPos.y - screenHeight / 2),
-                            Color4F(color));
   } else {
     mCurtain = DrawNode::create();
-    mCurtain->drawSolidRect(Vec2(camPos.x - screenWidth / 2, camPos.y - screenHeight * 1.5f),
-                            Vec2(camPos.x + screenWidth / 2, camPos.y - screenHeight / 2),
-                            Color4F(color));
     mCurtain->setCameraMask((unsigned short) CameraFlag::USER2);
     mGameLayer->addChild(mCurtain, ZORDER_CURTAIN);
   }
+  mCurtain->clear();
+  mCurtain->drawSolidRect(Vec2(camPos.x - screenWidth / 2, camPos.y - screenHeight * 1.5f),
+                          Vec2(camPos.x + screenWidth / 2, camPos.y - screenHeight / 2),
+                          Color4F(color));
 }
 
 void GameLevel::win() {

@@ -29,6 +29,8 @@ public:
   std::string SawImage;
   
   std::string SawImageRotation;
+
+  float CurtainMoveTime{0.8f};
 };
 
 #endif /* GameConfig_h */
