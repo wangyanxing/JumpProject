@@ -24,10 +24,20 @@ JsonWriter::JsonWriter() {
 JsonWriter::~JsonWriter() {
 }
 
-void JsonWriter::save(const std::string& fileName) {
+void JsonWriter::save(const std::string& name) {
+  auto filename = name;
+  if (filename.find("local/") == 0) {
+    filename.insert(0, "maps/");
+  }
   mWriter.EndObject();
-  std::ofstream file(fileName);
-  file << mBuffer.GetString();
+
+  auto fp = fopen(filename.c_str(), "w+");
+  if (!fp) {
+    CCLOG("Warning: cannot access the file : %s", filename.c_str());
+    return;
+  }
+  fprintf(fp, "%s", mBuffer.GetString());
+  fclose(fp);
 }
 
 std::string JsonWriter::getTimeString() {

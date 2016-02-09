@@ -34,6 +34,7 @@
 #define LEVEL_BLOCK_SHADOW_ENABLE "shadowEnable"
 #define LEVEL_BLOCK_KIND "kind"
 #define LEVEL_BLOCK_PALETTE_ID "paletteIndex"
+#define LEVEL_BLOCK_CHILDREN "children"
 
 #define RENDERER_SHADOW "shadowEnable"
 #define RENDERER_SHADOW_LAYER "shadowLayer"

@@ -31,12 +31,11 @@ JsonParser::~JsonParser() {
 }
 
 std::string JsonParser::getBuffer(const std::string &file) {
-  std::ifstream fileStream(file);
-  if (!fileStream) {
-    return "";
+  auto filename = file;
+  if (filename.find("local/") == 0) {
+    filename.insert(0, "maps/");
   }
-  return std::string((std::istreambuf_iterator<char>(fileStream)),
-                     std::istreambuf_iterator<char>());
+  return FileUtils::getInstance()->getStringFromFile(filename);
 }
 
 bool JsonParser::parseArray(const std::string &key, ParseCallback func) {

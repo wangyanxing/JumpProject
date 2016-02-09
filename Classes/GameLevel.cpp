@@ -25,6 +25,8 @@
 #include "CameraShake.h"
 #include "TemplateFile.h"
 
+#include <regex>
+
 USING_NS_CC;
 
 #define DIE_FX_TAG 1001
@@ -106,6 +108,7 @@ void GameLevel::load(const std::string &levelFile) {
   std::string buffer = levelFile.empty() ? sTemplateMap : JsonParser::getBuffer(levelFile);
   JsonParser parser(buffer);
   if (!parser) {
+    CCLOG("%s", buffer.c_str());
     CCLOGERROR("Cannot load the level file: %s", levelFile.c_str());
   }
 
@@ -115,7 +118,7 @@ void GameLevel::load(const std::string &levelFile) {
   std::string paletteFile = doc[LEVEL_PALETTE_FILE].GetString();
   CC_SAFE_DELETE(mPalette);
   mPalette = new ColorPalette(paletteFile);
-  
+
   // Shadows.
   if (doc.HasMember(SHADOW_GROUP)) {
     mNumShadowGroup = doc[SHADOW_GROUP].Size();
@@ -164,7 +167,7 @@ void GameLevel::load(const std::string &levelFile) {
                              {mBounds.getMaxX(), mBounds.getMaxY()},
                              Color4F(mPalette->getBackgroundColor()));
 
-  mCurrentLevelFile = levelFile;
+  setCurrentFile(levelFile);
 
   mGameLayer->afterLoad();
   enableGame(true);
@@ -373,6 +376,31 @@ void GameLevel::addShadowGroup() {
 
 void GameLevel::initShadowGroup(int groupId) {
   mShadows[groupId]->init(mShadowNode[groupId]);
+}
+
+void GameLevel::setCurrentFile(const std::string &file) {
+  std::string rawFile = file;
+  std::regex rx("(\\/|\\\\)?(local|remote)(\\/|\\\\)(\\w)*.json$", std::regex_constants::icase);
+  std::regex rxback("(\\/|\\\\)(\\w)*.json$", std::regex_constants::icase);
+  std::smatch base_match;
+
+  auto ret = std::regex_search(rawFile, base_match, rx);
+  if (ret) {
+    rawFile = base_match[0].str();
+  } else {
+    ret = std::regex_search(rawFile, base_match, rxback);
+    if (ret) {
+      rawFile = base_match[0].str();
+    }
+  }
+
+  if (rawFile.empty()) {
+    rawFile = file;
+  }
+  if (rawFile[0] == '\\' || rawFile[0] == '/') {
+    rawFile.erase(rawFile.begin(), rawFile.begin() + 1);
+  }
+  mCurrentLevelFile = rawFile;
 }
 
 void GameLevel::loadFx() {

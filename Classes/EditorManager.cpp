@@ -375,6 +375,20 @@ void EditorManager::pathEditorMode(bool mode) {
   }
 }
 
+void EditorManager::groupObjects() {
+  if (mSelections.size() < 2) {
+    return;
+  }
+  auto head = mSelections[0];
+  if (head->hasChildren()) {
+    head->removeAllChildren();
+  } else {
+    for (size_t i = 1; i < mSelections.size(); ++i) {
+      head->addChild(mSelections[i]->getID());
+    }
+  }
+}
+
 void EditorManager::addPathPoint() {
   CC_ASSERT(mPathEditMode);
 
@@ -485,6 +499,11 @@ void EditorManager::registerInputs() {
     for (auto obj : mSelections) {
       obj->runCommand(COMMAND_EDITOR, {{PARAM_EDITOR_COMMAND, Any(EDITOR_CMD_ROTATE)}});
     }
+  });
+
+  // Group.
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_J, [this](GameInputs::KeyCode key) {
+    groupObjects();
   });
 
   // Delete.

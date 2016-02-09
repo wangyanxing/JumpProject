@@ -96,6 +96,8 @@ private:
 
   void unloadFx();
 
+  void setCurrentFile(const std::string &file);
+
 private:
   ObjectManager *mObjectManager{nullptr};
 

@@ -7,6 +7,7 @@
 //
 
 #include "GameObject.h"
+#include "GameLevel.h"
 #include "GameRenderer.h"
 #include "PhysicsShape.h"
 #include "PhysicsComponent.h"
@@ -22,6 +23,8 @@
 #include "JsonFormat.h"
 #include "EditorManager.h"
 #include "BlockKindConfigs.h"
+#include "ObjectManager.h"
+#include "MathTools.h"
 
 USING_NS_CC;
 
@@ -83,10 +86,11 @@ GameRenderer *GameObject::setRenderer(GameRenderer *renderer) {
 }
 
 void GameObject::update(float dt) {
+  mLastPosition = mRenderer->getPosition();
+
   if (mEnabled) {
     mRenderer->update(dt);
   }
-
   for (auto component : mComponents) {
     if (mEnabled || component.second->forceUpdate()) {
       component.second->update(dt);
@@ -100,7 +104,35 @@ void GameObject::beforeRender(float dt) {
       component.second->beforeRender(dt);
     }
   }
+  updateChildren();
   updateHelpers();
+}
+
+void GameObject::addChild(int childID) {
+  mChildren.insert(childID);
+}
+
+void GameObject::removeChild(int childID) {
+  mChildren.erase(childID);
+}
+
+void GameObject::removeAllChildren() {
+  mChildren.clear();
+}
+
+bool GameObject::hasChildren() const {
+  return !mChildren.empty();
+}
+
+void GameObject::updateChildren() {
+  auto movement = mRenderer->getPosition() - mLastPosition;
+  for (auto id : mChildren) {
+    auto child = GameLevel::instance().getObjectManager()->getObjectByID(id);
+    if (child) {
+      auto pos = child->getRenderer()->getPosition();
+      child->getRenderer()->setPosition(pos + movement);
+    }
+  }
 }
 
 void GameObject::load(JsonValueT &json) {
@@ -108,6 +140,13 @@ void GameObject::load(JsonValueT &json) {
 
   if (json.HasMember(PATH_ARRAY)) {
     addComponent(COMPONENT_PATH);
+  }
+
+  if (json.HasMember(LEVEL_BLOCK_CHILDREN)) {
+    auto size = json[LEVEL_BLOCK_CHILDREN].Size();
+    for (auto i = 0; i < size; ++i) {
+      addChild(json[LEVEL_BLOCK_CHILDREN][i].GetInt());
+    }
   }
 
   for (auto comp : mComponents) {
@@ -199,6 +238,15 @@ void GameObject::save(JsWriter &writer) {
     comp.second->save(writer);
   }
 
+  if (!mChildren.empty()) {
+    writer.String(LEVEL_BLOCK_CHILDREN);
+    writer.StartArray();
+    for (auto id : mChildren) {
+      writer.Int(id);
+    }
+    writer.EndArray();
+  }
+
   writer.EndObject();
 }
 
@@ -260,6 +308,7 @@ void GameObject::release() {
     CC_SAFE_DELETE(component.second);
   }
   mComponents.clear();
+  mChildren.clear();
   mHelperNode->removeFromParent();
 }
 
@@ -305,6 +354,11 @@ void GameObject::initHelpers() {
     idLabel->setCameraMask((unsigned short) CameraFlag::USER2);
     idLabel->setScale(0.5f);
     mHelperNode->addChild(idLabel, ZORDER_EDT_HELPER_LABEL);
+
+    // Group.
+    mGroupHelper = DrawNode::create();
+    mGroupHelper->setCameraMask((unsigned short) CameraFlag::USER2);
+    mHelperNode->addChild(mGroupHelper, 100);
   }
 }
 
@@ -312,9 +366,32 @@ void GameObject::updateHelpers() {
   if (!mHelperNode->isVisible()) {
     return;
   }
-  
+
   mHelperNode->setPosition(getRenderer()->getNode()->getPosition());
   for (auto component : mComponents) {
     component.second->updateHelpers();
+  }
+
+  if (mGroupHelper) {
+    mGroupHelper->clear();
+    auto pos = getRenderer()->getPosition();
+    for (auto id : mChildren) {
+      auto child = GameLevel::instance().getObjectManager()->getObjectByID(id);
+      if (child) {
+        auto childPos = child->getRenderer()->getPosition() - pos;
+        mGroupHelper->drawLine(Vec2::ZERO, childPos, Color4F::GREEN);
+
+        Vec2 dir = childPos.getNormalized();
+        Vec2 c = dir * 20;
+        float squartSum = sqrtf(dir.x * dir.x * + dir.y * dir.y);
+        Vec2 ped1(dir.y / squartSum, -dir.x / squartSum);
+        Vec2 ped2(-dir.y / squartSum, dir.x / squartSum);
+        mGroupHelper->drawSolidCircle(childPos, 3, 0, 8, 1, 1, Color4F::GREEN);
+        mGroupHelper->drawTriangle(Vec2::ZERO,
+                                   c + ped1.getNormalized() * 5,
+                                   c + ped2.getNormalized() * 5,
+                                   Color4F::GREEN);
+      }
+    }
   }
 }

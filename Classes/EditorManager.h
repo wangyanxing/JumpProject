@@ -59,6 +59,8 @@ private:
 
   void addPathPoint();
 
+  void groupObjects();
+
   void alignObjects(const cocos2d::Vec2 &dir);
 
   void moveObjects(const cocos2d::Vec2 &dir);

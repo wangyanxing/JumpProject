@@ -13,8 +13,6 @@
 #include "SpriteUV.h"
 #include "GameUtils.h"
 
-#include <regex>
-
 USING_NS_CC;
 
 #define LEFT_GAP 10
@@ -78,30 +76,8 @@ void UILayer::addMessage(const char *message) {
 }
 
 void UILayer::setFileName(const std::string &file) {
-  std::string rawFile = file;
-  std::regex rx("(\\/|\\\\)(local|remote)(\\/|\\\\)(\\w)*.json$", std::regex_constants::icase);
-  std::regex rxback("(\\/|\\\\)(\\w)*.json$", std::regex_constants::icase);
-  std::smatch base_match;
-
-  auto ret = std::regex_search(rawFile, base_match, rx);
-  if (ret) {
-    rawFile = base_match[0].str();
-  } else {
-    ret = std::regex_search(rawFile, base_match, rxback);
-    if (ret) {
-      rawFile = base_match[0].str();
-    }
-  }
-
-  if (rawFile.empty()) {
-    rawFile = file;
-  }
-  if (rawFile[0] == '\\' || rawFile[0] == '/') {
-    rawFile.erase(rawFile.begin(), rawFile.begin() + 1);
-  }
-
   std::string text = "File: ";
-  mFileNameLabel->setString(text + rawFile);
+  mFileNameLabel->setString(text + file);
   auto size = mFileNameLabel->getBoundingBox().size;
   auto h = mLayer->getBoundingBox().size.height;
   mFileNameLabel->setPosition(LEFT_GAP + size.width / 2, h - size.height / 2 + EDT_UI_YBIAS);

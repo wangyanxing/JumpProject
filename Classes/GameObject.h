@@ -103,6 +103,16 @@ public:
 
   void changeKind(BlockKind kind);
 
+  void updateChildren();
+
+  void addChild(int childID);
+
+  void removeChild(int childID);
+
+  void removeAllChildren();
+
+  bool hasChildren() const;
+
 private:
   void release();
 
@@ -127,6 +137,12 @@ private:
 
   // For editor and debugging purpose.
   cocos2d::Node *mHelperNode{nullptr};
+
+  cocos2d::DrawNode *mGroupHelper{nullptr};
+
+  cocos2d::Vec2 mLastPosition;
+
+  std::unordered_set<int> mChildren;
 };
 
 #endif /* GameObject_h */

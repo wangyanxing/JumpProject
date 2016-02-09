@@ -34,4 +34,6 @@ namespace cocos2d {
 #include "Defines.h"
 #include "DebugTools.h"
 
+#include <unordered_set>
+
 #endif /* Prerequisites_h */
