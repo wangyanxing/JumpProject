@@ -56,6 +56,10 @@ void GameLevel::release() {
 }
 
 void GameLevel::update(float dt) {
+  if (mPause) {
+    return;
+  }
+
   if (mGameEnabled) {
     if (mDieFlag) {
       dieImpl();
@@ -82,6 +86,9 @@ void GameLevel::update(float dt) {
 }
 
 void GameLevel::beforeRender(float dt) {
+  if (mPause) {
+    return;
+  }
   mPhysicsManager->beforeRender(dt);
   for (auto &obj : mObjectManager->mObjects) {
     obj.second->beforeRender(dt);
@@ -259,8 +266,7 @@ void GameLevel::dieImpl() {
   mDieFlag = false;
 
   CCLOG("Die!");
-
-  enableGame(false);
+  pause();
 
   // Camera effect.
   getGameLayer()->getBlockRoot()->runAction(CameraShake::create(0.3f, 10));
@@ -281,6 +287,7 @@ void GameLevel::dieImpl() {
   }), nullptr));
 
   mGameLayer->runAction(Sequence::create(DelayTime::create(0.5), CallFunc::create([this] {
+    enableGame(false);
     enableGame(true);
   }), nullptr));
 }
@@ -290,6 +297,7 @@ void GameLevel::enableGame(bool enable) {
     return;
   }
   mGameEnabled = enable;
+  mPause = false;
 
   reset();
 
@@ -303,6 +311,14 @@ void GameLevel::enableGame(bool enable) {
     obj.second->setEnabled(enable);
   }
   mGameLayer->onGameEnabled(mGameEnabled);
+}
+
+void GameLevel::pause() {
+  mPause = true;
+}
+
+void GameLevel::resume() {
+  mPause = false;
 }
 
 void GameLevel::reset() {
@@ -338,8 +354,7 @@ void GameLevel::updateBounds() {
 }
 
 void GameLevel::updateCamera(cocos2d::Camera *cam, bool forceUpdate) {
-  auto p = cam->getPosition();
-  if (!mGameEnabled && !forceUpdate) {
+  if ((!mGameEnabled || mPause) && !forceUpdate) {
     return;
   }
   auto halfFrame = VisibleRect::getFrameSize() / 2;
@@ -430,7 +445,7 @@ void GameLevel::unloadFx() {
 
 void GameLevel::showWinCurtain() {
   initCurtainPos();
-  enableGame(false);
+  pause();
 
   auto camPos = mGameLayer->getCamera()->getPosition();
   float curtainTime = GameConfig::instance().CurtainMoveTime;
@@ -438,6 +453,7 @@ void GameLevel::showWinCurtain() {
   mGameLayer->getCamera()->runAction(Sequence::create(MoveBy::create(curtainTime, offset),
                                                       CallFunc::create([this]() {
     mWinFlag = false;
+    enableGame(false);
     if (mWinGameEvent) {
       mWinGameEvent();
     }

@@ -34,6 +34,14 @@ public:
 
   void enableGame(bool enable);
 
+  void pause();
+
+  void resume();
+
+  bool isPause() const {
+    return mPause;
+  }
+
   void die();
 
   void win();
@@ -147,6 +155,8 @@ private:
   std::function<void()> mWinGameEvent;
 
   bool mWinFlag{false};
+
+  bool mPause{false};
 };
 
 #endif /* GameLevel_h */
