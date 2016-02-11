@@ -9,13 +9,11 @@
 #ifndef __JumpEdt__GameScene__
 #define __JumpEdt__GameScene__
 
-#include "Defines.h"
-#include "LogicManager.h"
+#include "Prerequisites.h"
 #include "GameLayerContainer.h"
 
 #if !EDITOR_MODE
 
-class GameLogic;
 class BlockBase;
 
 class GameScene : public GameLayerContainer {

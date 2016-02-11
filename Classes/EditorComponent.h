@@ -12,6 +12,8 @@
 #include "Prerequisites.h"
 #include "GameComponent.h"
 
+#if EDITOR_MODE
+
 class EditorComponent : public GameComponent {
 public:
   EditorComponent(GameObject *parent);
@@ -42,5 +44,7 @@ private:
 
   bool mIsFirstSelection{false};
 };
+
+#endif
 
 #endif /* EditorComponent_h */

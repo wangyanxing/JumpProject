@@ -6,6 +6,8 @@
 //
 //
 
+#if EDITOR_MODE
+
 #include "EditorComponent.h"
 #include "EditorManager.h"
 #include "PhysicsComponent.h"
@@ -105,3 +107,5 @@ void EditorComponent::runCommand(ComponentCommand type, const Parameter &param) 
     mParent->getRenderer()->setSize({size.height, size.width});
   }
 }
+
+#endif

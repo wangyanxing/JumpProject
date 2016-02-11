@@ -116,9 +116,11 @@ public:
 private:
   void release();
 
+#if EDITOR_MODE
   void initHelpers();
 
   void updateHelpers();
+#endif
 
 private:
   int mID{0};

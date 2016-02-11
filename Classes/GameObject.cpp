@@ -105,7 +105,10 @@ void GameObject::beforeRender(float dt) {
     }
   }
   updateChildren();
+
+#if EDITOR_MODE
   updateHelpers();
+#endif
 }
 
 void GameObject::addChild(int childID) {
@@ -278,9 +281,11 @@ GameComponent* GameObject::addComponent(ComponentType type) {
     case COMPONENT_BUTTON:
       component = new ButtonComponent(this);
       break;
+#if EDITOR_MODE
     case COMPONENT_EDITOR:
       component = new EditorComponent(this);
       break;
+#endif
     case COMPONENT_ROTATOR:
     default:
       CCLOGERROR("Invalid component type");
@@ -332,6 +337,7 @@ bool GameObject::containsPoint(const cocos2d::Vec2 &pt) {
   }
 }
 
+#if EDITOR_MODE
 void GameObject::initHelpers() {
   CC_ASSERT(!mHelperNode);
   mHelperNode = Node::create();
@@ -395,3 +401,4 @@ void GameObject::updateHelpers() {
     }
   }
 }
+#endif

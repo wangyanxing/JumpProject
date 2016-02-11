@@ -75,10 +75,12 @@ void GameLayerContainer::onEnter() {
 #endif
 }
 
+#if !USE_REFACTOR
 bool GameLayerContainer::onCollisionDetected(cocos2d::PhysicsContact &contact,
                                              cocos2d::PhysicsContactPreSolve &solve) {
   return mGame->onContactPreSolve(contact, solve);
 }
+#endif
 
 void GameLayerContainer::update(float dt) {
 #if !USE_REFACTOR

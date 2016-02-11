@@ -12,6 +12,8 @@
 #include "Prerequisites.h"
 #include "Singleton.h"
 
+#if EDITOR_MODE
+
 class EditorManager {
 public:
   DECL_SIMPLE_SINGLETON(EditorManager);
@@ -86,5 +88,7 @@ private:
 
   bool mPathEditMode{false};
 };
+
+#endif
 
 #endif /* EditorManager_h */

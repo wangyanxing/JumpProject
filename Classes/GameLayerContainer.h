@@ -55,20 +55,21 @@ public:
     return mCamera;
   }
 
-  GameLogic *getGame() {
-    return mGame;
-  }
-
   cocos2d::Node *getBlockRoot() {
     return mBlockRoot;
   }
 
+#if !USE_REFACTOR
+  GameLogic *getGame() {
+    return mGame;
+  }
+  
 protected:
   bool onCollisionDetected(cocos2d::PhysicsContact &contact,
                            cocos2d::PhysicsContactPreSolve &solve);
 
-private:
   GameLogic *mGame{nullptr};
+#endif
 
   cocos2d::Node *mBlockRoot{nullptr};
 

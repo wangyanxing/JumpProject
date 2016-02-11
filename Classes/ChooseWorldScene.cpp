@@ -11,6 +11,7 @@
 #include "VisibleRect.h"
 #include "LogicManager.h"
 #include "MapSerial.h"
+#include "GameLevel.h"
 
 #if !EDITOR_MODE
 
@@ -30,8 +31,13 @@ bool ChooseWorldScene::init() {
 
   // Load UI game.
   auto uiFile = FileUtils::getInstance()->getWritablePath() + "choose_world.json";
+
+#if USE_REFACTOR
+  GameLevel::instance().load(uiFile.c_str());
+#else
   MapSerial::loadMap(uiFile.c_str());
   getGame()->enableGame(true);
+#endif
   return true;
 }
 

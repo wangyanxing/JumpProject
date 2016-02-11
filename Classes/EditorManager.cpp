@@ -6,6 +6,8 @@
 //
 //
 
+#if EDITOR_MODE
+
 #include "EditorManager.h"
 #include "GameLevel.h"
 #include "GameObject.h"
@@ -563,3 +565,5 @@ void EditorManager::registerInputs() {
     mSelections = newSelection;
   });
 }
+
+#endif

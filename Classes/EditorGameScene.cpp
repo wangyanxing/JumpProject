@@ -20,6 +20,7 @@
 #include "UILayer.h"
 
 #if USE_REFACTOR
+#if EDITOR_MODE
 
 USING_NS_CC;
 
@@ -120,4 +121,5 @@ void EditorGameScene::afterLoad() {
   UILayer::Layer->addMessage("File loaded");
 }
 
+#endif
 #endif

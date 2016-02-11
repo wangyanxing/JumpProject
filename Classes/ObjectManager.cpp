@@ -91,9 +91,8 @@ GameObject *ObjectManager::createObjectImpl(Parameter &param, int id) {
 
 #if EDITOR_MODE
   obj->addComponent(COMPONENT_EDITOR);
-#endif
-
   obj->initHelpers();
+#endif
   
   CC_ASSERT(!mObjects.count(obj->mID));
   mObjects[obj->mID] = obj;
@@ -115,7 +114,10 @@ GameObject *ObjectManager::cloneObject(GameObject *object, bool posOffset) {
           ->clone(comp.second);
   }
 
+#if EDITOR_MODE
   newObj->initHelpers();
+#endif
+  
   newObj->getHelperNode()->setVisible(object->getHelperNode()->isVisible());
 
   Vec2 positionOffset = posOffset ? Vec2(20, 20) : Vec2::ZERO;

@@ -14,6 +14,8 @@
 #include "LevelScene.h"
 #include "LogicManager.h"
 #include "ControlPad.h"
+#include "GameLevel.h"
+#include "GameObject.h"
 
 #if !EDITOR_MODE
 
@@ -23,6 +25,7 @@ GameScene::GameScene() : GameLayerContainer() {
 }
 
 GameScene::~GameScene() {
+  GameLevel::instance().release();
 }
 
 void GameScene::onEnter() {
@@ -51,8 +54,10 @@ void GameScene::onEnter() {
   };
   _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
+#if !USE_REFACTOR
   getGame()->updateCamera(getCamera(), true);
   getGame()->showBeginCurtain();
+#endif
 }
 
 void GameScene::onEnterTransitionDidFinish() {
@@ -60,6 +65,7 @@ void GameScene::onEnterTransitionDidFinish() {
 }
 
 bool GameScene::init() {
+  GameLevel::instance().init(this);
   GameLayerContainer::init();
 
   createControlPad();
@@ -72,9 +78,13 @@ void GameScene::update(float dt) {
 }
 
 void GameScene::enterGame(const std::string &name, bool absPath) {
+#if USE_REFACTOR
+  GameLevel::instance().load(absPath ? name : FileUtils::getInstance()->fullPathForFilename(name));
+#else
   MapSerial::loadMap(absPath ? name : FileUtils::getInstance()->fullPathForFilename(name));
-
   getGame()->enableGame(false);
+#endif
+
   mLeftButton->setVisible(true);
   mRightButton->setVisible(true);
   mJumpButton->setVisible(true);
@@ -101,17 +111,29 @@ void GameScene::onTouch(const cocos2d::Vec2 &pos) {
 
   if (boundLeft.containsPoint(pos)) {
     mLeftButton->setOpacity(255);
+#if USE_REFACTOR
+    GameLevel::instance().getHero()->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_LEFT)}});
+#else
     getGame()->mMoveLeft = true;
     getGame()->mMoveRight = false;
+#endif
   } else if (boundRight.containsPoint(pos)) {
     mRightButton->setOpacity(255);
+#if USE_REFACTOR
+    GameLevel::instance().getHero()->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_RIGHT)}});
+#else
     getGame()->mMoveLeft = false;
     getGame()->mMoveRight = true;
+#endif
   }
 
   if (mCanJump && boundJump.containsPoint(pos)) {
     mJumpButton->setOpacity(255);
+#if USE_REFACTOR
+    GameLevel::instance().getHero()->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_JUMP)}});
+#else
     getGame()->mJumpFlag = true;
+#endif
     mCanJump = false;
   }
 }
@@ -121,8 +143,10 @@ void GameScene::onEndTouch(const cocos2d::Vec2 &pos) {
     if (pos.x < VisibleRect::center().x) {
       mLeftButton->setOpacity(CONTROL_BUTTON_OPACITY);
       mRightButton->setOpacity(CONTROL_BUTTON_OPACITY);
+#if !USE_REFACTOR
       getGame()->mMoveLeft = false;
       getGame()->mMoveRight = false;
+#endif
     } else {
       mCanJump = true;
       mJumpButton->setOpacity(CONTROL_BUTTON_OPACITY);
@@ -131,7 +155,11 @@ void GameScene::onEndTouch(const cocos2d::Vec2 &pos) {
 }
 
 void GameScene::enableGame(bool v) {
+#if USE_REFACTOR
+  GameLevel::instance().enableGame(v);
+#else
   getGame()->enableGame(v);
+#endif
   mLeftButton->setVisible(v);
   mRightButton->setVisible(v);
   mJumpButton->setVisible(v);
@@ -169,7 +197,11 @@ void GameScene::createMenuButtons() {
       "images/button_pause.png",
       "images/button_pause.png",
       [&](Ref *) {
+#if USE_REFACTOR
+        GameLevel::instance().pause();
+#else
         getGame()->pauseGame(true);
+#endif
         showPauseUI(true);
       });
 
@@ -194,7 +226,11 @@ void GameScene::createMenuButtons() {
                                          ScaleTo::create(0.1f, buttonScale),
                                          CallFunc::create([&](){
           showPauseUI(false);
+#if USE_REFACTOR
+          GameLevel::instance().resume();
+#else
           getGame()->pauseGame(false);
+#endif
       }), nullptr));
     });
   auto replayButton = MenuItemImage::create(
@@ -206,7 +242,12 @@ void GameScene::createMenuButtons() {
                                           ScaleTo::create(0.1f, buttonScale),
                                           CallFunc::create([&](){
           showPauseUI(false);
-          getGame()->restartGame();
+#if USE_REFACTOR
+        GameLevel::instance().enableGame(false);
+        GameLevel::instance().enableGame(true);
+#else
+        getGame()->restartGame();
+#endif
       }), nullptr));
     });
   auto returnButton = MenuItemImage::create(
