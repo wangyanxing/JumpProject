@@ -114,7 +114,10 @@ void GameScene::onTouch(const cocos2d::Vec2 &pos) {
   if (boundLeft.containsPoint(pos)) {
     mLeftButton->setOpacity(255);
 #if USE_REFACTOR
-    GameLevel::instance().getHero()->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_LEFT)}});
+    GameLevel::instance().getHero()->runCommand(COMMAND_INPUT, {
+      {PARAM_INPUT, Any(INPUT_LEFT)},
+      {PARAM_INPUT_STATUS, Any(true)}
+    });
 #else
     getGame()->mMoveLeft = true;
     getGame()->mMoveRight = false;
@@ -122,7 +125,10 @@ void GameScene::onTouch(const cocos2d::Vec2 &pos) {
   } else if (boundRight.containsPoint(pos)) {
     mRightButton->setOpacity(255);
 #if USE_REFACTOR
-    GameLevel::instance().getHero()->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_RIGHT)}});
+    GameLevel::instance().getHero()->runCommand(COMMAND_INPUT, {
+      {PARAM_INPUT, Any(INPUT_RIGHT)},
+      {PARAM_INPUT_STATUS, Any(true)}
+    });
 #else
     getGame()->mMoveLeft = false;
     getGame()->mMoveRight = true;
@@ -132,7 +138,10 @@ void GameScene::onTouch(const cocos2d::Vec2 &pos) {
   if (mCanJump && boundJump.containsPoint(pos)) {
     mJumpButton->setOpacity(255);
 #if USE_REFACTOR
-    GameLevel::instance().getHero()->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_JUMP)}});
+    GameLevel::instance().getHero()->runCommand(COMMAND_INPUT, {
+      {PARAM_INPUT, Any(INPUT_JUMP)},
+      {PARAM_INPUT_STATUS, Any(true)}
+    });
 #else
     getGame()->mJumpFlag = true;
 #endif
@@ -145,7 +154,16 @@ void GameScene::onEndTouch(const cocos2d::Vec2 &pos) {
     if (pos.x < VisibleRect::center().x) {
       mLeftButton->setOpacity(CONTROL_BUTTON_OPACITY);
       mRightButton->setOpacity(CONTROL_BUTTON_OPACITY);
-#if !USE_REFACTOR
+#if USE_REFACTOR
+      GameLevel::instance().getHero()->runCommand(COMMAND_INPUT, {
+        {PARAM_INPUT, Any(INPUT_LEFT)},
+        {PARAM_INPUT_STATUS, Any(false)}
+      });
+      GameLevel::instance().getHero()->runCommand(COMMAND_INPUT, {
+        {PARAM_INPUT, Any(INPUT_RIGHT)},
+        {PARAM_INPUT_STATUS, Any(false)}
+      });
+#else
       getGame()->mMoveLeft = false;
       getGame()->mMoveRight = false;
 #endif

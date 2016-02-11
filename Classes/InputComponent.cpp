@@ -19,6 +19,15 @@ InputComponent::~InputComponent() {
   mParent->removeComponentCommand(COMMAND_INPUT);
 }
 
+void InputComponent::update(float dt) {
+  auto physics = mParent->getComponent<PhysicsComponent>();
+  if (mPressingLeft) {
+    physics->setAccelerationX(-GameConfig::instance().MoveAcceleration);
+  } else if (mPressingRight) {
+    physics->setAccelerationX(GameConfig::instance().MoveAcceleration);
+  }
+}
+
 void InputComponent::runCommand(ComponentCommand type, const Parameter &param) {
   if (!isEnabled()) {
     return;
@@ -26,13 +35,14 @@ void InputComponent::runCommand(ComponentCommand type, const Parameter &param) {
 
   CC_ASSERT(type == COMMAND_INPUT);
   auto input = param.get<InputType>(PARAM_INPUT);
-  auto physics = mParent->getComponent<PhysicsComponent>();
+  auto pressed = param.get<bool>(PARAM_INPUT_STATUS);
   
   if (input == INPUT_LEFT) {
-    physics->setAccelerationX(-GameConfig::instance().MoveAcceleration);
+    mPressingLeft = pressed;
   } else if (input == INPUT_RIGHT) {
-    physics->setAccelerationX(GameConfig::instance().MoveAcceleration);
-  } else if (input == INPUT_JUMP) {
+    mPressingRight = pressed;
+  } else if (input == INPUT_JUMP && pressed) {
+    auto physics = mParent->getComponent<PhysicsComponent>();
     physics->setAccelerationY(GameConfig::instance().JumpAcceleration);
   }
 }

@@ -22,6 +22,7 @@ enum ParamType {
   PARAM_SHAPE_TYPE,     // PhysicsShapeType
   PARAM_BLOCK_KIND,     // BlockKind
   PARAM_INPUT,          // InputType
+  PARAM_INPUT_STATUS,   // bool
   PARAM_COLLISION_INFO, // CollisionInfo
   PARAM_REMOVABLE,      // bool
   PARAM_RESUME_PATH,    // bool

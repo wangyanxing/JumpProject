@@ -56,7 +56,10 @@ bool EditorGameScene::init() {
 
   GameInputs::instance().addKeyboardEvent(EventKeyboard::KeyCode::KEY_SPACE,
                                           [&](GameInputs::KeyCode key) {
-      GameLevel::instance().getHero()->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_JUMP)}});
+      GameLevel::instance().getHero()->runCommand(COMMAND_INPUT, {
+        {PARAM_INPUT, Any(INPUT_JUMP)},
+        {PARAM_INPUT_STATUS, Any(true)}
+      });
   });
 
   EditorManager::instance().init();
@@ -77,15 +80,18 @@ void EditorGameScene::postUpdate(float dt) {
 }
 
 void EditorGameScene::processInput() {
-  auto &gameInputs = GameInputs::instance();
-
   if (GameLevel::instance().isGameEnabled()) {
+    bool pressingLeft = GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_A);
+    bool pressingRight = GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_D);
     auto hero = GameLevel::instance().getHero();
-    if (gameInputs.isPressing(EventKeyboard::KeyCode::KEY_A)) {
-      hero->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_LEFT)}});
-    } else if (gameInputs.isPressing(EventKeyboard::KeyCode::KEY_D)) {
-      hero->runCommand(COMMAND_INPUT, {{PARAM_INPUT, Any(INPUT_RIGHT)}});
-    }
+    hero->runCommand(COMMAND_INPUT, {
+      {PARAM_INPUT, Any(INPUT_LEFT)},
+      {PARAM_INPUT_STATUS, Any(pressingLeft)}
+    });
+    hero->runCommand(COMMAND_INPUT, {
+      {PARAM_INPUT, Any(INPUT_RIGHT)},
+      {PARAM_INPUT_STATUS, Any(pressingRight)}
+    });
   }
 }
 

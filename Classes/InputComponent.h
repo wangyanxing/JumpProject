@@ -22,9 +22,14 @@ public:
   
   DECLARE_COMP_TYPE(COMPONENT_INPUT);
   
-  void update(float dt) override {}
+  void update(float dt) override;
 
   void runCommand(ComponentCommand type, const Parameter &param) override;
+
+private:
+  bool mPressingLeft{false};
+
+  bool mPressingRight{false};
 };
 
 #endif /* InputComponent_h */
