@@ -19,6 +19,8 @@ using namespace cocos2d::ui;
 #include "MapSerial.h"
 #include "PathLib.h"
 #include "GameScene.h"
+#include "GameLevel.h"
+#include "HttpHelper.h"
 
 using namespace CocosDenshion;
 
@@ -38,7 +40,11 @@ bool LevelScene::init() {
   }
   instance = this;
 
+#if USE_REFACTOR
+  HttpHelper::getAllMaps();
+#else
   MapSerial::saveRemoteMaps();
+#endif
 
   Size size = Director::getInstance()->getWinSize();
   Director::getInstance()->setClearColor(Color4F::WHITE);

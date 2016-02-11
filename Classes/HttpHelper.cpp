@@ -7,10 +7,14 @@
 //
 
 #include "HttpHelper.h"
-#include "MapSerial.h"
+#include "PathLib.h"
+
 #include "external/json/document.h"
 #include "external/json/rapidjson.h"
+
 #include <time.h>
+#include <regex>
+#include <fstream>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 #   include <windows.h>
@@ -22,7 +26,6 @@
 #endif
 
 #define RUN_LOCAL 0
-
 #if RUN_LOCAL
 #   define GET_URL "https://0.0.0.0:3000/maps.json"
 #   define PUSH_URL "https://0.0.0.0:3000/maps.json"
@@ -32,6 +35,7 @@
 #endif
 
 using namespace rapidjson;
+USING_NS_CC;
 
 std::vector<MapResource> HttpHelper::sAllMaps;
 
@@ -75,7 +79,7 @@ void HttpHelper::getAllMaps() {
         }
 
         delete[] buffer;
-        MapSerial::afterLoadRemoteMaps();
+        afterLoadRemoteMaps();
       } else {
         CCLOG("[HTTP] GET ERROR(code %ld): %s",
               response->getResponseCode(),
@@ -122,4 +126,31 @@ void HttpHelper::uploadMap(const std::string &name,
   CCLOG("[HTTP] Uploading level file (%s) to server..", name.c_str());
   cocos2d::network::HttpClient::getInstance()->send(request);
   request->release();
+}
+
+void HttpHelper::afterLoadRemoteMaps() {
+  std::smatch base_match;
+  std::regex rx("^(\\S)*\\.json$");
+
+  for (auto &m : HttpHelper::sAllMaps) {
+    auto ret = std::regex_match(m.name, base_match, rx);
+    if (!ret) {
+      m.name += ".json";
+    }
+
+    std::string fullpath = PathLib::getMapDir();
+    if (fullpath.size() == 0) {
+      CCLOGWARN("Warning: cannot locate the maps folder!");
+      continue;
+    }
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    fullpath = FileUtils::getInstance()->getWritablePath() + m.name;
+#else
+    fullpath += "/remote/" + m.name;
+#endif
+
+    std::ofstream fileStream(fullpath);
+    fileStream << m.content;
+  }
 }

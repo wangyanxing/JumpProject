@@ -6,8 +6,6 @@
 //
 //
 
-#if EDITOR_MODE
-
 #include "EditorComponent.h"
 #include "EditorManager.h"
 #include "PhysicsComponent.h"
@@ -15,6 +13,8 @@
 #include "GameObject.h"
 #include "GameRenderer.h"
 #include "GameLevel.h"
+
+#if EDITOR_MODE
 
 USING_NS_CC;
 

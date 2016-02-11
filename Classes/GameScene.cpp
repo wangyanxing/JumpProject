@@ -33,28 +33,30 @@ void GameScene::onEnter() {
 
   auto touchListener = EventListenerTouchAllAtOnce::create();
   touchListener->onTouchesBegan = [&](const std::vector<Touch *> &touches, Event *event) {
-      for (auto &t : touches) {
-        onTouch(t->getLocation());
-      }
+    for (auto &t : touches) {
+      onTouch(t->getLocation());
+    }
   };
   touchListener->onTouchesMoved = [&](const std::vector<Touch *> &touches, Event *) {
-      for (auto &t : touches) {
-        onTouch(t->getLocation());
-      }
+    for (auto &t : touches) {
+      onTouch(t->getLocation());
+    }
   };
   touchListener->onTouchesEnded = [&](const std::vector<Touch *> &touches, Event *) {
-      for (auto &t : touches) {
-        onEndTouch(t->getLocation());
-      }
+    for (auto &t : touches) {
+      onEndTouch(t->getLocation());
+    }
   };
   touchListener->onTouchesCancelled = [&](const std::vector<Touch *> &touches, Event *) {
-      for (auto &t : touches) {
-        onEndTouch(t->getLocation());
-      }
+    for (auto &t : touches) {
+      onEndTouch(t->getLocation());
+    }
   };
   _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
-#if !USE_REFACTOR
+#if USE_REFACTOR
+  GameLevel::instance().updateCamera(getCamera(), true);
+#else
   getGame()->updateCamera(getCamera(), true);
   getGame()->showBeginCurtain();
 #endif

@@ -30,9 +30,9 @@ public:
    */
   static void resetCurrentDir();
 
-#if EDITOR_MODE
-
   static std::string getMapDir();
+
+#if EDITOR_MODE
 
   static std::string openJsonFile(const std::string &title, const std::string &path);
 

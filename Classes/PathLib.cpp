@@ -35,6 +35,8 @@ void PathLib::openInSystem(const char *file) {
 #endif
 }
 
+#endif
+
 std::string PathLib::getMapDir() {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
   static std::string fullpath;
@@ -52,8 +54,6 @@ std::string PathLib::getMapDir() {
 #endif
   return fullpath.c_str();
 }
-
-#endif
 
 bool PathLib::endsWith(const std::string &a, const std::string &b) {
   if (b.size() > a.size()) {

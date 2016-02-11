@@ -6,8 +6,6 @@
 //
 //
 
-#if EDITOR_MODE
-
 #include "EditorManager.h"
 #include "GameLevel.h"
 #include "GameObject.h"
@@ -25,6 +23,8 @@
 #include "JsonParser.h"
 #include "PathComponent.h"
 #include "UIColorEditor.h"
+
+#if EDITOR_MODE
 
 USING_NS_CC;
 

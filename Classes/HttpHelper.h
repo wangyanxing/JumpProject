@@ -28,6 +28,8 @@ public:
                         const std::string &time,
                         const std::string &content);
 
+  static void afterLoadRemoteMaps();
+
   static std::vector<MapResource> sAllMaps;
 };
 
