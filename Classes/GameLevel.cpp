@@ -50,9 +50,17 @@ void GameLevel::release() {
     CC_SAFE_FREE(sm);
   }
   mShadows.clear();
+
   CC_SAFE_DELETE(mObjectManager);
   CC_SAFE_DELETE(mPhysicsManager);
   CC_SAFE_DELETE(mPalette);
+
+  if (mCurtain) {
+    mCurtain->removeFromParent();
+    mCurtain = nullptr;
+  }
+  mBackground->removeFromParent();
+  mBackground = nullptr;
 }
 
 void GameLevel::update(float dt) {
