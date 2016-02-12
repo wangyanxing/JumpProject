@@ -61,11 +61,12 @@ void UIColorEditor::updateColorButtonDisplay() {
 }
 
 void UIColorEditor::initColorButtons(cocos2d::Node *parent) {
+  float leftMargin = COLOR_BUTTON_SIZE / 2 + 10;
   for (int i = 0; i < BUTTON_ROWS; i++) {
     for (int j = 0; j < BUTTON_COLS; j++) {
       auto button = RectDrawNode::create(Size(COLOR_BUTTON_SIZE, COLOR_BUTTON_SIZE),
                                          Color3B::WHITE);
-      button->setPosition(Vec2(COLOR_BUTTON_SIZE * (j + 2.5f) + BUTTON_MARGIN * j,
+      button->setPosition(Vec2(leftMargin + COLOR_BUTTON_SIZE * j + BUTTON_MARGIN * j,
                                COLOR_BUTTON_SIZE * (2 - i) - BUTTON_MARGIN * i + EDT_UI_YBIAS));
       void *p = (void *) &indexData[BUTTON_COLS * i + j];
       button->setUserData(p);
@@ -86,34 +87,6 @@ void UIColorEditor::initColorButtons(cocos2d::Node *parent) {
       _eventDispatcher->addEventListenerWithSceneGraphPriority(listener->clone(), mColorButtons[i]);
     }
   }
-
-  cleanColors();
-  addColor(1, Color3B(0xFF, 0xFF, 0xFF));
-  addColor(2, Color3B(0xFF, 0x00, 0x00));
-  addColor(3, Color3B(0x00, 0xFF, 0x00));
-  addColor(4, Color3B(0x00, 0x00, 0xFF));
-
-  addColor(5, Color3B(0xCC, 0xCC, 0xCC));
-  addColor(6, Color3B(0xCC, 0x00, 0x00));
-  addColor(7, Color3B(0x00, 0xCC, 0x00));
-  addColor(8, Color3B(0x00, 0x00, 0xCC));
-
-  addColor(9, Color3B(0x99, 0x99, 0x99));
-  addColor(10, Color3B(0x99, 0x00, 0x00));
-  addColor(11, Color3B(0x00, 0x99, 0x00));
-  addColor(12, Color3B(0x00, 0x00, 0x99));
-
-  addColor(13, Color3B(0x66, 0x66, 0x66));
-  addColor(14, Color3B(0x66, 0x00, 0x00));
-  addColor(15, Color3B(0x00, 0x66, 0x00));
-  addColor(16, Color3B(0x00, 0x00, 0x66));
-
-  addColor(17, Color3B(0x33, 0x33, 0x33));
-  addColor(18, Color3B(0x33, 0x00, 0x00));
-  addColor(19, Color3B(0x00, 0x33, 0x00));
-  addColor(20, Color3B(0x00, 0x00, 0x33));
-
-  updateColorButtonDisplay();
 }
 
 void UIColorEditor::cleanColors() {
