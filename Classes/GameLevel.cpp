@@ -191,7 +191,6 @@ void GameLevel::load(const std::string &levelFile) {
   setCurrentFile(levelFile);
 
   mGameLayer->afterLoad();
-  enableGame(true);
 }
 
 void GameLevel::save(const std::string &levelFile) {
@@ -499,4 +498,17 @@ void GameLevel::win() {
 void GameLevel::winImpl() {
   mGameLayer->preWinGame();
   showWinCurtain();
+}
+
+void GameLevel::showBeginCurtain() {
+  updateCamera(mGameLayer->getCamera(), true);
+  initCurtainPos();
+
+  auto camera = mGameLayer->getCamera();
+  camera->setPositionY(camera->getPositionY() - VIS_RECT_HEIGHT);
+  camera->runAction(Sequence::create(MoveBy::create(GameConfig::instance().CurtainMoveTime,
+                                                    Vec2(0, VIS_RECT_HEIGHT)),
+                                     CallFunc::create([this]() {
+    enableGame(true);
+  }), nullptr));
 }

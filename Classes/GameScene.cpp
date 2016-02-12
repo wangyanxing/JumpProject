@@ -55,7 +55,7 @@ void GameScene::onEnter() {
   _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
 #if USE_REFACTOR
-  GameLevel::instance().updateCamera(getCamera(), true);
+  GameLevel::instance().showBeginCurtain();
 #else
   getGame()->updateCamera(getCamera(), true);
   getGame()->showBeginCurtain();

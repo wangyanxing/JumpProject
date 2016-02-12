@@ -93,6 +93,8 @@ public:
   void setWinEvent(std::function<void()> event) {
     mWinGameEvent = event;
   }
+
+  void showBeginCurtain();
   
 private:
   void createHero(const cocos2d::Vec2 &pos);
