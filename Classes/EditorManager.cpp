@@ -38,6 +38,8 @@ void EditorManager::init() {
       sel->getRenderer()->setColorIndex(index);
     }
   };
+
+  toggleHelpersVisible();
 }
 
 void EditorManager::onGameEnabled(bool val) {

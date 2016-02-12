@@ -5,5 +5,23 @@
   "accelerationResistance": 0.3,
   "sawImage": "images/saw.png",
   "sawImageRotation": "images/saw_r.png",
-  "curtainMoveTime": 0.8
+  "curtainMoveTime": 0.8,
+  "controlPad": {
+    "scale": 0.6,
+    "leftButton": "100,70",
+    "rightButton": "290,70",
+    "jumpButton": "840,70"
+  },
+  "controlPad_ip4": {
+    "scale": 0.5,
+    "leftButton": "74,60",
+    "rightButton": "330,60",
+    "jumpButton": "830,60"
+  },
+  "controlPad_pad": {
+    "scale": 0.5,
+    "leftButton": "74,60",
+    "rightButton": "480,60",
+    "jumpButton": "820,60"
+  }
 }

@@ -9,9 +9,9 @@
 #include "GameScene.h"
 #include "VisibleRect.h"
 #include "LevelScene.h"
-#include "ControlPad.h"
 #include "GameLevel.h"
 #include "GameObject.h"
+#include "GameConfig.h"
 
 #if !EDITOR_MODE
 
@@ -253,18 +253,15 @@ void GameScene::createControlPad() {
   mRightButton = Sprite::create("images/button_right.png");
   mJumpButton = Sprite::create("images/button_jump.png");
 
-  //TODO: MapSerial::loadControlConfig();
-  auto config = ControlPad::controlPadConfig->getControlConfig();
-  auto desc = config->mDescription;
-  mLeftButton->setPosition(config->mLeftButtonPos);
-  mRightButton->setPosition(config->mRightButtonPos);
-  mJumpButton->setPosition(config->mJumpButtonPos);
+  mLeftButton->setPosition(GameConfig::instance().ControlPadLeftButton);
+  mRightButton->setPosition(GameConfig::instance().ControlPadRightButton);
+  mJumpButton->setPosition(GameConfig::instance().ControlPadJumpButton);
 
   mLeftButton->setColor(CONTROL_BUTTON_COLOR);
   mRightButton->setColor(CONTROL_BUTTON_COLOR);
   mJumpButton->setColor(CONTROL_BUTTON_COLOR);
 
-  float scale = config->mScale;
+  float scale = GameConfig::instance().ControlPadScale;
   mLeftButton->setScale(scale);
   mRightButton->setScale(scale);
   mJumpButton->setScale(scale);

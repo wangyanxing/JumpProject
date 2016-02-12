@@ -21,4 +21,11 @@ void GameConfig::load() {
   SawImage = json["sawImage"].GetString();
   SawImageRotation = json["sawImageRotation"].GetString();
   CurtainMoveTime = json["curtainMoveTime"].GetDouble();
+
+  std::string controlKey = "controlPad" + JsonParser::getLevelSuffix();
+  auto &controls = json[controlKey.c_str()];
+  ControlPadScale = controls["scale"].GetDouble();
+  ControlPadLeftButton = controls["leftButton"].GetVec2();
+  ControlPadRightButton = controls["rightButton"].GetVec2();
+  ControlPadJumpButton = controls["jumpButton"].GetVec2();
 }

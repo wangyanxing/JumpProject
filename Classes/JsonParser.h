@@ -30,6 +30,8 @@ public:
 
   static std::string getBuffer(const std::string &file);
 
+  static std::string getLevelSuffix();
+
   bool parseArray(JsonValueT &var, const std::string &key, ParseCallback func);
 
   bool parseArray(const std::string &key, ParseCallback func);

@@ -7,6 +7,7 @@
 //
 
 #include "JsonParser.h"
+#include "VisibleRect.h"
 
 #include <sstream>
 #include <fstream>
@@ -32,6 +33,22 @@ JsonParser::~JsonParser() {
 
 std::string JsonParser::getBuffer(const std::string &file) {
   return FileUtils::getInstance()->getStringFromFile(file);
+}
+
+std::string JsonParser::getLevelSuffix() {
+  static std::string suffix;
+  auto framesize = VisibleRect::getFrameSize();
+  float ratio = framesize.width / framesize.height;
+  
+  if (ratio > 1.7) { // wide
+    // ok, do nothing
+    suffix = "";
+  } else if (ratio < 1.4) { // ipad
+    suffix = "_pad";
+  } else { //ip4
+    suffix = "_ip4";
+  }
+  return suffix.c_str();
 }
 
 bool JsonParser::parseArray(const std::string &key, ParseCallback func) {

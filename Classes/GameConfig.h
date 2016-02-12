@@ -31,6 +31,14 @@ public:
   std::string SawImageRotation;
 
   float CurtainMoveTime{0.8f};
+
+  float ControlPadScale{0.5f};
+
+  cocos2d::Vec2 ControlPadLeftButton{100, 70};
+
+  cocos2d::Vec2 ControlPadRightButton{290, 70};
+
+  cocos2d::Vec2 ControlPadJumpButton{840, 70};
 };
 
 #endif /* GameConfig_h */
