@@ -400,7 +400,7 @@ void GameLevel::addShadowGroup() {
   mShadowNode.push_back(Node::create());
   mShadows.push_back(new ShadowManager());
   if (!mShadowNode.back()->getParent()) {
-    mGameLayer->getBlockRoot()->addChild(mShadowNode.back(), ZORDER_SHADOW_1);
+    mGameLayer->getBlockRoot()->addChild(mShadowNode.back(), ZORDER_SHADOW);
   }
 }
 

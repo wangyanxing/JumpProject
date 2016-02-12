@@ -156,7 +156,7 @@ void EditorManager::afterLoad() {
 
 void EditorManager::loadLastEdit() {
   auto file = UserDefault::getInstance()->getStringForKey("lastedit");
-  GameLevel::instance().load(file.empty() ? TEMPLATE_MAP : file);
+  GameLevel::instance().load(file);
 }
 
 void EditorManager::update(float dt) {
