@@ -491,20 +491,18 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				BCB85EF31C45EB2F00CB8383 /* Refactor */,
+				BC8458EC1C6E7BDE0084D425 /* Serialization */,
+				BC8458EB1C6E7B840084D425 /* Renderer */,
+				BC8458EA1C6E7B7E0084D425 /* Components */,
+				BC8458E91C6E7B120084D425 /* CoreLogic */,
 				BC3CEA871C1CD47000738B33 /* rapidjson */,
 				BCB85EEF1C45BA6300CB8383 /* Utilities */,
 				BCB85EF11C45BB3C00CB8383 /* Graphics */,
 				BCB85EF21C45BB8000CB8383 /* GUI */,
 				BC3CE9C41C1B86B400738B33 /* Defines.h */,
-				BC3CE9CD1C1B86B400738B33 /* GameScene.cpp */,
-				BC3CE9CE1C1B86B400738B33 /* GameScene.h */,
-				BC3CE9F11C1B86B400738B33 /* TimeEvent.cpp */,
-				BC3CE9F21C1B86B400738B33 /* TimeEvent.h */,
+				BCB862AD1C4737B200CB8383 /* Prerequisites.h */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
-				BC641FFE1C3C88BB0018F96F /* GameLayerContainer.cpp */,
-				BC641FFF1C3C88BB0018F96F /* GameLayerContainer.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -557,10 +555,89 @@
 			path = ios;
 			sourceTree = SOURCE_ROOT;
 		};
+		BC8458E91C6E7B120084D425 /* CoreLogic */ = {
+			isa = PBXGroup;
+			children = (
+				BCB85F021C46ABE300CB8383 /* GameTypes.cpp */,
+				BCB85F011C45F24900CB8383 /* GameTypes.h */,
+				BCB85EF41C45ED2C00CB8383 /* GameObject.cpp */,
+				BCB85EF51C45ED2C00CB8383 /* GameObject.h */,
+				BCB85F051C46AE9500CB8383 /* ObjectManager.cpp */,
+				BCB85F061C46AE9500CB8383 /* ObjectManager.h */,
+				BCB862A01C4710F700CB8383 /* GameLevel.cpp */,
+				BCB862A11C4710F700CB8383 /* GameLevel.h */,
+				BCB862AE1C473E3500CB8383 /* PhysicsShape.cpp */,
+				BCB862AF1C473E3500CB8383 /* PhysicsShape.h */,
+				BCB862B21C482A9B00CB8383 /* PhysicsManager.cpp */,
+				BCB862B31C482A9B00CB8383 /* PhysicsManager.h */,
+				BCB862B61C4842BA00CB8383 /* ColorPalette.cpp */,
+				BCB862B71C4842BA00CB8383 /* ColorPalette.h */,
+				BC3CE9F11C1B86B400738B33 /* TimeEvent.cpp */,
+				BC3CE9F21C1B86B400738B33 /* TimeEvent.h */,
+				BCB866A91C4D495C00CB8383 /* GameEvents.cpp */,
+				BCB866AA1C4D495C00CB8383 /* GameEvents.h */,
+				BCB8669C1C49A34700CB8383 /* BlockKindConfigs.cpp */,
+				BCB8669D1C49A34700CB8383 /* BlockKindConfigs.h */,
+				BCB866B11C4D8B7800CB8383 /* GameInputs.cpp */,
+				BCB866B21C4D8B7800CB8383 /* GameInputs.h */,
+				BC1EE9AB1C62BA61003A345B /* EditorManager.cpp */,
+				BC1EE9AC1C62BA61003A345B /* EditorManager.h */,
+			);
+			name = CoreLogic;
+			sourceTree = "<group>";
+		};
+		BC8458EA1C6E7B7E0084D425 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BCB862A81C47367B00CB8383 /* GameComponent.h */,
+				BCB862A91C47376400CB8383 /* PhysicsComponent.cpp */,
+				BCB862AA1C47376400CB8383 /* PhysicsComponent.h */,
+				BCB866AD1C4D818500CB8383 /* InputComponent.cpp */,
+				BCB866AE1C4D818500CB8383 /* InputComponent.h */,
+				BCB866B61C50172400CB8383 /* PathComponent.cpp */,
+				BCB866B71C50172400CB8383 /* PathComponent.h */,
+				B5408E6B1C505F8200E4C90E /* ButtonComponent.cpp */,
+				B5408E6C1C505F8200E4C90E /* ButtonComponent.h */,
+				BC1EE9A71C62BA57003A345B /* EditorComponent.cpp */,
+				BC1EE9A81C62BA57003A345B /* EditorComponent.h */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
+		BC8458EB1C6E7B840084D425 /* Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				BCB85EFC1C45EE6200CB8383 /* GameRenderer.cpp */,
+				BCB85EFD1C45EE6200CB8383 /* GameRenderer.h */,
+				BCB85F0A1C46B35F00CB8383 /* SimpleRenderer.cpp */,
+				BCB85F0B1C46B35F00CB8383 /* SimpleRenderer.h */,
+				BCB866A11C49D30900CB8383 /* DeathRenderer.cpp */,
+				BCB866A21C49D30900CB8383 /* DeathRenderer.h */,
+				BCB866A51C49D8EE00CB8383 /* DeathRotatorRenderer.cpp */,
+				BCB866A61C49D8EE00CB8383 /* DeathRotatorRenderer.h */,
+			);
+			name = Renderer;
+			sourceTree = "<group>";
+		};
+		BC8458EC1C6E7BDE0084D425 /* Serialization */ = {
+			isa = PBXGroup;
+			children = (
+				BCB862BA1C4843EC00CB8383 /* JsonParser.cpp */,
+				BCB862BB1C4843EC00CB8383 /* JsonParser.h */,
+				BCB866A01C49A78F00CB8383 /* JsonFormat.h */,
+				BC1EE9A31C6017CA003A345B /* JsonWriter.cpp */,
+				BC1EE9A41C6017CA003A345B /* JsonWriter.h */,
+				BC1EE9B31C669A38003A345B /* TemplateFile.h */,
+			);
+			name = Serialization;
+			sourceTree = "<group>";
+		};
 		BCB85EEF1C45BA6300CB8383 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				BCDFFFFD1C32F062006E8A59 /* Any.h */,
+				BCB85F091C46AF5F00CB8383 /* Singleton.h */,
+				BCB85F001C45EF0B00CB8383 /* Parameter.h */,
 				BC3CE9E11C1B86B400738B33 /* PathLib.cpp */,
 				BC3CE9E21C1B86B400738B33 /* PathLib.h */,
 				BC3CE9E31C1B86B400738B33 /* PathLibOSX.mm */,
@@ -568,6 +645,12 @@
 				BC3CE9F81C1B86B400738B33 /* VisibleRect.h */,
 				BC3CE9D11C1B86B400738B33 /* HttpHelper.cpp */,
 				BC3CE9D21C1B86B400738B33 /* HttpHelper.h */,
+				B55C76641C4F335B0083C9C5 /* GameConfig.cpp */,
+				B55C76651C4F335B0083C9C5 /* GameConfig.h */,
+				BC1EE9B01C63E0C4003A345B /* DebugTools.h */,
+				BC1EE9AF1C63E0C4003A345B /* DebugTools.cpp */,
+				B542379A1C66FCEA00DA5484 /* MathTools.cpp */,
+				B542379B1C66FCEA00DA5484 /* MathTools.h */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -575,6 +658,8 @@
 		BCB85EF11C45BB3C00CB8383 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				BC1EE99F1C5FFB13003A345B /* GameSprite.cpp */,
+				BC1EE9A01C5FFB13003A345B /* GameSprite.h */,
 				BC3CE9C51C1B86B400738B33 /* DrawNodeEx.cpp */,
 				BC3CE9C61C1B86B400738B33 /* DrawNodeEx.h */,
 				BC3CE9EB1C1B86B400738B33 /* CameraShake.cpp */,
@@ -583,6 +668,10 @@
 				BC3CE9F01C1B86B400738B33 /* SpriteUV.h */,
 				BC8458E51C6E69E40084D425 /* RectDrawNode.cpp */,
 				BC8458E61C6E69E40084D425 /* RectDrawNode.h */,
+				BCB866BB1C517F8B00CB8383 /* RendererActions.cpp */,
+				BCB866BC1C517F8B00CB8383 /* RendererActions.h */,
+				BCA39DFE1C56C1F9009C08D4 /* ShadowManager.cpp */,
+				BCA39DFF1C56C1F9009C08D4 /* ShadowManager.h */,
 			);
 			name = Graphics;
 			sourceTree = "<group>";
@@ -596,81 +685,16 @@
 				BC3CE9F41C1B86B400738B33 /* UIColorEditor.h */,
 				BC3CE9F51C1B86B400738B33 /* UILayer.cpp */,
 				BC3CE9F61C1B86B400738B33 /* UILayer.h */,
+				BC641FFE1C3C88BB0018F96F /* GameLayerContainer.cpp */,
+				BC641FFF1C3C88BB0018F96F /* GameLayerContainer.h */,
 				BC641FFA1C3C7F730018F96F /* ChooseWorldScene.cpp */,
 				BC641FFB1C3C7F730018F96F /* ChooseWorldScene.h */,
-			);
-			name = GUI;
-			sourceTree = "<group>";
-		};
-		BCB85EF31C45EB2F00CB8383 /* Refactor */ = {
-			isa = PBXGroup;
-			children = (
-				BCB85EF41C45ED2C00CB8383 /* GameObject.cpp */,
-				BCB85EF51C45ED2C00CB8383 /* GameObject.h */,
-				BCB85EFC1C45EE6200CB8383 /* GameRenderer.cpp */,
-				BCB85EFD1C45EE6200CB8383 /* GameRenderer.h */,
-				BCB85F001C45EF0B00CB8383 /* Parameter.h */,
-				BCB85F011C45F24900CB8383 /* GameTypes.h */,
-				BCB85F021C46ABE300CB8383 /* GameTypes.cpp */,
-				BCB85F051C46AE9500CB8383 /* ObjectManager.cpp */,
-				BCB85F061C46AE9500CB8383 /* ObjectManager.h */,
-				BCB85F091C46AF5F00CB8383 /* Singleton.h */,
-				BCB85F0A1C46B35F00CB8383 /* SimpleRenderer.cpp */,
-				BCB85F0B1C46B35F00CB8383 /* SimpleRenderer.h */,
-				BCB862A01C4710F700CB8383 /* GameLevel.cpp */,
-				BCB862A11C4710F700CB8383 /* GameLevel.h */,
-				BCB862A81C47367B00CB8383 /* GameComponent.h */,
-				BCB862AD1C4737B200CB8383 /* Prerequisites.h */,
-				BCB862A91C47376400CB8383 /* PhysicsComponent.cpp */,
-				BCB862AA1C47376400CB8383 /* PhysicsComponent.h */,
-				BCB862AE1C473E3500CB8383 /* PhysicsShape.cpp */,
-				BCB862AF1C473E3500CB8383 /* PhysicsShape.h */,
-				BCB862B21C482A9B00CB8383 /* PhysicsManager.cpp */,
-				BCB862B31C482A9B00CB8383 /* PhysicsManager.h */,
-				BCB862B61C4842BA00CB8383 /* ColorPalette.cpp */,
-				BCB862B71C4842BA00CB8383 /* ColorPalette.h */,
-				BCB862BA1C4843EC00CB8383 /* JsonParser.cpp */,
-				BCB862BB1C4843EC00CB8383 /* JsonParser.h */,
+				BC3CE9CD1C1B86B400738B33 /* GameScene.cpp */,
+				BC3CE9CE1C1B86B400738B33 /* GameScene.h */,
 				BCB866531C4957F900CB8383 /* EditorGameScene.cpp */,
 				BCB866541C4957F900CB8383 /* EditorGameScene.h */,
-				BCB8669C1C49A34700CB8383 /* BlockKindConfigs.cpp */,
-				BCB8669D1C49A34700CB8383 /* BlockKindConfigs.h */,
-				BCB866A01C49A78F00CB8383 /* JsonFormat.h */,
-				BCB866A11C49D30900CB8383 /* DeathRenderer.cpp */,
-				BCB866A21C49D30900CB8383 /* DeathRenderer.h */,
-				BCB866A51C49D8EE00CB8383 /* DeathRotatorRenderer.cpp */,
-				BCB866A61C49D8EE00CB8383 /* DeathRotatorRenderer.h */,
-				BCB866A91C4D495C00CB8383 /* GameEvents.cpp */,
-				BCB866AA1C4D495C00CB8383 /* GameEvents.h */,
-				BCB866AD1C4D818500CB8383 /* InputComponent.cpp */,
-				BCB866AE1C4D818500CB8383 /* InputComponent.h */,
-				BCB866B11C4D8B7800CB8383 /* GameInputs.cpp */,
-				BCB866B21C4D8B7800CB8383 /* GameInputs.h */,
-				B55C76641C4F335B0083C9C5 /* GameConfig.cpp */,
-				B55C76651C4F335B0083C9C5 /* GameConfig.h */,
-				BCB866B61C50172400CB8383 /* PathComponent.cpp */,
-				BCB866B71C50172400CB8383 /* PathComponent.h */,
-				B5408E6B1C505F8200E4C90E /* ButtonComponent.cpp */,
-				B5408E6C1C505F8200E4C90E /* ButtonComponent.h */,
-				BCB866BB1C517F8B00CB8383 /* RendererActions.cpp */,
-				BCB866BC1C517F8B00CB8383 /* RendererActions.h */,
-				BCA39DFE1C56C1F9009C08D4 /* ShadowManager.cpp */,
-				BCA39DFF1C56C1F9009C08D4 /* ShadowManager.h */,
-				BC1EE99F1C5FFB13003A345B /* GameSprite.cpp */,
-				BC1EE9A01C5FFB13003A345B /* GameSprite.h */,
-				BC1EE9A31C6017CA003A345B /* JsonWriter.cpp */,
-				BC1EE9A41C6017CA003A345B /* JsonWriter.h */,
-				BC1EE9A71C62BA57003A345B /* EditorComponent.cpp */,
-				BC1EE9A81C62BA57003A345B /* EditorComponent.h */,
-				BC1EE9AB1C62BA61003A345B /* EditorManager.cpp */,
-				BC1EE9AC1C62BA61003A345B /* EditorManager.h */,
-				BC1EE9AF1C63E0C4003A345B /* DebugTools.cpp */,
-				BC1EE9B01C63E0C4003A345B /* DebugTools.h */,
-				BC1EE9B31C669A38003A345B /* TemplateFile.h */,
-				B542379A1C66FCEA00DA5484 /* MathTools.cpp */,
-				B542379B1C66FCEA00DA5484 /* MathTools.h */,
 			);
-			name = Refactor;
+			name = GUI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
