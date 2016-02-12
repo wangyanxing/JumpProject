@@ -21,8 +21,6 @@ struct GamePostUpdater {
 
 class GameLayerContainer : public cocos2d::Layer {
 public:
-  static cocos2d::Scene *createPhysicsScene();
-
   GameLayerContainer();
 
   virtual ~GameLayerContainer();
@@ -59,18 +57,7 @@ public:
     return mBlockRoot;
   }
 
-#if !USE_REFACTOR
-  GameLogic *getGame() {
-    return mGame;
-  }
-  
-protected:
-  bool onCollisionDetected(cocos2d::PhysicsContact &contact,
-                           cocos2d::PhysicsContactPreSolve &solve);
-
-  GameLogic *mGame{nullptr};
-#endif
-
+private:
   cocos2d::Node *mBlockRoot{nullptr};
 
   cocos2d::Camera *mCamera{nullptr};

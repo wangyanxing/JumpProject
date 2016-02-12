@@ -7,7 +7,7 @@
 //
 
 #include "TimeEvent.h"
-#include "Events.h"
+#include "GameEvents.h"
 
 void TimeEvent::TimeEventPoint::trigger() {
   if (mEvents.empty()) {
@@ -15,7 +15,7 @@ void TimeEvent::TimeEventPoint::trigger() {
   }
 
   for (auto it = mEvents.begin(); it != mEvents.end(); ++it) {
-    Events::callSingleEvent(it->c_str(), nullptr);
+    GameEvents::instance().callSingleEvent(it->c_str(), nullptr);
   }
 }
 

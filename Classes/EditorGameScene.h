@@ -12,7 +12,6 @@
 #include "Prerequisites.h"
 #include "GameLayerContainer.h"
 
-#if USE_REFACTOR
 #if EDITOR_MODE
 
 class EditorGameScene : public GameLayerContainer {
@@ -53,7 +52,6 @@ public:
   void keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
 };
 
-#endif
 #endif
 
 #endif /* EditorGameScene_h */

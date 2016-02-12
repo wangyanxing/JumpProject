@@ -1,11 +1,9 @@
 #include "AppDelegate.h"
 #include "Defines.h"
 #include "VisibleRect.h"
-#include "LogicManager.h"
 #include "GameLevel.h"
 
 #if EDITOR_MODE
-#   include "EditorScene.h"
 #   include "EditorGameScene.h"
 #   include "UILayer.h"
 #else
@@ -35,23 +33,14 @@ Scene *createScene() {
 #endif
 
 #if EDITOR_MODE
-  auto scene = Scene::createWithPhysics();
-  scene->getPhysicsWorld()->setGravity(Vec2(0, -200));
-  GameLogic::PhysicsWorld = scene->getPhysicsWorld();
-  scene->getPhysicsWorld()->setDebugDrawCameraMask((unsigned short) CameraFlag::USER2);
-
+  auto scene = Scene::create();
   auto layer = LayerColor::create(Color4B(0x1E, 0xB5, 0xC7, 0xFF));
   scene->addChild(layer);
 
   auto uiLayer = new UILayer();
   uiLayer->init(scene);
 
-#if USE_REFACTOR
   auto EditorScene = EditorGameScene::create();
-#else
-  auto EditorScene = EditorScene::create();
-#endif
-
   layer->addChild(EditorScene);
   return scene;
 #else

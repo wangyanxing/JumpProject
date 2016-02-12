@@ -15,8 +15,6 @@
 #   define EDITOR_MODE 0
 #endif
 
-#define USE_REFACTOR 1
-
 #define GAME_DEBUG_MODE 1
 
 #define EDITOR_IPAD_MODE 1
@@ -37,13 +35,6 @@ enum FollowMode {
   F_CENTER,
   F_UP, F_DOWN, F_LEFT, F_RIGHT
 };
-
-// These macros are used for debug.
-#if USE_REFACTOR
-# define USE_SHADOW 0
-#else
-# define USE_SHADOW 1
-#endif
 
 #define USE_JUMP_EFFECT 1
 #define USE_BACKGROUND 1

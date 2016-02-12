@@ -16,7 +16,6 @@ USING_NS_CC_EXT;
 using namespace cocos2d::ui;
 
 #include "SimpleAudioEngine.h"
-#include "MapSerial.h"
 #include "PathLib.h"
 #include "GameScene.h"
 #include "GameLevel.h"
@@ -40,11 +39,7 @@ bool LevelScene::init() {
   }
   instance = this;
 
-#if USE_REFACTOR
   HttpHelper::getAllMaps();
-#else
-  MapSerial::saveRemoteMaps();
-#endif
 
   Size size = Director::getInstance()->getWinSize();
   Director::getInstance()->setClearColor(Color4F::WHITE);
@@ -117,7 +112,7 @@ void LevelScene::touchEvent(Ref *pSender, Widget::TouchEventType type) {
       return;
     }
 
-    auto scene = GameLayerContainer::createPhysicsScene();
+    auto scene = Scene::create();
     auto game = GameScene::create();
     scene->addChild(game);
     game->enterGame(path, true);

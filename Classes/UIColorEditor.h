@@ -14,8 +14,6 @@ public:
   void updateColorButtonDisplay();
 
 private:
-  bool beginTouchShowHide(cocos2d::Touch *touch, cocos2d::Event *event);
-
   bool beginTouchColor(cocos2d::Touch *touch, cocos2d::Event *event);
 
   void initColorButtons(cocos2d::Node *parent);
@@ -26,9 +24,7 @@ public:
   std::function<void(int, cocos2d::Color3B)> onSetColorFunc{nullptr};
 
 private:
-  SpriteUV *mShowhideColorButton;
-
-  std::vector<cocos2d::Sprite *> mColorButtons;
+  std::vector<cocos2d::DrawNode *> mColorButtons;
 
   std::vector<int> mPaletteIndexArray;
 

@@ -17,8 +17,6 @@
 
 USING_NS_CC;
 
-#if USE_REFACTOR
-
 static void colorMix(const Color4B &src, const Color4B &dst, float r, Color4B &out) {
   out.r = dst.r * r + src.r * (1 - r);
   out.g = dst.g * r + src.g * (1 - r);
@@ -357,5 +355,3 @@ void ShadowManager::updateBlock(GameObject *block,
     triangles.push_back(t);
   }
 }
-
-#endif

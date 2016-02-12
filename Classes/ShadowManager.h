@@ -13,8 +13,6 @@
 #include "JsonParser.h"
 #include "JsonWriter.h"
 
-#if USE_REFACTOR
-
 class ShadowManager {
 public:
   enum {
@@ -82,7 +80,5 @@ private:
   /// Relative size (0 ~ 1).
   float mWidth{1};
 };
-
-#endif
 
 #endif /* ShadowManager_h */

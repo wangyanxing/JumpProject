@@ -11,7 +11,6 @@
 #include "UIColorEditor.h"
 #include "Defines.h"
 #include "SpriteUV.h"
-#include "GameUtils.h"
 
 USING_NS_CC;
 
