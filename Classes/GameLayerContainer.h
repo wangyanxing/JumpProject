@@ -11,11 +11,11 @@
 
 #include "Prerequisites.h"
 
-class GameLogic;
-
 struct GamePostUpdater {
   GamePostUpdater(GameLayerContainer *ct);
+  
   void update(float dt);
+  
   GameLayerContainer *container;
 };
 

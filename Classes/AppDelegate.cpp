@@ -50,9 +50,7 @@ Scene *createScene() {
   levels->retain();
   return levels;
 #else
-  auto scene = Scene::createWithPhysics();
-  scene->getPhysicsWorld()->setGravity(Vec2(0, 0));
-  GameLogic::PhysicsWorld = scene->getPhysicsWorld();
+  auto scene = Scene::create();
   scene->addChild(ChooseWorldScene::create());
   return scene;
 #endif

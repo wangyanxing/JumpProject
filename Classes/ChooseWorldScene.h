@@ -9,13 +9,10 @@
 #ifndef ChooseWorldScene_h
 #define ChooseWorldScene_h
 
-#include "ui/CocosGUI.h"
-#include "Defines.h"
+#include "Prerequisites.h"
 #include "GameLayerContainer.h"
 
 #if !EDITOR_MODE
-
-class GameLogic;
 
 class ChooseWorldScene : public GameLayerContainer {
 public:
