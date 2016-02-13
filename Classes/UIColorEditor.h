@@ -1,7 +1,7 @@
 #ifndef __JumpEdt__UIColorEditor__
 #define __JumpEdt__UIColorEditor__
 
-class SpriteUV;
+#include "Prerequisites.h"
 
 class UIColorEditor {
 public:

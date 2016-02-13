@@ -14,8 +14,6 @@
 
 #if !EDITOR_MODE
 
-class BlockBase;
-
 class GameScene : public GameLayerContainer {
 public:
   GameScene();
