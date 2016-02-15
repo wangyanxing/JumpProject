@@ -16,6 +16,9 @@ class GameEvents {
 public:
   DECL_SIMPLE_SINGLETON(GameEvents);
 
+  /**
+   * Event argument.
+   */
   struct Arg {
     Arg(const std::string &defaultVal, bool opt) : value(defaultVal), optional(opt) {}
 
@@ -32,6 +35,9 @@ public:
     GameObject *getGameObject() const;
   };
 
+  /**
+   * Event structure.
+   */
   struct Event {
     std::string command;
 

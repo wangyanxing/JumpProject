@@ -17,7 +17,7 @@
 
 class ChooseWorldScene : public GameLayerContainer {
 public:
-  ChooseWorldScene(){}
+  ChooseWorldScene() = default;
 
   virtual bool init() override;
 

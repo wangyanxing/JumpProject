@@ -13,9 +13,15 @@
 
 struct CollisionInfo {
   cocos2d::Vec2 normal;
-  
+
+  /**
+   * obj1 must be a dynamic object.
+   */
   PhysicsComponent *obj1{nullptr};
-  
+
+  /**
+   * obj2 is dynamic or static.
+   */
   PhysicsComponent *obj2{nullptr};
 };
 

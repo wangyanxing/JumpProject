@@ -26,9 +26,9 @@ public:
   virtual void update(float time) override;
 
 CC_CONSTRUCTOR_ACCESS:
-  RendererMoveBy() {}
+  RendererMoveBy() = default;
 
-  virtual ~RendererMoveBy() {}
+  virtual ~RendererMoveBy() = default;
 
   bool initWithDuration(float duration, const cocos2d::Vec2& deltaPosition);
 
@@ -58,9 +58,9 @@ public:
   virtual void startWithTarget(cocos2d::Node *target) override;
 
 CC_CONSTRUCTOR_ACCESS:
-  RendererMoveTo() {}
+  RendererMoveTo() = default;
 
-  virtual ~RendererMoveTo() {}
+  virtual ~RendererMoveTo() = default;
 
   bool initWithDuration(float duration, const cocos2d::Vec2& position);
 

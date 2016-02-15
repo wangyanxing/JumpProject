@@ -39,7 +39,7 @@ class Parameter {
 public:
   typedef std::unordered_map<ParamType, Any, EnumClassHash> MapT;
 
-  Parameter() {}
+  Parameter() = default;
 
   Parameter(std::initializer_list<MapT::value_type> il) : mData(il) {}
 

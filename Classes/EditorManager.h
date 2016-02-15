@@ -90,5 +90,4 @@ private:
 };
 
 #endif
-
 #endif /* EditorManager_h */

@@ -33,7 +33,6 @@ public:
   static std::string getMapDir();
 
 #if EDITOR_MODE
-
   static std::string openJsonFile(const std::string &title, const std::string &path);
 
   static void openInSystem(const char *file);

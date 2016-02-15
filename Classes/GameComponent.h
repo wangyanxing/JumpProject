@@ -25,7 +25,7 @@ class GameComponent {
 public:
   GameComponent(GameObject *parent): mParent(parent) {}
 
-  virtual ~GameComponent() {}
+  virtual ~GameComponent() = default;
 
   virtual ComponentType getComponentType() const = 0;
 
