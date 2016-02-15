@@ -8,9 +8,8 @@
 #ifndef __JumpEdt__LevelScene__
 #define __JumpEdt__LevelScene__
 
-#include <iostream>
+#include "Prerequisites.h"
 #include "ui/CocosGUI.h"
-#include "Defines.h"
 
 #if !EDITOR_MODE
 
@@ -31,5 +30,4 @@ private:
 };
 
 #endif
-
 #endif

@@ -53,5 +53,4 @@ public:
 };
 
 #endif
-
 #endif /* EditorGameScene_h */

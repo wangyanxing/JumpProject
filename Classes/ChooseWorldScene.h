@@ -11,6 +11,7 @@
 
 #include "Prerequisites.h"
 #include "GameLayerContainer.h"
+#include "ui/CocosGUI.h"
 
 #if !EDITOR_MODE
 
@@ -35,5 +36,4 @@ private:
 };
 
 #endif
-
 #endif /* ChooseWorldScene_h */

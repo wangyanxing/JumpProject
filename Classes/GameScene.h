@@ -64,5 +64,4 @@ private:
 };
 
 #endif
-
 #endif /* defined(__JumpEdt__GameScene__) */

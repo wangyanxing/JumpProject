@@ -9,6 +9,8 @@
 #ifndef __JumpEdt__UILayer__
 #define __JumpEdt__UILayer__
 
+#include "Prerequisites.h"
+
 class UILayer {
 public:
   void init(cocos2d::Node *parent);
