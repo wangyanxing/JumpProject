@@ -101,7 +101,7 @@ public:
   
   virtual GLubyte getOpacity() const;
 
-  void getPointsForShadow(const cocos2d::Vec2 &source, std::vector <cocos2d::Vec2> &out);
+  void getPointsForShadow(const cocos2d::Vec2 &source, std::vector<cocos2d::Vec2> &out);
 
   bool isShadowEnabled() const {
     return mShadowEnabled;

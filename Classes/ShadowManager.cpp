@@ -244,7 +244,7 @@ ShadowManager::ShadowEntry ShadowManager::getShadowEntry(const std::vector<cocos
 }
 
 void ShadowManager::updateBlock(GameObject *block,
-                                std::vector <cocos2d::V2F_C4B_T2F_Triangle> &triangles,
+                                std::vector<cocos2d::V2F_C4B_T2F_Triangle> &triangles,
                                 bool clipX) {
   auto renderer = block->getRenderer();
   if (!renderer->isShadowEnabled() || !renderer->isVisible() || !block->isRemovable()) {

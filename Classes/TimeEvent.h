@@ -32,7 +32,7 @@ public:
 
     float waitTime{-1};
 
-    std::vector <std::string> mEvents;
+    std::vector<std::string> mEvents;
   };
 
   void reset();
@@ -51,7 +51,7 @@ public:
 
   float mEventWaitingTimer{0};
 
-  std::vector <TimeEventPoint> mEventPoints;
+  std::vector<TimeEventPoint> mEventPoints;
 };
 
 #endif /* #define(__JumpEdt__TimeEvent__) */

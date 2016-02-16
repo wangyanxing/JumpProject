@@ -101,7 +101,7 @@ private:
 
   bool mOriginalPause{false};
 
-  std::vector <PathPoint> mPoints;
+  std::vector<PathPoint> mPoints;
 
   cocos2d::DrawNode *mHelperNode{nullptr};
 };

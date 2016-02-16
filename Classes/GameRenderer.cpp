@@ -196,7 +196,7 @@ int GameRenderer::getColorIndex() const {
 }
 
 void GameRenderer::getPointsForShadow(const cocos2d::Vec2 &source,
-                                      std::vector <cocos2d::Vec2> &out) {
+                                      std::vector<cocos2d::Vec2> &out) {
   auto size = getBoundingBox().size;
   auto p = getPosition();
   out.resize(4);

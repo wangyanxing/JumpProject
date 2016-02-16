@@ -13,22 +13,22 @@ public:
 
   void updateColorButtonDisplay();
 
-private:
-  bool beginTouchColor(cocos2d::Touch *touch, cocos2d::Event *event);
-
-  void initColorButtons(cocos2d::Node *parent);
-
 public:
   static UIColorEditor *colorEditor;
 
   std::function<void(int, cocos2d::Color3B)> onSetColorFunc{nullptr};
 
 private:
+  bool beginTouchColor(cocos2d::Touch *touch, cocos2d::Event *event);
+
+  void initColorButtons(cocos2d::Node *parent);
+
+private:
   std::vector<cocos2d::DrawNode *> mColorButtons;
 
   std::vector<int> mPaletteIndexArray;
 
-  std::vector <cocos2d::Color3B> mPaletteColorArray;
+  std::vector<cocos2d::Color3B> mPaletteColorArray;
 
   int mColorTableEndIndex{0};
 

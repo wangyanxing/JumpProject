@@ -2,10 +2,6 @@
 #ifndef __CCDRAWNODES_CCDRAW_PLUS_NODE_H__
 #define __CCDRAWNODES_CCDRAW_PLUS_NODE_H__
 
-#include "2d/CCNode.h"
-#include "base/ccTypes.h"
-#include "renderer/CCCustomCommand.h"
-
 NS_CC_BEGIN
 
 class CC_DLL DrawNodeEx : public Node {

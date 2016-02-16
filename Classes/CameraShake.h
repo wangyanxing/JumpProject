@@ -18,7 +18,6 @@ public:
   virtual ActionInterval *clone() const override;
 
 protected:
-
   void startWithTarget(cocos2d::Node *pTarget) override;
 
   void update(float time) override;

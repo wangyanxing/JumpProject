@@ -1,6 +1,6 @@
 #include "SpriteUV.h"
 
-using namespace cocos2d;
+USING_NS_CC;
 
 SpriteUV *SpriteUV::create(const std::string &filename) {
   SpriteUV * sprite = new(std::nothrow) SpriteUV();
