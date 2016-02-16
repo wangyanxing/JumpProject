@@ -185,6 +185,7 @@ static bool FileDialogShared(bool bSave,
                              uint flags,
                              std::vector<std::string>& outFiles) {
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+  NSWindow *keyWindow = [NSApp keyWindow];
   FCocoaScopeContext ContextGuard;
 
   NSSavePanel* Panel = bSave ? [NSSavePanel savePanel] : [NSOpenPanel openPanel];
@@ -245,6 +246,7 @@ static bool FileDialogShared(bool bSave,
   }
 
   [Panel close];
+  [keyWindow makeKeyWindow];
 
   [pool drain];
   return bSuccess;
