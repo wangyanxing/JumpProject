@@ -5,6 +5,7 @@
 
 #include <unistd.h>
 #include <CoreFoundation/CoreFoundation.h>
+
 #import <Cocoa/Cocoa.h>
 
 class FCocoaScopeContext {
@@ -54,13 +55,13 @@ private:
   DialogPanel = panel;
 
   CFStringRef FieldTextCFString = CFSTR("File Extension:");
-  TextField = [[NSTextField alloc] initWithFrame: NSMakeRect(0.0, 48.0, 90.0, 25.0) ];
+  TextField = [[NSTextField alloc] initWithFrame: NSMakeRect(0.0, 48.0, 90.0, 25.0)];
   [TextField setStringValue:(NSString*)FieldTextCFString];
   [TextField setEditable:NO];
   [TextField setBordered:NO];
   [TextField setBackgroundColor:[NSColor controlColor]];
 
-  PopUpButton = [[NSPopUpButton alloc] initWithFrame: NSMakeRect(88.0, 50.0, 160.0, 25.0) ];
+  PopUpButton = [[NSPopUpButton alloc] initWithFrame: NSMakeRect(88.0, 50.0, 160.0, 25.0)];
   [PopUpButton setTarget: self];
   [PopUpButton setAction:@selector(PopUpButtonAction:)];
 
@@ -75,12 +76,12 @@ private:
 
   AllowedFileTypes = array;
   int ArrayCount = [AllowedFileTypes count];
-  if( ArrayCount ) {
+  if ( ArrayCount ) {
     check( ArrayCount % 2 == 0 );
 
     [PopUpButton removeAllItems];
 
-    for( int Index = 0; Index < ArrayCount; Index += 2 ) {
+    for ( int Index = 0; Index < ArrayCount; Index += 2 ) {
       [PopUpButton addItemWithTitle: [AllowedFileTypes objectAtIndex: Index]];
     }
 
@@ -99,13 +100,13 @@ private:
   check( [AllowedFileTypes count] >= index * 2 );
 
   NSString* ExtsToParse = [AllowedFileTypes objectAtIndex:index * 2 + 1];
-  if( [ExtsToParse compare:@"*.*"] == NSOrderedSame ) {
+  if ( [ExtsToParse compare:@"*.*"] == NSOrderedSame ) {
     [DialogPanel setAllowedFileTypes: nil];
   } else {
     NSArray* ExtensionsWildcards = [ExtsToParse componentsSeparatedByString:@";"];
     NSMutableArray* Extensions = [NSMutableArray arrayWithCapacity: [ExtensionsWildcards count]];
 
-    for( unsigned long Index = 0; Index < [ExtensionsWildcards count]; ++Index ) {
+    for ( unsigned long Index = 0; Index < [ExtensionsWildcards count]; ++Index ) {
       NSString* Temp = [[ExtensionsWildcards objectAtIndex:Index]
                         stringByTrimmingCharactersInSet:[NSCharacterSet
                                                          characterSetWithCharactersInString:@"*."]];
@@ -123,7 +124,7 @@ private:
 
   NSButton*	OKButton;
   NSButton*	CancelButton;
-  bool		Result;
+  bool Result;
 }
 
 - (id)initWithFrame: (NSRect)frameRect;
@@ -201,9 +202,12 @@ static bool FileDialogShared(bool bSave,
 
   [Panel setTitle: [NSString stringWithCString:dlgTitle.c_str() encoding:NSUTF8StringEncoding]];
 
-  NSURL* DefaultPathURL = [NSURL fileURLWithPath: [NSString stringWithCString:defaultPath.c_str() encoding:NSUTF8StringEncoding]];
+  NSURL* DefaultPathURL = [NSURL fileURLWithPath:
+                           [NSString stringWithCString:defaultPath.c_str()
+                                              encoding:NSUTF8StringEncoding]];
   [Panel setDirectoryURL: DefaultPathURL];
-  [Panel setNameFieldStringValue: [NSString stringWithCString:defaultFile.c_str() encoding:NSUTF8StringEncoding]];
+  [Panel setNameFieldStringValue: [NSString stringWithCString:defaultFile.c_str()
+                                                     encoding:NSUTF8StringEncoding]];
 
   FFileDialogAccessoryView* AccessoryView = [[FFileDialogAccessoryView alloc]
                                              initWithFrame: NSMakeRect( 0.0, 0.0, 250.0, 85.0 )
@@ -215,8 +219,8 @@ static bool FileDialogShared(bool bSave,
 
   NSMutableArray* AllowedFileTypes = [NSMutableArray arrayWithCapacity: NumFileTypes];
 
-  if( NumFileTypes > 0 ) {
-    for( int Index = 0; Index < NumFileTypes; ++Index ) {
+  if ( NumFileTypes > 0 ) {
+    for ( int Index = 0; Index < NumFileTypes; ++Index ) {
       [AllowedFileTypes addObject: [NSString stringWithCString:FileTypesArray[Index].c_str()
                                                       encoding:NSUTF8StringEncoding]];
     }
@@ -260,7 +264,14 @@ bool PathLib::openFileDialog(const void* wndHandle,
                              const std::string& fileTypes,
                              uint flags,
                              std::vector<std::string>& outFiles) {
-  return FileDialogShared(false, wndHandle, title, defaultPath, defaultFile, fileTypes, flags, outFiles);
+  return FileDialogShared(false,
+                          wndHandle,
+                          title,
+                          defaultPath,
+                          defaultFile,
+                          fileTypes,
+                          flags,
+                          outFiles);
 }
 
 bool PathLib::saveFileDialog(const void* wndHandle,
@@ -270,7 +281,14 @@ bool PathLib::saveFileDialog(const void* wndHandle,
                              const std::string& fileTypes,
                              uint flags,
                              std::vector<std::string>& outFiles) {
-  return FileDialogShared(true, wndHandle, title, defaultPath, defaultFile, fileTypes, flags, outFiles);
+  return FileDialogShared(true,
+                          wndHandle,
+                          title,
+                          defaultPath,
+                          defaultFile,
+                          fileTypes,
+                          flags,
+                          outFiles);
 }
 
 // We don't need this feature under MacOSX
@@ -289,16 +307,16 @@ bool PathLib::openDirectoryDialog(const void* wndHandle,
   [Panel setCanCreateDirectories: true];
   [Panel setCanChooseFiles: false];
   [Panel setCanChooseDirectories: true];
-
   [Panel setTitle: [NSString stringWithCString:dlgTitle.c_str() encoding:NSUTF8StringEncoding]];
 
-  NSURL* DefaultPathURL = [NSURL fileURLWithPath: [NSString stringWithCString:defaultPath.c_str() encoding:NSUTF8StringEncoding]];
+  NSURL* DefaultPathURL = [NSURL fileURLWithPath:
+                           [NSString stringWithCString:defaultPath.c_str()
+                                              encoding:NSUTF8StringEncoding]];
   [Panel setDirectoryURL: DefaultPathURL];
 
   bool bSuccess = false;
 
   NSInteger Result = [Panel runModal];
-
   if (Result == NSFileHandlingPanelOKButton) {
     NSURL *FolderURL = [[Panel URLs] objectAtIndex: 0];
     outFolder = [[FolderURL path] UTF8String];
@@ -310,5 +328,6 @@ bool PathLib::openDirectoryDialog(const void* wndHandle,
   [pool drain];
   return bSuccess;
 }
+
 #endif
 #endif
