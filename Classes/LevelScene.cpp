@@ -5,22 +5,19 @@
 //
 
 #include "LevelScene.h"
-
 #include "cocos-ext.h"
 #include "VisibleRect.h"
-
-#if !EDITOR_MODE
-
-USING_NS_CC;
-USING_NS_CC_EXT;
-using namespace cocos2d::ui;
-
 #include "SimpleAudioEngine.h"
 #include "PathLib.h"
 #include "GameScene.h"
 #include "GameLevel.h"
 #include "HttpHelper.h"
 
+#if !EDITOR_MODE
+
+USING_NS_CC;
+USING_NS_CC_EXT;
+using namespace cocos2d::ui;
 using namespace CocosDenshion;
 
 LevelScene *LevelScene::instance = nullptr;

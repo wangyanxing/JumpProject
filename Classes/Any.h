@@ -14,7 +14,7 @@
 
 class Any {
 public:
-  Any() : mContent(0){
+  Any() : mContent(0) {
   }
 
   template<typename ValueType>
@@ -37,12 +37,12 @@ public:
   }
 
   template<typename ValueType>
-  Any& operator=(const ValueType & rhs) {
+  Any& operator = (const ValueType & rhs) {
     Any(rhs).swap(*this);
     return *this;
   }
 
-  Any & operator=(const Any & rhs) {
+  Any & operator = (const Any & rhs) {
     Any(rhs).swap(*this);
     return *this;
   }
@@ -64,11 +64,10 @@ public:
 protected:
   class placeholder {
   public:
-    virtual ~placeholder() {
-    }
+    virtual ~placeholder() = default;
 
   public:
-    virtual const std::type_info& getType() const = 0;
+    virtual const std::type_info &getType() const = 0;
 
     virtual placeholder * clone() const = 0;
   };
@@ -81,7 +80,7 @@ protected:
     }
 
   public:
-    virtual const std::type_info & getType() const {
+    virtual const std::type_info &getType() const {
       return typeid(ValueType);
     }
 

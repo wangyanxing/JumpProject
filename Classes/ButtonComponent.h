@@ -47,7 +47,6 @@ private:
   void changeState(ButtonState newState);
 
 private:
-  
   std::vector<std::string> mPushedEvents;
   
   std::vector<std::string> mRestoredEvents;

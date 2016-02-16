@@ -9,13 +9,24 @@
 #include "TimeEvent.h"
 #include "GameEvents.h"
 
+TimeEvent::TimeEventPoint::TimeEventPoint(float wt) : waitTime(wt) {
+}
+
+TimeEvent::TimeEventPoint::~TimeEventPoint() {
+  mEvents.clear();
+}
+
+void TimeEvent::TimeEventPoint::push(std::string event) {
+  mEvents.push_back(event);
+}
+
 void TimeEvent::TimeEventPoint::trigger() {
   if (mEvents.empty()) {
     return;
   }
 
   for (auto it = mEvents.begin(); it != mEvents.end(); ++it) {
-    GameEvents::instance().callSingleEvent(it->c_str(), nullptr);
+    GameEvents::instance().callSingleEvent(*it, nullptr);
   }
 }
 

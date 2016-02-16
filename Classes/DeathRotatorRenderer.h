@@ -11,8 +11,6 @@
 
 #include "SimpleRenderer.h"
 
-#define DEFAULT_DEATH_ROTATOR_SPEED 80
-
 class DeathRotatorRenderer : public SimpleRenderer {
 public:
   DeathRotatorRenderer(GameObject *parent);

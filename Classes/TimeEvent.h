@@ -16,19 +16,13 @@ public:
   ~TimeEvent();
 
   struct TimeEventPoint {
-    TimeEventPoint(float wt) {
-      waitTime = wt;
-    }
+    TimeEventPoint(float wt);
 
-    ~TimeEventPoint() {
-      mEvents.clear();
-    }
+    ~TimeEventPoint();
 
     void trigger();
 
-    void push(std::string event) {
-      mEvents.push_back(event);
-    }
+    void push(std::string event);
 
     float waitTime{-1};
 

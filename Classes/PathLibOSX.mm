@@ -16,7 +16,7 @@ public:
     [pool drain];
   }
 
-  ~FCocoaScopeContext( void ) {
+  ~FCocoaScopeContext(void) {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSOpenGLContext* NewContext = [NSOpenGLContext currentContext];
     if (PreviousContext != NewContext) {
@@ -30,14 +30,14 @@ public:
   }
 
 private:
-  NSOpenGLContext*	PreviousContext;
+  NSOpenGLContext* PreviousContext;
 };
 
 @interface FFileDialogAccessoryView : NSView {
 @private
-  NSPopUpButton*	PopUpButton;
-  NSTextField*	TextField;
-  NSSavePanel*	DialogPanel;
+  NSPopUpButton* PopUpButton;
+  NSTextField* TextField;
+  NSSavePanel* DialogPanel;
   NSMutableArray*	AllowedFileTypes;
 }
 
@@ -76,12 +76,12 @@ private:
 
   AllowedFileTypes = array;
   int ArrayCount = [AllowedFileTypes count];
-  if ( ArrayCount ) {
+  if (ArrayCount) {
     check( ArrayCount % 2 == 0 );
 
     [PopUpButton removeAllItems];
 
-    for ( int Index = 0; Index < ArrayCount; Index += 2 ) {
+    for (int Index = 0; Index < ArrayCount; Index += 2) {
       [PopUpButton addItemWithTitle: [AllowedFileTypes objectAtIndex: Index]];
     }
 
@@ -97,22 +97,21 @@ private:
 }
 
 - (void)SetExtensionsAtIndex: (unsigned long) index {
-  check( [AllowedFileTypes count] >= index * 2 );
+  check([AllowedFileTypes count] >= index * 2);
 
   NSString* ExtsToParse = [AllowedFileTypes objectAtIndex:index * 2 + 1];
-  if ( [ExtsToParse compare:@"*.*"] == NSOrderedSame ) {
+  if ([ExtsToParse compare:@"*.*"] == NSOrderedSame) {
     [DialogPanel setAllowedFileTypes: nil];
   } else {
     NSArray* ExtensionsWildcards = [ExtsToParse componentsSeparatedByString:@";"];
     NSMutableArray* Extensions = [NSMutableArray arrayWithCapacity: [ExtensionsWildcards count]];
 
-    for ( unsigned long Index = 0; Index < [ExtensionsWildcards count]; ++Index ) {
+    for (unsigned long Index = 0; Index < [ExtensionsWildcards count]; ++Index) {
       NSString* Temp = [[ExtensionsWildcards objectAtIndex:Index]
                         stringByTrimmingCharactersInSet:[NSCharacterSet
                                                          characterSetWithCharactersInString:@"*."]];
       [Extensions addObject: Temp];
     }
-
     [DialogPanel setAllowedFileTypes: Extensions];
   }
 }
@@ -121,7 +120,6 @@ private:
 
 @interface FFontDialogAccessoryView : NSView {
 @private
-
   NSButton*	OKButton;
   NSButton*	CancelButton;
   bool Result;
@@ -156,7 +154,6 @@ private:
   [self addSubview: OKButton];
 
   Result = false;
-
   return self;
 }
 
@@ -175,7 +172,6 @@ private:
 }
 
 @end
-
 
 static bool FileDialogShared(bool bSave,
                              const void* wndHandle,
@@ -199,7 +195,6 @@ static bool FileDialogShared(bool bSave,
   }
 
   [Panel setCanCreateDirectories: bSave];
-
   [Panel setTitle: [NSString stringWithCString:dlgTitle.c_str() encoding:NSUTF8StringEncoding]];
 
   NSURL* DefaultPathURL = [NSURL fileURLWithPath:
@@ -219,8 +214,8 @@ static bool FileDialogShared(bool bSave,
 
   NSMutableArray* AllowedFileTypes = [NSMutableArray arrayWithCapacity: NumFileTypes];
 
-  if ( NumFileTypes > 0 ) {
-    for ( int Index = 0; Index < NumFileTypes; ++Index ) {
+  if (NumFileTypes > 0) {
+    for (int Index = 0; Index < NumFileTypes; ++Index) {
       [AllowedFileTypes addObject: [NSString stringWithCString:FileTypesArray[Index].c_str()
                                                       encoding:NSUTF8StringEncoding]];
     }
@@ -229,7 +224,6 @@ static bool FileDialogShared(bool bSave,
   [AccessoryView AddAllowedFileTypes:AllowedFileTypes];
 
   bool bSuccess = false;
-
   {
     NSInteger Result = [Panel runModal];
     [AccessoryView release];

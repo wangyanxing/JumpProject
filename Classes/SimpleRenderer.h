@@ -11,8 +11,6 @@
 
 #include "GameRenderer.h"
 
-class SpriteUV;
-
 /**
  * Simple implementation of the GameRenderer.
  */
