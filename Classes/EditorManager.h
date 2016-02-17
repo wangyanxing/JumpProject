@@ -47,7 +47,7 @@ private:
 
   void openMapFile();
 
-  void saveMapFile();
+  void saveMapFile(bool saveAs = false);
 
   void newMapFile();
 

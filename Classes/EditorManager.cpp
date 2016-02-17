@@ -95,9 +95,9 @@ void EditorManager::openMapFile() {
   GameLevel::instance().load(filename);
 }
 
-void EditorManager::saveMapFile() {
+void EditorManager::saveMapFile(bool saveAs) {
   auto current = GameLevel::instance().getCurrentLevelFile();
-  if (current.empty()) {
+  if (current.empty() || saveAs) {
     // Save as.
     std::string fullpath = PathLib::getMapDir();
     std::vector<std::string> out;
@@ -458,6 +458,14 @@ void EditorManager::registerInputs() {
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_S, [this](GameInputs::KeyCode key) {
     if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_CTRL)) {
       saveMapFile();
+    }
+  });
+
+  // Save as.
+  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_S, [this](GameInputs::KeyCode key) {
+    if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_CTRL) ||
+        GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_SHIFT)) {
+      saveMapFile(true);
     }
   });
 
