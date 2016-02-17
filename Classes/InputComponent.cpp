@@ -10,6 +10,9 @@
 #include "PhysicsComponent.h"
 #include "GameObject.h"
 #include "GameConfig.h"
+#include "GameRenderer.h"
+
+USING_NS_CC;
 
 InputComponent::InputComponent(GameObject *parent) : GameComponent(parent) {
   mParent->addComponentCommand(COMMAND_INPUT, this);
@@ -44,5 +47,14 @@ void InputComponent::runCommand(ComponentCommand type, const Parameter &param) {
   } else if (input == INPUT_JUMP && pressed) {
     auto physics = mParent->getComponent<PhysicsComponent>();
     physics->setAccelerationY(GameConfig::instance().JumpAcceleration);
+
+    // Jump effect.
+    auto node = mParent->getRenderer()->getNode();
+    float scale = node->getScaleX();
+    if(node->getNumberOfRunningActions() == 0) {
+      node->runAction(Sequence::create(ScaleTo::create(0.2,scale * 0.6,scale * 1.4),
+                                       ScaleTo::create(0.2,scale,scale),
+                                       nullptr));
+    }
   }
 }
