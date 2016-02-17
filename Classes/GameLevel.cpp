@@ -272,7 +272,6 @@ void GameLevel::die() {
 void GameLevel::dieImpl() {
   mDieFlag = false;
 
-  CCLOG("Die!");
   pause();
 
   // Camera effect.
@@ -281,7 +280,7 @@ void GameLevel::dieImpl() {
   auto hero = getHero();
 
   // Particle effect.
-  ParticleSystem *ps = ParticleSystemQuad::create("fx/diefx.plist");
+  ParticleSystem *ps = ParticleSystemQuad::create(DIE_FX_NAME);
   ParticleBatchNode *batch = ParticleBatchNode::createWithTexture(ps->getTexture());
   batch->addChild(ps);
   batch->setPosition(hero->getRenderer()->getPosition());

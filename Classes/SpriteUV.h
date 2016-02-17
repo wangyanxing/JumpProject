@@ -11,16 +11,15 @@
 
 class SpriteUV : public cocos2d::Sprite {
 public:
-  void setupTexParameters();
-
-public:
   CREATE_FUNC(SpriteUV);
 
   static SpriteUV *create(const std::string &filename);
 
-  virtual bool initWithFile(const char *pszFilename);
+  bool initWithFile(const char *pszFilename);
 
-  virtual bool initWithSpriteFrameName(const char *framename);
+  bool initWithSpriteFrameName(const char *framename);
+
+  void setupTexParameters();
 
   void setUVOffset(cocos2d::Point offset);
 

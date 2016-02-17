@@ -33,17 +33,17 @@ public:
   };
 
 public:
-  virtual void update(float dt) override;
+  void update(float dt) override;
   
-  virtual void beforeRender(float dt) override;
+  void beforeRender(float dt) override;
 
-  virtual void reset() override;
+  void reset() override;
 
-  virtual void load(JsonValueT &json) override;
+  void load(JsonValueT &json) override;
 
-  virtual void save(JsWriter &writer) override;
+  void save(JsWriter &writer) override;
 
-  virtual void clone(GameComponent *other) override;
+  void clone(GameComponent *other) override;
 
   void updateDynamics(float dt);
 

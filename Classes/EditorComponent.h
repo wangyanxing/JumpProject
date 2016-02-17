@@ -46,5 +46,4 @@ private:
 };
 
 #endif
-
 #endif /* EditorComponent_h */

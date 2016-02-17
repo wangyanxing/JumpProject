@@ -52,6 +52,7 @@
 #define DEATH_IMAGE "images/saw.png"
 #define DEATH_CIRCLE_IMAGE "images/saw3.png"
 #define DEFAULT_SHADOW_SHADER "shaders/normal_shadow.fsh"
+#define DIE_FX_NAME "fx/diefx.plist"
 
 // Block default attributes
 #define DEFAULT_SHADOW_LENGTH 100.0f
