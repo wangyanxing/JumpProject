@@ -457,15 +457,7 @@ void EditorManager::registerInputs() {
   // Save.
   gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_S, [this](GameInputs::KeyCode key) {
     if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_CTRL)) {
-      saveMapFile();
-    }
-  });
-
-  // Save as.
-  gameInputs.addKeyboardEvent(EventKeyboard::KeyCode::KEY_S, [this](GameInputs::KeyCode key) {
-    if (GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_CTRL) ||
-        GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_SHIFT)) {
-      saveMapFile(true);
+      saveMapFile(GameInputs::instance().isPressing(EventKeyboard::KeyCode::KEY_SHIFT));
     }
   });
 
