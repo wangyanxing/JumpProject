@@ -1,3 +1,11 @@
+//
+//  SpriteUV.h
+//  JumpEdt
+//
+//  Created by Yanxing Wang.
+//
+//
+
 #ifndef __SpriteUV_H__
 #define __SpriteUV_H__
 

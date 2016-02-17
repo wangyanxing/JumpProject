@@ -1,3 +1,11 @@
+//
+//  UIColorEditor.h
+//  jumpproj
+//
+//
+//
+//
+
 #ifndef __JumpEdt__UIColorEditor__
 #define __JumpEdt__UIColorEditor__
 

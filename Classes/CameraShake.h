@@ -1,3 +1,11 @@
+//
+//  CameraShake.h
+//  JumpEdt
+//
+//  Created by Yanxing Wang.
+//
+//
+
 #ifndef __SHAKE_H__
 #define __SHAKE_H__
 

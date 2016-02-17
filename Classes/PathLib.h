@@ -1,3 +1,11 @@
+//
+//  PathLib.h
+//  JumpEdt
+//
+//  Created by Yanxing Wang.
+//
+//
+
 #ifndef PathLib_h__
 #define PathLib_h__
 

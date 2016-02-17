@@ -1,3 +1,11 @@
+//
+//  VisibleRect.h
+//  JumpEdt
+//
+//  Created by Yanxing Wang.
+//
+//
+
 #ifndef __VISIBLERECT_H__
 #define __VISIBLERECT_H__
 

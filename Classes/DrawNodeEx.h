@@ -1,3 +1,10 @@
+//
+//  DrawNodeEx.h
+//  JumpEdt
+//
+//  Created by Yanxing Wang.
+//
+//
 
 #ifndef __CCDRAWNODES_CCDRAW_PLUS_NODE_H__
 #define __CCDRAWNODES_CCDRAW_PLUS_NODE_H__
