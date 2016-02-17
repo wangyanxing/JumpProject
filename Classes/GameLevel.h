@@ -95,6 +95,8 @@ public:
   }
 
   void showBeginCurtain();
+
+  void showWinCurtain();
   
 private:
   void createHero(const cocos2d::Vec2 &pos);
@@ -116,8 +118,6 @@ private:
   void setCurrentFile(const std::string &file);
 
   void initCurtainPos();
-
-  void showWinCurtain();
 
 private:
   ObjectManager *mObjectManager{nullptr};

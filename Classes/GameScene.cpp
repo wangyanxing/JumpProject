@@ -159,6 +159,10 @@ void GameScene::toMainMenu() {
   Director::getInstance()->replaceScene(LevelScene::getInstance());
 }
 
+void GameScene::preWinGame() {
+  GameLevel::instance().showWinCurtain();
+}
+
 void GameScene::showPauseUI(bool val) {
   Node *buttons = mPauseUILayer->getChildByName("Buttons");
   CC_ASSERT(buttons);

@@ -467,13 +467,9 @@ void GameLevel::showWinCurtain() {
 }
 
 void GameLevel::initCurtainPos() {
-#if EDITOR_MODE
-  float screenHeight = VisibleRect::getFrameSize().height;
-  float screenWidth = VisibleRect::getFrameSize().width;
-#else
   float screenHeight = VisibleRect::getVisibleRect().size.height;
   float screenWidth = VisibleRect::getVisibleRect().size.width;
-#endif
+
   auto color = mPalette->getDefaultColor(KIND_BLOCK);
   auto camPos = mGameLayer->getCamera()->getPosition();
 
@@ -495,8 +491,7 @@ void GameLevel::win() {
 }
 
 void GameLevel::winImpl() {
-  mGameLayer->preWinGame();
-  showWinCurtain();
+  mGameLayer->preWinGame();  
 }
 
 void GameLevel::showBeginCurtain() {

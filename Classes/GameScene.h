@@ -34,6 +34,8 @@ public:
 
   void enterGame(const std::string &name, bool absPath);
 
+  void preWinGame() override;
+
   CREATE_FUNC(GameScene);
 
 private:
