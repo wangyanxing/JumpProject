@@ -127,6 +127,10 @@ void GameLevel::load(const std::string &levelFile) {
   unload();
 
   std::string buffer = levelFile.empty() ? sTemplateMap : JsonParser::getBuffer(levelFile);
+  if (buffer.empty()) {
+    load("");
+    return;
+  }
   JsonParser parser(buffer);
   if (!parser) {
     CCLOG("%s", buffer.c_str());
@@ -134,6 +138,7 @@ void GameLevel::load(const std::string &levelFile) {
   }
 
   CCLOG("Loading level file: %s", levelFile.empty() ? "Template" : levelFile.c_str());
+
   auto& doc = parser.getCurrentDocument();
 
   std::string paletteFile = doc[LEVEL_PALETTE_FILE].GetString();
@@ -356,7 +361,12 @@ void GameLevel::updateBounds() {
   float bottom = mObjectManager->getObjectByID(BORDER_BLOCK_BOTTOM)->getRenderer()->getPosition().y;
   bottom += halfBorderSize;
 
-  mBounds = Rect(left, bottom, right - left, top - bottom);
+  auto screen = VisibleRect::getVisibleRect();
+  if (right - left < screen.size.width || top - bottom < screen.size.height) {
+    mBounds = screen;
+  } else {
+    mBounds = Rect(left, bottom, right - left, top - bottom);
+  }
 }
 
 void GameLevel::updateCamera(cocos2d::Camera *cam, bool forceUpdate) {
