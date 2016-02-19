@@ -1,3 +1,11 @@
+//
+//  PathLib.cpp
+//  JumpEdt
+//
+//  Created by Yanxing Wang.
+//
+//
+
 #include "PathLib.h"
 #include "cocos2d.h"
 

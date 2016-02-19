@@ -1,5 +1,5 @@
 //
-//  GameConfig.hpp
+//  GameConfig.h
 //  jumpproj
 //
 //  Created by Yanxing Wang on 1/19/16.

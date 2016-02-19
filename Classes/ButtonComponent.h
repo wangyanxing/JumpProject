@@ -1,5 +1,5 @@
 //
-//  ButtonComponent.hpp
+//  ButtonComponent.h
 //  jumpproj
 //
 //  Created by Yanxing Wang on 1/20/16.

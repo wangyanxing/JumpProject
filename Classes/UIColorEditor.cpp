@@ -1,3 +1,11 @@
+//
+//  UIColorEditor.cpp
+//  JumpEdt
+//
+//  Created by Yanxing Wang.
+//
+//
+
 #include "UIColorEditor.h"
 #include "SpriteUV.h"
 #include "RectDrawNode.h"

@@ -2,6 +2,8 @@
 //  LevelScene.cpp
 //  JumpEdt
 //
+//  Created by Yanxing Wang.
+//
 //
 
 #include "LevelScene.h"

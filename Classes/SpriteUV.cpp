@@ -1,3 +1,11 @@
+//
+//  SpriteUV.cpp
+//  JumpEdt
+//
+//  Created by Yanxing Wang.
+//
+//
+
 #include "SpriteUV.h"
 
 USING_NS_CC;

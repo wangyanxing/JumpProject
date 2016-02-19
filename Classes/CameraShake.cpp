@@ -1,3 +1,11 @@
+//
+//  CameraShake.cpp
+//  JumpEdt
+//
+//  Created by Yanxing Wang.
+//
+//
+
 #include "CameraShake.h"
 
 USING_NS_CC;
