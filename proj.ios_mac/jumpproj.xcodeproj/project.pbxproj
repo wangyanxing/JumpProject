@@ -118,8 +118,6 @@
 		BCB85EF71C45ED2C00CB8383 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85EF41C45ED2C00CB8383 /* GameObject.cpp */; };
 		BCB85EFE1C45EE6200CB8383 /* GameRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85EFC1C45EE6200CB8383 /* GameRenderer.cpp */; };
 		BCB85EFF1C45EE6200CB8383 /* GameRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85EFC1C45EE6200CB8383 /* GameRenderer.cpp */; };
-		BCB85F031C46ABE300CB8383 /* GameTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85F021C46ABE300CB8383 /* GameTypes.cpp */; };
-		BCB85F041C46ABE300CB8383 /* GameTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85F021C46ABE300CB8383 /* GameTypes.cpp */; };
 		BCB85F071C46AE9500CB8383 /* ObjectManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85F051C46AE9500CB8383 /* ObjectManager.cpp */; };
 		BCB85F081C46AE9500CB8383 /* ObjectManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85F051C46AE9500CB8383 /* ObjectManager.cpp */; };
 		BCB85F0C1C46B35F00CB8383 /* SimpleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB85F0A1C46B35F00CB8383 /* SimpleRenderer.cpp */; };
@@ -305,7 +303,6 @@
 		BCB85EFD1C45EE6200CB8383 /* GameRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameRenderer.h; sourceTree = "<group>"; };
 		BCB85F001C45EF0B00CB8383 /* Parameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parameter.h; sourceTree = "<group>"; };
 		BCB85F011C45F24900CB8383 /* GameTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameTypes.h; sourceTree = "<group>"; };
-		BCB85F021C46ABE300CB8383 /* GameTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameTypes.cpp; sourceTree = "<group>"; };
 		BCB85F051C46AE9500CB8383 /* ObjectManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectManager.cpp; sourceTree = "<group>"; };
 		BCB85F061C46AE9500CB8383 /* ObjectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectManager.h; sourceTree = "<group>"; };
 		BCB85F091C46AF5F00CB8383 /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
@@ -558,7 +555,6 @@
 		BC8458E91C6E7B120084D425 /* CoreLogic */ = {
 			isa = PBXGroup;
 			children = (
-				BCB85F021C46ABE300CB8383 /* GameTypes.cpp */,
 				BCB85F011C45F24900CB8383 /* GameTypes.h */,
 				BCB85EF41C45ED2C00CB8383 /* GameObject.cpp */,
 				BCB85EF51C45ED2C00CB8383 /* GameObject.h */,
@@ -855,7 +851,6 @@
 				BC1EE9A51C6017CA003A345B /* JsonWriter.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				BCB866551C4957F900CB8383 /* EditorGameScene.cpp in Sources */,
-				BCB85F031C46ABE300CB8383 /* GameTypes.cpp in Sources */,
 				BCB85F071C46AE9500CB8383 /* ObjectManager.cpp in Sources */,
 				BC3CEA1D1C1B86B400738B33 /* PathLibOSX.mm in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
@@ -923,7 +918,6 @@
 				BC3CEA1C1C1B86B400738B33 /* PathLib.cpp in Sources */,
 				BCB85EFF1C45EE6200CB8383 /* GameRenderer.cpp in Sources */,
 				B55C76671C4F335B0083C9C5 /* GameConfig.cpp in Sources */,
-				BCB85F041C46ABE300CB8383 /* GameTypes.cpp in Sources */,
 				BC1EE9B21C63E0C4003A345B /* DebugTools.cpp in Sources */,
 				BCB862B51C482A9B00CB8383 /* PhysicsManager.cpp in Sources */,
 				BC3CEA0C1C1B86B400738B33 /* HttpHelper.cpp in Sources */,
