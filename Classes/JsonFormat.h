@@ -79,4 +79,11 @@
 #define BUTTON_RESTORED_EVENT "restoredEvent"
 #define BUTTON_PUSHING_EVENT "pushingEvent"
 
+#define TIME_EVENTS "timeEvents"
+#define TIME_EVENTS_INIT_DELAY "initDelay"
+#define TIME_EVENTS_LOOP "loop"
+#define TIME_EVENTS_EVENTS "events"
+#define TIME_EVENTS_EVENTS_CONTENT "event"
+#define TIME_EVENTS_EVENTS_DELAY "delay"
+
 #endif /* JsonFormat_h */
