@@ -141,6 +141,8 @@ private:
   std::vector<GameSprite*> mSpriteList;
 
   std::vector<std::string> mEffects;
+  
+  std::vector<TimeEvent*> mTimeEvents;
 
   std::vector<cocos2d::ParticleBatchNode*> mFxNodes;
 

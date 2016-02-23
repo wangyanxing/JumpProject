@@ -30,6 +30,14 @@ void TimeEvent::TimeEventPoint::trigger() {
   }
 }
 
+void TimeEvent::load(JsonValueT &json) {
+  
+}
+
+void TimeEvent::save(JsWriter &writer) {
+  
+}
+
 void TimeEvent::reset() {
   mEnalbe = true;
   mCurEventIndex = 0;

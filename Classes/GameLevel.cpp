@@ -24,6 +24,7 @@
 #include "InputComponent.h"
 #include "CameraShake.h"
 #include "TemplateFile.h"
+#include "TimeEvent.h"
 
 #include <regex>
 
@@ -186,6 +187,16 @@ void GameLevel::load(const std::string &levelFile) {
   for (auto sm : mShadows) {
     sm->update(0);
   }
+  
+  // Time events.
+  CC_ASSERT(mTimeEvents.empty());
+  if (doc.HasMember(TIME_EVENTS)) {
+    parser.parseArray(doc, TIME_EVENTS, [&](JsonSizeT i, JsonValueT &val) {
+      auto timeEvent = new TimeEvent();
+      timeEvent->load(val);
+      mTimeEvents.push_back(timeEvent);
+    });
+  }
 
   updateBounds();
   mBackground->clear();
@@ -265,6 +276,11 @@ void GameLevel::unload() {
     CC_SAFE_DELETE(shadow);
   }
   mShadows.clear();
+
+  for (auto &event : mTimeEvents) {
+    CC_SAFE_DELETE(event);
+  }
+  mTimeEvents.clear();
 
   mGameLayer->getBlockRoot()->removeAllChildren();
   mGameEnabled = false;

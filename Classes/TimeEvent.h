@@ -9,6 +9,10 @@
 #ifndef __JumpEdt__TimeEvent__
 #define __JumpEdt__TimeEvent__
 
+#include "Prerequisites.h"
+#include "JsonParser.h"
+#include "JsonWriter.h"
+
 class TimeEvent {
 public:
   TimeEvent();
@@ -28,6 +32,10 @@ public:
 
     std::vector<std::string> mEvents;
   };
+  
+  void load(JsonValueT &json);
+  
+  void save(JsWriter &writer);
 
   void reset();
 

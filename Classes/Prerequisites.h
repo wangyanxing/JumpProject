@@ -25,6 +25,7 @@ class ColorPalette;
 class ShadowManager;
 class GameSprite;
 class SpriteUV;
+class TimeEvent;
 
 namespace cocos2d {
   class DrawNodeEx;
